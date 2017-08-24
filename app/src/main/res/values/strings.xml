@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name" translatable="false">Serval Project</string>
+
+    <!-- Activity titles -->
+    <string name="title_activity_main">@string/dashboard</string>
+    <string name="title_activity_settings">@string/settings</string>
+
+    <!-- TODO Replace with real mail address -->
+    <string name="email_adress_feedback" translatable="false">ThomasMohr1990@gmail.com</string>
+
+    <!-- URLs -->
+    <!-- TODO Replace with real URLs -->
+    <string name="url_faq" translatable="false">https://api.splork.de/dummy_data.json</string>
+    <string name="url_privacy" translatable="false">https://api.splork.de/dummy_data.json</string>
+    <string name="url_terms" translatable="false">https://api.splork.de/dummy_data.json</string>
+    <string name="url_rest_api" translatable="false">https://api.splork.de/dummy_data.json</string>
+    <string name="url_map_preview" translatable="false">http://maps.google.com/maps/api/staticmap?center=%1$.15f,%2$.15f&amp;zoom=15&amp;size=500x500&amp;sensor=false</string>
+
+    <!-- Action menu titles -->
+    <string name="action_alternative_intro">Alternative intro</string>
+    <string name="action_interested">Interested</string>
+    <string name="action_not_interested">Not interested</string>
+    <string name="action_reset_app">Reset app</string>
+    <string name="action_settings">@string/settings</string>
+
+    <!-- Intro slider viewpager -->
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <!-- Intro slides -->
+    <string name="slide_1_title">@string/app_name</string>
+    <string name="slide_1_description">The easiest way to communicate without cellular connectivity!</string>
+    <string name="slide_2_title">@string/dashboard</string>
+    <string name="slide_2_description">Easily check whether hazards are close!</string>
+    <string name="slide_3_title">@string/maps</string>
+    <string name="slide_3_description">Look out for your friends and favorite locations!</string>
+    <string name="slide_4_title">@string/chat</string>
+    <string name="slide_4_desc">Talk to your friends and co-workers!</string>
+
+    <!-- Preferences keys -->
+    <string name="key_version_name" translatable="false">key_version_name</string>
+    <string name="key_send_feedback" translatable="false">key_send_feedback</string>
+
+    <!-- Preference headers -->
+    <string name="pref_header_about">About</string>
+
+    <!-- Preference titles -->
+    <string name="title_faq">FAQ</string>
+    <string name="title_privacy_policy">Privacy policy</string>
+    <string name="title_send_feedback">Send feedback</string>
+    <string name="title_terms">Terms &amp; conditions</string>
+    <string name="title_version">Version</string>
+
+    <!-- Preference summaries -->
+    <string name="summary_about">We are a team of three master students and a doctorate in computer science at Philipps-University Marburg, specialized in the development of network systems creating new trends across the app space.</string>
+    <string name="summary_faq">View frequently asked questions</string>
+    <string name="summary_support">Got any queries? We are happy to help!</string>
+
+    <!-- Preference misc. -->
+    <string name="choose_email_client">Choose email client</string>
+
+    <!-- ImageView content descriptions -->
+    <string name="content_description_backdrop">backdrop</string>
+    <string name="content_description_chat">@string/chat</string>
+    <string name="content_description_dashboard">@string/dashboard</string>
+    <string name="content_description_item_overflow">item overflow</string>
+    <string name="content_description_item_thumbnail">item thumbnail</string>
+    <string name="content_description_map">map</string>
+    <string name="content_description_speaker_phone">speaker phone</string>
+
+    <!-- AboutLibraries -->
+    <string name="aboutLibraries_description_showIcon" translatable="false">true</string>
+    <string name="aboutLibraries_description_showVersion" translatable="false">true</string>
+    <string name="aboutLibraries_description_text">Place your description here :D</string>
+
+    <!-- Exception messages -->
+    <string name="fragment_must_contain_key_exception" translatable="false">Fragment must contain a %1$s argument!</string>
+
+    <!-- Plurals -->
+    <plurals name="days_ago">
+        <item quantity="zero">@string/today</item>
+        <item quantity="one">@string/yesterday</item>
+        <item quantity="other">%1$d days passed</item>
+    </plurals>
+
+    <!-- Time -->
+    <string name="time">Time</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+
+    <!-- Misc. -->
+    <string name="chat">Chat</string>
+    <string name="coming_soon">Coming soon &#8482;</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="dummy" translatable="false">DUMMY</string>
+    <string name="geohash">Geohash</string>
+    <string name="information">Info</string>
+    <string name="latitude">Latitude</string>
+    <string name="location">Location</string>
+    <string name="longitude">Longitude</string>
+    <string name="maps">Maps</string>
+    <string name="measurements">Measurements</string>
+    <string name="number_of_measurements">Number of measurements</string>
+    <string name="settings">Settings</string>
+    <string name="grant_permission">Grant permission</string>
+    <string name="distance_to">%1$.0f meters away</string>
+</resources>
