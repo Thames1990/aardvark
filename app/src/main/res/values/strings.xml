@@ -29,7 +29,7 @@
     <!-- Intro slider viewpager -->
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
-    <string name="start">GOT IT</string>
+    <string name="done">DONE</string>
 
     <!-- Intro slides -->
     <string name="slide_1_title">@string/app_name</string>
@@ -82,9 +82,9 @@
 
     <!-- Plurals -->
     <plurals name="days_ago">
-        <event quantity="zero">@string/today</event>
-        <event quantity="one">@string/yesterday</event>
-        <event quantity="other">%1$d days passed</event>
+        <item quantity="zero">@string/today</item>
+        <item quantity="one">@string/yesterday</item>
+        <item quantity="other">%1$d days passed</item>
     </plurals>
 
     <!-- Time -->
@@ -108,4 +108,5 @@
     <string name="measurements">Measurements</string>
     <string name="number_of_measurements">Number of measurements</string>
     <string name="settings">Settings</string>
+    <string name="changelog">Changelog</string>
 </resources>
