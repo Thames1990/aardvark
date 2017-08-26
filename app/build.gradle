@@ -1,9 +1,21 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            def propsFile = rootProject.file('keystore.properties')
+            if (propsFile.exists()) {
+                def props = new Properties();
+                props.load(new FileInputStream(propsFile))
+                storeFile = file(props['storeFile'])
+                storePassword = props['storePassword']
+                keyAlias = props['keyAlias']
+                keyPassword = props['keyPassword']
+            }
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
-
     defaultConfig {
         applicationId "de.uni_marburg.mathematik.ds.serval"
         minSdkVersion 15
@@ -17,18 +29,25 @@ android {
             enabled true
         }
     }
-
     applicationVariants.all { variant ->
         variant.resValue "string", "versionName", variant.versionName
+        def propsFile = rootProject.file('keys.properties')
+        def String googleMapsKeys
+        if (propsFile.exists()) {
+            def props = new Properties();
+            props.load(new FileInputStream(propsFile))
+            googleMapsKeys = props['googleMapsKey']
+            variant.resValue "string", "google_maps_key", googleMapsKeys
+        }
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            resValue "string", "google_maps_api_key", "AIzaSyB-nfc8GAFWihnmwZ6pj-X5Kxdzj5oRQoA"
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -39,23 +58,24 @@ dependencies {
     ext {
         butterknife_version = '8.8.1'
         glide_version = '4.0.0'
+        google_play_services_version = '11.2.0'
         support_library_version = '26.0.1'
     }
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // Support libraries
     compile "com.android.support:appcompat-v7:${support_library_version}"
-    compile "com.android.support:cardview-v7:${support_library_version}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "com.android.support:cardview-v7:${support_library_version}"
     compile "com.android.support:design:${support_library_version}"
     compile "com.android.support:support-v4:${support_library_version}"
     compile "com.android.support:support-vector-drawable:${support_library_version}"
     compile "com.android.support:recyclerview-v7:${support_library_version}"
-    // Google Play Services Location
-    'com.google.android.gms:play-services-location:11.2.0'
+    // Google Play Services
+    compile "com.google.android.gms:play-services-location:${google_play_services_version}"
+    compile "com.google.android.gms:play-services-maps:${google_play_services_version}"
     // Butter Knife
     compile "com.jakewharton:butterknife:${butterknife_version}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterknife_version}"
