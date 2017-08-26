@@ -54,6 +54,6 @@
         app:fabSize="mini"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@drawable/add"/>
+        app:srcCompat="@drawable/navigation"/>
 
 </android.support.design.widget.CoordinatorLayout>
