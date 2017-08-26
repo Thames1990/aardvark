@@ -52,7 +52,7 @@ public class MeasurementsFragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState
     ) {
-        View view = inflater.inflate(R.layout.fragment_information, container, false);
+        View view = inflater.inflate(R.layout.fragment_measurements, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
