@@ -21,9 +21,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.Item;
 import de.uni_marburg.mathematik.ds.serval.model.TestItem;
-import de.uni_marburg.mathematik.ds.serval.model.util.LocationUtil;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 
 /**
@@ -40,7 +38,7 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
     @BindView(R.id.time)
     TextView time;
     @BindView(R.id.location)
-    TextView location;
+    TextView tv_location;
 
     TestItemViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
@@ -57,13 +55,14 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
     }
 
     private void onBindThumbnail(TestItem item) {
+        Location location = item.getGeohashLocation();
         Glide
                 .with(context)
                 .load(String.format(
                         Locale.getDefault(),
                         context.getString(R.string.url_map_preview),
-                        item.getLocation().getLatitude(),
-                        item.getLocation().getLongitude()
+                        location.getLatitude(),
+                        location.getLongitude()
                 ))
                 .into(thumbnail);
     }
@@ -94,27 +93,18 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
                     bestLocation = location;
                 }
             } catch (SecurityException e) {
-                // Shouldn't happen, because user is asked in slider intro
+                // TODO Handle user did not grant permission
                 e.printStackTrace();
             }
         }
 
-        double distanceInMeters = 42;
-
         if (bestLocation != null) {
-            Item.Location lastKnownLocation = new Item.Location(
-                    bestLocation.getLatitude(),
-                    bestLocation.getLongitude(),
-                    null
-            );
-            distanceInMeters = LocationUtil.distance(lastKnownLocation, item.getLocation());
+            tv_location.setText(String.format(
+                    Locale.getDefault(),
+                    context.getString(R.string.distance_to),
+                    bestLocation.distanceTo(item.getGeohashLocation())
+            ));
         }
-
-        location.setText(String.format(
-                Locale.getDefault(),
-                context.getString(R.string.distance_to),
-                distanceInMeters
-        ));
     }
 
     @Override
