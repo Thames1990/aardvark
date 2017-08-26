@@ -1,17 +1,21 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments;
 
-import android.os.Build;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -22,22 +26,16 @@ import de.uni_marburg.mathematik.ds.serval.model.TestItem;
 /**
  * Created by thames1990 on 24.08.17.
  */
-public class InformationFragment extends Fragment {
+public class InformationFragment extends Fragment implements OnMapReadyCallback {
 
     public static final String ITEM = "ITEM";
 
     private TestItem item;
 
-    @BindView(R.id.time)
-    TextView time;
-    @BindView(R.id.number_of_measurements)
-    TextView number_of_measurements;
-    @BindView(R.id.latitude)
-    TextView latitude;
-    @BindView(R.id.longitude)
-    TextView longitude;
-    @BindView(R.id.geohash)
-    TextView geohash;
+    @BindView(R.id.mapView)
+    MapView mapView;
+    @BindView(R.id.info)
+    TextView info;
 
     public static InformationFragment newInstance(TestItem item) {
         InformationFragment fragment = new InformationFragment();
@@ -70,22 +68,21 @@ public class InformationFragment extends Fragment {
     ) {
         View view = inflater.inflate(R.layout.fragment_information, container, false);
         ButterKnife.bind(this, view);
-        time.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                time.getViewTreeObserver().removeOnPreDrawListener(this);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    getActivity().startPostponedEnterTransition();
-                }
-                return true;
-            }
-        });
-        time.setText(new SimpleDateFormat("dd.MM.yyy", Locale.getDefault())
-                .format(new Date(item.getTime())));
-        number_of_measurements.setText(String.valueOf(item.getMeasurements().size()));
-        latitude.setText(String.valueOf(item.getLocation().getLatitude()));
-        longitude.setText(String.valueOf(item.getLocation().getLongitude()));
-        geohash.setText(String.valueOf(item.getLocation().getGeohash()));
+        mapView.onCreate(getArguments());
+        mapView.getMapAsync(this);
         return view;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Location location = item.getGeohashLocation();
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        LatLng position = new LatLng(latitude, longitude);
+        googleMap.getUiSettings().setScrollGesturesEnabled(false);
+        googleMap.addMarker(new MarkerOptions().position(position));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.0f));
+        mapView.onResume();
+        info.setText("Lat: " + latitude + ", Lon: " + longitude);
     }
 }
