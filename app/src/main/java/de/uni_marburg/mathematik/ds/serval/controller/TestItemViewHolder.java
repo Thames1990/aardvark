@@ -55,7 +55,7 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
     }
 
     private void onBindThumbnail(TestItem item) {
-        Location location = item.getGeohashLocation();
+        Location location = item.getLocation();
         Glide
                 .with(context)
                 .load(String.format(
@@ -102,7 +102,7 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
             tv_location.setText(String.format(
                     Locale.getDefault(),
                     context.getString(R.string.distance_to),
-                    bestLocation.distanceTo(item.getGeohashLocation())
+                    bestLocation.distanceTo(item.getLocation())
             ));
         }
     }

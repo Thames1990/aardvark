@@ -75,7 +75,7 @@ public class InformationFragment extends Fragment implements OnMapReadyCallback 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Location location = item.getGeohashLocation();
+        Location location = item.getLocation();
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng position = new LatLng(latitude, longitude);

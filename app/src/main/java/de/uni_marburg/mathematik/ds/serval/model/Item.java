@@ -35,7 +35,7 @@ public abstract class Item implements Serializable {
         return measurements;
     }
 
-    public Location getGeohashLocation() {
+    public Location getLocation() {
         Log.d(this.getClass().getSimpleName(), "Lat: " + latitude + ", Lon: " + longitude);
         Location location = new Location(LocationManager.GPS_PROVIDER);
         location.setLatitude(this.geohashLocation.getLatitude());

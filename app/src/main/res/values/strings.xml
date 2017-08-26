@@ -11,10 +11,13 @@
     <!-- URLs -->
     <!-- TODO Replace with real URLs -->
     <string name="url_faq" translatable="false">https://api.splork.de/dummy_data.json</string>
+    <string name="url_map_preview" translatable="false">http://maps.google.com/maps/api/staticmap?center=%1$.15f,%2$.15f&amp;zoom=15&amp;size=500x500</string>
     <string name="url_privacy" translatable="false">https://api.splork.de/dummy_data.json</string>
     <string name="url_terms" translatable="false">https://api.splork.de/dummy_data.json</string>
     <string name="url_rest_api" translatable="false">https://api.splork.de/dummy_data.json</string>
-    <string name="url_map_preview" translatable="false">http://maps.google.com/maps/api/staticmap?center=%1$.15f,%2$.15f&amp;zoom=15&amp;size=500x500&amp;sensor=false</string>
+
+    <!-- Intent URIs -->
+    <string name="intent_uri_navigate">google.navigation:q=%1$s,%2$s</string>
 
     <!-- Action menu titles -->
     <string name="action_alternative_intro">Alternative intro</string>

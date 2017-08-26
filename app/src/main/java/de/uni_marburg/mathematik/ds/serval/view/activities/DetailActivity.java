@@ -1,12 +1,16 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities;
 
+import android.content.Intent;
+import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,11 +49,21 @@ public class DetailActivity extends AppCompatActivity {
         }
         viewPager.setAdapter(new DetailAdapter(getSupportFragmentManager(), item, this));
         tabLayout.setupWithViewPager(viewPager);
-        fab.setOnClickListener(view -> Snackbar.make(
-                tabLayout,
-                getString(R.string.coming_soon),
-                Snackbar.LENGTH_SHORT
-        ).show());
+        fab.setOnClickListener(view -> {
+            Location location = item.getLocation();
+            Intent navigationIntent = new Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(String.format(
+                            Locale.getDefault(),
+                            getString(R.string.intent_uri_navigate),
+                            // Forces decimal points
+                            String.format(Locale.ENGLISH, "%.5f", location.getLatitude()),
+                            String.format(Locale.ENGLISH, "%.5f", location.getLongitude())
+                    ))
+            );
+            navigationIntent.setPackage("com.google.android.apps.maps");
+            startActivity(navigationIntent);
+        });
     }
 
 }
