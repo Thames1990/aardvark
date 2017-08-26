@@ -1,25 +1,31 @@
 package de.uni_marburg.mathematik.ds.serval.model;
 
-import android.support.annotation.Nullable;
+import android.location.Location;
+import android.location.LocationManager;
+import android.util.Log;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
+import static de.uni_marburg.mathematik.ds.serval.R.string.latitude;
+import static de.uni_marburg.mathematik.ds.serval.R.string.longitude;
+
 public abstract class Item implements Serializable {
 
-    static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 1L;
 
-    private long time;
+    @SerializedName("measurements")
+    @Expose
     private List<Measurement> measurements;
-    private Location location;
-
-    Item(long time, List<Measurement> measurements, Location location) {
-        this.time = time;
-        this.measurements = measurements;
-        this.location = location;
-    }
+    @SerializedName("location")
+    @Expose
+    private GeohashLocation geohashLocation;
+    @SerializedName("time")
+    @Expose
+    private long time;
 
     public long getTime() {
         return time;
@@ -29,71 +35,12 @@ public abstract class Item implements Serializable {
         return measurements;
     }
 
-    public Location getLocation() {
+    public Location getGeohashLocation() {
+        Log.d(this.getClass().getSimpleName(), "Lat: " + latitude + ", Lon: " + longitude);
+        Location location = new Location(LocationManager.GPS_PROVIDER);
+        location.setLatitude(this.geohashLocation.getLatitude());
+        location.setLongitude(this.geohashLocation.getLongitude());
         return location;
     }
-
-    public static class Location implements Serializable {
-
-        static final long serialVersionUID = 3L;
-
-        private double latitude;
-        private double longitude;
-        private String geohash;
-
-        public Location(double latitude, double longitude, @Nullable String geohash) {
-            // TODO Add geohash check
-            this.latitude = latitude;
-            this.longitude = longitude;
-            if (geohash != null) {
-                this.geohash = geohash;
-            } else {
-                // Only used when location is copied from Google Play Services Location to
-                // determine distance to last known location
-                this.geohash = "";
-            }
-        }
-
-        public double getLatitude() {
-            return latitude;
-        }
-
-        public double getLongitude() {
-            return longitude;
-        }
-
-        public String getGeohash() {
-            return geohash;
-        }
-    }
-
-    static class Measurement implements Serializable {
-
-        static final long serialVersionUID = 4L;
-
-        private int value;
-        private MeasurementType type;
-
-        public Measurement(int value, MeasurementType type) {
-            this.value = value;
-            this.type = type;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public MeasurementType getType() {
-            return type;
-        }
-
-        enum MeasurementType {
-            @SerializedName("radiation")
-            RADIATION,
-            @SerializedName("temperature")
-            TEMPERATURE
-        }
-    }
-
 
 }
