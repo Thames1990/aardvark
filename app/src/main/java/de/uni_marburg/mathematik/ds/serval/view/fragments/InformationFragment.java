@@ -88,7 +88,7 @@ public class InformationFragment<T extends Event> extends Fragment implements On
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng position = new LatLng(latitude, longitude);
-        googleMap.getUiSettings().setScrollGesturesEnabled(false);
+        googleMap.getUiSettings().setAllGesturesEnabled(false);
         googleMap.addMarker(new MarkerOptions().position(position));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.0f));
         mapView.onResume();
