@@ -8,10 +8,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.IntroFragment;
 
 /**
- * Created by thames1990 on 23.08.17.
+ * Adapter for the experimental intro sliders
  */
 public class IntroAdapter extends FragmentPagerAdapter {
 
+    // Update if new slides are added
     private static final int NUMBER_OF_FRAGMENTS = 4;
 
     public IntroAdapter(FragmentManager fm) {

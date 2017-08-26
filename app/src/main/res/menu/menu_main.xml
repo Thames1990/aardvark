@@ -5,19 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="info.androidhive.settings.MainActivity">
 
-    <item
+    <event
         android:id="@+id/action_reset_app"
         android:orderInCategory="100"
         android:title="@string/action_reset_app"
         app:showAsAction="never"/>
 
-    <item
+    <event
         android:id="@+id/action_alternative_intro"
         android:orderInCategory="101"
         android:title="@string/action_alternative_intro"
         app:showAsAction="never"/>
 
-    <item
+    <event
         android:id="@+id/action_settings"
         android:orderInCategory="102"
         android:title="@string/action_settings"

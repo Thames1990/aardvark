@@ -21,13 +21,14 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.TestItem;
+import de.uni_marburg.mathematik.ds.serval.model.Event;
+import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 
 /**
- * Created by thames1990 on 22.08.17.
+ * ViewHolder for {@link GenericEvent generic events}
  */
-class TestItemViewHolder extends BaseViewHolder<TestItem> {
+class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
 
     private Context context;
 
@@ -40,7 +41,7 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
     @BindView(R.id.location)
     TextView tv_location;
 
-    TestItemViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
+    GenericEventViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
         context = parent.getContext();
         thumbnail.setOnClickListener(this);
@@ -48,14 +49,19 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
     }
 
     @Override
-    protected void onBind(TestItem item, int position) {
-        onBindThumbnail(item);
-        onBindTime(item);
-        onBindLocation(item);
+    protected void onBind(GenericEvent event, int position) {
+        setupThumbnail(event);
+        setupTime(event);
+        setupLocation(event);
     }
 
-    private void onBindThumbnail(TestItem item) {
-        Location location = item.getLocation();
+    /**
+     * Loads a static image of the location of the event.
+     *
+     * @param event The event to load the static image of the position for
+     */
+    private void setupThumbnail(GenericEvent event) {
+        Location location = event.getLocation();
         Glide
                 .with(context)
                 .load(String.format(
@@ -67,9 +73,14 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
                 .into(thumbnail);
     }
 
-    private void onBindTime(TestItem item) {
+    /**
+     * Sets the elapsed days since an {@link Event event} happened.
+     *
+     * @param event
+     */
+    private void setupTime(GenericEvent event) {
         Calendar now = Calendar.getInstance();
-        long diff = now.getTimeInMillis() - item.getTime();
+        long diff = now.getTimeInMillis() - event.getTime();
         int days = (int) (diff / (24 * 60 * 60 * 1000));
         if (days == 0) {
             time.setText(context.getString(R.string.today));
@@ -78,7 +89,7 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
         }
     }
 
-    private void onBindLocation(TestItem item) {
+    private void setupLocation(GenericEvent item) {
         LocationManager locationManager =
                 (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
@@ -108,13 +119,13 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
     }
 
     @Override
-    protected void onClick(View view, TestItem item) {
+    protected void onClick(View view, GenericEvent event) {
         switch (view.getId()) {
             case R.id.overflow:
                 onClickOverflow();
                 break;
             default:
-                onClickItemview(item);
+                onClickItemview(event);
         }
     }
 
@@ -144,14 +155,14 @@ class TestItemViewHolder extends BaseViewHolder<TestItem> {
         popup.show();
     }
 
-    private void onClickItemview(TestItem item) {
+    private void onClickItemview(GenericEvent item) {
         Intent detail = new Intent(context, DetailActivity.class);
         detail.putExtra(DetailActivity.ITEM, item);
         context.startActivity(detail);
     }
 
     @Override
-    protected boolean onLongClick(View view, TestItem item) {
+    protected boolean onLongClick(View view, GenericEvent event) {
         return false;
     }
 }

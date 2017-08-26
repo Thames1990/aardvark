@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView.State;
 import android.view.View;
 
 /**
- * Created by thames1990 on 22.08.17.
+ * Adds delimeters between grids.
  */
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 

@@ -10,18 +10,35 @@ import android.view.ViewGroup;
 import java.util.Locale;
 
 import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity;
 
 /**
- * Created by thames1990 on 23.08.17.
+ * Represents a slide in the alternative slider intro.
  */
-
 public class IntroFragment extends Fragment {
 
     // TODO Maybe drop background color property and only set background in xml
+    /**
+     * This key is used to collect the background color of the slide from the
+     * {@link IntroActivity intro activity}.
+     */
     private static final String BACKGROUND_COLOR = "BACKGROUND_COLOR";
+
+    /**
+     * This key is used to collect the page number of the slide from the
+     * {@link IntroActivity intro activity}.
+     */
     private static final String PAGE = "PAGE";
 
-    private int backgroundColor, page;
+    /**
+     * Background color of the slide
+     */
+    private int backgroundColor;
+
+    /**
+     * Page number of the slide
+     */
+    private int page;
 
     public static IntroFragment newInstance(int backgroundColor, int page) {
         IntroFragment fragment = new IntroFragment();

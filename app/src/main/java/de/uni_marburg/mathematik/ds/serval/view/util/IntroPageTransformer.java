@@ -4,11 +4,12 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity;
 
 /**
- * Created by thames1990 on 23.08.17.
+ * Defines the behaviour and animations of slides in the viewpager of the
+ * {@link IntroActivity intro activity}.
  */
-
 public class IntroPageTransformer implements ViewPager.PageTransformer {
 
     @Override

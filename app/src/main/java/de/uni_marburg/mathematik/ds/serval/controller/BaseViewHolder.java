@@ -1,23 +1,24 @@
 package de.uni_marburg.mathematik.ds.serval.controller;
 
 import android.support.annotation.LayoutRes;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
-import de.uni_marburg.mathematik.ds.serval.model.Item;
+import de.uni_marburg.mathematik.ds.serval.model.Event;
 
 /**
- * Generic {@link android.support.v7.widget.RecyclerView.ViewHolder ViewHolder} for
- * {@link Item generic data}
+ * Generic {@link ViewHolder ViewHolder} for {@link Event events}
+ * <p>
+ * Has Listener for normal and long clicks.
  */
-abstract class BaseViewHolder<T extends Item>
-        extends RecyclerView.ViewHolder
+abstract class BaseViewHolder<T extends Event>
+        extends ViewHolder
         implements View.OnClickListener, View.OnLongClickListener {
 
-    private T item;
+    private T event;
 
     BaseViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(LayoutInflater.from(parent.getContext()).inflate(itemLayoutId, parent, false));
@@ -27,51 +28,51 @@ abstract class BaseViewHolder<T extends Item>
     }
 
     /**
-     * Called when an item should be bound.
+     * Called when an event should be bound.
      *
-     * @param item     The item that should be bound.
-     * @param position The position of the item that should be bound.
+     * @param event    The event that should be bound.
+     * @param position The position of the event that should be bound.
      */
-    final void performBind(T item, int position) {
-        this.item = item;
-        onBind(item, position);
+    final void performBind(T event, int position) {
+        this.event = event;
+        onBind(event, position);
     }
 
-    public T getItem() {
-        return item;
+    public T getEvent() {
+        return event;
     }
 
     /**
-     * Called when an item is bound. Is used to set the attributes of an item.
+     * Called when an event is bound. Is used to set the attributes of an event.
      *
-     * @param item     The item that is bound.
-     * @param position The position of the item that is bound.
+     * @param event    The event that is bound.
+     * @param position The position of the event that is bound.
      */
-    protected abstract void onBind(T item, int position);
+    protected abstract void onBind(T event, int position);
 
     /**
-     * @param view The view that was clicked.
-     * @param item The item that was clicked.
+     * @param view  The view that was clicked.
+     * @param event The event that was clicked.
      */
-    protected abstract void onClick(View view, T item);
+    protected abstract void onClick(View view, T event);
 
     /**
      * Is used as an extension to {@link BaseViewHolder#onLongClick(View)} to pass the
-     * corresponding item.
+     * corresponding event.
      *
-     * @param view The view that was clicked and held.
-     * @param item The item that was clicked and held.
+     * @param view  The view that was clicked and held.
+     * @param event The event that was clicked and held.
      * @return {@code True} if the callback consumed the long click; {@code false} otherwise.
      */
-    protected abstract boolean onLongClick(View view, T item);
+    protected abstract boolean onLongClick(View view, T event);
 
     @Override
     public final void onClick(View view) {
-        onClick(view, item);
+        onClick(view, event);
     }
 
     @Override
     public final boolean onLongClick(View view) {
-        return onLongClick(view, item);
+        return onLongClick(view, event);
     }
 }

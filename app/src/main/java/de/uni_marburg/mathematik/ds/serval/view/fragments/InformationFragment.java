@@ -21,26 +21,34 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.TestItem;
+import de.uni_marburg.mathematik.ds.serval.model.Event;
+import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 
 /**
- * Created by thames1990 on 24.08.17.
+ * Shows all information about an {@link Event event} except for the measurements.
  */
-public class InformationFragment extends Fragment implements OnMapReadyCallback {
+public class InformationFragment<T extends Event> extends Fragment implements OnMapReadyCallback {
 
-    public static final String ITEM = "ITEM";
+    /**
+     * This key is used to collect the {@link InformationFragment#event event} from the
+     * {@link DetailActivity detail activity}.
+     */
+    public static final String EVENT = "EVENT";
 
-    private TestItem item;
+    /**
+     * Event to show information about
+     */
+    private T event;
 
     @BindView(R.id.mapView)
     MapView mapView;
     @BindView(R.id.info)
     TextView info;
 
-    public static InformationFragment newInstance(TestItem item) {
-        InformationFragment fragment = new InformationFragment();
+    public static <T extends Event> InformationFragment<Event> newInstance(T item) {
+        InformationFragment<Event> fragment = new InformationFragment<>();
         Bundle args = new Bundle();
-        args.putSerializable(ITEM, item);
+        args.putSerializable(EVENT, item);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,14 +57,15 @@ public class InformationFragment extends Fragment implements OnMapReadyCallback 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!getArguments().containsKey(ITEM)) {
+        if (!getArguments().containsKey(EVENT)) {
             throw new RuntimeException(String.format(
                     Locale.getDefault(),
                     getString(R.string.fragment_must_contain_key_exception),
-                    ITEM
+                    EVENT
             ));
         }
-        item = (TestItem) getArguments().getSerializable(ITEM);
+        //noinspection unchecked
+        event = (T) getArguments().getSerializable(EVENT);
     }
 
     @Nullable
@@ -75,7 +84,7 @@ public class InformationFragment extends Fragment implements OnMapReadyCallback 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Location location = item.getLocation();
+        Location location = event.getLocation();
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng position = new LatLng(latitude, longitude);
@@ -83,6 +92,7 @@ public class InformationFragment extends Fragment implements OnMapReadyCallback 
         googleMap.addMarker(new MarkerOptions().position(position));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.0f));
         mapView.onResume();
+        // TODO Add better information
         info.setText("Lat: " + latitude + ", Lon: " + longitude);
     }
 }

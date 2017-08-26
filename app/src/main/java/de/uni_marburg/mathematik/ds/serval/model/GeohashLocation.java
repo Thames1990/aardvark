@@ -6,19 +6,29 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Created by thames1990 on 26.08.17.
+ * Is used to store the location of an {@link Event event}.
  */
-
-public class GeohashLocation implements Serializable {
+class GeohashLocation implements Serializable {
 
     private final static long serialVersionUID = 1L;
 
+    /**
+     * Latitude of the event
+     */
     @SerializedName("latitude")
     @Expose
     private double latitude;
+
+    /**
+     * Longitude of the event
+     */
     @SerializedName("longitude")
     @Expose
     private double longitude;
+
+    /**
+     * Geohash of the event
+     */
     @SerializedName("geohash")
     @Expose
     private String geohash;

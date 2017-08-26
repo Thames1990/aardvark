@@ -5,13 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="info.androidhive.settings.MainActivity">
 
-    <item
+    <event
         android:id="@+id/action_interested"
         android:orderInCategory="100"
         android:title="@string/action_interested"
         app:showAsAction="never"/>
 
-    <item
+    <event
         android:id="@+id/action_not_interested"
         android:orderInCategory="101"
         android:title="@string/action_not_interested"

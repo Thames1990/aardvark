@@ -20,6 +20,9 @@ import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import de.uni_marburg.mathematik.ds.serval.R;
 
+/**
+ * Settings view
+ */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override

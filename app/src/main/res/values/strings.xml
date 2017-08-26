@@ -67,8 +67,8 @@
     <string name="content_description_backdrop">backdrop</string>
     <string name="content_description_chat">@string/chat</string>
     <string name="content_description_dashboard">@string/dashboard</string>
-    <string name="content_description_item_overflow">item overflow</string>
-    <string name="content_description_item_thumbnail">item thumbnail</string>
+    <string name="content_description_item_overflow">event overflow</string>
+    <string name="content_description_item_thumbnail">event thumbnail</string>
     <string name="content_description_map">map</string>
     <string name="content_description_speaker_phone">speaker phone</string>
 
@@ -82,9 +82,9 @@
 
     <!-- Plurals -->
     <plurals name="days_ago">
-        <item quantity="zero">@string/today</item>
-        <item quantity="one">@string/yesterday</item>
-        <item quantity="other">%1$d days passed</item>
+        <event quantity="zero">@string/today</event>
+        <event quantity="one">@string/yesterday</event>
+        <event quantity="other">%1$d days passed</event>
     </plurals>
 
     <!-- Time -->

@@ -28,8 +28,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.controller.TestItemAdapter;
-import de.uni_marburg.mathematik.ds.serval.model.TestItem;
+import de.uni_marburg.mathematik.ds.serval.controller.GenericEventAdapter;
+import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.util.GridSpacingItemDecoration;
 import okhttp3.Call;
@@ -38,12 +38,24 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Main view of the app.
+ * <p>
+ * Currently shows a list of all events. Might be changed to a dashboard.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Key for the request code to permit location checks
+     */
     public static final int CHECK_LOCATION_PERMISSION = 0;
 
-    private List<TestItem> items;
-    private TestItemAdapter adapter;
+    /**
+     * List of events
+     */
+    private List<GenericEvent> events;
+
+    private GenericEventAdapter adapter;
 
     @BindView(R.id.appbar)
     AppBarLayout appBarLayout;
@@ -70,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(" ");
         appBarLayout.setExpanded(true);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
+            boolean isShown = false;
             int scrollRange = -1;
 
             @Override
@@ -80,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (scrollRange + verticalOffset == 0) {
                     collapsingToolbarLayout.setTitle(getString(R.string.title_activity_main));
-                    isShow = true;
-                } else if (isShow) {
+                    isShown = true;
+                } else if (isShown) {
                     collapsingToolbarLayout.setTitle(" ");
-                    isShow = false;
+                    isShown = false;
                 }
             }
         });
@@ -93,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        items = new ArrayList<>();
-        adapter = new TestItemAdapter(items);
+        events = new ArrayList<>();
+        adapter = new GenericEventAdapter(events);
         recyclerView.setAdapter(adapter);
     }
 
@@ -119,10 +131,12 @@ public class MainActivity extends AppCompatActivity {
                 InputStream in = response.body().byteStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                 String line;
+                // Read line by line (append file)
                 while ((line = reader.readLine()) != null) {
-                    TestItem testItem = gson.fromJson(line, TestItem.class);
-                    items.add(testItem);
-                    runOnUiThread(() -> adapter.notifyItemChanged(items.size()));
+                    // Create an event per line
+                    GenericEvent testItem = gson.fromJson(line, GenericEvent.class);
+                    events.add(testItem);
+                    runOnUiThread(() -> adapter.notifyItemChanged(events.size()));
                 }
             }
         });
@@ -159,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
             @NonNull String[] permissions,
             @NonNull int[] grantResults
     ) {
+        // TODO Check for real
         switch (requestCode) {
             case CHECK_LOCATION_PERMISSION:
                 if (grantResults.length > 0 &&

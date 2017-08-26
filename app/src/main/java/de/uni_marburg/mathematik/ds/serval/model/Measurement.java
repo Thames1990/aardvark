@@ -6,15 +6,22 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Created by thames1990 on 26.08.17.
+ * Measurement of a {@link Event event}.
  */
-public class Measurement implements Serializable {
+class Measurement implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Type of the measurement
+     */
     @SerializedName("type")
     @Expose
     private MeasurementType type;
+
+    /**
+     * Value of the measurement
+     */
     @SerializedName("value")
     @Expose
     private int value;

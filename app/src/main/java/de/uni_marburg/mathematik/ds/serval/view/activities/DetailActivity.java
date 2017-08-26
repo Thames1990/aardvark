@@ -16,13 +16,23 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.DetailAdapter;
-import de.uni_marburg.mathematik.ds.serval.model.TestItem;
+import de.uni_marburg.mathematik.ds.serval.model.Event;
 
-public class DetailActivity extends AppCompatActivity {
+/**
+ * Is used to display all informations about an {@link Event event}.
+ */
+public class DetailActivity<T extends Event> extends AppCompatActivity {
 
-    public static final String ITEM = "ITEM";
+    /**
+     * Is used as a key to pass the {@link DetailActivity#event event} between the
+     * {@link MainActivity main activity} and this view.
+     */
+    public static final String ITEM = "EVENT";
 
-    private TestItem item;
+    /**
+     * Event to show details for
+     */
+    private T event;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -38,7 +48,8 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
-        item = (TestItem) getIntent().getSerializableExtra(ITEM);
+        //noinspection unchecked
+        event = (T) getIntent().getSerializableExtra(ITEM);
         setupViews();
     }
 
@@ -47,23 +58,28 @@ public class DetailActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        viewPager.setAdapter(new DetailAdapter(getSupportFragmentManager(), item, this));
+        viewPager.setAdapter(new DetailAdapter<>(getSupportFragmentManager(), event, this));
         tabLayout.setupWithViewPager(viewPager);
-        fab.setOnClickListener(view -> {
-            Location location = item.getLocation();
-            Intent navigationIntent = new Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(String.format(
-                            Locale.getDefault(),
-                            getString(R.string.intent_uri_navigate),
-                            // Forces decimal points
-                            String.format(Locale.ENGLISH, "%.5f", location.getLatitude()),
-                            String.format(Locale.ENGLISH, "%.5f", location.getLongitude())
-                    ))
-            );
-            navigationIntent.setPackage("com.google.android.apps.maps");
-            startActivity(navigationIntent);
-        });
+        fab.setOnClickListener(view -> navigateToPosition());
+    }
+
+    /**
+     * Opens Google Maps and navigates to the position of the event
+     */
+    private void navigateToPosition() {
+        Location location = event.getLocation();
+        Intent navigationIntent = new Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(String.format(
+                        Locale.getDefault(),
+                        getString(R.string.intent_uri_navigate),
+                        // Forces decimal points
+                        String.format(Locale.ENGLISH, "%.5f", location.getLatitude()),
+                        String.format(Locale.ENGLISH, "%.5f", location.getLongitude())
+                ))
+        );
+        navigationIntent.setPackage("com.google.android.apps.maps");
+        startActivity(navigationIntent);
     }
 
 }

@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.model;
 
 import android.location.Location;
 import android.location.LocationManager;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,19 +9,31 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-import static de.uni_marburg.mathematik.ds.serval.R.string.latitude;
-import static de.uni_marburg.mathematik.ds.serval.R.string.longitude;
-
-public abstract class Item implements Serializable {
+/**
+ * Events are loaded from a REST API and represent a thing that happens or takes place,
+ * especially one of importance.
+ */
+public abstract class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Measurements of the event
+     */
     @SerializedName("measurements")
     @Expose
     private List<Measurement> measurements;
+
+    /**
+     * Location of the event
+     */
     @SerializedName("location")
     @Expose
     private GeohashLocation geohashLocation;
+
+    /**
+     * Occurence time of the event
+     */
     @SerializedName("time")
     @Expose
     private long time;
@@ -35,11 +46,18 @@ public abstract class Item implements Serializable {
         return measurements;
     }
 
+    /**
+     * Returns the location of the event as a {@link Location Android location}.
+     * <p>
+     * This is useful, because this type of event includes its util methods, such as
+     * {@link Location#distanceTo(Location)}.
+     *
+     * @return The location of the vent
+     */
     public Location getLocation() {
-        Log.d(this.getClass().getSimpleName(), "Lat: " + latitude + ", Lon: " + longitude);
         Location location = new Location(LocationManager.GPS_PROVIDER);
-        location.setLatitude(this.geohashLocation.getLatitude());
-        location.setLongitude(this.geohashLocation.getLongitude());
+        location.setLatitude(geohashLocation.getLatitude());
+        location.setLongitude(geohashLocation.getLongitude());
         return location;
     }
 

@@ -6,21 +6,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.TestItem;
+import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.InformationFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MeasurementsFragment;
 
 /**
- * Created by thames1990 on 23.08.17.
+ * Adapter for the detail view of an {@link Event event}
  */
-public class DetailAdapter extends FragmentPagerAdapter {
+public class DetailAdapter<T extends Event> extends FragmentPagerAdapter {
 
-    private TestItem item;
+    private T event;
     private String[] tabTitles;
 
-    public DetailAdapter(FragmentManager fm, TestItem item, Context context) {
+    public DetailAdapter(FragmentManager fm, T event, Context context) {
         super(fm);
-        this.item = item;
+        this.event = event;
+        // Needs to be updated if new tabs are added
         tabTitles = context.getResources().getStringArray(R.array.detail_tabs);
     }
 
@@ -28,11 +29,11 @@ public class DetailAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return InformationFragment.newInstance(item);
+                return InformationFragment.newInstance(event);
             case 1:
-                return MeasurementsFragment.newInstance(item);
+                return MeasurementsFragment.newInstance(event);
             default:
-                return InformationFragment.newInstance(item);
+                return InformationFragment.newInstance(event);
         }
     }
 

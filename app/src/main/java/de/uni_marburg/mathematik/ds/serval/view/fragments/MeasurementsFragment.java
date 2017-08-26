@@ -11,22 +11,30 @@ import java.util.Locale;
 
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.TestItem;
+import de.uni_marburg.mathematik.ds.serval.model.Event;
+import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 
 /**
  * Created by thames1990 on 24.08.17.
  */
 
-public class MeasurementsFragment extends Fragment {
+public class MeasurementsFragment<T extends Event> extends Fragment {
 
-    public static final String ITEM = "ITEM";
+    /**
+     * This key is used to collect the {@link InformationFragment#event event} from the
+     * {@link DetailActivity detail activity}.
+     */
+    public static final String EVENT = "EVENT";
 
-    private TestItem item;
+    /**
+     * Event to show measurements for
+     */
+    private T event;
 
-    public static MeasurementsFragment newInstance(TestItem item) {
-        MeasurementsFragment fragment = new MeasurementsFragment();
+    public static <T extends Event> MeasurementsFragment<Event> newInstance(T item) {
+        MeasurementsFragment<Event> fragment = new MeasurementsFragment<>();
         Bundle args = new Bundle();
-        args.putSerializable(ITEM, item);
+        args.putSerializable(EVENT, item);
         fragment.setArguments(args);
         return fragment;
     }
@@ -35,14 +43,15 @@ public class MeasurementsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!getArguments().containsKey(ITEM)) {
+        if (!getArguments().containsKey(EVENT)) {
             throw new RuntimeException(String.format(
                     Locale.getDefault(),
                     getString(R.string.fragment_must_contain_key_exception),
-                    ITEM
+                    EVENT
             ));
         }
-        item = (TestItem) getArguments().getSerializable(ITEM);
+        //noinspection unchecked
+        event = (T) getArguments().getSerializable(EVENT);
     }
 
     @Nullable

@@ -10,6 +10,9 @@ import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.IntroAdapter;
 import de.uni_marburg.mathematik.ds.serval.view.util.IntroPageTransformer;
 
+/**
+ * Alternative intro sliders view.
+ */
 public class IntroActivity extends AppCompatActivity {
 
     @BindView(R.id.viewpager)

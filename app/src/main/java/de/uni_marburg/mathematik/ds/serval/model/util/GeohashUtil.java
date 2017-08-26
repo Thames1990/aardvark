@@ -1,7 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.model.util;
 
 /**
- * Created by thames1990 on 21.08.17.
+ * Is used to check if latitude, longitude and geohash match.
  */
 public class GeohashUtil {
 

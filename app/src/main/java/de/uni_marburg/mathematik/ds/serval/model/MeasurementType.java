@@ -3,10 +3,9 @@ package de.uni_marburg.mathematik.ds.serval.model;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by thames1990 on 26.08.17.
+ * Type of a {@link Measurement measurement} of an {@link Event event}.
  */
-
-public enum MeasurementType {
+enum MeasurementType {
     @SerializedName("radiation")
     RADIATION,
     @SerializedName("temperature")
