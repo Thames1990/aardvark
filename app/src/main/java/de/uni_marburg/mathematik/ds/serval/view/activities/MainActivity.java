@@ -1,10 +1,12 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +17,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -24,9 +30,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.uni_marburg.mathematik.ds.serval.BuildConfig;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.GenericEventAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
@@ -37,6 +45,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import us.feras.mdv.MarkdownView;
 
 /**
  * Main view of the app.
@@ -57,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
     private GenericEventAdapter adapter;
 
+    private PrefManager prefManager;
+
     @BindView(R.id.appbar)
     AppBarLayout appBarLayout;
     @BindView(R.id.collapsing_toolbar)
@@ -69,13 +80,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefManager = new PrefManager(this);
         setContentView(R.layout.activity_main);
-        // TODO Show changelog if necessary
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         initCollapsingToolbar();
         initRecyclerView();
         loadData();
+        checkForNewVersion();
     }
 
     private void initCollapsingToolbar() {
@@ -142,6 +154,87 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Checks if a new version was installed.
+     */
+    private void checkForNewVersion() {
+        try {
+            int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+            int lastKnownVersionCode = prefManager.getLastKnownVersionCode();
+            if (lastKnownVersionCode < versionCode || BuildConfig.DEBUG) {
+                showChangelog(versionCode);
+                prefManager.setLastKnownVersionCode(versionCode);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Shows the changelog of the most recent update.
+     *
+     * @param versionCode Version code of the app
+     */
+    private void showChangelog(int versionCode) {
+        String versionName = String.format(
+                Locale.getDefault(),
+                getString(R.string.changelog),
+                getString(R.string.versionName)
+        );
+
+        String changelogFile = String.format(
+                Locale.getDefault(),
+                getString(R.string.changelog_file),
+                versionCode
+        );
+
+        // TODO Replace with setting
+        if (prefManager.useBottomSheetDialogs()) {
+            showChangelogBottomSheetDialog(versionName, changelogFile);
+        } else {
+            showChangelogDialog(versionName, changelogFile);
+        }
+    }
+
+    /**
+     * Shows the changelog of the most recent update in a
+     * {@link BottomSheetDialog bottom sheet dialog}.
+     *
+     * @param versionName   Version name of the app
+     * @param changelogFile Location of the changelog file
+     */
+    private void showChangelogBottomSheetDialog(String versionName, String changelogFile) {
+        View changelogView = View.inflate(this, R.layout.changelog_bottom_sheet, null);
+        LinearLayout changelogLayout = changelogView.findViewById(R.id.changelogLayout);
+        changelogLayout.setVisibility(View.VISIBLE);
+        TextView versionInfo = changelogView.findViewById(R.id.version_info);
+        versionInfo.setText(versionName);
+        MarkdownView changelog = changelogView.findViewById(R.id.changelog);
+        changelog.loadMarkdownFile(changelogFile);
+        BottomSheetDialog changelogDialog = new BottomSheetDialog(this);
+        changelogDialog.setContentView(changelogView);
+        changelogDialog.show();
+    }
+
+    /**
+     * Shows the changelog of the most recent update in a {@link Dialog dialog}.
+     *
+     * @param versionName   Version name of the app
+     * @param changelogFile Location of the changelog file
+     */
+    private void showChangelogDialog(String versionName, String changelogFile) {
+        MaterialDialog changelogDialog = new MaterialDialog.Builder(this)
+                .title(versionName)
+                .customView(R.layout.changelog_dialog, true)
+                .positiveText(R.string.ok)
+                .show();
+        View view = changelogDialog.getCustomView();
+        if (view != null) {
+            MarkdownView changelog = view.findViewById(R.id.changelog);
+            changelog.loadMarkdownFile(changelogFile);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -152,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_reset_app:
-                new PrefManager(this).setIsFirstTimeLaunch(true);
+                prefManager.setIsFirstTimeLaunch(true);
                 startActivity(new Intent(this, WelcomeActivity.class));
                 ActivityCompat.finishAffinity(this);
                 return true;

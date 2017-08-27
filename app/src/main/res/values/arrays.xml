@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="detail_tabs">
-        <event>@string/information</event>
-        <event>@string/measurements</event>
+        <item>@string/information</item>
+        <item>@string/measurements</item>
     </array>
 </resources>

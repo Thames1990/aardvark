@@ -77,6 +77,7 @@ dependencies {
         butterknife_version = '8.8.1'
         glide_version = '4.0.0'
         google_play_services_version = '11.2.0'
+        material_dialogs_version = '0.9.4.7'
         support_library_version = '26.0.1'
     }
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -108,5 +109,10 @@ dependencies {
     compile('com.mikepenz:aboutlibraries:5.9.7@aar') {
         transitive = true
     }
+    // Material Dialogs
+    compile "com.afollestad.material-dialogs:core:${material_dialogs_version}"
+    compile "com.afollestad.material-dialogs:commons:${material_dialogs_version}"
+    // MarkdownView
+    compile 'us.feras.mdv:markdownview:1.1.0'
     testCompile 'junit:junit:4.12'
 }

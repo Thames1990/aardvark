@@ -1,0 +1,1 @@
+Maps are now part of the app. Each item has it's location displayed in the information tab.

@@ -1,8 +1,10 @@
 package de.uni_marburg.mathematik.ds.serval.util;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.design.widget.BottomSheetDialog;
 
 import de.uni_marburg.mathematik.ds.serval.view.activities.WelcomeActivity;
 
@@ -13,6 +15,8 @@ public class PrefManager {
 
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+
+    private Context context;
 
     /**
      * Desired preferences file. If a preferences file by this name does not exist, it will be
@@ -36,10 +40,23 @@ public class PrefManager {
      */
     private static final String IS_FIRST_TIME_LAUNCH = "IS_FIRST_TIME_LAUNCH";
 
+    /**
+     * Key for the last known version code. Is used to determine whether the changelog should be
+     * shown.
+     */
+    private static final String LAST_KNOWN_VERSION_CODE = "LAST_KNOWN_VERSION_CODE";
+
+    /**
+     * This key is used to determine wheter {@link BottomSheetDialog bottom sheets dialogs} or
+     * {@link Dialog dialogs} should be used.
+     */
+    private static final String USE_BOTTOM_SHEET_DIALOGS = "USE_BOTTOM_SHEET_DIALOGS";
+
     @SuppressLint("CommitPrefEdits")
     public PrefManager(Context context) {
         preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = preferences.edit();
+        this.context = context;
     }
 
     public void setIsFirstTimeLaunch(boolean isFirstTimeLaunch) {
@@ -48,5 +65,17 @@ public class PrefManager {
 
     public boolean isFirstTimeLaunch() {
         return preferences.getBoolean(IS_FIRST_TIME_LAUNCH, true);
+    }
+
+    public void setLastKnownVersionCode(int currentVersion) {
+        editor.putInt(LAST_KNOWN_VERSION_CODE, currentVersion).commit();
+    }
+
+    public int getLastKnownVersionCode() {
+        return preferences.getInt(LAST_KNOWN_VERSION_CODE, 0);
+    }
+
+    public boolean useBottomSheetDialogs() {
+        return preferences.getBoolean(USE_BOTTOM_SHEET_DIALOGS, true);
     }
 }

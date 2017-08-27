@@ -26,17 +26,17 @@
     <color name="slide_dot_light_screen4">#e4b5fc</color>
 
     <array name="array_dot_active">
-        <event>@color/slide_dot_light_screen1</event>
-        <event>@color/slide_dot_light_screen2</event>
-        <event>@color/slide_dot_light_screen3</event>
-        <event>@color/slide_dot_light_screen4</event>
+        <item>@color/slide_dot_light_screen1</item>
+        <item>@color/slide_dot_light_screen2</item>
+        <item>@color/slide_dot_light_screen3</item>
+        <item>@color/slide_dot_light_screen4</item>
     </array>
 
     <array name="array_dot_inactive">
-        <event>@color/slide_dot_dark_screen1</event>
-        <event>@color/slide_dot_dark_screen2</event>
-        <event>@color/slide_dot_dark_screen3</event>
-        <event>@color/slide_dot_dark_screen4</event>
+        <item>@color/slide_dot_dark_screen1</item>
+        <item>@color/slide_dot_dark_screen2</item>
+        <item>@color/slide_dot_dark_screen3</item>
+        <item>@color/slide_dot_dark_screen4</item>
     </array>
 </resources>
 

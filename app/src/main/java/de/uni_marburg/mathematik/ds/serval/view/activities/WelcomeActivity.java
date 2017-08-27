@@ -134,7 +134,7 @@ public class WelcomeActivity extends AppCompatActivity implements ViewPager.OnPa
         // Changing the next button text
         if (position == layouts.length - 1) {
             // Last page
-            btnNext.setText(getString(R.string.start));
+            btnNext.setText(getString(R.string.done));
             btnSkip.setVisibility(View.GONE);
         } else if (position == 2) {
             checkLocationPermission();
