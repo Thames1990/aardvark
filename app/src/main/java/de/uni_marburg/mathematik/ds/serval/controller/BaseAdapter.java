@@ -12,9 +12,9 @@ import de.uni_marburg.mathematik.ds.serval.model.Event;
 import static android.support.v7.widget.RecyclerView.*;
 
 /**
- * Generic {@link Adapter Adapter} for {@link Event events}
+ * Generic {@link Adapter Adapter} for {@link Event items}
  * <p>
- * Has the ability to remove events and recover them again in a timeframe of
+ * Has the ability to remove items and recover them again in a timeframe of
  * {@link BaseAdapter#PENDING_REMOVAL_TIMEOUT} seconds.
  */
 
@@ -29,27 +29,27 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
     /**
      * Items controlled by the adapter
      */
-    private List<T> events;
+    private List<T> items;
 
     /**
-     * Events pending removal
+     * Items pending removal
      */
-    private List<T> eventsPendingRemoval;
+    private List<T> itemsPendingRemoval;
 
     /**
-     * Saves events pending removal and their temporal state
+     * Saves items pending removal and their temporal state
      */
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private HashMap<T, Runnable> pendingRunnables;
 
     /**
-     * Handles the time after which events are removed
+     * Handles the time after which items are removed
      */
     private Handler handler;
 
-    BaseAdapter(List<T> events) {
-        this.events = events;
-        this.eventsPendingRemoval = new ArrayList<>();
+    BaseAdapter(List<T> items) {
+        this.items = items;
+        this.itemsPendingRemoval = new ArrayList<>();
         this.pendingRunnables = new HashMap<>();
         this.handler = new Handler();
     }
@@ -57,94 +57,94 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
     /**
      * Adds an item to the adapter
      *
-     * @param event Event to be added
+     * @param item Item to be added
      */
-    public void addEvent(T event) {
-        events.add(event);
+    public void addItem(T item) {
+        items.add(item);
         notifyItemInserted(getItemCount() - 1);
     }
 
     /**
-     * Removes an event from the adapter
+     * Removes an item from the adapter
      *
-     * @param position Position of the event to be removed
+     * @param position Position of the item to be removed
      */
-    private void removeEvent(int position) {
-        final T event = events.get(position);
-        if (eventsPendingRemoval.contains(event)) {
-            eventsPendingRemoval.remove(event);
+    private void removeItem(int position) {
+        final T item = items.get(position);
+        if (itemsPendingRemoval.contains(item)) {
+            itemsPendingRemoval.remove(item);
         }
-        events.remove(position);
+        items.remove(position);
         notifyItemRemoved(position);
     }
 
     /**
-     * Removes a range of events from the adapter
+     * Removes a range of items from the adapter
      *
      * @param positionStart Starting position of the range
-     * @param eventCount    Number of events to be removed
+     * @param eventCount    Number of items to be removed
      */
     private void removeRange(int positionStart, int eventCount) {
         for (int i = 0; i < eventCount; i++) {
-            events.remove(positionStart);
+            items.remove(positionStart);
         }
         notifyItemRangeRemoved(positionStart, eventCount);
     }
 
     /**
-     * Removes all events from the adapter
+     * Removes all items from the adapter
      */
     public void removeAll() {
-        removeRange(0, events.size());
+        removeRange(0, items.size());
     }
 
     /**
-     * Instructs the adapter to add an event to the pending removals
+     * Instructs the adapter to add an item to the pending removals
      *
-     * @param position Position of the event pending removal
+     * @param position Position of the item pending removal
      */
     public void pendingRemoval(int position) {
-        final T event = events.get(position);
-        if (!eventsPendingRemoval.contains(event)) {
-            eventsPendingRemoval.add(event);
+        final T item = items.get(position);
+        if (!itemsPendingRemoval.contains(item)) {
+            itemsPendingRemoval.add(item);
             notifyItemChanged(position);
-            Runnable pendingRemovalRunnable = () -> removeEvent(events.indexOf(event));
+            Runnable pendingRemovalRunnable = () -> removeItem(items.indexOf(item));
             handler.postDelayed(pendingRemovalRunnable, PENDING_REMOVAL_TIMEOUT);
-            pendingRunnables.put(event, pendingRemovalRunnable);
+            pendingRunnables.put(item, pendingRemovalRunnable);
         }
     }
 
     /**
-     * Checks whether an event at a given position is already pending removal.
+     * Checks whether an item at a given position is already pending removal.
      *
-     * @param position Position of the event in the dataset.
-     * @return {@code True}, if the event at the given position in the dataset is pending removal;
+     * @param position Position of the item in the dataset.
+     * @return {@code True}, if the item at the given position in the dataset is pending removal;
      * {@code false} otherwise.
      */
     public boolean isPendingRemoval(int position) {
-        return eventsPendingRemoval.contains(events.get(position));
+        return itemsPendingRemoval.contains(items.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return events.size();
+        return items.size();
     }
 
     /**
      * Is used as an extension to {@link BaseAdapter#onBindViewHolder(BaseViewHolder, int)} to
-     * pass the corresponding event.
+     * pass the corresponding item.
      *
      * @param holder   The ViewHolder which should be updated to represent the contents of the
-     *                 event at the given position in the data set.
-     * @param item     The event at the given position in the dataset.
-     * @param position The position of the event within the adapter's data set.
+     *                 item at the given position in the data set.
+     * @param item     The item at the given position in the dataset.
+     * @param position The position of the item within the adapter's data set.
      */
     protected abstract void onBindViewHolder(VH holder, T item, int position);
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        T event = events.get(position);
-        holder.performBind(event, position);
-        onBindViewHolder(holder, event, position);
+        T item = items.get(position);
+        holder.performBind(item, position);
+        onBindViewHolder(holder, item, position);
     }
 }
