@@ -31,7 +31,8 @@
             android:label="@string/title_activity_main"/>
         <activity
             android:name=".view.activities.SettingsActivity"
-            android:label="@string/title_activity_settings">
+            android:label="@string/title_activity_settings"
+            android:theme="@style/PreferenceTheme">
         </activity>
         <activity android:name=".view.activities.IntroActivity"/>
         <activity android:name=".view.activities.DetailActivity"/>
