@@ -31,13 +31,10 @@
             android:label="@string/title_activity_main"/>
         <activity
             android:name=".view.activities.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/PreferenceTheme">
+            android:label="@string/title_activity_settings">
         </activity>
-        <activity android:name=".view.activities.IntroActivity">
-        </activity>
-        <activity android:name=".view.activities.DetailActivity">
-        </activity>
+        <activity android:name=".view.activities.IntroActivity"/>
+        <activity android:name=".view.activities.DetailActivity"/>
     </application>
 
 </manifest>

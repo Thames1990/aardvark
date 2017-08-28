@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import java.util.Locale;
 
@@ -55,8 +57,11 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
 
     private void setupViews() {
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(getString(R.string.details));
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
         }
         viewPager.setAdapter(new DetailAdapter<>(getSupportFragmentManager(), event, this));
         tabLayout.setupWithViewPager(viewPager);
@@ -82,4 +87,11 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
         startActivity(navigationIntent);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

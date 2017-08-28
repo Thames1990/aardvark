@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -46,6 +45,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import us.feras.mdv.MarkdownView;
 
+import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
+
 /**
  * Main view of the app.
  * <p>
@@ -69,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.appbar)
     AppBarLayout appBarLayout;
-    @BindView(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.toolbar)
@@ -83,42 +82,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        initCollapsingToolbar();
         initRecyclerView();
         loadData();
         checkForNewVersion();
-    }
-
-    private void initCollapsingToolbar() {
-        collapsingToolbarLayout.setTitle(" ");
-        appBarLayout.setExpanded(true);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShown = false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbarLayout.setTitle(getString(R.string.title_activity_main));
-                    isShown = true;
-                } else if (isShown) {
-                    collapsingToolbarLayout.setTitle(" ");
-                    isShown = false;
-                }
-            }
-        });
     }
 
     private void initRecyclerView() {
 //        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 //        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(
-                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        );
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         events = new ArrayList<>();
         adapter = new GenericEventAdapter(events);
