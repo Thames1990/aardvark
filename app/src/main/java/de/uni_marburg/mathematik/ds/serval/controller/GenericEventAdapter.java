@@ -18,7 +18,7 @@ public class GenericEventAdapter extends BaseAdapter<GenericEvent, GenericEventV
 
     @Override
     public GenericEventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new GenericEventViewHolder(parent, R.layout.item_card);
+        return new GenericEventViewHolder(parent, R.layout.event_row);
     }
 
     @Override

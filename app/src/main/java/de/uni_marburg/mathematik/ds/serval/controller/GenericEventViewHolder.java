@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.controller;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -9,21 +8,26 @@ import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
+import de.uni_marburg.mathematik.ds.serval.model.Measurement;
 import de.uni_marburg.mathematik.ds.serval.model.MeasurementType;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
+
+import static android.os.Build.VERSION;
+import static android.os.Build.VERSION_CODES;
 
 /**
  * ViewHolder for {@link GenericEvent generic events}
@@ -32,8 +36,8 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
 
     private Context context;
 
-    @BindView(R.id.thumbnail)
-    ImageView thumbnail;
+    @BindView(R.id.measurement_types)
+    LinearLayout measurementTypes;
 
     @BindView(R.id.time)
     TextView time;
@@ -45,38 +49,13 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     GenericEventViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
         context = parent.getContext();
-        thumbnail.setOnClickListener(this);
     }
 
     @Override
     protected void onBind(GenericEvent event, int position) {
-        setupThumbnail(event);
         setupTime(event);
         setupLocation(event);
-    }
-
-    /**
-     * Loads a representation for the measurement type with the most measurements for the event.
-     *
-     * @param event The corresponding event
-     */
-    private void setupThumbnail(GenericEvent event) {
-        // Count the occurence of each measurement type
-        @SuppressLint("UseSparseArrays")
-        Map<Long, MeasurementType> count = new HashMap<>();
-        for (MeasurementType type : MeasurementType.values()) {
-            count.put(
-                    event.getMeasurements()
-                            .stream()
-                            .filter(measurement -> measurement.getType().equals(type))
-                            .count(),
-                    type
-            );
-        }
-        // Measurement type with the most measurements for the event
-        MeasurementType max = count.get(Collections.max(count.keySet()));
-        // Set the drawable corresponding the measurement type with the most measurements
-        thumbnail.setImageResource(max.getResId(context));
+        setupMeasurementIcons(event);
     }
 
     /**
@@ -131,6 +110,35 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
                     // Distance in kilometers
                     bestLocation.distanceTo(event.getLocation()) / 1000
             ));
+        }
+    }
+
+    /**
+     * Loads icons for each measurement type available in the measurement of the event.
+     *
+     * @param event The corresponding event
+     */
+    private void setupMeasurementIcons(GenericEvent event) {
+        Set<MeasurementType> types = new HashSet<>();
+
+        if (VERSION.SDK_INT >= VERSION_CODES.N) {
+            types = event.getMeasurements().stream()
+                    .map(Measurement::getType)
+                    .collect(Collectors.toSet());
+        } else {
+            for (Measurement measurement : event.getMeasurements()) {
+                types.add(measurement.getType());
+            }
+        }
+
+        for (MeasurementType type : types) {
+            ImageView view = new ImageView(context);
+            view.setImageResource(type.getResId(context));
+            view.setLayoutParams(new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+            ));
+            measurementTypes.addView(view, measurementTypes.getChildCount());
         }
     }
 
