@@ -34,7 +34,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.uni_marburg.mathematik.ds.serval.BuildConfig;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.GenericEventAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             int lastKnownVersionCode = prefManager.getLastKnownVersionCode();
-            if (lastKnownVersionCode < versionCode || BuildConfig.DEBUG) {
+            if (lastKnownVersionCode < versionCode) {
                 showChangelog(versionCode);
                 prefManager.setLastKnownVersionCode(versionCode);
             }

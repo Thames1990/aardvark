@@ -27,7 +27,7 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
      * Is used as a key to pass the {@link DetailActivity#event event} between the
      * {@link MainActivity main activity} and this view.
      */
-    public static final String ITEM = "EVENT";
+    public static final String EVENT = "EVENT";
 
     /**
      * Event to show details for
@@ -49,7 +49,7 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
         //noinspection unchecked
-        event = (T) getIntent().getSerializableExtra(ITEM);
+        event = (T) getIntent().getSerializableExtra(EVENT);
         setupViews();
     }
 

@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Measurement of a {@link Event event}.
  */
-class Measurement implements Serializable {
+public class Measurement implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

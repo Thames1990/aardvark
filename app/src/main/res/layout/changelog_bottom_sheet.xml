@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/changelogLayout"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/bottom_sheet_height"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:visibility="invisible"
     app:behavior_hideable="true"
@@ -14,7 +14,9 @@
         android:id="@+id/version_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/bottom_sheet_dialog_padding"
         android:paddingLeft="@dimen/bottom_sheet_dialog_padding"
+        android:paddingRight="@dimen/bottom_sheet_dialog_padding"
         android:paddingStart="@dimen/bottom_sheet_dialog_padding"
         android:paddingTop="@dimen/bottom_sheet_dialog_padding"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>

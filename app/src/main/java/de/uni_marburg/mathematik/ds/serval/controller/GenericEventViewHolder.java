@@ -1,28 +1,28 @@
 package de.uni_marburg.mathematik.ds.serval.controller;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.LayoutRes;
-import android.support.design.widget.Snackbar;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
+import de.uni_marburg.mathematik.ds.serval.model.MeasurementType;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 
 /**
@@ -32,20 +32,20 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
 
     private Context context;
 
-    @BindView(R.id.overflow)
-    ImageView overflow;
     @BindView(R.id.thumbnail)
     ImageView thumbnail;
+
     @BindView(R.id.time)
     TextView time;
+    @BindView(R.id.title)
+    TextView title;
     @BindView(R.id.location)
-    TextView tv_location;
+    TextView location;
 
     GenericEventViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
         context = parent.getContext();
         thumbnail.setOnClickListener(this);
-        overflow.setOnClickListener(this);
     }
 
     @Override
@@ -56,40 +56,55 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     }
 
     /**
-     * Loads a static image of the location of the event.
+     * Loads a representation for the measurement type with the most measurements for the event.
      *
-     * @param event The event to load the static image of the position for
+     * @param event The corresponding event
      */
     private void setupThumbnail(GenericEvent event) {
-        Location location = event.getLocation();
-        Glide
-                .with(context)
-                .load(String.format(
-                        Locale.getDefault(),
-                        context.getString(R.string.url_map_preview),
-                        location.getLatitude(),
-                        location.getLongitude()
-                ))
-                .into(thumbnail);
+        // Count the occurence of each measurement type
+        @SuppressLint("UseSparseArrays")
+        Map<Long, MeasurementType> count = new HashMap<>();
+        for (MeasurementType type : MeasurementType.values()) {
+            count.put(
+                    event.getMeasurements()
+                            .stream()
+                            .filter(measurement -> measurement.getType().equals(type))
+                            .count(),
+                    type
+            );
+        }
+        // Measurement type with the most measurements for the event
+        MeasurementType max = count.get(Collections.max(count.keySet()));
+        // Set the drawable corresponding the measurement type with the most measurements
+        thumbnail.setImageResource(max.getResId(context));
     }
 
     /**
      * Sets the elapsed days since an {@link Event event} happened.
      *
-     * @param event
+     * @param event The corresponding event
      */
     private void setupTime(GenericEvent event) {
-        Calendar now = Calendar.getInstance();
-        long diff = now.getTimeInMillis() - event.getTime();
-        int days = (int) (diff / (24 * 60 * 60 * 1000));
-        if (days == 0) {
+        // Difference between now and the events time in milliseconds
+        long differenceInMilliseconds = Calendar.getInstance().getTimeInMillis() - event.getTime();
+        int differenceInDays = (int) (differenceInMilliseconds / (24 * 60 * 60 * 1000));
+        if (differenceInDays == 0) {
             time.setText(context.getString(R.string.today));
         } else {
-            time.setText(context.getResources().getQuantityString(R.plurals.days_ago, days, days));
+            time.setText(context.getResources().getQuantityString(
+                    R.plurals.days_ago,
+                    differenceInDays,
+                    differenceInDays
+            ));
         }
     }
 
-    private void setupLocation(GenericEvent item) {
+    /**
+     * Sets the distance from the current location to the events location.
+     *
+     * @param event The corresponding event
+     */
+    private void setupLocation(GenericEvent event) {
         LocationManager locationManager =
                 (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
@@ -110,54 +125,19 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
         }
 
         if (bestLocation != null) {
-            tv_location.setText(String.format(
+            location.setText(String.format(
                     Locale.getDefault(),
                     context.getString(R.string.distance_to),
-                    bestLocation.distanceTo(item.getLocation())
+                    // Distance in kilometers
+                    bestLocation.distanceTo(event.getLocation()) / 1000
             ));
         }
     }
 
     @Override
     protected void onClick(View view, GenericEvent event) {
-        switch (view.getId()) {
-            case R.id.overflow:
-                onClickOverflow();
-                break;
-            default:
-                onClickItemview(event);
-        }
-    }
-
-    private void onClickOverflow() {
-        PopupMenu popup = new PopupMenu(context, overflow);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_item, popup.getMenu());
-        popup.setOnMenuItemClickListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.action_interested:
-                    Snackbar.make(
-                            overflow,
-                            context.getString(R.string.coming_soon),
-                            Snackbar.LENGTH_SHORT
-                    ).show();
-                    return true;
-                case R.id.action_not_interested:
-                    Snackbar.make(
-                            overflow,
-                            context.getString(R.string.coming_soon),
-                            Snackbar.LENGTH_SHORT
-                    ).show();
-                    return true;
-            }
-            return false;
-        });
-        popup.show();
-    }
-
-    private void onClickItemview(GenericEvent item) {
         Intent detail = new Intent(context, DetailActivity.class);
-        detail.putExtra(DetailActivity.ITEM, item);
+        detail.putExtra(DetailActivity.EVENT, event);
         context.startActivity(detail);
     }
 
