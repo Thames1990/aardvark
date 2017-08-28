@@ -1,1 +1,11 @@
-Maps are now part of the app. Each item has it's location displayed in the information tab.
+- Add signing config
+- Add Google Play Services Maps
+- Remove ACCESS_COARSE_LOCATION permission
+- Minor code cleanup
+- MeasurementFragment now uses its own layout
+- Add MapView to InformationFragment
+- Remove LocationUtil
+- Update strings
+- Change model structure
+  - Inner classes are now outer classes
+  - Locations are generated as Android Location

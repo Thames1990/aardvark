@@ -1,1 +1,12 @@
-Add changelog
+- Add changelog on version update
+- Removed the toolbar in MainActivity
+- Fixed renaming "item" to "event" in Resource files
+- Disable all gestures on MapView
+- Change final intro slider button text
+- Rename Item to Event
+- Rename TestItem to GenericEvent
+- Rename TestItemAdapter to GenericEventAdapter
+- Rename TestItemViewHolder to GenericEventViewHolder
+- Major code cleanup
+- Each class now uses Generics (T extens Event)
+- Add the ability to load release signing config and Google Maps API key from environment variables
