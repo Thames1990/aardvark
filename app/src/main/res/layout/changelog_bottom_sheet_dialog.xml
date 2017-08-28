@@ -2,30 +2,26 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/changelogLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:visibility="invisible"
-    app:behavior_hideable="true"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <TextView
         android:id="@+id/version_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/bottom_sheet_dialog_padding"
-        android:paddingLeft="@dimen/bottom_sheet_dialog_padding"
-        android:paddingRight="@dimen/bottom_sheet_dialog_padding"
-        android:paddingStart="@dimen/bottom_sheet_dialog_padding"
-        android:paddingTop="@dimen/bottom_sheet_dialog_padding"
+        android:layout_height="@dimen/bottom_sheet_title_height"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/bottom_sheet_padding"
+        android:paddingLeft="@dimen/bottom_sheet_padding"
+        android:paddingRight="@dimen/bottom_sheet_padding"
+        android:paddingStart="@dimen/bottom_sheet_padding"
+        android:text="@string/version"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
     <us.feras.mdv.MarkdownView
         android:id="@+id/changelog"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    </us.feras.mdv.MarkdownView>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

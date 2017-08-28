@@ -18,7 +18,6 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -34,6 +33,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.uni_marburg.mathematik.ds.serval.BuildConfig;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.GenericEventAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
@@ -160,7 +160,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             int lastKnownVersionCode = prefManager.getLastKnownVersionCode();
-            if (lastKnownVersionCode < versionCode) {
+
+            if (lastKnownVersionCode < versionCode || BuildConfig.DEBUG) {
                 showChangelog(versionCode);
                 prefManager.setLastKnownVersionCode(versionCode);
             }
@@ -180,14 +181,12 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.changelog),
                 getString(R.string.versionName)
         );
-
         String changelogFile = String.format(
                 Locale.getDefault(),
                 getString(R.string.changelog_file),
                 versionCode
         );
 
-        // TODO Replace with setting
         if (prefManager.useBottomSheetDialogs()) {
             showChangelogBottomSheetDialog(versionName, changelogFile);
         } else {
@@ -203,9 +202,7 @@ public class MainActivity extends AppCompatActivity {
      * @param changelogFile Location of the changelog file
      */
     private void showChangelogBottomSheetDialog(String versionName, String changelogFile) {
-        View changelogView = View.inflate(this, R.layout.changelog_bottom_sheet, null);
-        LinearLayout changelogLayout = changelogView.findViewById(R.id.changelogLayout);
-        changelogLayout.setVisibility(View.VISIBLE);
+        View changelogView = View.inflate(this, R.layout.changelog_bottom_sheet_dialog, null);
         TextView versionInfo = changelogView.findViewById(R.id.version_info);
         versionInfo.setText(versionName);
         MarkdownView changelog = changelogView.findViewById(R.id.changelog);
@@ -257,24 +254,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode,
-            @NonNull String[] permissions,
-            @NonNull int[] grantResults
-    ) {
-        // TODO Check for real
-        switch (requestCode) {
-            case CHECK_LOCATION_PERMISSION:
-                if (grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-
-                }
-        }
     }
 
     /**

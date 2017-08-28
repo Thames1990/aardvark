@@ -1,6 +1,7 @@
 <resources>
     <!-- BottomSheet -->
-    <dimen name="bottom_sheet_dialog_padding">6dp</dimen>
+    <dimen name="bottom_sheet_padding">16dp</dimen>
+    <dimen name="bottom_sheet_title_height">56dp</dimen>
 
     <!-- Cards -->
     <dimen name="card_description_padding_bottom">5dp</dimen>

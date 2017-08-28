@@ -57,10 +57,10 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
     /**
      * Adds an item to the adapter
      *
-     * @param item Event to be added
+     * @param event Event to be added
      */
-    public void addItem(T item) {
-        events.add(item);
+    public void addEvent(T event) {
+        events.add(event);
         notifyItemInserted(getItemCount() - 1);
     }
 
@@ -69,7 +69,7 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
      *
      * @param position Position of the event to be removed
      */
-    private void removeItem(int position) {
+    private void removeEvent(int position) {
         final T event = events.get(position);
         if (eventsPendingRemoval.contains(event)) {
             eventsPendingRemoval.remove(event);
@@ -82,13 +82,13 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
      * Removes a range of events from the adapter
      *
      * @param positionStart Starting position of the range
-     * @param itemCount     Number of events to be removed
+     * @param eventCount    Number of events to be removed
      */
-    private void removeRange(int positionStart, int itemCount) {
-        for (int i = 0; i < itemCount; i++) {
+    private void removeRange(int positionStart, int eventCount) {
+        for (int i = 0; i < eventCount; i++) {
             events.remove(positionStart);
         }
-        notifyItemRangeRemoved(positionStart, itemCount);
+        notifyItemRangeRemoved(positionStart, eventCount);
     }
 
     /**
@@ -108,7 +108,7 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
         if (!eventsPendingRemoval.contains(event)) {
             eventsPendingRemoval.add(event);
             notifyItemChanged(position);
-            Runnable pendingRemovalRunnable = () -> removeItem(events.indexOf(event));
+            Runnable pendingRemovalRunnable = () -> removeEvent(events.indexOf(event));
             handler.postDelayed(pendingRemovalRunnable, PENDING_REMOVAL_TIMEOUT);
             pendingRunnables.put(event, pendingRemovalRunnable);
         }
@@ -135,7 +135,7 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
      * pass the corresponding event.
      *
      * @param holder   The ViewHolder which should be updated to represent the contents of the
-     *                 item at the given position in the data set.
+     *                 event at the given position in the data set.
      * @param item     The event at the given position in the dataset.
      * @param position The position of the event within the adapter's data set.
      */
