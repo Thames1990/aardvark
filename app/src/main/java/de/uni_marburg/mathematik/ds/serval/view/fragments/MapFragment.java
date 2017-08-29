@@ -7,11 +7,11 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -21,6 +21,8 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowCloseListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
@@ -55,7 +57,8 @@ import static android.support.v4.content.ContextCompat.checkSelfPermission;
  */
 public class MapFragment<T extends Event>
         extends Fragment
-        implements OnInfoWindowClickListener, OnMapReadyCallback, OnSuccessListener<Location> {
+        implements OnInfoWindowClickListener, OnInfoWindowCloseListener,
+        OnMarkerClickListener, OnMapReadyCallback, OnSuccessListener<Location> {
 
     public static final String EVENTS = "EVENTS";
 
@@ -71,11 +74,9 @@ public class MapFragment<T extends Event>
      */
     private static final long FASTEST_INTERVAL = 2000;
 
+    private boolean isInfoWindowOpen = false;
+
     private List<T> events;
-
-    private LocationRequest locationRequest;
-
-    private FusedLocationProviderClient fusedLocationProviderClient;
 
     private GoogleMap googleMap;
 
@@ -106,10 +107,8 @@ public class MapFragment<T extends Event>
             ));
         }
         events = getArguments().getParcelableArrayList(EVENTS);
-        startLocationUpdates();
-        fusedLocationProviderClient =
-                LocationServices.getFusedLocationProviderClient(getActivity());
         markerEventMap = new HashMap<>();
+        startLocationUpdates();
     }
 
     @Nullable
@@ -121,9 +120,33 @@ public class MapFragment<T extends Event>
     ) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, view);
-        map.onCreate(getArguments());
+        if (savedInstanceState != null) {
+            map.onCreate(savedInstanceState);
+        } else {
+            map.onCreate(getArguments());
+        }
         map.getMapAsync(this);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        if (map != null) {
+            map.onResume();
+        }
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        map.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        map.onLowMemory();
+        super.onLowMemory();
     }
 
     @Override
@@ -138,11 +161,13 @@ public class MapFragment<T extends Event>
 
     private void setupGoogleMap() {
         googleMap.setOnInfoWindowClickListener(this);
+        googleMap.setOnInfoWindowCloseListener(this);
+        googleMap.setOnMarkerClickListener(this);
         googleMap.setInfoWindowAdapter(new ExtendedInfoWindowAdapter(getContext()));
     }
 
     private void startLocationUpdates() {
-        locationRequest = new LocationRequest();
+        LocationRequest locationRequest = new LocationRequest();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(UPDATE_INTERVAL);
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
@@ -177,21 +202,24 @@ public class MapFragment<T extends Event>
     }
 
     private void onLocationChanged(Location location) {
-        LatLng position = new LatLng(
-                location.getLatitude(),
-                location.getLongitude()
-        );
-        if (currentPositionMarker != null) {
-            currentPositionMarker.setPosition(position);
-        } else {
-            currentPositionMarker = googleMap.addMarker(new MarkerOptions()
-                    .position(position)
-                    .title("Current location")
+        if (googleMap != null) {
+            LatLng position = new LatLng(
+                    location.getLatitude(),
+                    location.getLongitude()
             );
-        }
+            if (currentPositionMarker != null) {
+                currentPositionMarker.setPosition(position);
+            } else {
+                currentPositionMarker = googleMap.addMarker(new MarkerOptions()
+                        .position(position)
+                        .title("Current location")
+                );
+            }
 
-        markerEventMap.put(currentPositionMarker, null);
-        zoomToFitMarkers();
+            markerEventMap.put(currentPositionMarker, null);
+            // TODO Maybe deactivate after first location fix. Use my location button instead.
+            zoomToFitMarkers();
+        }
     }
 
     public void getLastLocation() {
@@ -200,7 +228,10 @@ public class MapFragment<T extends Event>
             requestPermissions();
             return;
         }
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this);
+        LocationServices
+                .getFusedLocationProviderClient(getActivity())
+                .getLastLocation()
+                .addOnSuccessListener(this);
     }
 
     private void addEventLocations() {
@@ -227,12 +258,14 @@ public class MapFragment<T extends Event>
     }
 
     private void zoomToFitMarkers() {
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : markerEventMap.keySet()) {
-            builder.include(marker.getPosition());
+        if (!isInfoWindowOpen) {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (Marker marker : markerEventMap.keySet()) {
+                builder.include(marker.getPosition());
+            }
+            LatLngBounds bounds = builder.build();
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING));
         }
-        LatLngBounds bounds = builder.build();
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING));
     }
 
     @Override
@@ -244,6 +277,20 @@ public class MapFragment<T extends Event>
             eventIntent.putExtra(DetailActivity.EVENT, event);
             startActivity(eventIntent);
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Log.d(getClass().getSimpleName(), marker.getSnippet());
+        marker.showInfoWindow();
+        isInfoWindowOpen = true;
+        return true;
+    }
+
+    @Override
+    public void onInfoWindowClose(Marker marker) {
+        Log.d(getClass().getSimpleName(), "Closed info window");
+        isInfoWindowOpen = false;
     }
 
     @Override

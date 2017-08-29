@@ -40,15 +40,15 @@ public class InformationFragment<T extends Event> extends Fragment implements On
      */
     private T event;
 
-    @BindView(R.id.mapView)
-    MapView mapView;
+    @BindView(R.id.map)
+    MapView map;
     @BindView(R.id.info)
     TextView info;
 
-    public static <T extends Event> InformationFragment<Event> newInstance(T item) {
+    public static <T extends Event> InformationFragment<Event> newInstance(T event) {
         InformationFragment<Event> fragment = new InformationFragment<>();
         Bundle args = new Bundle();
-        args.putSerializable(EVENT, item);
+        args.putParcelable(EVENT, event);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,8 +64,7 @@ public class InformationFragment<T extends Event> extends Fragment implements On
                     EVENT
             ));
         }
-        //noinspection unchecked
-        event = (T) getArguments().getSerializable(EVENT);
+        event = getArguments().getParcelable(EVENT);
     }
 
     @Nullable
@@ -77,8 +76,8 @@ public class InformationFragment<T extends Event> extends Fragment implements On
     ) {
         View view = inflater.inflate(R.layout.fragment_information, container, false);
         ButterKnife.bind(this, view);
-        mapView.onCreate(getArguments());
-        mapView.getMapAsync(this);
+        map.onCreate(getArguments());
+        map.getMapAsync(this);
         return view;
     }
 
@@ -92,7 +91,7 @@ public class InformationFragment<T extends Event> extends Fragment implements On
         googleMap.getUiSettings().setMapToolbarEnabled(false);
         googleMap.addMarker(new MarkerOptions().position(position));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.0f));
-        mapView.onResume();
+        map.onResume();
         // TODO Add better information
         info.setText("Lat: " + latitude + ", Lon: " + longitude);
     }

@@ -31,9 +31,13 @@
     <string name="chat">Chat</string>
     <string name="coming_soon">Coming soon &#8482;</string>
     <string name="dashboard">Dashboard</string>
+    <string name="details">Details</string>
     <string name="dummy" translatable="false">DUMMY</string>
+    <string name="event">Event</string>
+    <string name="events">Events</string>
     <string name="grant_permission">Grant permission</string>
     <string name="information">Info</string>
+    <string name="map">Map</string>
     <string name="maps">Maps</string>
     <string name="measurements">Measurements</string>
     <string name="number_of_measurements">Number of measurements</string>
@@ -41,11 +45,13 @@
     <string name="settings">Settings</string>
     <string name="title">Title</string>
 
+    <!-- TODO Useful descriptions -->
     <!-- ImageView content descriptions -->
     <string name="content_description_backdrop">backdrop</string>
     <string name="content_description_chat">@string/chat</string>
     <string name="content_description_dashboard">@string/dashboard</string>
-    <string name="location_icon">location_icon</string>
+    <string name="content_description_image_intro">image_intro</string>
+    <string name="content_description_location_icon">location_icon</string>
     <string name="content_description_map">map</string>
     <string name="content_description_speaker_phone">speaker phone</string>
 
@@ -104,6 +110,7 @@
     <string name="title_version">Version</string>
 
     <!-- Time -->
+    <string name="format_date_time">dd.MM.yyyy\nH:m:s</string>
     <string name="time">Time</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
@@ -115,5 +122,4 @@
     <string name="url_privacy" translatable="false">https://api.splork.de/dummy_data.json</string>
     <string name="url_terms" translatable="false">https://api.splork.de/dummy_data.json</string>
     <string name="url_rest_api" translatable="false">https://api.splork.de/dummy_data.json</string>
-    <string name="details">Details</string>
 </resources>

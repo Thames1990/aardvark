@@ -25,7 +25,8 @@
         android:layout_width="@dimen/slide_img_width_height"
         android:layout_height="@dimen/slide_img_width_height"
         android:layout_gravity="center"
-        app:srcCompat="@drawable/speaker_phone"/>
+        app:srcCompat="@drawable/speaker_phone"
+        android:contentDescription="@string/content_description_image_intro"/>
 
     <TextView
         android:id="@+id/description"

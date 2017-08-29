@@ -6,15 +6,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,16 +26,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.BuildConfig;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.controller.GenericEventAdapter;
+import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
+import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment;
+import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment;
+import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -45,33 +46,33 @@ import okhttp3.Request;
 import okhttp3.Response;
 import us.feras.mdv.MarkdownView;
 
-import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
-
 /**
  * Main view of the app.
  * <p>
  * Currently shows a list of all events. Might be changed to a dashboard.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity<T extends Event> extends AppCompatActivity {
 
     /**
      * Key for the request code to permit location checks
      */
     public static final int CHECK_LOCATION_PERMISSION = 0;
 
+    private static final int NUMBER_OF_EVENTS_PASSED = 50;
+
     /**
      * List of events
      */
-    private List<GenericEvent> events;
-
-    private GenericEventAdapter adapter;
+    private ArrayList<GenericEvent> events;
 
     private PrefManager prefManager;
 
+    private FragmentManager fragmentManager;
+
     @BindView(R.id.appbar)
     AppBarLayout appBarLayout;
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigation;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -82,23 +83,58 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        initRecyclerView();
+        setupBottomNavigation();
         loadData();
         checkForNewVersion();
     }
 
-    private void initRecyclerView() {
-//        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-//        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, VERTICAL));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        events = new ArrayList<>();
-        adapter = new GenericEventAdapter(events);
-        recyclerView.setAdapter(adapter);
+    private void setupBottomNavigation() {
+        fragmentManager = getSupportFragmentManager();
+        bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            // TODO Based on distance
+            Collections.sort(
+                    events,
+                    (event1, event2) -> (int) (event2.getTime() - event1.getTime())
+            );
+            ArrayList lastEvents = new ArrayList<>(events.subList(0, NUMBER_OF_EVENTS_PASSED));
+
+            Fragment fragment = null;
+            Fragment currentFragment = fragmentManager.findFragmentById(R.id.content);
+
+            switch (item.getItemId()) {
+                case R.id.dashboard:
+                    if (!(currentFragment instanceof DashboardFragment)) {
+                        fragment = DashboardFragment.newInstance(lastEvents);
+                        toolbar.setTitle(getString(R.string.dashboard));
+                    }
+                    break;
+                case R.id.events:
+                    if (!(currentFragment instanceof EventsFragment)) {
+                        fragment = EventsFragment.newInstance(lastEvents);
+                        toolbar.setTitle(getString(R.string.events));
+                    }
+                    break;
+                case R.id.map:
+                    if (!(currentFragment instanceof MapFragment)) {
+                        fragment = MapFragment.newInstance(lastEvents);
+                        toolbar.setTitle(getString(R.string.map));
+                    }
+                    break;
+            }
+
+            if (fragment != null) {
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.content, fragment)
+                        .commit();
+                return true;
+            }
+            return false;
+        });
     }
 
     private void loadData() {
+        events = new ArrayList<>();
         Request request = new Request.Builder()
                 .url(getString(R.string.url_rest_api))
                 .build();
@@ -122,9 +158,8 @@ public class MainActivity extends AppCompatActivity {
                 // Read line by line (append file)
                 while ((line = reader.readLine()) != null) {
                     // Create an event per line
-                    GenericEvent testItem = gson.fromJson(line, GenericEvent.class);
-                    events.add(testItem);
-                    runOnUiThread(() -> adapter.notifyItemChanged(events.size()));
+                    GenericEvent event = gson.fromJson(line, GenericEvent.class);
+                    events.add(event);
                 }
             }
         });
@@ -231,17 +266,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        return Math.round(TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                getResources().getDisplayMetrics()
-        ));
     }
 
 }

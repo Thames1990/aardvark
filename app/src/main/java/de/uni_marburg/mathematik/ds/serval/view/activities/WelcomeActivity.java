@@ -1,9 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -25,6 +23,9 @@ import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.os.Build.VERSION;
 import static android.os.Build.VERSION_CODES;
 
@@ -149,16 +150,11 @@ public class WelcomeActivity extends AppCompatActivity implements ViewPager.OnPa
      * TODO React to permission denial
      */
     private void checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION
+                    ACCESS_COARSE_LOCATION,
+                    ACCESS_FINE_LOCATION
             }, MainActivity.CHECK_LOCATION_PERMISSION);
         }
     }
@@ -184,6 +180,7 @@ public class WelcomeActivity extends AppCompatActivity implements ViewPager.OnPa
         }
     }
 
+    // TODO Rewrite to outer class
     private class WelcomeViewPagerAdapter extends PagerAdapter {
 
         private LayoutInflater layoutInflater;

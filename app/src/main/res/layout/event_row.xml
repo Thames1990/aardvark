@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/title"
@@ -37,7 +38,7 @@
         android:layout_marginEnd="@dimen/contraint_layout_margin_extra_small"
         android:layout_marginRight="@dimen/contraint_layout_margin_extra_small"
         android:layout_marginTop="@dimen/contraint_layout_margin_extra_none"
-        android:contentDescription="@string/location_icon"
+        android:contentDescription="@string/content_description_location_icon"
         app:layout_constraintBottom_toBottomOf="@+id/location"
         app:layout_constraintRight_toLeftOf="@+id/location"
         app:layout_constraintTop_toTopOf="@+id/location"

@@ -31,10 +31,10 @@ public class MeasurementsFragment<T extends Event> extends Fragment {
      */
     private T event;
 
-    public static <T extends Event> MeasurementsFragment<Event> newInstance(T item) {
+    public static <T extends Event> MeasurementsFragment<Event> newInstance(T event) {
         MeasurementsFragment<Event> fragment = new MeasurementsFragment<>();
         Bundle args = new Bundle();
-        args.putSerializable(EVENT, item);
+        args.putParcelable(EVENT, event);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,7 +51,7 @@ public class MeasurementsFragment<T extends Event> extends Fragment {
             ));
         }
         //noinspection unchecked
-        event = (T) getArguments().getSerializable(EVENT);
+        event = getArguments().getParcelable(EVENT);
     }
 
     @Nullable

@@ -50,8 +50,7 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
-        //noinspection unchecked
-        event = (T) getIntent().getSerializableExtra(EVENT);
+        event = getIntent().getExtras().getParcelable(EVENT);
         setupViews();
     }
 
