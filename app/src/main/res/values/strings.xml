@@ -26,15 +26,18 @@
     <string name="fragment_must_contain_key_exception" translatable="false">Fragment must contain a %1$s argument!</string>
 
     <!-- General -->
+    <string name="cancel">Cancel</string>
     <string name="changelog">Changelog - %1$s</string>
     <string name="changelog_file">file:///android_asset/changelog/changelog-%1$d.md</string>
     <string name="chat">Chat</string>
     <string name="coming_soon">Coming soon &#8482;</string>
+    <string name="confirm_exit">Confirm exit</string>
     <string name="dashboard">Dashboard</string>
     <string name="details">Details</string>
     <string name="dummy" translatable="false">DUMMY</string>
     <string name="event">Event</string>
     <string name="events">Events</string>
+    <string name="exit">Exit</string>
     <string name="grant_permission">Grant permission</string>
     <string name="information">Info</string>
     <string name="map">Map</string>
