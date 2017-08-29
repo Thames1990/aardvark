@@ -24,8 +24,8 @@ public class DashboardFragment<T extends Event> extends Fragment {
 
     private List<T> events;
 
-    public static <T extends Event> DashboardFragment<Event> newInstance(ArrayList<T> events) {
-        DashboardFragment<Event> fragment = new DashboardFragment<>();
+    public static <T extends Event> DashboardFragment newInstance(ArrayList<T> events) {
+        DashboardFragment fragment = new DashboardFragment<>();
         Bundle args = new Bundle();
         args.putParcelableArrayList(EVENTS, events);
         fragment.setArguments(args);

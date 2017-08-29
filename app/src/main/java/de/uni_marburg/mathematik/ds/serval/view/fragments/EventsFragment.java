@@ -38,8 +38,8 @@ public class EventsFragment<T extends Event> extends Fragment {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    public static <T extends Event> EventsFragment<Event> newInstance(ArrayList<T> events) {
-        EventsFragment<Event> fragment = new EventsFragment<>();
+    public static <T extends Event> EventsFragment newInstance(ArrayList<T> events) {
+        EventsFragment fragment = new EventsFragment<>();
         Bundle args = new Bundle();
         args.putParcelableArrayList(EVENTS, events);
         fragment.setArguments(args);

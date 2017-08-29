@@ -86,7 +86,7 @@ public class MapFragment<T extends Event>
     @BindView(R.id.map)
     MapView map;
 
-    public static <T extends Event> MapFragment<Event> newInstance(ArrayList<T> events) {
+    public static <T extends Event> MapFragment newInstance(ArrayList<T> events) {
         MapFragment<Event> fragment = new MapFragment<>();
         Bundle args = new Bundle();
         args.putParcelableArrayList(EVENTS, events);
@@ -97,6 +97,7 @@ public class MapFragment<T extends Event>
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
 
         if (!getArguments().containsKey(EVENTS)) {
             throw new RuntimeException(String.format(
