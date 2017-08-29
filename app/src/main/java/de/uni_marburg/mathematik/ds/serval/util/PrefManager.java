@@ -16,8 +16,6 @@ public class PrefManager {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
 
-    private Context context;
-
     /**
      * Desired preferences file. If a preferences file by this name does not exist, it will be
      * created when you retrieve an editor (SharedPreferences.edit()) and then commit changes
@@ -56,7 +54,6 @@ public class PrefManager {
     public PrefManager(Context context) {
         preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = preferences.edit();
-        this.context = context;
     }
 
     public void setIsFirstTimeLaunch(boolean isFirstTimeLaunch) {
