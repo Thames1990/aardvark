@@ -268,4 +268,13 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.confirm_exit)
+                .positiveText(R.string.exit)
+                .onPositive((dialog, which) -> finish())
+                .negativeText(R.string.cancel)
+                .show();
+    }
 }
