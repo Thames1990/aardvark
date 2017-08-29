@@ -1,16 +1,16 @@
 package de.uni_marburg.mathematik.ds.serval.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 /**
  * Is used to store the location of an {@link Event event}.
  */
-class GeohashLocation implements Serializable {
-
-    private final static long serialVersionUID = 1L;
+class GeohashLocation implements Parcelable {
 
     /**
      * Latitude of the event
@@ -33,11 +33,11 @@ class GeohashLocation implements Serializable {
     @Expose
     private String geohash;
 
-    public double getLatitude() {
+    double getLatitude() {
         return latitude;
     }
 
-    public double getLongitude() {
+    double getLongitude() {
         return longitude;
     }
 
@@ -45,4 +45,33 @@ class GeohashLocation implements Serializable {
         return geohash;
     }
 
+    protected GeohashLocation(Parcel in) {
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        geohash = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeString(geohash);
+    }
+
+    public static final Creator<GeohashLocation> CREATOR = new Creator<GeohashLocation>() {
+        @Override
+        public GeohashLocation createFromParcel(Parcel in) {
+            return new GeohashLocation(in);
+        }
+
+        @Override
+        public GeohashLocation[] newArray(int size) {
+            return new GeohashLocation[size];
+        }
+    };
 }

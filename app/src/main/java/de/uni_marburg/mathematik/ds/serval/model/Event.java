@@ -2,41 +2,40 @@ package de.uni_marburg.mathematik.ds.serval.model;
 
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Events are loaded from a REST API and represent a thing that happens or takes place,
  * especially one of importance.
  */
-public abstract class Event implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public abstract class Event implements Parcelable {
 
     /**
      * Measurements of the event
      */
     @SerializedName("measurements")
     @Expose
-    private List<Measurement> measurements;
+    List<Measurement> measurements = new ArrayList<>();
 
     /**
      * Location of the event
      */
     @SerializedName("location")
     @Expose
-    private GeohashLocation geohashLocation;
+    GeohashLocation geohashLocation;
 
     /**
      * Occurence time of the event
      */
     @SerializedName("time")
     @Expose
-    private long time;
+    long time;
 
     public long getTime() {
         return time;
@@ -60,5 +59,4 @@ public abstract class Event implements Serializable {
         location.setLongitude(geohashLocation.getLongitude());
         return location;
     }
-
 }

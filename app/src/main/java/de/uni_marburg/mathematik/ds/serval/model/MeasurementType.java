@@ -4,10 +4,12 @@ import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Type of a {@link Measurement measurement} of an {@link Event event}.
  */
-public enum MeasurementType {
+public enum MeasurementType implements Serializable {
 
     @SerializedName("radiation")
     RADIATION,
