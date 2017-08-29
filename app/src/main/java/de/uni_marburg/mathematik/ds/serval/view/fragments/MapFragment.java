@@ -7,7 +7,6 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -212,7 +211,7 @@ public class MapFragment<T extends Event>
             } else {
                 currentPositionMarker = googleMap.addMarker(new MarkerOptions()
                         .position(position)
-                        .title("Current location")
+                        .title(getString(R.string.current_location))
                 );
             }
 
@@ -249,7 +248,7 @@ public class MapFragment<T extends Event>
             calendar.setTimeInMillis(event.getTime());
             Marker marker = googleMap.addMarker(new MarkerOptions()
                     .position(position)
-                    .title("Event")
+                    .title(getString(R.string.event))
                     .snippet(format.format(calendar.getTime()))
                     .icon(ImageUtil.getBitmapDescriptor(R.drawable.event, getContext()))
             );
@@ -281,7 +280,6 @@ public class MapFragment<T extends Event>
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Log.d(getClass().getSimpleName(), marker.getSnippet());
         marker.showInfoWindow();
         isInfoWindowOpen = true;
         return true;
@@ -289,7 +287,6 @@ public class MapFragment<T extends Event>
 
     @Override
     public void onInfoWindowClose(Marker marker) {
-        Log.d(getClass().getSimpleName(), "Closed info window");
         isInfoWindowOpen = false;
     }
 

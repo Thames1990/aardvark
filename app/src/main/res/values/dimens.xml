@@ -1,6 +1,6 @@
 <resources>
     <!-- BottomSheet -->
-    <dimen name="bottom_sheet_padding">16dp</dimen>
+    <dimen name="bottom_sheet_margin">16dp</dimen>
     <dimen name="bottom_sheet_title_height">56dp</dimen>
 
     <!-- CollapsingToolbar -->

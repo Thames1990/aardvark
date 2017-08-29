@@ -74,6 +74,7 @@
     <string name="slide_4_desc">Talk to your friends and co-workers!</string>
 
     <!-- Location -->
+    <string name="current_location">Current location</string>
     <string name="distance_to">%1$.1f km</string>
     <string name="geohash">Geohash</string>
     <string name="latitude">Latitude</string>
