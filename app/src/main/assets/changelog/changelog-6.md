@@ -1,0 +1,16 @@
+- Complete overhaul of the interface
+    - Dashboard
+      - Not yet implemented
+      - This will be used as a dashboard to show the user an overview about relevant events.
+    - Events
+      - Shows the last occurred events
+      - This will be configurable in future
+    - Map
+      - Shows the last occured events (will be changed to nearest)
+      - This will be configurable in future
+      - If an event is clicked, the events name (currently placeholder) and occurrence time are shown. If the user clicks the info window, a detail view of the event is shown.
+- Model is now parcelable instead of serializable. This was necessary, because event measurements are a List, which isn't serializable. Passing events between Activities/Fragments requires this behaviour. Fortunately Parcelable is also faster than Serializable!
+- Added ImageUtil, which is used to calculate dp from pixel and to load vector drawables as BitMapDescriptors, which are used for Google Map marker icons.
+- Add custom implementation of InfoWindowAdapter
+  - This is able to show more text for the Google Map snippet and has the potential to style the info window completely.
+- Add drawable for event
