@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.res.ResourcesCompat;
-import android.util.TypedValue;
+import android.util.DisplayMetrics;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -20,11 +20,8 @@ public class ImageUtil {
      * Converting dp to pixel
      */
     public static int dpToPx(int dp, Context context) {
-        return Math.round(TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                context.getResources().getDisplayMetrics()
-        ));
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return Math.round(dp * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     @SuppressWarnings("ConstantConditions")
