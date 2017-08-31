@@ -1,0 +1,17 @@
+- Adapt model to the new API changes
+  - Measurements can now have two additional types
+    - wind
+    - precipitation
+  - Added checks for missing measurement type icons
+- Change colors (this might be reverted or extended)
+- Measurement icons are now displayed correctly for events in EventsFragment
+- Added fastscroller to the RecyclerView in EventsFragment
+- Add ShapeShifter file for an animated vector drawable, which might be used in the future
+- Complete rewrite of the app intro
+  - WelcomeActivity is replaced by the former alternative intro IntroActivity
+  - Intro fragments now use Constraintlayout and therefore are foolproof for device rotations
+  - Added checks for missing layout files
+  - Shared resources and usage of string-array and array
+- Major code cleanup
+- Major refactoring
+- Added a lot of corner case handlers
