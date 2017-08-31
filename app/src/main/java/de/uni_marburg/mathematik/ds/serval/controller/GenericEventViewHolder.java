@@ -37,8 +37,6 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
 
     private Context context;
 
-    private boolean iconsMissing = true;
-
     @BindView(R.id.measurement_types)
     LinearLayout measurementTypes;
 
@@ -58,9 +56,7 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     protected void onBind(GenericEvent event, int position) {
         setupTime(event);
         setupLocation(event);
-        if (iconsMissing) {
-            setupMeasurementIcons(event);
-        }
+        setupMeasurementIcons(event);
     }
 
     /**
@@ -124,6 +120,7 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
      * @param event The corresponding event
      */
     private void setupMeasurementIcons(GenericEvent event) {
+        measurementTypes.removeAllViews();
         Set<MeasurementType> types = new HashSet<>();
 
         if (VERSION.SDK_INT >= VERSION_CODES.N) {
@@ -149,8 +146,6 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
                 measurementTypeWithoutIcon.printStackTrace();
             }
         }
-
-        iconsMissing = false;
     }
 
     @Override
