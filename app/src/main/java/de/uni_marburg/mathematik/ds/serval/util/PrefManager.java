@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.design.widget.BottomSheetDialog;
 
-import de.uni_marburg.mathematik.ds.serval.view.activities.WelcomeActivity;
+import de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity;
 
 /**
  * Is used to store key/value pairs permanently.
@@ -33,7 +33,7 @@ public class PrefManager {
     /**
      * Key for the boolean, that sets, if the app was started before.
      * <p>
-     * This is used to check whether the {@link WelcomeActivity welcome activity} needs to be
+     * This is used to check whether the {@link IntroActivity intro activity} needs to be
      * started.
      */
     private static final String IS_FIRST_TIME_LAUNCH = "IS_FIRST_TIME_LAUNCH";

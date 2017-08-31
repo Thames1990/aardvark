@@ -94,8 +94,11 @@ public class IntroFragment extends Fragment {
             case 3:
                 layoutResId = R.layout.fragment_intro_layout_4;
                 break;
+            case 4:
+                layoutResId = R.layout.fragment_intro_layout_5;
+                break;
             default:
-                layoutResId = R.layout.fragment_intro_layout_1;
+                layoutResId = R.layout.fragment_intro_layout_placeholder;
         }
 
         // Inflate the layout resource file

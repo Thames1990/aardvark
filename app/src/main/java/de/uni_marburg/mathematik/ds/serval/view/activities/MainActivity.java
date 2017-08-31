@@ -254,11 +254,8 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_reset_app:
                 prefManager.setIsFirstTimeLaunch(true);
-                startActivity(new Intent(this, WelcomeActivity.class));
-                ActivityCompat.finishAffinity(this);
-                return true;
-            case R.id.action_alternative_intro:
                 startActivity(new Intent(this, IntroActivity.class));
+                ActivityCompat.finishAffinity(this);
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));

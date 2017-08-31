@@ -25,6 +25,7 @@
     <!-- Exception messages -->
     <string name="fragment_must_contain_key_exception">Fragment must contain a %1$s argument!</string>
     <string name="measurement_type_without_icon_exception">Measurement type %1$s does not have an icon yet!</string>
+    <string name="content_description_not_defined_exception">Image on page %1$d with title %2$s has no content description!</string>
 
     <!-- General -->
     <string name="cancel">Cancel</string>
@@ -47,17 +48,11 @@
     <string name="number_of_measurements">Number of measurements</string>
     <string name="ok">OK</string>
     <string name="settings">Settings</string>
+    <string name="smartphone">Smartphone</string>
     <string name="title">Title</string>
 
-    <!-- TODO Useful descriptions -->
     <!-- ImageView content descriptions -->
-    <string name="content_description_backdrop">backdrop</string>
-    <string name="content_description_chat">@string/chat</string>
-    <string name="content_description_dashboard">@string/dashboard</string>
-    <string name="content_description_image_intro">image_intro</string>
-    <string name="content_description_location_icon">location_icon</string>
-    <string name="content_description_map">map</string>
-    <string name="content_description_speaker_phone">speaker phone</string>
+    <string name="content_description_location_icon">Location icon</string>
 
     <!-- Intent URIs -->
     <string name="intent_uri_navigate">google.navigation:q=%1$s,%2$s</string>
@@ -68,14 +63,18 @@
     <string name="done">DONE</string>
 
     <!-- Intro slides -->
-    <string name="slide_1_title">@string/app_name</string>
-    <string name="slide_1_description">The easiest way to communicate without cellular connectivity!</string>
-    <string name="slide_2_title">@string/dashboard</string>
-    <string name="slide_2_description">Easily check whether hazards are close!</string>
-    <string name="slide_3_title">@string/maps</string>
-    <string name="slide_3_description">Look out for your friends and favorite locations!</string>
-    <string name="slide_4_title">@string/chat</string>
-    <string name="slide_4_desc">Talk to your friends and co-workers!</string>
+    <string name="intro_1_title">@string/app_name</string>
+    <string name="intro_1_description">The easiest way to communicate without cellular connectivity!</string>
+    <string name="intro_2_title">@string/dashboard</string>
+    <string name="intro_2_description">Easily check whether hazards are close!</string>
+    <string name="intro_3_title">@string/maps</string>
+    <string name="intro_3_description">Look out for your friends and favorite locations!</string>
+    <string name="intro_4_title">@string/chat</string>
+    <string name="intro_4_desc">Talk to your friends and co-workers!</string>
+    <string name="intro_5_title">Let\'s go!</string>
+    <string name="intro_5_description">Click on the logo to start app!</string>
+    <string name="intro_slide_palceholder_title">DAMN</string>
+    <string name="intro_slide_palceholder_desc">The developer forgot to add a matching layout!</string>
 
     <!-- Location -->
     <string name="current_location">Current location</string>

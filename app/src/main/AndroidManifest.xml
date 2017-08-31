@@ -23,7 +23,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
 
-        <activity android:name=".view.activities.WelcomeActivity">
+        <activity android:name=".view.activities.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -33,13 +33,12 @@
         <activity
             android:name=".view.activities.MainActivity"
             android:label="@string/title_activity_main"/>
+        <activity android:name=".view.activities.DetailActivity"/>
         <activity
             android:name=".view.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/PreferenceTheme">
         </activity>
-        <activity android:name=".view.activities.IntroActivity"/>
-        <activity android:name=".view.activities.DetailActivity"/>
     </application>
 
 </manifest>

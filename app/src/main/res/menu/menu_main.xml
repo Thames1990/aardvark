@@ -12,14 +12,8 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/action_alternative_intro"
-        android:orderInCategory="101"
-        android:title="@string/action_alternative_intro"
-        app:showAsAction="never"/>
-
-    <item
         android:id="@+id/action_settings"
-        android:orderInCategory="102"
+        android:orderInCategory="101"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 

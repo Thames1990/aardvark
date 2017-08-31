@@ -5,8 +5,12 @@ package de.uni_marburg.mathematik.ds.serval.model.exceptions;
  */
 public class GeohashMismatchException extends Exception {
 
-    static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
+    public GeohashMismatchException() {
+    }
 
-
+    public GeohashMismatchException(String message) {
+        super(message);
+    }
 }

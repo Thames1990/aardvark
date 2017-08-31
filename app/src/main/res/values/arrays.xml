@@ -4,4 +4,20 @@
         <item>@string/information</item>
         <item>@string/measurements</item>
     </array>
+
+    <array name="intro_background">
+        <item>@color/intro_1_background</item>
+        <item>@color/intro_2_background</item>
+        <item>@color/intro_3_background</item>
+        <item>@color/intro_4_background</item>
+        <item>@color/intro_5_background</item>
+    </array>
+
+    <string-array name="content_description_intro_image">
+        <item>@string/smartphone</item>
+        <item>@string/dashboard</item>
+        <item>@string/map</item>
+        <item>@string/chat</item>
+        <item>@string/app_name</item>
+    </string-array>
 </resources>

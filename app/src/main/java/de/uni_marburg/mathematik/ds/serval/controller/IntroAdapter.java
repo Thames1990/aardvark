@@ -1,10 +1,11 @@
 package de.uni_marburg.mathematik.ds.serval.controller;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.IntroFragment;
 
 /**
@@ -12,32 +13,21 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.IntroFragment;
  */
 public class IntroAdapter extends FragmentPagerAdapter {
 
-    // Update if new slides are added
-    private static final int NUMBER_OF_FRAGMENTS = 4;
+    private int[] introSlideBackgrounds;
 
-    public IntroAdapter(FragmentManager fm) {
+    public IntroAdapter(FragmentManager fm, Context context) {
         super(fm);
+        introSlideBackgrounds = context.getResources().getIntArray(R.array.intro_background);
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return IntroFragment.newInstance(Color.parseColor("#f64c73"), position);
-            case 1:
-                return IntroFragment.newInstance(Color.parseColor("#20d2bb"), position);
-            case 2:
-                return IntroFragment.newInstance(Color.parseColor("#3395ff"), position);
-            case 3:
-                return IntroFragment.newInstance(Color.parseColor("#c873f4"), position);
-            default:
-                return IntroFragment.newInstance(Color.parseColor("#f64c73"), position);
-        }
+        return IntroFragment.newInstance(introSlideBackgrounds[position], position);
     }
 
     @Override
     public int getCount() {
-        return NUMBER_OF_FRAGMENTS;
+        return introSlideBackgrounds.length;
     }
 
 }

@@ -6,7 +6,7 @@
     android:id="@+id/intro_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/intro_4_background">
+    android:background="@color/intro_5_background">
 
     <TextView
         android:id="@+id/title"
@@ -16,7 +16,7 @@
         android:layout_marginRight="@dimen/margin_horizontal_intro_title"
         android:layout_marginTop="@dimen/margin_top_intro_title"
         android:gravity="center"
-        android:text="@string/intro_4_title"
+        android:text="@string/intro_5_title"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_intro_title"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -34,12 +34,13 @@
         android:layout_marginLeft="@dimen/margin_intro_image"
         android:layout_marginRight="@dimen/margin_intro_image"
         android:layout_marginTop="@dimen/margin_intro_image"
+        android:onClick="startApp"
         app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:srcCompat="@drawable/chat"
+        app:srcCompat="@drawable/serval"
         tools:ignore="ContentDescription"/>
 
     <TextView
@@ -51,7 +52,7 @@
         android:layout_marginRight="@dimen/margin_horizontal_slide_description"
         android:gravity="center"
         android:maxEms="18"
-        android:text="@string/intro_4_desc"
+        android:text="@string/intro_5_description"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_intro_description"
         app:layout_constraintBottom_toBottomOf="parent"

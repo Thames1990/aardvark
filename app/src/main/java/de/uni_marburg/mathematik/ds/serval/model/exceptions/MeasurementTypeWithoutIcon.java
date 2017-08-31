@@ -5,7 +5,7 @@ package de.uni_marburg.mathematik.ds.serval.model.exceptions;
  */
 public class MeasurementTypeWithoutIcon extends Exception {
 
-    static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     public MeasurementTypeWithoutIcon() {
     }
