@@ -64,7 +64,7 @@
         android:layout_marginLeft="@dimen/contraint_layout_margin_extra_small"
         android:layout_marginRight="@dimen/contraint_layout_margin_extra_small"
         android:layout_marginTop="@dimen/contraint_layout_margin_extra_none"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/time"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/time"
