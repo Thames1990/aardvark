@@ -23,7 +23,8 @@
     <string name="email_adress_feedback" translatable="false">ThomasMohr1990@gmail.com</string>
 
     <!-- Exception messages -->
-    <string name="fragment_must_contain_key_exception" translatable="false">Fragment must contain a %1$s argument!</string>
+    <string name="fragment_must_contain_key_exception">Fragment must contain a %1$s argument!</string>
+    <string name="measurement_type_without_icon_exception">Measurement type %1$s does not have an icon yet!</string>
 
     <!-- General -->
     <string name="cancel">Cancel</string>

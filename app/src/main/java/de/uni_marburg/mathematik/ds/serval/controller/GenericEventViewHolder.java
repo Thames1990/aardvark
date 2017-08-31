@@ -24,6 +24,7 @@ import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.model.Measurement;
 import de.uni_marburg.mathematik.ds.serval.model.MeasurementType;
+import de.uni_marburg.mathematik.ds.serval.model.exceptions.MeasurementTypeWithoutIcon;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 
 import static android.os.Build.VERSION;
@@ -133,12 +134,16 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
 
         for (MeasurementType type : types) {
             ImageView view = new ImageView(context);
-            view.setImageResource(type.getResId(context));
-            view.setLayoutParams(new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-            ));
-            measurementTypes.addView(view, measurementTypes.getChildCount());
+            try {
+                view.setImageResource(type.getResId(context));
+                view.setLayoutParams(new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                ));
+                measurementTypes.addView(view, measurementTypes.getChildCount());
+            } catch (MeasurementTypeWithoutIcon measurementTypeWithoutIcon) {
+                measurementTypeWithoutIcon.printStackTrace();
+            }
         }
     }
 

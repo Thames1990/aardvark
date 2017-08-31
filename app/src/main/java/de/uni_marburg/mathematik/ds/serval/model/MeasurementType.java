@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.model.exceptions.MeasurementTypeWithoutIcon;
+
 /**
  * Type of a {@link Measurement measurement} of an {@link Event event}.
  */
@@ -14,7 +17,11 @@ public enum MeasurementType implements Serializable {
     @SerializedName("radiation")
     RADIATION,
     @SerializedName("temperature")
-    TEMPERATURE;
+    TEMPERATURE,
+    @SerializedName("wind")
+    WIND,
+    @SerializedName("precipitation")
+    PRECIPITATION;
 
     /**
      * Resolves the resource identifier with the same name.
@@ -26,12 +33,19 @@ public enum MeasurementType implements Serializable {
      *                broadcasting and receiving intents, etc.
      * @return The resource identifier for the resource with the same name
      */
-    public int getResId(Context context) {
-        return context.getResources().getIdentifier(
+    public int getResId(Context context) throws MeasurementTypeWithoutIcon {
+        int resId = context.getResources().getIdentifier(
                 toString(),
                 "drawable",
                 context.getPackageName()
         );
+        if (resId == 0) {
+            throw new MeasurementTypeWithoutIcon(String.format(
+                    context.getString(R.string.measurement_type_without_icon_exception),
+                    toString()
+            ));
+        }
+        return resId;
     }
 
     @Override
