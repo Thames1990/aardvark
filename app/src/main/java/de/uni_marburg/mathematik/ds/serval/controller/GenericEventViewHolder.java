@@ -37,6 +37,8 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
 
     private Context context;
 
+    private boolean iconsMissing = true;
+
     @BindView(R.id.measurement_types)
     LinearLayout measurementTypes;
 
@@ -56,7 +58,9 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     protected void onBind(GenericEvent event, int position) {
         setupTime(event);
         setupLocation(event);
-        setupMeasurementIcons(event);
+        if (iconsMissing) {
+            setupMeasurementIcons(event);
+        }
     }
 
     /**
@@ -115,7 +119,7 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     }
 
     /**
-     * Loads icons for each measurement type available in the measurement of the event.
+     * Loads icons for each measurement type available in the measurements of the event.
      *
      * @param event The corresponding event
      */
@@ -133,18 +137,20 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
         }
 
         for (MeasurementType type : types) {
-            ImageView view = new ImageView(context);
+            ImageView icon = new ImageView(context);
             try {
-                view.setImageResource(type.getResId(context));
-                view.setLayoutParams(new LinearLayout.LayoutParams(
+                icon.setImageResource(type.getResId(context));
+                icon.setLayoutParams(new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                 ));
-                measurementTypes.addView(view, measurementTypes.getChildCount());
+                measurementTypes.addView(icon);
             } catch (MeasurementTypeWithoutIcon measurementTypeWithoutIcon) {
                 measurementTypeWithoutIcon.printStackTrace();
             }
         }
+
+        iconsMissing = false;
     }
 
     @Override
