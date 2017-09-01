@@ -13,9 +13,11 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -41,6 +43,7 @@ import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
+import de.uni_marburg.mathematik.ds.serval.util.LocationUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 import de.uni_marburg.mathematik.ds.serval.view.util.ExtendedInfoWindowAdapter;
@@ -74,6 +77,8 @@ public class MapFragment<T extends Event>
     private HashMap<Marker, T> markerEventMap;
     
     private Unbinder unbinder;
+    
+    private Location lastLocation;
     
     @BindView(R.id.map)
     MapView map;
@@ -175,7 +180,7 @@ public class MapFragment<T extends Event>
             startLocationUpdates();
         }
         addEventLocations();
-        zoomToFitMarkers();
+        zoomToFitMarkers(false);
     }
     
     @Override
@@ -188,8 +193,8 @@ public class MapFragment<T extends Event>
     
     @Override
     public boolean onMyLocationButtonClick() {
-        // TODO Center with event locations
-        return false;
+        zoomToFitMarkers(true);
+        return true;
     }
     
     private void setupGoogleMap() {
@@ -222,7 +227,12 @@ public class MapFragment<T extends Event>
         }
         getFusedLocationProviderClient(getActivity()).requestLocationUpdates(
                 locationRequest,
-                new LocationCallback(),
+                new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        onLocationChanged(locationResult.getLastLocation());
+                    }
+                },
                 Looper.myLooper()
         );
     }
@@ -253,13 +263,28 @@ public class MapFragment<T extends Event>
         }
     }
     
-    private void zoomToFitMarkers() {
+    private void zoomToFitMarkers(boolean animate) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Marker marker : markerEventMap.keySet()) {
             builder.include(marker.getPosition());
         }
+        if (lastLocation != null) {
+            LatLng position = new LatLng(
+                    lastLocation.getLatitude(),
+                    lastLocation.getLongitude()
+            );
+            builder.include(position);
+        }
         LatLngBounds bounds = builder.build();
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING));
+        
+        CameraUpdate update =
+                CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING);
+        
+        if (animate) {
+            googleMap.animateCamera(update);
+        } else {
+            googleMap.moveCamera(update);
+        }
     }
     
     private void requestPermissions() {
@@ -269,6 +294,14 @@ public class MapFragment<T extends Event>
                 CHECK_LOCATION_PERMISSION
         );
         // TODO Check if user explicitly denied the permission
-        startLocationUpdates();
+        if (requestingLocationUpdates) {
+            startLocationUpdates();
+        }
+    }
+    
+    private void onLocationChanged(Location location) {
+        if (LocationUtil.isBetterLocation(location, lastLocation)) {
+            lastLocation = location;
+        }
     }
 }
