@@ -19,6 +19,7 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
@@ -51,10 +52,11 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 /**
  * Created by thames1990 on 28.08.17.
+ * TODO Use Google Maps Fragment
  */
 public class MapFragment<T extends Event>
         extends Fragment
-        implements OnInfoWindowClickListener, OnMapReadyCallback {
+        implements OnInfoWindowClickListener, OnMapReadyCallback, OnMyLocationButtonClickListener {
     
     public static final String EVENTS = "EVENTS";
     
@@ -184,15 +186,26 @@ public class MapFragment<T extends Event>
         startActivity(eventIntent);
     }
     
+    @Override
+    public boolean onMyLocationButtonClick() {
+        // TODO Center with event locations
+        return false;
+    }
+    
     private void setupGoogleMap() {
         googleMap.setOnInfoWindowClickListener(this);
         googleMap.setInfoWindowAdapter(new ExtendedInfoWindowAdapter(getContext()));
+        googleMap.setOnMyLocationButtonClickListener(this);
+        if (checkSelfPermission(getContext(), ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+            requestPermissions();
+            return;
+        }
+        googleMap.setMyLocationEnabled(true);
     }
     
     private void startLocationUpdates() {
         LocationRequest locationRequest = new LocationRequest();
-        // "block" level accuracy
-        locationRequest.setInterval(TimeUnit.SECONDS.toMillis(10));
+        locationRequest.setInterval(TimeUnit.SECONDS.toMillis(60));
         locationRequest.setFastestInterval(TimeUnit.SECONDS.toMillis(5));
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         
@@ -212,8 +225,6 @@ public class MapFragment<T extends Event>
                 new LocationCallback(),
                 Looper.myLooper()
         );
-        
-        googleMap.setMyLocationEnabled(true);
     }
     
     private void addEventLocations() {
