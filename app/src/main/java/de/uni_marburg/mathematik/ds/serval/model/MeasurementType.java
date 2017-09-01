@@ -41,7 +41,7 @@ public enum MeasurementType implements Serializable {
         );
         if (resId == 0) {
             throw new MeasurementTypeWithoutIcon(String.format(
-                    context.getString(R.string.measurement_type_without_icon_exception),
+                    context.getString(R.string.exception_measurement_type_without_icon),
                     toString()
             ));
         }

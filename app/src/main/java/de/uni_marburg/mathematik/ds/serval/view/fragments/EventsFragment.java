@@ -17,6 +17,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.GenericEventAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
@@ -34,6 +35,8 @@ public class EventsFragment<T extends Event> extends Fragment {
     private List<T> events;
 
     private GenericEventAdapter adapter;
+
+    private Unbinder unbinder;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -53,11 +56,30 @@ public class EventsFragment<T extends Event> extends Fragment {
         if (!getArguments().containsKey(EVENTS)) {
             throw new RuntimeException(String.format(
                     Locale.getDefault(),
-                    getString(R.string.fragment_must_contain_key_exception),
+                    getString(R.string.exception_fragment_must_contain_key),
                     EVENTS
             ));
         }
         events = getArguments().getParcelableArrayList(EVENTS);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(
+            LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState
+    ) {
+        View view = inflater.inflate(R.layout.fragment_events, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        setupRecyclerView();
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private void setupRecyclerView() {
@@ -76,18 +98,5 @@ public class EventsFragment<T extends Event> extends Fragment {
             adapter = new GenericEventAdapter((List<GenericEvent>) events);
         }
         recyclerView.setAdapter(adapter);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(
-            LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState
-    ) {
-        View view = inflater.inflate(R.layout.fragment_events, container, false);
-        ButterKnife.bind(this, view);
-        setupRecyclerView();
-        return view;
     }
 }

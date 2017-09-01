@@ -15,9 +15,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
-import com.mikepenz.aboutlibraries.Libs;
-import com.mikepenz.aboutlibraries.LibsBuilder;
-
 import de.uni_marburg.mathematik.ds.serval.R;
 
 /**
@@ -43,18 +40,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_main);
 
-            Preference versionNamePreference =
-                    findPreference(getString(R.string.key_version_name));
-            versionNamePreference.setOnPreferenceClickListener(preference -> {
-                // TODO Use seperate Preference
-                showLibraries(getActivity());
-                return true;
-            });
-
             // Feedback preference click listener
             Preference sendFeedBackPreference =
                     findPreference(getString(R.string.key_send_feedback));
-            sendFeedBackPreference.setOnPreferenceClickListener(preference1 -> {
+            sendFeedBackPreference.setOnPreferenceClickListener(preference -> {
                 sendFeedback(getActivity());
                 return true;
             });
@@ -105,10 +94,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
                 return true;
             };
-
-    private static void showLibraries(Context context) {
-        new LibsBuilder().withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR).start(context);
-    }
 
     /**
      * Sends feedback via a user choosen email app.

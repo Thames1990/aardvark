@@ -58,7 +58,7 @@ public class IntroPageTransformer implements ViewPager.PageTransformer {
                 )[pagePosition]);
             } catch (ArrayIndexOutOfBoundsException e) {
                 Log.e(getClass().getSimpleName(), String.format(
-                        context.getString(R.string.content_description_not_defined_exception),
+                        context.getString(R.string.exception_content_description_not_defined),
                         pagePosition,
                         title
 

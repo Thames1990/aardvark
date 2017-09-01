@@ -50,6 +50,8 @@ public class PrefManager {
      */
     private static final String USE_BOTTOM_SHEET_DIALOGS = "USE_BOTTOM_SHEET_DIALOGS";
 
+    private static final String REQUEST_LOCATION_UPDATES = "REQUEST_LOCATION_UPDATES";
+
     @SuppressLint("CommitPrefEdits")
     public PrefManager(Context context) {
         preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -72,7 +74,19 @@ public class PrefManager {
         return preferences.getInt(LAST_KNOWN_VERSION_CODE, 0);
     }
 
+    public void setUseBottomSheetDialogs(boolean useBottomSheetDialogs) {
+        editor.putBoolean(USE_BOTTOM_SHEET_DIALOGS, useBottomSheetDialogs);
+    }
+
     public boolean useBottomSheetDialogs() {
         return preferences.getBoolean(USE_BOTTOM_SHEET_DIALOGS, true);
+    }
+
+    public void setRequestLocationUpdates(boolean requestLocationUpdates) {
+        editor.putBoolean(REQUEST_LOCATION_UPDATES, requestLocationUpdates);
+    }
+
+    public boolean requestLocationUpdates() {
+        return preferences.getBoolean(REQUEST_LOCATION_UPDATES, true);
     }
 }

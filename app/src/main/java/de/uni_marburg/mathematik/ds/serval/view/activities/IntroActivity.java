@@ -20,7 +20,6 @@ import de.uni_marburg.mathematik.ds.serval.controller.IntroAdapter;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.util.IntroPageTransformer;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
@@ -30,6 +29,8 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 public class IntroActivity
         extends AppCompatActivity
         implements ViewPager.OnPageChangeListener {
+
+    private static final int CHECK_LOCATION_PERMISSION = 0;
 
     private static final int FADE_OUT_ANIMATION_DURATION = 1000;
 
@@ -91,13 +92,12 @@ public class IntroActivity
     }
 
     private void checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) !=
-                        PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{
-                    ACCESS_COARSE_LOCATION,
-                    ACCESS_FINE_LOCATION
-            }, MainActivity.CHECK_LOCATION_PERMISSION);
+        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{ACCESS_FINE_LOCATION},
+                    CHECK_LOCATION_PERMISSION
+            );
         }
     }
 

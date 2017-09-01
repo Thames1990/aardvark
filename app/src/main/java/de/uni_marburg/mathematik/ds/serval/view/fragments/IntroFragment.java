@@ -17,7 +17,6 @@ import de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity;
  */
 public class IntroFragment extends Fragment {
 
-    // TODO Maybe drop background color property and only set background in xml
     /**
      * This key is used to collect the background color of the slide from the
      * {@link IntroActivity intro activity}.
@@ -56,7 +55,7 @@ public class IntroFragment extends Fragment {
         if (!getArguments().containsKey(BACKGROUND_COLOR)) {
             throw new RuntimeException(String.format(
                     Locale.getDefault(),
-                    getString(R.string.fragment_must_contain_key_exception),
+                    getString(R.string.exception_fragment_must_contain_key),
                     BACKGROUND_COLOR
             ));
         }
@@ -65,7 +64,7 @@ public class IntroFragment extends Fragment {
         if (!getArguments().containsKey(PAGE)) {
             throw new RuntimeException(String.format(
                     Locale.getDefault(),
-                    getString(R.string.fragment_must_contain_key_exception),
+                    getString(R.string.exception_fragment_must_contain_key),
                     PAGE
             ));
         }
@@ -115,7 +114,7 @@ public class IntroFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Set the background color of the root view to the color specified in newInstance()
-        View background = view.findViewById(R.id.intro_background);
+        View background = view.findViewById(R.id.background);
         background.setBackgroundColor(backgroundColor);
     }
 

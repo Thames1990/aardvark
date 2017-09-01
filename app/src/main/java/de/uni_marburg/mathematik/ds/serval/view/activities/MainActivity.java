@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
@@ -19,31 +18,21 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.uni_marburg.mathematik.ds.serval.BuildConfig;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
+import de.uni_marburg.mathematik.ds.serval.util.GenericEventUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import us.feras.mdv.MarkdownView;
 
 /**
@@ -52,11 +41,6 @@ import us.feras.mdv.MarkdownView;
  * Currently shows a list of all events. Might be changed to a dashboard.
  */
 public class MainActivity<T extends Event> extends AppCompatActivity {
-
-    /**
-     * Key for the request code to permit location checks
-     */
-    public static final int CHECK_LOCATION_PERMISSION = 0;
 
     private static final int NUMBER_OF_EVENTS_PASSED = 50;
 
@@ -69,10 +53,10 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
 
-    @BindView(R.id.appbar)
+    @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
     @BindView(R.id.bottom_navigation)
-    BottomNavigationView bottomNavigation;
+    BottomNavigationView bottomNavigationView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -80,17 +64,17 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prefManager = new PrefManager(this);
+        events = GenericEventUtil.loadData(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        setupBottomNavigation();
-        loadData();
+        setupBottomNavigationView();
         checkForNewVersion();
     }
 
-    private void setupBottomNavigation() {
+    private void setupBottomNavigationView() {
         fragmentManager = getSupportFragmentManager();
-        bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             // TODO Based on distance
             Collections.sort(
                     events,
@@ -133,38 +117,6 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
         });
     }
 
-    private void loadData() {
-        events = new ArrayList<>();
-        Request request = new Request.Builder()
-                .url(getString(R.string.url_rest_api))
-                .build();
-        new OkHttpClient().newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response)
-                    throws IOException {
-                if (!response.isSuccessful()) {
-                    throw new IOException();
-                }
-
-                Gson gson = new Gson();
-                InputStream in = response.body().byteStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                // Read line by line (append file)
-                while ((line = reader.readLine()) != null) {
-                    // Create an event per line
-                    GenericEvent event = gson.fromJson(line, GenericEvent.class);
-                    events.add(event);
-                }
-            }
-        });
-    }
-
     /**
      * Checks if a new version was installed.
      */
@@ -173,7 +125,7 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
             int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             int lastKnownVersionCode = prefManager.getLastKnownVersionCode();
 
-            if (lastKnownVersionCode < versionCode || BuildConfig.DEBUG) {
+            if (lastKnownVersionCode < versionCode) {
                 showChangelog(versionCode);
                 prefManager.setLastKnownVersionCode(versionCode);
             }

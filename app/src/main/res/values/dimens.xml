@@ -1,31 +1,16 @@
 <resources>
     <!-- BottomSheet -->
-    <dimen name="bottom_sheet_margin">16dp</dimen>
-    <dimen name="bottom_sheet_title_height">56dp</dimen>
-
-    <!-- CollapsingToolbar -->
-    <dimen name="collapsing_toolbar_expanded_title_margin_end">64dp</dimen>
-    <dimen name="collapsing_toolbar_expanded_title_margin_start">48dp</dimen>
-
-    <!-- ConstraintLayout -->
-    <dimen name="contraint_layout_margin_extra_none">0dp</dimen>
-    <dimen name="contraint_layout_margin_extra_small">8dp</dimen>
-    <dimen name="contraint_layout_margin_small">12dp</dimen>
-    <dimen name="contraint_layout_margin_medium">16dp</dimen>
-    <dimen name="contraint_layout_margin_large">24dp</dimen>
-    <dimen name="contraint_layout_margin_extra_large">32dp</dimen>
+    <dimen name="margin_bottom_sheet">16dp</dimen>
+    <dimen name="padding_bottom_bottom_sheet">16dp</dimen>
+    <dimen name="height_bottom_sheet_title">56dp</dimen>
 
     <!-- General -->
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="margin_fab">16dp</dimen>
+
+    <!-- Google Maps -->
+    <dimen name="height_map_view">200dp</dimen>
 
     <!-- Intro sliders -->
-    <dimen name="slide_description_padding">40dp</dimen>
-    <dimen name="slide_description_text_size">16sp</dimen>
-    <dimen name="slide_dots_height">30dp</dimen>
-    <dimen name="slide_dots_margin_bottom">20dp</dimen>
-    <dimen name="slide_img_width_height">250dp</dimen>
-    <dimen name="slide_margin_top">20dp</dimen>
-    <dimen name="slide_title_text_size">30sp</dimen>
     <dimen name="margin_horizontal_intro_title">32dp</dimen>
     <dimen name="margin_top_intro_title">80dp</dimen>
     <dimen name="margin_bottom_slide_description">80dp</dimen>

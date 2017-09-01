@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
@@ -31,6 +32,8 @@ public class MeasurementsFragment<T extends Event> extends Fragment {
      */
     private T event;
 
+    private Unbinder unbinder;
+
     public static <T extends Event> MeasurementsFragment<Event> newInstance(T event) {
         MeasurementsFragment<Event> fragment = new MeasurementsFragment<>();
         Bundle args = new Bundle();
@@ -46,11 +49,10 @@ public class MeasurementsFragment<T extends Event> extends Fragment {
         if (!getArguments().containsKey(EVENT)) {
             throw new RuntimeException(String.format(
                     Locale.getDefault(),
-                    getString(R.string.fragment_must_contain_key_exception),
+                    getString(R.string.exception_fragment_must_contain_key),
                     EVENT
             ));
         }
-        //noinspection unchecked
         event = getArguments().getParcelable(EVENT);
     }
 
@@ -62,7 +64,13 @@ public class MeasurementsFragment<T extends Event> extends Fragment {
             @Nullable Bundle savedInstanceState
     ) {
         View view = inflater.inflate(R.layout.fragment_measurements, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

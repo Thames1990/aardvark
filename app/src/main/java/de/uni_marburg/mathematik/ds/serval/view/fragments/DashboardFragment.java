@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 
@@ -23,6 +24,8 @@ public class DashboardFragment<T extends Event> extends Fragment {
     public static final String EVENTS = "EVENTS";
 
     private List<T> events;
+
+    private Unbinder unbinder;
 
     public static <T extends Event> DashboardFragment newInstance(ArrayList<T> events) {
         DashboardFragment fragment = new DashboardFragment<>();
@@ -39,7 +42,7 @@ public class DashboardFragment<T extends Event> extends Fragment {
         if (!getArguments().containsKey(EVENTS)) {
             throw new RuntimeException(String.format(
                     Locale.getDefault(),
-                    getString(R.string.fragment_must_contain_key_exception),
+                    getString(R.string.exception_fragment_must_contain_key),
                     EVENTS
             ));
         }
@@ -54,7 +57,13 @@ public class DashboardFragment<T extends Event> extends Fragment {
             @Nullable Bundle savedInstanceState
     ) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }
