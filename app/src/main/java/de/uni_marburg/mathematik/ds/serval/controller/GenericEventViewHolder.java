@@ -64,6 +64,7 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     @Override
     protected void onBind(GenericEvent event, int position) {
         this.event = event;
+        title.setText(context.getString(R.string.title));
         setupTime();
         setupLocation();
         setupMeasurementIcons();
