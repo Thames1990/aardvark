@@ -3,9 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
-import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -49,7 +47,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 /**
  * ViewHolder for {@link GenericEvent generic events}
  */
-class GenericEventViewHolder extends BaseViewHolder<GenericEvent> implements LocationListener {
+class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     
     private Context context;
     
@@ -128,15 +126,19 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> implements Loc
         if (checkSelfPermission(context, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
             return;
         }
-        LocationServices.getFusedLocationProviderClient(context).requestLocationUpdates(
+        FusedLocationProviderClient client =
+                LocationServices.getFusedLocationProviderClient(context);
+        LocationCallback callback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                setupLocation(locationResult.getLastLocation());
+                client.removeLocationUpdates(this);
+            }
+        };
+        client.requestLocationUpdates(
                 locationRequest,
-                new LocationCallback() {
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        setupLocation(locationResult.getLastLocation());
-                    }
-                },
-                Looper.myLooper()
+                callback,
+                null
         );
     }
     
@@ -198,25 +200,5 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> implements Loc
     @Override
     protected boolean onLongClick(View view, GenericEvent event) {
         return false;
-    }
-    
-    @Override
-    public void onLocationChanged(Location newLocation) {
-        setupLocation(newLocation);
-    }
-    
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-        
-    }
-    
-    @Override
-    public void onProviderEnabled(String s) {
-        
-    }
-    
-    @Override
-    public void onProviderDisabled(String s) {
-        
     }
 }
