@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="de.uni_marburg.mathematik.ds.serval">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="de.uni_marburg.mathematik.ds.serval">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
