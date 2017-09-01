@@ -59,6 +59,11 @@ public class PrefManager {
     private static final String USE_STAGGERED_GRID_LAYOUT_MANAGER =
             "USE_STAGGERED_GRID_LAYOUT_MANAGER";
     
+    private static final String GRID_LAYOUT_MANAGER_SPAN_COUNT = "GRID_LAYOUT_MANAGER_SPAN_COUNT";
+    
+    private static final String STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT
+            = "STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT";
+    
     @SuppressLint("CommitPrefEdits")
     public PrefManager(Context context) {
         preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -130,5 +135,24 @@ public class PrefManager {
     
     public boolean useStaggeredGridLayoutManger() {
         return preferences.getBoolean(USE_STAGGERED_GRID_LAYOUT_MANAGER, false);
+    }
+    
+    public void setGridLayoutManagerSpanCount(boolean gridLayoutManagerSpanCount) {
+        editor.putBoolean(GRID_LAYOUT_MANAGER_SPAN_COUNT, gridLayoutManagerSpanCount);
+    }
+    
+    public int getGridLayoutManagerSpanCount() {
+        return preferences.getInt(GRID_LAYOUT_MANAGER_SPAN_COUNT, 2);
+    }
+    
+    public void setStaggeredGridLayoutManagerSpanCount(boolean staggeredGridLayoutManagerSpanCount) {
+        editor.putBoolean(
+                STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT,
+                staggeredGridLayoutManagerSpanCount
+        );
+    }
+    
+    public int getStaggeredGridLayoutManagerSpanCount() {
+        return preferences.getInt(STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT, 2);
     }
 }

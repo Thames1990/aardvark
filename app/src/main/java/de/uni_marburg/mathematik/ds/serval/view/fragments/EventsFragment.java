@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +23,9 @@ import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.GenericEventAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
-
-import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
+import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
+import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
+import de.uni_marburg.mathematik.ds.serval.view.util.GridSpacingItemDecoration;
 
 /**
  * Created by thames1990 on 28.08.17.
@@ -81,14 +84,31 @@ public class EventsFragment<T extends Event> extends Fragment {
     }
     
     private void setupRecyclerView() {
-        // TODO Add check for LayoutManager
-//        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-//        recyclerView.addItemDecoration(new GridSpacingItemDecoration(
-//                2,
-//                ImageUtil.dpToPx(10, getContext()), true)
-//        );
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), VERTICAL));
+        PrefManager prefManager = new PrefManager(getContext());
+        if (prefManager.useLinearLayoutManger()) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.addItemDecoration(new DividerItemDecoration(
+                    getContext(),
+                    DividerItemDecoration.VERTICAL
+            ));
+        } else if (prefManager.useGridLayoutManger()) {
+            recyclerView.setLayoutManager(new GridLayoutManager(
+                    getContext(),
+                    prefManager.getGridLayoutManagerSpanCount()
+            ));
+            recyclerView.addItemDecoration(new GridSpacingItemDecoration(
+                    prefManager.getGridLayoutManagerSpanCount(),
+                    ImageUtil.dpToPx(10, getContext()),
+                    true
+            ));
+        } else if (prefManager.useStaggeredGridLayoutManger()) {
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(
+                    prefManager.getStaggeredGridLayoutManagerSpanCount(),
+                    StaggeredGridLayoutManager.VERTICAL
+            ));
+            // TODO Add item decoration
+        }
+        
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         
         // TODO Find a better way
