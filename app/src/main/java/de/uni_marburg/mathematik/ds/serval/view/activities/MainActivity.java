@@ -78,7 +78,10 @@ public class MainActivity extends AppCompatActivity {
                     events,
                     (event1, event2) -> (int) (event2.getTime() - event1.getTime())
             );
-            ArrayList lastEvents = new ArrayList<>(events.subList(0, NUMBER_OF_EVENTS_PASSED));
+            ArrayList lastEvents = new ArrayList<>(events.subList(
+                    0,
+                    Math.min(events.size(), NUMBER_OF_EVENTS_PASSED)
+            ));
             
             Fragment fragment = null;
             Fragment currentFragment = fragmentManager.findFragmentById(R.id.content);
