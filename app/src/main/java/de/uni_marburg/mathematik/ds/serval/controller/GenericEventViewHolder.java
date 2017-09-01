@@ -3,7 +3,9 @@ package de.uni_marburg.mathematik.ds.serval.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -24,7 +29,6 @@ import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.model.Measurement;
 import de.uni_marburg.mathematik.ds.serval.model.MeasurementType;
 import de.uni_marburg.mathematik.ds.serval.model.exceptions.MeasurementTypeWithoutIcon;
-import de.uni_marburg.mathematik.ds.serval.util.DataTypeConversionUtil;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -38,7 +42,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 /**
  * ViewHolder for {@link GenericEvent generic events}
  */
-class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
+class GenericEventViewHolder extends BaseViewHolder<GenericEvent> implements LocationListener {
     
     private Context context;
     
@@ -74,49 +78,41 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
      * Sets the elapsed days since an {@link Event event} happened.
      */
     private void setupTime() {
+        Calendar calendar = Calendar.getInstance();
+        DateFormat format =
+                SimpleDateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
         // Difference between now and the events time in milliseconds
-        long differenceInMilliseconds = Calendar.getInstance().getTimeInMillis() - event.getTime();
-        long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMilliseconds);
-        int differenceInDaysInteger;
-        
-        if (VERSION.SDK_INT >= VERSION_CODES.N) {
-            differenceInDaysInteger = Math.toIntExact(differenceInDays);
-        } else {
-            differenceInDaysInteger = DataTypeConversionUtil.safeLongToInt(differenceInDays);
-        }
-        
-        if (differenceInDaysInteger == 0) {
-            time.setText(context.getString(R.string.today));
-        } else {
-            time.setText(context.getResources().getQuantityString(
-                    R.plurals.days_ago,
-                    differenceInDaysInteger,
-                    differenceInDaysInteger
+        long difference = calendar.getTimeInMillis() - event.getTime();
+        if (TimeUnit.MILLISECONDS.toMinutes(difference) < 60) {
+            time.setText(String.format(
+                    Locale.getDefault(),
+                    context.getString(R.string.minutes_ago),
+                    TimeUnit.MILLISECONDS.toMinutes(difference)
             ));
+        } else if (TimeUnit.MILLISECONDS.toHours(difference) < 24) {
+            time.setText(String.format(
+                    Locale.getDefault(),
+                    context.getString(R.string.hours_ago),
+                    TimeUnit.MILLISECONDS.toHours(difference)
+            ));
+        } else if (TimeUnit.MILLISECONDS.toDays(difference) < 7) {
+            time.setText(String.format(
+                    Locale.getDefault(),
+                    context.getString(R.string.days_ago),
+                    TimeUnit.MILLISECONDS.toDays(difference)
+            ));
+        } else {
+            time.setText(format.format(calendar.getTime()));
         }
+        
+        format.format(calendar.getTime());
     }
     
     public void setupLocation() {
         if (checkSelfPermission(context, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
             return;
         }
-        Location lastKnownLocation =
-                locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (lastKnownLocation != null) {
-            float distanceInMeters = lastKnownLocation.distanceTo(event.getLocation());
-            
-            if (distanceInMeters < 1000) {
-                location.setText(String.format(
-                        context.getString(R.string.distance_to_meter),
-                        distanceInMeters
-                ));
-            } else {
-                location.setText(String.format(
-                        context.getString(R.string.distance_to_kilometer),
-                        distanceInMeters / 1000
-                ));
-            }
-        }
+        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this, null);
     }
     
     /**
@@ -159,5 +155,39 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     @Override
     protected boolean onLongClick(View view, GenericEvent event) {
         return false;
+    }
+    
+    @Override
+    public void onLocationChanged(Location newLocation) {
+        float distanceInMeters = newLocation.distanceTo(event.getLocation());
+        
+        if (distanceInMeters < 1000) {
+            location.setText(String.format(
+                    Locale.getDefault(),
+                    context.getString(R.string.distance_to_meter),
+                    distanceInMeters
+            ));
+        } else {
+            location.setText(String.format(
+                    Locale.getDefault(),
+                    context.getString(R.string.distance_to_kilometer),
+                    distanceInMeters / 1000
+            ));
+        }
+    }
+    
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+        
+    }
+    
+    @Override
+    public void onProviderEnabled(String s) {
+        
+    }
+    
+    @Override
+    public void onProviderDisabled(String s) {
+        
     }
 }

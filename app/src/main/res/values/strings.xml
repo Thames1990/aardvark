@@ -19,10 +19,12 @@
     <string name="exception_fragment_must_contain_key">Fragment must contain a %1$s argument!</string>
     <string name="exception_measurement_type_without_icon">Measurement type %1$s does not have an icon yet!</string>
 
+    <!-- Files -->
+    <string name="changelog_file" translatable="false">file:///android_asset/changelog/changelog-%1$d.md</string>
+
     <!-- General -->
     <string name="cancel">Cancel</string>
     <string name="changelog">Changelog - %1$s</string>
-    <string name="changelog_file">file:///android_asset/changelog/changelog-%1$d.md</string>
     <string name="chat">Chat</string>
     <string name="confirm_exit">Confirm exit</string>
     <string name="dashboard">Dashboard</string>
@@ -70,13 +72,6 @@
     <string name="location">Location</string>
     <string name="longitude">Longitude</string>
 
-    <!-- Plurals -->
-    <plurals name="days_ago">
-        <item quantity="zero">@string/today</item>
-        <item quantity="one">@string/yesterday</item>
-        <item quantity="other">%1$d days ago</item>
-    </plurals>
-
     <!-- Preference general -->
     <string name="choose_email_client">Choose email client</string>
 
@@ -100,10 +95,14 @@
     <string name="title_version">Version</string>
 
     <!-- Time -->
-    <string name="format_date_time">dd.MM.yyyy\nH:m:s</string>
+    <string name="hours_ago">%1$d hr</string>
+    <string name="minutes_ago">%1$d min</string>
+    <string name="days_ago">%1$dd</string>
     <string name="time">Time</string>
-    <string name="today">Today</string>
-    <string name="yesterday">Yesterday</string>
+
+    <!-- Tools Data -->
+    <string name="tools_distance">392 m</string>
+    <string name="tools_time">24 min</string>
 
     <!-- URLs -->
     <!-- TODO Replace with real URLs -->

@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -98,6 +99,7 @@ public class MapFragment<T extends Event>
         
         if (!getArguments().containsKey(EVENTS)) {
             throw new RuntimeException(String.format(
+                    Locale.getDefault(),
                     getString(R.string.exception_fragment_must_contain_key),
                     EVENTS
             ));
@@ -239,8 +241,9 @@ public class MapFragment<T extends Event>
     
     private void addEventLocations() {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat(
-                getString(R.string.format_date_time),
+        DateFormat format = SimpleDateFormat.getDateTimeInstance(
+                DateFormat.LONG,
+                DateFormat.SHORT,
                 Locale.getDefault()
         );
         for (T event : events) {

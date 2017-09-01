@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void showChangelog(int versionCode) {
         String versionName = String.format(
+                Locale.getDefault(),
                 getString(R.string.changelog),
                 getString(R.string.versionName)
         );

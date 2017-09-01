@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +58,7 @@ public class EventsFragment<T extends Event> extends Fragment {
         
         if (!getArguments().containsKey(EVENTS)) {
             throw new RuntimeException(String.format(
+                    Locale.getDefault(),
                     getString(R.string.exception_fragment_must_contain_key),
                     EVENTS
             ));

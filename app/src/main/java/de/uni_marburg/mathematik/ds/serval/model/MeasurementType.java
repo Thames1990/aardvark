@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.model.exceptions.MeasurementTypeWithoutIcon;
@@ -41,6 +42,7 @@ public enum MeasurementType implements Serializable {
         );
         if (resId == 0) {
             throw new MeasurementTypeWithoutIcon(String.format(
+                    Locale.getDefault(),
                     context.getString(R.string.exception_measurement_type_without_icon),
                     toString()
             ));

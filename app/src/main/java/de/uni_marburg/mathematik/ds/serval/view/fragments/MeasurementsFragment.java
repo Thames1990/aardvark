@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Locale;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
@@ -46,6 +48,7 @@ public class MeasurementsFragment<T extends Event> extends Fragment {
         
         if (!getArguments().containsKey(EVENT)) {
             throw new RuntimeException(String.format(
+                    Locale.getDefault(),
                     getString(R.string.exception_fragment_must_contain_key),
                     EVENT
             ));

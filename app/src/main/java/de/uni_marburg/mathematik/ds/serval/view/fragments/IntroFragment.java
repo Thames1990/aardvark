@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Locale;
+
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity;
 
@@ -52,6 +54,7 @@ public class IntroFragment extends Fragment {
         
         if (!getArguments().containsKey(BACKGROUND_COLOR)) {
             throw new RuntimeException(String.format(
+                    Locale.getDefault(),
                     getString(R.string.exception_fragment_must_contain_key),
                     BACKGROUND_COLOR
             ));
@@ -60,6 +63,7 @@ public class IntroFragment extends Fragment {
         
         if (!getArguments().containsKey(PAGE)) {
             throw new RuntimeException(String.format(
+                    Locale.getDefault(),
                     getString(R.string.exception_fragment_must_contain_key),
                     PAGE
             ));

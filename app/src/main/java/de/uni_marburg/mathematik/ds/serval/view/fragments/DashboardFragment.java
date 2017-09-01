@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -40,6 +41,7 @@ public class DashboardFragment<T extends Event> extends Fragment {
         
         if (!getArguments().containsKey(EVENTS)) {
             throw new RuntimeException(String.format(
+                    Locale.getDefault(),
                     getString(R.string.exception_fragment_must_contain_key),
                     EVENTS
             ));

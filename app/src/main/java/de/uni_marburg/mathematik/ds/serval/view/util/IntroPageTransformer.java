@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
@@ -58,6 +60,7 @@ public class IntroPageTransformer implements ViewPager.PageTransformer {
                 )[pagePosition]);
             } catch (ArrayIndexOutOfBoundsException e) {
                 Log.e(getClass().getSimpleName(), String.format(
+                        Locale.getDefault(),
                         context.getString(R.string.exception_content_description_not_defined),
                         pagePosition,
                         title
