@@ -9,6 +9,7 @@ import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.InformationFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MeasurementsFragment;
+import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment;
 
 /**
  * Adapter for the detail view of an {@link Event event}
@@ -33,7 +34,7 @@ public class DetailAdapter<T extends Event> extends FragmentPagerAdapter {
             case 1:
                 return MeasurementsFragment.newInstance(event);
             default:
-                return InformationFragment.newInstance(event);
+                return PlaceholderFragment.newInstance();
         }
     }
 

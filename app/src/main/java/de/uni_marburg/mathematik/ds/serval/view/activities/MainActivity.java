@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +32,7 @@ import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment;
+import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment;
 import us.feras.mdv.MarkdownView;
 
 /**
@@ -104,6 +104,9 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
                         toolbar.setTitle(getString(R.string.map));
                     }
                     break;
+                default:
+                    fragment = PlaceholderFragment.newInstance();
+                    toolbar.setTitle(getString(R.string.placeholder));
             }
 
             if (fragment != null) {
@@ -207,7 +210,7 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
             case R.id.action_reset_app:
                 prefManager.setIsFirstTimeLaunch(true);
                 startActivity(new Intent(this, IntroActivity.class));
-                ActivityCompat.finishAffinity(this);
+                finish();
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
