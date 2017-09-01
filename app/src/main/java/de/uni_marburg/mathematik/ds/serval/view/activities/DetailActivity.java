@@ -24,18 +24,18 @@ import de.uni_marburg.mathematik.ds.serval.model.Event;
  * Is used to display all informations about an {@link Event event}.
  */
 public class DetailActivity<T extends Event> extends AppCompatActivity {
-
+    
     /**
      * Is used as a key to pass the {@link DetailActivity#event event} between the
      * {@link MainActivity main activity} and this view.
      */
     public static final String EVENT = "EVENT";
-
+    
     /**
      * Event to show details for
      */
     private T event;
-
+    
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.tabs)
@@ -44,7 +44,7 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
     ViewPager viewPager;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +53,7 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
         event = getIntent().getExtras().getParcelable(EVENT);
         setupViews();
     }
-
+    
     private void setupViews() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -66,7 +66,7 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         fab.setOnClickListener(view -> navigateToPosition());
     }
-
+    
     /**
      * Opens Google Maps and navigates to the position of the event
      */
@@ -75,7 +75,6 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
         Intent navigationIntent = new Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(String.format(
-                        Locale.getDefault(),
                         getString(R.string.intent_uri_navigate),
                         // Forces decimal points
                         String.format(Locale.ENGLISH, "%.5f", location.getLatitude()),
@@ -85,7 +84,7 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
         navigationIntent.setPackage("com.google.android.apps.maps");
         startActivity(navigationIntent);
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

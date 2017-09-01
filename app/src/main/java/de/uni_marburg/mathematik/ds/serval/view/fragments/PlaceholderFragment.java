@@ -15,13 +15,13 @@ import de.uni_marburg.mathematik.ds.serval.R;
  * Created by thames1990 on 01.09.17.
  */
 public class PlaceholderFragment extends Fragment {
-
+    
     private Unbinder unbinder;
-
+    
     public static PlaceholderFragment newInstance() {
         return new PlaceholderFragment();
     }
-
+    
     @Nullable
     @Override
     public View onCreateView(
@@ -33,7 +33,7 @@ public class PlaceholderFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
-
+    
     @Override
     public void onDestroyView() {
         super.onDestroyView();

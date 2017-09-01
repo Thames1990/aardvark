@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Locale;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
@@ -20,20 +18,20 @@ import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
  */
 
 public class MeasurementsFragment<T extends Event> extends Fragment {
-
+    
     /**
      * This key is used to collect the {@link InformationFragment#event event} from the
      * {@link DetailActivity detail activity}.
      */
     public static final String EVENT = "EVENT";
-
+    
     /**
      * Event to show measurements for
      */
     private T event;
-
+    
     private Unbinder unbinder;
-
+    
     public static <T extends Event> MeasurementsFragment<Event> newInstance(T event) {
         MeasurementsFragment<Event> fragment = new MeasurementsFragment<>();
         Bundle args = new Bundle();
@@ -41,21 +39,20 @@ public class MeasurementsFragment<T extends Event> extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         if (!getArguments().containsKey(EVENT)) {
             throw new RuntimeException(String.format(
-                    Locale.getDefault(),
                     getString(R.string.exception_fragment_must_contain_key),
                     EVENT
             ));
         }
         event = getArguments().getParcelable(EVENT);
     }
-
+    
     @Nullable
     @Override
     public View onCreateView(
@@ -67,7 +64,7 @@ public class MeasurementsFragment<T extends Event> extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
-
+    
     @Override
     public void onDestroyView() {
         super.onDestroyView();

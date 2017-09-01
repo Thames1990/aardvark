@@ -14,6 +14,7 @@
     <string name="email_adress_feedback" translatable="false">ThomasMohr1990@gmail.com</string>
 
     <!-- Exception messages -->
+    <string name="exception_cannot_cast">Cannot cast long %1$d to int without changing its value!</string>
     <string name="exception_content_description_not_defined" tools:ignore="PluralsCandidate">Image on page %1$d with title %2$s has no content description!</string>
     <string name="exception_fragment_must_contain_key">Fragment must contain a %1$s argument!</string>
     <string name="exception_measurement_type_without_icon">Measurement type %1$s does not have an icon yet!</string>
@@ -62,7 +63,7 @@
 
     <!-- Location -->
     <string name="current_location">Current location</string>
-    <string name="distance_to">%1$.1f km</string>
+    <string name="distance_to">%1$s km</string>
     <string name="geohash">Geohash</string>
     <string name="latitude">Latitude</string>
     <string name="location">Location</string>

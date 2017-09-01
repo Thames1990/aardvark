@@ -20,12 +20,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.util.GenericEventUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
@@ -40,26 +38,26 @@ import us.feras.mdv.MarkdownView;
  * <p>
  * Currently shows a list of all events. Might be changed to a dashboard.
  */
-public class MainActivity<T extends Event> extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity {
+    
     private static final int NUMBER_OF_EVENTS_PASSED = 50;
-
+    
     /**
      * List of events
      */
     private ArrayList<GenericEvent> events;
-
+    
     private PrefManager prefManager;
-
+    
     private FragmentManager fragmentManager;
-
+    
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +69,7 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
         setupBottomNavigationView();
         checkForNewVersion();
     }
-
+    
     private void setupBottomNavigationView() {
         fragmentManager = getSupportFragmentManager();
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -81,10 +79,10 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
                     (event1, event2) -> (int) (event2.getTime() - event1.getTime())
             );
             ArrayList lastEvents = new ArrayList<>(events.subList(0, NUMBER_OF_EVENTS_PASSED));
-
+            
             Fragment fragment = null;
             Fragment currentFragment = fragmentManager.findFragmentById(R.id.content);
-
+            
             switch (item.getItemId()) {
                 case R.id.dashboard:
                     if (!(currentFragment instanceof DashboardFragment)) {
@@ -108,18 +106,17 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
                     fragment = PlaceholderFragment.newInstance();
                     toolbar.setTitle(getString(R.string.placeholder));
             }
-
+            
             if (fragment != null) {
-                fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.content, fragment)
-                        .commit();
+                fragmentManager.beginTransaction()
+                               .replace(R.id.content, fragment)
+                               .commit();
                 return true;
             }
             return false;
         });
     }
-
+    
     /**
      * Checks if a new version was installed.
      */
@@ -127,7 +124,7 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
         try {
             int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             int lastKnownVersionCode = prefManager.getLastKnownVersionCode();
-
+            
             if (lastKnownVersionCode < versionCode) {
                 showChangelog(versionCode);
                 prefManager.setLastKnownVersionCode(versionCode);
@@ -136,7 +133,7 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
+    
     /**
      * Shows the changelog of the most recent update.
      *
@@ -144,23 +141,18 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
      */
     private void showChangelog(int versionCode) {
         String versionName = String.format(
-                Locale.getDefault(),
                 getString(R.string.changelog),
                 getString(R.string.versionName)
         );
-        String changelogFile = String.format(
-                Locale.getDefault(),
-                getString(R.string.changelog_file),
-                versionCode
-        );
-
+        String changelogFile = String.format(getString(R.string.changelog_file), versionCode);
+        
         if (prefManager.useBottomSheetDialogs()) {
             showChangelogBottomSheetDialog(versionName, changelogFile);
         } else {
             showChangelogDialog(versionName, changelogFile);
         }
     }
-
+    
     /**
      * Shows the changelog of the most recent update in a
      * {@link BottomSheetDialog bottom sheet dialog}.
@@ -178,7 +170,7 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
         changelogDialog.setContentView(changelogView);
         changelogDialog.show();
     }
-
+    
     /**
      * Shows the changelog of the most recent update in a {@link Dialog dialog}.
      *
@@ -197,13 +189,13 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
             changelog.loadMarkdownFile(changelogFile);
         }
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -216,10 +208,10 @@ public class MainActivity<T extends Event> extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
         }
-
+        
         return super.onOptionsItemSelected(item);
     }
-
+    
     @Override
     public void onBackPressed() {
         new MaterialDialog.Builder(this)

@@ -15,36 +15,36 @@ import java.util.List;
  * especially one of importance.
  */
 public abstract class Event implements Parcelable {
-
+    
     /**
      * Measurements of the event
      */
     @SerializedName("measurements")
     @Expose
     List<Measurement> measurements = new ArrayList<>();
-
+    
     /**
      * Location of the event
      */
     @SerializedName("location")
     @Expose
     GeohashLocation geohashLocation;
-
+    
     /**
      * Occurence time of the event
      */
     @SerializedName("time")
     @Expose
     long time;
-
+    
     public long getTime() {
         return time;
     }
-
+    
     public List<Measurement> getMeasurements() {
         return measurements;
     }
-
+    
     /**
      * Returns the location of the event as a {@link Location Android location}.
      * <p>

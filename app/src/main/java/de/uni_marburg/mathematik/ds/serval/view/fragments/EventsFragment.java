@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,18 +28,18 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
  * Created by thames1990 on 28.08.17.
  */
 public class EventsFragment<T extends Event> extends Fragment {
-
+    
     public static final String EVENTS = "EVENTS";
-
+    
     private List<T> events;
-
+    
     private GenericEventAdapter adapter;
-
+    
     private Unbinder unbinder;
-
+    
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-
+    
     public static <T extends Event> EventsFragment newInstance(ArrayList<T> events) {
         EventsFragment fragment = new EventsFragment<>();
         Bundle args = new Bundle();
@@ -48,21 +47,20 @@ public class EventsFragment<T extends Event> extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         if (!getArguments().containsKey(EVENTS)) {
             throw new RuntimeException(String.format(
-                    Locale.getDefault(),
                     getString(R.string.exception_fragment_must_contain_key),
                     EVENTS
             ));
         }
         events = getArguments().getParcelableArrayList(EVENTS);
     }
-
+    
     @Nullable
     @Override
     public View onCreateView(
@@ -75,14 +73,15 @@ public class EventsFragment<T extends Event> extends Fragment {
         setupRecyclerView();
         return view;
     }
-
+    
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
-
+    
     private void setupRecyclerView() {
+        // TODO Add check for LayoutManager
 //        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 //        recyclerView.addItemDecoration(new GridSpacingItemDecoration(
 //                2,
@@ -91,7 +90,7 @@ public class EventsFragment<T extends Event> extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        
         // TODO Find a better way
         if (events.get(0) instanceof GenericEvent) {
             //noinspection unchecked

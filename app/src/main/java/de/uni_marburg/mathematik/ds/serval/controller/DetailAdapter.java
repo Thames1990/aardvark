@@ -15,17 +15,17 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment;
  * Adapter for the detail view of an {@link Event event}
  */
 public class DetailAdapter<T extends Event> extends FragmentPagerAdapter {
-
+    
     private T event;
     private String[] tabTitles;
-
+    
     public DetailAdapter(FragmentManager fm, T event, Context context) {
         super(fm);
         this.event = event;
         // Needs to be updated if new tabs are added
         tabTitles = context.getResources().getStringArray(R.array.detail_tabs);
     }
-
+    
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -37,12 +37,12 @@ public class DetailAdapter<T extends Event> extends FragmentPagerAdapter {
                 return PlaceholderFragment.newInstance();
         }
     }
-
+    
     @Override
     public int getCount() {
         return tabTitles.length;
     }
-
+    
     @Override
     public CharSequence getPageTitle(int position) {
         return tabTitles[position];

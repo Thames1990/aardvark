@@ -20,40 +20,40 @@ import static android.support.v7.widget.RecyclerView.*;
 
 abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
         extends RecyclerView.Adapter<VH> {
-
+    
     /**
      * Time, after which an event pending removal is removed
      */
     private static final int PENDING_REMOVAL_TIMEOUT = 3000;
-
+    
     /**
      * Items controlled by the adapter
      */
     private List<T> items;
-
+    
     /**
      * Items pending removal
      */
     private List<T> itemsPendingRemoval;
-
+    
     /**
      * Saves items pending removal and their temporal state
      */
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private HashMap<T, Runnable> pendingRunnables;
-
+    
     /**
      * Handles the time after which items are removed
      */
     private Handler handler;
-
+    
     BaseAdapter(List<T> items) {
         this.items = items;
         this.itemsPendingRemoval = new ArrayList<>();
         this.pendingRunnables = new HashMap<>();
         this.handler = new Handler();
     }
-
+    
     /**
      * Adds an item to the adapter
      *
@@ -63,7 +63,7 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
         items.add(item);
         notifyItemInserted(getItemCount() - 1);
     }
-
+    
     /**
      * Removes an item from the adapter
      *
@@ -77,7 +77,7 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
         items.remove(position);
         notifyItemRemoved(position);
     }
-
+    
     /**
      * Removes a range of items from the adapter
      *
@@ -90,14 +90,14 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
         }
         notifyItemRangeRemoved(positionStart, eventCount);
     }
-
+    
     /**
      * Removes all items from the adapter
      */
     public void removeAll() {
         removeRange(0, items.size());
     }
-
+    
     /**
      * Instructs the adapter to add an item to the pending removals
      *
@@ -113,7 +113,7 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
             pendingRunnables.put(item, pendingRemovalRunnable);
         }
     }
-
+    
     /**
      * Checks whether an item at a given position is already pending removal.
      *
@@ -124,23 +124,23 @@ abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
     public boolean isPendingRemoval(int position) {
         return itemsPendingRemoval.contains(items.get(position));
     }
-
+    
     @Override
     public int getItemCount() {
         return items.size();
     }
-
+    
     /**
      * Is used as an extension to {@link BaseAdapter#onBindViewHolder(BaseViewHolder, int)} to
      * pass the corresponding item.
      *
-     * @param holder   The ViewHolder which should be updated to represent the contents of the
-     *                 item at the given position in the data set.
+     * @param holder   The ViewHolder which should be updated to represent the contents of the item
+     *                 at the given position in the data set.
      * @param item     The item at the given position in the dataset.
      * @param position The position of the item within the adapter's data set.
      */
     protected abstract void onBindViewHolder(VH holder, T item, int position);
-
+    
     @Override
     public void onBindViewHolder(VH holder, int position) {
         T item = items.get(position);

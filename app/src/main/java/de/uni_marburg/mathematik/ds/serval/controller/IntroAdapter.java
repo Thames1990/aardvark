@@ -12,22 +12,22 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.IntroFragment;
  * Adapter for the experimental intro sliders
  */
 public class IntroAdapter extends FragmentPagerAdapter {
-
+    
     private int[] introSlideBackgrounds;
-
+    
     public IntroAdapter(FragmentManager fm, Context context) {
         super(fm);
         introSlideBackgrounds = context.getResources().getIntArray(R.array.intro_background);
     }
-
+    
     @Override
     public Fragment getItem(int position) {
         return IntroFragment.newInstance(introSlideBackgrounds[position], position);
     }
-
+    
     @Override
     public int getCount() {
         return introSlideBackgrounds.length;
     }
-
+    
 }

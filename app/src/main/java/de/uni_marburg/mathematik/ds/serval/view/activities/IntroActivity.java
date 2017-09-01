@@ -29,27 +29,27 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 public class IntroActivity
         extends AppCompatActivity
         implements ViewPager.OnPageChangeListener {
-
+    
     private static final int CHECK_LOCATION_PERMISSION = 0;
-
+    
     private static final int FADE_OUT_ANIMATION_DURATION = 1000;
-
+    
     private PrefManager prefManager;
-
+    
     @BindView(R.id.viewpager)
     ViewPager viewPager;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         // Checking if it's the first launch
         prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();
         }
-
+        
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -59,38 +59,38 @@ public class IntroActivity
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
-
+        
         setContentView(R.layout.intro_layout);
         ButterKnife.bind(this);
-
+        
         viewPager.setAdapter(new IntroAdapter(getSupportFragmentManager(), this));
         viewPager.setPageTransformer(false, new IntroPageTransformer(this));
         viewPager.addOnPageChangeListener(this);
     }
-
+    
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        
     }
-
+    
     @Override
     public void onPageSelected(int position) {
         if (position == 2) {
             checkLocationPermission();
         }
     }
-
+    
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        
     }
-
+    
     private void launchHomeScreen() {
         prefManager.setIsFirstTimeLaunch(false);
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
-
+    
     private void checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
@@ -100,22 +100,22 @@ public class IntroActivity
             );
         }
     }
-
+    
     public void startApp(View view) {
         Animation.AnimationListener listener = new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                
             }
-
+            
             @Override
             public void onAnimationEnd(Animation animation) {
                 launchHomeScreen();
             }
-
+            
             @Override
             public void onAnimationRepeat(Animation animation) {
-
+                
             }
         };
         Animation fadeOut = new AlphaAnimation(1, 0);

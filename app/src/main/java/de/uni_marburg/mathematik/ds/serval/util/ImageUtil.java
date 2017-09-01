@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
  * Created by thames1990 on 29.08.17.
  */
 public class ImageUtil {
-
+    
     /**
      * Converting dp to pixel
      */
@@ -23,7 +23,7 @@ public class ImageUtil {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return Math.round(dp * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
-
+    
     @SuppressWarnings("ConstantConditions")
     public static BitmapDescriptor getBitmapDescriptor(@DrawableRes int resId, Context context) {
         Drawable vectorDrawable = ResourcesCompat.getDrawable(context.getResources(), resId, null);

@@ -13,7 +13,7 @@ import de.uni_marburg.mathematik.ds.serval.model.exceptions.MeasurementTypeWitho
  * Type of a {@link Measurement measurement} of an {@link Event event}.
  */
 public enum MeasurementType implements Serializable {
-
+    
     @SerializedName("radiation")
     RADIATION,
     @SerializedName("temperature")
@@ -22,13 +22,13 @@ public enum MeasurementType implements Serializable {
     WIND,
     @SerializedName("precipitation")
     PRECIPITATION;
-
+    
     /**
      * Resolves the resource identifier with the same name.
      *
-     * @param context Interface to global information about an application environment. This is
-     *                an abstract class whose implementation is provided by the Android system.
-     *                It allows access to application-specific resources and classes, as well as
+     * @param context Interface to global information about an application environment. This is an
+     *                abstract class whose implementation is provided by the Android system. It
+     *                allows access to application-specific resources and classes, as well as
      *                up-calls for application-level operations such as launching activities,
      *                broadcasting and receiving intents, etc.
      * @return The resource identifier for the resource with the same name
@@ -47,7 +47,7 @@ public enum MeasurementType implements Serializable {
         }
         return resId;
     }
-
+    
     @Override
     public String toString() {
         return name().toLowerCase();

@@ -23,10 +23,10 @@ import okhttp3.Response;
  * Created by thames1990 on 01.09.17.
  */
 public class GenericEventUtil {
-
+    
     public static ArrayList<GenericEvent> loadData(Context context) {
         ArrayList<GenericEvent> events = new ArrayList<>();
-
+        
         Request request = new Request.Builder()
                 .url(context.getString(R.string.url_rest_api))
                 .build();
@@ -35,14 +35,14 @@ public class GenericEventUtil {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
             }
-
+            
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response)
                     throws IOException {
                 if (!response.isSuccessful()) {
                     throw new IOException();
                 }
-
+                
                 Gson gson = new Gson();
                 @SuppressWarnings("ConstantConditions")
                 InputStream in = response.body().byteStream();
@@ -56,7 +56,7 @@ public class GenericEventUtil {
                 }
             }
         });
-
+        
         return events;
     }
 }

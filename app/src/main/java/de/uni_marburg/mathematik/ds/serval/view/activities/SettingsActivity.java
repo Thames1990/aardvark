@@ -21,25 +21,25 @@ import de.uni_marburg.mathematik.ds.serval.R;
  * Settings view
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        
         getFragmentManager().beginTransaction().replace(
                 android.R.id.content,
                 new MainPreferenceFragment()
         ).commit();
     }
-
+    
     public static class MainPreferenceFragment extends PreferenceFragment {
-
+        
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_main);
-
+            
             // Feedback preference click listener
             Preference sendFeedBackPreference =
                     findPreference(getString(R.string.key_send_feedback));
@@ -48,9 +48,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 return true;
             });
         }
-
+        
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -58,10 +58,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    
     private static void bindPreferenceSummaryToValue(Preference preference) {
         preference.setOnPreferenceChangeListener(onPreferenceChangeListener);
-
+        
         onPreferenceChangeListener.onPreferenceChange(
                 preference,
                 PreferenceManager
@@ -69,21 +69,21 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         .getString(preference.getKey(), "")
         );
     }
-
+    
     private static Preference.OnPreferenceChangeListener onPreferenceChangeListener =
             (preference, newValue) -> {
                 String stringValue = newValue.toString();
-
+                
                 if (preference instanceof ListPreference) {
                     // For list preferences, look up the correct display value in the
                     // preference's entries' list
                     ListPreference listPreference = (ListPreference) preference;
                     int index = listPreference.findIndexOfValue(stringValue);
-
+                    
                     // Set the summary to reflect the new value
                     preference.setSummary(index >= 0 ?
-                            listPreference.getEntries()[index] :
-                            null);
+                                          listPreference.getEntries()[index] :
+                                          null);
                 } else if (preference instanceof EditTextPreference) {
                     if (preference.getKey().equals("dummy")) {
                         // Update the changed gallery name to summary filed
@@ -94,7 +94,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
                 return true;
             };
-
+    
     /**
      * Sends feedback via a user choosen email app.
      * <p>
@@ -115,15 +115,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             e.printStackTrace();
         } finally {
             body = "\n\n-----------------------------\n" +
-                    "Please don't remove this information\n" +
-                    "Device OS: Android\n" +
-                    "Device OS version: " + Build.VERSION.RELEASE + "\n" +
-                    "App Version: " + body + "\n" +
-                    "Device Brand: " + Build.BRAND + "\n" +
-                    "Device Model: " + Build.MODEL + "\n" +
-                    "Device Manufacturer: " + Build.MANUFACTURER;
+                   "Please don't remove this information\n" +
+                   "Device OS: Android\n" +
+                   "Device OS version: " + Build.VERSION.RELEASE + "\n" +
+                   "App Version: " + body + "\n" +
+                   "Device Brand: " + Build.BRAND + "\n" +
+                   "Device Model: " + Build.MODEL + "\n" +
+                   "Device Manufacturer: " + Build.MANUFACTURER;
         }
-
+        
         Intent mailto = new Intent(
                 Intent.ACTION_SENDTO,
                 Uri.fromParts("mailto", context.getString(R.string.email_adress_feedback), null)

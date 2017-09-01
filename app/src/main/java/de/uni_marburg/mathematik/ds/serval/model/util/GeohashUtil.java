@@ -4,9 +4,9 @@ package de.uni_marburg.mathematik.ds.serval.model.util;
  * Is used to check if latitude, longitude and geohash match.
  */
 public class GeohashUtil {
-
+    
     private static final String BASE_32 = "0123456789bcdefghjkmnpqrstuvwxyz";
-
+    
     private static int divideRangeByValue(double value, double[] range) {
         double mid = middle(range);
         if (value >= mid) {
@@ -17,7 +17,7 @@ public class GeohashUtil {
             return 0;
         }
     }
-
+    
     private static void divideRangeByBit(int bit, double[] range) {
         double mid = middle(range);
         if (bit > 0) {
@@ -26,11 +26,11 @@ public class GeohashUtil {
             range[1] = mid;
         }
     }
-
+    
     private static double middle(double[] range) {
         return (range[0] + range[1]) / 2;
     }
-
+    
     public static String encodeGeohash(double latitude, double longitude, int precision) {
         double[] latRange = new double[]{-90.0, 90.0};
         double[] lonRange = new double[]{-180.0, 180.0};
@@ -38,16 +38,16 @@ public class GeohashUtil {
         int bit = 0;
         int base32CharIndex = 0;
         StringBuilder geohash = new StringBuilder();
-
+        
         while (geohash.length() < precision) {
             if (isEven) {
                 base32CharIndex = (base32CharIndex << 1) | divideRangeByValue(longitude, lonRange);
             } else {
                 base32CharIndex = (base32CharIndex << 1) | divideRangeByValue(latitude, latRange);
             }
-
+            
             isEven = !isEven;
-
+            
             if (bit < 4) {
                 bit++;
             } else {
@@ -56,15 +56,15 @@ public class GeohashUtil {
                 base32CharIndex = 0;
             }
         }
-
+        
         return geohash.toString();
     }
-
+    
     public static double[] decodeGeohash(String geohash) {
         double[] latRange = new double[]{-90.0, 90.0};
         double[] lonRange = new double[]{-180.0, 180.0};
         boolean isEvenBit = true;
-
+        
         for (int i = 0; i < geohash.length(); i++) {
             int base32CharIndex = BASE_32.indexOf(geohash.charAt(i));
             for (int j = 4; j >= 0; j--) {
@@ -76,7 +76,7 @@ public class GeohashUtil {
                 isEvenBit = !isEvenBit;
             }
         }
-
+        
         return new double[]{middle(latRange), middle(lonRange)};
     }
 }
