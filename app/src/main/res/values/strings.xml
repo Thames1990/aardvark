@@ -63,7 +63,8 @@
 
     <!-- Location -->
     <string name="current_location">Current location</string>
-    <string name="distance_to">%1$.2f km</string>
+    <string name="distance_to_kilometer">%1$.2f km</string>
+    <string name="distance_to_meter">%1$.0f m</string>
     <string name="geohash">Geohash</string>
     <string name="latitude">Latitude</string>
     <string name="location">Location</string>

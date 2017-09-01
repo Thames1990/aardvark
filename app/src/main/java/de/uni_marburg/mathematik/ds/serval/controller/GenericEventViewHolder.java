@@ -96,18 +96,26 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
         }
     }
     
-    private void setupLocation() {
+    public void setupLocation() {
         if (checkSelfPermission(context, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
             return;
         }
         Location lastKnownLocation =
                 locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (lastKnownLocation != null) {
-            location.setText(String.format(
-                    context.getString(R.string.distance_to),
-                    // meter to kilometer
-                    lastKnownLocation.distanceTo(event.getLocation()) / 1000
-            ));
+            float distanceInMeters = lastKnownLocation.distanceTo(event.getLocation());
+            
+            if (distanceInMeters < 1000) {
+                location.setText(String.format(
+                        context.getString(R.string.distance_to_meter),
+                        distanceInMeters
+                ));
+            } else {
+                location.setText(String.format(
+                        context.getString(R.string.distance_to_kilometer),
+                        distanceInMeters / 1000
+                ));
+            }
         }
     }
     
