@@ -4,14 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -48,8 +55,6 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> implements Loc
     
     private Event event;
     
-    private LocationManager locationManager;
-    
     @BindView(R.id.measurement_types)
     LinearLayout measurementTypes;
     @BindView(R.id.time)
@@ -62,7 +67,6 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> implements Loc
     GenericEventViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
         context = parent.getContext();
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
     
     @Override
@@ -70,7 +74,7 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> implements Loc
         this.event = event;
         title.setText(context.getString(R.string.title));
         setupTime();
-        setupLocation();
+        requestLocation();
         setupMeasurementIcons();
     }
     
@@ -108,11 +112,50 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> implements Loc
         format.format(calendar.getTime());
     }
     
-    public void setupLocation() {
+    private void requestLocation() {
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(TimeUnit.MINUTES.toMillis(15));
+        locationRequest.setFastestInterval(TimeUnit.SECONDS.toMillis(75));
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(locationRequest);
+        LocationSettingsRequest locationSettingsRequest = builder.build();
+        
+        SettingsClient settingsClient = LocationServices.getSettingsClient(context);
+        settingsClient.checkLocationSettings(locationSettingsRequest);
+        
         if (checkSelfPermission(context, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
             return;
         }
-        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this, null);
+        LocationServices.getFusedLocationProviderClient(context).requestLocationUpdates(
+                locationRequest,
+                new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        setupLocation(locationResult.getLastLocation());
+                    }
+                },
+                Looper.myLooper()
+        );
+    }
+    
+    private void setupLocation(Location newLocation) {
+        float distanceInMeters = newLocation.distanceTo(event.getLocation());
+        
+        if (distanceInMeters < 1000) {
+            location.setText(String.format(
+                    Locale.getDefault(),
+                    context.getString(R.string.distance_to_meter),
+                    distanceInMeters
+            ));
+        } else {
+            location.setText(String.format(
+                    Locale.getDefault(),
+                    context.getString(R.string.distance_to_kilometer),
+                    distanceInMeters / 1000
+            ));
+        }
     }
     
     /**
@@ -159,21 +202,7 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> implements Loc
     
     @Override
     public void onLocationChanged(Location newLocation) {
-        float distanceInMeters = newLocation.distanceTo(event.getLocation());
-        
-        if (distanceInMeters < 1000) {
-            location.setText(String.format(
-                    Locale.getDefault(),
-                    context.getString(R.string.distance_to_meter),
-                    distanceInMeters
-            ));
-        } else {
-            location.setText(String.format(
-                    Locale.getDefault(),
-                    context.getString(R.string.distance_to_kilometer),
-                    distanceInMeters / 1000
-            ));
-        }
+        setupLocation(newLocation);
     }
     
     @Override
