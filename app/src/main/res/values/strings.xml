@@ -106,10 +106,5 @@
     <string name="tools_time">24 min</string>
 
     <!-- URLs -->
-    <!-- TODO Replace with real URLs -->
-    <string name="url_faq" translatable="false">https://api.splork.de/dummy_data.json</string>
-    <string name="url_map_preview" translatable="false">http://maps.google.com/maps/api/staticmap?center=%1$.15f,%2$.15f&amp;zoom=15&amp;size=500x500</string>
-    <string name="url_privacy" translatable="false">https://api.splork.de/dummy_data.json</string>
-    <string name="url_terms" translatable="false">https://api.splork.de/dummy_data.json</string>
     <string name="url_rest_api" translatable="false">https://api.splork.de/dummy_data.json</string>
 </resources>

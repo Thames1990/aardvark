@@ -17,7 +17,7 @@ public class PrefManager {
     private SharedPreferences.Editor editor;
     
     /**
-     * Desired preferences file. If a preferences file by this name does not exist, it will be
+     * Desired preferences_main file. If a preferences_main file by this name does not exist, it will be
      * created when you retrieve an editor (SharedPreferences.edit()) and then commit changes
      * (Editor.commit()).
      */
