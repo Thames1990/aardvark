@@ -3,12 +3,12 @@ package de.uni_marburg.mathematik.ds.serval.view.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +27,8 @@ import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.util.GridSpacingItemDecoration;
+import de.uni_marburg.mathematik.ds.serval.view.util.SwipeToDeleteItemDecoration;
+import de.uni_marburg.mathematik.ds.serval.view.util.SwipeToDeleteTouchHelper;
 
 /**
  * Created by thames1990 on 28.08.17.
@@ -86,6 +88,11 @@ public class EventsFragment<T extends Event> extends Fragment {
     }
     
     private void setupRecyclerView() {
+        setupLayoutManager();
+        setupAdapter();
+    }
+    
+    private void setupLayoutManager() {
         PrefManager prefManager = new PrefManager(getContext());
         if (prefManager.useLinearLayoutManger()) {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -93,6 +100,10 @@ public class EventsFragment<T extends Event> extends Fragment {
                     getContext(),
                     DividerItemDecoration.VERTICAL
             ));
+            ItemTouchHelper touchHelper =
+                    new ItemTouchHelper(new SwipeToDeleteTouchHelper(getContext()));
+            touchHelper.attachToRecyclerView(recyclerView);
+            recyclerView.addItemDecoration(new SwipeToDeleteItemDecoration());
         } else if (prefManager.useGridLayoutManger()) {
             recyclerView.setLayoutManager(new GridLayoutManager(
                     getContext(),
@@ -110,9 +121,9 @@ public class EventsFragment<T extends Event> extends Fragment {
             ));
             // TODO Add item decoration
         }
-        
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        
+    }
+    
+    private void setupAdapter() {
         // TODO Find a better way
         if (events.get(0) instanceof GenericEvent) {
             //noinspection unchecked

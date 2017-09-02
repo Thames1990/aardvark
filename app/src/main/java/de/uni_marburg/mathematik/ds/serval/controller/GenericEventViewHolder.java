@@ -6,6 +6,7 @@ import android.location.Location;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,12 +53,12 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     
     private Event event;
     
+    @BindView(R.id.undo)
+    Button undo;
     @BindView(R.id.measurement_types)
     LinearLayout measurementTypes;
     @BindView(R.id.time)
     TextView time;
-    @BindView(R.id.title)
-    TextView title;
     @BindView(R.id.location)
     TextView location;
     
@@ -69,7 +70,6 @@ class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     @Override
     protected void onBind(GenericEvent event, int position) {
         this.event = event;
-        title.setText(context.getString(R.string.title));
         setupTime();
         requestLocation();
         setupMeasurementIcons();

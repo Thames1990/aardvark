@@ -41,6 +41,7 @@
     <string name="settings">Settings</string>
     <string name="smartphone">Smartphone</string>
     <string name="title">Title</string>
+    <string name="undo">Undo</string>
     <string name="version">Version</string>
 
     <!-- ImageView content descriptions -->
@@ -100,7 +101,7 @@
     <string name="days_ago">%1$dd</string>
     <string name="time">Time</string>
 
-    <!-- Tools Data -->
+    <!-- Tools Fake Data -->
     <string name="tools_distance">392 m</string>
     <string name="tools_time">24 min</string>
 

@@ -1,5 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.controller;
 
+import android.graphics.Color;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -27,6 +29,20 @@ public class GenericEventAdapter extends BaseAdapter<GenericEvent, GenericEventV
             GenericEvent event,
             int position
     ) {
-        
+        if (isPendingRemoval(position)) {
+            holder.itemView.setBackgroundColor(Color.RED);
+            holder.measurementTypes.setVisibility(View.GONE);
+            holder.time.setVisibility(View.GONE);
+            holder.location.setVisibility(View.GONE);
+            holder.undo.setVisibility(View.VISIBLE);
+            holder.undo.setOnClickListener(view -> undoPendingRemoval(position));
+        } else {
+            holder.itemView.setBackgroundColor(Color.WHITE);
+            holder.measurementTypes.setVisibility(View.VISIBLE);
+            holder.time.setVisibility(View.VISIBLE);
+            holder.location.setVisibility(View.VISIBLE);
+            holder.undo.setVisibility(View.GONE);
+            holder.undo.setOnClickListener(null);
+        }
     }
 }
