@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             int lastKnownVersionCode = prefManager.getLastKnownVersionCode();
             
-            if (lastKnownVersionCode < versionCode) {
+            if (prefManager.showChangelog() && lastKnownVersionCode < versionCode) {
                 showChangelog(versionCode);
                 prefManager.setLastKnownVersionCode(versionCode);
             }

@@ -17,14 +17,17 @@ public class PrefManager {
     private SharedPreferences.Editor editor;
     
     /**
-     * Desired preferences_main file. If a preferences_main file by this name does not exist, it will be
-     * created when you retrieve an editor (SharedPreferences.edit()) and then commit changes
-     * (Editor.commit()).
+     * Desired preference file.
+     * <p>
+     * If a preference file by this name does not exist, it
+     * will be created when you retrieve an editor (SharedPreferences.edit()) and then commit
+     * changes (Editor.commit()).
      */
     private static final String PREF_NAME = "Serval";
     
     /**
      * Operating mode.
+     * <p>
      * Value is either 0 or combination of MODE_PRIVATE, MODE_WORLD_READABLE,
      * MODE_WORLD_WRITEABLE or MODE_MULTI_PROCESS.
      */
@@ -39,10 +42,14 @@ public class PrefManager {
     private static final String IS_FIRST_TIME_LAUNCH = "IS_FIRST_TIME_LAUNCH";
     
     /**
-     * Key for the last known version code. Is used to determine whether the changelog should be
+     * Key for the last known version code.
+     * <p>
+     * Is used to determine whether the changelog should be
      * shown.
      */
     private static final String LAST_KNOWN_VERSION_CODE = "LAST_KNOWN_VERSION_CODE";
+    
+    private static final String SHOW_CHANGELOG = "SHOW_CHANGELOG";
     
     /**
      * This key is used to determine wheter {@link BottomSheetDialog bottom sheets dialogs} or
@@ -86,6 +93,15 @@ public class PrefManager {
     
     public int getLastKnownVersionCode() {
         return preferences.getInt(LAST_KNOWN_VERSION_CODE, 0);
+    }
+    
+    public void setShowChangelog(boolean showChangelog) {
+        editor.putBoolean(SHOW_CHANGELOG, showChangelog)
+              .commit();
+    }
+    
+    public boolean showChangelog() {
+        return preferences.getBoolean(SHOW_CHANGELOG, true);
     }
     
     public void setUseBottomSheetDialogs(boolean useBottomSheetDialogs) {
