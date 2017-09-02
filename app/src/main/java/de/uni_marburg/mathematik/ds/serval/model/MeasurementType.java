@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.model;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +9,6 @@ import java.io.Serializable;
 import java.util.Locale;
 
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.exceptions.MeasurementTypeWithoutIcon;
 
 /**
  * Type of a {@link Measurement measurement} of an {@link Event event}.
@@ -34,14 +34,14 @@ public enum MeasurementType implements Serializable {
      *                broadcasting and receiving intents, etc.
      * @return The resource identifier for the resource with the same name
      */
-    public int getResId(Context context) throws MeasurementTypeWithoutIcon {
+    public int getResId(Context context) {
         int resId = context.getResources().getIdentifier(
                 toString(),
                 "drawable",
                 context.getPackageName()
         );
         if (resId == 0) {
-            throw new MeasurementTypeWithoutIcon(String.format(
+            throw new Resources.NotFoundException(String.format(
                     Locale.getDefault(),
                     context.getString(R.string.exception_measurement_type_without_icon),
                     toString()
