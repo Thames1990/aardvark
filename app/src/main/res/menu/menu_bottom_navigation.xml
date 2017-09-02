@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/dashboard"
         android:icon="@drawable/dashboard"
-        android:title="@string/dashboard"/>
+        android:title="@string/dashboard"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/events"
         android:icon="@drawable/event"
-        android:title="@string/events"/>
+        android:title="@string/events"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/map"
         android:icon="@drawable/map"
-        android:title="@string/map"/>
+        android:title="@string/map"
+        app:showAsAction="ifRoom"/>
 
 </menu>

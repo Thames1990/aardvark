@@ -4,13 +4,11 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,12 +52,8 @@ public class MainActivity extends AppCompatActivity {
     
     private FragmentManager fragmentManager;
     
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         events = GenericEventUtil.loadData(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
         setupBottomNavigationView();
         checkForNewVersion();
     }
@@ -93,24 +86,20 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.dashboard:
                     if (!(currentFragment instanceof DashboardFragment)) {
                         fragment = DashboardFragment.newInstance(lastEvents);
-                        toolbar.setTitle(getString(R.string.dashboard));
                     }
                     break;
                 case R.id.events:
                     if (!(currentFragment instanceof EventsFragment)) {
                         fragment = EventsFragment.newInstance(lastEvents);
-                        toolbar.setTitle(getString(R.string.events));
                     }
                     break;
                 case R.id.map:
                     if (!(currentFragment instanceof MapFragment)) {
                         fragment = MapFragment.newInstance(lastEvents);
-                        toolbar.setTitle(getString(R.string.map));
                     }
                     break;
                 default:
                     fragment = PlaceholderFragment.newInstance();
-                    toolbar.setTitle(getString(R.string.placeholder));
             }
             
             if (fragment != null) {

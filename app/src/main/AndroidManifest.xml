@@ -33,11 +33,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activities.MainActivity"/>
-        <activity android:name=".view.activities.DetailActivity"/>
+        <activity
+            android:name=".view.activities.DetailActivity"
+            android:theme="@style/AppTheme.DetailActivity"/>
         <activity
             android:name=".view.activities.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.PreferenceTheme">
+            android:label="@string/title_activity_settings">
         </activity>
     </application>
 
