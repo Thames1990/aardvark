@@ -112,7 +112,7 @@ public abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
      *
      * @param position Position of the item pending removal
      */
-    public void undoPendingRemoval(int position) {
+    void undoPendingRemoval(int position) {
         T item = items.get(position);
         Runnable pendingRemovalRunnable = pendingRunnables.get(item);
         pendingRunnables.remove(item);
