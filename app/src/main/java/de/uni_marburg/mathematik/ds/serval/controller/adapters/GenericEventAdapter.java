@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.controller.GenericEventViewHolder;
+import de.uni_marburg.mathematik.ds.serval.controller.view_holders.GenericEventViewHolder;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
 
 /**

@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.controller;
+package de.uni_marburg.mathematik.ds.serval.controller.view_holders;
 
 import android.content.Context;
 import android.content.Intent;

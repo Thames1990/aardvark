@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.controller;
+package de.uni_marburg.mathematik.ds.serval.controller.view_holders;
 
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView.ViewHolder;
