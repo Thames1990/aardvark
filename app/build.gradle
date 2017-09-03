@@ -91,6 +91,8 @@ dependencies {
     compile "com.android.support:support-v4:${support_library_version}"
     compile "com.android.support:support-vector-drawable:${support_library_version}"
     compile "com.android.support:recyclerview-v7:${support_library_version}"
+    // Firebase
+    compile "com.google.firebase:firebase-core:${google_play_services_version}"
     // Google Play Services
     compile "com.google.android.gms:play-services-location:${google_play_services_version}"
     compile "com.google.android.gms:play-services-maps:${google_play_services_version}"
@@ -108,3 +110,5 @@ dependencies {
     compile 'us.feras.mdv:markdownview:1.1.0'
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'
