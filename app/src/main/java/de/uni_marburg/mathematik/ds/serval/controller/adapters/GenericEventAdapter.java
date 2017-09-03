@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.controller;
+package de.uni_marburg.mathematik.ds.serval.controller.adapters;
 
 import android.graphics.Color;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.controller.GenericEventViewHolder;
 import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
 
 /**

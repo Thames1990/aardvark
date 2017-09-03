@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.controller;
+package de.uni_marburg.mathematik.ds.serval.controller.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

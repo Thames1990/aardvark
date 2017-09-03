@@ -47,22 +47,22 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 /**
  * ViewHolder for {@link GenericEvent generic events}
  */
-class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
+public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     
     private Context context;
     
     private Event event;
     
     @BindView(R.id.undo)
-    Button undo;
+    public Button undo;
     @BindView(R.id.measurement_types)
-    LinearLayout measurementTypes;
+    public LinearLayout measurementTypes;
     @BindView(R.id.time)
-    TextView time;
+    public TextView time;
     @BindView(R.id.location)
-    TextView location;
+    public TextView location;
     
-    GenericEventViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
+    public GenericEventViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
         context = parent.getContext();
     }

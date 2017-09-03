@@ -14,7 +14,7 @@ import de.uni_marburg.mathematik.ds.serval.model.Event;
  * <p>
  * Has Listener for normal and long clicks.
  */
-abstract class BaseViewHolder<T extends Event>
+public abstract class BaseViewHolder<T extends Event>
         extends ViewHolder
         implements View.OnClickListener, View.OnLongClickListener {
     
@@ -33,7 +33,7 @@ abstract class BaseViewHolder<T extends Event>
      * @param event    The event that should be bound.
      * @param position The position of the event that should be bound.
      */
-    final void performBind(T event, int position) {
+    public final void performBind(T event, int position) {
         this.event = event;
         onBind(event, position);
     }

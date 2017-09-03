@@ -17,7 +17,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.controller.DetailAdapter;
+import de.uni_marburg.mathematik.ds.serval.controller.adapters.DetailAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 
 /**

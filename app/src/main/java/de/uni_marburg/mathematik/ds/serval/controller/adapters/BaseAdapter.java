@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.controller;
+package de.uni_marburg.mathematik.ds.serval.controller.adapters;
 
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.uni_marburg.mathematik.ds.serval.controller.BaseViewHolder;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 
 import static android.support.v7.widget.RecyclerView.*;

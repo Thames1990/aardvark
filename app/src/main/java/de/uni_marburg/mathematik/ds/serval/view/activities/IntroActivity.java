@@ -16,7 +16,7 @@ import android.view.animation.Animation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.controller.IntroAdapter;
+import de.uni_marburg.mathematik.ds.serval.controller.adapters.IntroAdapter;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.util.IntroPageTransformer;
 

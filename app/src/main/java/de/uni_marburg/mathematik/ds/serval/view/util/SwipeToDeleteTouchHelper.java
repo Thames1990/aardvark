@@ -12,7 +12,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.controller.BaseAdapter;
+import de.uni_marburg.mathematik.ds.serval.controller.adapters.BaseAdapter;
 
 /**
  * Created by thames1990 on 02.09.17.
