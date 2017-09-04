@@ -7,11 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 
@@ -72,5 +75,12 @@ public class MeasurementsFragment<T extends Event> extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+    
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = Serval.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }

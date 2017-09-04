@@ -2,76 +2,63 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
+    maven {url 'https://maven.fabric.io/public'}
 }
 
 android {
-    signingConfigs {
-        release {
-            def propsFile = rootProject.file('keystore.properties')
-            if (propsFile.exists()) {
-                def props = new Properties();
-                props.load(new FileInputStream(propsFile))
-                storeFile = file(props['storeFile'])
-                storePassword = props['storePassword']
-                keyAlias = props['keyAlias']
-                keyPassword = props['keyPassword']
-            } else if (
-            System.getenv("SERVAL_KEYSTORE_STORE_FILE") != null &&
-                    System.getenv("SERVAL_KEYSTORE_STORE_PASSWORD") != null &&
-                    System.getenv("SERVAL_KEYSTORE_KEY_ALIAS") != null &&
-                    System.getenv("SERVAL_KEYSTORE_KEY_PASSWORD") != null
-            ) {
-                storeFile = System.getenv("SERVAL_KEYSTORE_STORE_FILE")
-                storePassword = System.getenv("SERVAL_KEYSTORE_STORE_PASSWORD")
-                keyAlias = System.getenv("SERVAL_KEYSTORE_KEY_ALIAS")
-                keyPassword = System.getenv("SERVAL_KEYSTORE_KEY_PASSWORD")
-            }
-        }
-    }
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.1'
+    
     defaultConfig {
-        applicationId "de.uni_marburg.mathematik.ds.serval"
+        applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 8
-        versionName "0.1.0"
-        setProperty("archivesBaseName", "$applicationId-$versionName")
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionName '0.1.0'
+        setProperty('archivesBaseName', "$applicationId-$versionName")
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
-
+        
         jackOptions {
             enabled true
         }
     }
-    applicationVariants.all { variant ->
-        variant.resValue "string", "versionName", variant.versionName
-        def propsFile = rootProject.file('keys.properties')
-        def String googleMapsKeys
-        if (propsFile.exists()) {
-            def props = new Properties();
-            props.load(new FileInputStream(propsFile))
-            googleMapsKeys = props['googleMapsKey']
-            variant.resValue "string", "google_maps_key", googleMapsKeys
-        } else if (System.getenv("SERVAL_MAPS_KEY") != null) {
-            variant.resValue "string", "google_maps_key", System.getenv("SERVAL_MAPS_KEY")
+    
+    applicationVariants.all {variant ->
+        variant.resValue("string", "versionName", variant.versionName)
+    }
+    
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    
+    signingConfigs {
+        release {
+            storeFile = file(keystoreProperties['storeFile'])
+            storePassword = keystoreProperties['storePassword']
+            keyAlias = keystoreProperties['keyAlias']
+            keyPassword = keystoreProperties['keyPassword']
         }
     }
+    
     buildTypes {
+        debug {
+            manifestPlaceholders = [
+                    KEY_FABRIC     : keystoreProperties['key_fabric'],
+                    KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps']
+            ]
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            if (rootProject.file("keystore.properties").exists() ||
-                    (System.getenv("SERVAL_KEYSTORE_STORE_FILE") != null &&
-                            System.getenv("SERVAL_KEYSTORE_STORE_PASSWORD") != null &&
-                            System.getenv("SERVAL_KEYSTORE_KEY_ALIAS") != null &&
-                            System.getenv("SERVAL_KEYSTORE_KEY_PASSWORD") != null)
-            ) {
-                signingConfig signingConfigs.release
-            }
+            signingConfig signingConfigs.release
+            manifestPlaceholders = [
+                    KEY_FABRIC     : keystoreProperties['key_fabric'],
+                    KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps']
+            ]
         }
     }
+    
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -79,16 +66,54 @@ android {
 }
 
 dependencies {
+    
     ext {
         butterknife_version = '8.8.1'
         google_play_services_version = '11.2.0'
+        leak_canary_version = '1.5.2'
         material_dialogs_version = '0.9.4.7'
         support_library_version = '26.0.1'
     }
+    
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestCompile(
+            'com.android.support.test.espresso:espresso-core:2.2.2',
+            {exclude group: 'com.android.support', module: 'support-annotations'}
+    )
+    
+    // Butter Knife
+    compile "com.jakewharton:butterknife:${butterknife_version}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${butterknife_version}"
+    
+    // Fabric
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
+    
+    // Firebase
+    compile "com.google.firebase:firebase-core:${google_play_services_version}"
+    
+    // Google Play Services
+    compile "com.google.android.gms:play-services-location:${google_play_services_version}"
+    compile "com.google.android.gms:play-services-maps:${google_play_services_version}"
+    
+    // Gson
+    compile 'com.google.code.gson:gson:2.8.1'
+    
+    // LeakCanary
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leak_canary_version}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leak_canary_version}"
+    
+    // Material Dialogs
+    compile "com.afollestad.material-dialogs:core:${material_dialogs_version}"
+    compile "com.afollestad.material-dialogs:commons:${material_dialogs_version}"
+    
+    // MarkdownView
+    compile 'us.feras.mdv:markdownview:1.1.0'
+    
+    // OkHttp
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    
     // Support libraries
     compile "com.android.support:appcompat-v7:${support_library_version}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -96,27 +121,8 @@ dependencies {
     compile "com.android.support:support-v4:${support_library_version}"
     compile "com.android.support:support-vector-drawable:${support_library_version}"
     compile "com.android.support:recyclerview-v7:${support_library_version}"
-    // Firebase
-    compile "com.google.firebase:firebase-core:${google_play_services_version}"
-    // Google Play Services
-    compile "com.google.android.gms:play-services-location:${google_play_services_version}"
-    compile "com.google.android.gms:play-services-maps:${google_play_services_version}"
-    // Butter Knife
-    compile "com.jakewharton:butterknife:${butterknife_version}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${butterknife_version}"
-    // Gson
-    compile 'com.google.code.gson:gson:2.8.1'
-    // OkHttp
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    // Material Dialogs
-    compile "com.afollestad.material-dialogs:core:${material_dialogs_version}"
-    compile "com.afollestad.material-dialogs:commons:${material_dialogs_version}"
-    // MarkdownView
-    compile 'us.feras.mdv:markdownview:1.1.0'
-    // Fabric
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
-    }
+    
+    // Test libraries
     testCompile 'junit:junit:4.12'
 }
 

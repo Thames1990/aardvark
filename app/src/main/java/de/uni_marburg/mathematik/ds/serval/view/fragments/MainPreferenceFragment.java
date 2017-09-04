@@ -10,7 +10,10 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.Serval;
 
 /**
  * Created by thames1990 on 02.09.17.
@@ -32,6 +35,13 @@ public class MainPreferenceFragment extends PreferenceFragment {
         this.context = context;
     }
     
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = Serval.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
+    
     private void setupPreferences() {
         Preference feedback = findPreference(getString(R.string.preference_key_send_feedback));
         feedback.setOnPreferenceClickListener(preference -> {
@@ -44,8 +54,6 @@ public class MainPreferenceFragment extends PreferenceFragment {
      * Sends feedback via a user choosen email app.
      * <p>
      * Including all necessary informations about the device and app version.
-     *
-     * @param context Application environment
      */
     private void sendFeedback() {
         // Avoids the String 'null' if app version couldn't be gathered

@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,6 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.LocationUtil;
@@ -160,6 +162,8 @@ public class MapFragment<T extends Event>
         super.onDestroy();
         map.onDestroy();
         unbinder.unbind();
+        RefWatcher refWatcher = Serval.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
     
     @Override

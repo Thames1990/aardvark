@@ -16,6 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.util.Locale;
 
@@ -23,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.model.Event;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 
@@ -122,6 +124,8 @@ public class InformationFragment<T extends Event> extends Fragment implements On
         super.onDestroy();
         map.onDestroy();
         unbinder.unbind();
+        RefWatcher refWatcher = Serval.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
     
     @Override
