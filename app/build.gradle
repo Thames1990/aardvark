@@ -1,4 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
 
 android {
     signingConfigs {
@@ -108,6 +113,10 @@ dependencies {
     compile "com.afollestad.material-dialogs:commons:${material_dialogs_version}"
     // MarkdownView
     compile 'us.feras.mdv:markdownview:1.1.0'
+    // Fabric
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
     testCompile 'junit:junit:4.12'
 }
 

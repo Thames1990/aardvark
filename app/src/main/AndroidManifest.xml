@@ -19,12 +19,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <!-- Loaded from external Gradle property file -->
-        <!--suppress AndroidDomInspection -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
-
         <activity
             android:name=".view.activities.IntroActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -42,6 +36,18 @@
             android:name=".view.activities.SettingsActivity"
             android:label="@string/title_activity_settings">
         </activity>
+
+        <!-- Loaded from external Gradle property file -->
+        <!--suppress AndroidDomInspection -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key"/>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9238377751ed88470406e10a0464e36ef5e84224"
+            />
+
     </application>
 
 </manifest>
