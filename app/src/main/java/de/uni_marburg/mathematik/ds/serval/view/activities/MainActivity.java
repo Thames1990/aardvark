@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.changelog),
                 getString(R.string.versionName)
         );
-        String changelogFile = String.format(getString(R.string.changelog_file), versionCode);
+        String changelogFile = String.format(getString(R.string.file_changelog), versionCode);
         
         if (prefManager.useBottomSheetDialogs()) {
             showChangelogBottomSheetDialog(versionName, changelogFile);

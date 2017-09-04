@@ -33,7 +33,7 @@ public class MainPreferenceFragment extends PreferenceFragment {
     }
     
     private void setupPreferences() {
-        Preference feedback = findPreference(getString(R.string.key_send_feedback));
+        Preference feedback = findPreference(getString(R.string.preference_key_send_feedback));
         feedback.setOnPreferenceClickListener(preference -> {
             sendFeedback();
             return true;
@@ -75,7 +75,7 @@ public class MainPreferenceFragment extends PreferenceFragment {
         mailto.putExtra(Intent.EXTRA_TEXT, body);
         context.startActivity(Intent.createChooser(
                 mailto,
-                context.getString(R.string.choose_email_client)
+                context.getString(R.string.preference_choose_email_client)
         ));
     }
 }

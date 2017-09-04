@@ -87,19 +87,19 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
         if (TimeUnit.MILLISECONDS.toMinutes(difference) < 60) {
             time.setText(String.format(
                     Locale.getDefault(),
-                    context.getString(R.string.minutes_ago),
+                    context.getString(R.string.time_minutes_ago),
                     TimeUnit.MILLISECONDS.toMinutes(difference)
             ));
         } else if (TimeUnit.MILLISECONDS.toHours(difference) < 24) {
             time.setText(String.format(
                     Locale.getDefault(),
-                    context.getString(R.string.hours_ago),
+                    context.getString(R.string.time_hours_ago),
                     TimeUnit.MILLISECONDS.toHours(difference)
             ));
         } else if (TimeUnit.MILLISECONDS.toDays(difference) < 7) {
             time.setText(String.format(
                     Locale.getDefault(),
-                    context.getString(R.string.days_ago),
+                    context.getString(R.string.time_days_ago),
                     TimeUnit.MILLISECONDS.toDays(difference)
             ));
         } else {
@@ -147,13 +147,13 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
         if (distanceInMeters < 1000) {
             location.setText(String.format(
                     Locale.getDefault(),
-                    context.getString(R.string.distance_to_meter),
+                    context.getString(R.string.location_distance_to_meter),
                     distanceInMeters
             ));
         } else {
             location.setText(String.format(
                     Locale.getDefault(),
-                    context.getString(R.string.distance_to_kilometer),
+                    context.getString(R.string.location_distance_to_kilometer),
                     distanceInMeters / 1000
             ));
         }
