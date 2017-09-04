@@ -1,0 +1,7 @@
+- Add Analytics
+  - Add Firebase
+  - Add Fabric
+  - Add LeakCanary
+- Overhaul build process
+  - Improved secret key handling by 233%
+  - Streamlined build process
