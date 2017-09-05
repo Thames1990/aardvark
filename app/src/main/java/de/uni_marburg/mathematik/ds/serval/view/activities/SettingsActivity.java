@@ -4,6 +4,8 @@ package de.uni_marburg.mathematik.ds.serval.view.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MainPreferenceFragment;
 
 /**
@@ -15,10 +17,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
         getFragmentManager().beginTransaction()
                             .replace(android.R.id.content, new MainPreferenceFragment())
                             .commit();
+        Serval.getFirebaseAnalytics(this)
+              .setCurrentScreen(this, getString(R.string.screen_settings), null);
     }
     
     @Override

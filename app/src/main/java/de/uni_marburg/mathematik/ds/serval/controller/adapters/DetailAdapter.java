@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.Event;
+import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.InformationFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MeasurementsFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment;

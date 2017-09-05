@@ -69,7 +69,8 @@ dependencies {
     
     ext {
         butterknife_version = '8.8.1'
-        google_play_services_version = '11.2.0'
+        firebase_version = '11.2.0'
+        google_play_services_version = firebase_version
         leak_canary_version = '1.5.2'
         material_dialogs_version = '0.9.4.7'
         support_library_version = '26.0.1'
@@ -91,14 +92,12 @@ dependencies {
     }
     
     // Firebase
-    compile "com.google.firebase:firebase-core:${google_play_services_version}"
+    compile "com.google.firebase:firebase-auth:${firebase_version}"
+    compile "com.google.firebase:firebase-core:${firebase_version}"
     
     // Google Play Services
     compile "com.google.android.gms:play-services-location:${google_play_services_version}"
     compile "com.google.android.gms:play-services-maps:${google_play_services_version}"
-    
-    // Gson
-    compile 'com.google.code.gson:gson:2.8.1'
     
     // LeakCanary
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leak_canary_version}"
@@ -111,11 +110,15 @@ dependencies {
     // MarkdownView
     compile 'us.feras.mdv:markdownview:1.1.0'
     
+    // Moshi
+    compile 'com.squareup.moshi:moshi:1.5.0'
+    
     // OkHttp
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
     
     // Support libraries
     compile "com.android.support:appcompat-v7:${support_library_version}"
+    compile "com.android.support:cardview-v7:${support_library_version}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "com.android.support:design:${support_library_version}"
     compile "com.android.support:support-v4:${support_library_version}"

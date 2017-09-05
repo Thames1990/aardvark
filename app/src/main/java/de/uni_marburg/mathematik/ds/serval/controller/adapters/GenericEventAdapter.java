@@ -8,7 +8,7 @@ import java.util.List;
 
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.view_holders.GenericEventViewHolder;
-import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
+import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 
 /**
  * Adapter for {@link GenericEvent generic events}

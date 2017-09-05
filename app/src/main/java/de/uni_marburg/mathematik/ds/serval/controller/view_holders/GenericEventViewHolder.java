@@ -30,10 +30,10 @@ import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.Event;
-import de.uni_marburg.mathematik.ds.serval.model.GenericEvent;
-import de.uni_marburg.mathematik.ds.serval.model.Measurement;
-import de.uni_marburg.mathematik.ds.serval.model.MeasurementType;
+import de.uni_marburg.mathematik.ds.serval.model.event.Event;
+import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
+import de.uni_marburg.mathematik.ds.serval.model.event.Measurement;
+import de.uni_marburg.mathematik.ds.serval.model.event.MeasurementType;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;

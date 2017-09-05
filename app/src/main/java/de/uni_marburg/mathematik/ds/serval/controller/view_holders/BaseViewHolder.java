@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
-import de.uni_marburg.mathematik.ds.serval.model.Event;
+import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 
 /**
  * Generic {@link ViewHolder ViewHolder} for {@link Event events}

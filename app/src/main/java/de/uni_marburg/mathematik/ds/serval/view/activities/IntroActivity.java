@@ -18,6 +18,7 @@ import com.crashlytics.android.Crashlytics;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.IntroAdapter;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.util.IntroPageTransformer;
@@ -53,6 +54,9 @@ public class IntroActivity
             launchHomeScreen();
             finish();
         }
+    
+        Serval.getFirebaseAnalytics(this)
+              .setCurrentScreen(this, getString(R.string.screen_intro), null);
         
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

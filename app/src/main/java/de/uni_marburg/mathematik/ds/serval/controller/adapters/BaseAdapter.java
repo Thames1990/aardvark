@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.uni_marburg.mathematik.ds.serval.controller.view_holders.BaseViewHolder;
-import de.uni_marburg.mathematik.ds.serval.model.Event;
+import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 
 import static android.support.v7.widget.RecyclerView.*;
 

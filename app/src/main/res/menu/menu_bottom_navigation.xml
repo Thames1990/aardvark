@@ -3,19 +3,22 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/dashboard"
+        android:id="@+id/action_dashboard"
+        android:checked="true"
         android:icon="@drawable/dashboard"
         android:title="@string/dashboard"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/events"
+        android:id="@+id/action_events"
+        android:enabled="true"
         android:icon="@drawable/event"
         android:title="@string/events"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/map"
+        android:id="@+id/action_map"
+        android:enabled="true"
         android:icon="@drawable/map"
         android:title="@string/map"
         app:showAsAction="ifRoom"/>

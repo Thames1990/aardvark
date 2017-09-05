@@ -18,6 +18,7 @@
     <string name="exception_content_description_not_defined" tools:ignore="PluralsCandidate">Image on page %1$d with title %2$s has no content description!</string>
     <string name="exception_fragment_must_contain_key">Fragment must contain a %1$s argument!</string>
     <string name="exception_measurement_type_without_icon">Measurement type %1$s does not have an icon yet!</string>
+    <string name="exception_load_data_failed">Loading events from the REST API failed: %1$s</string>
 
     <!-- Files -->
     <string name="file_changelog" translatable="false">file:///android_asset/changelog/changelog-%1$d.md</string>
@@ -33,6 +34,7 @@
     <string name="events">Events</string>
     <string name="exit">Exit</string>
     <string name="information">Info</string>
+    <string name="intro">Intro</string>
     <string name="map">Map</string>
     <string name="maps">Maps</string>
     <string name="measurements">Measurements</string>
@@ -93,6 +95,13 @@
     <string name="preference_title_send_feedback">Send feedback</string>
     <string name="preference_title_terms">Terms &amp; conditions</string>
     <string name="preference_title_version">Version</string>
+
+    <!-- Screen names -->
+    <string name="screen_dashboard">@string/dashboard</string>
+    <string name="screen_events">@string/events</string>
+    <string name="screen_intro">@string/intro</string>
+    <string name="screen_map">@string/map</string>
+    <string name="screen_settings">@string/settings</string>
 
     <!-- Time -->
     <string name="time">Time</string>

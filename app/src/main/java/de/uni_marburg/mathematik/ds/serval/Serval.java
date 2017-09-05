@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -13,9 +14,16 @@ public class Serval extends Application {
     
     private RefWatcher refWatcher;
     
+    private FirebaseAnalytics firebaseAnalytics;
+    
     public static RefWatcher getRefWatcher(Context context) {
         Serval serval = (Serval) context.getApplicationContext();
         return serval.refWatcher;
+    }
+    
+    public static FirebaseAnalytics getFirebaseAnalytics(Context context) {
+        Serval serval = (Serval) context.getApplicationContext();
+        return serval.firebaseAnalytics;
     }
     
     @Override
@@ -26,5 +34,6 @@ public class Serval extends Application {
             return;
         }
         refWatcher = LeakCanary.install(this);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 }
