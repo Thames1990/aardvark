@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.squareup.moshi.Json;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public abstract class Event implements Parcelable {
     GeohashLocation location;
     
     @Json(name = "measurements")
-    List<Measurement> measurements = null;
+    List<Measurement> measurements = new ArrayList<>();
     
     public Long getTime() {
         return time;
