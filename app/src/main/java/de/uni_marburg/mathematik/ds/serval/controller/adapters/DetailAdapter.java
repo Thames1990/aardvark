@@ -12,18 +12,25 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.MeasurementsFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment;
 
 /**
- * Adapter for the detail view of an {@link Event event}
+ * Adapter for the detail view of an {@link Event event}.
  */
 public class DetailAdapter<T extends Event> extends FragmentPagerAdapter {
     
+    /**
+     * Event controlled by the adapter
+     */
     private T event;
+    
+    /**
+     * Titles of the tabs
+     */
     private String[] tabTitles;
     
-    public DetailAdapter(FragmentManager fm, T event, Context context) {
-        super(fm);
+    public DetailAdapter(Context context, FragmentManager fragmentManager, T event) {
+        super(fragmentManager);
         this.event = event;
         // Needs to be updated if new tabs are added
-        tabTitles = context.getResources().getStringArray(R.array.detail_tabs);
+        tabTitles = context.getResources().getStringArray(R.array.detail_tab_titles);
     }
     
     @Override

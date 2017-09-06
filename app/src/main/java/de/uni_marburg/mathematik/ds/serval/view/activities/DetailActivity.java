@@ -60,9 +60,8 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setTitle(getString(R.string.details));
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
         }
-        viewPager.setAdapter(new DetailAdapter<>(getSupportFragmentManager(), event, this));
+        viewPager.setAdapter(new DetailAdapter<>(this, getSupportFragmentManager(), event));
         tabLayout.setupWithViewPager(viewPager);
         fab.setOnClickListener(view -> navigateToPosition());
     }

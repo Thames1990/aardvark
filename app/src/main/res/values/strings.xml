@@ -24,9 +24,11 @@
     <string name="file_changelog" translatable="false">file:///android_asset/changelog/changelog-%1$d.md</string>
 
     <!-- General -->
+    <string name="agree">Agree</string>
     <string name="cancel">Cancel</string>
     <string name="changelog">Changelog - %1$s</string>
     <string name="chat">Chat</string>
+    <string name="disagree">Disagreee</string>
     <string name="confirm_exit">Confirm exit</string>
     <string name="dashboard">Dashboard</string>
     <string name="details">Details</string>

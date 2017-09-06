@@ -23,9 +23,9 @@ class GeohashLocation implements Parcelable {
             new Creator<GeohashLocation>() {
                 public GeohashLocation createFromParcel(Parcel in) {
                     GeohashLocation instance = new GeohashLocation();
-                    instance.latitude = ((Double) in.readValue((Double.class.getClassLoader())));
-                    instance.longitude = ((Double) in.readValue((Double.class.getClassLoader())));
-                    instance.geohash = ((String) in.readValue((String.class.getClassLoader())));
+                    instance.latitude = (Double) in.readValue(Double.class.getClassLoader());
+                    instance.longitude = (Double) in.readValue(Double.class.getClassLoader());
+                    instance.geohash = (String) in.readValue(String.class.getClassLoader());
                     return instance;
                 }
                 

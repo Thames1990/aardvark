@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="detail_tabs">
+    <array name="detail_tab_titles">
         <item>@string/information</item>
         <item>@string/measurements</item>
     </array>

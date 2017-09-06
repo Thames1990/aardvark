@@ -18,7 +18,6 @@ import static android.support.v7.widget.RecyclerView.*;
  * Has the ability to removeItem items and recover them again in a timeframe of
  * {@link BaseAdapter#PENDING_REMOVAL_TIMEOUT} seconds.
  */
-
 public abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
         extends RecyclerView.Adapter<VH> {
     

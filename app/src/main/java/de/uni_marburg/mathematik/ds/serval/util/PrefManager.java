@@ -68,6 +68,9 @@ public class PrefManager {
     private static final String STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT
             = "STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT";
     
+    private static final String BOTTOM_NAVIGATION_SELECTED_ITEM_ID =
+            "BOTTOM_NAVIGATION_SELECTED_ITEM_ID";
+    
     @SuppressLint("CommitPrefEdits")
     public PrefManager(Context context) {
         preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -164,5 +167,13 @@ public class PrefManager {
     
     public int getStaggeredGridLayoutManagerSpanCount() {
         return preferences.getInt(STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT, 2);
+    }
+    
+    public void setBottomNavigationSelectedItemId(int selectedItemId) {
+        editor.putInt(BOTTOM_NAVIGATION_SELECTED_ITEM_ID, selectedItemId).commit();
+    }
+    
+    public int getBottomNavigationSelectedItemId() {
+        return preferences.getInt(BOTTOM_NAVIGATION_SELECTED_ITEM_ID, 0);
     }
 }

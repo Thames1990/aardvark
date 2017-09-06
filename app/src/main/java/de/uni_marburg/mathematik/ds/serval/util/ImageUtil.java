@@ -20,7 +20,8 @@ public class ImageUtil {
      * Converting dp to pixel
      */
     public static int dpToPx(int dp, Context context) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        DisplayMetrics metrics = context.getResources()
+                                        .getDisplayMetrics();
         return Math.round(dp * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
     

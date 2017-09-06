@@ -17,6 +17,7 @@ public class LocationUtil {
         }
         
         long timeDelta = location.getTime() - currentLocation.getTime();
+        
         boolean isSignificantlyNewer = timeDelta > TWO_MINUTES;
         boolean isSignificantlyOlder = timeDelta < -TWO_MINUTES;
         boolean isNewer = timeDelta > 0;
@@ -28,10 +29,10 @@ public class LocationUtil {
         }
         
         int accuracyDelta = (int) (location.getAccuracy() - currentLocation.getAccuracy());
+        
         boolean isLessAccurate = accuracyDelta > 0;
         boolean isMoreAccurate = accuracyDelta < 0;
         boolean isSignificantlyLessAccurate = accuracyDelta > 200;
-        
         boolean isFromSameProvider =
                 isSameProvider(location.getProvider(), currentLocation.getProvider());
         

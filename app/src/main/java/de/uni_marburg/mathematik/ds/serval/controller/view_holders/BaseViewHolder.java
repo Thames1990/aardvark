@@ -12,16 +12,20 @@ import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 /**
  * Generic {@link ViewHolder ViewHolder} for {@link Event events}
  * <p>
- * Has Listener for normal and long clicks.
+ * Has listeners for normal and long clicks.
  */
 public abstract class BaseViewHolder<T extends Event>
         extends ViewHolder
         implements View.OnClickListener, View.OnLongClickListener {
     
-    private T event;
+    /**
+     * Event that is displayed in the view
+     */
+    T event;
     
     BaseViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
-        super(LayoutInflater.from(parent.getContext()).inflate(itemLayoutId, parent, false));
+        super(LayoutInflater.from(parent.getContext())
+                            .inflate(itemLayoutId, parent, false));
         ButterKnife.bind(this, itemView);
         itemView.setOnClickListener(this);
         itemView.setOnLongClickListener(this);

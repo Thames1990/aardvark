@@ -13,22 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.leakcanary.RefWatcher;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.GenericEventAdapter;
-import de.uni_marburg.mathematik.ds.serval.model.event.Event;
-import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
+import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
 import de.uni_marburg.mathematik.ds.serval.view.util.GridSpacingItemDecoration;
 import de.uni_marburg.mathematik.ds.serval.view.util.SwipeToDeleteItemDecoration;
 import de.uni_marburg.mathematik.ds.serval.view.util.SwipeToDeleteTouchHelper;
@@ -36,40 +29,14 @@ import de.uni_marburg.mathematik.ds.serval.view.util.SwipeToDeleteTouchHelper;
 /**
  * Created by thames1990 on 28.08.17.
  */
-public class EventsFragment<T extends Event> extends Fragment {
+public class EventsFragment extends Fragment {
     
-    public static final String EVENTS = "EVENTS";
-    
-    private List<T> events;
-    
-    private GenericEventAdapter adapter;
+    private static final int EVENT_COUNT = 50;
     
     private Unbinder unbinder;
     
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    
-    public static <T extends Event> EventsFragment newInstance(ArrayList<T> events) {
-        EventsFragment fragment = new EventsFragment<>();
-        Bundle args = new Bundle();
-        args.putParcelableArrayList(EVENTS, events);
-        fragment.setArguments(args);
-        return fragment;
-    }
-    
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        if (!getArguments().containsKey(EVENTS)) {
-            throw new RuntimeException(String.format(
-                    Locale.getDefault(),
-                    getString(R.string.exception_fragment_must_contain_key),
-                    EVENTS
-            ));
-        }
-        events = getArguments().getParcelableArrayList(EVENTS);
-    }
     
     @Nullable
     @Override
@@ -93,13 +60,12 @@ public class EventsFragment<T extends Event> extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = Serval.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+        Serval.getRefWatcher(getActivity()).watch(this);
     }
     
     private void setupRecyclerView() {
         setupLayoutManager();
-        setupAdapter();
+        recyclerView.setAdapter(new GenericEventAdapter(MainActivity.getEvents(EVENT_COUNT)));
     }
     
     private void setupLayoutManager() {
@@ -131,14 +97,5 @@ public class EventsFragment<T extends Event> extends Fragment {
             ));
             // TODO Add item decoration
         }
-    }
-    
-    private void setupAdapter() {
-        // TODO Find a better way
-        if (events.get(0) instanceof GenericEvent) {
-            //noinspection unchecked
-            adapter = new GenericEventAdapter((List<GenericEvent>) events);
-        }
-        recyclerView.setAdapter(adapter);
     }
 }

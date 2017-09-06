@@ -12,10 +12,10 @@ public class GenericEvent extends Event {
     public final static Parcelable.Creator<GenericEvent> CREATOR = new Creator<GenericEvent>() {
         public GenericEvent createFromParcel(Parcel in) {
             GenericEvent instance = new GenericEvent();
-            instance.time = ((Long) in.readValue((Long.class.getClassLoader())));
+            instance.time = (Long) in.readValue(Long.class.getClassLoader());
             instance.location =
-                    ((GeohashLocation) in.readValue((GeohashLocation.class.getClassLoader())));
-            in.readList(instance.measurements, (Measurement.class.getClassLoader()));
+                    (GeohashLocation) in.readValue(GeohashLocation.class.getClassLoader());
+            in.readList(instance.measurements, Measurement.class.getClassLoader());
             return instance;
         }
         

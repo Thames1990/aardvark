@@ -19,8 +19,8 @@ public class Measurement implements Parcelable {
     public final static Parcelable.Creator<Measurement> CREATOR = new Creator<Measurement>() {
         public Measurement createFromParcel(Parcel in) {
             Measurement instance = new Measurement();
-            instance.type = ((MeasurementType) in.readValue((MeasurementType.class.getClassLoader())));
-            instance.value = ((Integer) in.readValue((Integer.class.getClassLoader())));
+            instance.type = (MeasurementType) in.readValue(MeasurementType.class.getClassLoader());
+            instance.value = (Integer) in.readValue(Integer.class.getClassLoader());
             return instance;
         }
         
