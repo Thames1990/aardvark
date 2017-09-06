@@ -19,33 +19,30 @@ public class PrefManager {
     /**
      * Desired preference file.
      * <p>
-     * If a preference file by this name does not exist, it
-     * will be created when you retrieve an editor (SharedPreferences.edit()) and then commit
-     * changes (Editor.commit()).
+     * If a preference file by this name does not exist, it will be created when you retrieve an
+     * editor (SharedPreferences.edit()) and then commit changes (Editor.commit()).
      */
     private static final String PREF_NAME = "Serval";
     
     /**
      * Operating mode.
      * <p>
-     * Value is either 0 or combination of MODE_PRIVATE, MODE_WORLD_READABLE,
-     * MODE_WORLD_WRITEABLE or MODE_MULTI_PROCESS.
+     * Value is either 0 or combination of MODE_PRIVATE, MODE_WORLD_READABLE, MODE_WORLD_WRITEABLE
+     * or MODE_MULTI_PROCESS.
      */
     private static final int PRIVATE_MODE = 0;
     
     /**
      * Key for the boolean, that sets, if the app was started before.
      * <p>
-     * This is used to check whether the {@link IntroActivity intro activity} needs to be
-     * started.
+     * This is used to check whether the {@link IntroActivity intro activity} needs to be started.
      */
     private static final String IS_FIRST_TIME_LAUNCH = "IS_FIRST_TIME_LAUNCH";
     
     /**
      * Key for the last known version code.
      * <p>
-     * Is used to determine whether the changelog should be
-     * shown.
+     * Is used to determine whether the changelog should be shown.
      */
     private static final String LAST_KNOWN_VERSION_CODE = "LAST_KNOWN_VERSION_CODE";
     
@@ -78,8 +75,7 @@ public class PrefManager {
     }
     
     public void setIsFirstTimeLaunch(boolean isFirstTimeLaunch) {
-        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTimeLaunch)
-              .commit();
+        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTimeLaunch).commit();
     }
     
     public boolean isFirstTimeLaunch() {
@@ -87,8 +83,7 @@ public class PrefManager {
     }
     
     public void setLastKnownVersionCode(int currentVersion) {
-        editor.putInt(LAST_KNOWN_VERSION_CODE, currentVersion)
-              .commit();
+        editor.putInt(LAST_KNOWN_VERSION_CODE, currentVersion).commit();
     }
     
     public int getLastKnownVersionCode() {
@@ -96,8 +91,7 @@ public class PrefManager {
     }
     
     public void setShowChangelog(boolean showChangelog) {
-        editor.putBoolean(SHOW_CHANGELOG, showChangelog)
-              .commit();
+        editor.putBoolean(SHOW_CHANGELOG, showChangelog).commit();
     }
     
     public boolean showChangelog() {
@@ -105,7 +99,7 @@ public class PrefManager {
     }
     
     public void setUseBottomSheetDialogs(boolean useBottomSheetDialogs) {
-        editor.putBoolean(USE_BOTTOM_SHEET_DIALOGS, useBottomSheetDialogs);
+        editor.putBoolean(USE_BOTTOM_SHEET_DIALOGS, useBottomSheetDialogs).commit();
     }
     
     public boolean useBottomSheetDialogs() {
@@ -113,7 +107,7 @@ public class PrefManager {
     }
     
     public void setRequestLocationUpdates(boolean requestLocationUpdates) {
-        editor.putBoolean(REQUEST_LOCATION_UPDATES, requestLocationUpdates);
+        editor.putBoolean(REQUEST_LOCATION_UPDATES, requestLocationUpdates).commit();
     }
     
     public boolean requestLocationUpdates() {
@@ -154,7 +148,7 @@ public class PrefManager {
     }
     
     public void setGridLayoutManagerSpanCount(boolean gridLayoutManagerSpanCount) {
-        editor.putBoolean(GRID_LAYOUT_MANAGER_SPAN_COUNT, gridLayoutManagerSpanCount);
+        editor.putBoolean(GRID_LAYOUT_MANAGER_SPAN_COUNT, gridLayoutManagerSpanCount).commit();
     }
     
     public int getGridLayoutManagerSpanCount() {
@@ -165,7 +159,7 @@ public class PrefManager {
         editor.putBoolean(
                 STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT,
                 staggeredGridLayoutManagerSpanCount
-        );
+        ).commit();
     }
     
     public int getStaggeredGridLayoutManagerSpanCount() {
