@@ -69,8 +69,7 @@ dependencies {
     
     ext {
         butterknife_version = '8.8.1'
-        firebase_version = '11.2.0'
-        google_play_services_version = firebase_version
+        google_play_services_version = '11.2.2'
         leak_canary_version = '1.5.2'
         material_dialogs_version = '0.9.4.7'
         support_library_version = '26.0.1'
@@ -92,8 +91,8 @@ dependencies {
     }
     
     // Firebase
-    compile "com.google.firebase:firebase-auth:${firebase_version}"
-    compile "com.google.firebase:firebase-core:${firebase_version}"
+    compile "com.google.firebase:firebase-auth:${google_play_services_version}"
+    compile "com.google.firebase:firebase-core:${google_play_services_version}"
     
     // Google Play Services
     compile "com.google.android.gms:play-services-location:${google_play_services_version}"
