@@ -193,9 +193,13 @@ public class MainActivity
             default:
                 fragment = PlaceholderFragment.newInstance();
         }
+    
+        if (fragment != null) {
+            fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+            return true;
+        }
         
-        fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
-        return true;
+        return false;
     }
     
     public static List<GenericEvent> getEvents(int count) {
