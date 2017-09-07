@@ -35,7 +35,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
+import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.util.LocationUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
@@ -65,15 +65,17 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
  * <p>
  * Currently shows a list of all events. Might be changed to a dashboard.
  */
-public class MainActivity
+public class MainActivity<T extends Event>
         extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
     
     private static final int CHECK_LOCATION_PERMISSION = 42;
     
-    private static ArrayList<GenericEvent> events;
+    private static final String EVENTS = "EVENTS";
     
-    private static Location lastLocation;
+    private ArrayList<T> events;
+    
+    private Location lastLocation;
     
     private PrefManager prefManager;
     
@@ -97,9 +99,9 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setupFields();
-        loadData();
-        loadView(savedInstanceState);
+        setupFields(savedInstanceState);
+        setupLocationUpdate();
+        setupViews(savedInstanceState);
         checkForNewVersion();
     }
     
@@ -121,6 +123,12 @@ public class MainActivity
         } else {
             prefManager.setRequestLocationUpdates(false);
         }
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(EVENTS, events);
     }
     
     @Override
@@ -193,7 +201,7 @@ public class MainActivity
             default:
                 fragment = PlaceholderFragment.newInstance();
         }
-    
+        
         if (fragment != null) {
             fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
             return true;
@@ -202,17 +210,31 @@ public class MainActivity
         return false;
     }
     
-    public static List<GenericEvent> getEvents(int count) {
+    public ArrayList<T> getEvents(int count) {
         // TODO Based on distance
         Collections.sort(events, (event1, event2) -> (int) (event2.getTime() - event1.getTime()));
         return new ArrayList<>(events.subList(0, Math.min(events.size(), count)));
     }
     
-    public static Location getLastLocation() {
+    public Location getLastLocation() {
         return lastLocation;
     }
     
-    private void loadData() {
+    private void setupFields(Bundle savedInstanceState) {
+        okHttpClient = new OkHttpClient();
+        prefManager = new PrefManager(this);
+        fragmentManager = getSupportFragmentManager();
+        firebaseAnalytics = Serval.getFirebaseAnalytics(this);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        
+        if (savedInstanceState == null) {
+            loadEvents();
+        } else {
+            events = savedInstanceState.getParcelableArrayList(EVENTS);
+        }
+    }
+    
+    private void loadEvents() {
         events = new ArrayList<>();
         Request request = new Request.Builder().url(getString(R.string.url_rest_api)).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -243,20 +265,12 @@ public class MainActivity
                 // Read line by line (append file)
                 while ((line = reader.readLine()) != null) {
                     // Create an event per line
-                    GenericEvent event = jsonAdapter.fromJson(line);
+                    @SuppressWarnings("unchecked")
+                    T event = (T) jsonAdapter.fromJson(line);
                     events.add(event);
                 }
             }
         });
-    }
-    
-    private void setupFields() {
-        okHttpClient = new OkHttpClient();
-        prefManager = new PrefManager(this);
-        fragmentManager = getSupportFragmentManager();
-        firebaseAnalytics = Serval.getFirebaseAnalytics(this);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        setupLocationUpdate();
     }
     
     private void setupLocationUpdate() {
@@ -269,17 +283,16 @@ public class MainActivity
             locationCallback = new LocationCallback() {
                 @Override
                 public void onLocationResult(LocationResult locationResult) {
-                    Location lastLocation = locationResult.getLastLocation();
-                    
-                    if (LocationUtil.isBetterLocation(lastLocation, MainActivity.lastLocation)) {
-                        MainActivity.lastLocation = locationResult.getLastLocation();
+                    Location location = locationResult.getLastLocation();
+                    if (LocationUtil.isBetterLocation(location, lastLocation)) {
+                        lastLocation = location;
                     }
                 }
             };
         }
     }
     
-    private void loadView(Bundle savedInstanceState) {
+    private void setupViews(Bundle savedInstanceState) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (savedInstanceState == null) {
             transaction.replace(R.id.content, new DashboardFragment());

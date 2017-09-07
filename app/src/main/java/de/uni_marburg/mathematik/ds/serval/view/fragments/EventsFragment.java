@@ -13,12 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.GenericEventAdapter;
+import de.uni_marburg.mathematik.ds.serval.model.event.Event;
+import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
@@ -29,14 +34,29 @@ import de.uni_marburg.mathematik.ds.serval.view.util.SwipeToDeleteTouchHelper;
 /**
  * Created by thames1990 on 28.08.17.
  */
-public class EventsFragment extends Fragment {
+public class EventsFragment<T extends Event> extends Fragment {
+    
+    private static final String EVENTS = "EVENTS";
     
     private static final int EVENT_COUNT = 50;
+    
+    private ArrayList<T> events;
     
     private Unbinder unbinder;
     
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            //noinspection unchecked
+            events = ((MainActivity) getActivity()).getEvents(EVENT_COUNT);
+        } else {
+            events = savedInstanceState.getParcelableArrayList(EVENTS);
+        }
+    }
     
     @Nullable
     @Override
@@ -63,9 +83,16 @@ public class EventsFragment extends Fragment {
         Serval.getRefWatcher(getActivity()).watch(this);
     }
     
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(EVENTS, events);
+    }
+    
     private void setupRecyclerView() {
         setupLayoutManager();
-        recyclerView.setAdapter(new GenericEventAdapter(MainActivity.getEvents(EVENT_COUNT)));
+        //noinspection unchecked
+        recyclerView.setAdapter(new GenericEventAdapter((List<GenericEvent>) events));
     }
     
     private void setupLayoutManager() {
@@ -77,7 +104,7 @@ public class EventsFragment extends Fragment {
                     DividerItemDecoration.VERTICAL
             ));
             ItemTouchHelper touchHelper =
-                    new ItemTouchHelper(new SwipeToDeleteTouchHelper(getContext()));
+                    new ItemTouchHelper(new SwipeToDeleteTouchHelper<>(getContext()));
             touchHelper.attachToRecyclerView(recyclerView);
             recyclerView.addItemDecoration(new SwipeToDeleteItemDecoration());
         } else if (prefManager.useGridLayoutManger()) {

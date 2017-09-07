@@ -20,12 +20,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
+import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
@@ -36,9 +37,13 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
-public class MapFragment
+public class MapFragment<T extends Event>
         extends SupportMapFragment
         implements OnInfoWindowClickListener, OnMapReadyCallback, OnMyLocationButtonClickListener {
+    
+    private static final String EVENTS = "EVENTS";
+    
+    private static final String LAST_LOCATION = "LAST_LOCATION";
     
     private static final int CHECK_LOCATION_PERMISSION = 42;
     
@@ -46,20 +51,39 @@ public class MapFragment
     
     private static final int EVENT_COUNT = 50;
     
+    private ArrayList<T> events;
+    
+    private Location lastLocation;
+    
     private GoogleMap googleMap;
     
-    private HashMap<Marker, GenericEvent> markerEventMap;
+    private HashMap<Marker, T> markerEventMap;
     
     private PrefManager prefManager;
     
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupFields();
+        setupFields(savedInstanceState);
         getMapAsync(this);
     }
     
-    private void setupFields() {
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putParcelableArrayList(EVENTS, events);
+        bundle.putParcelable(LAST_LOCATION, lastLocation);
+    }
+    
+    private void setupFields(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            //noinspection unchecked
+            events = ((MainActivity) getActivity()).getEvents(EVENT_COUNT);
+            lastLocation = ((MainActivity) getActivity()).getLastLocation();
+        } else {
+            events = savedInstanceState.getParcelableArrayList(EVENTS);
+            lastLocation = savedInstanceState.getParcelable(LAST_LOCATION);
+        }
         markerEventMap = new HashMap<>();
         prefManager = new PrefManager(getContext());
     }
@@ -74,7 +98,7 @@ public class MapFragment
     
     @Override
     public void onInfoWindowClick(Marker marker) {
-        GenericEvent event = markerEventMap.get(marker);
+        T event = markerEventMap.get(marker);
         Intent eventIntent = new Intent(getActivity(), DetailActivity.class);
         eventIntent.putExtra(DetailActivity.EVENT, event);
         startActivity(eventIntent);
@@ -114,7 +138,7 @@ public class MapFragment
                 DateFormat.SHORT,
                 Locale.getDefault()
         );
-        for (GenericEvent event : MainActivity.getEvents(EVENT_COUNT)) {
+        for (T event : events) {
             Location location = event.getLocation();
             LatLng position = new LatLng(
                     location.getLatitude(),
@@ -140,7 +164,6 @@ public class MapFragment
             builder.include(marker.getPosition());
         }
         
-        Location lastLocation = MainActivity.getLastLocation();
         if (lastLocation != null) {
             LatLng position = new LatLng(
                     lastLocation.getLatitude(),
