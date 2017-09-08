@@ -42,6 +42,11 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
+/**
+ * TODO Add JavaDoc
+ *
+ * @param <T>
+ */
 public class MapFragment<T extends Event>
         extends SupportMapFragment
         implements OnInfoWindowClickListener, OnMapReadyCallback, OnMyLocationButtonClickListener {
