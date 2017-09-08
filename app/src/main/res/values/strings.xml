@@ -6,6 +6,11 @@
     <string name="app_name" translatable="false">Serval Project</string>
 
     <!-- Action menu titles -->
+    <string name="action_filter_events">Filter events</string>
+    <string name="action_filter_events_ascending">Ascending</string>
+    <string name="action_filter_events_descending">Descending</string>
+    <string name="action_filter_events_distance">@string/location_distance</string>
+    <string name="action_filter_events_time">@string/time</string>
     <string name="action_reset_app">Reset app</string>
     <string name="action_settings">@string/settings</string>
 
@@ -70,6 +75,7 @@
     <!-- Location -->
     <string name="location">Location</string>
     <string name="location_current">Current location</string>
+    <string name="location_distance">Distance</string>
     <string name="location_distance_to_kilometer">%1$.2f km</string>
     <string name="location_distance_to_meter">%1$.0f m</string>
     <string name="location_geohash">Geohash</string>

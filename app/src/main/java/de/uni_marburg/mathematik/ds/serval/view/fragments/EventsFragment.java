@@ -5,9 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import butterknife.BindView;
@@ -16,6 +20,7 @@ import de.uni_marburg.mathematik.ds.serval.controller.adapters.GenericEventAdapt
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
+import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
 import de.uni_marburg.mathematik.ds.serval.view.item_decorations.GridSpacingItemDecoration;
 import de.uni_marburg.mathematik.ds.serval.view.item_decorations.SwipeToDeleteItemDecoration;
 import de.uni_marburg.mathematik.ds.serval.view.item_touch_helpers.SwipeToDeleteItemTouchHelper;
@@ -23,7 +28,9 @@ import de.uni_marburg.mathematik.ds.serval.view.item_touch_helpers.SwipeToDelete
 /**
  * Created by thames1990 on 28.08.17.
  */
-public class EventsFragment extends BaseFragment {
+public class EventsFragment extends BaseFragment implements PopupMenu.OnMenuItemClickListener {
+    
+    private GenericEventAdapter adapter;
     
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -31,6 +38,7 @@ public class EventsFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
     }
     
@@ -45,10 +53,50 @@ public class EventsFragment extends BaseFragment {
         return R.layout.fragment_events;
     }
     
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_filter, menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_filter_events_distance_ascending:
+                adapter.filter(
+                        EventComparator.DISTANCE,
+                        false,
+                        ((MainActivity) getActivity()).getLastLocation()
+                );
+                return true;
+            case R.id.action_filter_events_distance_descending:
+                adapter.filter(
+                        EventComparator.DISTANCE,
+                        true,
+                        ((MainActivity) getActivity()).getLastLocation()
+                );
+                return true;
+            case R.id.action_filter_events_time_ascending:
+                adapter.filter(EventComparator.TIME, false, null);
+                return true;
+            case R.id.action_filter_events_time_descending:
+                adapter.filter(EventComparator.TIME, true, null);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
+    }
+    
     private void setupRecyclerView() {
         setupLayoutManager();
         //noinspection unchecked
-        recyclerView.setAdapter(new GenericEventAdapter(events));
+        adapter = new GenericEventAdapter(events);
+        recyclerView.setAdapter(adapter);
     }
     
     private void setupLayoutManager() {
