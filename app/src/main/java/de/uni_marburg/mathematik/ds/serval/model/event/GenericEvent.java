@@ -3,6 +3,10 @@ package de.uni_marburg.mathematik.ds.serval.model.event;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * This is just a generic implementation of {@link Event} and has no extensions or modifications
  * so far.
@@ -34,5 +38,20 @@ public class GenericEvent extends Event {
         parcel.writeValue(time);
         parcel.writeValue(location);
         parcel.writeList(measurements);
+    }
+    
+    @Override
+    public String getTitle() {
+        return "Event";
+    }
+    
+    @Override
+    public String getSnippet() {
+        DateFormat format = SimpleDateFormat.getDateTimeInstance(
+                DateFormat.LONG,
+                DateFormat.SHORT,
+                Locale.getDefault()
+        );
+        return format.format(time);
     }
 }

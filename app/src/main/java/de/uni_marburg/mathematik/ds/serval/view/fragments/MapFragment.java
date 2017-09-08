@@ -12,28 +12,23 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterItem;
+import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener;
+import com.google.maps.android.clustering.ClusterManager.OnClusterItemInfoWindowClickListener;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
-import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.ExtendedInfoWindowAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
-import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
@@ -49,21 +44,31 @@ import static android.support.v4.content.ContextCompat.checkSelfPermission;
  */
 public class MapFragment<T extends Event>
         extends SupportMapFragment
-        implements OnInfoWindowClickListener, OnMapReadyCallback, OnMyLocationButtonClickListener {
+        implements OnClusterItemInfoWindowClickListener<T>, OnClusterClickListener<T>,
+                   OnMapReadyCallback, OnMyLocationButtonClickListener {
     
     private static final int CHECK_LOCATION_PERMISSION = 42;
     
-    private static final int MAP_PADDING = 200;
+    private static final int MAP_PADDING = 50;
+    
+    /**
+     * 1: World
+     * 5: Continent
+     * 10: City
+     * 15: Streets
+     * 20: Buildings
+     */
+    private static final float MAP_ZOOM = 15;
     
     private static final int EVENT_COUNT = 50;
     
     private List<T> events;
     
+    private ClusterManager<T> clusterManager;
+    
     private GoogleMap googleMap;
     
     private Location lastLocation;
-    
-    private HashMap<Marker, T> markerEventMap;
     
     private PrefManager prefManager;
     
@@ -89,35 +94,72 @@ public class MapFragment<T extends Event>
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
         setupGoogleMap();
-        addEventLocations();
-        zoomToFitMarkers(false);
-    }
-    
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        T event = markerEventMap.get(marker);
-        Intent eventIntent = new Intent(getActivity(), DetailActivity.class);
-        eventIntent.putExtra(DetailActivity.EVENT, event);
-        startActivity(eventIntent);
+        if (prefManager.requestLocationUpdates()) {
+            moveCameraToLastLocation(false);
+        }
     }
     
     @Override
     public boolean onMyLocationButtonClick() {
-        zoomToFitMarkers(true);
+        moveCameraToLastLocation(true);
         return true;
+    }
+    
+    @Override
+    public boolean onClusterClick(Cluster<T> cluster) {
+        LatLngBounds.Builder builder = LatLngBounds.builder();
+        for (ClusterItem clusterItem : cluster.getItems()) {
+            builder.include(clusterItem.getPosition());
+        }
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), MAP_PADDING));
+        return true;
+    }
+    
+    @Override
+    public void onClusterItemInfoWindowClick(T event) {
+        Intent eventIntent = new Intent(getActivity(), DetailActivity.class);
+        eventIntent.putExtra(DetailActivity.EVENT, event);
+        startActivity(eventIntent);
     }
     
     private void setupFields() {
         //noinspection unchecked
         eventCallback = (EventCallback<T>) getActivity();
         lastLocation = ((MainActivity) getActivity()).getLastLocation();
-        markerEventMap = new HashMap<>();
         prefManager = new PrefManager(getContext());
     }
     
     private void setupGoogleMap() {
-        googleMap.setOnInfoWindowClickListener(this);
+        setupClusterManager();
+        setupGoogleMapsListeners(clusterManager);
+        setupCameraBounds();
+        setupMyLocation();
+    }
+    
+    private void setupClusterManager() {
+        clusterManager = new ClusterManager<>(getContext(), googleMap);
+        clusterManager.setOnClusterClickListener(this);
+        clusterManager.setOnClusterItemInfoWindowClickListener(this);
+        clusterManager.addItems(events);
+        clusterManager.cluster();
+    }
+    
+    private void setupGoogleMapsListeners(ClusterManager<T> clusterManager) {
+        googleMap.setOnCameraIdleListener(clusterManager);
+        googleMap.setOnMarkerClickListener(clusterManager);
+        googleMap.setOnInfoWindowClickListener(clusterManager);
         googleMap.setInfoWindowAdapter(new ExtendedInfoWindowAdapter(getContext()));
+    }
+    
+    private void setupCameraBounds() {
+        LatLngBounds.Builder builder = LatLngBounds.builder();
+        for (T event : events) {
+            builder.include(event.getPosition());
+        }
+        googleMap.setLatLngBoundsForCameraTarget(builder.build());
+    }
+    
+    private void setupMyLocation() {
         if (prefManager.requestLocationUpdates()) {
             if (checkSelfPermission(getContext(), ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
                 requestPermissions();
@@ -136,65 +178,13 @@ public class MapFragment<T extends Event>
         );
     }
     
-    private void addEventLocations() {
-        Calendar calendar = Calendar.getInstance();
-        DateFormat format = SimpleDateFormat.getDateTimeInstance(
-                DateFormat.LONG,
-                DateFormat.SHORT,
-                Locale.getDefault()
-        );
-        for (T event : events) {
-            Location location = event.getLocation();
-            LatLng position = new LatLng(
-                    location.getLatitude(),
-                    location.getLongitude()
-            );
-            calendar.setTimeInMillis(event.getTime());
-            Marker marker = googleMap.addMarker(
-                    new MarkerOptions().position(position)
-                                       .title(getString(R.string.event))
-                                       .snippet(format.format(calendar.getTime()))
-                                       .icon(ImageUtil.getBitmapDescriptor(
-                                               R.drawable.event,
-                                               getContext()
-                                       ))
-            );
-            markerEventMap.put(marker, event);
-        }
-    }
-    
-    private void zoomToFitMarkers(boolean animate) {
-        CameraUpdate update = null;
-        LatLng lastLocationPosition = null;
-        
+    private void moveCameraToLastLocation(boolean animate) {
         if (lastLocation != null) {
-            lastLocationPosition = new LatLng(
+            LatLng lastLocationPosition = new LatLng(
                     lastLocation.getLatitude(),
                     lastLocation.getLongitude()
             );
-        }
-        
-        if (!markerEventMap.isEmpty()) {
-            // Events are available
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            
-            for (Marker marker : markerEventMap.keySet()) {
-                builder.include(marker.getPosition());
-            }
-            
-            if (lastLocationPosition != null) {
-                // Last position is also available
-                builder.include(lastLocationPosition);
-            }
-            
-            update = CameraUpdateFactory.newLatLngBounds(builder.build(), MAP_PADDING);
-        } else if (lastLocationPosition != null) {
-            // No events are available, but the last location
-            update = CameraUpdateFactory.newLatLng(lastLocationPosition);
-        }
-        
-        // Zoom in/out camera to include events and/or the last location on availibility
-        if (update != null) {
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(lastLocationPosition, MAP_ZOOM);
             if (animate) {
                 googleMap.animateCamera(update);
             } else {
