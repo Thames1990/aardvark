@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.view.activities;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -14,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,15 +26,10 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -42,19 +37,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
+import de.uni_marburg.mathematik.ds.serval.controller.tasks.EventAsyncTask;
+import de.uni_marburg.mathematik.ds.serval.interfaces.EventCallback;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
-import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
+import de.uni_marburg.mathematik.ds.serval.model.util.LocationComparator;
+import de.uni_marburg.mathematik.ds.serval.model.util.TimeComparator;
 import de.uni_marburg.mathematik.ds.serval.util.LocationUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import us.feras.mdv.MarkdownView;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -67,13 +60,13 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
  */
 public class MainActivity<T extends Event>
         extends AppCompatActivity
-        implements BottomNavigationView.OnNavigationItemSelectedListener {
+        implements BottomNavigationView.OnNavigationItemSelectedListener, EventCallback<T> {
     
     private static final int CHECK_LOCATION_PERMISSION = 42;
     
-    private static final String EVENTS = "EVENTS";
+    private List<T> events = new ArrayList<>();
     
-    private ArrayList<T> events;
+    private Bundle savedInstanceState;
     
     private Location lastLocation;
     
@@ -83,13 +76,13 @@ public class MainActivity<T extends Event>
     
     private FirebaseAnalytics firebaseAnalytics;
     
-    private OkHttpClient okHttpClient;
-    
     private FusedLocationProviderClient fusedLocationProviderClient;
     
     private LocationRequest locationRequest;
     
     private LocationCallback locationCallback;
+    
+    private EventAsyncTask<T> eventAsyncTask;
     
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
@@ -101,8 +94,6 @@ public class MainActivity<T extends Event>
         ButterKnife.bind(this);
         setupFields(savedInstanceState);
         setupLocationUpdate();
-        setupViews(savedInstanceState);
-        checkForNewVersion();
     }
     
     @Override
@@ -123,12 +114,6 @@ public class MainActivity<T extends Event>
         } else {
             prefManager.setRequestLocationUpdates(false);
         }
-    }
-    
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(EVENTS, events);
     }
     
     @Override
@@ -190,7 +175,7 @@ public class MainActivity<T extends Event>
                 break;
             case R.id.action_map:
                 if (!(currentFragment instanceof MapFragment)) {
-                    fragment = new MapFragment();
+                    fragment = new MapFragment<>();
                     firebaseAnalytics.setCurrentScreen(
                             this,
                             getString(R.string.screen_map),
@@ -210,9 +195,71 @@ public class MainActivity<T extends Event>
         return false;
     }
     
-    public ArrayList<T> getEvents(int count) {
-        // TODO Based on distance
-        Collections.sort(events, (event1, event2) -> (int) (event2.getTime() - event1.getTime()));
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String[] permissions,
+            @NonNull int[] grantResults
+    ) {
+        switch (requestCode) {
+            case CHECK_LOCATION_PERMISSION:
+                if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    prefManager.setRequestLocationUpdates(true);
+                    startLocationUpdates();
+                } else {
+                    prefManager.setRequestLocationUpdates(false);
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+    
+    @Override
+    public void onEventsLoaded(List<T> events) {
+        this.events = events;
+        setupViews(savedInstanceState);
+        checkForNewVersion();
+    }
+    
+    @Override
+    public List<T> onEventsRequested(Event.EventComparator comparator, int count) {
+        // TODO Improve this shit. Maybe use Comparator.
+        switch (comparator) {
+            case DISTANCE_ASCENDING:
+                if (lastLocation != null) {
+                    Collections.sort(events, new LocationComparator<>(lastLocation));
+                }
+                break;
+            case DISTANCE_DESCENDING:
+                if (lastLocation != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(
+                                events,
+                                new LocationComparator<T>(lastLocation).reversed()
+                        );
+                    } else {
+                        Collections.sort(events, new LocationComparator<>(lastLocation));
+                        Collections.reverse(events);
+                    }
+                }
+                break;
+            case TIME_ASCENDING:
+                Collections.sort(events, new TimeComparator<>());
+                break;
+            case TIME_DESCENDING:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Collections.sort(events, new TimeComparator<T>().reversed());
+                } else {
+                    Collections.sort(events, new TimeComparator<>());
+                    Collections.reverse(events);
+                }
+                break;
+            default:
+                // TODO Implement default Comparator
+                break;
+        }
         return new ArrayList<>(events.subList(0, Math.min(events.size(), count)));
     }
     
@@ -221,56 +268,16 @@ public class MainActivity<T extends Event>
     }
     
     private void setupFields(Bundle savedInstanceState) {
-        okHttpClient = new OkHttpClient();
+        this.savedInstanceState = savedInstanceState;
+        eventAsyncTask = new EventAsyncTask<>(this);
         prefManager = new PrefManager(this);
         fragmentManager = getSupportFragmentManager();
         firebaseAnalytics = Serval.getFirebaseAnalytics(this);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        
-        if (savedInstanceState == null) {
-            loadEvents();
-        } else {
-            events = savedInstanceState.getParcelableArrayList(EVENTS);
-        }
+        loadEvents();
     }
     
     private void loadEvents() {
-        events = new ArrayList<>();
-        Request request = new Request.Builder().url(getString(R.string.url_rest_api)).build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e(
-                        getClass().getSimpleName(),
-                        String.format(
-                                getString(R.string.exception_load_data_failed),
-                                e.getMessage()
-                        )
-                );
-            }
-            
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response)
-                    throws IOException {
-                if (!response.isSuccessful()) {
-                    throw new IOException();
-                }
-                
-                Moshi moshi = new Moshi.Builder().build();
-                JsonAdapter<GenericEvent> jsonAdapter = moshi.adapter(GenericEvent.class);
-                @SuppressWarnings("ConstantConditions")
-                InputStream in = response.body().byteStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                // Read line by line (append file)
-                while ((line = reader.readLine()) != null) {
-                    // Create an event per line
-                    @SuppressWarnings("unchecked")
-                    T event = (T) jsonAdapter.fromJson(line);
-                    events.add(event);
-                }
-            }
-        });
+        eventAsyncTask.execute(getString(R.string.url_rest_api));
     }
     
     private void setupLocationUpdate() {
@@ -293,6 +300,7 @@ public class MainActivity<T extends Event>
     }
     
     private void setupViews(Bundle savedInstanceState) {
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (savedInstanceState == null) {
             transaction.replace(R.id.content, new DashboardFragment());
@@ -305,7 +313,7 @@ public class MainActivity<T extends Event>
                     transaction.replace(R.id.content, new EventsFragment());
                     break;
                 case R.id.action_map:
-                    transaction.replace(R.id.content, new MapFragment());
+                    transaction.replace(R.id.content, new MapFragment<>());
                     break;
                 default:
                     transaction.replace(R.id.content, new PlaceholderFragment());
@@ -361,6 +369,7 @@ public class MainActivity<T extends Event>
                                                 .positiveText(R.string.ok)
                                                 .show();
         View view = changelogDialog.getCustomView();
+        assert view != null;
         MarkdownView changelog = view.findViewById(R.id.changelog);
         changelog.loadMarkdownFile(changelogFile);
     }
@@ -387,26 +396,5 @@ public class MainActivity<T extends Event>
                 new String[]{ACCESS_FINE_LOCATION},
                 CHECK_LOCATION_PERMISSION
         );
-    }
-    
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode,
-            @NonNull String[] permissions,
-            @NonNull int[] grantResults
-    ) {
-        switch (requestCode) {
-            case CHECK_LOCATION_PERMISSION:
-                if (grantResults.length > 0 &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    prefManager.setRequestLocationUpdates(true);
-                    startLocationUpdates();
-                } else {
-                    prefManager.setRequestLocationUpdates(false);
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
     }
 }

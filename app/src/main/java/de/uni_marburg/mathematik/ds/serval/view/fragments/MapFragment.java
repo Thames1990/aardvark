@@ -20,12 +20,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.interfaces.EventCallback;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
@@ -41,49 +42,36 @@ public class MapFragment<T extends Event>
         extends SupportMapFragment
         implements OnInfoWindowClickListener, OnMapReadyCallback, OnMyLocationButtonClickListener {
     
-    private static final String EVENTS = "EVENTS";
-    
-    private static final String LAST_LOCATION = "LAST_LOCATION";
-    
     private static final int CHECK_LOCATION_PERMISSION = 42;
     
     private static final int MAP_PADDING = 200;
     
     private static final int EVENT_COUNT = 50;
     
-    private ArrayList<T> events;
-    
-    private Location lastLocation;
+    private List<T> events;
     
     private GoogleMap googleMap;
+    
+    private Location lastLocation;
     
     private HashMap<Marker, T> markerEventMap;
     
     private PrefManager prefManager;
     
+    private EventCallback<T> eventCallback;
+    
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupFields(savedInstanceState);
+        setupFields();
+        requestEvents(Event.EventComparator.DISTANCE_ASCENDING, EVENT_COUNT);
         getMapAsync(this);
     }
     
-    @Override
-    public void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
-        bundle.putParcelableArrayList(EVENTS, events);
-        bundle.putParcelable(LAST_LOCATION, lastLocation);
-    }
-    
-    private void setupFields(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            //noinspection unchecked
-            events = ((MainActivity) getActivity()).getEvents(EVENT_COUNT);
-            lastLocation = ((MainActivity) getActivity()).getLastLocation();
-        } else {
-            events = savedInstanceState.getParcelableArrayList(EVENTS);
-            lastLocation = savedInstanceState.getParcelable(LAST_LOCATION);
-        }
+    private void setupFields() {
+        //noinspection unchecked
+        eventCallback = (EventCallback<T>) getActivity();
+        lastLocation = ((MainActivity) getActivity()).getLastLocation();
         markerEventMap = new HashMap<>();
         prefManager = new PrefManager(getContext());
     }
@@ -159,26 +147,46 @@ public class MapFragment<T extends Event>
     }
     
     private void zoomToFitMarkers(boolean animate) {
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : markerEventMap.keySet()) {
-            builder.include(marker.getPosition());
-        }
+        CameraUpdate update = null;
+        LatLng lastLocationPosition = null;
         
         if (lastLocation != null) {
-            LatLng position = new LatLng(
+            lastLocationPosition = new LatLng(
                     lastLocation.getLatitude(),
                     lastLocation.getLongitude()
             );
-            builder.include(position);
         }
         
-        LatLngBounds bounds = builder.build();
-        
-        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING);
-        if (animate) {
-            googleMap.animateCamera(update);
-        } else {
-            googleMap.moveCamera(update);
+        if (!markerEventMap.isEmpty()) {
+            // Events are available
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            
+            for (Marker marker : markerEventMap.keySet()) {
+                builder.include(marker.getPosition());
+            }
+            
+            if (lastLocationPosition != null) {
+                // Last position is also available
+                builder.include(lastLocationPosition);
+            }
+            
+            update = CameraUpdateFactory.newLatLngBounds(builder.build(), MAP_PADDING);
+        } else if (lastLocationPosition != null) {
+            // No events are available, but the last location
+            update = CameraUpdateFactory.newLatLng(lastLocationPosition);
         }
+        
+        // Zoom in/out camera to include events and/or the last location on availibility
+        if (update != null) {
+            if (animate) {
+                googleMap.animateCamera(update);
+            } else {
+                googleMap.moveCamera(update);
+            }
+        }
+    }
+    
+    protected void requestEvents(Event.EventComparator comparator, int count) {
+        events = eventCallback.onEventsRequested(comparator, count);
     }
 }

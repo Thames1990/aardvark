@@ -35,5 +35,6 @@ public class Serval extends Application {
         }
         refWatcher = LeakCanary.install(this);
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        firebaseAnalytics.setAnalyticsCollectionEnabled(false);
     }
 }

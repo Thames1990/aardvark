@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.controller.view_holders;
 
+import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -18,14 +19,16 @@ public abstract class BaseViewHolder<T extends Event>
         extends ViewHolder
         implements View.OnClickListener, View.OnLongClickListener {
     
+    Context context;
+    
     /**
      * Event that is displayed in the view
      */
     T event;
     
     BaseViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
-        super(LayoutInflater.from(parent.getContext())
-                            .inflate(itemLayoutId, parent, false));
+        super(LayoutInflater.from(parent.getContext()).inflate(itemLayoutId, parent, false));
+        context = parent.getContext();
         ButterKnife.bind(this, itemView);
         itemView.setOnClickListener(this);
         itemView.setOnLongClickListener(this);

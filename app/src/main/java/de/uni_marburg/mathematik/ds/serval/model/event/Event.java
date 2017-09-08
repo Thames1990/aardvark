@@ -37,4 +37,11 @@ public abstract class Event implements Parcelable {
     public List<Measurement> getMeasurements() {
         return measurements;
     }
+    
+    public enum EventComparator {
+        TIME_ASCENDING,
+        TIME_DESCENDING,
+        DISTANCE_ASCENDING,
+        DISTANCE_DESCENDING
+    }
 }

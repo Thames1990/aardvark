@@ -1,7 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.controller.view_holders;
 
-import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +26,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.model.event.Measurement;
 import de.uni_marburg.mathematik.ds.serval.model.event.MeasurementType;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
+import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
 
 import static android.os.Build.VERSION;
 import static android.os.Build.VERSION_CODES;
@@ -37,20 +38,19 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  */
 public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     
-    private Context context;
-    
     @BindView(R.id.undo)
     public Button undo;
     @BindView(R.id.measurement_types)
     public LinearLayout measurementTypes;
     @BindView(R.id.time)
     public TextView time;
+    @BindView(R.id.location_icon)
+    ImageView locationIcon;
     @BindView(R.id.location)
     public TextView location;
     
     public GenericEventViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
-        context = parent.getContext();
     }
     
     @Override
@@ -95,7 +95,29 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     }
     
     private void setupLocation() {
-        
+        Location lastLocation = ((MainActivity) context).getLastLocation();
+        if (lastLocation != null) {
+            locationIcon.setVisibility(View.VISIBLE);
+            location.setVisibility(View.VISIBLE);
+            
+            float distance = event.getLocation().distanceTo(lastLocation);
+            if (distance < 1000) {
+                location.setText(String.format(
+                        Locale.getDefault(),
+                        context.getString(R.string.location_distance_to_meter),
+                        distance
+                ));
+            } else {
+                location.setText(String.format(
+                        Locale.getDefault(),
+                        context.getString(R.string.location_distance_to_kilometer),
+                        distance / 1000
+                ));
+            }
+        } else {
+            locationIcon.setVisibility(View.GONE);
+            location.setVisibility(View.GONE);
+        }
     }
     
     /**
