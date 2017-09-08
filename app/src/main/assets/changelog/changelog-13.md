@@ -1,0 +1,1 @@
+Correctly update views after screen rotation
