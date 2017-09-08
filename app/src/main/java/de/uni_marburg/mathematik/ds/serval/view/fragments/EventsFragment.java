@@ -54,7 +54,7 @@ public class EventsFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_filter, menu);
+        inflater.inflate(R.menu.menu_events, menu);
         PrefManager prefManager = new PrefManager(getContext());
         // Hide location filter, if the user denied location update permission
         if (!prefManager.requestLocationUpdates()) {

@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,6 +28,7 @@ import com.google.maps.android.clustering.ClusterManager.OnClusterItemInfoWindow
 
 import java.util.List;
 
+import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.ExtendedInfoWindowAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
@@ -77,6 +81,7 @@ public class MapFragment<T extends Event>
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         setupFields();
         requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
         getMapAsync(this);
@@ -88,6 +93,35 @@ public class MapFragment<T extends Event>
     ) {
         requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
         return super.onCreateView(layoutInflater, viewGroup, bundle);
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_map, menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_change_map_type_hybrid:
+                googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                return true;
+            case R.id.action_change_map_type_none:
+                googleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
+                return true;
+            case R.id.action_change_map_type_normal:
+                googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                return true;
+            case R.id.action_change_map_type_satellite:
+                googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                return true;
+            case R.id.action_change_map_type_terrain:
+                googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
     @Override

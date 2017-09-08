@@ -6,9 +6,15 @@
     <string name="app_name" translatable="false">Serval Project</string>
 
     <!-- Action menu titles -->
+    <string name="action_change_map_type">Change map type</string>
+    <string name="action_change_map_type_hybrid">@string/hybrid</string>
+    <string name="action_change_map_type_none">@string/none</string>
+    <string name="action_change_map_type_normal">@string/normal</string>
+    <string name="action_change_map_type_satellite">@string/satellite</string>
+    <string name="action_change_map_type_terrain">@string/terrain</string>
     <string name="action_filter_events">Filter events</string>
-    <string name="action_filter_events_ascending">Ascending</string>
-    <string name="action_filter_events_descending">Descending</string>
+    <string name="action_filter_events_ascending">@string/ascending</string>
+    <string name="action_filter_events_descending">@string/descending</string>
     <string name="action_filter_events_distance">@string/location_distance</string>
     <string name="action_filter_events_time">@string/time</string>
     <string name="action_reset_app">Reset app</string>
@@ -30,9 +36,11 @@
 
     <!-- General -->
     <string name="agree">Agree</string>
+    <string name="ascending">Ascending</string>
     <string name="cancel">Cancel</string>
     <string name="changelog">Changelog - %1$s</string>
     <string name="chat">Chat</string>
+    <string name="descending">Descending</string>
     <string name="disagree">Disagreee</string>
     <string name="confirm_exit">Confirm exit</string>
     <string name="dashboard">Dashboard</string>
@@ -40,15 +48,20 @@
     <string name="event">Event</string>
     <string name="events">Events</string>
     <string name="exit">Exit</string>
+    <string name="hybrid">Hybrid</string>
     <string name="information">Info</string>
     <string name="intro">Intro</string>
     <string name="map">Map</string>
     <string name="maps">Maps</string>
     <string name="measurements">Measurements</string>
+    <string name="none">None</string>
+    <string name="normal">Normal</string>
     <string name="ok">OK</string>
     <string name="placeholder">Placeholder</string>
+    <string name="satellite">Satellite</string>
     <string name="settings">Settings</string>
     <string name="smartphone">Smartphone</string>
+    <string name="terrain">Terrain</string>
     <string name="undo">Undo</string>
     <string name="version">Version</string>
 
