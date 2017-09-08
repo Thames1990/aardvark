@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="de.uni_marburg.mathematik.ds.serval">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-feature android:name="android.hardware.location.gps"/>
+    <uses-feature android:name="android.hardware.location.gps" />
     <!-- Not yet, but it will come -->
-    <uses-feature android:name="android.hardware.wifi"/>
+    <uses-feature android:name="android.hardware.wifi" />
 
     <application
         android:name=".Serval"
@@ -24,26 +23,25 @@
             android:name=".view.activities.IntroActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.MainActivity"/>
+        <activity android:name=".view.activities.MainActivity" />
         <activity
             android:name=".view.activities.DetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.activities.SettingsActivity"
-            android:label="@string/title_activity_settings">
-        </activity>
+            android:label="@string/title_activity_settings" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="${KEY_FABRIC}"/>
+            android:value="${KEY_FABRIC}" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${KEY_GOOGLE_MAPS}"/>
+            android:value="${KEY_GOOGLE_MAPS}" />
 
     </application>
 
