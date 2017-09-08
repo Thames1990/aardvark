@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,6 +19,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.leakcanary.RefWatcher;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -52,6 +55,16 @@ public class InformationFragment<T extends Event> extends Fragment implements On
     
     @BindView(R.id.map)
     MapView map;
+    @BindView(R.id.time_value)
+    TextView time;
+    @BindView(R.id.latitude_value)
+    TextView latitude;
+    @BindView(R.id.longitude_value)
+    TextView longitude;
+    @BindView(R.id.geohash_value)
+    TextView geohash;
+    @BindView(R.id.measurements_value)
+    TextView measurements;
     
     public static <T extends Event> InformationFragment<Event> newInstance(T event) {
         InformationFragment<Event> fragment = new InformationFragment<>();
@@ -93,6 +106,17 @@ public class InformationFragment<T extends Event> extends Fragment implements On
         MapsInitializer.initialize(getActivity());
         map.onCreate(savedInstanceState);
         map.getMapAsync(this);
+        DateFormat format = SimpleDateFormat.getDateTimeInstance(
+                DateFormat.MEDIUM,
+                DateFormat.MEDIUM,
+                Locale.getDefault()
+        );
+        time.setText(format.format(event.getTime()));
+        Location location = event.getLocation();
+        latitude.setText(String.valueOf(location.getLatitude()));
+        longitude.setText(String.valueOf(location.getLongitude()));
+        geohash.setText(event.getGeohashLocation().getGeohash());
+        measurements.setText(String.valueOf(event.getMeasurements().size()));
     }
     
     @Override

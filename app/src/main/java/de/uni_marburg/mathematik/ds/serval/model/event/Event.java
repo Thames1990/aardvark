@@ -27,6 +27,10 @@ public abstract class Event implements Parcelable {
         return time;
     }
     
+    public GeohashLocation getGeohashLocation() {
+        return location;
+    }
+    
     public Location getLocation() {
         Location location = new Location("");
         location.setLatitude(this.location.getLatitude());

@@ -8,7 +8,7 @@ import com.squareup.moshi.Json;
 /**
  * Is used to store the location of an {@link Event event}.
  */
-class GeohashLocation implements Parcelable {
+public class GeohashLocation implements Parcelable {
     
     @Json(name = "latitude")
     private Double latitude;

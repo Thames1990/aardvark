@@ -117,6 +117,10 @@
 
     <!-- Tools Fake Data -->
     <string name="tools_distance">392 m</string>
+    <string name="tools_geohash">u1n2bny2t9n7</string>
+    <string name="tools_latitude">50.794006525371884</string>
+    <string name="tools_longitude">8.79789020114476</string>
+    <string name="tools_measurement_count">3</string>
     <string name="tools_time">24 min</string>
 
     <!-- URLs -->
