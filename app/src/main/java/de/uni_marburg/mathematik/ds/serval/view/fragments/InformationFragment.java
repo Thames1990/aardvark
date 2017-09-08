@@ -11,13 +11,11 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.squareup.leakcanary.RefWatcher;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -53,8 +51,8 @@ public class InformationFragment<T extends Event> extends Fragment implements On
     
     private GoogleMap googleMap;
     
-    @BindView(R.id.map)
-    MapView map;
+    private SupportMapFragment map;
+    
     @BindView(R.id.time_value)
     TextView time;
     @BindView(R.id.latitude_value)
@@ -96,6 +94,7 @@ public class InformationFragment<T extends Event> extends Fragment implements On
             @Nullable Bundle savedInstanceState
     ) {
         View view = inflater.inflate(R.layout.fragment_information, container, false);
+        map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -103,65 +102,14 @@ public class InformationFragment<T extends Event> extends Fragment implements On
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        MapsInitializer.initialize(getActivity());
-        map.onCreate(savedInstanceState);
-        map.getMapAsync(this);
-        DateFormat format = SimpleDateFormat.getDateTimeInstance(
-                DateFormat.MEDIUM,
-                DateFormat.MEDIUM,
-                Locale.getDefault()
-        );
-        time.setText(format.format(event.getTime()));
-        Location location = event.getLocation();
-        latitude.setText(String.valueOf(location.getLatitude()));
-        longitude.setText(String.valueOf(location.getLongitude()));
-        geohash.setText(event.getGeohashLocation().getGeohash());
-        measurements.setText(String.valueOf(event.getMeasurements().size()));
-    }
-    
-    @Override
-    public void onStart() {
-        super.onStart();
-        map.onStart();
-    }
-    
-    @Override
-    public void onResume() {
-        super.onResume();
-        map.onResume();
-    }
-    
-    @Override
-    public void onPause() {
-        super.onPause();
-        map.onPause();
-    }
-    
-    @Override
-    public void onStop() {
-        super.onStop();
-        map.onStop();
+        setupViews();
     }
     
     @Override
     public void onDestroy() {
         super.onDestroy();
-        map.onDestroy();
         unbinder.unbind();
-        RefWatcher refWatcher = Serval.getRefWatcher(getActivity());
-        refWatcher.watch(this);
-    }
-    
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        map.onSaveInstanceState(outState);
-    }
-    
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        map.onLowMemory();
+        Serval.getRefWatcher(getActivity()).watch(this);
     }
     
     @Override
@@ -175,6 +123,21 @@ public class InformationFragment<T extends Event> extends Fragment implements On
         UiSettings settings = googleMap.getUiSettings();
         settings.setAllGesturesEnabled(false);
         settings.setMapToolbarEnabled(false);
+    }
+    
+    private void setupViews() {
+        map.getMapAsync(this);
+        DateFormat format = SimpleDateFormat.getDateTimeInstance(
+                DateFormat.MEDIUM,
+                DateFormat.MEDIUM,
+                Locale.getDefault()
+        );
+        time.setText(format.format(event.getTime()));
+        Location location = event.getLocation();
+        latitude.setText(String.valueOf(location.getLatitude()));
+        longitude.setText(String.valueOf(location.getLongitude()));
+        geohash.setText(event.getGeohashLocation().getGeohash());
+        measurements.setText(String.valueOf(event.getMeasurements().size()));
     }
     
     private void addEventLocation() {
