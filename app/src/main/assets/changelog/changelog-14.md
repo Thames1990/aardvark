@@ -1,0 +1,1 @@
+Optimize `InformationFragment` layout for landscape screen orientation
