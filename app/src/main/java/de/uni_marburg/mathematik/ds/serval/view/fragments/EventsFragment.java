@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -28,7 +27,7 @@ import de.uni_marburg.mathematik.ds.serval.view.item_touch_helpers.SwipeToDelete
 /**
  * Created by thames1990 on 28.08.17.
  */
-public class EventsFragment extends BaseFragment implements PopupMenu.OnMenuItemClickListener {
+public class EventsFragment extends BaseFragment {
     
     private GenericEventAdapter adapter;
     
@@ -90,11 +89,6 @@ public class EventsFragment extends BaseFragment implements PopupMenu.OnMenuItem
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-    
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        return false;
     }
     
     private void setupRecyclerView() {
