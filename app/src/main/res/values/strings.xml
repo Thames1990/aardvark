@@ -6,7 +6,7 @@
     <string name="app_name" translatable="false">Serval Project</string>
 
     <!-- Action menu titles -->
-    <string name="action_change_map_type">Change map type</string>
+    <string name="action_change_map_type">Map type</string>
     <string name="action_change_map_type_hybrid">@string/hybrid</string>
     <string name="action_change_map_type_none">@string/none</string>
     <string name="action_change_map_type_normal">@string/normal</string>
