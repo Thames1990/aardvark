@@ -1,0 +1,9 @@
+- Events are now loaded asynchronously
+  - The UI updates once the `EventAsyncTask` finished through an `EventCallback`
+- Fragments now extend `BaseFragment`, which includes
+  - An `EventCallback`, which is able to request a specific amount of events from their `Activity` with sorting parameters (time, distance for now)
+- Properly handle configuration changes (e.g. device rotation)
+- Properly respect the users decision to reject/revoke location permission
+- Add missing commits in `PrefManager`
+- Remove FireBase Auth (might be reintroduced)
+- Google Play services updated to 11.2.2
