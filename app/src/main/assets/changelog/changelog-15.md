@@ -1,0 +1,1 @@
+Add clustering to `GoogleMap` in `MapFragment`
