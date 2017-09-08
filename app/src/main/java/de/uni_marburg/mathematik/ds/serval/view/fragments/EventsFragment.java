@@ -57,6 +57,11 @@ public class EventsFragment extends BaseFragment implements PopupMenu.OnMenuItem
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_filter, menu);
+        PrefManager prefManager = new PrefManager(getContext());
+        // Hide location filter, if the user denied location update permission
+        if (!prefManager.requestLocationUpdates()) {
+            menu.findItem(R.id.action_filter_events_distance).setVisible(false);
+        }
     }
     
     @Override
