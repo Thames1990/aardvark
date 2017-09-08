@@ -1,0 +1,9 @@
+- Enable events filter control
+  - The user can filter ascending or descending based on the events
+    - Time (passed since the occurence time of the event)
+    - Location (distance to current position). This is only available, if the user granted permission to the location updates.
+- Change MapView to MapFragment in `InformationFragment`
+- Show more information in `InformationFragment`
+- Fix time in `EventsFragment` for events older than a week
+- Major code cleanup
+- Major refactoring
