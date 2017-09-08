@@ -43,6 +43,7 @@ public abstract class BaseFragment<T extends Event> extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState
     ) {
+        requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
         View view = inflater.inflate(getLayout(), container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -63,6 +64,6 @@ public abstract class BaseFragment<T extends Event> extends Fragment {
     protected abstract int getLayout();
     
     protected void requestEvents(EventComparator comparator, boolean reversed, int count) {
-        events = eventCallback.onEventsRequested(comparator, reversed,  count);
+        events = eventCallback.onEventsRequested(comparator, reversed, count);
     }
 }

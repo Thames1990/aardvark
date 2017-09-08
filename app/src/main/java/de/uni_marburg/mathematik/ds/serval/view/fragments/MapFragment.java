@@ -5,6 +5,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -69,12 +72,12 @@ public class MapFragment<T extends Event>
         getMapAsync(this);
     }
     
-    private void setupFields() {
-        //noinspection unchecked
-        eventCallback = (EventCallback<T>) getActivity();
-        lastLocation = ((MainActivity) getActivity()).getLastLocation();
-        markerEventMap = new HashMap<>();
-        prefManager = new PrefManager(getContext());
+    @Override
+    public View onCreateView(
+            LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle
+    ) {
+        requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
+        return super.onCreateView(layoutInflater, viewGroup, bundle);
     }
     
     @Override
@@ -97,6 +100,14 @@ public class MapFragment<T extends Event>
     public boolean onMyLocationButtonClick() {
         zoomToFitMarkers(true);
         return true;
+    }
+    
+    private void setupFields() {
+        //noinspection unchecked
+        eventCallback = (EventCallback<T>) getActivity();
+        lastLocation = ((MainActivity) getActivity()).getLastLocation();
+        markerEventMap = new HashMap<>();
+        prefManager = new PrefManager(getContext());
     }
     
     private void setupGoogleMap() {

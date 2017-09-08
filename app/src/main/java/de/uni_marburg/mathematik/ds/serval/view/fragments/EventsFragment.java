@@ -38,7 +38,6 @@ public class EventsFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
     }
     
     @Override
