@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.view.util;
+package de.uni_marburg.mathematik.ds.serval.view.item_touch_helpers;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -17,7 +17,7 @@ import de.uni_marburg.mathematik.ds.serval.controller.adapters.BaseAdapter;
 /**
  * Created by thames1990 on 02.09.17.
  */
-public class SwipeToDeleteTouchHelper<A extends BaseAdapter>
+public class SwipeToDeleteItemTouchHelper<A extends BaseAdapter>
         extends ItemTouchHelper.SimpleCallback {
     
     private Drawable background;
@@ -28,7 +28,7 @@ public class SwipeToDeleteTouchHelper<A extends BaseAdapter>
     
     private A adapter;
     
-    public SwipeToDeleteTouchHelper(Context context) {
+    public SwipeToDeleteItemTouchHelper(Context context) {
         super(0, ItemTouchHelper.LEFT);
         background = new ColorDrawable(Color.RED);
         clear = ContextCompat.getDrawable(context, R.drawable.clear);

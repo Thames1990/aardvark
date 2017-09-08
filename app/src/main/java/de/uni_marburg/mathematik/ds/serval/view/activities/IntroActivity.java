@@ -23,7 +23,7 @@ import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.IntroAdapter;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
-import de.uni_marburg.mathematik.ds.serval.view.util.IntroPageTransformer;
+import de.uni_marburg.mathematik.ds.serval.view.page_transformers.IntroPageTransformer;
 import io.fabric.sdk.android.Fabric;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -36,7 +36,6 @@ public class IntroActivity
         extends AppCompatActivity
         implements ViewPager.OnPageChangeListener, Animation.AnimationListener {
     
-    // TODO Use to check permission
     private static final int CHECK_LOCATION_PERMISSION = 0;
     
     private static final int FADE_OUT_ANIMATION_DURATION = 1000;

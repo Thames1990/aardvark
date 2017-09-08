@@ -14,8 +14,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import de.uni_marburg.mathematik.ds.serval.interfaces.EventCallback;
+import de.uni_marburg.mathematik.ds.serval.R;
+import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 import okhttp3.Call;
@@ -25,18 +27,33 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by thames1990 on 08.09.17.
+ * Loads {@link Event events} asynchronously.
+ * <p>
+ * Once it is finished the calling {@link android.app.Activity activity} gets informed through an
+ * {@link EventCallback event callback} and is able to update the UI:
  */
 public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, List<T>> {
     
     private Context context;
     
+    /**
+     * Informs the calling {@link android.app.Activity activity} that the loading is finished.
+     */
     private EventCallback<T> eventCallback;
     
+    /**
+     * Holds requests (multiple URLs) that should be used to load {@link Event events}.
+     */
     private Request request;
     
+    /**
+     * Is used to download JSON data.
+     */
     private OkHttpClient client;
     
+    /**
+     * Serializes JSON to an {@link Event event}.
+     */
     private JsonAdapter eventAdapter;
     
     public EventAsyncTask(Context context) {
@@ -50,6 +67,7 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
         eventCallback = (EventCallback<T>) context;
         client = new OkHttpClient();
         Moshi moshi = new Moshi.Builder().build();
+        // TODO Figure out how to implement a generic adapter
         eventAdapter = moshi.adapter(GenericEvent.class);
     }
     
@@ -62,7 +80,14 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    Log.e(getClass().getSimpleName(), "Failed to load events: " + e.getMessage());
+                    Log.e(
+                            getClass().getSimpleName(),
+                            String.format(
+                                    Locale.getDefault(),
+                                    context.getString(R.string.log_message_fail_event_load),
+                                    e.getMessage()
+                            )
+                    );
                 }
                 
                 @Override
@@ -71,7 +96,11 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
                     if (!response.isSuccessful()) {
                         Log.e(
                                 getClass().getSimpleName(),
-                                "Response wasn't successfull for request: " + request.toString()
+                                String.format(
+                                        Locale.getDefault(),
+                                        context.getString(R.string.log_message_response_unsuccessful),
+                                        request.toString()
+                                )
                         );
                     }
                     
@@ -94,6 +123,7 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
     @Override
     protected void onPostExecute(List<T> events) {
         super.onPostExecute(events);
+        // Inform calling Activity that events are loaded and the UI can be updated
         eventCallback.onEventsLoaded(events);
     }
 }

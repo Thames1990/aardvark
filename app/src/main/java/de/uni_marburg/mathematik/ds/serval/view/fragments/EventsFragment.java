@@ -13,12 +13,12 @@ import android.view.View;
 import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.GenericEventAdapter;
-import de.uni_marburg.mathematik.ds.serval.model.event.Event;
+import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
-import de.uni_marburg.mathematik.ds.serval.view.util.GridSpacingItemDecoration;
-import de.uni_marburg.mathematik.ds.serval.view.util.SwipeToDeleteItemDecoration;
-import de.uni_marburg.mathematik.ds.serval.view.util.SwipeToDeleteTouchHelper;
+import de.uni_marburg.mathematik.ds.serval.view.item_decorations.GridSpacingItemDecoration;
+import de.uni_marburg.mathematik.ds.serval.view.item_decorations.SwipeToDeleteItemDecoration;
+import de.uni_marburg.mathematik.ds.serval.view.item_touch_helpers.SwipeToDeleteItemTouchHelper;
 
 /**
  * Created by thames1990 on 28.08.17.
@@ -31,7 +31,7 @@ public class EventsFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestEvents(Event.EventComparator.DISTANCE_ASCENDING, EVENT_COUNT);
+        requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
     }
     
     @Override
@@ -60,7 +60,7 @@ public class EventsFragment extends BaseFragment {
                     DividerItemDecoration.VERTICAL
             ));
             ItemTouchHelper touchHelper =
-                    new ItemTouchHelper(new SwipeToDeleteTouchHelper<>(getContext()));
+                    new ItemTouchHelper(new SwipeToDeleteItemTouchHelper<>(getContext()));
             touchHelper.attachToRecyclerView(recyclerView);
             recyclerView.addItemDecoration(new SwipeToDeleteItemDecoration());
         } else if (prefManager.useGridLayoutManger()) {

@@ -12,8 +12,9 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.Serval;
-import de.uni_marburg.mathematik.ds.serval.interfaces.EventCallback;
+import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
+import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
 
 /**
  * Created by thames1990 on 08.09.17.
@@ -61,7 +62,7 @@ public abstract class BaseFragment<T extends Event> extends Fragment {
     
     protected abstract int getLayout();
     
-    protected void requestEvents(Event.EventComparator comparator, int count) {
-        events = eventCallback.onEventsRequested(comparator, count);
+    protected void requestEvents(EventComparator comparator, boolean reversed, int count) {
+        events = eventCallback.onEventsRequested(comparator, reversed,  count);
     }
 }

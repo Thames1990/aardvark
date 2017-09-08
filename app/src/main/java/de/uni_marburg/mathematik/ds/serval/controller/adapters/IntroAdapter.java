@@ -9,7 +9,7 @@ import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.IntroFragment;
 
 /**
- * Adapter for the experimental intro sliders
+ * Adapter for the intro slider
  */
 public class IntroAdapter extends FragmentPagerAdapter {
     

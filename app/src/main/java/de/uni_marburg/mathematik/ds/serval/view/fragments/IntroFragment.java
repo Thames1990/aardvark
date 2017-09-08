@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.leakcanary.RefWatcher;
-
 import java.util.Locale;
 
 import de.uni_marburg.mathematik.ds.serval.R;
@@ -81,7 +79,6 @@ public class IntroFragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState
     ) {
-        // Select a layout based on the current page
         int layoutResId;
         switch (page) {
             case 0:
@@ -103,10 +100,7 @@ public class IntroFragment extends Fragment {
                 layoutResId = R.layout.fragment_placeholder;
         }
         
-        // Inflate the layout resource file
         View view = getActivity().getLayoutInflater().inflate(layoutResId, container, false);
-        
-        // Set the current page index as the View's tag (useful in the PageTransformer)
         view.setTag(page);
         
         return view;
@@ -115,8 +109,6 @@ public class IntroFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
-        // Set the background color of the root view to the color specified in newInstance()
         View background = view.findViewById(R.id.background);
         background.setBackgroundColor(backgroundColor);
     }
@@ -124,8 +116,7 @@ public class IntroFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = Serval.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+        Serval.getRefWatcher(getActivity()).watch(this);
     }
     
 }

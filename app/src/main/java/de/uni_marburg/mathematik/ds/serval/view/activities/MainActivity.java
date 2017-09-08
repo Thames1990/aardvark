@@ -38,10 +38,11 @@ import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.controller.tasks.EventAsyncTask;
-import de.uni_marburg.mathematik.ds.serval.interfaces.EventCallback;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
-import de.uni_marburg.mathematik.ds.serval.model.util.LocationComparator;
-import de.uni_marburg.mathematik.ds.serval.model.util.TimeComparator;
+import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
+import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
+import de.uni_marburg.mathematik.ds.serval.model.comparators.LocationComparator;
+import de.uni_marburg.mathematik.ds.serval.model.comparators.TimeComparator;
 import de.uni_marburg.mathematik.ds.serval.util.LocationUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment;
@@ -224,36 +225,35 @@ public class MainActivity<T extends Event>
     }
     
     @Override
-    public List<T> onEventsRequested(Event.EventComparator comparator, int count) {
-        // TODO Improve this shit. Maybe use Comparator.
+    public List<T> onEventsRequested(EventComparator comparator, boolean reversed, int count) {
         switch (comparator) {
-            case DISTANCE_ASCENDING:
+            case DISTANCE:
                 if (lastLocation != null) {
-                    Collections.sort(events, new LocationComparator<>(lastLocation));
-                }
-                break;
-            case DISTANCE_DESCENDING:
-                if (lastLocation != null) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(
-                                events,
-                                new LocationComparator<T>(lastLocation).reversed()
-                        );
+                    if (reversed) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            Collections.sort(
+                                    events,
+                                    new LocationComparator<T>(lastLocation).reversed()
+                            );
+                        } else {
+                            Collections.sort(events, new LocationComparator<>(lastLocation));
+                            Collections.reverse(events);
+                        }
                     } else {
                         Collections.sort(events, new LocationComparator<>(lastLocation));
-                        Collections.reverse(events);
                     }
                 }
                 break;
-            case TIME_ASCENDING:
-                Collections.sort(events, new TimeComparator<>());
-                break;
-            case TIME_DESCENDING:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    Collections.sort(events, new TimeComparator<T>().reversed());
+            case TIME:
+                if (reversed) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(events, new TimeComparator<T>().reversed());
+                    } else {
+                        Collections.sort(events, new TimeComparator<>());
+                        Collections.reverse(events);
+                    }
                 } else {
                     Collections.sort(events, new TimeComparator<>());
-                    Collections.reverse(events);
                 }
                 break;
             default:

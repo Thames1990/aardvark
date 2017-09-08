@@ -1,11 +1,11 @@
-package de.uni_marburg.mathematik.ds.serval.model.util;
+package de.uni_marburg.mathematik.ds.serval.model.comparators;
 
 import java.util.Comparator;
 
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 
 /**
- * Created by thames1990 on 08.09.17.
+ * Compares {@link Event events} based on their time.
  */
 public class TimeComparator<T extends Event> implements Comparator<T> {
     

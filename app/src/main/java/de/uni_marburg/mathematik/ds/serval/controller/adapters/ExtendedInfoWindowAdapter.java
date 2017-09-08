@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.view.util;
+package de.uni_marburg.mathematik.ds.serval.controller.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,7 +12,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
 /**
- * Created by thames1990 on 29.08.17.
+ * This is used to display an events marker information.
  */
 public class ExtendedInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     

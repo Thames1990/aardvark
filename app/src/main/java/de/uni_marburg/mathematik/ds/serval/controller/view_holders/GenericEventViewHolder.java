@@ -61,6 +61,18 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
         setupMeasurementIcons();
     }
     
+    @Override
+    protected void onClick(View view, GenericEvent event) {
+        Intent detail = new Intent(context, DetailActivity.class);
+        detail.putExtra(DetailActivity.EVENT, event);
+        context.startActivity(detail);
+    }
+    
+    @Override
+    protected boolean onLongClick(View view, GenericEvent event) {
+        return false;
+    }
+    
     /**
      * Sets the elapsed days since an {@link Event event} happened.
      */
@@ -94,6 +106,9 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
         }
     }
     
+    /**
+     * Sets the distance from the current position to an {@link Event events} position.
+     */
     private void setupLocation() {
         Location lastLocation = ((MainActivity) context).getLastLocation();
         if (lastLocation != null) {
@@ -144,17 +159,5 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
             icon.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT));
             measurementTypes.addView(icon);
         }
-    }
-    
-    @Override
-    protected void onClick(View view, GenericEvent event) {
-        Intent detail = new Intent(context, DetailActivity.class);
-        detail.putExtra(DetailActivity.EVENT, event);
-        context.startActivity(detail);
-    }
-    
-    @Override
-    protected boolean onLongClick(View view, GenericEvent event) {
-        return false;
     }
 }

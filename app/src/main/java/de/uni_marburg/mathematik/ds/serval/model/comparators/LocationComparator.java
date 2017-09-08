@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.model.util;
+package de.uni_marburg.mathematik.ds.serval.model.comparators;
 
 import android.location.Location;
 
@@ -7,10 +7,13 @@ import java.util.Comparator;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 
 /**
- * Created by thames1990 on 08.09.17.
+ * Compares {@link Event events} based on their location.
  */
 public class LocationComparator<T extends Event> implements Comparator<T> {
     
+    /**
+     * The location to calculate the distance to. This is the current users location.
+     */
     private Location origin;
     
     public LocationComparator(Location origin) {

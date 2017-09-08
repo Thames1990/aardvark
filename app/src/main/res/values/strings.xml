@@ -76,6 +76,10 @@
     <string name="location_latitude">Latitude</string>
     <string name="location_longitude">Longitude</string>
 
+    <!-- Log messages -->
+    <string name="log_message_fail_event_load">Failed to load events: %1$s</string>
+    <string name="log_message_response_unsuccessful">Response wasn\'t successful for request: %1$s</string>
+
     <!-- Preference general -->
     <string name="preference_choose_email_client">Choose email client</string>
 

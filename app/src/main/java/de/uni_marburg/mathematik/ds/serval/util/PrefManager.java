@@ -10,6 +10,8 @@ import de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity;
 
 /**
  * Is used to store key/value pairs permanently.
+ * <p>
+ * TODO JavaDoc
  */
 public class PrefManager {
     

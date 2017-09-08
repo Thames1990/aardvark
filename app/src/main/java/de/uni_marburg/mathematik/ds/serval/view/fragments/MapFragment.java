@@ -26,13 +26,14 @@ import java.util.List;
 import java.util.Locale;
 
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.interfaces.EventCallback;
+import de.uni_marburg.mathematik.ds.serval.controller.adapters.ExtendedInfoWindowAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
+import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
+import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
-import de.uni_marburg.mathematik.ds.serval.view.util.ExtendedInfoWindowAdapter;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -64,7 +65,7 @@ public class MapFragment<T extends Event>
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupFields();
-        requestEvents(Event.EventComparator.DISTANCE_ASCENDING, EVENT_COUNT);
+        requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
         getMapAsync(this);
     }
     
@@ -186,7 +187,7 @@ public class MapFragment<T extends Event>
         }
     }
     
-    protected void requestEvents(Event.EventComparator comparator, int count) {
-        events = eventCallback.onEventsRequested(comparator, count);
+    protected void requestEvents(EventComparator comparator, boolean reversed, int count) {
+        events = eventCallback.onEventsRequested(comparator, reversed, count);
     }
 }

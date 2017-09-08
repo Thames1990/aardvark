@@ -54,6 +54,17 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
         setupViews();
     }
     
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+    /**
+     * Sets up all {@link android.view.View views}.
+     */
     private void setupViews() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -82,13 +93,5 @@ public class DetailActivity<T extends Event> extends AppCompatActivity {
         );
         navigationIntent.setPackage("com.google.android.apps.maps");
         startActivity(navigationIntent);
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
