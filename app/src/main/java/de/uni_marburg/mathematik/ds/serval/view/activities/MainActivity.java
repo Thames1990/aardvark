@@ -53,7 +53,6 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment;
-import de.uni_marburg.mathematik.ds.serval.view.views.ChangelogDialog;
 import ru.noties.markwon.Markwon;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -356,7 +355,7 @@ public class MainActivity<T extends Event>
                 getString(R.string.changelog),
                 getString(R.string.versionName)
         );
-        String changelog = ChangelogUtil.readChangelogFromAsset(this, versionCode);
+        String changelog = ChangelogUtil.readChangelogFromAsset(this, 8);
         if (prefManager.useBottomSheetDialogs()) {
             showChangelogBottomSheetDialog(versionName, changelog);
         } else {
@@ -377,8 +376,12 @@ public class MainActivity<T extends Event>
     }
     
     private void showChangelogDialog(String versionName, String changelog) {
-        ChangelogDialog dialog = ChangelogDialog.newInstance(versionName, changelog);
-        dialog.show(fragmentManager, ChangelogDialog.TAG);
+        TextView content = new TextView(this);
+        Markwon.setMarkdown(content, changelog);
+        new MaterialDialog.Builder(this).title(versionName)
+                                        .customView(content, true)
+                                        .positiveText(android.R.string.ok)
+                                        .show();
     }
     
     private void startLocationUpdates() {
