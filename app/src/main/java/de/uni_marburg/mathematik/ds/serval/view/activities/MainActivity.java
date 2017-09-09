@@ -42,6 +42,7 @@ import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.controller.tasks.EventAsyncTask;
 import de.uni_marburg.mathematik.ds.serval.model.comparators.LocationComparator;
+import de.uni_marburg.mathematik.ds.serval.model.comparators.MeasurementsComparator;
 import de.uni_marburg.mathematik.ds.serval.model.comparators.TimeComparator;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
@@ -261,6 +262,21 @@ public class MainActivity<T extends Event>
                     }
                 }
                 break;
+            case MEASUREMENTS:
+                if (reversed) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(events, new MeasurementsComparator<>().reversed());
+                    } else {
+                        Collections.sort(events, new MeasurementsComparator<>());
+                        Collections.reverse(events);
+                    }
+                } else {
+                    Collections.sort(events, new MeasurementsComparator<>());
+                }
+                break;
+            case SHUFFLE:
+                Collections.shuffle(events);
+                break;
             case TIME:
                 if (reversed) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -272,9 +288,6 @@ public class MainActivity<T extends Event>
                 } else {
                     Collections.sort(events, new TimeComparator<>());
                 }
-                break;
-            default:
-                // TODO Implement default Comparator
                 break;
         }
         return new ArrayList<>(events.subList(0, Math.min(events.size(), count)));

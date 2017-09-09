@@ -95,6 +95,15 @@ public class EventsFragment<T extends Event> extends EventFragment<T> {
                         ((MainActivity) getActivity()).getLastLocation()
                 );
                 return true;
+            case R.id.action_filter_events_measurements_ascending:
+                adapter.filter(EventComparator.MEASUREMENTS, false, null);
+                return true;
+            case R.id.action_filter_events_measurements_descending:
+                adapter.filter(EventComparator.MEASUREMENTS, true, null);
+                return true;
+            case R.id.action_filter_events_shuffle:
+                adapter.filter(EventComparator.SHUFFLE, false, null);
+                return true;
             case R.id.action_filter_events_time_ascending:
                 adapter.filter(EventComparator.TIME, false, null);
                 return true;

@@ -9,6 +9,7 @@ import java.util.List;
 
 import de.uni_marburg.mathematik.ds.serval.controller.view_holders.EventViewHolder;
 import de.uni_marburg.mathematik.ds.serval.model.comparators.LocationComparator;
+import de.uni_marburg.mathematik.ds.serval.model.comparators.MeasurementsComparator;
 import de.uni_marburg.mathematik.ds.serval.model.comparators.TimeComparator;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
@@ -21,7 +22,7 @@ import static android.support.v7.widget.RecyclerView.Adapter;
  * Has the ability to remove events and recover them again in a timeframe of {@link
  * EventAdapter#PENDING_REMOVAL_TIMEOUT} seconds.
  */
-abstract class EventAdapter<T extends Event, VH extends EventViewHolder<T>>
+public abstract class EventAdapter<T extends Event, VH extends EventViewHolder<T>>
         extends BaseAdapter<T, VH> {
     
     
@@ -55,6 +56,21 @@ abstract class EventAdapter<T extends Event, VH extends EventViewHolder<T>>
                     Collections.sort(dataSet, new LocationComparator<>(origin));
                 }
                 break;
+            case MEASUREMENTS:
+                if (reversed) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(dataSet, new MeasurementsComparator<T>().reversed());
+                    } else {
+                        Collections.sort(dataSet, new MeasurementsComparator<>());
+                        Collections.reverse(dataSet);
+                    }
+                } else {
+                    Collections.sort(dataSet, new MeasurementsComparator<>());
+                }
+                break;
+            case SHUFFLE:
+                Collections.shuffle(dataSet);
+                break;
             case TIME:
                 if (reversed) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -71,7 +87,7 @@ abstract class EventAdapter<T extends Event, VH extends EventViewHolder<T>>
                 }
                 break;
             default:
-                break;
+                return;
         }
         notifyDataSetChanged();
     }

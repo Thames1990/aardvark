@@ -17,7 +17,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
  */
 public abstract class EventFragment<T extends Event> extends BaseFragment {
     
-    static final int EVENT_COUNT = 50;
+    static final int EVENT_COUNT = 100;
     
     List<T> events;
     
@@ -37,7 +37,7 @@ public abstract class EventFragment<T extends Event> extends BaseFragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState
     ) {
-        requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
+        requestEvents(EventComparator.NONE, false, EVENT_COUNT);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
     
