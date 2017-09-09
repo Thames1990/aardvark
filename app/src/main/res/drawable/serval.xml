@@ -7,9 +7,7 @@
     android:viewportWidth="300.000000">
 
     <group
-        android:scaleX="0.100000"
-        android:scaleY="-0.100000"
-        android:translateY="300.000000">
+        android:scaleX="0.100000" android:scaleY="-0.100000" android:translateY="300.000000">
 
         <path
             android:fillColor="#000000"
