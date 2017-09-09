@@ -39,7 +39,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Serval.getRefWatcher(getActivity()).watch(this);
+        Serval.getRefWatcher(getContext()).watch(this);
     }
     
     /**

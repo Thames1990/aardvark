@@ -1,27 +1,34 @@
 package de.uni_marburg.mathematik.ds.serval.controller.adapters;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.view_holders.MeasurementsViewHolder;
+import de.uni_marburg.mathematik.ds.serval.model.event.Measurement;
 
 /**
  * Created by thames1990 on 09.09.17.
  */
-public class MeasurementsAdapter extends RecyclerView.Adapter<MeasurementsViewHolder> {
+public class MeasurementsAdapter extends BaseAdapter<Measurement, MeasurementsViewHolder> {
     
-    @Override
-    public MeasurementsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+    public MeasurementsAdapter(List<Measurement> dataSet) {
+        super(dataSet);
     }
     
     @Override
-    public void onBindViewHolder(MeasurementsViewHolder holder, int position) {
+    public MeasurementsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MeasurementsViewHolder(parent, R.layout.measurement_row);
+    }
+    
+    @Override
+    protected void onBindViewHolder(MeasurementsViewHolder holder, Measurement data, int position) {
         
     }
     
     @Override
     public int getItemCount() {
-        return 0;
+        return dataSet.size();
     }
 }

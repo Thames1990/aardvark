@@ -26,7 +26,11 @@ public enum MeasurementType implements Serializable {
     
     public int getResId(Context context) {
         int resId = context.getResources()
-                           .getIdentifier(toString(), "drawable", context.getPackageName());
+                           .getIdentifier(
+                                   name().toLowerCase(),
+                                   "drawable",
+                                   context.getPackageName()
+                           );
         if (resId == 0) {
             throw new Resources.NotFoundException(String.format(
                     Locale.getDefault(),
@@ -39,6 +43,6 @@ public enum MeasurementType implements Serializable {
     
     @Override
     public String toString() {
-        return name().toLowerCase();
+        return name().charAt(0) + name().substring(1).toLowerCase();
     }
 }

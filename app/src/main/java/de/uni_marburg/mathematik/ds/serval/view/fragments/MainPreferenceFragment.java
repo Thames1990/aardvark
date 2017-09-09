@@ -10,8 +10,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 
-import com.squareup.leakcanary.RefWatcher;
-
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
 
@@ -38,8 +36,7 @@ public class MainPreferenceFragment extends PreferenceFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RefWatcher refWatcher = Serval.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+        Serval.getRefWatcher(getActivity()).watch(this);
     }
     
     private void setupPreferences() {
@@ -83,7 +80,7 @@ public class MainPreferenceFragment extends PreferenceFragment {
         mailto.putExtra(Intent.EXTRA_TEXT, body);
         context.startActivity(Intent.createChooser(
                 mailto,
-                context.getString(R.string.preference_choose_email_client)
+                context.getString(R.string.chooser_title_send_feedback)
         ));
     }
 }
