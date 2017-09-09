@@ -123,11 +123,15 @@ public class MainActivity<T extends Event>
     
     @Override
     public void onBackPressed() {
-        new MaterialDialog.Builder(this).title(R.string.confirm_exit)
-                                        .positiveText(R.string.exit)
-                                        .onPositive((dialog, which) -> finish())
-                                        .negativeText(R.string.cancel)
-                                        .show();
+        if (prefManager.confirmExit()) {
+            new MaterialDialog.Builder(this).title(R.string.confirm_exit)
+                                            .positiveText(R.string.exit)
+                                            .onPositive((dialog, which) -> finish())
+                                            .negativeText(R.string.cancel)
+                                            .show();
+        } else {
+            finish();
+        }
     }
     
     @Override
@@ -355,7 +359,7 @@ public class MainActivity<T extends Event>
                 getString(R.string.changelog),
                 getString(R.string.versionName)
         );
-        String changelog = ChangelogUtil.readChangelogFromAsset(this, 8);
+        String changelog = ChangelogUtil.readChangelogFromAsset(this, versionCode);
         if (prefManager.useBottomSheetDialogs()) {
             showChangelogBottomSheetDialog(versionName, changelog);
         } else {

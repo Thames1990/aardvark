@@ -67,11 +67,13 @@ public class PrefManager {
     
     private static final String GRID_LAYOUT_MANAGER_SPAN_COUNT = "GRID_LAYOUT_MANAGER_SPAN_COUNT";
     
-    private static final String STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT
-            = "STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT";
+    private static final String STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT =
+            "STAGGERED_GRID_LAYOUT_MANAGER_SPAN_COUNT";
     
     private static final String BOTTOM_NAVIGATION_SELECTED_ITEM_ID =
             "BOTTOM_NAVIGATION_SELECTED_ITEM_ID";
+    
+    private static final String CONFIRM_EXIT = "CONFIRM_EXIT";
     
     @SuppressLint("CommitPrefEdits")
     public PrefManager(Context context) {
@@ -177,5 +179,13 @@ public class PrefManager {
     
     public int getBottomNavigationSelectedItemId() {
         return preferences.getInt(BOTTOM_NAVIGATION_SELECTED_ITEM_ID, 0);
+    }
+    
+    public void setConfirmExit(boolean confirmExit) {
+        editor.putBoolean(CONFIRM_EXIT, confirmExit).commit();
+    }
+    
+    public boolean confirmExit() {
+        return preferences.getBoolean(CONFIRM_EXIT, true);
     }
 }

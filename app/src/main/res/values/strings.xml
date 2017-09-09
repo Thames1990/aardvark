@@ -82,7 +82,7 @@
     <string name="version">Version</string>
 
     <!-- Intent extras -->
-    <string name="intent_extra_send_feeback">\n\n-----------------------------\nPlease don\'t remove this information!\nDevice OS: Android\nDevice OS version: %1$s\nApp version: %2$s\nDevice brand: %3$s\nDevice model: %4$s\nDevice manufacturer: %5$s</string>
+    <string name="intent_extra_send_feeback">Manufacturer: %1$s\nModel: %2$s\nProduct: %3$s\nScreen Resolution: %4$d x %5$d\nAndroid Version: %6$s\nApp Version: %7$s</string>
 
     <!-- Intent types -->
     <string name="intent_type_mailto">mailto</string>
@@ -128,18 +128,18 @@
 
     <!-- Preferences -->
     <string name="preference_about_header">About</string>
-    <string name="preference_confirm_exit_key">preference_confirm_exit_key</string>
+    <string name="preference_confirm_exit_key" translatable="false">preference_confirm_exit_key</string>
     <string name="preference_confirm_exit_title">Confirm exit</string>
     <string name="preference_faq">FAQ</string>
     <string name="preference_faq_summary">View frequently asked questions</string>
-    <string name="preference_privacy_policy_key">Privacy policy</string>
+    <string name="preference_privacy_policy_key" translatable="false">Privacy policy</string>
     <string name="preference_send_feedback_key" translatable="false">preference_send_feedback_key</string>
     <string name="preference_send_feedback_title">Send feedback</string>
     <string name="preference_show_changelog_key" translatable="false">preference_show_changelog_key</string>
     <string name="preference_show_changelog_title">Show changelogs after update</string>
     <string name="preference_support_summary">Got any queries? We are happy to help!</string>
     <string name="preference_terms_and_conditions_title">Terms &amp; conditions</string>
-    <string name="preference_use_bottom_sheets_key">preference_use_bottom_sheets_key</string>
+    <string name="preference_use_bottom_sheets_key" translatable="false">preference_use_bottom_sheets_key</string>
     <string name="preference_use_bottom_sheets_title">Show menus as bottomsheets</string>
     <string name="preference_use_bottom_sheets_summary">Popup menus from the bottom of the screen</string>
     <string name="preference_version_name_key" translatable="false">preference_version_name_key</string>
@@ -171,4 +171,5 @@
 
     <!-- URLs -->
     <string name="url_rest_api" translatable="false">https://api.splork.de/dummy_data.json</string>
+    <string name="intent_extra_query_from">Query from %1$s</string>
 </resources>

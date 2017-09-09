@@ -2,8 +2,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="General">
+    <PreferenceCategory android:title="General">
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -23,8 +22,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/preference_about_header">
+    <PreferenceCategory android:title="@string/preference_about_header">
 
         <Preference
             android:key="@string/preference_send_feedback_key"
