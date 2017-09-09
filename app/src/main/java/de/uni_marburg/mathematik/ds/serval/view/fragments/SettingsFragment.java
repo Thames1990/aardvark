@@ -10,20 +10,22 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 
+import java.util.Locale;
+
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
 
 /**
  * Created by thames1990 on 02.09.17.
  */
-public class MainPreferenceFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment {
     
     private Context context;
     
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences_main);
+        addPreferencesFromResource(R.xml.pref_main);
         setupPreferences();
     }
     
@@ -40,7 +42,10 @@ public class MainPreferenceFragment extends PreferenceFragment {
     }
     
     private void setupPreferences() {
-        Preference feedback = findPreference(getString(R.string.preference_key_send_feedback));
+        Preference showChangelog = findPreference(getString(R.string.preference_show_changelog_key));
+        Preference useBottomSheets = findPreference(getString(R.string.preference_use_bottom_sheets_key));
+        Preference confirmExit = findPreference(getString(R.string.preference_confirm_exit_key));
+        Preference feedback = findPreference(getString(R.string.preference_send_feedback_key));
         feedback.setOnPreferenceClickListener(preference -> {
             sendFeedback();
             return true;
@@ -62,19 +67,24 @@ public class MainPreferenceFragment extends PreferenceFragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         } finally {
-            body = "\n\n-----------------------------\n" +
-                   "Please don't remove this information\n" +
-                   "Device OS: Android\n" +
-                   "Device OS version: " + Build.VERSION.RELEASE + "\n" +
-                   "App Version: " + body + "\n" +
-                   "Device Brand: " + Build.BRAND + "\n" +
-                   "Device Model: " + Build.MODEL + "\n" +
-                   "Device Manufacturer: " + Build.MANUFACTURER;
+            body = String.format(
+                    Locale.getDefault(),
+                    getString(R.string.intent_extra_send_feeback),
+                    Build.VERSION.RELEASE,
+                    body,
+                    Build.BRAND,
+                    Build.MODEL,
+                    Build.MANUFACTURER
+            );
         }
         
         Intent mailto = new Intent(
                 Intent.ACTION_SENDTO,
-                Uri.fromParts("mailto", context.getString(R.string.email_adress_feedback), null)
+                Uri.fromParts(
+                        getString(R.string.intent_type_mailto),
+                        context.getString(R.string.email_adress_feedback),
+                        null
+                )
         );
         mailto.putExtra(Intent.EXTRA_SUBJECT, "Query from " + context.getString(R.string.app_name));
         mailto.putExtra(Intent.EXTRA_TEXT, body);

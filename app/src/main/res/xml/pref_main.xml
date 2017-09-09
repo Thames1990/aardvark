@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="General">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/preference_show_changelog_key"
+            android:title="@string/preference_show_changelog_title"/>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/preference_use_bottom_sheets_key"
+            android:summary="@string/preference_use_bottom_sheets_summary"
+            android:title="@string/preference_use_bottom_sheets_title"/>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/preference_confirm_exit_key"
+            android:title="@string/preference_confirm_exit_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/preference_about_header">
+
+        <Preference
+            android:key="@string/preference_send_feedback_key"
+            android:summary="@string/preference_support_summary"
+            android:title="@string/preference_send_feedback_title"/>
+
+        <Preference
+            android:summary="@string/preference_faq_summary"
+            android:title="@string/preference_faq"/>
+
+        <Preference android:title="@string/preference_privacy_policy_key"/>
+
+        <Preference android:title="@string/preference_terms_and_conditions_title"/>
+
+        <!--suppress AndroidDomInspection -->
+        <Preference
+            android:key="@string/preference_version_name_key"
+            android:summary="@string/versionName"
+            android:title="@string/preference_version_title"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Activity titles -->
     <string name="title_activity_settings">@string/settings</string>
 
@@ -6,6 +6,9 @@
     <string name="app_name" translatable="false">Serval Project</string>
 
     <!-- Action menu titles -->
+    <string name="action_show_changelog">Show changelog</string>
+    <string name="action_show_changelog_dialog">Dialog</string>
+    <string name="action_show_changelog_bottom_sheet_dialog">BottomSheet</string>
     <string name="action_change_map_type">Map type</string>
     <string name="action_change_map_type_hybrid">@string/hybrid</string>
     <string name="action_change_map_type_none">@string/none</string>
@@ -24,6 +27,11 @@
     <string name="chooser_title_send_feedback">Choose email client</string>
     <string name="chooser_title_share_measurement">Share measurement</string>
 
+    <!-- Content descriptions -->
+    <string name="content_description_location_icon">Location icon</string>
+    <string name="content_description_measurement_icon">Measurement icon</string>
+    <string name="content_description_tools_map">Map for mockup</string>
+
     <!-- Email adresses -->
     <!-- TODO Replace with real mail address -->
     <string name="email_adress_feedback" translatable="false">ThomasMohr1990@gmail.com</string>
@@ -40,10 +48,12 @@
     <!-- General -->
     <string name="agree">Agree</string>
     <string name="ascending">Ascending</string>
+    <string name="bottom_sheet">BottomSheet</string>
     <string name="cancel">Cancel</string>
     <string name="changelog">Changelog - %1$s</string>
     <string name="chat">Chat</string>
     <string name="descending">Descending</string>
+    <string name="dialog">Dialog</string>
     <string name="disagree">Disagreee</string>
     <string name="confirm_exit">Confirm exit</string>
     <string name="dashboard">Dashboard</string>
@@ -71,10 +81,11 @@
     <string name="undo">Undo</string>
     <string name="version">Version</string>
 
-    <!-- ImageView content descriptions -->
-    <string name="content_description_location_icon">Location icon</string>
+    <!-- Intent extras -->
+    <string name="intent_extra_send_feeback">\n\n-----------------------------\nPlease don\'t remove this information!\nDevice OS: Android\nDevice OS version: %1$s\nApp version: %2$s\nDevice brand: %3$s\nDevice model: %4$s\nDevice manufacturer: %5$s</string>
 
     <!-- Intent types -->
+    <string name="intent_type_mailto">mailto</string>
     <string name="intent_type_text_plain" translatable="false">text/plain</string>
 
     <!-- Intent URIs -->
@@ -115,24 +126,24 @@
     <string name="measurement_value_temperature">%1$d &#176;F</string>
     <string name="measurement_value_wind">%1$d mph</string>
 
-    <!-- Preference headers -->
-    <string name="preference_header_about">About</string>
-
-    <!-- Preferences keys -->
-    <string name="preference_key_send_feedback" translatable="false">key_send_feedback</string>
-    <string name="preference_key_version_name" translatable="false">key_version_name</string>
-
-    <!-- Preference summaries -->
-    <string name="preference_summary_about">We are a team of three master students and a doctorate in computer science at Philipps-University Marburg, specialized in the development of network systems creating new trends across the app space.</string>
-    <string name="preference_summary_faq">View frequently asked questions</string>
-    <string name="preference_summary_support">Got any queries? We are happy to help!</string>
-
-    <!-- Preference titles -->
-    <string name="preference_title_faq">FAQ</string>
-    <string name="preference_title_privacy_policy">Privacy policy</string>
-    <string name="preference_title_send_feedback">Send feedback</string>
-    <string name="preference_title_terms">Terms &amp; conditions</string>
-    <string name="preference_title_version">Version</string>
+    <!-- Preferences -->
+    <string name="preference_about_header">About</string>
+    <string name="preference_confirm_exit_key">preference_confirm_exit_key</string>
+    <string name="preference_confirm_exit_title">Confirm exit</string>
+    <string name="preference_faq">FAQ</string>
+    <string name="preference_faq_summary">View frequently asked questions</string>
+    <string name="preference_privacy_policy_key">Privacy policy</string>
+    <string name="preference_send_feedback_key" translatable="false">preference_send_feedback_key</string>
+    <string name="preference_send_feedback_title">Send feedback</string>
+    <string name="preference_show_changelog_key" translatable="false">preference_show_changelog_key</string>
+    <string name="preference_show_changelog_title">Show changelogs after update</string>
+    <string name="preference_support_summary">Got any queries? We are happy to help!</string>
+    <string name="preference_terms_and_conditions_title">Terms &amp; conditions</string>
+    <string name="preference_use_bottom_sheets_key">preference_use_bottom_sheets_key</string>
+    <string name="preference_use_bottom_sheets_title">Show menus as bottomsheets</string>
+    <string name="preference_use_bottom_sheets_summary">Popup menus from the bottom of the screen</string>
+    <string name="preference_version_name_key" translatable="false">preference_version_name_key</string>
+    <string name="preference_version_title">Version</string>
 
     <!-- Screen names -->
     <string name="screen_dashboard">@string/dashboard</string>
@@ -160,7 +171,4 @@
 
     <!-- URLs -->
     <string name="url_rest_api" translatable="false">https://api.splork.de/dummy_data.json</string>
-    <string name="action_show_changelog">Show changelog</string>
-    <string name="action_show_changelog_dialog">Dialog</string>
-    <string name="action_show_changelog_bottom_sheet_dialog">BottomSheet</string>
 </resources>
