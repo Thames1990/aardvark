@@ -1,0 +1,1 @@
+Show list of measurements in MeasurementFragment

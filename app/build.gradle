@@ -13,8 +13,8 @@ android {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 16
-        versionName '0.4.5'
+        versionCode 17
+        versionName '0.4.6'
         setProperty('archivesBaseName', "$applicationId-$versionName")
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
