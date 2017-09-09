@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,7 +23,7 @@
         tools:layout="@layout/tools_map"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"/>
 
     <TextView
         android:id="@+id/time"
@@ -35,10 +36,10 @@
         android:layout_marginTop="24dp"
         android:text="@string/time"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/map"
         app:layout_constraintRight_toRightOf="@+id/latitude"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/time_value"
@@ -50,7 +51,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/time"
         app:layout_constraintLeft_toRightOf="@+id/time"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="30.08.2017 | 12:17:33" />
+        tools:text="30.08.2017 | 12:17:33"/>
 
     <TextView
         android:id="@+id/latitude"
@@ -65,7 +66,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintLeft_toRightOf="@+id/map"
         app:layout_constraintRight_toRightOf="@+id/longitude"
-        app:layout_constraintTop_toBottomOf="@+id/time" />
+        app:layout_constraintTop_toBottomOf="@+id/time"/>
 
     <TextView
         android:id="@+id/latitude_value"
@@ -77,7 +78,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/latitude"
         app:layout_constraintLeft_toRightOf="@+id/latitude"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="@string/tools_latitude" />
+        tools:text="@string/tools_latitude"/>
 
     <TextView
         android:id="@+id/longitude"
@@ -92,7 +93,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintLeft_toRightOf="@+id/map"
         app:layout_constraintRight_toRightOf="@+id/geohash"
-        app:layout_constraintTop_toBottomOf="@+id/latitude" />
+        app:layout_constraintTop_toBottomOf="@+id/latitude"/>
 
     <TextView
         android:id="@+id/longitude_value"
@@ -104,7 +105,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/longitude"
         app:layout_constraintLeft_toRightOf="@+id/longitude"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="@string/tools_longitude" />
+        tools:text="@string/tools_longitude"/>
 
     <TextView
         android:id="@+id/geohash"
@@ -119,7 +120,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintLeft_toRightOf="@+id/map"
         app:layout_constraintRight_toRightOf="@+id/measurements"
-        app:layout_constraintTop_toBottomOf="@+id/longitude" />
+        app:layout_constraintTop_toBottomOf="@+id/longitude"/>
 
     <TextView
         android:id="@+id/geohash_value"
@@ -131,7 +132,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/geohash"
         app:layout_constraintLeft_toRightOf="@+id/geohash"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="@string/tools_geohash" />
+        tools:text="@string/tools_geohash"/>
 
     <TextView
         android:id="@+id/measurements"
@@ -145,7 +146,7 @@
         android:text="@string/measurements"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintLeft_toRightOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/geohash" />
+        app:layout_constraintTop_toBottomOf="@+id/geohash"/>
 
     <TextView
         android:id="@+id/measurements_value"
@@ -157,13 +158,13 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/measurements"
         app:layout_constraintLeft_toRightOf="@+id/measurements"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="@string/tools_measurement_count" />
+        tools:text="@string/tools_measurement_count"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/title_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.375" />
+        app:layout_constraintGuide_percent="0.375"/>
 
 </android.support.constraint.ConstraintLayout>

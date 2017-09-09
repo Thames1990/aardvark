@@ -35,7 +35,7 @@
     <string name="exception_load_data_failed">Loading events from the REST API failed: %1$s</string>
 
     <!-- Files -->
-    <string name="file_changelog" translatable="false">file:///android_asset/changelog/changelog-%1$d.md</string>
+    <string name="file_changelog" translatable="false">changelog/changelog-%1$d.md</string>
 
     <!-- General -->
     <string name="agree">Agree</string>
@@ -148,6 +148,7 @@
     <string name="time_days_ago">%1$dd</string>
 
     <!-- Tools Fake Data -->
+    <string name="tools_changelog">Changelog - Version 9001.0.0</string>
     <string name="tools_distance">392 m</string>
     <string name="tools_geohash">u1n2bny2t9n7</string>
     <string name="tools_latitude">50.794006525371884</string>
@@ -159,4 +160,7 @@
 
     <!-- URLs -->
     <string name="url_rest_api" translatable="false">https://api.splork.de/dummy_data.json</string>
+    <string name="action_show_changelog">Show changelog</string>
+    <string name="action_show_changelog_dialog">Dialog</string>
+    <string name="action_show_changelog_bottom_sheet_dialog">BottomSheet</string>
 </resources>

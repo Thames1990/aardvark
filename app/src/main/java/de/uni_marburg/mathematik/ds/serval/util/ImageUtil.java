@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.support.annotation.DrawableRes;
@@ -24,6 +25,30 @@ public class ImageUtil {
         DisplayMetrics metrics = context.getResources()
                                         .getDisplayMetrics();
         return Math.round(dp * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+    
+    /**
+     * Converting color to hex
+     *
+     * @param color Color to convert
+     * @return Hex value of the color
+     */
+    public static String colorToHex(int color) {
+        return Integer.toHexString(color).substring(2);
+    }
+    
+    /**
+     * Shifts color to HSV
+     *
+     * @param color Color to shift
+     * @param up    Shift up or down
+     * @return HSV representation of the color
+     */
+    public static int shiftColor(int color, boolean up) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= (up ? 1.1f : 0.9f);
+        return Color.HSVToColor(hsv);
     }
     
     /**

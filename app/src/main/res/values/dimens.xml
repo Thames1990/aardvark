@@ -1,15 +1,7 @@
 <resources>
-    <!-- BottomSheet -->
-    <dimen name="height_bottom_sheet_title">56dp</dimen>
-    <dimen name="margin_bottom_sheet">16dp</dimen>
-    <dimen name="padding_bottom_bottom_sheet">16dp</dimen>
-
     <!-- General -->
     <dimen name="margin_clear">16dp</dimen>
     <dimen name="margin_fab">16dp</dimen>
-
-    <!-- Google Maps -->
-    <dimen name="height_map_view">200dp</dimen>
 
     <!-- Intro sliders -->
     <dimen name="margin_bottom_slide_description">80dp</dimen>

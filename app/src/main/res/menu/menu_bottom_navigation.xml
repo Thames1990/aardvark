@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/action_dashboard"
-        android:checked="true"
+        android:enabled="true"
         android:icon="@drawable/dashboard"
-        android:title="@string/dashboard"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/dashboard"/>
 
     <item
         android:id="@+id/action_events"
         android:enabled="true"
         android:icon="@drawable/event"
-        android:title="@string/events"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/events"/>
 
     <item
         android:id="@+id/action_map"
         android:enabled="true"
         android:icon="@drawable/map"
-        android:title="@string/map"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/map"/>
 
 </menu>

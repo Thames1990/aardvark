@@ -3,6 +3,7 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven {url 'https://maven.fabric.io/public'}
+    maven {url "https://s3.amazonaws.com/repo.commonsware.com"}
 }
 
 android {
@@ -11,7 +12,7 @@ android {
     
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 17
         versionName '0.4.6'
@@ -82,6 +83,9 @@ dependencies {
             {exclude group: 'com.android.support', module: 'support-annotations'}
     )
     
+    // Android Maps Utils
+    compile 'com.google.maps.android:android-maps-utils:0.5'
+    
     // Butter Knife
     compile "com.jakewharton:butterknife:${butterknife_version}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterknife_version}"
@@ -102,11 +106,8 @@ dependencies {
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leak_canary_version}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leak_canary_version}"
     
-    // Android Maps Utils
-    compile 'com.google.maps.android:android-maps-utils:0.5'
-    
-    // MarkdownView
-    compile 'us.feras.mdv:markdownview:1.1.0'
+    // Markwon
+    compile 'ru.noties:markwon:1.0.0'
     
     // Material Dialogs
     compile "com.afollestad.material-dialogs:core:${material_dialogs_version}"

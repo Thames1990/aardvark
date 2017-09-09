@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,12 +16,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -43,13 +46,15 @@ import de.uni_marburg.mathematik.ds.serval.model.comparators.TimeComparator;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
+import de.uni_marburg.mathematik.ds.serval.util.ChangelogUtil;
 import de.uni_marburg.mathematik.ds.serval.util.LocationUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment;
-import us.feras.mdv.MarkdownView;
+import de.uni_marburg.mathematik.ds.serval.view.views.ChangelogDialog;
+import ru.noties.markwon.Markwon;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -65,7 +70,7 @@ public class MainActivity<T extends Event>
     
     private static final int CHECK_LOCATION_PERMISSION = 42;
     
-    private List<T> events = new ArrayList<>();
+    private List<T> events;
     
     private Bundle savedInstanceState;
     
@@ -118,6 +123,15 @@ public class MainActivity<T extends Event>
     }
     
     @Override
+    public void onBackPressed() {
+        new MaterialDialog.Builder(this).title(R.string.confirm_exit)
+                                        .positiveText(R.string.exit)
+                                        .onPositive((dialog, which) -> finish())
+                                        .negativeText(R.string.cancel)
+                                        .show();
+    }
+    
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -126,6 +140,14 @@ public class MainActivity<T extends Event>
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_show_changelog_bottom_sheet_dialog:
+                prefManager.setUseBottomSheetDialogs(true);
+                checkForNewVersion(true);
+                return true;
+            case R.id.action_show_changelog_dialog:
+                prefManager.setUseBottomSheetDialogs(false);
+                checkForNewVersion(true);
+                return true;
             case R.id.action_reset_app:
                 prefManager.setIsFirstTimeLaunch(true);
                 startActivity(new Intent(this, IntroActivity.class));
@@ -134,18 +156,9 @@ public class MainActivity<T extends Event>
             case R.id.action_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        
-        return super.onOptionsItemSelected(item);
-    }
-    
-    @Override
-    public void onBackPressed() {
-        new MaterialDialog.Builder(this).title(R.string.confirm_exit)
-                                        .positiveText(R.string.exit)
-                                        .onPositive((dialog, which) -> finish())
-                                        .negativeText(R.string.cancel)
-                                        .show();
     }
     
     @Override
@@ -220,8 +233,9 @@ public class MainActivity<T extends Event>
     @Override
     public void onEventsLoaded(List<T> events) {
         this.events = events;
+        // Update UI
         setupViews(savedInstanceState);
-        checkForNewVersion();
+        checkForNewVersion(false);
     }
     
     @Override
@@ -269,6 +283,7 @@ public class MainActivity<T extends Event>
     
     private void setupFields(Bundle savedInstanceState) {
         this.savedInstanceState = savedInstanceState;
+        events = new ArrayList<>();
         eventAsyncTask = new EventAsyncTask<>(this);
         prefManager = new PrefManager(this);
         fragmentManager = getSupportFragmentManager();
@@ -322,17 +337,16 @@ public class MainActivity<T extends Event>
         transaction.commit();
     }
     
-    private void checkForNewVersion() {
+    private void checkForNewVersion(boolean force) {
         try {
             int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             int lastKnownVersionCode = prefManager.getLastKnownVersionCode();
-            
-            if (prefManager.showChangelog() && lastKnownVersionCode < versionCode) {
+            if (force || prefManager.showChangelog() && lastKnownVersionCode < versionCode) {
                 showChangelog(versionCode);
                 prefManager.setLastKnownVersionCode(versionCode);
             }
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            Crashlytics.logException(e);
         }
     }
     
@@ -342,36 +356,29 @@ public class MainActivity<T extends Event>
                 getString(R.string.changelog),
                 getString(R.string.versionName)
         );
-        String changelogFile = String.format(getString(R.string.file_changelog), versionCode);
-        
+        String changelog = ChangelogUtil.readChangelogFromAsset(this, versionCode);
         if (prefManager.useBottomSheetDialogs()) {
-            showChangelogBottomSheetDialog(versionName, changelogFile);
+            showChangelogBottomSheetDialog(versionName, changelog);
         } else {
-            showChangelogDialog(versionName, changelogFile);
+            showChangelogDialog(versionName, changelog);
         }
     }
     
-    private void showChangelogBottomSheetDialog(String versionName, String changelogFile) {
-        View changelogView = View.inflate(this, R.layout.changelog_bottom_sheet_dialog, null);
-        TextView versionInfo = changelogView.findViewById(R.id.version_info);
-        versionInfo.setText(versionName);
-        MarkdownView changelog = changelogView.findViewById(R.id.changelog);
-        changelog.loadMarkdownFile(changelogFile);
-        BottomSheetDialog changelogDialog = new BottomSheetDialog(this);
-        changelogDialog.setContentView(changelogView);
-        changelogDialog.show();
+    @SuppressLint("InflateParams")
+    private void showChangelogBottomSheetDialog(String versionName, String changelog) {
+        View view = LayoutInflater.from(this).inflate(R.layout.changelog_bottom_sheet_dialog, null);
+        TextView version = view.findViewById(R.id.version);
+        version.setText(versionName);
+        TextView changelogView = view.findViewById(R.id.changelog);
+        Markwon.setMarkdown(changelogView, changelog);
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(view);
+        dialog.show();
     }
     
-    private void showChangelogDialog(String versionName, String changelogFile) {
-        MaterialDialog changelogDialog =
-                new MaterialDialog.Builder(this).title(versionName)
-                                                .customView(R.layout.changelog_dialog, true)
-                                                .positiveText(R.string.ok)
-                                                .show();
-        View view = changelogDialog.getCustomView();
-        assert view != null;
-        MarkdownView changelog = view.findViewById(R.id.changelog);
-        changelog.loadMarkdownFile(changelogFile);
+    private void showChangelogDialog(String versionName, String changelog) {
+        ChangelogDialog dialog = ChangelogDialog.newInstance(versionName, changelog);
+        dialog.show(fragmentManager, ChangelogDialog.TAG);
     }
     
     private void startLocationUpdates() {
