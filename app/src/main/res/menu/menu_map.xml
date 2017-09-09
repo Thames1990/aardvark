@@ -1,54 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/action_filter_events"
-        android:icon="@drawable/filter_list"
-        android:title="@string/action_filter_events"
-        app:showAsAction="always">
-
-        <menu>
-
-            <item
-                android:id="@+id/action_filter_events_distance"
-                android:title="@string/action_filter_events_distance">
-
-                <menu>
-
-                    <item
-                        android:id="@+id/action_filter_events_distance_ascending"
-                        android:title="@string/action_filter_events_ascending" />
-
-                    <item
-                        android:id="@+id/action_filter_events_distance_descending"
-                        android:title="@string/action_filter_events_descending" />
-
-                </menu>
-
-            </item>
-
-            <item
-                android:id="@+id/action_filter_events_time"
-                android:title="@string/action_filter_events_time">
-
-                <menu>
-
-                    <item
-                        android:id="@+id/action_filter_events_time_ascending"
-                        android:title="@string/action_filter_events_ascending" />
-
-                    <item
-                        android:id="@+id/action_filter_events_time_descending"
-                        android:title="@string/action_filter_events_descending" />
-
-                </menu>
-
-            </item>
-
-        </menu>
-
-    </item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/action_change_map_type"
