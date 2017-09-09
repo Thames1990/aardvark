@@ -177,6 +177,7 @@ public class MapFragment<T extends Event>
     }
     
     private void setupGoogleMapsListeners(ClusterManager<T> clusterManager) {
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
         googleMap.setOnCameraIdleListener(clusterManager);
         googleMap.setOnMarkerClickListener(clusterManager);
         googleMap.setOnInfoWindowClickListener(clusterManager);
