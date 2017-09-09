@@ -5,12 +5,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,13 +24,10 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener;
 import com.google.maps.android.clustering.ClusterManager.OnClusterItemInfoWindowClickListener;
 
-import java.util.List;
-
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.ExtendedInfoWindowAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
-import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
@@ -47,7 +42,7 @@ import static android.support.v4.content.ContextCompat.checkSelfPermission;
  * @param <T>
  */
 public class MapFragment<T extends Event>
-        extends SupportMapFragment
+        extends EventFragment<T>
         implements OnClusterItemInfoWindowClickListener<T>, OnClusterClickListener<T>,
                    OnMapReadyCallback, OnMyLocationButtonClickListener {
     
@@ -64,10 +59,6 @@ public class MapFragment<T extends Event>
      */
     private static final float MAP_ZOOM = 15;
     
-    private static final int EVENT_COUNT = 50;
-    
-    private List<T> events;
-    
     private ClusterManager<T> clusterManager;
     
     private GoogleMap googleMap;
@@ -76,23 +67,30 @@ public class MapFragment<T extends Event>
     
     private PrefManager prefManager;
     
-    private EventCallback<T> eventCallback;
+    private SupportMapFragment map;
     
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        setupFields();
-        requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
-        getMapAsync(this);
     }
     
     @Override
-    public View onCreateView(
-            LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle
-    ) {
-        requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
-        return super.onCreateView(layoutInflater, viewGroup, bundle);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+    }
+    
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupFields();
+        map.getMapAsync(this);
+    }
+    
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_map;
     }
     
     @Override
@@ -225,9 +223,5 @@ public class MapFragment<T extends Event>
                 googleMap.moveCamera(update);
             }
         }
-    }
-    
-    protected void requestEvents(EventComparator comparator, boolean reversed, int count) {
-        events = eventCallback.onEventsRequested(comparator, reversed, count);
     }
 }

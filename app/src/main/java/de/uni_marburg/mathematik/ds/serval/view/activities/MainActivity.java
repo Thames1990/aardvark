@@ -185,7 +185,7 @@ public class MainActivity<T extends Event>
                 }
                 break;
             default:
-                fragment = PlaceholderFragment.newInstance();
+                fragment = new PlaceholderFragment();
         }
         
         if (fragment != null) {

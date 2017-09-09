@@ -7,34 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.uni_marburg.mathematik.ds.serval.Serval;
-import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
-import de.uni_marburg.mathematik.ds.serval.model.event.Event;
-import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
 
 /**
- * Created by thames1990 on 08.09.17.
+ * Created by thames1990 on 09.09.17.
  */
-public abstract class BaseFragment<T extends Event> extends Fragment {
+public abstract class BaseFragment extends Fragment {
     
-    static final int EVENT_COUNT = 50;
-    
-    List<T> events;
-    
-    EventCallback<T> eventCallback;
-    
-    private Unbinder unbinder;
-    
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //noinspection unchecked
-        eventCallback = (EventCallback<T>) getActivity();
-    }
+    Unbinder unbinder;
     
     @Nullable
     @Override
@@ -43,7 +25,6 @@ public abstract class BaseFragment<T extends Event> extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState
     ) {
-        requestEvents(EventComparator.DISTANCE, false, EVENT_COUNT);
         View view = inflater.inflate(getLayout(), container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -61,9 +42,11 @@ public abstract class BaseFragment<T extends Event> extends Fragment {
         Serval.getRefWatcher(getActivity()).watch(this);
     }
     
+    /**
+     * Is used to get the layout for {@link BaseFragment#onCreateView(LayoutInflater, ViewGroup,
+     * Bundle)}
+     *
+     * @return ID for an XML layout resource to load (e.g., R.layout.main_page)
+     */
     protected abstract int getLayout();
-    
-    protected void requestEvents(EventComparator comparator, boolean reversed, int count) {
-        events = eventCallback.onEventsRequested(comparator, reversed, count);
-    }
 }

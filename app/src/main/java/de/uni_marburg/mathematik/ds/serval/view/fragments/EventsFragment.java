@@ -13,10 +13,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
 import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.GenericEventAdapter;
+import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
+import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
@@ -27,7 +31,7 @@ import de.uni_marburg.mathematik.ds.serval.view.item_touch_helpers.SwipeToDelete
 /**
  * Created by thames1990 on 28.08.17.
  */
-public class EventsFragment extends BaseFragment {
+public class EventsFragment<T extends Event> extends EventFragment<T> {
     
     private GenericEventAdapter adapter;
     
@@ -93,7 +97,7 @@ public class EventsFragment extends BaseFragment {
     private void setupRecyclerView() {
         setupLayoutManager();
         //noinspection unchecked
-        adapter = new GenericEventAdapter(events);
+        adapter = new GenericEventAdapter((List<GenericEvent>) events);
         recyclerView.setAdapter(adapter);
     }
     
