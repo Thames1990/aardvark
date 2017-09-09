@@ -1,212 +1,155 @@
 package de.uni_marburg.mathematik.ds.serval.controller.adapters;
 
-import android.location.Location;
-import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import de.uni_marburg.mathematik.ds.serval.controller.view_holders.BaseViewHolder;
-import de.uni_marburg.mathematik.ds.serval.model.comparators.LocationComparator;
-import de.uni_marburg.mathematik.ds.serval.model.comparators.TimeComparator;
-import de.uni_marburg.mathematik.ds.serval.model.event.Event;
-import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
-
-import static android.support.v7.widget.RecyclerView.Adapter;
 
 /**
- * Generic {@link Adapter Adapter} for {@link Event events}
+ * Generic {@link RecyclerView.Adapter Adapter}.
  * <p>
- * Has the ability to removeEvent events and recover them again in a timeframe of
- * {@link BaseAdapter#PENDING_REMOVAL_TIMEOUT} seconds.
+ * Has the ability to remove data and recover it again in a timeframe of {@link
+ * BaseAdapter#PENDING_REMOVAL_TIMEOUT} seconds.
  */
-public abstract class BaseAdapter<T extends Event, VH extends BaseViewHolder<T>>
-        extends RecyclerView.Adapter<VH> {
+public abstract class BaseAdapter<T, VH extends BaseViewHolder> extends RecyclerView.Adapter<VH> {
     
     /**
-     * Time, after which an event pending removal is removed
+     * Time, after which data pending removal is removed
      */
     private static final int PENDING_REMOVAL_TIMEOUT = 3000;
     
     /**
-     * Events controlled by the adapter
+     * Data set controlled by the adapter
      */
-    private List<T> events;
+    List<T> dataSet;
     
     /**
-     * Handles the time after which events are removed
+     * Handles the time after which data is removed
      */
     private Handler handler;
     
     /**
-     * Events pending removal
+     * Data pending removal
      */
-    private List<T> eventsPendingRemoval;
+    private List<T> dataPendingRemoval;
     
     /**
-     * Saves events pending removal and their temporal state
+     * Saves data pending removal and their temporal state
      */
     private HashMap<T, Runnable> pendingRunnables;
     
-    BaseAdapter(List<T> events) {
-        this.events = events;
-        this.eventsPendingRemoval = new ArrayList<>();
+    BaseAdapter(List<T> dataSet) {
+        this.dataSet = dataSet;
+        this.dataPendingRemoval = new ArrayList<>();
         this.handler = new Handler();
         this.pendingRunnables = new HashMap<>();
     }
     
-    @Override
-    public int getItemCount() {
-        return events.size();
-    }
-    
     /**
-     * Is used as an extension to {@link BaseAdapter#onBindViewHolder(BaseViewHolder, int)} to
-     * pass the corresponding event.
+     * Is used as an extension to {@link BaseAdapter#onBindViewHolder(VH, int)} to pass the
+     * corresponding data.
      *
-     * @param holder   The ViewHolder which should be updated to represent the contents of the event
+     * @param holder   The ViewHolder which should be updated to represent the contents of the data
      *                 at the given position in the data set.
-     * @param event    The event at the given position in the dataset.
-     * @param position The position of the event within the adapter's data set.
+     * @param data     The data at the given position in the data set.
+     * @param position The position of the data within the adapter's data set.
      */
-    protected abstract void onBindViewHolder(VH holder, T event, int position);
+    protected abstract void onBindViewHolder(VH holder, T data, int position);
     
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        T event = events.get(position);
-        holder.performBind(event, position);
-        onBindViewHolder(holder, event, position);
+        T data = dataSet.get(position);
+        //noinspection unchecked
+        holder.performBind(data, position);
+        onBindViewHolder(holder, data, position);
+    }
+    
+    @Override
+    public int getItemCount() {
+        return dataSet.size();
     }
     
     /**
-     * Adds an event to the adapter
+     * Adds data to the adapter.
      *
-     * @param event Event to be added
+     * @param data Data to be added
      */
-    public void addEvent(T event) {
-        events.add(event);
-        notifyItemInserted(events.size() - 1);
+    public void addData(T data) {
+        dataSet.add(data);
+        notifyItemInserted(dataSet.size() - 1);
     }
     
     /**
-     * Removes an event from the adapter.
+     * Removes data from the adapter.
      *
-     * @param position Position of the event to be removed
+     * @param position Position of the data to be removed
      */
-    private void removeEvent(int position) {
-        final T event = events.get(position);
-        if (eventsPendingRemoval.contains(event)) {
-            eventsPendingRemoval.remove(event);
+    private void removeData(int position) {
+        final T data = dataSet.get(position);
+        if (dataPendingRemoval.contains(data)) {
+            dataPendingRemoval.remove(data);
         }
-        events.remove(position);
+        dataSet.remove(position);
         notifyItemRemoved(position);
     }
     
     /**
-     * Removes a range of events from the adapter.
+     * Removes a range of data objects from the adapter.
      *
      * @param positionStart Starting position of the range
-     * @param eventCount    Number of events to be removed
+     * @param dataCount     Number of data objects to be removed
      */
-    private void removeRange(int positionStart, int eventCount) {
-        for (int i = 0; i < eventCount; i++) {
-            events.remove(positionStart);
+    private void removeRange(int positionStart, int dataCount) {
+        for (int i = 0; i < dataCount; i++) {
+            dataSet.remove(positionStart);
         }
-        notifyItemRangeRemoved(positionStart, eventCount);
+        notifyItemRangeRemoved(positionStart, dataCount);
     }
     
     /**
-     * Instructs the adapter to add an event to the pending removals.
+     * Instructs the adapter to add data to the pending removals.
      *
-     * @param position Position of the event pending removal
+     * @param position Position of the data pending removal
      */
     public void pendingRemoval(int position) {
-        final T event = events.get(position);
-        if (!eventsPendingRemoval.contains(event)) {
-            eventsPendingRemoval.add(event);
+        final T data = dataSet.get(position);
+        if (!dataPendingRemoval.contains(data)) {
+            dataPendingRemoval.add(data);
             notifyItemChanged(position);
-            Runnable pendingRemovalRunnable = () -> removeEvent(events.indexOf(event));
+            Runnable pendingRemovalRunnable = () -> removeData(dataSet.indexOf(data));
             handler.postDelayed(pendingRemovalRunnable, PENDING_REMOVAL_TIMEOUT);
-            pendingRunnables.put(event, pendingRemovalRunnable);
+            pendingRunnables.put(data, pendingRemovalRunnable);
         }
     }
     
     /**
-     * Instructs the adapter to remove an event from the pending removals.
+     * Instructs the adapter to remove data from the pending removals.
      *
-     * @param position Position of the event pending removal
+     * @param position Position of the data pending removal
      */
     void undoPendingRemoval(int position) {
-        T event = events.get(position);
-        Runnable pendingRemovalRunnable = pendingRunnables.get(event);
-        pendingRunnables.remove(event);
+        T data = dataSet.get(position);
+        Runnable pendingRemovalRunnable = pendingRunnables.get(data);
+        pendingRunnables.remove(data);
         if (pendingRemovalRunnable != null) {
             handler.removeCallbacks(pendingRemovalRunnable);
         }
-        eventsPendingRemoval.remove(event);
-        notifyItemChanged(events.indexOf(event));
+        dataPendingRemoval.remove(data);
+        notifyItemChanged(dataSet.indexOf(data));
     }
     
     /**
-     * Checks whether an event at a given position is already pending removal.
+     * Checks whether data at a given position is already pending removal.
      *
-     * @param position Position of the event in the dataset.
-     * @return {@code True}, if the event at the given position in the dataset is pending removal;
+     * @param position Position of the data in the data set.
+     * @return {@code True}, if the data at the given position in the data set is pending removal;
      * {@code false} otherwise.
      */
     public boolean isPendingRemoval(int position) {
-        return eventsPendingRemoval.contains(events.get(position));
-    }
-    
-    /**
-     * Filters events based on a {@link EventComparator event comparator}.
-     *
-     * @param comparator Determines the sorting
-     * @param reversed   Determines the sorting order. If {@code true}, the events are sorted
-     *                   ascending; descending otherwise.
-     * @param origin     The location to calculate the distance to. Might be {@code Null}, if events
-     *                   are filtered by time.
-     */
-    public void filter(EventComparator comparator, boolean reversed, @Nullable Location origin) {
-        switch (comparator) {
-            case DISTANCE:
-                if (reversed) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(
-                                events,
-                                new LocationComparator<T>(origin).reversed()
-                        );
-                    } else {
-                        Collections.sort(events, new LocationComparator<>(origin));
-                        Collections.reverse(events);
-                    }
-                } else {
-                    Collections.sort(events, new LocationComparator<>(origin));
-                }
-                break;
-            case TIME:
-                if (reversed) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(
-                                events,
-                                new TimeComparator<T>().reversed()
-                        );
-                    } else {
-                        Collections.sort(events, new TimeComparator<>());
-                        Collections.reverse(events);
-                    }
-                } else {
-                    Collections.sort(events, new TimeComparator<>());
-                }
-                break;
-            default:
-                break;
-        }
-        notifyDataSetChanged();
+        return dataPendingRemoval.contains(dataSet.get(position));
     }
 }

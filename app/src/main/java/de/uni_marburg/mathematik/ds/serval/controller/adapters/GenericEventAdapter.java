@@ -13,7 +13,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 /**
  * Adapter for {@link GenericEvent generic events}
  */
-public class GenericEventAdapter extends BaseAdapter<GenericEvent, GenericEventViewHolder> {
+public class GenericEventAdapter extends EventAdapter<GenericEvent, GenericEventViewHolder> {
     
     public GenericEventAdapter(List<GenericEvent> events) {
         super(events);

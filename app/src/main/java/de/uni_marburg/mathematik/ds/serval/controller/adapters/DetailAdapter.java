@@ -41,7 +41,7 @@ public class DetailAdapter<T extends Event> extends FragmentPagerAdapter {
             case 1:
                 return MeasurementsFragment.newInstance(event);
             default:
-                return PlaceholderFragment.newInstance();
+                return new PlaceholderFragment();
         }
     }
     
