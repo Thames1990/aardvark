@@ -58,11 +58,7 @@ public class IntroPageTransformer implements ViewPager.PageTransformer {
                         R.array.content_description_intro_image
                 )[pagePosition]);
             } catch (ArrayIndexOutOfBoundsException e) {
-                Crashlytics.log(String.format(
-                        context.getString(R.string.log_message_content_description_not_defined),
-                        pagePosition,
-                        title
-                ));
+                Crashlytics.logException(e);
             }
             image.setAlpha(1.0f - absPosition);
             image.setTranslationX(-pageWidthTimesPosition * 1.5f);
