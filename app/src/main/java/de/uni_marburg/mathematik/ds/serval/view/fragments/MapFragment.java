@@ -1,6 +1,8 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,6 +37,8 @@ import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
+import static android.support.v4.content.ContextCompat.getColor;
+import static android.support.v4.content.ContextCompat.getDrawable;
 
 /**
  * TODO Add JavaDoc
@@ -91,6 +95,15 @@ public class MapFragment<T extends Event>
     @Override
     protected int getLayout() {
         return R.layout.fragment_map;
+    }
+    
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem changeMapType = menu.findItem(R.id.action_change_map_type);
+        Drawable icon = getDrawable(getContext(), R.drawable.map);
+        icon.setColorFilter(getColor(getContext(), android.R.color.white), PorterDuff.Mode.SRC_IN);
+        changeMapType.setIcon(icon);
     }
     
     @Override

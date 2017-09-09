@@ -1,7 +1,10 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +53,18 @@ public class EventsFragment<T extends Event> extends EventFragment<T> {
     @Override
     protected int getLayout() {
         return R.layout.fragment_events;
+    }
+    
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem filterEvents = menu.findItem(R.id.action_filter_events);
+        Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.filter_list);
+        icon.setColorFilter(
+                ContextCompat.getColor(getContext(), android.R.color.white),
+                PorterDuff.Mode.SRC_IN
+        );
+        filterEvents.setIcon(icon);
     }
     
     @Override

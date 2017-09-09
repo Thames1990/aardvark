@@ -1,8 +1,12 @@
 package de.uni_marburg.mathematik.ds.serval.controller.view_holders;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.support.annotation.LayoutRes;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -38,6 +42,8 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  */
 public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
     
+    private Context context;
+    
     @BindView(R.id.undo)
     public Button undo;
     @BindView(R.id.measurement_types)
@@ -51,6 +57,7 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
     
     public GenericEventViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
+        context = parent.getContext();
     }
     
     @Override
@@ -113,6 +120,12 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
         Location lastLocation = ((MainActivity) context).getLastLocation();
         if (lastLocation != null) {
             locationIcon.setVisibility(View.VISIBLE);
+            Drawable icon = ContextCompat.getDrawable(context, R.drawable.location);
+            icon.setColorFilter(
+                    ContextCompat.getColor(context, R.color.icon_mute),
+                    PorterDuff.Mode.SRC_IN
+            );
+            locationIcon.setImageDrawable(icon);
             location.setVisibility(View.VISIBLE);
             
             float distance = data.getLocation().distanceTo(lastLocation);

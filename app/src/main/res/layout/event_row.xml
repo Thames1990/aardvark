@@ -31,8 +31,7 @@
         android:contentDescription="@string/content_description_location_icon"
         app:layout_constraintBottom_toBottomOf="@+id/location"
         app:layout_constraintRight_toLeftOf="@+id/location"
-        app:layout_constraintTop_toTopOf="@+id/location"
-        app:srcCompat="@drawable/location"/>
+        app:layout_constraintTop_toTopOf="@+id/location"/>
 
     <TextView
         android:id="@+id/location"

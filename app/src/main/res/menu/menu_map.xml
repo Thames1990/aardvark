@@ -5,7 +5,6 @@
 
     <item
         android:id="@+id/action_change_map_type"
-        android:icon="@drawable/map_white"
         android:title="@string/action_change_map_type"
         app:showAsAction="ifRoom">
 
