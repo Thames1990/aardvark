@@ -144,12 +144,7 @@ public class MainActivity<T extends Event>
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_show_changelog_bottom_sheet_dialog:
-                prefManager.setUseBottomSheetDialogs(true);
-                checkForNewVersion(true);
-                return true;
-            case R.id.action_show_changelog_dialog:
-                prefManager.setUseBottomSheetDialogs(false);
+            case R.id.action_show_changelog:
                 checkForNewVersion(true);
                 return true;
             case R.id.action_reset_app:
