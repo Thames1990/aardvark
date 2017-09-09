@@ -47,6 +47,7 @@ android {
                     KEY_FABRIC     : keystoreProperties['key_fabric'],
                     KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps']
             ]
+            ext.enableCrashlytics = false
         }
         release {
             minifyEnabled false
