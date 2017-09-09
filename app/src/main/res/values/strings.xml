@@ -30,7 +30,7 @@
 
     <!-- Exception messages -->
     <string name="exception_cannot_cast">Cannot cast long %1$d to int without changing its value!</string>
-    <string name="exception_content_description_not_defined" tools:ignore="PluralsCandidate">Image on page %1$d with title %2$s has no content description!</string>
+    <string name="log_message_content_description_not_defined" tools:ignore="PluralsCandidate">Image on page %1$d with title %2$s has no content description!</string>
     <string name="exception_fragment_must_contain_key">Fragment must contain a %1$s argument!</string>
     <string name="exception_measurement_type_without_icon">%1$s measurement type does not have an icon yet!</string>
     <string name="exception_load_data_failed">Loading events from the REST API failed: %1$s</string>

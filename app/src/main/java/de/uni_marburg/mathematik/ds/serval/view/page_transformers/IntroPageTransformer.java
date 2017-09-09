@@ -2,12 +2,11 @@ package de.uni_marburg.mathematik.ds.serval.view.page_transformers;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Locale;
+import com.crashlytics.android.Crashlytics;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,12 +58,10 @@ public class IntroPageTransformer implements ViewPager.PageTransformer {
                         R.array.content_description_intro_image
                 )[pagePosition]);
             } catch (ArrayIndexOutOfBoundsException e) {
-                Log.e(getClass().getSimpleName(), String.format(
-                        Locale.getDefault(),
-                        context.getString(R.string.exception_content_description_not_defined),
+                Crashlytics.log(String.format(
+                        context.getString(R.string.log_message_content_description_not_defined),
                         pagePosition,
                         title
-                
                 ));
             }
             image.setAlpha(1.0f - absPosition);

@@ -3,8 +3,8 @@ package de.uni_marburg.mathematik.ds.serval.controller.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -14,11 +14,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
+import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
 import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -80,28 +79,20 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    Log.e(
-                            getClass().getSimpleName(),
-                            String.format(
-                                    Locale.getDefault(),
-                                    context.getString(R.string.log_message_fail_event_load),
-                                    e.getMessage()
-                            )
-                    );
+                    Crashlytics.log(String.format(
+                            context.getString(R.string.log_message_fail_event_load),
+                            e.getMessage()
+                    ));
                 }
                 
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response)
                         throws IOException {
                     if (!response.isSuccessful()) {
-                        Log.e(
-                                getClass().getSimpleName(),
-                                String.format(
-                                        Locale.getDefault(),
-                                        context.getString(R.string.log_message_response_unsuccessful),
-                                        request.toString()
-                                )
-                        );
+                        Crashlytics.log(String.format(
+                                context.getString(R.string.log_message_response_unsuccessful),
+                                response.toString()
+                        ));
                     }
                     
                     //noinspection ConstantConditions

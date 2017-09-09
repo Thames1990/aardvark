@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.controller.view_holders;
 import android.content.Intent;
 import android.location.Location;
 import android.support.annotation.LayoutRes;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -80,7 +79,6 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
     private void setupTime() {
         Calendar calendar = Calendar.getInstance();
         long timeDifference = calendar.getTimeInMillis() - data.getTime();
-        Log.d("TEST", "setupTime: " + timeDifference);
         DateFormat format = SimpleDateFormat.getDateInstance(
                 DateFormat.MEDIUM,
                 Locale.getDefault()
