@@ -37,7 +37,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 /**
  * ViewHolder for {@link GenericEvent generic events}
  */
-public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
+public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
     
     @BindView(R.id.undo)
     public Button undo;
@@ -56,7 +56,7 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
     
     @Override
     protected void onBind(GenericEvent event, int position) {
-        this.event = event;
+        data = event;
         setupTime();
         setupLocation();
         setupMeasurementIcons();
@@ -79,7 +79,7 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
      */
     private void setupTime() {
         Calendar calendar = Calendar.getInstance();
-        long timeDifference = calendar.getTimeInMillis() - event.getTime();
+        long timeDifference = calendar.getTimeInMillis() - data.getTime();
         Log.d("TEST", "setupTime: " + timeDifference);
         DateFormat format = SimpleDateFormat.getDateInstance(
                 DateFormat.MEDIUM,
@@ -104,7 +104,7 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
                     TimeUnit.MILLISECONDS.toDays(timeDifference)
             ));
         } else {
-            time.setText(format.format(event.getTime()));
+            time.setText(format.format(data.getTime()));
         }
     }
     
@@ -117,7 +117,7 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
             locationIcon.setVisibility(View.VISIBLE);
             location.setVisibility(View.VISIBLE);
             
-            float distance = event.getLocation().distanceTo(lastLocation);
+            float distance = data.getLocation().distanceTo(lastLocation);
             if (distance < 1000) {
                 location.setText(String.format(
                         Locale.getDefault(),
@@ -145,12 +145,12 @@ public class GenericEventViewHolder extends BaseViewHolder<GenericEvent> {
         Set<MeasurementType> types = new HashSet<>();
         
         if (VERSION.SDK_INT >= VERSION_CODES.N) {
-            types = event.getMeasurements()
-                         .stream()
-                         .map(Measurement::getType)
-                         .collect(Collectors.toSet());
+            types = data.getMeasurements()
+                        .stream()
+                        .map(Measurement::getType)
+                        .collect(Collectors.toSet());
         } else {
-            for (Measurement measurement : event.getMeasurements()) {
+            for (Measurement measurement : data.getMeasurements()) {
                 types.add(measurement.getType());
             }
         }
