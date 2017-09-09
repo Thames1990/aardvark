@@ -7,7 +7,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,8 +24,6 @@ import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
 import de.uni_marburg.mathematik.ds.serval.view.item_decorations.GridSpacingItemDecoration;
-import de.uni_marburg.mathematik.ds.serval.view.item_decorations.SwipeToDeleteItemDecoration;
-import de.uni_marburg.mathematik.ds.serval.view.item_touch_helpers.SwipeToDeleteItemTouchHelper;
 
 /**
  * Created by thames1990 on 28.08.17.
@@ -109,10 +106,6 @@ public class EventsFragment<T extends Event> extends EventFragment<T> {
                     getContext(),
                     DividerItemDecoration.VERTICAL
             ));
-            ItemTouchHelper touchHelper =
-                    new ItemTouchHelper(new SwipeToDeleteItemTouchHelper<>(getContext()));
-            touchHelper.attachToRecyclerView(recyclerView);
-            recyclerView.addItemDecoration(new SwipeToDeleteItemDecoration());
         } else if (prefManager.useGridLayoutManger()) {
             recyclerView.setLayoutManager(new GridLayoutManager(
                     getContext(),
