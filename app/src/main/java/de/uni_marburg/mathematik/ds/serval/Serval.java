@@ -9,8 +9,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
-import java.util.concurrent.TimeUnit;
-
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -37,9 +35,7 @@ public class Serval extends Application {
     
     private void installLeakCanary() {
         if (BuildConfig.DEBUG) {
-            refWatcher = LeakCanary.refWatcher(this)
-                                   .watchDelay(10, TimeUnit.SECONDS)
-                                   .buildAndInstall();
+            refWatcher = LeakCanary.install(this);
         } else {
             refWatcher = RefWatcher.DISABLED;
         }
