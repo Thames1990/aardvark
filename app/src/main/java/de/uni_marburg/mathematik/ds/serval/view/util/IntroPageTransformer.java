@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.view.page_transformers;
+package de.uni_marburg.mathematik.ds.serval.view.util;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

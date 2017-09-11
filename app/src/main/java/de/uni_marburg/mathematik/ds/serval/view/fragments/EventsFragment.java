@@ -26,7 +26,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
-import de.uni_marburg.mathematik.ds.serval.view.item_decorations.GridSpacingItemDecoration;
+import de.uni_marburg.mathematik.ds.serval.view.util.GridSpacingItemDecoration;
 
 /**
  * Created by thames1990 on 28.08.17.

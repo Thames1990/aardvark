@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.view.item_decorations;
+package de.uni_marburg.mathematik.ds.serval.view.util;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

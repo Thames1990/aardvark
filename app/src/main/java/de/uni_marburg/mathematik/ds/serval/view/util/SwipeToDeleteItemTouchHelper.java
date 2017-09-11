@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.view.item_touch_helpers;
+package de.uni_marburg.mathematik.ds.serval.view.util;
 
 import android.content.Context;
 import android.graphics.Canvas;

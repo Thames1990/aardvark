@@ -21,7 +21,7 @@ import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.IntroAdapter;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
-import de.uni_marburg.mathematik.ds.serval.view.page_transformers.IntroPageTransformer;
+import de.uni_marburg.mathematik.ds.serval.view.util.IntroPageTransformer;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -41,7 +41,7 @@ public class IntroActivity
     
     private PrefManager prefManager;
     
-    @BindView(R.id.viewpager)
+    @BindView(R.id.content)
     ViewPager viewPager;
     
     @Override
