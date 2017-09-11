@@ -46,7 +46,10 @@ android {
         debug {
             manifestPlaceholders = [
                     KEY_FABRIC     : keystoreProperties['key_fabric'],
-                    KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps']
+                    KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps'],
+                    APP_ICON       : '@mipmap/ic_launcher_dev',
+                    APP_ICON_ROUND : '@mipmap/ic_launcher_round_dev'
+            
             ]
             ext.enableCrashlytics = false
         }
@@ -56,7 +59,9 @@ android {
             signingConfig signingConfigs.release
             manifestPlaceholders = [
                     KEY_FABRIC     : keystoreProperties['key_fabric'],
-                    KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps']
+                    KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps'],
+                    APP_ICON       : '@mipmap/ic_launcher',
+                    APP_ICON_ROUND : '@mipmap/ic_launcher_round'
             ]
         }
     }
