@@ -1,0 +1,38 @@
+- Improve settings
+  - Show changelog option (activated on default)
+  - Show menus as `BottomSheet` option (activated on default)
+    - Show menus as `AlertDialog` elsewise
+  - Confirm exit option
+    - The user is asked if he/she is sure to exit the app if the user presses the back button in `MainActivity`
+- Change Markdown parsing
+  - Remove MarkdownView
+  - Add Markwon
+  - Raise `minSdkVersion` to 16
+  - The changelog is now shown in `TextView` instead of `WebView`
+    - Resolves `DecorWindow` memory leaks on device rotation
+    - Removes the ability to show images (might be reimplemented if necessary)
+- Add more event filter options
+  - Measurements
+  - Shuffle
+- Add ability to show changelog
+- Add touch ripple to `EventsFragment`
+- Update launcher icons
+  - Use new primary color
+  - Show different icon based on build type
+- Disable LeakCanary on release builds
+- Update OkHttp to v3.9.0
+- Improve Gradle build file
+  - `BuildConfig` is now used everywhere
+  - Removed programatically generated strings
+- Replace Android log with Crashlytics log
+- Update ProGuard rules for Crashlytics
+- Update ProGuard rules for OkHttp
+- Disable `GoogleMap` toolbar in `MapFragment`
+- Remove naive Support Library fastscroller
+  - It was ugly and obfuscated the UI
+  - Real fastscroller usage wasn't available
+- Resource cleanup
+  - Duplicate resources were removed
+  - Different styles of resources are now handled programatically
+  - Converted mockup PNG files to WebP
+- Major code cleanup
