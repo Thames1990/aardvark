@@ -122,7 +122,7 @@ dependencies {
     compile 'com.squareup.moshi:moshi:1.5.0'
     
     // OkHttp
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
     
     // Support libraries
     compile "com.android.support:appcompat-v7:${support_library_version}"
