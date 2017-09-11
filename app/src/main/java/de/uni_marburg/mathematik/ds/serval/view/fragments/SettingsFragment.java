@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 
 import java.util.Locale;
 
+import de.uni_marburg.mathematik.ds.serval.BuildConfig;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
@@ -48,13 +49,13 @@ public class SettingsFragment
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String key = preference.getKey();
         boolean isChecked = (boolean) newValue;
-        if (key.equals(getString(R.string.preference_show_changelog_key))) {
+        if (key.equals(getString(R.string.preference_show_changelog))) {
             prefManager.setShowChangelog(isChecked);
             return true;
-        } else if (key.equals(getString(R.string.preference_use_bottom_sheets_key))) {
+        } else if (key.equals(getString(R.string.preference_use_bottom_sheets))) {
             prefManager.setUseBottomSheetDialogs(isChecked);
             return true;
-        } else if (key.equals(getString(R.string.preference_confirm_exit_key))) {
+        } else if (key.equals(getString(R.string.preference_confirm_exit))) {
             prefManager.setConfirmExit(isChecked);
             return true;
         } else {
@@ -65,7 +66,7 @@ public class SettingsFragment
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
-        if (key.equals(getString(R.string.preference_send_feedback_key))) {
+        if (key.equals(getString(R.string.preference_send_feedback))) {
             sendFeedback();
             return true;
         } else {
@@ -74,14 +75,15 @@ public class SettingsFragment
     }
     
     private void setupPreferences() {
-        findPreference(getString(R.string.preference_show_changelog_key))
+        findPreference(getString(R.string.preference_show_changelog))
                 .setOnPreferenceChangeListener(this);
-        findPreference(getString(R.string.preference_use_bottom_sheets_key))
+        findPreference(getString(R.string.preference_use_bottom_sheets))
                 .setOnPreferenceChangeListener(this);
-        findPreference(getString(R.string.preference_confirm_exit_key))
+        findPreference(getString(R.string.preference_confirm_exit))
                 .setOnPreferenceChangeListener(this);
-        findPreference(getString(R.string.preference_send_feedback_key))
+        findPreference(getString(R.string.preference_send_feedback))
                 .setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.preference_version)).setSummary(BuildConfig.VERSION_NAME);
     }
     
     /**
@@ -101,7 +103,7 @@ public class SettingsFragment
                 metrics.widthPixels,
                 metrics.heightPixels,
                 Build.VERSION.RELEASE,
-                getString(R.string.versionName)
+                BuildConfig.VERSION_NAME
         );
         
         Intent mailto = new Intent(

@@ -38,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.uni_marburg.mathematik.ds.serval.BuildConfig;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.controller.tasks.EventAsyncTask;
@@ -365,7 +366,7 @@ public class MainActivity<T extends Event>
         String versionName = String.format(
                 Locale.getDefault(),
                 getString(R.string.changelog),
-                getString(R.string.versionName)
+                BuildConfig.VERSION_NAME
         );
         String changelog = ChangelogUtil.readChangelogFromAsset(this, versionCode);
         if (prefManager.useBottomSheetDialogs()) {
