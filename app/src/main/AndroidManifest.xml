@@ -19,9 +19,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <activity
-            android:name=".view.activities.IntroActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".view.activities.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,9 +29,7 @@
         <activity
             android:name=".view.activities.MainActivity"
             android:configChanges="orientation|screenSize" />
-        <activity
-            android:name=".view.activities.DetailActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.activities.DetailActivity" />
         <activity
             android:name=".view.activities.SettingsActivity"
             android:label="@string/title_activity_settings" />

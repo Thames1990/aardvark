@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -93,6 +94,8 @@ public class MainActivity<T extends Event>
     
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -327,6 +330,7 @@ public class MainActivity<T extends Event>
     }
     
     private void setupViews(Bundle savedInstanceState) {
+        setSupportActionBar(toolbar);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (savedInstanceState == null) {

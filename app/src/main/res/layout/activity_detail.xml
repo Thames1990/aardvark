@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".view.activities.DetailActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -17,7 +18,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            app:layout_scrollFlags="scroll|enterAlways" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
@@ -29,12 +30,12 @@
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/information"/>
+                android:text="@string/information" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/measurements"/>
+                android:text="@string/measurements" />
 
         </android.support.design.widget.TabLayout>
 
@@ -44,7 +45,7 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -55,6 +56,6 @@
         app:fabSize="mini"
         app:layout_anchor="@id/appbar_layout"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@drawable/navigation"/>
+        app:srcCompat="@drawable/navigation" />
 
 </android.support.design.widget.CoordinatorLayout>

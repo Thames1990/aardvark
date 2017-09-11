@@ -1,13 +1,11 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.support.annotation.Nullable;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.DisplayMetrics;
 
 import java.util.Locale;
@@ -21,28 +19,35 @@ import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
  * Created by thames1990 on 02.09.17.
  */
 public class SettingsFragment
-        extends PreferenceFragment
+        extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
     
     private PrefManager prefManager;
     
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.pref_main);
-        setupPreferences();
-    }
-    
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        prefManager = new PrefManager(context);
+        prefManager = new PrefManager(getContext());
     }
     
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Serval.getRefWatcher(getActivity()).watch(this);
+        Serval.getRefWatcher(getContext()).watch(this);
+    }
+    
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        addPreferencesFromResource(R.xml.pref_main);
+        findPreference(getString(R.string.preference_show_changelog))
+                .setOnPreferenceChangeListener(this);
+        findPreference(getString(R.string.preference_use_bottom_sheets))
+                .setOnPreferenceChangeListener(this);
+        findPreference(getString(R.string.preference_confirm_exit))
+                .setOnPreferenceChangeListener(this);
+        findPreference(getString(R.string.preference_send_feedback))
+                .setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.preference_version)).setSummary(BuildConfig.VERSION_NAME);
     }
     
     @Override
@@ -72,18 +77,6 @@ public class SettingsFragment
         } else {
             return false;
         }
-    }
-    
-    private void setupPreferences() {
-        findPreference(getString(R.string.preference_show_changelog))
-                .setOnPreferenceChangeListener(this);
-        findPreference(getString(R.string.preference_use_bottom_sheets))
-                .setOnPreferenceChangeListener(this);
-        findPreference(getString(R.string.preference_confirm_exit))
-                .setOnPreferenceChangeListener(this);
-        findPreference(getString(R.string.preference_send_feedback))
-                .setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.preference_version)).setSummary(BuildConfig.VERSION_NAME);
     }
     
     /**
