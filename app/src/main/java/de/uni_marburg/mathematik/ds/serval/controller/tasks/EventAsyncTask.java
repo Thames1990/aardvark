@@ -76,7 +76,7 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
     
     @Override
     protected List<T> doInBackground(String... urls) {
-        List<T> events = new ArrayList<>();
+        final List<T> events = new ArrayList<>();
         
         for (String url : urls) {
             Request request = new Request.Builder().url(url).build();

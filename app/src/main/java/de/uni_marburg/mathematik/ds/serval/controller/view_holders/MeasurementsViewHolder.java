@@ -61,19 +61,10 @@ public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
             case R.id.share:
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                if (VERSION.SDK_INT >= VERSION_CODES.N) {
-                    StringJoiner joiner = new StringJoiner(" ");
-                    joiner.add(data.getType().toString())
-                          .add(context.getString(R.string.measurement))
-                          .add(context.getString(R.string.with_value))
-                          .add(String.valueOf(data.getValue()));
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, joiner.toString());
-                } else {
-                    String text = data.getType().toString() + " " +
-                                  context.getString(R.string.measurement).toLowerCase() +
-                                  context.getString(R.string.with_value) + data.getValue();
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-                }
+                String text = data.getType().toString() + " " +
+                              context.getString(R.string.measurement).toLowerCase() +
+                              context.getString(R.string.with_value) + data.getValue();
+                shareIntent.putExtra(Intent.EXTRA_TEXT, text);
                 shareIntent.setType(context.getString(R.string.intent_type_text_plain));
                 context.startActivity(Intent.createChooser(
                         shareIntent,

@@ -46,10 +46,7 @@ public class SettingsFragment
         if (BuildConfig.DEBUG) {
             addPreferencesFromResource(R.xml.pref_debug);
             findPreference(getString(R.string.preference_enable_wifi_adb))
-                    .setOnPreferenceClickListener(preference -> {
-                        enableWifiAdb();
-                        return true;
-                    });
+                    .setOnPreferenceClickListener(this);
         }
         
         addPreferencesFromResource(R.xml.pref_main);
@@ -76,6 +73,9 @@ public class SettingsFragment
             return true;
         } else if (key.equals(getString(R.string.preference_confirm_exit))) {
             prefManager.setConfirmExit(isChecked);
+            return true;
+        } else if (key.equals(getString(R.string.preference_enable_wifi_adb))) {
+            enableWifiAdb();
             return true;
         } else {
             return false;

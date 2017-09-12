@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -119,7 +120,12 @@ public class DetailActivity<T extends Event>
         setupToolbar();
         setupRecyclerView();
         setupMap();
-        fab.setOnClickListener(view -> showInGoogleMaps());
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showInGoogleMaps();
+            }
+        });
     }
     
     private void setupToolbar() {

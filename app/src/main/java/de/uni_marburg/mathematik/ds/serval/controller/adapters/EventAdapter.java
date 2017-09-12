@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.controller.adapters;
 
 import android.location.Location;
-import android.os.Build;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,12 +42,8 @@ public abstract class EventAdapter<T extends Event, VH extends EventViewHolder<T
             case MEASUREMENTS:
                 MeasurementsComparator<T> measurementsComparator = new MeasurementsComparator<>();
                 if (reversed) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(dataSet, measurementsComparator.reversed());
-                    } else {
-                        Collections.sort(dataSet, measurementsComparator);
-                        Collections.reverse(dataSet);
-                    }
+                    Collections.sort(dataSet, measurementsComparator);
+                    Collections.reverse(dataSet);
                 } else {
                     Collections.sort(dataSet, measurementsComparator);
                 }
@@ -59,12 +54,8 @@ public abstract class EventAdapter<T extends Event, VH extends EventViewHolder<T
             case TIME:
                 TimeComparator<T> timeComparator = new TimeComparator<>();
                 if (reversed) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(dataSet, timeComparator.reversed());
-                    } else {
-                        Collections.sort(dataSet, timeComparator);
-                        Collections.reverse(dataSet);
-                    }
+                    Collections.sort(dataSet, timeComparator);
+                    Collections.reverse(dataSet);
                 } else {
                     Collections.sort(dataSet, timeComparator);
                 }
@@ -88,12 +79,8 @@ public abstract class EventAdapter<T extends Event, VH extends EventViewHolder<T
             case DISTANCE:
                 LocationComparator<T> locationComparator = new LocationComparator<>(origin);
                 if (reversed) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(dataSet, locationComparator.reversed());
-                    } else {
-                        Collections.sort(dataSet, locationComparator);
-                        Collections.reverse(dataSet);
-                    }
+                    Collections.sort(dataSet, locationComparator);
+                    Collections.reverse(dataSet);
                 } else {
                     Collections.sort(dataSet, locationComparator);
                 }

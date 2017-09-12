@@ -157,15 +157,8 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
         measurementTypes.removeAllViews();
         Set<MeasurementType> types = new HashSet<>();
         
-        if (VERSION.SDK_INT >= VERSION_CODES.N) {
-            types = data.getMeasurements()
-                        .stream()
-                        .map(Measurement::getType)
-                        .collect(Collectors.toSet());
-        } else {
-            for (Measurement measurement : data.getMeasurements()) {
-                types.add(measurement.getType());
-            }
+        for (Measurement measurement : data.getMeasurements()) {
+            types.add(measurement.getType());
         }
         
         for (MeasurementType type : types) {

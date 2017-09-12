@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -23,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -131,7 +131,15 @@ public class MainActivity<T extends Event>
         if (prefManager.confirmExit()) {
             new MaterialDialog.Builder(this).title(R.string.confirm_exit)
                                             .positiveText(R.string.exit)
-                                            .onPositive((dialog, which) -> finish())
+                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(
+                                                        @NonNull MaterialDialog dialog,
+                                                        @NonNull DialogAction which
+                                                ) {
+                                                    finish();
+                                                }
+                                            })
                                             .negativeText(R.string.cancel)
                                             .show();
         } else {
@@ -247,15 +255,8 @@ public class MainActivity<T extends Event>
             case DISTANCE:
                 if (lastLocation != null) {
                     if (reversed) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            Collections.sort(
-                                    events,
-                                    new LocationComparator<T>(lastLocation).reversed()
-                            );
-                        } else {
-                            Collections.sort(events, new LocationComparator<>(lastLocation));
-                            Collections.reverse(events);
-                        }
+                        Collections.sort(events, new LocationComparator<>(lastLocation));
+                        Collections.reverse(events);
                     } else {
                         Collections.sort(events, new LocationComparator<>(lastLocation));
                     }
@@ -263,12 +264,8 @@ public class MainActivity<T extends Event>
                 break;
             case MEASUREMENTS:
                 if (reversed) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(events, new MeasurementsComparator<>().reversed());
-                    } else {
-                        Collections.sort(events, new MeasurementsComparator<>());
-                        Collections.reverse(events);
-                    }
+                    Collections.sort(events, new MeasurementsComparator<>());
+                    Collections.reverse(events);
                 } else {
                     Collections.sort(events, new MeasurementsComparator<>());
                 }
@@ -278,12 +275,8 @@ public class MainActivity<T extends Event>
                 break;
             case TIME:
                 if (reversed) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(events, new TimeComparator<T>().reversed());
-                    } else {
-                        Collections.sort(events, new TimeComparator<>());
-                        Collections.reverse(events);
-                    }
+                    Collections.sort(events, new TimeComparator<>());
+                    Collections.reverse(events);
                 } else {
                     Collections.sort(events, new TimeComparator<>());
                 }

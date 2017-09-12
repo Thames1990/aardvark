@@ -19,10 +19,6 @@ android {
         setProperty('archivesBaseName', "$applicationId-$versionName")
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
-        
-        jackOptions {
-            enabled true
-        }
     }
     
     def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -60,11 +56,6 @@ android {
                     APP_ICON_ROUND : '@mipmap/ic_launcher_round'
             ]
         }
-    }
-    
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
