@@ -17,7 +17,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
  */
 public abstract class EventFragment<T extends Event> extends BaseFragment {
     
-    static final int EVENT_COUNT = 100;
+    private static final int EVENT_COUNT = 100;
     
     List<T> events;
     

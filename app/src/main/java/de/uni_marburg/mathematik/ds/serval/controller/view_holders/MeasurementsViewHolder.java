@@ -20,14 +20,19 @@ import de.uni_marburg.mathematik.ds.serval.model.event.Measurement;
  */
 public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
     
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.measurement_type)
     TextView measurementType;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.measurement_value)
     TextView measurementValue;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.measurement_icon)
     ImageView measurementIcon;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.explore)
     Button explore;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.share)
     Button share;
     

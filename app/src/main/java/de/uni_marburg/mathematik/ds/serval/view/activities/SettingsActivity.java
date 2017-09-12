@@ -18,6 +18,7 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.SettingsFragment;
  */
 public class SettingsActivity extends AppCompatActivity {
     
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     

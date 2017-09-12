@@ -36,12 +36,16 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  */
 public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
     
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.location_icon)
     ImageView locationIcon;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.location)
     TextView location;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.time)
     TextView time;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.measurement_types)
     LinearLayout measurementTypes;
     

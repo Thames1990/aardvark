@@ -92,8 +92,10 @@ public class MainActivity<T extends Event>
     
     private EventAsyncTask<T> eventAsyncTask;
     
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     

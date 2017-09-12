@@ -16,7 +16,7 @@ import de.uni_marburg.mathematik.ds.serval.Serval;
  */
 public abstract class BaseFragment extends Fragment {
     
-    Unbinder unbinder;
+    private Unbinder unbinder;
     
     @Nullable
     @Override

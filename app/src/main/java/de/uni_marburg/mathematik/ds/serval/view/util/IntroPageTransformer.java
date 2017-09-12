@@ -21,10 +21,13 @@ public class IntroPageTransformer implements ViewPager.PageTransformer {
     
     private Context context;
     
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.title)
     TextView title;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.description)
     TextView description;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.image)
     ImageView image;
     

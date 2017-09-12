@@ -35,6 +35,7 @@ public class EventsFragment<T extends Event> extends EventFragment<T> {
     
     private GenericEventAdapter adapter;
     
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     
