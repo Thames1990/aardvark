@@ -52,7 +52,7 @@ public class MapFragment<T extends Event>
     
     private static final int CHECK_LOCATION_PERMISSION = 42;
     
-    private static final int MAP_PADDING = 50;
+    private static final int MAP_PADDING = 100;
     
     /**
      * 1: World
