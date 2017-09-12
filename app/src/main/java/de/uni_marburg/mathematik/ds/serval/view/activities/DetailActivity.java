@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
@@ -43,6 +44,8 @@ public class DetailActivity<T extends Event>
      * {@link MainActivity main activity} and this view.
      */
     public static final String EVENT = "EVENT";
+    
+    private static final float ZOOM_LEVEL = 15f;
     
     /**
      * Event to show details for
@@ -87,7 +90,6 @@ public class DetailActivity<T extends Event>
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
         setupGoogleMap();
-        addEventLocation(googleMap);
     }
     
     @Override
@@ -110,11 +112,9 @@ public class DetailActivity<T extends Event>
      */
     private void setupViews() {
         setupToolbar();
-        fab.setOnClickListener(view -> navigateToPosition());
-        SupportMapFragment map = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        map.getMapAsync(this);
         setupRecyclerView();
+        setupMap();
+        fab.setOnClickListener(view -> showInGoogleMaps());
     }
     
     private void setupToolbar() {
@@ -127,19 +127,6 @@ public class DetailActivity<T extends Event>
         appBarLayout.addOnOffsetChangedListener(this);
     }
     
-    private void setupGoogleMap() {
-        UiSettings settings = googleMap.getUiSettings();
-        settings.setAllGesturesEnabled(false);
-        settings.setMapToolbarEnabled(false);
-    }
-    
-    private void addEventLocation(GoogleMap googleMap) {
-        Location location = event.getLocation();
-        LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
-        googleMap.addMarker(new MarkerOptions().position(position));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15f));
-    }
-    
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(
@@ -149,18 +136,38 @@ public class DetailActivity<T extends Event>
         recyclerView.setAdapter(new MeasurementsAdapter(event.getMeasurements()));
     }
     
-    /**
-     * Opens Google Maps and navigates to the position of the event
-     */
-    private void navigateToPosition() {
+    private void setupMap() {
+        GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance(options);
+        getSupportFragmentManager().beginTransaction().replace(R.id.map, mapFragment).commit();
+        mapFragment.getMapAsync(this);
+    }
+    
+    private void setupGoogleMap() {
+        UiSettings settings = googleMap.getUiSettings();
+        settings.setAllGesturesEnabled(false);
+        settings.setMapToolbarEnabled(false);
+        addEventLocation(googleMap);
+        // TODO Figure out how to disable Google Maps Intent on click
+    }
+    
+    private void addEventLocation(GoogleMap googleMap) {
+        Location location = event.getLocation();
+        LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
+        googleMap.addMarker(new MarkerOptions().position(position));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, ZOOM_LEVEL));
+    }
+    
+    private void showInGoogleMaps() {
         Location location = event.getLocation();
         Intent navigationIntent = new Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(String.format(
-                        getString(R.string.intent_uri_navigate),
+                        getString(R.string.intent_uri_show_in_google_maps),
                         // Forces decimal points
                         String.format(Locale.ENGLISH, "%.5f", location.getLatitude()),
-                        String.format(Locale.ENGLISH, "%.5f", location.getLongitude())
+                        String.format(Locale.ENGLISH, "%.5f", location.getLongitude()),
+                        event.getTitle()
                 ))
         );
         navigationIntent.setPackage("com.google.android.apps.maps");

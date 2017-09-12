@@ -93,7 +93,7 @@
     <string name="intent_type_text_plain" translatable="false">text/plain</string>
 
     <!-- Intent URIs -->
-    <string name="intent_uri_navigate">google.navigation:q=%1$s,%2$s</string>
+    <string name="intent_uri_show_in_google_maps">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
 
     <!-- Intro slides -->
     <string name="intro_1_title">@string/app_name</string>
