@@ -61,7 +61,7 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
     
     @Override
     protected void onBind(GenericEvent event, int position) {
-        data = event;
+        setData(event);
         setupTime();
         setupLocation();
         setupMeasurementIcons();
@@ -84,7 +84,7 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
      */
     private void setupTime() {
         Calendar calendar = Calendar.getInstance();
-        long timeDifference = calendar.getTimeInMillis() - data.getTime();
+        long timeDifference = calendar.getTimeInMillis() - getData().getTime();
         DateFormat format = SimpleDateFormat.getDateInstance(
                 DateFormat.MEDIUM,
                 Locale.getDefault()
@@ -108,7 +108,7 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
                     TimeUnit.MILLISECONDS.toDays(timeDifference)
             ));
         } else {
-            time.setText(format.format(data.getTime()));
+            time.setText(format.format(getData().getTime()));
         }
     }
     
@@ -130,7 +130,7 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
             );
             locationIcon.setImageDrawable(icon);
             
-            float distance = data.getLocation().distanceTo(lastLocation);
+            float distance = getData().getLocation().distanceTo(lastLocation);
             if (distance < 1000) {
                 location.setText(String.format(
                         Locale.getDefault(),
@@ -158,7 +158,7 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
         measurementTypes.removeAllViews();
         Set<MeasurementType> types = new HashSet<>();
         
-        for (Measurement measurement : data.getMeasurements()) {
+        for (Measurement measurement : getData().getMeasurements()) {
             types.add(measurement.getType());
         }
         

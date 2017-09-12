@@ -26,7 +26,7 @@ public abstract class BaseViewHolder<T>
     /**
      * Data in view
      */
-    T data;
+    private T data;
     
     /**
      * Creates a new ViewHolder.
@@ -65,6 +65,10 @@ public abstract class BaseViewHolder<T>
     
     public T getData() {
         return data;
+    }
+    
+    public void setData(T data) {
+        this.data = data;
     }
     
     /**

@@ -50,7 +50,7 @@ public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
     
     @Override
     protected void onBind(Measurement measurement, int position) {
-        data = measurement;
+        setData(measurement);
         setupViews();
     }
     
@@ -63,9 +63,9 @@ public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
             case R.id.share:
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                String text = data.getType().toString() + " " +
+                String text = getData().getType().toString() + " " +
                               context.getString(R.string.measurement).toLowerCase() +
-                              context.getString(R.string.with_value) + data.getValue();
+                              context.getString(R.string.with_value) + getData().getValue();
                 shareIntent.putExtra(Intent.EXTRA_TEXT, text);
                 shareIntent.setType(context.getString(R.string.intent_type_text_plain));
                 context.startActivity(Intent.createChooser(
@@ -86,10 +86,10 @@ public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
      * Sets up all views.
      */
     private void setupViews() {
-        measurementType.setText(data.getType().toString());
+        measurementType.setText(getData().getType().toString());
         String value;
         int resId;
-        switch (data.getType()) {
+        switch (getData().getType()) {
             case PRECIPITATION:
                 value = context.getString(R.string.measurement_value_precipitation);
                 resId = R.drawable.precipitation;
@@ -114,7 +114,7 @@ public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
         measurementValue.setText(String.format(
                 Locale.getDefault(),
                 value,
-                data.getValue()
+                getData().getValue()
         ));
         measurementIcon.setImageResource(resId);
     }
