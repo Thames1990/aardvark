@@ -33,7 +33,9 @@ import de.uni_marburg.mathematik.ds.serval.controller.adapters.MeasurementsAdapt
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 
 /**
- * Is used to display all informations about an {@link Event event}.
+ * Displays all details of an {@link Event event}.
+ *
+ * @param <T> Type of the {@link Event event}
  */
 public class DetailActivity<T extends Event>
         extends AppCompatActivity
@@ -45,6 +47,9 @@ public class DetailActivity<T extends Event>
      */
     public static final String EVENT = "EVENT";
     
+    /**
+     * Zoom level of the {@link DetailActivity#googleMap map}
+     */
     private static final float ZOOM_LEVEL = 15f;
     
     /**

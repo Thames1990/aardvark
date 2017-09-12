@@ -76,7 +76,7 @@ public class MainActivity<T extends Event>
     
     private Bundle savedInstanceState;
     
-    private Location lastLocation;
+    public static Location lastLocation;
     
     private PrefManager prefManager;
     
@@ -290,10 +290,6 @@ public class MainActivity<T extends Event>
                 break;
         }
         return new ArrayList<>(events.subList(0, Math.min(events.size(), count)));
-    }
-    
-    public Location getLastLocation() {
-        return lastLocation;
     }
     
     private void setupFields(Bundle savedInstanceState) {

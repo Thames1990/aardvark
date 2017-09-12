@@ -17,8 +17,9 @@ import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.model.event.Measurement;
 
+
 /**
- * Created by thames1990 on 09.09.17.
+ * {@link BaseViewHolder ViewHolder} for {@link Measurement measurements}.
  */
 public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
     
@@ -33,7 +34,13 @@ public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
     @BindView(R.id.share)
     Button share;
     
-    public MeasurementsViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
+    /**
+     * Creates a new ViewHolder.
+     *
+     * @param parent       Parent ViewGroup
+     * @param itemLayoutId Layout resource id
+     */
+    MeasurementsViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
         explore.setOnClickListener(this);
         share.setOnClickListener(this);
@@ -49,6 +56,7 @@ public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
     protected void onClick(View view, Measurement measurement) {
         switch (view.getId()) {
             case R.id.explore:
+                // TODO Explain measurement type
                 break;
             case R.id.share:
                 Intent shareIntent = new Intent();
@@ -57,22 +65,19 @@ public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
                     StringJoiner joiner = new StringJoiner(" ");
                     joiner.add(data.getType().toString())
                           .add(context.getString(R.string.measurement))
-                          .add("with value")
+                          .add(context.getString(R.string.with_value))
                           .add(String.valueOf(data.getValue()));
                     shareIntent.putExtra(Intent.EXTRA_TEXT, joiner.toString());
                 } else {
-                    String text = data.getType().toString() +
-                                  " " +
+                    String text = data.getType().toString() + " " +
                                   context.getString(R.string.measurement).toLowerCase() +
-                                  " with value " +
-                                  data.getValue();
+                                  context.getString(R.string.with_value) + data.getValue();
                     shareIntent.putExtra(Intent.EXTRA_TEXT, text);
                 }
                 shareIntent.setType(context.getString(R.string.intent_type_text_plain));
                 context.startActivity(Intent.createChooser(
                         shareIntent,
-                        context.getResources()
-                               .getText(R.string.chooser_title_share_measurement)
+                        context.getResources().getText(R.string.chooser_title_share_measurement)
                 ));
                 break;
         }
@@ -84,6 +89,9 @@ public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
         return false;
     }
     
+    /**
+     * Sets up all views.
+     */
     private void setupViews() {
         measurementType.setText(data.getType().toString());
         String value;

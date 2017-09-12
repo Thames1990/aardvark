@@ -84,6 +84,7 @@
     <string name="undo">Undo</string>
     <string name="version">Version</string>
     <string name="wifi_adb">WiFi ADB</string>
+    <string name="with_value">with value</string>
 
     <!-- Intent extras -->
     <string name="intent_extra_send_feeback">Manufacturer: %1$s\nModel: %2$s\nProduct: %3$s\nScreen Resolution: %4$d x %5$d\nAndroid Version: %6$s\nApp Version: %7$s</string>

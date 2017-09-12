@@ -27,7 +27,6 @@ import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener;
 import com.google.maps.android.clustering.ClusterManager.OnClusterItemInfoWindowClickListener;
 
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.controller.adapters.ExtendedInfoWindowAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
@@ -170,7 +169,7 @@ public class MapFragment<T extends Event>
     private void setupFields() {
         //noinspection unchecked
         eventCallback = (EventCallback<T>) getActivity();
-        lastLocation = ((MainActivity) getActivity()).getLastLocation();
+        lastLocation = MainActivity.lastLocation;
         prefManager = new PrefManager(getContext());
     }
     
@@ -194,7 +193,6 @@ public class MapFragment<T extends Event>
         googleMap.setOnCameraIdleListener(clusterManager);
         googleMap.setOnMarkerClickListener(clusterManager);
         googleMap.setOnInfoWindowClickListener(clusterManager);
-        googleMap.setInfoWindowAdapter(new ExtendedInfoWindowAdapter(getContext()));
     }
     
     private void setupCameraBounds() {

@@ -10,25 +10,46 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 
 /**
- * Created by thames1990 on 09.09.17.
+ * Generic {@link android.support.v7.widget.RecyclerView.ViewHolder ViewHolder}.
+ *
+ * @param <T> {@link BaseViewHolder#data Data} type
  */
 public abstract class BaseViewHolder<T>
         extends RecyclerView.ViewHolder
         implements View.OnClickListener, View.OnLongClickListener {
     
+    /**
+     * Calling context
+     */
     Context context;
     
     /**
-     * Data that is displayed in the view
+     * Data in view
      */
     T data;
     
+    /**
+     * Creates a new ViewHolder.
+     *
+     * @param parent       Parent ViewGroup
+     * @param itemLayoutId Layout resource id
+     */
     BaseViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(LayoutInflater.from(parent.getContext()).inflate(itemLayoutId, parent, false));
         context = parent.getContext();
         ButterKnife.bind(this, itemView);
         itemView.setOnClickListener(this);
         itemView.setOnLongClickListener(this);
+    }
+    
+    @Override
+    public final void onClick(View view) {
+        onClick(view, data);
+    }
+    
+    @Override
+    public final boolean onLongClick(View view) {
+        return onLongClick(view, data);
     }
     
     /**
@@ -69,14 +90,4 @@ public abstract class BaseViewHolder<T>
      * @return {@code True} if the callback consumed the long click; {@code false} otherwise.
      */
     protected abstract boolean onLongClick(View view, T data);
-    
-    @Override
-    public final void onClick(View view) {
-        onClick(view, data);
-    }
-    
-    @Override
-    public final boolean onLongClick(View view) {
-        return onLongClick(view, data);
-    }
 }

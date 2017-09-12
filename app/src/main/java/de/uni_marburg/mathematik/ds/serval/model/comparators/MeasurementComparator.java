@@ -5,7 +5,8 @@ import java.util.Comparator;
 import de.uni_marburg.mathematik.ds.serval.model.event.Measurement;
 
 /**
- * Created by thames1990 on 10.09.17.
+ * Compares {@link Measurement measurements} based on their {@link Measurement#type type} and {@link
+ * Measurement#value value}.
  */
 public class MeasurementComparator implements Comparator<Measurement> {
     

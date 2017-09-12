@@ -9,25 +9,32 @@ import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.IntroFragment;
 
 /**
- * Adapter for the intro slider
+ * Adapter for intro slides in the
+ * {@link de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity intro activity}.
  */
 public class IntroAdapter extends FragmentPagerAdapter {
     
-    private int[] introSlideBackgrounds;
+    /**
+     * Colors for the intro slides
+     * <p>
+     * Is defined by {@link de.uni_marburg.mathematik.ds.serval.R.array#intro_backgrounds a
+     * resource}.
+     */
+    private int[] introSlideBackgroundColors;
     
     public IntroAdapter(FragmentManager fm, Context context) {
         super(fm);
-        introSlideBackgrounds = context.getResources().getIntArray(R.array.intro_background);
+        introSlideBackgroundColors = context.getResources().getIntArray(R.array.intro_backgrounds);
     }
     
     @Override
     public Fragment getItem(int position) {
-        return IntroFragment.newInstance(introSlideBackgrounds[position], position);
+        return IntroFragment.newInstance(introSlideBackgroundColors[position], position);
     }
     
     @Override
     public int getCount() {
-        return introSlideBackgrounds.length;
+        return introSlideBackgroundColors.length;
     }
     
 }

@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.controller.adapters;
 
 import android.location.Location;
 import android.os.Build;
-import android.support.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,76 +13,89 @@ import de.uni_marburg.mathematik.ds.serval.model.comparators.TimeComparator;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator;
 
-import static android.support.v7.widget.RecyclerView.Adapter;
-
 /**
- * Generic {@link Adapter Adapter} for {@link Event events}.
- * <p>
- * Has the ability to remove events and recover them again in a timeframe of {@link
- * EventAdapter#PENDING_REMOVAL_TIMEOUT} seconds.
+ * Generic adapter for {@link Event events}.
+ *
+ * @param <T>  {@link Event} type
+ * @param <VH> {@link EventViewHolder ViewHolder} type
  */
 public abstract class EventAdapter<T extends Event, VH extends EventViewHolder<T>>
         extends BaseAdapter<T, VH> {
     
-    
+    /**
+     * Creates a new adapter
+     *
+     * @param dataSet Data set controlled by the adapter
+     */
     EventAdapter(List<T> dataSet) {
         super(dataSet);
     }
     
     /**
-     * Filters events based on a {@link EventComparator event comparator}.
+     * Filters events based on a {@link EventComparator comparator}.
      *
      * @param comparator Determines the sorting
      * @param reversed   Determines the sorting order. If {@code true}, the events are sorted
-     *                   ascending; descending otherwise.
-     * @param origin     The location to calculate the distance to. Might be {@code Null}, if events
-     *                   are filtered by time.
+     *                   descending; ascending otherwise.
      */
-    public void filter(EventComparator comparator, boolean reversed, @Nullable Location origin) {
+    public void filter(EventComparator comparator, boolean reversed) {
         switch (comparator) {
-            case DISTANCE:
-                if (reversed) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(
-                                dataSet,
-                                new LocationComparator<T>(origin).reversed()
-                        );
-                    } else {
-                        Collections.sort(dataSet, new LocationComparator<>(origin));
-                        Collections.reverse(dataSet);
-                    }
-                } else {
-                    Collections.sort(dataSet, new LocationComparator<>(origin));
-                }
-                break;
             case MEASUREMENTS:
+                MeasurementsComparator<T> measurementsComparator = new MeasurementsComparator<>();
                 if (reversed) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(dataSet, new MeasurementsComparator<T>().reversed());
+                        Collections.sort(dataSet, measurementsComparator.reversed());
                     } else {
-                        Collections.sort(dataSet, new MeasurementsComparator<>());
+                        Collections.sort(dataSet, measurementsComparator);
                         Collections.reverse(dataSet);
                     }
                 } else {
-                    Collections.sort(dataSet, new MeasurementsComparator<>());
+                    Collections.sort(dataSet, measurementsComparator);
                 }
                 break;
             case SHUFFLE:
                 Collections.shuffle(dataSet);
                 break;
             case TIME:
+                TimeComparator<T> timeComparator = new TimeComparator<>();
                 if (reversed) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Collections.sort(
-                                dataSet,
-                                new TimeComparator<T>().reversed()
-                        );
+                        Collections.sort(dataSet, timeComparator.reversed());
                     } else {
-                        Collections.sort(dataSet, new TimeComparator<>());
+                        Collections.sort(dataSet, timeComparator);
                         Collections.reverse(dataSet);
                     }
                 } else {
-                    Collections.sort(dataSet, new TimeComparator<>());
+                    Collections.sort(dataSet, timeComparator);
+                }
+                break;
+            default:
+                return;
+        }
+        notifyDataSetChanged();
+    }
+    
+    /**
+     * Filters events based on a {@link EventComparator comparator}.
+     *
+     * @param comparator Determines the sorting
+     * @param reversed   Determines the sorting order. If {@code true}, the events are sorted
+     *                   descending; ascending otherwise.
+     * @param origin     The location to calculate the distance to
+     */
+    public void filter(EventComparator comparator, boolean reversed, Location origin) {
+        switch (comparator) {
+            case DISTANCE:
+                LocationComparator<T> locationComparator = new LocationComparator<>(origin);
+                if (reversed) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Collections.sort(dataSet, locationComparator.reversed());
+                    } else {
+                        Collections.sort(dataSet, locationComparator);
+                        Collections.reverse(dataSet);
+                    }
+                } else {
+                    Collections.sort(dataSet, locationComparator);
                 }
                 break;
             default:

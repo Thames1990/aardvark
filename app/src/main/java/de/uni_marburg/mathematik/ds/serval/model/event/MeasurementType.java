@@ -24,6 +24,12 @@ public enum MeasurementType implements Serializable {
     @Json(name = "wind")
     WIND;
     
+    /**
+     * Links this measurement type to a specific resource (image).
+     *
+     * @param context Calling context
+     * @return Drawable resource id matching this measurement type
+     */
     public int getResId(Context context) {
         int resId = context.getResources()
                            .getIdentifier(

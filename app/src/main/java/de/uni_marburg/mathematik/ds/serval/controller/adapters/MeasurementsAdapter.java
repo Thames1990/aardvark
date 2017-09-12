@@ -9,7 +9,7 @@ import de.uni_marburg.mathematik.ds.serval.controller.view_holders.MeasurementsV
 import de.uni_marburg.mathematik.ds.serval.model.event.Measurement;
 
 /**
- * Created by thames1990 on 09.09.17.
+ * Adapter for {@link Measurement measurements}.
  */
 public class MeasurementsAdapter extends BaseAdapter<Measurement, MeasurementsViewHolder> {
     
@@ -25,10 +25,5 @@ public class MeasurementsAdapter extends BaseAdapter<Measurement, MeasurementsVi
     @Override
     protected void onBindViewHolder(MeasurementsViewHolder holder, Measurement data, int position) {
         
-    }
-    
-    @Override
-    public int getItemCount() {
-        return dataSet.size();
     }
 }

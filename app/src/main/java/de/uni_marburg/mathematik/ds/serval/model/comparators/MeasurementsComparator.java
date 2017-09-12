@@ -5,7 +5,9 @@ import java.util.Comparator;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 
 /**
- * Created by thames1990 on 10.09.17.
+ * Compares {@link Event events} based on their {@link Event#measurements measurements}.
+ *
+ * @param <T> Type of the {@link Event event}
  */
 public class MeasurementsComparator<T extends Event> implements Comparator<T> {
     

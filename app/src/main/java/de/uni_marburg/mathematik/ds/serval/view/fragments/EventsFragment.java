@@ -85,30 +85,30 @@ public class EventsFragment<T extends Event> extends EventFragment<T> {
                 adapter.filter(
                         EventComparator.DISTANCE,
                         false,
-                        ((MainActivity) getActivity()).getLastLocation()
+                        MainActivity.lastLocation
                 );
                 return true;
             case R.id.action_filter_events_distance_descending:
                 adapter.filter(
                         EventComparator.DISTANCE,
                         true,
-                        ((MainActivity) getActivity()).getLastLocation()
+                        MainActivity.lastLocation
                 );
                 return true;
             case R.id.action_filter_events_measurements_ascending:
-                adapter.filter(EventComparator.MEASUREMENTS, false, null);
+                adapter.filter(EventComparator.MEASUREMENTS, false);
                 return true;
             case R.id.action_filter_events_measurements_descending:
-                adapter.filter(EventComparator.MEASUREMENTS, true, null);
+                adapter.filter(EventComparator.MEASUREMENTS, true);
                 return true;
             case R.id.action_filter_events_shuffle:
-                adapter.filter(EventComparator.SHUFFLE, false, null);
+                adapter.filter(EventComparator.SHUFFLE, false);
                 return true;
             case R.id.action_filter_events_time_ascending:
-                adapter.filter(EventComparator.TIME, false, null);
+                adapter.filter(EventComparator.TIME, false);
                 return true;
             case R.id.action_filter_events_time_descending:
-                adapter.filter(EventComparator.TIME, true, null);
+                adapter.filter(EventComparator.TIME, true);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -137,7 +137,7 @@ public class EventsFragment<T extends Event> extends EventFragment<T> {
             ));
             recyclerView.addItemDecoration(new GridSpacingItemDecoration(
                     prefManager.getGridLayoutManagerSpanCount(),
-                    ImageUtil.dpToPx(10, getContext()),
+                    ImageUtil.dpToPixels(getContext(), 10),
                     true
             ));
         } else if (prefManager.useStaggeredGridLayoutManger()) {

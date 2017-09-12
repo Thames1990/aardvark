@@ -1,16 +1,14 @@
 package de.uni_marburg.mathematik.ds.serval.model.event;
 
-import android.app.Activity;
-import android.support.v4.app.Fragment;
-
 import java.util.List;
 
 import de.uni_marburg.mathematik.ds.serval.controller.tasks.EventAsyncTask;
 
 /**
- * Is used to link an {@link Activity activity} and {@link Fragment fragments} to indicate that
- * {@link Event events} are requested or {@link EventAsyncTask an asynchronous event task} to start
- * a UI update after {@link Event events} are loaded.
+ * Links different {@link android.content.Context contexts}. Informs about the completion of {@link
+ * Event event} loading in {@link EventAsyncTask an asynchronous task} or a request for this task.
+ *
+ * @param <T> Type of the {@link Event event}
  */
 public interface EventCallback<T extends Event> {
     
@@ -23,14 +21,13 @@ public interface EventCallback<T extends Event> {
     void onEventsLoaded(List<T> events);
     
     /**
-     * Informs an {@link Activity activity} that {@link Event events} are requested from a {@link
-     * Fragment fragment}.
+     * Informs a {@link android.content.Context context} that {@link Event events} are requested.
      *
      * @param comparator Determines how the {@link Event events} should be sorted
      * @param reversed   Determines whether the {@link EventComparator comparator} should be
      *                   reversed.
      * @param count      Number of requested {@link Event events}
-     * @return A sorted list of {@link Event events}
+     * @return A (sorted) list of {@link Event events}
      */
     List<T> onEventsRequested(EventComparator comparator, boolean reversed, int count);
     

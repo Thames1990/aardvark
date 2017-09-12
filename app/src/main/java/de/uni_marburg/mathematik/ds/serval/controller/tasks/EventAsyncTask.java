@@ -26,24 +26,22 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Loads {@link Event events} asynchronously.
- * <p>
- * Once it is finished the calling {@link android.app.Activity activity} gets informed through an
- * {@link EventCallback event callback} and is able to update the UI:
+ * Loads {@link Event events} asynchronously and informs the calling {@link EventAsyncTask#context
+ * context} about its completion with a {@link EventAsyncTask#eventCallback callback}.
+ *
+ * @param <T> {@link Event} type
  */
 public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, List<T>> {
     
+    /**
+     * Calling context
+     */
     private Context context;
     
     /**
-     * Informs the calling {@link android.app.Activity activity} that the loading is finished.
+     * Informs the calling {@link EventAsyncTask#context context} that the task is finished.
      */
     private EventCallback<T> eventCallback;
-    
-    /**
-     * Holds requests (multiple URLs) that should be used to load {@link Event events}.
-     */
-    private Request request;
     
     /**
      * Is used to download JSON data.
@@ -55,6 +53,11 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
      */
     private JsonAdapter eventAdapter;
     
+    /**
+     * Creates a new asynchronous task.
+     *
+     * @param context Calling context
+     */
     public EventAsyncTask(Context context) {
         this.context = context;
     }
@@ -62,6 +65,7 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        // TODO Figure out why this is unsafe or change to RxJava
         //noinspection unchecked
         eventCallback = (EventCallback<T>) context;
         client = new OkHttpClient();
@@ -75,7 +79,7 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
         List<T> events = new ArrayList<>();
         
         for (String url : urls) {
-            request = new Request.Builder().url(url).build();
+            Request request = new Request.Builder().url(url).build();
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -95,7 +99,7 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
                         ));
                     }
                     
-                    //noinspection ConstantConditions
+                    @SuppressWarnings("ConstantConditions")
                     InputStream inputStream = response.body().byteStream();
                     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -114,7 +118,6 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
     @Override
     protected void onPostExecute(List<T> events) {
         super.onPostExecute(events);
-        // Inform calling Activity that events are loaded and the UI can be updated
         eventCallback.onEventsLoaded(events);
     }
 }

@@ -4,15 +4,15 @@
         <item>@string/information</item>
         <item>@string/measurements</item>
     </array>
-
-    <array name="intro_background">
+    <!-- Needs to be updated if new slides are added or slides are removed -->
+    <array name="intro_backgrounds">
         <item>@color/intro_1_background</item>
         <item>@color/intro_2_background</item>
         <item>@color/intro_3_background</item>
         <item>@color/intro_4_background</item>
         <item>@color/intro_5_background</item>
     </array>
-
+    <!-- Needs to be updated if new slides are added or slides are removed -->
     <string-array name="content_description_intro_image">
         <item>@string/smartphone</item>
         <item>@string/dashboard</item>

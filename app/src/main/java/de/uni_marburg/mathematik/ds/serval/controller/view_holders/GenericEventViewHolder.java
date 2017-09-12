@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.controller.view_holders;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -9,7 +8,6 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +23,6 @@ import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 import de.uni_marburg.mathematik.ds.serval.model.event.Measurement;
 import de.uni_marburg.mathematik.ds.serval.model.event.MeasurementType;
@@ -38,26 +35,27 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
- * ViewHolder for {@link GenericEvent generic events}
+ * ViewHolder for {@link GenericEvent generic events}.
  */
 public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
     
-    private Context context;
-    
-    @BindView(R.id.undo)
-    public Button undo;
-    @BindView(R.id.measurement_types)
-    public LinearLayout measurementTypes;
-    @BindView(R.id.time)
-    public TextView time;
     @BindView(R.id.location_icon)
     ImageView locationIcon;
     @BindView(R.id.location)
-    public TextView location;
+    TextView location;
+    @BindView(R.id.time)
+    TextView time;
+    @BindView(R.id.measurement_types)
+    LinearLayout measurementTypes;
     
+    /**
+     * Creates a new ViewHolder.
+     *
+     * @param parent       Parent ViewGroup
+     * @param itemLayoutId Layout resource id
+     */
     public GenericEventViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
-        context = parent.getContext();
     }
     
     @Override
@@ -81,7 +79,7 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
     }
     
     /**
-     * Sets the elapsed days since an {@link Event event} happened.
+     * Sets the elapsed time since {@link GenericEventViewHolder#data this event} happened.
      */
     private void setupTime() {
         Calendar calendar = Calendar.getInstance();
@@ -114,19 +112,22 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
     }
     
     /**
-     * Sets the distance from the current position to an {@link Event events} position.
+     * Sets the distance from the {@link MainActivity#lastLocation last location} to the location of
+     * the {@link GenericEventViewHolder#data event}.
      */
     private void setupLocation() {
-        Location lastLocation = ((MainActivity) context).getLastLocation();
+        Location lastLocation = MainActivity.lastLocation;
+        // Location permissions are revoked/denied
         if (lastLocation != null) {
             locationIcon.setVisibility(View.VISIBLE);
+            location.setVisibility(View.VISIBLE);
+            
             Drawable icon = ContextCompat.getDrawable(context, R.drawable.location);
             icon.setColorFilter(
                     ContextCompat.getColor(context, R.color.icon_mute),
                     PorterDuff.Mode.SRC_IN
             );
             locationIcon.setImageDrawable(icon);
-            location.setVisibility(View.VISIBLE);
             
             float distance = data.getLocation().distanceTo(lastLocation);
             if (distance < 1000) {
@@ -149,7 +150,8 @@ public class GenericEventViewHolder extends EventViewHolder<GenericEvent> {
     }
     
     /**
-     * Loads icons for each measurement type available in the measurements of the event.
+     * Loads icons for each {@link Measurement measurement} available for {@link
+     * GenericEventViewHolder#data the event}.
      */
     private void setupMeasurementIcons() {
         measurementTypes.removeAllViews();

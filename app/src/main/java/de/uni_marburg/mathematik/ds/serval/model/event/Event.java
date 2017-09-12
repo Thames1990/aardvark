@@ -11,17 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Events are loaded from a REST API and represent a thing that happens or takes place,
- * especially one of importance.
+ * Events are loaded with {@link de.uni_marburg.mathematik.ds.serval.controller.tasks.EventAsyncTask
+ * an asynchronous task} and represent a thing that happens or takes place, especially one of
+ * importance.
  */
 public abstract class Event implements ClusterItem, Parcelable {
     
+    /**
+     * Time of the event in Unix time
+     */
     @Json(name = "time")
     Long time;
     
+    /**
+     * Location of the event, including a geohash.
+     */
     @Json(name = "location")
     GeohashLocation location;
     
+    /**
+     * {@link Measurement Measurements} of the event
+     */
     @Json(name = "measurements")
     List<Measurement> measurements = new ArrayList<>();
     
@@ -39,6 +49,11 @@ public abstract class Event implements ClusterItem, Parcelable {
         return location;
     }
     
+    /**
+     * Converts the {@link Event#location} into a {@link Location Android location}.
+     *
+     * @return {@link Location Android location of the event}
+     */
     public Location getLocation() {
         Location location = new Location("");
         location.setLatitude(this.location.getLatitude());

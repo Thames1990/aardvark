@@ -1,7 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.controller.adapters;
 
-import android.graphics.Color;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -11,12 +9,26 @@ import de.uni_marburg.mathematik.ds.serval.controller.view_holders.GenericEventV
 import de.uni_marburg.mathematik.ds.serval.model.event.GenericEvent;
 
 /**
- * Adapter for {@link GenericEvent generic events}
+ * Adapter for {@link GenericEvent generic events}.
  */
 public class GenericEventAdapter extends EventAdapter<GenericEvent, GenericEventViewHolder> {
     
-    public GenericEventAdapter(List<GenericEvent> events) {
-        super(events);
+    /**
+     * Creates a new adapter
+     *
+     * @param dataSet Data set controlled by the adapter
+     */
+    public GenericEventAdapter(List<GenericEvent> dataSet) {
+        super(dataSet);
+    }
+    
+    @Override
+    protected void onBindViewHolder(
+            GenericEventViewHolder holder,
+            GenericEvent data,
+            int position
+    ) {
+        
     }
     
     @Override
@@ -24,26 +36,4 @@ public class GenericEventAdapter extends EventAdapter<GenericEvent, GenericEvent
         return new GenericEventViewHolder(parent, R.layout.event_row);
     }
     
-    @Override
-    protected void onBindViewHolder(
-            GenericEventViewHolder holder,
-            GenericEvent event,
-            int position
-    ) {
-        if (isPendingRemoval(position)) {
-            holder.itemView.setBackgroundColor(Color.RED);
-            holder.measurementTypes.setVisibility(View.GONE);
-            holder.time.setVisibility(View.GONE);
-            holder.location.setVisibility(View.GONE);
-            holder.undo.setVisibility(View.VISIBLE);
-            holder.undo.setOnClickListener(view -> undoPendingRemoval(position));
-        } else {
-            holder.itemView.setBackgroundColor(Color.WHITE);
-            holder.measurementTypes.setVisibility(View.VISIBLE);
-            holder.time.setVisibility(View.VISIBLE);
-            holder.location.setVisibility(View.VISIBLE);
-            holder.undo.setVisibility(View.GONE);
-            holder.undo.setOnClickListener(null);
-        }
-    }
 }
