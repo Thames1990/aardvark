@@ -1,13 +1,18 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.text.format.Formatter;
 import android.util.DisplayMetrics;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Locale;
 
 import de.uni_marburg.mathematik.ds.serval.BuildConfig;
@@ -38,6 +43,15 @@ public class SettingsFragment
     
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        if (BuildConfig.DEBUG) {
+            addPreferencesFromResource(R.xml.pref_debug);
+            findPreference(getString(R.string.preference_enable_wifi_adb))
+                    .setOnPreferenceClickListener(preference -> {
+                        enableWifiAdb();
+                        return true;
+                    });
+        }
+        
         addPreferencesFromResource(R.xml.pref_main);
         findPreference(getString(R.string.preference_show_changelog))
                 .setOnPreferenceChangeListener(this);
@@ -77,6 +91,39 @@ public class SettingsFragment
         } else {
             return false;
         }
+    }
+    
+    private void enableWifiAdb() {
+        try {
+            Process root = Runtime.getRuntime().exec("su");
+            DataOutputStream dos = new DataOutputStream(root.getOutputStream());
+            dos.writeBytes("setprop service.adb.tcp.port 5555\n");
+            dos.writeBytes("stop adbd\n");
+            dos.writeBytes("start adbd\n");
+            dos.writeBytes("exit\n");
+            dos.flush();
+            dos.close();
+            root.waitFor();
+            
+            WifiManager mWifiManager =
+                    (WifiManager) getContext().getApplicationContext()
+                                              .getSystemService(Context.WIFI_SERVICE);
+            int ip = mWifiManager.getConnectionInfo().getIpAddress();
+            //noinspection deprecation
+            shareWifiADBInfo(Formatter.formatIpAddress(ip));
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void shareWifiADBInfo(String ip) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                String.format(getString(R.string.intent_extra_wifi_adb), ip)
+        );
+        shareIntent.setType(getString(R.string.intent_type_text_plain));
+        startActivity(shareIntent);
     }
     
     /**

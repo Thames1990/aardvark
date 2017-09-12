@@ -4,9 +4,9 @@
     package="de.uni_marburg.mathematik.ds.serval">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <uses-feature android:name="android.hardware.location.gps" />
-    <!-- Not yet, but it will come -->
     <uses-feature android:name="android.hardware.wifi" />
 
     <application

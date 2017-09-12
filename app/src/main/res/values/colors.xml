@@ -19,6 +19,6 @@
     <color name="intro_3_background">#44c050</color>
     <color name="intro_4_background">#269739</color>
     <color name="intro_5_background">#087f23</color>
-    <color name="intro_placeholder_background">#BF360C</color>
+    <color name="intro_placeholder_background">@color/colorPrimaryLight</color>
 </resources>
 
