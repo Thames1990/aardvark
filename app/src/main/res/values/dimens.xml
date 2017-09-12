@@ -1,6 +1,5 @@
 <resources>
     <!-- General -->
-    <dimen name="margin_clear">16dp</dimen>
     <dimen name="margin_fab">16dp</dimen>
 
     <!-- Intro sliders -->

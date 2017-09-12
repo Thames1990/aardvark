@@ -7,8 +7,6 @@
 
     <!-- Action menu titles -->
     <string name="action_show_changelog">Show changelog</string>
-    <string name="action_show_changelog_dialog">Dialog</string>
-    <string name="action_show_changelog_bottom_sheet_dialog">BottomSheet</string>
     <string name="action_change_map_type">Map type</string>
     <string name="action_change_map_type_hybrid">@string/hybrid</string>
     <string name="action_change_map_type_none">@string/none</string>
@@ -32,31 +30,24 @@
     <!-- Content descriptions -->
     <string name="content_description_location_icon">Location icon</string>
     <string name="content_description_measurement_icon">Measurement icon</string>
-    <string name="content_description_tools_map">Map for mockup</string>
 
     <!-- Email adresses -->
     <!-- TODO Replace with real mail address -->
     <string name="email_adress_feedback" translatable="false">ThomasMohr1990@gmail.com</string>
 
     <!-- Exception messages -->
-    <string name="exception_cannot_cast">Cannot cast long %1$d to int without changing its value!</string>
     <string name="exception_fragment_must_contain_key">Fragment must contain a %1$s argument!</string>
     <string name="exception_measurement_type_without_icon">%1$s measurement type does not have an icon yet!</string>
-    <string name="exception_load_data_failed">Loading events from the REST API failed: %1$s</string>
 
     <!-- Files -->
     <string name="file_changelog" translatable="false">changelog/changelog-%1$d.md</string>
 
     <!-- General -->
-    <string name="agree">Agree</string>
     <string name="ascending">Ascending</string>
-    <string name="bottom_sheet">BottomSheet</string>
     <string name="cancel">Cancel</string>
     <string name="changelog">Changelog - %1$s</string>
     <string name="chat">Chat</string>
     <string name="descending">Descending</string>
-    <string name="dialog">Dialog</string>
-    <string name="disagree">Disagreee</string>
     <string name="confirm_exit">Confirm exit</string>
     <string name="dashboard">Dashboard</string>
     <string name="details">Details</string>
@@ -65,7 +56,6 @@
     <string name="exit">Exit</string>
     <string name="explore">Explore</string>
     <string name="hybrid">Hybrid</string>
-    <string name="information">Info</string>
     <string name="intro">Intro</string>
     <string name="map">Map</string>
     <string name="maps">Maps</string>
@@ -73,17 +63,12 @@
     <string name="measurements">Measurements</string>
     <string name="none">None</string>
     <string name="normal">Normal</string>
-    <string name="ok">OK</string>
-    <string name="placeholder">Placeholder</string>
     <string name="satellite">Satellite</string>
     <string name="settings">Settings</string>
     <string name="share">Share</string>
     <string name="shuffle">Shuffle</string>
     <string name="smartphone">Smartphone</string>
     <string name="terrain">Terrain</string>
-    <string name="undo">Undo</string>
-    <string name="version">Version</string>
-    <string name="wifi_adb">WiFi ADB</string>
     <string name="with_value">with value</string>
 
     <!-- Intent extras -->
@@ -114,13 +99,9 @@
 
     <!-- Location -->
     <string name="location">Location</string>
-    <string name="location_current">Current location</string>
     <string name="location_distance">Distance</string>
     <string name="location_distance_to_kilometer">%1$.2f km</string>
     <string name="location_distance_to_meter">%1$.0f m</string>
-    <string name="location_geohash">Geohash</string>
-    <string name="location_latitude">Latitude</string>
-    <string name="location_longitude">Longitude</string>
 
     <!-- Log messages -->
     <string name="log_message_fail_event_load">Failed to load events: %1$s</string>
@@ -166,10 +147,6 @@
     <!-- Tools Fake Data -->
     <string name="tools_changelog">Changelog - Version 9001.0.0</string>
     <string name="tools_distance">392 m</string>
-    <string name="tools_geohash">u1n2bny2t9n7</string>
-    <string name="tools_latitude">50.794006525371884</string>
-    <string name="tools_longitude">8.79789020114476</string>
-    <string name="tools_measurement_count">3</string>
     <string name="tools_measurement_type">Radiation</string>
     <string name="tools_measurement_value">2 &#956;Sv/h</string>
     <string name="tools_time">24 min</string>

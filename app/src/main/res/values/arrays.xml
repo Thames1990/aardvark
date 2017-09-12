@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="detail_tab_titles">
-        <item>@string/information</item>
-        <item>@string/measurements</item>
-    </array>
     <!-- Needs to be updated if new slides are added or slides are removed -->
     <array name="intro_backgrounds">
         <item>@color/intro_1_background</item>
