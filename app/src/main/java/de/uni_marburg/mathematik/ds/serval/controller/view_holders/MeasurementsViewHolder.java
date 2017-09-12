@@ -40,7 +40,7 @@ public class MeasurementsViewHolder extends BaseViewHolder<Measurement> {
      * @param parent       Parent ViewGroup
      * @param itemLayoutId Layout resource id
      */
-    MeasurementsViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
+    public MeasurementsViewHolder(ViewGroup parent, @LayoutRes int itemLayoutId) {
         super(parent, itemLayoutId);
         explore.setOnClickListener(this);
         share.setOnClickListener(this);
