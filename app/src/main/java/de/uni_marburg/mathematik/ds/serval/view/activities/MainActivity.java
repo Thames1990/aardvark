@@ -172,7 +172,7 @@ public class MainActivity<T extends Event>
         switch (item.getItemId()) {
             case R.id.action_dashboard:
                 if (!(currentFragment instanceof DashboardFragment)) {
-                    fragment = new DashboardFragment();
+                    fragment = new PlaceholderFragment();
                     firebaseAnalytics.setCurrentScreen(
                             this,
                             getString(R.string.screen_dashboard),
@@ -334,11 +334,11 @@ public class MainActivity<T extends Event>
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (savedInstanceState == null) {
-            transaction.replace(R.id.content, new DashboardFragment());
+            transaction.replace(R.id.content, new PlaceholderFragment());
         } else {
             switch (prefManager.getBottomNavigationSelectedItemId()) {
                 case R.id.action_dashboard:
-                    transaction.replace(R.id.content, new DashboardFragment());
+                    transaction.replace(R.id.content, new PlaceholderFragment());
                     break;
                 case R.id.action_events:
                     transaction.replace(R.id.content, new EventsFragment());

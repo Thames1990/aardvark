@@ -107,7 +107,7 @@
     <string name="intro_5_title">Let\'s go!</string>
     <string name="intro_5_description">Click on the logo to start app!</string>
     <string name="intro_placeholder_title">DAMN</string>
-    <string name="intro_placeholder_description">The developer forgot to add a matching layout!</string>
+    <string name="intro_placeholder_description">The developer was too lazy to include a layout!</string>
 
     <!-- Location -->
     <string name="location">Location</string>
