@@ -16,7 +16,7 @@ public class LocationComparator<T extends Event> implements Comparator<T> {
     /**
      * The location to calculate the distance to. This is usually the last known location.
      */
-    private Location origin;
+    private final Location origin;
     
     /**
      * Creates a new location comparator.

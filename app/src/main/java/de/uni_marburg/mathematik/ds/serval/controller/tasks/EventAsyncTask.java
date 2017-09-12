@@ -36,7 +36,7 @@ public class EventAsyncTask<T extends Event> extends AsyncTask<String, Void, Lis
     /**
      * Calling context
      */
-    private Context context;
+    private final Context context;
     
     /**
      * Informs the calling {@link EventAsyncTask#context context} that the task is finished.

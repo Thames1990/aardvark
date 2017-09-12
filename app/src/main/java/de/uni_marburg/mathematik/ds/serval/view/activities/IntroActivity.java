@@ -41,7 +41,7 @@ public class IntroActivity
     
     private PrefManager prefManager;
     
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal"})
     @BindView(R.id.content)
     ViewPager viewPager;
     

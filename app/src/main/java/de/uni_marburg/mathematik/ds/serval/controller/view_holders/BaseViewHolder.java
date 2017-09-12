@@ -21,7 +21,7 @@ public abstract class BaseViewHolder<T>
     /**
      * Calling context
      */
-    Context context;
+    final Context context;
     
     /**
      * Data in view

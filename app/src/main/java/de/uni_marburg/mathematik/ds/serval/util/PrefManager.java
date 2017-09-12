@@ -15,8 +15,9 @@ import de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity;
  */
 public class PrefManager {
     
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences preferences;
+    
+    private final SharedPreferences.Editor editor;
     
     /**
      * Desired preference file.

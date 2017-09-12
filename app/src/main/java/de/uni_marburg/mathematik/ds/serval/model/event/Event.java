@@ -32,6 +32,7 @@ public abstract class Event implements ClusterItem, Parcelable {
     /**
      * {@link Measurement Measurements} of the event
      */
+    @SuppressWarnings("CanBeFinal")
     @Json(name = "measurements")
     List<Measurement> measurements = new ArrayList<>();
     

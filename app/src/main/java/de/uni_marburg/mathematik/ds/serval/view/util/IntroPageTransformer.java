@@ -19,7 +19,7 @@ import de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity;
  */
 public class IntroPageTransformer implements ViewPager.PageTransformer {
     
-    private Context context;
+    private final Context context;
     
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.title)

@@ -92,7 +92,7 @@ public class MainActivity<T extends Event>
     
     private EventAsyncTask<T> eventAsyncTask;
     
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal"})
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
     @SuppressWarnings("WeakerAccess")

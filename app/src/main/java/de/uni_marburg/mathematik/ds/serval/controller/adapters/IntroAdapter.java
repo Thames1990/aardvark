@@ -20,7 +20,7 @@ public class IntroAdapter extends FragmentPagerAdapter {
      * Is defined by {@link de.uni_marburg.mathematik.ds.serval.R.array#intro_backgrounds a
      * resource}.
      */
-    private int[] introSlideBackgroundColors;
+    private final int[] introSlideBackgroundColors;
     
     public IntroAdapter(FragmentManager fm, Context context) {
         super(fm);

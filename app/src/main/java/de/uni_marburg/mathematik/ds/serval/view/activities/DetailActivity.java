@@ -64,19 +64,19 @@ public class DetailActivity<T extends Event>
     
     private int scrollRange = -1;
     
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal"})
     @BindView(R.id.appbar_layout)
     AppBarLayout appBarLayout;
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal"})
     @BindView(R.id.collapsingToolbarLayout)
     CollapsingToolbarLayout collapsingToolbarLayout;
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal"})
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal"})
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal"})
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     
