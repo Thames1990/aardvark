@@ -4,7 +4,7 @@
   - Extended functionality wasn't necessary
   - Click `Intent` will be removed
 - Optimize map padding in `MapFragment` on clicking a cluster
-- Change FAB `Intent` in `DetailActivity to search for a `Event` instead of directly starting a navigation to it
+- Change FAB `Intent` in `DetailActivity` to search for a `Event` instead of directly starting a navigation to it
 - Remove obsolete resources
 - Major code cleanup
 - Use placeholder fragment for dashboard (Still WIP)
