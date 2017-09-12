@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
@@ -29,8 +28,6 @@ import de.uni_marburg.mathematik.ds.serval.model.event.MeasurementType;
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity;
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity;
 
-import static android.os.Build.VERSION;
-import static android.os.Build.VERSION_CODES;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 

@@ -1,8 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.controller.view_holders;
 
 import android.content.Intent;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Locale;
-import java.util.StringJoiner;
 
 import butterknife.BindView;
 import de.uni_marburg.mathematik.ds.serval.R;
