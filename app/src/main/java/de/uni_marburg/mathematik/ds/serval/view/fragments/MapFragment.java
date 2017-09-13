@@ -196,11 +196,13 @@ public class MapFragment<T extends Event>
     }
     
     private void setupCameraBounds() {
-        LatLngBounds.Builder builder = LatLngBounds.builder();
-        for (T event : events) {
-            builder.include(event.getPosition());
+        if (!events.isEmpty()) {
+            LatLngBounds.Builder builder = LatLngBounds.builder();
+            for (T event : events) {
+                builder.include(event.getPosition());
+            }
+            googleMap.setLatLngBoundsForCameraTarget(builder.build());
         }
-        googleMap.setLatLngBoundsForCameraTarget(builder.build());
     }
     
     private void setupMyLocation() {
