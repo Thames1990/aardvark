@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -22,8 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -68,7 +68,8 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
  */
 public class MainActivity<T extends Event>
         extends AppCompatActivity
-        implements BottomNavigationView.OnNavigationItemSelectedListener, EventCallback<T> {
+        implements BottomNavigationView.OnNavigationItemSelectedListener,
+                   DialogInterface.OnClickListener, EventCallback<T> {
     
     private static final int CHECK_LOCATION_PERMISSION = 42;
     
@@ -91,6 +92,8 @@ public class MainActivity<T extends Event>
     private LocationCallback locationCallback;
     
     private EventAsyncTask<T> eventAsyncTask;
+    
+    private AlertDialog confirmExit;
     
     @SuppressWarnings({"WeakerAccess", "CanBeFinal"})
     @BindView(R.id.bottom_navigation)
@@ -131,19 +134,10 @@ public class MainActivity<T extends Event>
     @Override
     public void onBackPressed() {
         if (prefManager.confirmExit()) {
-            new MaterialDialog.Builder(this).title(R.string.confirm_exit)
-                                            .positiveText(R.string.exit)
-                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                                @Override
-                                                public void onClick(
-                                                        @NonNull MaterialDialog dialog,
-                                                        @NonNull DialogAction which
-                                                ) {
-                                                    finish();
-                                                }
-                                            })
-                                            .negativeText(R.string.cancel)
-                                            .show();
+            confirmExit = new AlertDialog.Builder(this).setTitle(R.string.confirm_exit)
+                                                       .setPositiveButton(R.string.exit, this)
+                                                       .create();
+            confirmExit.show();
         } else {
             finish();
         }
@@ -171,6 +165,12 @@ public class MainActivity<T extends Event>
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    @Override public void onClick(DialogInterface dialogInterface, int which) {
+        if (dialogInterface.equals(confirmExit)) {
+            finish();
         }
     }
     
@@ -386,10 +386,11 @@ public class MainActivity<T extends Event>
     private void showChangelogDialog(String versionName, String changelog) {
         TextView content = new TextView(this);
         Markwon.setMarkdown(content, changelog);
-        new MaterialDialog.Builder(this).title(versionName)
-                                        .customView(content, true)
-                                        .positiveText(android.R.string.ok)
-                                        .show();
+        new AlertDialog.Builder(this).setTitle(versionName)
+                                     .setView(content)
+                                     .setPositiveButton(android.R.string.ok, this)
+                                     .create()
+                                     .show();
     }
     
     private void startLocationUpdates() {
