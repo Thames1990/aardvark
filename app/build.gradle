@@ -67,7 +67,7 @@ dependencies {
         google_play_services_version = '11.2.2'
         leak_canary_version = '1.5.1'
         material_dialogs_version = '0.9.4.7'
-        support_library_version = '26.0.1'
+        support_library_version = '26.0.2'
     }
     
     compile fileTree(include: ['*.jar'], dir: 'libs')
