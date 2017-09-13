@@ -1,0 +1,5 @@
+- Check if events are available in `MapFragment`
+  - This resolves `java.lang.IllegalStateException: no included points`
+- Update Google Support libraries to 26.0.2
+- Remove MaterialDialogs
+  - Use `AlterDialog` instead
