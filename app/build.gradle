@@ -14,8 +14,8 @@ android {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 20
-        versionName '0.4.9'
+        versionCode 21
+        versionName '0.4.10'
         setProperty('archivesBaseName', "$applicationId-$versionName")
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
@@ -46,7 +46,8 @@ android {
             ext.enableCrashlytics = false
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             manifestPlaceholders = [
