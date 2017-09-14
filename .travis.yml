@@ -5,8 +5,7 @@ jdk: oraclejdk8
 env:
   global:
   - APP_NAME="serval-project"
-  - COMPILE_SDK_VERSION=26
-  - MIN_SDK_VERSION=26
+  - ANDROID_API=26
   - ANDROID_BUILD_TOOLS=26.0.2
   - ADB_INSTALL_TIMEOUT=5
 
@@ -16,27 +15,21 @@ android:
   - tools
   - platform-tools
   - build-tools-$ANDROID_BUILD_TOOLS
-  - android-$COMPILE_SDK_VERSION
-  - sys-img-armeabi-v7a-addon-google_apis-google-$COMPILE_SDK_VERSION_LEVEL
+  - android-$ANDROID_API
 
   licenses:
   - android-sdk-preview-license-.+
   - android-sdk-license-.+
   - google-gdk-license-.+
 
-before_script:
- - echo no | android create avd --force -n test -t android-MIN_SDK_VERSION --abi armeabi-v7a
- - emulator -avd test -no-skin -no-audio -no-window &
- - android-wait-for-emulator
- - adb shell input keyevent 82 &
-
 script:
- - ./gradlew build connectedCheck -PdisablePreDex --stacktrace
+ - ./gradlew build connectedCheck
 
 before_install:
  - openssl aes-256-cbc -K $encrypted_1e0e1c84b069_key -iv $encrypted_1e0e1c84b069_iv
   -in secrets.tar.enc -out secrets.tar -d
  - tar xvf secrets.tar
+ # TODO Find out why this is necessary. It also applies to Jenkins.
  - mv production.jks app/
  - mkdir "$ANDROID_HOME/licenses" || true
  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
