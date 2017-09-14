@@ -12,9 +12,6 @@ env:
   - ANDROID_API=26
   - ANDROID_BUILD_TOOLS=26.0.2
   - ADB_INSTALL_TIMEOUT=5
-  - secure: lLY2kx6qzdUcfH9+4Uw/EXdKQRQxRWpcZb0gRQh6p/S0kfRya291vOJrGgUn6H9bfrqmnf9zLZfeGj3pAPeW1kAx3s9XF7a4PXLxRcpBVhNW7z5P5WbjBCn5q7rhBT1MPbQ7laS/2wWBUCKZgoHSohZogtbdvIdvbF6K47nXBCCwRYBMOqP4Ej1hq3idLymTCf61c2QrKBl2f5SVB/cZbFZaz68b7qob8gVpjG6XQ9ZBlnmJcbhB9Qwl+maST81Zcsg2dovRJLUGSt4YEehoBbzXGXuFMnaBEyUWPIAH2e5MOfFBxFbVChd1g47ajY4uPIC9NNaTPNuepgi+OGAWiwpLzxkLoywhLiqCTbx+1lDMezntRYmeJgY5qCYQGLCvaBF3V8nWqJgkdWZiePuP6Wmxco5YaD/iAwWwKrcaPXFTFnOSDAzRPDI7ubEGYqRBEEDZm10qOZ6cmNJoM1fLB+j8LRY3qDbHuaDJwNJbBA5yAvUIuD57t4h6qlnDY+bWOYSaubGoEe5y5TZbk4QfiQhwrhBrO2a083VKeQ7RHEjj2ZE4s7cujYW6HWsnlUIHf2utVLQAXDX4x6g6zWYl1kqiKTeH180Fjet0SdxVeQYgqTbnjNRek7ZS3PlXKuT4tEXGvIp3ohT9BRQW+UjAllRi3RGcKDtlMByrwdaN2+s=
-  - secure: jwlBG9+Bgci+E5Onl8XO/3nAptfSu+OCa/PVPdXrL54bnjN7fWDiietAUByZvdEb+pVTh0gfHCDmFq5AiIqbTlwGoIrqRnOjw/nWVdVq7XIkq10FAqgP/DsLA9axflBFG7MnkW0SnJyBcLCiLNAnQyh1S2rrDlp09SxL8bgS4Uyg1MQBF20ghkiqfAssbUwBR6OR7IqORe193Ev6CRQnGh/U0oFOQy1FUBnQ5BeM36QPvI7IsZ7VGNKvaCbM0bEI4iiw9dopYQx1uJECObcV6F3GofhszbeSFaQY7f94CXxKtgP//x1tTOTODJadDXlGY9jyprcwAMbz44fUgMRaRjPd6G3ADXQRL/anA8I+Cym1xPZTDPawGmSPPr2qKW/8UcjDf6S75k9IaHn/jml+NeU86PaVzHWcTONuOlbOPNoY9lCqiacPXSYG1Wylxg8Q9goQO8qx1+jyCI2uwVx9wF2LshkTL5A4LzKJvKoFRoOpYmSj0TILdJzaIramnfqXgyF6b/2rPRXSgZGZEY0ntYhlUEzmgURzYaI9/MrcuU5fiiabcAf3IX0dKvLPIrU4/uT8U+fzE44MMT2P6njHuJS8tgXrsV/pMGRfmdse5/LyaDiWGAA2DIyHmuFnbcxcZlISNN74R+E1D5S3anR4Hja0WzFYz1ekbQxPN+0YfVM=
-  - secure: JYTq9PZv5ZpvtzqNDIyr0EPEL8WbGQty0ea7uosaEtDtxM1Clu5srKIPLSuOlSAc2NibrYBKPpCSaxVflcFUS6i14Sin4V+iqTbdvDwBPvL2gla/+Cmg+T3apHI/+JrxUX5MN6/bDqwHsLZ50Up9CwPS2v4kdO539r1qNunjG4/sbbbO6K+Rcc9/rfcpzPs7ArmADRFyfsZ2ItuMQxlV+sNa764og/Ssy5ppBclL2F0AHXLhQNa7kxgTSbNUm/mow+JYJkwOZR6eZUtqWX3zwzTC/dn0QZ9hoZN755xNzUvStdT77fSYjM7wTA/BvHvxus8zc9Um5NF4ORdawHSFBuDn21XWZBEPanGfXnLCI0vT6uduOMq0oB+3jrxU+jRxr176qCdhv4qxNJm2Ra2Sp9Bg800snMXkxFiqRTGD3ZfsSx9cLUR1lLocQNXVm4NoKpVuoNx8Rl1wnCsHAYU/DBVLO2z4p+zYV01nEJfQpXCfhzNJeexB9tphSsTEqSMrnZtG33ijygmik3Yq82Tf46HrottqJNVv0hykVlBg+LmXMtQIZ1PgmeVi+s9tO51NDpFLe95+05AuwSXloSbpnD/KIQuKhYlrJTgyisH2cYeVmzEtFlaTigY1xTylq8YeaU5NMNg5wBKVRWqzAhK2kqqYDOMcC6LYnE1r/qRfGVk=
 android:
   components:
   - tools
@@ -25,8 +22,8 @@ android:
 script:
 - "./gradlew build connectedCheck"
 before_install:
-- openssl aes-256-cbc -K $encrypted_60a5ea80ddd6_key -iv $encrypted_60a5ea80ddd6_iv
-  -in app/google-services.json.enc -out app/google-services.json -d
+- openssl aes-256-cbc -K $encrypted_1e0e1c84b069_key -iv $encrypted_1e0e1c84b069_iv
+  -in google-services.json.enc -out app/google-services.json -d
 - openssl aes-256-cbc -K $encrypted_1e0e1c84b069_key -iv $encrypted_1e0e1c84b069_iv
   -in keystore.properties.enc -out keystore.properties -d
 - openssl aes-256-cbc -K $encrypted_1e0e1c84b069_key -iv $encrypted_1e0e1c84b069_iv
@@ -41,11 +38,11 @@ before_deploy:
   ${APP_NAME}.apk"
 deploy:
   provider: releases
-  file: $APP_NAME.apk
+  file: "$APP_NAME.apk"
   skip_cleanup: true
   on:
     repo: githubUsername/Repository
     tags: true
     jdk: oraclejdk8
   api_key:
-    secure: $GITHUB_API_KEY
+    secure: "$GITHUB_API_KEY"
