@@ -59,7 +59,7 @@ deploy:
   skip_cleanup: true
 
   on:
-    repo: githubUsername/Repository
+    repo: Thames1990/serval-project
     tags: true
     jdk: oraclejdk8
   api_key:
