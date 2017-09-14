@@ -43,6 +43,10 @@ captures/
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 
+# Travis
+/secrets.tar
+/secrets.tar.enc
+
 # Freeline
 freeline.py
 freeline/
