@@ -16,7 +16,7 @@ android {
         targetSdkVersion 26
         versionCode 22
         versionName '0.4.11'
-        setProperty('archivesBaseName', "$applicationId-$versionName")
+        setProperty('archivesBaseName', "aerval-$versionName")
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
     }
