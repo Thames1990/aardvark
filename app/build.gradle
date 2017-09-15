@@ -7,6 +7,10 @@ repositories {
 }
 
 android {
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    
     compileSdkVersion 26
     buildToolsVersion '26.0.1'
     
@@ -19,11 +23,14 @@ android {
         setProperty('archivesBaseName', "$applicationId-$versionName")
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
-    }
+        manifestPlaceholders = [
+                KEY_FABRIC     : keystoreProperties['key_fabric'],
+                KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps'],
+                APP_ICON       : '@mipmap/ic_launcher_dev',
+                APP_ICON_ROUND : '@mipmap/ic_launcher_round_dev'
     
-    def keystorePropertiesFile = rootProject.file("keystore.properties")
-    def keystoreProperties = new Properties()
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        ]
+    }
     
     signingConfigs {
         release {
@@ -36,13 +43,6 @@ android {
     
     buildTypes {
         debug {
-            manifestPlaceholders = [
-                    KEY_FABRIC     : keystoreProperties['key_fabric'],
-                    KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps'],
-                    APP_ICON       : '@mipmap/ic_launcher_dev',
-                    APP_ICON_ROUND : '@mipmap/ic_launcher_round_dev'
-            
-            ]
             ext.enableCrashlytics = false
         }
         release {
@@ -50,12 +50,6 @@ android {
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            manifestPlaceholders = [
-                    KEY_FABRIC     : keystoreProperties['key_fabric'],
-                    KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps'],
-                    APP_ICON       : '@mipmap/ic_launcher',
-                    APP_ICON_ROUND : '@mipmap/ic_launcher_round'
-            ]
         }
     }
 }
