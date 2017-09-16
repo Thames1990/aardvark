@@ -3,7 +3,7 @@
     <string name="title_activity_settings">@string/settings</string>
 
     <!-- App name -->
-    <string name="app_name" translatable="false">Serval Project</string>
+    <string name="app_name" translatable="false">Aardvark</string>
 
     <!-- Action menu titles -->
     <string name="action_show_changelog">Show changelog</string>

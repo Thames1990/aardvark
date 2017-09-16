@@ -10,7 +10,7 @@
     <uses-feature android:name="android.hardware.wifi" />
 
     <application
-        android:name=".Serval"
+        android:name=".Aardvark"
         android:allowBackup="true"
         android:icon="${APP_ICON}"
         android:label="@string/app_name"

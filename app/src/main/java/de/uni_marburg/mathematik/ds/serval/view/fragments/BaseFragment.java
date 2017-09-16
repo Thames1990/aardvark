@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import de.uni_marburg.mathematik.ds.serval.Serval;
+import de.uni_marburg.mathematik.ds.serval.Aardvark;
 
 /**
  * Created by thames1990 on 09.09.17.
@@ -39,7 +39,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Serval.getRefWatcher(getContext()).watch(this);
+        Aardvark.getRefWatcher(getContext()).watch(this);
     }
     
     /**

@@ -17,7 +17,7 @@ import java.util.Locale;
 
 import de.uni_marburg.mathematik.ds.serval.BuildConfig;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.Serval;
+import de.uni_marburg.mathematik.ds.serval.Aardvark;
 import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 
 /**
@@ -38,7 +38,7 @@ public class SettingsFragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Serval.getRefWatcher(getContext()).watch(this);
+        Aardvark.getRefWatcher(getContext()).watch(this);
     }
     
     @Override

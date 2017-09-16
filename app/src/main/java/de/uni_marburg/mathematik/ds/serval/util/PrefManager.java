@@ -25,7 +25,7 @@ public class PrefManager {
      * If a preference file by this name does not exist, it will be created when you retrieve an
      * editor (SharedPreferences.edit()) and then commit changes (Editor.commit()).
      */
-    private static final String PREF_NAME = "Serval";
+    private static final String PREF_NAME = "Aardvark";
     
     /**
      * Operating mode.
