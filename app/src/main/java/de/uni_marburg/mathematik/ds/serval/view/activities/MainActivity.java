@@ -41,7 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.uni_marburg.mathematik.ds.serval.BuildConfig;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.Serval;
+import de.uni_marburg.mathematik.ds.serval.Aardvark;
 import de.uni_marburg.mathematik.ds.serval.controller.tasks.EventAsyncTask;
 import de.uni_marburg.mathematik.ds.serval.model.comparators.LocationComparator;
 import de.uni_marburg.mathematik.ds.serval.model.comparators.MeasurementsComparator;
@@ -293,7 +293,7 @@ public class MainActivity<T extends Event>
         eventAsyncTask = new EventAsyncTask<>(this);
         prefManager = new PrefManager(this);
         fragmentManager = getSupportFragmentManager();
-        firebaseAnalytics = Serval.getFirebaseAnalytics(this);
+        firebaseAnalytics = Aardvark.getFirebaseAnalytics(this);
         loadEvents();
     }
     

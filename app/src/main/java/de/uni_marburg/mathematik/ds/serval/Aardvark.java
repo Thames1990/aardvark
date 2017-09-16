@@ -14,7 +14,7 @@ import io.fabric.sdk.android.Fabric;
 /**
  * Created by thames1990 on 04.09.17.
  */
-public class Serval extends Application {
+public class Aardvark extends Application {
     
     private Fabric fabric;
     
@@ -56,17 +56,17 @@ public class Serval extends Application {
     }
     
     public static Fabric getFabric(Context context) {
-        Serval serval = (Serval) context.getApplicationContext();
-        return serval.fabric;
+        Aardvark aardvark = (Aardvark) context.getApplicationContext();
+        return aardvark.fabric;
     }
     
     public static RefWatcher getRefWatcher(Context context) {
-        Serval serval = (Serval) context.getApplicationContext();
-        return serval.refWatcher;
+        Aardvark aardvark = (Aardvark) context.getApplicationContext();
+        return aardvark.refWatcher;
     }
     
     public static FirebaseAnalytics getFirebaseAnalytics(Context context) {
-        Serval serval = (Serval) context.getApplicationContext();
-        return serval.firebaseAnalytics;
+        Aardvark aardvark = (Aardvark) context.getApplicationContext();
+        return aardvark.firebaseAnalytics;
     }
 }

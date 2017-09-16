@@ -9,8 +9,8 @@ import android.view.MenuItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.uni_marburg.mathematik.ds.serval.Aardvark;
 import de.uni_marburg.mathematik.ds.serval.R;
-import de.uni_marburg.mathematik.ds.serval.Serval;
 import de.uni_marburg.mathematik.ds.serval.view.fragments.SettingsFragment;
 
 /**
@@ -32,8 +32,8 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                                    .replace(R.id.content, new SettingsFragment())
                                    .commit();
-        Serval.getFirebaseAnalytics(this)
-              .setCurrentScreen(this, getString(R.string.screen_settings), null);
+        Aardvark.getFirebaseAnalytics(this)
+                .setCurrentScreen(this, getString(R.string.screen_settings), null);
     }
     
     private void setupActionBar() {
