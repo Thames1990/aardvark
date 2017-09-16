@@ -120,9 +120,9 @@ public class IntroActivity
         switch (requestCode) {
             case CHECK_LOCATION_PERMISSION:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    prefManager.setRequestLocationUpdates(true);
+                    prefManager.setTrackLocation(true);
                 } else {
-                    prefManager.setRequestLocationUpdates(false);
+                    prefManager.setTrackLocation(false);
                 }
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);

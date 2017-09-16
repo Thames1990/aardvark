@@ -57,7 +57,7 @@ public class PrefManager {
      */
     private static final String USE_BOTTOM_SHEET_DIALOGS = "USE_BOTTOM_SHEET_DIALOGS";
     
-    private static final String REQUEST_LOCATION_UPDATES = "REQUEST_LOCATION_UPDATES";
+    private static final String TRACK_LOCATION = "TRACK_LOCATION";
     
     private static final String USE_LINEAR_LAYOUT_MANAGER = "USE_LINEAR_LAYOUT_MANAGER";
     
@@ -114,12 +114,12 @@ public class PrefManager {
         return preferences.getBoolean(USE_BOTTOM_SHEET_DIALOGS, true);
     }
     
-    public void setRequestLocationUpdates(boolean requestLocationUpdates) {
-        editor.putBoolean(REQUEST_LOCATION_UPDATES, requestLocationUpdates).commit();
+    public void setTrackLocation(boolean trackLocation) {
+        editor.putBoolean(TRACK_LOCATION, trackLocation).commit();
     }
     
-    public boolean requestLocationUpdates() {
-        return preferences.getBoolean(REQUEST_LOCATION_UPDATES, true);
+    public boolean trackLocation() {
+        return preferences.getBoolean(TRACK_LOCATION, true);
     }
     
     public void setUseLinearLayoutManager() {

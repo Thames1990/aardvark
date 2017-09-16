@@ -74,7 +74,7 @@ public class EventsFragment<T extends Event> extends EventFragment<T> {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_events, menu);
         // Hide location filter, if the user denied location update permission
-        if (!Aardvark.getPreferences(getContext()).requestLocationUpdates()) {
+        if (!Aardvark.getPreferences(getContext()).trackLocation()) {
             menu.findItem(R.id.action_filter_events_distance).setVisible(false);
         }
     }

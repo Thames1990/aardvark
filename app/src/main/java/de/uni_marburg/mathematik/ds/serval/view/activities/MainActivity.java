@@ -114,7 +114,7 @@ public class MainActivity<T extends Event>
     @Override
     protected void onPause() {
         super.onPause();
-        if (prefManager.requestLocationUpdates()) {
+        if (prefManager.trackLocation()) {
             stopLocationUpdates();
         }
         prefManager.setBottomNavigationSelectedItemId(bottomNavigationView.getSelectedItemId());
@@ -124,10 +124,10 @@ public class MainActivity<T extends Event>
     protected void onResume() {
         super.onResume();
         if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
-            prefManager.setRequestLocationUpdates(true);
+            prefManager.setTrackLocation(true);
             startLocationUpdates();
         } else {
-            prefManager.setRequestLocationUpdates(false);
+            prefManager.setTrackLocation(false);
         }
     }
     
@@ -232,10 +232,10 @@ public class MainActivity<T extends Event>
             case CHECK_LOCATION_PERMISSION:
                 if (grantResults.length > 0 &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    prefManager.setRequestLocationUpdates(true);
+                    prefManager.setTrackLocation(true);
                     startLocationUpdates();
                 } else {
-                    prefManager.setRequestLocationUpdates(false);
+                    prefManager.setTrackLocation(false);
                 }
                 break;
             default:
@@ -302,7 +302,7 @@ public class MainActivity<T extends Event>
     }
     
     private void setupLocationUpdate() {
-        if (prefManager.requestLocationUpdates()) {
+        if (prefManager.trackLocation()) {
             fusedLocationProviderClient = new FusedLocationProviderClient(this);
             locationRequest = new LocationRequest();
             locationRequest.setInterval(TimeUnit.SECONDS.toMillis(60));

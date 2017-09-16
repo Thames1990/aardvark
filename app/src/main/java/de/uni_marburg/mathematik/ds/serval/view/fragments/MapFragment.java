@@ -139,7 +139,7 @@ public class MapFragment<T extends Event>
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
         setupGoogleMap();
-        if (prefManager.requestLocationUpdates()) {
+        if (prefManager.trackLocation()) {
             moveCameraToLastLocation(false);
         }
     }
@@ -207,7 +207,7 @@ public class MapFragment<T extends Event>
     }
     
     private void setupMyLocation() {
-        if (prefManager.requestLocationUpdates()) {
+        if (prefManager.trackLocation()) {
             if (checkSelfPermission(getContext(), ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
                 requestPermissions();
                 return;

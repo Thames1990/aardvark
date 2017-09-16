@@ -43,19 +43,36 @@ public class SettingsFragment
     
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        if (BuildConfig.DEBUG) {
-            addPreferencesFromResource(R.xml.pref_debug);
-            findPreference(getString(R.string.preference_enable_wifi_adb))
-                    .setOnPreferenceClickListener(this);
-        }
-        
         addPreferencesFromResource(R.xml.pref_main);
+        createGeneralPreferences();
+        createDebugPreferences();
+        createLocationPreferences();
+        createAboutPreferences();
+    }
+    
+    private void createGeneralPreferences() {
         findPreference(getString(R.string.preference_show_changelog))
                 .setOnPreferenceChangeListener(this);
         findPreference(getString(R.string.preference_use_bottom_sheets))
                 .setOnPreferenceChangeListener(this);
         findPreference(getString(R.string.preference_confirm_exit))
                 .setOnPreferenceChangeListener(this);
+    }
+    
+    private void createDebugPreferences() {
+        if (BuildConfig.DEBUG) {
+            addPreferencesFromResource(R.xml.pref_debug);
+            findPreference(getString(R.string.preference_enable_wifi_adb))
+                    .setOnPreferenceClickListener(this);
+        }
+    }
+    
+    private void createLocationPreferences() {
+        findPreference(getString(R.string.preference_track_location))
+                .setOnPreferenceChangeListener(this);
+    }
+    
+    private void createAboutPreferences() {
         findPreference(getString(R.string.preference_send_feedback))
                 .setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_version)).setSummary(BuildConfig.VERSION_NAME);
@@ -67,19 +84,19 @@ public class SettingsFragment
         boolean isChecked = (boolean) newValue;
         if (key.equals(getString(R.string.preference_show_changelog))) {
             prefManager.setShowChangelog(isChecked);
-            return true;
         } else if (key.equals(getString(R.string.preference_use_bottom_sheets))) {
             prefManager.setUseBottomSheetDialogs(isChecked);
-            return true;
         } else if (key.equals(getString(R.string.preference_confirm_exit))) {
             prefManager.setConfirmExit(isChecked);
-            return true;
         } else if (key.equals(getString(R.string.preference_enable_wifi_adb))) {
             enableWifiAdb();
-            return true;
+        } else if (key.equals(getString(R.string.preference_track_location))) {
+            prefManager.setTrackLocation(isChecked);
         } else {
             return false;
         }
+        
+        return true;
     }
     
     @Override
