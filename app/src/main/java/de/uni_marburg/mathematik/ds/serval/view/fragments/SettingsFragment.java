@@ -32,7 +32,7 @@ public class SettingsFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefManager = new PrefManager(getContext());
+        prefManager = Aardvark.getPreferences(getContext());
     }
     
     @Override

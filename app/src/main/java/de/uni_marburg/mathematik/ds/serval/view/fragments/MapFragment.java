@@ -26,6 +26,7 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener;
 import com.google.maps.android.clustering.ClusterManager.OnClusterItemInfoWindowClickListener;
 
+import de.uni_marburg.mathematik.ds.serval.Aardvark;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
 import de.uni_marburg.mathematik.ds.serval.model.event.EventCallback;
@@ -170,7 +171,7 @@ public class MapFragment<T extends Event>
         //noinspection unchecked
         eventCallback = (EventCallback<T>) getActivity();
         lastLocation = MainActivity.lastLocation;
-        prefManager = new PrefManager(getContext());
+        prefManager = Aardvark.getPreferences(getContext());
     }
     
     private void setupGoogleMap() {

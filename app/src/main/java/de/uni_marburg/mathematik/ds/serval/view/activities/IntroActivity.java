@@ -50,7 +50,7 @@ public class IntroActivity
         super.onCreate(savedInstanceState);
         
         // Checking if it's the first launch
-        prefManager = new PrefManager(this);
+        prefManager = Aardvark.getPreferences(this);
         if (!prefManager.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();

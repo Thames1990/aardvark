@@ -291,7 +291,7 @@ public class MainActivity<T extends Event>
         this.savedInstanceState = savedInstanceState;
         events = new ArrayList<>();
         eventAsyncTask = new EventAsyncTask<>(this);
-        prefManager = new PrefManager(this);
+        prefManager = Aardvark.getPreferences(this);
         fragmentManager = getSupportFragmentManager();
         firebaseAnalytics = Aardvark.getFirebaseAnalytics(this);
         loadEvents();

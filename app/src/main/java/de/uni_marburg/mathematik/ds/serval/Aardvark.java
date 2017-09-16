@@ -9,12 +9,15 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
+import de.uni_marburg.mathematik.ds.serval.util.PrefManager;
 import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by thames1990 on 04.09.17.
  */
 public class Aardvark extends Application {
+    
+    private PrefManager preferences;
     
     private Fabric fabric;
     
@@ -28,9 +31,14 @@ public class Aardvark extends Application {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
         }
+        setupPrefManager();
         installLeakCanary();
         installCrashlytics();
         installFirebaseAnalytics();
+    }
+    
+    private void setupPrefManager() {
+        preferences = new PrefManager(this);
     }
     
     private void installLeakCanary() {
@@ -53,6 +61,11 @@ public class Aardvark extends Application {
     private void installFirebaseAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         firebaseAnalytics.setAnalyticsCollectionEnabled(false);
+    }
+    
+    public static PrefManager getPreferences(Context context) {
+        Aardvark aardvark = (Aardvark) context.getApplicationContext();
+        return aardvark.preferences;
     }
     
     public static Fabric getFabric(Context context) {

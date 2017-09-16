@@ -18,6 +18,7 @@ import android.view.View;
 import java.util.List;
 
 import butterknife.BindView;
+import de.uni_marburg.mathematik.ds.serval.Aardvark;
 import de.uni_marburg.mathematik.ds.serval.R;
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.GenericEventAdapter;
 import de.uni_marburg.mathematik.ds.serval.model.event.Event;
@@ -72,9 +73,8 @@ public class EventsFragment<T extends Event> extends EventFragment<T> {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_events, menu);
-        PrefManager prefManager = new PrefManager(getContext());
         // Hide location filter, if the user denied location update permission
-        if (!prefManager.requestLocationUpdates()) {
+        if (!Aardvark.getPreferences(getContext()).requestLocationUpdates()) {
             menu.findItem(R.id.action_filter_events_distance).setVisible(false);
         }
     }
@@ -124,7 +124,7 @@ public class EventsFragment<T extends Event> extends EventFragment<T> {
     }
     
     private void setupLayoutManager() {
-        PrefManager prefManager = new PrefManager(getContext());
+        PrefManager prefManager = Aardvark.getPreferences(getContext());
         if (prefManager.useLinearLayoutManger()) {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.addItemDecoration(new DividerItemDecoration(
