@@ -30,9 +30,9 @@ before_install:
 - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 - chmod +x gradlew
 before_deploy:
-- cp $TRAVIS_BUILD_DIR/app/production.jks $HOME
+- cp $TRAVIS_BUILD_DIR/production.jks $HOME/app
 - cd app/build/outputs/apk/
-- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/production.jks
+- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/app/production.jks
   -storepass $storepass -keypass $keypass app-release-unsigned.apk production
 - jarsigner -verify app-release-unsigned.apk
 - "${ANDROID_HOME}/build-tools/${ANDROID_BUILD_TOOLS}/zipalign -v 4 app-release-unsigned.apk ${APP_NAME}-${TRAVIS_TAG}.apk"
