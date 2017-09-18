@@ -19,7 +19,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 23
-        versionName '0.4.12-10'
+        versionName '0.4.12-11'
         setProperty('archivesBaseName', "aardvark-$versionName")
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
