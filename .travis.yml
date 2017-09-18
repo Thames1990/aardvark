@@ -39,6 +39,8 @@ before_install:
 - chmod +x gradlew
 script:
 - ./gradlew clean build connectedCheck
+before_deploy:
+- cd app/build/outputs/apk/
 deploy:
   provider: releases
   api_key:
