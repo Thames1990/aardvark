@@ -26,7 +26,7 @@ android {
         manifestPlaceholders = [
                 KEY_FABRIC     : keystoreProperties['key_fabric'],
                 KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps']
-    
+        
         ]
     }
     
@@ -43,9 +43,8 @@ android {
         debug {
             ext.enableCrashlytics = false
             manifestPlaceholders = [
-                    APP_ICON       : '@mipmap/ic_launcher_dev',
-                    APP_ICON_ROUND : '@mipmap/ic_launcher_round_dev'
-    
+                    APP_ICON      : '@mipmap/ic_launcher_dev',
+                    APP_ICON_ROUND: '@mipmap/ic_launcher_round_dev'
             ]
         }
         release {
@@ -54,9 +53,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             manifestPlaceholders = [
-                    APP_ICON       : '@mipmap/ic_launcher',
-                    APP_ICON_ROUND : '@mipmap/ic_launcher_round'
-    
+                    APP_ICON      : '@mipmap/ic_launcher',
+                    APP_ICON_ROUND: '@mipmap/ic_launcher_round'
             ]
         }
     }
@@ -76,27 +74,49 @@ dependencies {
             'com.android.support.test.espresso:espresso-core:2.2.2',
             {exclude group: 'com.android.support', module: 'support-annotations'}
     )
+    
+    // Android Maps Utils
+    compile 'com.google.maps.android:android-maps-utils:0.5'
+    
+    // Butterknife
+    compile "com.jakewharton:butterknife:${butterknife_version}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterknife_version}"
+    
+    // Crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {transitive = true;}
+    
+    // Firebase
+    compile "com.google.firebase:firebase-core:${google_play_services_version}"
+    
+    // Google Play Services
+    compile "com.google.android.gms:play-services-location:${google_play_services_version}"
+    compile "com.google.android.gms:play-services-maps:${google_play_services_version}"
+    
+    // LeakCanary
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leak_canary_version}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leak_canary_version}"
+    
+    // Markwon
+    compile 'ru.noties:markwon:1.0.0'
+    
+    // Moshi
+    compile 'com.squareup.moshi:moshi:1.5.0'
+    
+    // OkHttp
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    
+    // Support libraries
     compile "com.android.support:appcompat-v7:${support_library_version}"
     compile "com.android.support:cardview-v7:${support_library_version}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "com.android.support:design:${support_library_version}"
     compile "com.android.support:preference-v7:${support_library_version}"
     compile "com.android.support:preference-v14:${support_library_version}"
+    compile "com.android.support:recyclerview-v7:${support_library_version}"
     compile "com.android.support:support-v4:${support_library_version}"
     compile "com.android.support:support-vector-drawable:${support_library_version}"
-    compile "com.android.support:recyclerview-v7:${support_library_version}"
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {transitive = true;}
-    compile "com.google.android.gms:play-services-location:${google_play_services_version}"
-    compile "com.google.android.gms:play-services-maps:${google_play_services_version}"
-    compile "com.google.firebase:firebase-core:${google_play_services_version}"
-    compile 'com.google.maps.android:android-maps-utils:0.5'
-    compile "com.jakewharton:butterknife:${butterknife_version}"
-    compile 'com.squareup.moshi:moshi:1.5.0'
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
-    compile 'ru.noties:markwon:1.0.0'
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${leak_canary_version}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leak_canary_version}"
+    
+    // Testing
     testCompile 'junit:junit:4.12'
 }
 
