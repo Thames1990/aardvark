@@ -49,7 +49,7 @@ script:
 before_deploy:
   - cp $TRAVIS_BUILD_DIR/app/production.jks $HOME
   - cd app/build/outputs/apk/
-  - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/production.jks -storepass $storepass -keypass $keypass app-release-unsigned.apk production
+  - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/app/production.jks -storepass $storepass -keypass $keypass app-release-unsigned.apk production
   - jarsigner -verify app-release-unsigned.apk
   - ${ANDROID_HOME}/build-tools/${ANDROID_BUILD_TOOLS}/zipalign -v 4 app-release-unsigned.apk ${APP_NAME}-${TRAVIS_TAG}.apk
 
