@@ -1,16 +1,13 @@
 language: android
 sudo: false
 jdk: oraclejdk8
-
 before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-  - $HOME/.gradle/caches/
-  - $HOME/.gradle/wrapper/
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 env:
   global:
   - APP_NAME=aardvark
@@ -19,7 +16,9 @@ env:
   - ADB_INSTALL_TIMEOUT=5
   - secure: cZgR8Sy9tuOaeKgE+p45ZxgLyMaLlKMWi/tBHy26yLNn15JcFG05SDl41p2Nx9vamytLymTIivywBPmh6M+QEHP9PBuRI0qqhwB95p5HjQ24PqzjU5PEXTg43YNFVt5PTp4oMFNEia92DZUi+2kri031n/wIdw/qcCltzMg9eDQqbrUefOBY7vHdKbax5j2g7pX30pgf7LaQzu5Z5PFJ246eI/yChSolxjaUQjPJzdP41B5Vq8NmiZbtIivfI3u+MrXGvOY/eRCzBRXLjQeFeFgXu4rvYV8KhsOij+AT0OgMXjTWnWVnCE8C6Ui+Y/h3yaKBFYNOhfi6ZiBUWL9VwZEdhdsWJwx9zyhnXXtxt6Z8y0+x+wdQjP8Ybc2FgFNUtuYVQC8mJ1t/LMuVyue2jjBgNjQQjQE8er8ZU9AXPiDYLpDGl1KXrCJ360t/9XxZqXBfLpFuDSsZP5BCGhxEFvXO3cD+TkY+YzTDrScQgsG9EDkNTRD6VhC9crBCJ1BUDXACRSqcdpJRfREPF4gHyAB3Ilc5EX/9DpMgaQ3mNlEouUI5efzREVsxUzAnljo9B8Er0R2q74P11VcyOzDSkqVwIKH1aS4ydVopJrrzUj/M+dRgy2GxEDZH/CELBX2QyFwb+Q8gDDNMdOkcQAYAQ02RNrD0vVLZH36RpmeGsCU=
   - secure: EiPY8Vgxpr8l294VniV0fTtd7jkuIGz2KFipjCeVLlGVrSLVI77/1dT+qdxpCdToaum3eWPXB2M8Xao7CGEs+/3D0+hDjCj/hEF+sPHhfb7oK7NNldQI49HIQg8dhh0pXSnyRpYAL/Guw8I+wohD3tVHA7tGcXpUrmelpO5I/U7pNjDrimELnCJzSsPFvqq78zyND3NyELqj/Qr4E0i6OiagnQA+5XV/OkUEPoOGbws/1NmcX0NxlWLhHl+yzw3xQ0QvSeg9hkgtIC8rBBcMJjYKNCy1/prHvmiaJKDF2AU43/6OXVG6YS39WQam8CRbFeWfRw+rg3ZH8/ukHmVo3swuU8bammlhA+l6xlQzTpMLeUC7SmKEkV5bdZtDxxwC3ZZc31/ernmp2FfRWVXozktwnAlJouSdMJojNMrmiOSl2of7Z5jqEkJP/cAXNKeJT2SZrcgPjOp+Pv79XsWPFYXzKy9uqAEQmwvLjjsvUtEixzLrFdo1iqtvLgIoPplzPqV5+UaGL8H9yo8lCf6zWnxPf1R2//hneslPdpkecokbVy0HfWdX+92+BGFoNH5f+2Lvg7TdTaAC1bjF5l0WTRWK5fz+z3qbhuj6N0nbAVyEWZvxu1LtRhzbhImCnOpDsJ3/IAkSoU+DDWvgoQ1iPW4+j8El77VJPjVWWmppbUs=
-
+  - secure: KSgXkOIWpF6hhZyOT0M7mN2TxOSbK3Exsu/VPZ1XJnmRxH26CqDxikAl0MI0n0J7flQvuY8uWmauGoY3PBd0QXdgLZtDUW3ula+O2LcY7GCe3lF6cYSbO8/3/pQWHdScmb72KElfEXzPpJWQNJr2TqwgBmFmhictAzAT/L0+kATy/M8M7Mo/BDDZdQKLn/RbIRNl708/Z78BqT0Fm7MdGZDQisZ8skFL7/+s3HrEWhuqN0Jeq2o5CbYUGTlln7Lh/8fWKHDgtlZyjMS0kn5EbroeSMLUCyOppfR//Qj3gObPe+vvNwI2+N9jOPmZDq+UqkTyU4x22dBPOFQkHAjCjAP8V+RO3DhcYErhnqcGa9xxvHlddcCiDK7X7HNAIXWCdd0R51qrVhsTfmrThlCZ/7Z9uWim9UasPr7NdbmL8hTKRdoOS5ZUAft9y3d9L4jvrlZ+FUSxxoc3wWPaf0p0XaIEWiEC5W3A6dNU1Rx5VTC0mcrDaGtesgVdhHRlXgh9lBEwgAQkztPgsezyE9l+s8bNLUBmPg5yIPh5ZkA0rkXx1qq10pqRF9rcL9w65P9vtLpNVI8YvtT7Nn3tr/om4pA9Dseu9d8wieOqXAMtcJPvplcfjaygP6QYFbmvGgNIUWUKL/f2Zxq6c3YrKY/NRwR5HjWPNimY8IhBM6xvwxw=
+  - secure: iXXrdNJISlsKLfp9njNT0S+suD5qxkpg68t37cnr7u5Hv2uwvC349b72mgA2XJxne+CGxBPzGWtBiAidLB1dD4LustWMWazSOPM6vtdl7BQJcKPKfJQ5PJAnOxDd0yM5Vup6QsIeR21SPPMcm3qB3qbEAF2nV2tqufj4uoC1Icndr+fDaqxQCMQwzS3EEppFu3ZUehM6FFxg8f3V4mfAFvR/PzWeDqN9l+2jOUcRbwxR4lwQvqRwjfDLZYiLLIdGT5/aZMILTYE3Ro6+2unJLUr6wFKgVA7V2dw3Bd59VTj1OBL3lpv5Tss+cNTdm/piqIkT1WDB+DxdscWW95uxBTPVP/JNfJH6XkqjYrxpDl2dQ9mzbU79Vajs4TaJFgz9JHrHz5eOtRH63LIX/Wf/Omw3YCYQ857N5aASoUUM167FFbyPna413G/2SbXaoc1B0DdBrwe4K6y7KX1tPtxfcGQ0M/SU50lDpHsxUmDxwpc24HZ2mEscFTHfL8UfAE9LiqXwFOpwpJFVjMQKnFMiHuX/z7Hw27gdBxlSKtbvWS5XeOF0PNLBj6NzcJBmtefLJo6OjJ6a8wMlMf0soEkj90Fgbj9YPenf2Qz1vslJJ0vHNIp8frc9RVi6HAiQSfi6J9Jgx8BSRG2n7nfZ1QhFb8W+WkHnTxmprrQh8PN7/1c=
+  - secure: jhBZs9rb8dRAmrV9MSNJt2YTeq+IIlDCzpR1x1GXXk0yTanG+IfHwr0uwC5wX5F7N0RKE5H4Pjp/OWR6fow+xNh81TQdT5+sHYeS7U+ppFu5Dr/x49Zg7ZkKKRVfsH0now31FPEIHWx+WHW9WHRenc6/pYSGjfuvew5ZOr+mdiE1ce7PRaCvaBV99ORR78UqXKE+SxGGDaFbu2mag2i3iCh2ofdyemATHqQCiUPfmKEZ9N6tDWX2Wa/ByQBnIYQgIkCUNjGqHbKTeq4Tv5nOaY+FstnGdEYpJwpIITlBEkOUJQVOqbvCsJrH4p/bdGtxwM96qBLcVJkICYo4YZzWdPjYwmsHl2uMuAZiSBvcE6mI23If2j/kFc0OZYXM1w7Dhs0ypeOT/jLxMvejNfTlNgX0tk9ZXNiMN9PadVMqnniY8j7ca93Lo64Y2+dr33ipeaiFWu37JI2kZ3QCn1sSWCtaXXXseRNA+Rug+IcjHSnPX22pWtlLwbf4Mbooq9ZFA+VxWzyzxwsQ7UOcqmJf6cmi0mAHwJv6ScflObvy2LDY7klOdpJl58DWT+BceuStH8cB3nPydi82Tir3x4me74lhkfbSRj+q0HvwcJaMiEXhZ2qQa20IOAZbBDeF2h5HEw3w370x68V/5QEE1/Fs+wMEWQLtxztjaGAABjzn/Rk=
 android:
   components:
   - tools
@@ -28,40 +27,28 @@ android:
   - android-$ANDROID_API
   - extra-android-support
   - extra-google-google_play_services
-
   licenses:
   - android-sdk-preview-license-.+
   - android-sdk-license-.+
   - google-gdk-license-.+
-
 before_install:
-  - openssl aes-256-cbc -K $encrypted_7b7d53b231fa_key -iv $encrypted_7b7d53b231fa_iv -in secrets.tar.enc -out secrets.tar -d
-  - tar xvf secrets.tar
-  - mv production.jks app
-  - mkdir "$ANDROID_HOME/licenses" || true
-  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
-  - chmod +x gradlew
-
+- openssl aes-256-cbc -K $encrypted_7b7d53b231fa_key -iv $encrypted_7b7d53b231fa_iv
+  -in secrets.tar.enc -out secrets.tar -d
+- tar xvf secrets.tar
+- mv production.jks app
+- mkdir "$ANDROID_HOME/licenses" || true
+- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+- chmod +x gradlew
 script:
-  - ./gradlew clean build connectedCheck
-
-#before_deploy:
-#  - cp $TRAVIS_BUILD_DIR/app/production.jks $HOME
-#  - cd app/build/outputs/apk/
-#  - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/production.jks -storepass $storepass -keypass $keypass ${APP_NAME}-${TRAVIS_TAG}-release.apk production
-#  - jarsigner -verify ${APP_NAME}-${TRAVIS_TAG}-release.apk
-#  - ${ANDROID_HOME}/build-tools/${ANDROID_BUILD_TOOLS}/zipalign -v 4 ${APP_NAME}-${TRAVIS_TAG}-release.apk
-
+- "./gradlew clean build connectedCheck"
 deploy:
   provider: releases
-  file: ${APP_NAME}-${TRAVIS_TAG}.apk
+  file: "${APP_NAME}-${TRAVIS_TAG}.apk"
   skip_cleanup: true
-
   on:
     repo: Thames1990/aardvark
     tags: true
     jdk: oraclejdk8
-
   api_key:
-    secure: YaOjd2J3rFjldscJwCn0eclpl3ck7tBHcJ6rnGLY5ggBNfRgie45FzdrTLMYgfUGZcDbMHTi4GU8n38rjLY5CrgoN0sCcMy1V5hN76QQL5DsJq14MQ6qeXlNmjo5A9kUMBNxcb9G6VkPN0o3ioWC31sJZbGzafy8HZaBbSlba0Nf2/HkA93yaChY0A75apcQx/hMTCDDETbdkUgFkVp5/YA0uaJPprgRbSCpiAENmM7Ncz51AULpMR+FrePTIyJhuG0PnlKwdkExhpDrCql9dql90OMGuS6t0ErsQkjModMjFue63wB6tlGotmOG+9u9ZxDK3FuqJmweLeE3Eg0Dvs+DI9DFmHjDGNShRgsO0foOuThFoRB10VT+CgAXnqvqRJ7y3e5voK35r09rP8UdX5FUotdH1ayaVO/DafACbQvaIJKZY7ezNkfvi8t5Sl893C+4XiLRRsFtvoGJeCCFx3su9CVjHE5furpB/d/YRV8RXjCmFviAIUES2T+R233vRmPSNIDVoTKZxGj9OyQx6JgqeL7TkySqCrXvYTpw2jnQtzHiEPtgTewc5lSf4+2rXYfesmlrnrQm/jLTbdIXZjoHu5bH9qlZOKODhQAjBD2uFdhM+ZiROHP3S2RYJMH3PUU6BuwGhlh4CcNm88a28pOSr3GNsW+gbrgKKPQdDKk=
+    secure: N/GPdxWp9cEXXfBKXZCEmLP5eEBqQdHoRTZn+4fbI+9OUfKQikrZrd36W7ewGkv3jnLO1STBBN5/IleqcvKrwjkJugHUrJwka7HqiZd6VlUhADSpQDdkH1fhu6SgHQeMxYK+8laoBhh1/mtC941i+Ans3hVnPLl9wdhewWBBe2X/F4HuGN5CB4br3yD9PSDpf7QGwqu+Z/QcWT+jf/BVuEyOBbkXUHQO3pkQzgNxzgBT1yup4hs77slTMRKi6byg+kYf7sW3VUOYIm2tEkFr0Nontg+eoWz+zMDG4aTmpho7rT8ew3xW3wr8sNxPTLEqP5M1f1OPXTbNXkhRdG1AysYHvmTB43l3RAmIpvw2Ze990ZruWX7XnzGVcIywKxHZhVB6RIoVwMsdk1VG/VCcetnGGFgoCQyy5sjOyrBAgBTBbbKXPhI25Rr9eB9CNCltpiegpyExAHQLDFTSlaFPLVUNBWQ2ORtxPShQPLgz2e/aqg/ydElCfgYVnzcRIpjt4yIR9dG6FtMo1SvftH0K/5LnkW3k/v1CL0VIRAmd21Z/+pugXz1yyMtSq3lG2WYAVz54Q+Fjx1LcF2so1iGuHMzwTM5BuNCfR/xMW97SgD7Ek5OPY8a46bjHTw7Lim4TgdZE6TZQKa14WT5k64dbJegbMlOahnKvVHZoqNjyllk=
