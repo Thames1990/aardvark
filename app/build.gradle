@@ -74,9 +74,6 @@ dependencies {
             {exclude group: 'com.android.support', module: 'support-annotations'}
     )
     
-    // Android Maps Utils
-    compile 'com.google.maps.android:android-maps-utils:0.5'
-    
     // Butterknife
     compile "com.jakewharton:butterknife:${butterknife_version}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterknife_version}"
@@ -94,6 +91,9 @@ dependencies {
     // LeakCanary
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leak_canary_version}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leak_canary_version}"
+    
+    // Maps Utils
+    compile 'com.google.maps.android:android-maps-utils:0.5'
     
     // Markwon
     compile 'ru.noties:markwon:1.0.0'
