@@ -1,5 +1,4 @@
-# Aardvark [![Build Status](https://travis-ci.com/Thames1990/aardvark.svg?token=zAVBhxjK5snT31HyuiYp&branch=master)](https://travis-ci.com/Thames1990/aardvark)
-
+# Aardvark [![Build Status](https://travis-ci.com/Thames1990/aardvark.svg?token=zAVBhxjK5snT31HyuiYp&branch=master)](https://travis-ci.com/Thames1990/aardvark) [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 ## [Serval](http://www.servalproject.org/) for Android with sprinkles
 
 ![Screenshots](art/screenshots.webp)
