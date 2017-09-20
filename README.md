@@ -2,6 +2,8 @@
 
 ## [Serval](http://www.servalproject.org/) for Android with sprinkles
 
+![Screenshots](art/screenshots.png)
+
 ### Features
 - Dashboard
   - Not yet implemented
