@@ -31,8 +31,6 @@
 
 ### Plugins
 
-#### Versions
-
 | Library              | Version |
 |----------------------|---------|
 | Android Maps Utils   | 0.5.0   |
