@@ -38,8 +38,8 @@
 | Android Maps Utils   | 0.5.0   |
 | Butterknife          | 8.8.1   |
 | Crashlytics          | 2.6.8   |
-| Firebase<ul><li>Firebase Core</li></ul>             | 11.2.2  |
-| Google Play Services<ul><li>Location</li><li>Maps</li></ul> | 11.2.2  |
+| Firebase<ul><li>Firebase Core</li></ul>             | 11.4.0  |
+| Google Play Services<ul><li>Location</li><li>Maps</li></ul> | 11.4.0  |
 | LeakCanary           | 1.5.1   |
 | Markwon              | 1.0.0   |
 | Moshi                | 1.5.0   |
