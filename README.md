@@ -38,27 +38,10 @@
 | Android Maps Utils   | 0.5.0   |
 | Butterknife          | 8.8.1   |
 | Crashlytics          | 2.6.8   |
-| Firebase             | 11.2.2  |
-| Google Play Services | 11.2.2  |
+| Firebase<ul><li>Firebase Core</li></ul>             | 11.2.2  |
+| Google Play Services<ul><li>Location</li><li>Maps</li></ul> | 11.2.2  |
 | LeakCanary           | 1.5.1   |
 | Markwon              | 1.0.0   |
 | Moshi                | 1.5.0   |
 | OkHttp               | 3.9.0   |
-| Support Libraries    | 26.1.0  |
-
-#### Specific Components
-- Firebase
-  - Firebase Core
-- Google Play Services
-  - Google Play Services Location
-  - Google Play Services Maps
-- Support Libraries
-  - Constraint Layout 1.0.2
-  - Design Support Library
-  - v4 Support Libraries
-  - v7 appcompat library
-  - v7 cardview library
-  - v7 Preference Support Library
-  - v7 recyclerview library
-  - v14 Preference Support Library
-  - Vector Drawable Library
+| Support Libraries<ul><li>Constraint Layout 1.0.2</li><li>Design Support Library</li><li>v4 Support Libraries</li><li>v7 appcompat library</li><li>v7 cardview library</li><li>v7 Preference Support Library</li><li>v7 recyclerview library</li><li>v14 Preference Support Library</li><li>Vector Drawable Library</li></ul>    | 26.1.0  |
