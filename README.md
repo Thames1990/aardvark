@@ -1,6 +1,6 @@
 # Aardvark
-[![Build Status](https://travis-ci.com/Thames1990/aardvark.svg?token=zAVBhxjK5snT31HyuiYp&branch=master)](https://travis-ci.com/Thames1990/aardvark) 
-[![Platform](https://img.shields.io/badge/platform-Android-green.svg)] 
+[![Build Status](https://travis-ci.com/Thames1990/aardvark.svg?token=zAVBhxjK5snT31HyuiYp&branch=master)](https://travis-ci.com/Thames1990/aardvark)
+[![Platform](https://img.shields.io/badge/platform-Android-green.svg)](https://www.android.com/)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 ![Screenshots](art/screenshots.webp)
