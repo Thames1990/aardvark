@@ -63,7 +63,7 @@ dependencies {
     ext {
         butterknife_version = '8.8.1'
         google_play_services_version = '11.4.0'
-        leak_canary_version = '1.5.1'
+        leak_canary_version = '1.5.4'
         support_library_version = '26.1.0'
     }
     
