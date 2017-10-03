@@ -13,7 +13,7 @@ import android.view.MenuItem
 import android.view.View
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.EventAdapter
-import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
+import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
@@ -59,17 +59,12 @@ class EventsFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
-            R.id.action_filter_events_distance_ascending ->
-                adapter.sort(EventComparator.DISTANCE, false, MainActivity.lastLocation!!)
-            R.id.action_filter_events_distance_descending ->
-                adapter.sort(EventComparator.DISTANCE, true, MainActivity.lastLocation!!)
-            R.id.action_filter_events_measurements_ascending ->
-                adapter.sort(EventComparator.MEASUREMENTS, false)
-            R.id.action_filter_events_measurements_descending ->
-                adapter.sort(EventComparator.MEASUREMENTS, true)
-            R.id.action_filter_events_shuffle -> adapter.sort(EventComparator.SHUFFLE, false)
-            R.id.action_filter_events_time_ascending -> adapter.sort(EventComparator.TIME, false)
-            R.id.action_filter_events_time_descending -> adapter.sort(EventComparator.TIME, true)
+            R.id.action_filter_events_distance_ascending -> adapter.sort(EventComparator.Distance, location = MainActivity.lastLocation)
+            R.id.action_filter_events_distance_descending -> adapter.sort(EventComparator.Distance, true, MainActivity.lastLocation)
+            R.id.action_filter_events_measurements_ascending -> adapter.sort(EventComparator.Measurement)
+            R.id.action_filter_events_measurements_descending -> adapter.sort(EventComparator.Measurement, true)
+            R.id.action_filter_events_time_ascending -> adapter.sort(EventComparator.Time)
+            R.id.action_filter_events_time_descending -> adapter.sort(EventComparator.Time, true)
             else -> return super.onOptionsItemSelected(item)
         }
         return true

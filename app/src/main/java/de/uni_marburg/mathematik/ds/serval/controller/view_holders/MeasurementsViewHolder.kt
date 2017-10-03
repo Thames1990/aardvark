@@ -4,8 +4,8 @@ import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.model.event.Measurement
-import de.uni_marburg.mathematik.ds.serval.model.event.MeasurementType
+import de.uni_marburg.mathematik.ds.serval.model.Measurement
+import de.uni_marburg.mathematik.ds.serval.model.MeasurementType
 import kotlinx.android.synthetic.main.measurement_row.view.*
 import java.util.*
 

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.view_holders.MeasurementsViewHolder
-import de.uni_marburg.mathematik.ds.serval.model.event.Measurement
+import de.uni_marburg.mathematik.ds.serval.model.Measurement
 
 /** Adapter for [measurements][Measurement] */
 class MeasurementsAdapter(measurements: List<Measurement>) :

@@ -47,10 +47,6 @@
             </item>
 
             <item
-                android:id="@+id/action_filter_events_shuffle"
-                android:title="@string/action_filter_events_shuffle"/>
-
-            <item
                 android:id="@+id/action_filter_events_time"
                 android:title="@string/action_filter_events_time">
 

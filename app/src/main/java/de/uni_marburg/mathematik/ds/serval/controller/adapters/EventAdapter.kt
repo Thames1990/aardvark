@@ -6,15 +6,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.view_holders.EventViewHolder
-import de.uni_marburg.mathematik.ds.serval.model.comparators.LocationComparator
-import de.uni_marburg.mathematik.ds.serval.model.comparators.MeasurementsComparator
-import de.uni_marburg.mathematik.ds.serval.model.comparators.TimeComparator
-import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
-import java.util.*
+import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 
 /** [Adapter][RecyclerView.Adapter] for [events][Event] */
-class EventAdapter(events: List<Event>) : RecyclerView.Adapter<EventViewHolder>() {
+class EventAdapter(events: MutableList<Event>) : RecyclerView.Adapter<EventViewHolder>() {
 
     var events = events
         set(value) {
@@ -33,43 +29,14 @@ class EventAdapter(events: List<Event>) : RecyclerView.Adapter<EventViewHolder>(
 
     override fun getItemCount(): Int = events.size
 
-    /** Filters [events][Event] based on their measurements or time. */
-    fun sort(comparator: EventComparator, reversed: Boolean) {
+    fun sort(comparator: EventComparator, reversed: Boolean = false, location: Location? = null) {
         when (comparator) {
-            EventComparator.MEASUREMENTS -> {
-                val measurementsComparator = MeasurementsComparator()
-                if (reversed) {
-                    events.sortedWith(measurementsComparator).reversed()
-                } else {
-                    events.sortedWith(measurementsComparator)
-                }
-            }
-            EventComparator.SHUFFLE -> Collections.shuffle(events)
-            EventComparator.TIME -> {
-                val timeComparator = TimeComparator()
-                if (reversed) {
-                    events.sortedWith(timeComparator).reversed()
-                } else {
-                    events.sortedWith(timeComparator)
-                }
-            }
-            else -> return
+            EventComparator.Distance    -> events.sortBy { it.location.distanceTo(location) }
+            EventComparator.Measurement -> events.sortBy { it.measurements.size }
+            EventComparator.Time        -> events.sortBy { it.time }
         }
-        notifyDataSetChanged()
-    }
-
-    /** Filters [events][Event] based on their location compared to an [origin]. */
-    fun sort(comparator: EventComparator, reversed: Boolean, origin: Location) {
-        when (comparator) {
-            EventComparator.DISTANCE -> {
-                val locationComparator = LocationComparator(origin)
-                if (reversed) {
-                    events.sortedWith(locationComparator).reversed()
-                } else {
-                    events.sortedWith(locationComparator)
-                }
-            }
-            else -> return
+        if (reversed) {
+            events.reverse()
         }
         notifyDataSetChanged()
     }

@@ -31,11 +31,7 @@ import com.squareup.moshi.Moshi
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.model.comparators.LocationComparator
-import de.uni_marburg.mathematik.ds.serval.model.comparators.MeasurementsComparator
-import de.uni_marburg.mathematik.ds.serval.model.comparators.TimeComparator
-import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
+import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.util.LocationUtil
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment
@@ -183,30 +179,6 @@ class MainActivity :
                 }
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
-    }
-
-    fun requestEvents(comparator: EventComparator?, reversed: Boolean, count: Int): List<Event> {
-        when (comparator) {
-            EventComparator.DISTANCE -> {
-                if (reversed) {
-                    events.sortedWith(LocationComparator(lastLocation)).reversed()
-                } else {
-                    events.sortedWith(LocationComparator(lastLocation))
-                }
-            }
-            EventComparator.MEASUREMENTS -> if (reversed) {
-                events.sortedWith(MeasurementsComparator()).reversed()
-            } else {
-                events.sortedWith(MeasurementsComparator())
-            }
-            EventComparator.SHUFFLE -> Collections.shuffle(events)
-            EventComparator.TIME -> if (reversed) {
-                events.sortedWith(TimeComparator()).reversed()
-            } else {
-                events.sortedWith(TimeComparator())
-            }
-        }
-        return events.subList(0, minOf(events.size, count))
     }
 
     private fun setupFields() {
