@@ -121,11 +121,6 @@ class MainActivity :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_show_changelog -> checkForNewVersion(true)
-            R.id.action_reset_app -> {
-                Preferences.isFirstLaunch = true
-                startActivity(Intent(this, IntroActivity::class.java))
-                finish()
-            }
             R.id.action_settings -> startActivity(Intent(this, SettingsActivity::class.java))
             else -> return super.onOptionsItemSelected(item)
         }

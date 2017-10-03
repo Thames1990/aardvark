@@ -31,7 +31,6 @@ class IntroActivity : AppCompatActivity(),
 
         if (!Preferences.isFirstLaunch) {
             launchHomeScreen()
-            finish()
         }
 
         Aardvark.firebaseAnalytics.setCurrentScreen(this, getString(R.string.screen_intro), null)
@@ -65,8 +64,8 @@ class IntroActivity : AppCompatActivity(),
     }
 
     private fun launchHomeScreen() {
-        Preferences.isFirstLaunch = false
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun checkLocationPermission() {
@@ -82,7 +81,7 @@ class IntroActivity : AppCompatActivity(),
     ) {
         when (requestCode) {
             CHECK_LOCATION_PERMISSION ->
-                Preferences.isFirstLaunch = grantResults[0] == PERMISSION_GRANTED
+                Preferences.trackLocation = grantResults[0] == PERMISSION_GRANTED
             else ->
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }

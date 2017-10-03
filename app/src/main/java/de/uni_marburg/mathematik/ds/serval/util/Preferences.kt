@@ -2,13 +2,14 @@ package de.uni_marburg.mathematik.ds.serval.util
 
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
+import ca.allanwang.kau.kpref.kprefSingle
 
 /** Is used to store key/value pairs permanently. */
 object Preferences : KPref() {
 
     var bottomNavigationSelectedItemId: Int by kpref("BOTTOM_NAVIGATION_SELECTED_ITEM_ID", 1)
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
-    var isFirstLaunch: Boolean by kpref("IS_FIRST_TIME_LAUNCH", true)
+    val isFirstLaunch: Boolean by kprefSingle("IS_FIRST_TIME_LAUNCH")
     var gridLayoutManagerSpanCount: Int by kpref("GRID_LAYOUT_MANAGER_SPAN_COUNT", 2)
     var lastKnownVersionCode: Int by kpref("LAST_KNOWN_VERSION_CODE", 1)
     var showChangelog: Boolean by kpref("SHOW_CHANGELOG", true)
