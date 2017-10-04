@@ -43,7 +43,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.changelog_bottom_sheet_dialog.view.*
 import okhttp3.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import ru.noties.markwon.Markwon
 import java.io.BufferedReader
@@ -215,7 +214,6 @@ class MainActivity :
             uiThread {
                 setupViews()
                 checkForNewVersion(false)
-                toast("Finished loading ${events.size} events")
             }
         }
     }
@@ -251,7 +249,7 @@ class MainActivity :
         transaction.commit()
     }
 
-    private fun checkForNewVersion(force: Boolean) {
+    fun checkForNewVersion(force: Boolean) {
         try {
             val versionCode = packageManager.getPackageInfo(packageName, 0).versionCode
             val lastKnownVersionCode = Preferences.lastKnownVersionCode
