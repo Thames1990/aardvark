@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval
 
 import android.app.Application
+import ca.allanwang.kau.logging.KL
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -19,6 +20,7 @@ class Aardvark : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        KL.debug(BuildConfig.DEBUG)
         Preferences.initialize(this, getString(R.string.app_name))
         fabric = Fabric.with(this, Crashlytics.Builder().core(
                 CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
@@ -26,7 +28,7 @@ class Aardvark : Application() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.setAnalyticsCollectionEnabled(false)
         refWatcher = when (BuildConfig.DEBUG) {
-            true -> LeakCanary.install(this)
+            true  -> LeakCanary.install(this)
             false -> RefWatcher.DISABLED
         }
     }

@@ -59,13 +59,13 @@ class EventsFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
-            R.id.action_filter_events_distance_ascending -> adapter.sort(EventComparator.Distance, location = MainActivity.lastLocation)
-            R.id.action_filter_events_distance_descending -> adapter.sort(EventComparator.Distance, true, MainActivity.lastLocation)
-            R.id.action_filter_events_measurements_ascending -> adapter.sort(EventComparator.Measurement)
+            R.id.action_filter_events_distance_ascending      -> adapter.sort(EventComparator.Distance, location = MainActivity.lastLocation)
+            R.id.action_filter_events_distance_descending     -> adapter.sort(EventComparator.Distance, true, MainActivity.lastLocation)
+            R.id.action_filter_events_measurements_ascending  -> adapter.sort(EventComparator.Measurement)
             R.id.action_filter_events_measurements_descending -> adapter.sort(EventComparator.Measurement, true)
-            R.id.action_filter_events_time_ascending -> adapter.sort(EventComparator.Time)
-            R.id.action_filter_events_time_descending -> adapter.sort(EventComparator.Time, true)
-            else -> return super.onOptionsItemSelected(item)
+            R.id.action_filter_events_time_ascending          -> adapter.sort(EventComparator.Time)
+            R.id.action_filter_events_time_descending         -> adapter.sort(EventComparator.Time, true)
+            else                                              -> return super.onOptionsItemSelected(item)
         }
         return true
     }
@@ -78,14 +78,14 @@ class EventsFragment : BaseFragment() {
 
     private fun setupLayoutManager() {
         when {
-            Preferences.useLinearLayoutManager -> {
+            Preferences.useLinearLayoutManager        -> {
                 recycler_view.layoutManager = LinearLayoutManager(context)
                 recycler_view.addItemDecoration(DividerItemDecoration(
                         context,
                         DividerItemDecoration.VERTICAL
                 ))
             }
-            Preferences.useGridLayoutManager -> {
+            Preferences.useGridLayoutManager          -> {
                 recycler_view.layoutManager = GridLayoutManager(
                         context,
                         Preferences.gridLayoutManagerSpanCount

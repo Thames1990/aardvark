@@ -74,12 +74,12 @@ class MapFragment :
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
-            R.id.action_change_map_type_hybrid -> googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID
-            R.id.action_change_map_type_none -> googleMap.mapType = GoogleMap.MAP_TYPE_NONE
-            R.id.action_change_map_type_normal -> googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+            R.id.action_change_map_type_hybrid    -> googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+            R.id.action_change_map_type_none      -> googleMap.mapType = GoogleMap.MAP_TYPE_NONE
+            R.id.action_change_map_type_normal    -> googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
             R.id.action_change_map_type_satellite -> googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
-            R.id.action_change_map_type_terrain -> googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
-            else -> return super.onOptionsItemSelected(item)
+            R.id.action_change_map_type_terrain   -> googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            else                                  -> return super.onOptionsItemSelected(item)
         }
         return true
     }

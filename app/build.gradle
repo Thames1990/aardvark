@@ -11,6 +11,10 @@ android {
     def keystoreProperties = new Properties()
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
     
+    androidExtensions {
+        experimental = true
+    }
+    
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion 19
