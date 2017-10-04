@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.visibleIf
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
@@ -59,11 +60,11 @@ class EventViewHolder(override val containerView: View) :
     }
 
     private fun setupLocation(event: Event) {
+        location_icon.visibleIf(MainActivity.lastLocation != null)
+        location.visibleIf(MainActivity.lastLocation != null)
+
         // Location permissions are revoked/denied
         if (MainActivity.lastLocation != null) {
-            location_icon.visibility = View.VISIBLE
-            location.visibility = View.VISIBLE
-
             val icon = ContextCompat.getDrawable(containerView.context, R.drawable.location)
             icon.setColorFilter(
                     ContextCompat.getColor(containerView.context, R.color.icon_mute),
@@ -85,9 +86,6 @@ class EventViewHolder(override val containerView: View) :
                         distance / 1000
                 )
             }
-        } else {
-            location_icon.visibility = View.GONE
-            location.visibility = View.GONE
         }
     }
 
