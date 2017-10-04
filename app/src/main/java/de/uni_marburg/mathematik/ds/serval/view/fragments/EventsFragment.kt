@@ -12,10 +12,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import ca.allanwang.kau.utils.dpToPx
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
-import de.uni_marburg.mathematik.ds.serval.util.ImageUtil
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
@@ -102,7 +102,7 @@ class EventsFragment : BaseFragment() {
                 )
                 recycler_view.addItemDecoration(GridSpacingItemDecoration(
                         Preferences.gridLayoutManagerSpanCount,
-                        ImageUtil.dpToPixels(context, 10),
+                        10.dpToPx,
                         true
                 ))
             }
