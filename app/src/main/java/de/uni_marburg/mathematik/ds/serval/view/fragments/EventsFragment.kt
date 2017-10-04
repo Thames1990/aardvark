@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -80,12 +81,21 @@ class EventsFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         setupLayoutManager()
-        adapter = EventAdapter(MainActivity.events) {
+        adapter = EventAdapter {
             val detail = Intent(activity, DetailActivity::class.java)
             detail.putExtra(DetailActivity.EVENT, it)
             startActivity(detail)
         }
+        adapter.loadEvents()
         recycler_view.adapter = adapter
+
+        with(swipeRefreshLayout) {
+            setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW)
+            setOnRefreshListener {
+                adapter.loadEvents()
+                isRefreshing = false
+            }
+        }
     }
 
     private fun setupLayoutManager() {

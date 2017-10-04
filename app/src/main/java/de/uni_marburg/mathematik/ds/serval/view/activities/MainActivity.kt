@@ -17,17 +17,14 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
-import com.crashlytics.android.Crashlytics
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.KotlinJsonAdapterFactory
-import com.squareup.moshi.Moshi
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.model.EventProvider
 import de.uni_marburg.mathematik.ds.serval.util.CHECK_LOCATION_PERMISSION
 import de.uni_marburg.mathematik.ds.serval.util.LocationUtil
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
@@ -37,12 +34,8 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.changelog_bottom_sheet_dialog.view.*
-import okhttp3.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import ru.noties.markwon.Markwon
 import java.io.BufferedReader
-import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -54,14 +47,6 @@ import java.util.concurrent.TimeUnit
  */
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var client: OkHttpClient
-
-    private lateinit var request: Request
-
-    private lateinit var moshi: Moshi
-
-    private lateinit var eventAdapter: JsonAdapter<Event>
-
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private lateinit var locationRequest: LocationRequest
@@ -71,9 +56,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setupFields()
-        loadEvents()
+        events = EventProvider.load()
         setupLocationUpdate()
+        setupViews()
+        checkForNewVersion()
     }
 
     override fun onPause() {
@@ -137,48 +123,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupFields() {
-        client = OkHttpClient()
-        request = Request.Builder().url(string(R.string.url_rest_api)).build()
-        moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-        eventAdapter = moshi.adapter(Event::class.java)
-    }
-
-    private fun loadEvents() {
-        doAsync {
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    Crashlytics.log(String.format(
-                            Locale.getDefault(),
-                            string(R.string.log_message_fail_event_load),
-                            e.message
-                    ))
-                }
-
-                override fun onResponse(call: Call, response: Response) {
-                    if (!response.isSuccessful) {
-                        Crashlytics.log(String.format(
-                                Locale.getDefault(),
-                                string(R.string.log_message_response_unsuccessful),
-                                response.toString()
-                        ))
-                    }
-
-                    val bufferedReader = response.body()!!.byteStream().bufferedReader()
-                    bufferedReader.useLines { lines ->
-                        lines.forEach {
-                            events.add(eventAdapter.fromJson(it)!!)
-                        }
-                    }
-                }
-            })
-            uiThread {
-                setupViews()
-                checkForNewVersion(false)
-            }
-        }
-    }
-
     private fun setupLocationUpdate() {
         if (Preferences.trackLocation) {
             fusedLocationProviderClient = FusedLocationProviderClient(this)
@@ -221,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.content, fragment).commit()
     }
 
-    private fun checkForNewVersion(force: Boolean) {
+    private fun checkForNewVersion(force: Boolean = false) {
         val versionCode = packageManager.getPackageInfo(packageName, 0).versionCode
         if (force || Preferences.showChangelog && Preferences.lastKnownVersionCode < versionCode) {
             Preferences.lastKnownVersionCode = versionCode
@@ -290,6 +234,6 @@ class MainActivity : AppCompatActivity() {
 
         var lastLocation: Location? = null
 
-        var events = mutableListOf<Event>()
+        lateinit var events: List<Event>
     }
 }
