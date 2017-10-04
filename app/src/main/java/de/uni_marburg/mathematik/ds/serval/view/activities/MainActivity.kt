@@ -20,6 +20,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import ca.allanwang.kau.utils.finishSlideOut
 import ca.allanwang.kau.utils.string
 import com.crashlytics.android.Crashlytics
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -58,8 +59,7 @@ import java.util.concurrent.TimeUnit
  */
 class MainActivity :
         AppCompatActivity(),
-        BottomNavigationView.OnNavigationItemSelectedListener,
-        DialogInterface.OnClickListener {
+        BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var client: OkHttpClient
 
@@ -105,11 +105,13 @@ class MainActivity :
         if (Preferences.confirmExit) {
             AlertDialog.Builder(this)
                     .setTitle(R.string.confirm_exit)
-                    .setPositiveButton(R.string.exit, this)
+                    .setPositiveButton(R.string.exit, { _: DialogInterface, _: Int ->
+                        finishSlideOut()
+                    })
                     .create()
                     .show()
         } else {
-            finish()
+            finishSlideOut()
         }
     }
 
@@ -125,10 +127,6 @@ class MainActivity :
             else -> return super.onOptionsItemSelected(item)
         }
         return true
-    }
-
-    override fun onClick(dialogInterface: DialogInterface, which: Int) {
-        finish()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -249,7 +247,7 @@ class MainActivity :
         transaction.commit()
     }
 
-    fun checkForNewVersion(force: Boolean) {
+    private fun checkForNewVersion(force: Boolean) {
         try {
             val versionCode = packageManager.getPackageInfo(packageName, 0).versionCode
             val lastKnownVersionCode = Preferences.lastKnownVersionCode
@@ -296,7 +294,7 @@ class MainActivity :
         AlertDialog.Builder(this)
                 .setTitle(versionName)
                 .setView(content)
-                .setPositiveButton(android.R.string.ok, this)
+                .setPositiveButton(android.R.string.ok, null)
                 .create()
                 .show()
     }
