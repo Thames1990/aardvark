@@ -52,7 +52,7 @@ class IntroFragment : Fragment() {
             else -> R.layout.fragment_placeholder
         }
 
-        val view = activity.layoutInflater.inflate(layoutResId, container, false)
+        val view = layoutInflater.inflate(layoutResId, container, false)
         view.tag = page
 
         return view

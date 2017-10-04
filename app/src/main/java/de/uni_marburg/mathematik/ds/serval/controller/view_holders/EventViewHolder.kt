@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.controller.view_holders
 
-import android.content.Intent
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
@@ -8,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
-import de.uni_marburg.mathematik.ds.serval.model.Measurement
-import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.event_row.*
 import kotlinx.android.synthetic.main.event_row.view.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -20,35 +20,18 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 /** [View holder][RecyclerView.ViewHolder] for [events][Event] */
-class EventViewHolder(itemview: View) :
-        RecyclerView.ViewHolder(itemview),
-        View.OnClickListener,
-        View.OnLongClickListener {
+class EventViewHolder(override val containerView: View) :
+        RecyclerView.ViewHolder(containerView),
+        LayoutContainer {
 
-    lateinit var event: Event
-
-    init {
-        itemView.setOnClickListener(this)
-        itemView.setOnLongClickListener(this)
+    fun bind(event: Event, listener: (Event) -> Unit) = with(containerView) {
+        setupTime(event)
+        setupLocation(event)
+        setupMeasurementIcons(event)
+        setOnClickListener { listener(event) }
     }
 
-    fun performBind(event: Event) {
-        this.event = event
-        setupTime()
-        setupLocation()
-        setupMeasurementIcons()
-    }
-
-    override fun onClick(view: View) {
-        val detail = Intent(itemView.context, DetailActivity::class.java)
-        detail.putExtra(DetailActivity.EVENT, event)
-        itemView.context.startActivity(detail)
-    }
-
-    override fun onLongClick(view: View): Boolean = false
-
-    /** Sets the elapsed time since this [event][event] happened. */
-    private fun setupTime() {
+    private fun setupTime(event: Event) {
         val calendar = Calendar.getInstance()
         val timeDifference = calendar.timeInMillis - event.time
         val format = SimpleDateFormat.getDateInstance(
@@ -56,71 +39,60 @@ class EventViewHolder(itemview: View) :
                 Locale.getDefault()
         )
         when {
-            TimeUnit.MILLISECONDS.toMinutes(timeDifference) < 60 -> itemView.time.text =
-                    String.format(
-                            Locale.getDefault(),
-                            itemView.context.getString(R.string.time_minutes_ago),
-                            TimeUnit.MILLISECONDS.toMinutes(timeDifference)
-                    )
-            TimeUnit.MILLISECONDS.toHours(timeDifference) < 24 -> itemView.time.text =
-                    String.format(
-                            Locale.getDefault(),
-                            itemView.context.getString(R.string.time_hours_ago),
-                            TimeUnit.MILLISECONDS.toHours(timeDifference)
-                    )
-            TimeUnit.MILLISECONDS.toDays(timeDifference) < 7 -> itemView.time.text =
-                    String.format(
-                            Locale.getDefault(),
-                            itemView.context.getString(R.string.time_days_ago),
-                            TimeUnit.MILLISECONDS.toDays(timeDifference)
-                    )
-            else -> itemView.time.text = format.format(event.time)
+            TimeUnit.MILLISECONDS.toMinutes(timeDifference) < 60 -> time.text = String.format(
+                    Locale.getDefault(),
+                    containerView.context.string(R.string.time_minutes_ago),
+                    TimeUnit.MILLISECONDS.toMinutes(timeDifference)
+            )
+            TimeUnit.MILLISECONDS.toHours(timeDifference) < 24 -> time.text = String.format(
+                    Locale.getDefault(),
+                    containerView.context.string(R.string.time_hours_ago),
+                    TimeUnit.MILLISECONDS.toHours(timeDifference)
+            )
+            TimeUnit.MILLISECONDS.toDays(timeDifference) < 7 -> time.text = String.format(
+                    Locale.getDefault(),
+                    containerView.context.string(R.string.time_days_ago),
+                    TimeUnit.MILLISECONDS.toDays(timeDifference)
+            )
+            else -> time.text = format.format(event.time)
         }
     }
 
-    /**
-     * Sets the distance from the [last location][MainActivity.lastLocation] to the location of
-     * this [event][event].
-     */
-    private fun setupLocation() {
+    private fun setupLocation(event: Event) {
         // Location permissions are revoked/denied
         if (MainActivity.lastLocation != null) {
-            itemView.location_icon.visibility = View.VISIBLE
-            itemView.location.visibility = View.VISIBLE
+            location_icon.visibility = View.VISIBLE
+            location.visibility = View.VISIBLE
 
-            val icon = ContextCompat.getDrawable(itemView.context, R.drawable.location)
+            val icon = ContextCompat.getDrawable(containerView.context, R.drawable.location)
             icon.setColorFilter(
-                    ContextCompat.getColor(itemView.context, R.color.icon_mute),
+                    ContextCompat.getColor(containerView.context, R.color.icon_mute),
                     PorterDuff.Mode.SRC_IN
             )
-            itemView.location_icon.setImageDrawable(icon)
+            location_icon.setImageDrawable(icon)
 
             val distance = event.location.distanceTo(MainActivity.lastLocation)
             if (distance < 1000) {
-                itemView.location.text = String.format(
+                location.text = String.format(
                         Locale.getDefault(),
-                        itemView.context.getString(R.string.location_distance_to_meter),
+                        containerView.context.string(R.string.location_distance_to_meter),
                         distance
                 )
             } else {
-                itemView.location.text = String.format(
+                location.text = String.format(
                         Locale.getDefault(),
-                        itemView.context.getString(R.string.location_distance_to_kilometer),
+                        containerView.context.string(R.string.location_distance_to_kilometer),
                         distance / 1000
                 )
             }
         } else {
-            itemView.location_icon.visibility = View.GONE
-            itemView.location.visibility = View.GONE
+            location_icon.visibility = View.GONE
+            location.visibility = View.GONE
         }
     }
 
-    /**
-     * Loads icons for each [measurement][Measurement] available for this
-     * [event][EventViewHolder.event].
-     */
-    private fun setupMeasurementIcons() {
-        itemView.measurement_types.removeAllViews()
+    private fun setupMeasurementIcons(event: Event) {
+        measurement_types.removeAllViews()
         val types = event.measurements.mapTo(HashSet()) { it.type }
 
         for (type in types) {

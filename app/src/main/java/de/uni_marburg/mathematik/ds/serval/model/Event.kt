@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.location.Location
 import android.os.Parcelable
+import ca.allanwang.kau.utils.string
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import com.squareup.moshi.Json
@@ -73,7 +74,7 @@ enum class MeasurementType {
         if (resId == 0) {
             throw Resources.NotFoundException(String.format(
                     Locale.getDefault(),
-                    context.getString(R.string.exception_measurement_type_without_icon),
+                    context.string(R.string.exception_measurement_type_without_icon),
                     toString()
             ))
         }

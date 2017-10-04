@@ -9,12 +9,15 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
+import android.view.View
+import ca.allanwang.kau.utils.string
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.MeasurementsAdapter
 import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.model.Measurement
 import kotlinx.android.synthetic.main.activity_detail.*
 import java.util.*
 
@@ -51,7 +54,7 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedL
     override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
         when (scrollRange) {
             -1 -> scrollRange = appBarLayout.totalScrollRange
-            -verticalOffset -> collapsingToolbarLayout.title = getString(R.string.details)
+            -verticalOffset -> collapsingToolbarLayout.title = string(R.string.details)
             else -> if (isShown) {
                 collapsingToolbarLayout.title = " "
                 isShown = false
@@ -68,7 +71,7 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedL
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = getString(R.string.details)
+        supportActionBar!!.title = string(R.string.details)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         appbar_layout.addOnOffsetChangedListener(this)
     }
@@ -76,7 +79,22 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedL
     private fun setupRecyclerView() {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        recycler_view.adapter = MeasurementsAdapter(event.measurements)
+        recycler_view.adapter = MeasurementsAdapter(event.measurements) { measurement: Measurement, view: View ->
+            when (view.id) {
+                R.id.share -> onPressShare(measurement)
+            }
+        }
+    }
+
+    private fun onPressShare(measurement: Measurement) {
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.putExtra(Intent.EXTRA_TEXT, measurement.toString())
+        shareIntent.type = string(R.string.intent_type_text_plain)
+        startActivity(Intent.createChooser(
+                shareIntent,
+                string(R.string.chooser_title_share_measurement)
+        ))
     }
 
     private fun setupMap() {
@@ -103,7 +121,7 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedL
         val navigationIntent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(String.format(
-                        getString(R.string.intent_uri_show_in_google_maps),
+                        string(R.string.intent_uri_show_in_google_maps),
                         // Forces decimal points
                         String.format(Locale.ENGLISH, "%.5f", event.location.latitude),
                         String.format(Locale.ENGLISH, "%.5f", event.location.longitude),

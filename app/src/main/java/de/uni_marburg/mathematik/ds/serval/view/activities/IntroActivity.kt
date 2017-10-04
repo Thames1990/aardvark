@@ -14,6 +14,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.IntroAdapter
@@ -33,7 +34,7 @@ class IntroActivity : AppCompatActivity(),
             launchHomeScreen()
         }
 
-        Aardvark.firebaseAnalytics.setCurrentScreen(this, getString(R.string.screen_intro), null)
+        Aardvark.firebaseAnalytics.setCurrentScreen(this, string(R.string.screen_intro), null)
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments
 
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -16,6 +17,7 @@ import de.uni_marburg.mathematik.ds.serval.controller.adapters.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.util.ImageUtil
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
+import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.view.util.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_events.*
@@ -72,7 +74,11 @@ class EventsFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         setupLayoutManager()
-        adapter = EventAdapter(MainActivity.events)
+        adapter = EventAdapter(MainActivity.events) {
+            val detail = Intent(activity, DetailActivity::class.java)
+            detail.putExtra(DetailActivity.EVENT, it)
+            startActivity(detail)
+        }
         recycler_view.adapter = adapter
     }
 

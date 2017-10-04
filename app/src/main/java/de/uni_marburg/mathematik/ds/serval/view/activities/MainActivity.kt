@@ -20,6 +20,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import ca.allanwang.kau.utils.string
 import com.crashlytics.android.Crashlytics
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -138,15 +139,15 @@ class MainActivity :
         when (item.itemId) {
             R.id.action_dashboard -> if (currentFragment !is DashboardFragment) {
                 fragment = PlaceholderFragment()
-                Aardvark.firebaseAnalytics.setCurrentScreen(this, getString(R.string.screen_dashboard), null)
+                Aardvark.firebaseAnalytics.setCurrentScreen(this, string(R.string.screen_dashboard), null)
             }
             R.id.action_events -> if (currentFragment !is EventsFragment) {
                 fragment = EventsFragment()
-                Aardvark.firebaseAnalytics.setCurrentScreen(this, getString(R.string.screen_events), null)
+                Aardvark.firebaseAnalytics.setCurrentScreen(this, string(R.string.screen_events), null)
             }
             R.id.action_map -> if (currentFragment !is MapFragment) {
                 fragment = MapFragment()
-                Aardvark.firebaseAnalytics.setCurrentScreen(this, getString(R.string.screen_map), null)
+                Aardvark.firebaseAnalytics.setCurrentScreen(this, string(R.string.screen_map), null)
             }
             else -> fragment = PlaceholderFragment()
         }
@@ -178,7 +179,7 @@ class MainActivity :
 
     private fun setupFields() {
         client = OkHttpClient()
-        request = Request.Builder().url(getString(R.string.url_rest_api)).build()
+        request = Request.Builder().url(string(R.string.url_rest_api)).build()
         moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         eventAdapter = moshi.adapter(Event::class.java)
     }
@@ -189,7 +190,7 @@ class MainActivity :
                 override fun onFailure(call: Call, e: IOException) {
                     Crashlytics.log(String.format(
                             Locale.getDefault(),
-                            getString(R.string.log_message_fail_event_load),
+                            string(R.string.log_message_fail_event_load),
                             e.message
                     ))
                 }
@@ -198,7 +199,7 @@ class MainActivity :
                     if (!response.isSuccessful) {
                         Crashlytics.log(String.format(
                                 Locale.getDefault(),
-                                getString(R.string.log_message_response_unsuccessful),
+                                string(R.string.log_message_response_unsuccessful),
                                 response.toString()
                         ))
                     }
@@ -267,11 +268,11 @@ class MainActivity :
     private fun showChangelog(versionCode: Int) {
         val versionName = String.format(
                 Locale.getDefault(),
-                getString(R.string.changelog),
+                string(R.string.changelog),
                 BuildConfig.VERSION_NAME
         )
         val changelog = assets.open(String.format(
-                getString(R.string.file_changelog),
+                string(R.string.file_changelog),
                 versionCode
         )).use { input -> input.bufferedReader().use(BufferedReader::readText) }
         if (Preferences.useBottomSheetDialogs) {

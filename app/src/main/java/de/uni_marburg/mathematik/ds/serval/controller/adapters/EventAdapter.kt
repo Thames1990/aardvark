@@ -2,30 +2,22 @@ package de.uni_marburg.mathematik.ds.serval.controller.adapters
 
 import android.location.Location
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.ViewGroup
+import ca.allanwang.kau.utils.inflate
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.view_holders.EventViewHolder
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 
 /** [Adapter][RecyclerView.Adapter] for [events][Event] */
-class EventAdapter(events: MutableList<Event>) : RecyclerView.Adapter<EventViewHolder>() {
+class EventAdapter(val events: MutableList<Event>, private val listener: (Event) -> Unit) :
+        RecyclerView.Adapter<EventViewHolder>() {
 
-    var events = events
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            EventViewHolder(parent.inflate(R.layout.event_row))
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.event_row, parent, false)
-        return EventViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        holder.performBind(events[position])
-    }
+    override fun onBindViewHolder(holder: EventViewHolder, position: Int) =
+            holder.bind(events[position], listener)
 
     override fun getItemCount(): Int = events.size
 
