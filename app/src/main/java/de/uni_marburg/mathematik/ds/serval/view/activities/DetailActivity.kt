@@ -18,6 +18,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.MeasurementsAdapter
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.Measurement
+import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM
 import kotlinx.android.synthetic.main.activity_detail.*
 import java.util.*
 
@@ -114,7 +115,7 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedL
     private fun addEventLocation(googleMap: GoogleMap) {
         val position = LatLng(event.location.latitude, event.location.longitude)
         googleMap.addMarker(MarkerOptions().position(position))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, ZOOM_LEVEL))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM))
     }
 
     private fun showInGoogleMaps() {
@@ -135,7 +136,5 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedL
     companion object {
 
         const val EVENT = "EVENT"
-
-        const val ZOOM_LEVEL = 15f
     }
 }

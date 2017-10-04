@@ -71,9 +71,9 @@ class IntroFragment : Fragment() {
 
     companion object {
 
-        const val BACKGROUND_COLOR = "BACKGROUND_COLOR"
+        private val BACKGROUND_COLOR = "BACKGROUND_COLOR"
 
-        const val PAGE = "PAGE"
+        private val PAGE = "PAGE"
 
         fun newInstance(backgroundColor: Int, page: Int): IntroFragment {
             val fragment = IntroFragment()

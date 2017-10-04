@@ -18,6 +18,9 @@ import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.IntroAdapter
+import de.uni_marburg.mathematik.ds.serval.util.CHECK_LOCATION_PERMISSION
+import de.uni_marburg.mathematik.ds.serval.util.FADE_OUT_ANIMATION_DURATION
+import de.uni_marburg.mathematik.ds.serval.util.PERMISSION_TAB
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.util.IntroPageTransformer
 import kotlinx.android.synthetic.main.intro_layout.*
@@ -91,7 +94,7 @@ class IntroActivity : AppCompatActivity(),
     fun startApp(view: View) {
         val fadeOut = AlphaAnimation(1f, 0f)
         fadeOut.fillAfter = true
-        fadeOut.duration = FADE_OUT_ANIMATION_DURATION.toLong()
+        fadeOut.duration = FADE_OUT_ANIMATION_DURATION
         fadeOut.setAnimationListener(this)
         view.startAnimation(fadeOut)
     }
@@ -106,14 +109,5 @@ class IntroActivity : AppCompatActivity(),
 
     override fun onAnimationRepeat(animation: Animation) {
 
-    }
-
-    companion object {
-
-        const val CHECK_LOCATION_PERMISSION = 0
-
-        const val FADE_OUT_ANIMATION_DURATION = 1000
-
-        const val PERMISSION_TAB = 2
     }
 }

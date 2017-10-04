@@ -24,6 +24,9 @@ import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener
 import com.google.maps.android.clustering.ClusterManager.OnClusterItemInfoWindowClickListener
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.util.CHECK_LOCATION_PERMISSION
+import de.uni_marburg.mathematik.ds.serval.util.MAP_PADDING
+import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
@@ -74,12 +77,12 @@ class MapFragment :
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
-            R.id.action_change_map_type_hybrid    -> googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID
-            R.id.action_change_map_type_none      -> googleMap.mapType = GoogleMap.MAP_TYPE_NONE
-            R.id.action_change_map_type_normal    -> googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+            R.id.action_change_map_type_hybrid -> googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+            R.id.action_change_map_type_none -> googleMap.mapType = GoogleMap.MAP_TYPE_NONE
+            R.id.action_change_map_type_normal -> googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
             R.id.action_change_map_type_satellite -> googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
-            R.id.action_change_map_type_terrain   -> googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
-            else                                  -> return super.onOptionsItemSelected(item)
+            R.id.action_change_map_type_terrain -> googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
@@ -168,21 +171,5 @@ class MapFragment :
         } else {
             googleMap.moveCamera(update)
         }
-    }
-
-    companion object {
-
-        const val CHECK_LOCATION_PERMISSION = 42
-
-        const val MAP_PADDING = 100
-
-        /**
-         * 1: World
-         * 5: Continent
-         * 10: City
-         * 15: Streets
-         * 20: Buildings
-         */
-        const val MAP_ZOOM = 15f
     }
 }

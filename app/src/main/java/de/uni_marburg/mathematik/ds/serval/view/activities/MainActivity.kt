@@ -34,6 +34,7 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.util.CHECK_LOCATION_PERMISSION
 import de.uni_marburg.mathematik.ds.serval.util.LocationUtil
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment
@@ -320,8 +321,6 @@ class MainActivity :
     }
 
     companion object {
-
-        const val CHECK_LOCATION_PERMISSION = 42
 
         var lastLocation: Location? = null
 
