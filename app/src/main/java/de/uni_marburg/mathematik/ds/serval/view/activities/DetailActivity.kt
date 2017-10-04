@@ -10,6 +10,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
+import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -80,22 +81,12 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedL
     private fun setupRecyclerView() {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        recycler_view.adapter = MeasurementsAdapter(event.measurements) { measurement: Measurement, view: View ->
-            when (view.id) {
-                R.id.share -> onPressShare(measurement)
-            }
-        }
-    }
-
-    private fun onPressShare(measurement: Measurement) {
-        val shareIntent = Intent()
-        shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_TEXT, measurement.toString())
-        shareIntent.type = string(R.string.intent_type_text_plain)
-        startActivity(Intent.createChooser(
-                shareIntent,
-                string(R.string.chooser_title_share_measurement)
-        ))
+        recycler_view.adapter =
+                MeasurementsAdapter(event.measurements) { measurement: Measurement, view: View ->
+                    when (view.id) {
+                        R.id.share -> shareText(measurement.toString())
+                    }
+                }
     }
 
     private fun setupMap() {

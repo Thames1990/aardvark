@@ -6,29 +6,26 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat.checkSelfPermission
 import android.support.v4.app.ActivityCompat.requestPermissions
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
+import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.IntroAdapter
 import de.uni_marburg.mathematik.ds.serval.util.CHECK_LOCATION_PERMISSION
-import de.uni_marburg.mathematik.ds.serval.util.FADE_OUT_ANIMATION_DURATION
 import de.uni_marburg.mathematik.ds.serval.util.PERMISSION_TAB
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.util.IntroPageTransformer
 import kotlinx.android.synthetic.main.intro_layout.*
 
 /** Alternative intro sliders view. */
-class IntroActivity : AppCompatActivity(),
-        ViewPager.OnPageChangeListener,
-        Animation.AnimationListener {
+class IntroActivity : AppCompatActivity() {
+
+    private var pageScrollCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,21 +47,33 @@ class IntroActivity : AppCompatActivity(),
         setContentView(R.layout.intro_layout)
         content.adapter = IntroAdapter(supportFragmentManager, this)
         content.setPageTransformer(false, IntroPageTransformer(this))
-        content.addOnPageChangeListener(this)
-    }
+        content.addOnPageChangeListener(
+                object : ViewPager.OnPageChangeListener {
+                    override fun onPageScrollStateChanged(state: Int) {
 
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                    }
 
-    }
+                    override fun onPageScrolled(
+                            position: Int,
+                            positionOffset: Float,
+                            positionOffsetPixels: Int
+                    ) {
+                        if (position == content.adapter.count - 1 && positionOffset == 0f) {
+                            if (pageScrollCounter != 0) {
+                                launchHomeScreen()
+                            }
+                            pageScrollCounter++
+                        } else {
+                            pageScrollCounter = 0
+                        }
+                    }
 
-    override fun onPageSelected(position: Int) {
-        if (position == PERMISSION_TAB) {
-            checkLocationPermission()
-        }
-    }
-
-    override fun onPageScrollStateChanged(state: Int) {
-
+                    override fun onPageSelected(position: Int) {
+                        when (position) {
+                            PERMISSION_TAB -> checkLocationPermission()
+                        }
+                    }
+                })
     }
 
     private fun launchHomeScreen() {
@@ -73,7 +82,7 @@ class IntroActivity : AppCompatActivity(),
     }
 
     private fun checkLocationPermission() {
-        if (checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+        if (!hasPermission(ACCESS_FINE_LOCATION)) {
             requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION), CHECK_LOCATION_PERMISSION)
         }
     }
@@ -89,25 +98,5 @@ class IntroActivity : AppCompatActivity(),
             else ->
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
-    }
-
-    fun startApp(view: View) {
-        val fadeOut = AlphaAnimation(1f, 0f)
-        fadeOut.fillAfter = true
-        fadeOut.duration = FADE_OUT_ANIMATION_DURATION
-        fadeOut.setAnimationListener(this)
-        view.startAnimation(fadeOut)
-    }
-
-    override fun onAnimationStart(animation: Animation) {
-
-    }
-
-    override fun onAnimationEnd(animation: Animation) {
-        launchHomeScreen()
-    }
-
-    override fun onAnimationRepeat(animation: Animation) {
-
     }
 }

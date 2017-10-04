@@ -2,15 +2,16 @@ package de.uni_marburg.mathematik.ds.serval.view.fragments
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
-import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat.requestPermissions
-import android.support.v4.content.ContextCompat.*
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import ca.allanwang.kau.utils.color
+import ca.allanwang.kau.utils.drawable
+import ca.allanwang.kau.utils.hasPermission
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
@@ -65,8 +66,8 @@ class MapFragment :
     override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
         val changeMapType = menu!!.findItem(R.id.action_change_map_type)
-        val icon = getDrawable(context, R.drawable.map)
-        icon.setColorFilter(getColor(context, android.R.color.white), PorterDuff.Mode.SRC_IN)
+        val icon = context.drawable(R.drawable.map)
+        icon.setColorFilter(context.color(android.R.color.white), PorterDuff.Mode.SRC_IN)
         changeMapType.icon = icon
     }
 
@@ -147,7 +148,7 @@ class MapFragment :
 
     private fun setupMyLocation() {
         if (Preferences.trackLocation) {
-            if (checkSelfPermission(context, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+            if (!context.hasPermission(ACCESS_FINE_LOCATION)) {
                 requestPermissions(
                         activity,
                         arrayOf(ACCESS_FINE_LOCATION),

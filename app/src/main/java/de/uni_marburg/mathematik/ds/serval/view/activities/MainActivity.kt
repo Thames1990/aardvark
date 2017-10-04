@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
@@ -13,15 +12,14 @@ import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.checkSelfPermission
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
-import ca.allanwang.kau.utils.finishSlideOut
-import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.*
+import com.afollestad.materialdialogs.DialogAction
+import com.afollestad.materialdialogs.MaterialDialog
 import com.crashlytics.android.Crashlytics
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -94,7 +92,7 @@ class MainActivity :
 
     override fun onResume() {
         super.onResume()
-        if (checkSelfPermission(this, ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
+        if (hasPermission(ACCESS_FINE_LOCATION)) {
             Preferences.trackLocation = true
             startLocationUpdates()
         } else {
@@ -104,13 +102,11 @@ class MainActivity :
 
     override fun onBackPressed() {
         if (Preferences.confirmExit) {
-            AlertDialog.Builder(this)
-                    .setTitle(R.string.confirm_exit)
-                    .setPositiveButton(R.string.exit, { _: DialogInterface, _: Int ->
-                        finishSlideOut()
-                    })
-                    .create()
-                    .show()
+            materialDialog {
+                title(R.string.confirm_exit)
+                positiveText(R.string.exit)
+                onPositive({ _: MaterialDialog, _: DialogAction -> finishSlideOut() })
+            }
         } else {
             finishSlideOut()
         }
@@ -292,16 +288,15 @@ class MainActivity :
     private fun showChangelogDialog(versionName: String, changelog: String) {
         val content = TextView(this)
         Markwon.setMarkdown(content, changelog)
-        AlertDialog.Builder(this)
-                .setTitle(versionName)
-                .setView(content)
-                .setPositiveButton(android.R.string.ok, null)
-                .create()
-                .show()
+        materialDialog {
+            title(versionName)
+            customView(content, true)
+            positiveText(android.R.string.ok)
+        }
     }
 
     private fun startLocationUpdates() {
-        if (checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+        if (!hasPermission(ACCESS_FINE_LOCATION)) {
             requestPermissions()
             return
         }
