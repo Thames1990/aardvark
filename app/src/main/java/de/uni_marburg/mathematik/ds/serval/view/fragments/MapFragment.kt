@@ -14,15 +14,11 @@ import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.hasPermission
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
-import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener
-import com.google.maps.android.clustering.ClusterManager.OnClusterItemInfoWindowClickListener
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.util.CHECK_LOCATION_PERMISSION
@@ -32,14 +28,7 @@ import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
 
-class MapFragment :
-        BaseFragment(),
-        OnClusterItemInfoWindowClickListener<Event>,
-        OnClusterClickListener<Event>,
-        OnMapReadyCallback,
-        OnMyLocationButtonClickListener {
-
-    private lateinit var clusterManager: ClusterManager<Event>
+class MapFragment : BaseFragment() {
 
     private lateinit var googleMap: GoogleMap
 
@@ -51,6 +40,7 @@ class MapFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        Aardvark.firebaseAnalytics.setCurrentScreen(activity, getString(R.string.screen_map), null)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -60,7 +50,16 @@ class MapFragment :
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        map.getMapAsync(this)
+        map.getMapAsync { googleMap ->
+            this.googleMap = googleMap
+            val clusterManager = setupClusterManager(googleMap)
+            setupGoogleMapsListeners(clusterManager, googleMap)
+            setupCameraBounds(googleMap)
+            setupMyLocation(googleMap)
+            if (Preferences.trackLocation) {
+                moveCameraToLastLocation(googleMap)
+            }
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
@@ -88,57 +87,42 @@ class MapFragment :
         return true
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        this.googleMap = googleMap
-        setupGoogleMap()
-        if (Preferences.trackLocation) {
-            moveCameraToLastLocation(false)
+    private fun setupClusterManager(googleMap: GoogleMap): ClusterManager<Event> {
+        val clusterManager: ClusterManager<Event> = ClusterManager(context, googleMap)
+        with(clusterManager) {
+            setOnClusterClickListener { cluster ->
+                val builder = LatLngBounds.builder()
+                for (clusterItem in cluster.items) {
+                    builder.include(clusterItem.position)
+                }
+                val bounds = builder.build()
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING))
+                true
+            }
+            setOnClusterItemInfoWindowClickListener { event ->
+                val eventIntent = Intent(activity, DetailActivity::class.java)
+                eventIntent.putExtra(DetailActivity.EVENT, event)
+                startActivity(eventIntent)
+            }
+            addItems(MainActivity.events)
+            cluster()
+        }
+        return clusterManager
+    }
+
+    private fun setupGoogleMapsListeners(
+            clusterManager: ClusterManager<Event>,
+            googleMap: GoogleMap
+    ) {
+        with(googleMap) {
+            uiSettings.isMapToolbarEnabled = false
+            setOnCameraIdleListener(clusterManager)
+            setOnMarkerClickListener(clusterManager)
+            setOnInfoWindowClickListener(clusterManager)
         }
     }
 
-    override fun onMyLocationButtonClick(): Boolean {
-        moveCameraToLastLocation()
-        return true
-    }
-
-    override fun onClusterClick(cluster: Cluster<Event>): Boolean {
-        val builder = LatLngBounds.builder()
-        for (clusterItem in cluster.items) {
-            builder.include(clusterItem.position)
-        }
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), MAP_PADDING))
-        return true
-    }
-
-    override fun onClusterItemInfoWindowClick(event: Event) {
-        val eventIntent = Intent(activity, DetailActivity::class.java)
-        eventIntent.putExtra(DetailActivity.EVENT, event)
-        startActivity(eventIntent)
-    }
-
-    private fun setupGoogleMap() {
-        setupClusterManager()
-        setupGoogleMapsListeners(clusterManager)
-        setupCameraBounds()
-        setupMyLocation()
-    }
-
-    private fun setupClusterManager() {
-        clusterManager = ClusterManager(context, googleMap)
-        clusterManager.setOnClusterClickListener(this)
-        clusterManager.setOnClusterItemInfoWindowClickListener(this)
-        clusterManager.addItems(MainActivity.events)
-        clusterManager.cluster()
-    }
-
-    private fun setupGoogleMapsListeners(clusterManager: ClusterManager<Event>) {
-        googleMap.uiSettings.isMapToolbarEnabled = false
-        googleMap.setOnCameraIdleListener(clusterManager)
-        googleMap.setOnMarkerClickListener(clusterManager)
-        googleMap.setOnInfoWindowClickListener(clusterManager)
-    }
-
-    private fun setupCameraBounds() {
+    private fun setupCameraBounds(googleMap: GoogleMap) {
         if (!MainActivity.events.isEmpty()) {
             val builder = LatLngBounds.builder()
             MainActivity.events.forEach { event: Event -> builder.include(event.position) }
@@ -146,7 +130,7 @@ class MapFragment :
         }
     }
 
-    private fun setupMyLocation() {
+    private fun setupMyLocation(googleMap: GoogleMap) {
         if (Preferences.trackLocation) {
             if (!context.hasPermission(ACCESS_FINE_LOCATION)) {
                 requestPermissions(
@@ -156,21 +140,25 @@ class MapFragment :
                 )
                 return
             }
-            googleMap.isMyLocationEnabled = true
-            googleMap.setOnMyLocationButtonClickListener(this)
+            with(googleMap) {
+                isMyLocationEnabled = true
+                setOnMyLocationButtonClickListener {
+                    moveCameraToLastLocation(googleMap, true)
+                    true
+                }
+            }
         }
     }
 
-    private fun moveCameraToLastLocation(animate: Boolean = true) {
-        val lastLocationPosition = LatLng(
-                MainActivity.lastLocation!!.latitude,
-                MainActivity.lastLocation!!.longitude
-        )
-        val update = CameraUpdateFactory.newLatLngZoom(lastLocationPosition, MAP_ZOOM)
-        if (animate) {
-            googleMap.animateCamera(update)
-        } else {
-            googleMap.moveCamera(update)
+    private fun moveCameraToLastLocation(googleMap: GoogleMap, animate: Boolean = false) {
+        with(MainActivity.lastLocation!!) {
+            val lastLocationPosition = LatLng(latitude, longitude)
+            val update = CameraUpdateFactory.newLatLngZoom(lastLocationPosition, MAP_ZOOM)
+            if (animate) {
+                googleMap.animateCamera(update)
+            } else {
+                googleMap.moveCamera(update)
+            }
         }
     }
 }

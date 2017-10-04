@@ -36,7 +36,6 @@
     <string name="email_adress_feedback" translatable="false">ThomasMohr1990@gmail.com</string>
 
     <!-- Exception messages -->
-    <string name="exception_fragment_must_contain_key">Fragment must contain a %1$s argument!</string>
     <string name="exception_measurement_type_without_icon">%1$s measurement type does not have an icon yet!</string>
 
     <!-- Files -->

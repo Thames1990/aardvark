@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ca.allanwang.kau.utils.withArguments
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
-import java.util.*
 
 /** Represents a slide in the alternative slider intro. */
 class IntroFragment : Fragment() {
@@ -19,23 +19,15 @@ class IntroFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!arguments.containsKey(BACKGROUND_COLOR)) {
-            throw RuntimeException(String.format(
-                    Locale.getDefault(),
-                    getString(R.string.exception_fragment_must_contain_key),
-                    BACKGROUND_COLOR
-            ))
+        with(arguments) {
+            when {
+                containsKey(BACKGROUND_COLOR) && containsKey(PAGE) -> {
+                    backgroundColor = getInt(BACKGROUND_COLOR)
+                    page = getInt(PAGE)
+                }
+                else -> throw RuntimeException("Must contain keys $BACKGROUND_COLOR and $PAGE")
+            }
         }
-        backgroundColor = arguments.getInt(BACKGROUND_COLOR)
-
-        if (!arguments.containsKey(PAGE)) {
-            throw RuntimeException(String.format(
-                    Locale.getDefault(),
-                    getString(R.string.exception_fragment_must_contain_key),
-                    PAGE
-            ))
-        }
-        page = arguments.getInt(PAGE)
     }
 
     override fun onCreateView(
@@ -76,12 +68,10 @@ class IntroFragment : Fragment() {
         private val PAGE = "PAGE"
 
         fun newInstance(backgroundColor: Int, page: Int): IntroFragment {
-            val fragment = IntroFragment()
-            val args = Bundle()
-            args.putInt(BACKGROUND_COLOR, backgroundColor)
-            args.putInt(PAGE, page)
-            fragment.arguments = args
-            return fragment
+            return IntroFragment().withArguments(
+                    Pair(BACKGROUND_COLOR, backgroundColor),
+                    Pair(PAGE, page)
+            )
         }
     }
 

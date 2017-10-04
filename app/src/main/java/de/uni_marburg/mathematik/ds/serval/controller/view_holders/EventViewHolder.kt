@@ -39,6 +39,7 @@ class EventViewHolder(override val containerView: View) :
                 DateFormat.MEDIUM,
                 Locale.getDefault()
         )
+        // TODO Refactor with lambda gorgeousness
         when {
             TimeUnit.MILLISECONDS.toMinutes(timeDifference) < 60 -> time.text = String.format(
                     Locale.getDefault(),

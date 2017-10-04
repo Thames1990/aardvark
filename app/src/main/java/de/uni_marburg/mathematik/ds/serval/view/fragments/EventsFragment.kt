@@ -13,6 +13,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import ca.allanwang.kau.utils.dpToPx
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
@@ -32,6 +33,7 @@ class EventsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        Aardvark.firebaseAnalytics.setCurrentScreen(activity, getString(R.string.screen_events), null)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -87,31 +89,32 @@ class EventsFragment : BaseFragment() {
     }
 
     private fun setupLayoutManager() {
-        when {
-            Preferences.useLinearLayoutManager -> {
-                recycler_view.layoutManager = LinearLayoutManager(context)
-                recycler_view.addItemDecoration(DividerItemDecoration(
-                        context,
-                        DividerItemDecoration.VERTICAL
-                ))
-            }
-            Preferences.useGridLayoutManager -> {
-                recycler_view.layoutManager = GridLayoutManager(
-                        context,
-                        Preferences.gridLayoutManagerSpanCount
-                )
-                recycler_view.addItemDecoration(GridSpacingItemDecoration(
-                        Preferences.gridLayoutManagerSpanCount,
-                        10.dpToPx,
-                        true
-                ))
-            }
-            Preferences.useStaggeredGridLayoutManager -> {
-                recycler_view.layoutManager = StaggeredGridLayoutManager(
-                        Preferences.staggeredGridLayoutManagerSpanCount,
-                        StaggeredGridLayoutManager.VERTICAL
-                )
-                // TODO Add item decoration
+        with(recycler_view) {
+            when {
+                Preferences.useLinearLayoutManager -> {
+                    layoutManager = LinearLayoutManager(context)
+                    addItemDecoration(DividerItemDecoration(
+                            context,
+                            DividerItemDecoration.VERTICAL
+                    ))
+                }
+                Preferences.useGridLayoutManager -> {
+                    layoutManager = GridLayoutManager(
+                            context,
+                            Preferences.gridLayoutManagerSpanCount
+                    )
+                    addItemDecoration(GridSpacingItemDecoration(
+                            Preferences.gridLayoutManagerSpanCount,
+                            10.dpToPx,
+                            true
+                    ))
+                }
+                Preferences.useStaggeredGridLayoutManager -> {
+                    layoutManager = StaggeredGridLayoutManager(
+                            Preferences.staggeredGridLayoutManagerSpanCount,
+                            StaggeredGridLayoutManager.VERTICAL
+                    )
+                }
             }
         }
     }

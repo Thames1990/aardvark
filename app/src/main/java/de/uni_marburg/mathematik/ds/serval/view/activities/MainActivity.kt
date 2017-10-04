@@ -2,13 +2,10 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
@@ -28,7 +25,6 @@ import com.google.android.gms.location.LocationResult
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
-import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
@@ -56,9 +52,7 @@ import java.util.concurrent.TimeUnit
  *
  * Currently shows a list of all events. Might be changed to a dashboard.
  */
-class MainActivity :
-        AppCompatActivity(),
-        BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var client: OkHttpClient
 
@@ -120,38 +114,10 @@ class MainActivity :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_show_changelog -> checkForNewVersion(true)
-            R.id.action_settings -> startActivity(Intent(this, SettingsActivity::class.java))
+            R.id.action_settings -> startActivity(SettingsActivity::class.java)
             else -> return super.onOptionsItemSelected(item)
         }
         return true
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var fragment: Fragment? = null
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.content)
-
-        when (item.itemId) {
-            R.id.action_dashboard -> if (currentFragment !is DashboardFragment) {
-                fragment = PlaceholderFragment()
-                Aardvark.firebaseAnalytics.setCurrentScreen(this, string(R.string.screen_dashboard), null)
-            }
-            R.id.action_events -> if (currentFragment !is EventsFragment) {
-                fragment = EventsFragment()
-                Aardvark.firebaseAnalytics.setCurrentScreen(this, string(R.string.screen_events), null)
-            }
-            R.id.action_map -> if (currentFragment !is MapFragment) {
-                fragment = MapFragment()
-                Aardvark.firebaseAnalytics.setCurrentScreen(this, string(R.string.screen_map), null)
-            }
-            else -> fragment = PlaceholderFragment()
-        }
-
-        if (fragment != null) {
-            supportFragmentManager.beginTransaction().replace(R.id.content, fragment).commit()
-            return true
-        }
-
-        return false
     }
 
     override fun onRequestPermissionsResult(
@@ -217,9 +183,11 @@ class MainActivity :
         if (Preferences.trackLocation) {
             fusedLocationProviderClient = FusedLocationProviderClient(this)
             locationRequest = LocationRequest()
-            locationRequest.interval = TimeUnit.SECONDS.toMillis(60)
-            locationRequest.fastestInterval = TimeUnit.SECONDS.toMillis(5)
-            locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            with(locationRequest) {
+                interval = TimeUnit.SECONDS.toMillis(60)
+                fastestInterval = TimeUnit.SECONDS.toMillis(5)
+                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            }
             locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult?) {
                     val location = locationResult!!.lastLocation
@@ -233,29 +201,32 @@ class MainActivity :
 
     private fun setupViews() {
         setSupportActionBar(toolbar)
-        bottom_navigation.setOnNavigationItemSelectedListener(this)
-        val transaction = supportFragmentManager.beginTransaction()
-        when (Preferences.bottomNavigationSelectedItemId) {
-            R.id.action_dashboard -> transaction.replace(R.id.content, PlaceholderFragment())
-            R.id.action_events -> transaction.replace(R.id.content, EventsFragment())
-            R.id.action_map -> transaction.replace(R.id.content, MapFragment())
-            else -> transaction.replace(R.id.content, PlaceholderFragment())
+        changeScreen(PlaceholderFragment())
+        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+            val current = supportFragmentManager.findFragmentById(R.id.content)
+            val fragment = when (item.itemId) {
+                R.id.action_dashboard -> PlaceholderFragment().takeIf { current !is DashboardFragment }
+                R.id.action_events -> EventsFragment().takeIf { current !is EventsFragment }
+                R.id.action_map -> MapFragment().takeIf { current !is MapFragment }
+                else -> PlaceholderFragment()
+            }
+            if (fragment != null) {
+                changeScreen(fragment)
+            }
+            false
         }
-        transaction.commit()
+    }
+
+    private fun changeScreen(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.content, fragment).commit()
     }
 
     private fun checkForNewVersion(force: Boolean) {
-        try {
-            val versionCode = packageManager.getPackageInfo(packageName, 0).versionCode
-            val lastKnownVersionCode = Preferences.lastKnownVersionCode
-            if (force || Preferences.showChangelog && lastKnownVersionCode < versionCode) {
-                Preferences.lastKnownVersionCode = versionCode
-                showChangelog(versionCode)
-            }
-        } catch (e: PackageManager.NameNotFoundException) {
-            Crashlytics.logException(e)
+        val versionCode = packageManager.getPackageInfo(packageName, 0).versionCode
+        if (force || Preferences.showChangelog && Preferences.lastKnownVersionCode < versionCode) {
+            Preferences.lastKnownVersionCode = versionCode
+            showChangelog(versionCode)
         }
-
     }
 
     private fun showChangelog(versionCode: Int) {

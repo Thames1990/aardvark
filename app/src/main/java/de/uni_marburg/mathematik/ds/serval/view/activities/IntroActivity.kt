@@ -38,42 +38,46 @@ class IntroActivity : AppCompatActivity() {
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.decorView.systemUiVisibility =
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.statusBarColor = Color.TRANSPARENT
+            with(window) {
+                decorView.systemUiVisibility =
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                statusBarColor = Color.TRANSPARENT
+            }
         }
 
         setContentView(R.layout.intro_layout)
-        content.adapter = IntroAdapter(supportFragmentManager, this)
-        content.setPageTransformer(false, IntroPageTransformer(this))
-        content.addOnPageChangeListener(
-                object : ViewPager.OnPageChangeListener {
-                    override fun onPageScrollStateChanged(state: Int) {
+        with(content) {
+            adapter = IntroAdapter(supportFragmentManager, context)
+            setPageTransformer(false, IntroPageTransformer())
+            addOnPageChangeListener(
+                    object : ViewPager.OnPageChangeListener {
+                        override fun onPageScrollStateChanged(state: Int) {
 
-                    }
+                        }
 
-                    override fun onPageScrolled(
-                            position: Int,
-                            positionOffset: Float,
-                            positionOffsetPixels: Int
-                    ) {
-                        if (position == content.adapter.count - 1 && positionOffset == 0f) {
-                            if (pageScrollCounter != 0) {
-                                launchHomeScreen()
+                        override fun onPageScrolled(
+                                position: Int,
+                                positionOffset: Float,
+                                positionOffsetPixels: Int
+                        ) {
+                            if (position == content.adapter.count - 1 && positionOffset == 0f) {
+                                if (pageScrollCounter != 0) {
+                                    launchHomeScreen()
+                                }
+                                pageScrollCounter++
+                            } else {
+                                pageScrollCounter = 0
                             }
-                            pageScrollCounter++
-                        } else {
-                            pageScrollCounter = 0
                         }
-                    }
 
-                    override fun onPageSelected(position: Int) {
-                        when (position) {
-                            PERMISSION_TAB -> checkLocationPermission()
+                        override fun onPageSelected(position: Int) {
+                            when (position) {
+                                PERMISSION_TAB -> checkLocationPermission()
+                            }
                         }
-                    }
-                })
+                    })
+        }
     }
 
     private fun launchHomeScreen() {
@@ -95,8 +99,7 @@ class IntroActivity : AppCompatActivity() {
         when (requestCode) {
             CHECK_LOCATION_PERMISSION ->
                 Preferences.trackLocation = grantResults[0] == PERMISSION_GRANTED
-            else ->
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
 }

@@ -23,9 +23,9 @@ class EventAdapter(val events: MutableList<Event>, private val listener: (Event)
 
     fun sort(comparator: EventComparator, reversed: Boolean = false, location: Location? = null) {
         when (comparator) {
-            EventComparator.Distance    -> events.sortBy { it.location.distanceTo(location) }
+            EventComparator.Distance -> events.sortBy { it.location.distanceTo(location) }
             EventComparator.Measurement -> events.sortBy { it.measurements.size }
-            EventComparator.Time        -> events.sortBy { it.time }
+            EventComparator.Time -> events.sortBy { it.time }
         }
         if (reversed) {
             events.reverse()

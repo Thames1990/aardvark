@@ -3,8 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.AppBarLayout.OnOffsetChangedListener
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -12,7 +10,9 @@ import android.view.MenuItem
 import android.view.View
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMapOptions
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import de.uni_marburg.mathematik.ds.serval.R
@@ -24,11 +24,9 @@ import kotlinx.android.synthetic.main.activity_detail.*
 import java.util.*
 
 /** Displays all details of an [event][Event]. */
-class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedListener {
+class DetailActivity : AppCompatActivity() {
 
     private lateinit var event: Event
-
-    private lateinit var googleMap: GoogleMap
 
     private var isShown = true
 
@@ -48,22 +46,6 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedL
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        this.googleMap = googleMap
-        setupGoogleMap()
-    }
-
-    override fun onOffsetChanged(appBarLayout: AppBarLayout, verticalOffset: Int) {
-        when (scrollRange) {
-            -1 -> scrollRange = appBarLayout.totalScrollRange
-            -verticalOffset -> collapsingToolbarLayout.title = string(R.string.details)
-            else -> if (isShown) {
-                collapsingToolbarLayout.title = " "
-                isShown = false
-            }
-        }
-    }
-
     private fun setupViews() {
         setupToolbar()
         setupRecyclerView()
@@ -73,9 +55,20 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedL
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = string(R.string.details)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        appbar_layout.addOnOffsetChangedListener(this)
+        with(supportActionBar!!) {
+            title = string(R.string.details)
+            setDisplayHomeAsUpEnabled(true)
+        }
+        appbar_layout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            when (scrollRange) {
+                -1 -> scrollRange = appBarLayout.totalScrollRange
+                -verticalOffset -> collapsingToolbarLayout.title = string(R.string.details)
+                else -> if (isShown) {
+                    collapsingToolbarLayout.title = " "
+                    isShown = false
+                }
+            }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -93,20 +86,13 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback, OnOffsetChangedL
         val options = GoogleMapOptions().liteMode(true)
         val mapFragment = SupportMapFragment.newInstance(options)
         supportFragmentManager.beginTransaction().replace(R.id.map, mapFragment).commit()
-        mapFragment.getMapAsync(this)
-    }
-
-    private fun setupGoogleMap() {
-        googleMap.uiSettings.setAllGesturesEnabled(false)
-        googleMap.uiSettings.isMapToolbarEnabled = false
-        addEventLocation(googleMap)
-        // TODO Figure out how to disable Google Maps Intent on click
-    }
-
-    private fun addEventLocation(googleMap: GoogleMap) {
-        val position = LatLng(event.location.latitude, event.location.longitude)
-        googleMap.addMarker(MarkerOptions().position(position))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM))
+        mapFragment.getMapAsync { googleMap ->
+            googleMap.uiSettings.setAllGesturesEnabled(false)
+            googleMap.uiSettings.isMapToolbarEnabled = false
+            val position = LatLng(event.location.latitude, event.location.longitude)
+            googleMap.addMarker(MarkerOptions().position(position))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM))
+        }
     }
 
     private fun showInGoogleMaps() {
