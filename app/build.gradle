@@ -78,8 +78,6 @@ dependencies {
     
     // KAU
     compile "ca.allanwang.kau:core:$kau_version"
-    compile "ca.allanwang.kau:core-ui:$kau_version"
-    compile "ca.allanwang.kau:kpref-activity:$kau_version"
     
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
