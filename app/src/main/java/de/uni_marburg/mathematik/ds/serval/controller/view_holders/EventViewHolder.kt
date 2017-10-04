@@ -7,18 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import ca.allanwang.kau.utils.string
 import ca.allanwang.kau.utils.visibleIf
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.util.distanceToString
+import de.uni_marburg.mathematik.ds.serval.util.timeToString
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.event_row.*
 import kotlinx.android.synthetic.main.event_row.view.*
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 /** [View holder][RecyclerView.ViewHolder] for [events][Event] */
 class EventViewHolder(override val containerView: View) :
@@ -33,31 +31,8 @@ class EventViewHolder(override val containerView: View) :
     }
 
     private fun setupTime(event: Event) {
-        val calendar = Calendar.getInstance()
-        val timeDifference = calendar.timeInMillis - event.time
-        val format = SimpleDateFormat.getDateInstance(
-                DateFormat.MEDIUM,
-                Locale.getDefault()
-        )
-        // TODO Refactor with lambda gorgeousness
-        when {
-            TimeUnit.MILLISECONDS.toMinutes(timeDifference) < 60 -> time.text = String.format(
-                    Locale.getDefault(),
-                    containerView.context.string(R.string.time_minutes_ago),
-                    TimeUnit.MILLISECONDS.toMinutes(timeDifference)
-            )
-            TimeUnit.MILLISECONDS.toHours(timeDifference) < 24 -> time.text = String.format(
-                    Locale.getDefault(),
-                    containerView.context.string(R.string.time_hours_ago),
-                    TimeUnit.MILLISECONDS.toHours(timeDifference)
-            )
-            TimeUnit.MILLISECONDS.toDays(timeDifference) < 7 -> time.text = String.format(
-                    Locale.getDefault(),
-                    containerView.context.string(R.string.time_days_ago),
-                    TimeUnit.MILLISECONDS.toDays(timeDifference)
-            )
-            else -> time.text = format.format(event.time)
-        }
+        val timeDifference = Calendar.getInstance().timeInMillis - event.time
+        time.text = timeDifference.timeToString(containerView.context)
     }
 
     private fun setupLocation(event: Event) {
@@ -74,19 +49,7 @@ class EventViewHolder(override val containerView: View) :
             location_icon.setImageDrawable(icon)
 
             val distance = event.location.distanceTo(MainActivity.lastLocation)
-            if (distance < 1000) {
-                location.text = String.format(
-                        Locale.getDefault(),
-                        containerView.context.string(R.string.location_distance_to_meter),
-                        distance
-                )
-            } else {
-                location.text = String.format(
-                        Locale.getDefault(),
-                        containerView.context.string(R.string.location_distance_to_kilometer),
-                        distance / 1000
-                )
-            }
+            location.text = distance.distanceToString(containerView.context)
         }
     }
 
