@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        events = EventProvider.load()
+        events = EventProvider.load() ?: emptyList()
         setupLocationUpdate()
         setupViews()
         checkForNewVersion()
@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
         if (Preferences.trackLocation) {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         }
-        Preferences.bottomNavigationSelectedItemId = bottom_navigation.selectedItemId
     }
 
     override fun onResume() {

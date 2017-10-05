@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.model
 
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import okhttp3.*
@@ -14,7 +15,7 @@ object EventProvider {
 
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-    private val eventAdapter = moshi.adapter(Event::class.java)
+    private val eventAdapter: JsonAdapter<Event> = moshi.adapter(Event::class.java)
 
     private fun randomDouble(from: Double = 0.0, to: Double = Double.MAX_VALUE): Double =
             Math.random() * (to - from) + from
@@ -42,7 +43,7 @@ object EventProvider {
         )
     }
 
-    fun load(): List<Event> {
+    fun load(): List<Event>? {
         val events = mutableListOf<Event>()
 
         client.newCall(request).enqueue(object : Callback {

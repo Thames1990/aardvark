@@ -7,7 +7,6 @@ import ca.allanwang.kau.kpref.kprefSingle
 /** Is used to store key/value pairs permanently. */
 object Preferences : KPref() {
 
-    var bottomNavigationSelectedItemId: Int by kpref("BOTTOM_NAVIGATION_SELECTED_ITEM_ID", 1)
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
     val isFirstLaunch: Boolean by kprefSingle("IS_FIRST_TIME_LAUNCH")
     var gridLayoutManagerSpanCount: Int by kpref("GRID_LAYOUT_MANAGER_SPAN_COUNT", 2)
