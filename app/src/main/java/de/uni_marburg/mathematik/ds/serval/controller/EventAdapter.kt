@@ -10,7 +10,15 @@ import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.EventProvider
 import kotlin.properties.Delegates
 
-/** [Adapter][RecyclerView.Adapter] for [events][Event] */
+/**
+ * [Adapter][RecyclerView.Adapter] for [events][Event].
+ *
+ * Is able to sort [events][Event] based on their [occurence time][Event.time],
+ * [location][Event.location] or [measurement][Event.measurements].
+ *
+ * @param listener Click listener lambda
+ * @property events Events bound by this adapter
+ */
 class EventAdapter(private val listener: (Event) -> Unit) :
         RecyclerView.Adapter<EventViewHolder>(), AutoUpdatableAdapter {
 
@@ -26,30 +34,31 @@ class EventAdapter(private val listener: (Event) -> Unit) :
 
     override fun getItemCount(): Int = events.size
 
+    /** Loads [events]. */
     fun loadEvents() {
         events = EventProvider.generate()
     }
 
+    /**
+     * Sorts [events] based on their [occurence time][Event.time], [location][Event.location]
+     * or [measurement][Event.measurements].
+     *
+     * @param comparator Determines how to sort the vents
+     * @param reversed Determines whether sorting should be reversed (descending)
+     * @param location Location of the event. Is only useful for a [time comparator]
+     * [EventComparator.Time].
+     */
     fun sort(comparator: EventComparator, reversed: Boolean = false, location: Location? = null) {
-        when (comparator) {
+        events = when (comparator) {
             EventComparator.Distance ->
-                events = if (reversed) {
-                    events.sortedBy { -it.location.distanceTo(location) }
-                } else {
-                    events.sortedBy { it.location.distanceTo(location) }
-                }
+                if (reversed) events.sortedBy { -it.location.distanceTo(location) }
+                else events.sortedBy { it.location.distanceTo(location) }
             EventComparator.Measurement ->
-                events = if (reversed) {
-                    events.sortedBy { -it.measurements.size }
-                } else {
-                    events.sortedBy { it.measurements.size }
-                }
+                if (reversed) events.sortedBy { -it.measurements.size }
+                else events.sortedBy { it.measurements.size }
             EventComparator.Time ->
-                events = if (reversed) {
-                    events.sortedBy { it.time }
-                } else {
-                    events.sortedBy { -it.time }
-                }
+                if (reversed) events.sortedBy { -it.time }
+                else events.sortedBy { it.time }
         }
         notifyDataSetChanged()
     }
