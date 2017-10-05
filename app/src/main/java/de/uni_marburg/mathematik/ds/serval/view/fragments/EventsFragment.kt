@@ -6,14 +6,11 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import ca.allanwang.kau.utils.dpToPx
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.adapters.EventAdapter
@@ -21,12 +18,11 @@ import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
-import de.uni_marburg.mathematik.ds.serval.view.util.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_events.*
 
 class EventsFragment : BaseFragment() {
 
-    private lateinit var adapter: EventAdapter
+    private lateinit var eventAdapter: EventAdapter
 
     override val layout: Int
         get() = R.layout.fragment_events
@@ -65,67 +61,46 @@ class EventsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.action_filter_events_distance_ascending ->
-                adapter.sort(EventComparator.Distance, location = MainActivity.lastLocation)
+                eventAdapter.sort(EventComparator.Distance, location = MainActivity.lastLocation)
             R.id.action_filter_events_distance_descending ->
-                adapter.sort(EventComparator.Distance, true, MainActivity.lastLocation)
+                eventAdapter.sort(EventComparator.Distance, true, MainActivity.lastLocation)
             R.id.action_filter_events_measurements_ascending ->
-                adapter.sort(EventComparator.Measurement)
+                eventAdapter.sort(EventComparator.Measurement)
             R.id.action_filter_events_measurements_descending ->
-                adapter.sort(EventComparator.Measurement, true)
-            R.id.action_filter_events_time_ascending -> adapter.sort(EventComparator.Time)
-            R.id.action_filter_events_time_descending -> adapter.sort(EventComparator.Time, true)
+                eventAdapter.sort(EventComparator.Measurement, true)
+            R.id.action_filter_events_time_ascending ->
+                eventAdapter.sort(EventComparator.Time)
+            R.id.action_filter_events_time_descending ->
+                eventAdapter.sort(EventComparator.Time, true)
             else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
 
     private fun setupRecyclerView() {
-        setupLayoutManager()
-        adapter = EventAdapter {
+        eventAdapter = EventAdapter {
             val detail = Intent(activity, DetailActivity::class.java)
             detail.putExtra(DetailActivity.EVENT, it)
             startActivity(detail)
         }
-        adapter.loadEvents()
-        recycler_view.adapter = adapter
+
+        with(recycler_view) {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+            ))
+            adapter = eventAdapter
+        }
 
         with(swipeRefreshLayout) {
             setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW)
             setOnRefreshListener {
-                adapter.loadEvents()
+                eventAdapter.loadEvents()
                 isRefreshing = false
             }
         }
-    }
 
-    private fun setupLayoutManager() {
-        with(recycler_view) {
-            when {
-                Preferences.useLinearLayoutManager -> {
-                    layoutManager = LinearLayoutManager(context)
-                    addItemDecoration(DividerItemDecoration(
-                            context,
-                            DividerItemDecoration.VERTICAL
-                    ))
-                }
-                Preferences.useGridLayoutManager -> {
-                    layoutManager = GridLayoutManager(
-                            context,
-                            Preferences.gridLayoutManagerSpanCount
-                    )
-                    addItemDecoration(GridSpacingItemDecoration(
-                            Preferences.gridLayoutManagerSpanCount,
-                            10.dpToPx,
-                            true
-                    ))
-                }
-                Preferences.useStaggeredGridLayoutManager -> {
-                    layoutManager = StaggeredGridLayoutManager(
-                            Preferences.staggeredGridLayoutManagerSpanCount,
-                            StaggeredGridLayoutManager.VERTICAL
-                    )
-                }
-            }
-        }
+        eventAdapter.loadEvents()
     }
 }
