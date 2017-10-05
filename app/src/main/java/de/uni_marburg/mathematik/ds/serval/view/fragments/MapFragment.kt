@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.clustering.ClusterManager
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.util.CHECK_LOCATION_PERMISSION
 import de.uni_marburg.mathematik.ds.serval.util.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM

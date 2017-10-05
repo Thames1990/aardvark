@@ -17,8 +17,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.MeasurementsAdapter
-import de.uni_marburg.mathematik.ds.serval.model.Event
-import de.uni_marburg.mathematik.ds.serval.model.Measurement
+import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.model.event.Measurement
 import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM
 import kotlinx.android.synthetic.main.activity_detail.*
 import java.util.*

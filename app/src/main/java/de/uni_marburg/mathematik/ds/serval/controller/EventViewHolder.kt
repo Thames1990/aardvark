@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import ca.allanwang.kau.utils.visibleIf
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.util.distanceToString
 import de.uni_marburg.mathematik.ds.serval.util.timeToString
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity

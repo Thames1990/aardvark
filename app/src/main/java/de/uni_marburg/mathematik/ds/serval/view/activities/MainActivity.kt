@@ -1,14 +1,12 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.Location
 import android.os.Bundle
-import android.os.Looper
 import android.support.design.widget.BottomSheetDialog
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -18,16 +16,11 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.model.Event
-import de.uni_marburg.mathematik.ds.serval.model.EventProvider
-import de.uni_marburg.mathematik.ds.serval.util.CHECK_LOCATION_PERMISSION
-import de.uni_marburg.mathematik.ds.serval.util.LocationUtil
+import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
+import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.REQUEST_CODE_INTRO
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
@@ -38,25 +31,11 @@ import kotlinx.android.synthetic.main.changelog_bottom_sheet_dialog.view.*
 import ru.noties.markwon.Markwon
 import java.io.BufferedReader
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private val fusedLocationProviderClient: FusedLocationProviderClient by lazy {
-        FusedLocationProviderClient(this)
-    }
-
-    private val locationRequest: LocationRequest by lazy { LocationRequest() }
-
-    private val locationCallback: LocationCallback by lazy {
-        object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                val location = locationResult!!.lastLocation
-                if (LocationUtil.isBetterLocation(location, lastLocation)) {
-                    lastLocation = location
-                }
-            }
-        }
+    private val model: LocationViewModel by lazy {
+        ViewModelProviders.of(this).get(LocationViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,23 +45,6 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(IntroActivity::class.java, REQUEST_CODE_INTRO)
         } else {
             start()
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (Preferences.trackLocation) {
-            fusedLocationProviderClient.removeLocationUpdates(locationCallback)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (hasPermission(ACCESS_FINE_LOCATION)) {
-            Preferences.trackLocation = true
-            startLocationUpdates()
-        } else {
-            Preferences.trackLocation = false
         }
     }
 
@@ -120,36 +82,11 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String>,
-            grantResults: IntArray
-    ) = when (requestCode) {
-        CHECK_LOCATION_PERMISSION ->
-            if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
-                Preferences.trackLocation = true
-                startLocationUpdates()
-            } else {
-                Preferences.trackLocation = false
-            }
-        else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
     private fun start() {
+        model.location.observe(this, Observer<Location> { lastLocation = it })
         events = EventProvider.load() ?: emptyList()
-        setupLocationUpdate()
         setupViews()
         checkForNewVersion()
-    }
-
-    private fun setupLocationUpdate() {
-        if (Preferences.trackLocation) {
-            with(locationRequest) {
-                interval = TimeUnit.SECONDS.toMillis(60)
-                fastestInterval = TimeUnit.SECONDS.toMillis(5)
-                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            }
-        }
     }
 
     private fun setupViews() {
@@ -229,24 +166,6 @@ class MainActivity : AppCompatActivity() {
             positiveText(android.R.string.ok)
         }
     }
-
-    private fun startLocationUpdates() {
-        if (!hasPermission(ACCESS_FINE_LOCATION)) {
-            requestPermissions()
-            return
-        }
-        fusedLocationProviderClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.myLooper()
-        )
-    }
-
-    private fun requestPermissions() = ActivityCompat.requestPermissions(
-            this,
-            arrayOf(ACCESS_FINE_LOCATION),
-            CHECK_LOCATION_PERMISSION
-    )
 
     companion object {
 

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.model.Measurement
+import de.uni_marburg.mathematik.ds.serval.model.event.Measurement
 
 /**
  * [Adapter][RecyclerView.Adapter] for [measurements][Measurement].

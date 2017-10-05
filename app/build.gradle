@@ -11,10 +11,6 @@ android {
     def keystoreProperties = new Properties()
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
     
-    androidExtensions {
-        experimental = true
-    }
-    
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion 19
@@ -58,6 +54,10 @@ android {
         }
     }
     
+    androidExtensions {
+        experimental = true
+    }
+    
     dataBinding {
         enabled = true
     }
@@ -69,6 +69,13 @@ dependencies {
     
     // Android Maps Utils
     compile "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
+    
+    // Architecture Components
+    compile "android.arch.lifecycle:extensions:$architecture_components_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$architecture_components_version"
+    compile "android.arch.persistence.room:runtime:$architecture_components_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$architecture_components_version"
+    compile "android.arch.paging:runtime:$paging_version"
     
     // Crashlytics
     compile "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"

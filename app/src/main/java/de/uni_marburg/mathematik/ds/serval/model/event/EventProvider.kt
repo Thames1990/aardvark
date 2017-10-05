@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.model
+package de.uni_marburg.mathematik.ds.serval.model.event
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory

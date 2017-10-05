@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.model.Event
-import de.uni_marburg.mathematik.ds.serval.model.EventComparator
-import de.uni_marburg.mathematik.ds.serval.model.EventProvider
+import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
+import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
 import kotlin.properties.Delegates
 
 /**
