@@ -1,11 +1,10 @@
-package de.uni_marburg.mathematik.ds.serval.controller.adapters
+package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.location.Location
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.controller.view_holders.EventViewHolder
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.EventProvider

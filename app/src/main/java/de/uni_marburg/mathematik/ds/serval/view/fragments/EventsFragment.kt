@@ -13,7 +13,7 @@ import android.view.MenuItem
 import android.view.View
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.controller.adapters.EventAdapter
+import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity

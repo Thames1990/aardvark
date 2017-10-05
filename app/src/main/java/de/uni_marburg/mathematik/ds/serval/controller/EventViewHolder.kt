@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.controller.view_holders
+package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat

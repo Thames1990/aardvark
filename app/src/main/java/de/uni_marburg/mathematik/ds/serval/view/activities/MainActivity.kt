@@ -40,12 +40,6 @@ import java.io.BufferedReader
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-/**
- * Main view of the app.
- *
- *
- * Currently shows a list of all events. Might be changed to a dashboard.
- */
 class MainActivity : AppCompatActivity() {
 
     private val fusedLocationProviderClient: FusedLocationProviderClient by lazy {

@@ -1,11 +1,10 @@
-package de.uni_marburg.mathematik.ds.serval.controller.adapters
+package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.controller.view_holders.MeasurementsViewHolder
 import de.uni_marburg.mathematik.ds.serval.model.Measurement
 
 /** Adapter for [measurements][Measurement] */

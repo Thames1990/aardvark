@@ -1,10 +1,11 @@
-package de.uni_marburg.mathematik.ds.serval.controller.adapters
+package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 
 interface AutoUpdatableAdapter {
 
+    /** Extension for [adapters][RecyclerView.Adapter] to automatically use [DiffUtil] **/
     fun <T> RecyclerView.Adapter<*>.autoNotify(
             old: List<T>,
             new: List<T>,
