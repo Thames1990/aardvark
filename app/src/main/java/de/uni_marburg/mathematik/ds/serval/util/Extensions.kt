@@ -45,3 +45,5 @@ fun Float.distanceToString(context: Context): String = if (this < 1000) {
 } else {
     String.format(Locale.getDefault(), context.string(R.string.distance_in_kilometer), this / 1000)
 }
+
+fun ClosedRange<Int>.randomRange() = (start..Random().nextInt(endInclusive - start) + start)

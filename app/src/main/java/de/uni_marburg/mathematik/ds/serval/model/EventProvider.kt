@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.model
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
+import de.uni_marburg.mathematik.ds.serval.util.randomRange
 import okhttp3.*
 import java.io.IOException
 import java.util.*
@@ -38,7 +39,7 @@ object EventProvider {
                         randomDouble(-180.0, 180.0),
                         UUID.randomUUID().toString().replace("-", "")
                 ),
-                (1..4).map {
+                (1..10).randomRange().map {
                     Measurement(
                             MeasurementType.values()[randomInt(to = MeasurementType.values().size)],
                             // Dont infuriate Vegeta
