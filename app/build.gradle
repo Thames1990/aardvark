@@ -93,8 +93,8 @@ dependencies {
     // Markwon
     compile "ru.noties:markwon:$markwon_version"
     
-    // MaterialIntro
-    compile 'com.heinrichreimersoftware:material-intro:1.6.2'
+    // MaterialIntroScreen
+    compile "agency.tango.android:material-intro-screen:$material_intro_screen_version"
     
     // Moshi
     compile "com.squareup.moshi:moshi:$moshi_version"
