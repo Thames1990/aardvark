@@ -10,7 +10,6 @@ import android.os.Looper
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.Menu
@@ -186,8 +185,9 @@ class MainActivity : AppCompatActivity() {
     private fun changeScreen(fragment: Fragment) {
         supportFragmentManager
                 .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setCustomAnimations(R.anim.kau_fade_in, R.anim.kau_fade_out)
                 .replace(R.id.content, fragment)
+                .addToBackStack(null)
                 .commit()
     }
 
