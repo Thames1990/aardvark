@@ -34,7 +34,7 @@ object EventProvider {
                         randomDouble(-180.0, 180.0),
                         UUID.randomUUID().toString().replace("-", "")
                 ),
-                (1..10).map {
+                (1..4).map {
                     Measurement(
                             MeasurementType.values()[randomInt(to = MeasurementType.values().size)],
                             randomInt()
