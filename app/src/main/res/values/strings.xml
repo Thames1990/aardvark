@@ -16,7 +16,7 @@
     <string name="action_filter_events">Filter events</string>
     <string name="action_filter_events_ascending">@string/ascending</string>
     <string name="action_filter_events_descending">@string/descending</string>
-    <string name="action_filter_events_distance">@string/location_distance</string>
+    <string name="action_filter_events_distance">@string/distance</string>
     <string name="action_filter_events_measurements">@string/measurements</string>
     <string name="action_filter_events_shuffle">@string/shuffle</string>
     <string name="action_filter_events_time">@string/time</string>
@@ -96,9 +96,9 @@
 
     <!-- Location -->
     <string name="location">Location</string>
-    <string name="location_distance">Distance</string>
-    <string name="location_distance_to_kilometer">%1$.2f km</string>
-    <string name="location_distance_to_meter">%1$.0f m</string>
+    <string name="distance">Distance</string>
+    <string name="distance_in_kilometer">%1$.2f km</string>
+    <string name="distance_in_meter">%1$.0f m</string>
 
     <!-- Log messages -->
     <string name="log_message_fail_event_load">Failed to load events: %1$s</string>
@@ -138,9 +138,11 @@
 
     <!-- Time -->
     <string name="time">Time</string>
-    <string name="time_hours_ago">%1$d hr</string>
-    <string name="time_minutes_ago">%1$d min</string>
-    <string name="time_days_ago">%1$dd</string>
+    <string name="hours_ago">%1$d hr</string>
+    <string name="minutes_ago">%1$d min</string>
+    <string name="days_ago">%1$dd</string>
+    <string name="months_ago">%1$dm</string>
+    <string name="years_ago">%1$dy</string>
 
     <!-- Tools Fake Data -->
     <string name="tools_changelog">Changelog - Version 9001.0.0</string>
