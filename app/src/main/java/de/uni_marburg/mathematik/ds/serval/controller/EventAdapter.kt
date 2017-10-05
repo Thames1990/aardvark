@@ -57,8 +57,8 @@ class EventAdapter(private val listener: (Event) -> Unit) :
                 if (reversed) events.sortedBy { -it.measurements.size }
                 else events.sortedBy { it.measurements.size }
             EventComparator.Time ->
-                if (reversed) events.sortedBy { -it.time }
-                else events.sortedBy { it.time }
+                if (reversed) events.sortedBy { it.time }
+                else events.sortedBy { -it.time }
         }
         notifyDataSetChanged()
     }
