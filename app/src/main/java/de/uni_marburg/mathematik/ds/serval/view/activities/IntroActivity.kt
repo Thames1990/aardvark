@@ -19,6 +19,7 @@ class IntroActivity : IntroActivity() {
                 .description(R.string.intro_1_description)
                 .image(R.drawable.speaker_phone)
                 .background(R.color.intro_1_background)
+                .backgroundDark(R.color.colorPrimaryDark)
                 .build())
 
         addSlide(SimpleSlide.Builder()
@@ -26,6 +27,7 @@ class IntroActivity : IntroActivity() {
                 .description(R.string.intro_2_description)
                 .image(R.drawable.dashboard)
                 .background(R.color.intro_2_background)
+                .backgroundDark(R.color.colorPrimaryDark)
                 .build())
 
         addSlide(SimpleSlide.Builder()
@@ -33,6 +35,7 @@ class IntroActivity : IntroActivity() {
                 .description(R.string.intro_3_description)
                 .image(R.drawable.map)
                 .background(R.color.intro_3_background)
+                .backgroundDark(R.color.colorPrimaryDark)
                 .permission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .build())
 
@@ -41,6 +44,7 @@ class IntroActivity : IntroActivity() {
                 .description(R.string.intro_4_description)
                 .image(R.drawable.chat)
                 .background(R.color.intro_4_background)
+                .backgroundDark(R.color.colorPrimaryDark)
                 .build())
     }
 }
