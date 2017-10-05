@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.drawable
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -27,7 +26,9 @@ class MapFragment : BaseFragment() {
 
     private lateinit var googleMap: GoogleMap
 
-    private lateinit var map: SupportMapFragment
+    private val map: SupportMapFragment by lazy {
+        childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+    }
 
     override val layout: Int
         get() = R.layout.fragment_map
@@ -36,11 +37,6 @@ class MapFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         Aardvark.firebaseAnalytics.setCurrentScreen(activity, getString(R.string.screen_map), null)
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
