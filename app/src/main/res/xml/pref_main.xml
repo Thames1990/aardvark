@@ -23,15 +23,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:order="3" android:title="@string/location">
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_track_location"
-            android:title="@string/preference_track_location" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory
         android:order="5"
         android:title="@string/preference_about">

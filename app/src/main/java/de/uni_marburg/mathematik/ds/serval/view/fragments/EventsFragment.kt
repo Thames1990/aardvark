@@ -15,7 +15,6 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_events.*
@@ -52,10 +51,6 @@ class EventsFragment : BaseFragment() {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater!!.inflate(R.menu.menu_events, menu)
-        // Hide location sort, if the user denied location update permission
-        if (!Preferences.trackLocation) {
-            menu!!.findItem(R.id.action_filter_events_distance).isVisible = false
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

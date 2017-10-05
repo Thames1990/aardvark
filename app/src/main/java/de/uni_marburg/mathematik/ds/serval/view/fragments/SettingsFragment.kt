@@ -30,7 +30,6 @@ class SettingsFragment :
         addPreferencesFromResource(R.xml.pref_main)
         createGeneralPreferences()
         createDebugPreferences()
-        createLocationPreferences()
         createAboutPreferences()
     }
 
@@ -42,7 +41,6 @@ class SettingsFragment :
             getString(R.string.preference_use_bottom_sheets) -> Preferences.useBottomSheetDialogs = isChecked
             getString(R.string.preference_confirm_exit) -> Preferences.confirmExit = isChecked
             getString(R.string.preference_enable_wifi_adb) -> enableWifiAdb()
-            getString(R.string.preference_track_location) -> Preferences.trackLocation = isChecked
             else -> return false
         }
 
@@ -69,11 +67,6 @@ class SettingsFragment :
             findPreference(getString(R.string.preference_enable_wifi_adb)).onPreferenceClickListener = this
         }
     }
-
-    private fun createLocationPreferences() {
-        findPreference(getString(R.string.preference_track_location)).onPreferenceChangeListener = this
-    }
-
     private fun createAboutPreferences() {
         findPreference(getString(R.string.preference_send_feedback)).onPreferenceClickListener = this
         findPreference(getString(R.string.preference_version)).summary = BuildConfig.VERSION_NAME

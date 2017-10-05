@@ -1,17 +1,14 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments
 
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat.requestPermissions
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.drawable
-import ca.allanwang.kau.utils.hasPermission
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -21,10 +18,8 @@ import com.google.maps.android.clustering.ClusterManager
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.util.CHECK_LOCATION_PERMISSION
 import de.uni_marburg.mathematik.ds.serval.util.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
 
@@ -56,9 +51,7 @@ class MapFragment : BaseFragment() {
             setupGoogleMapsListeners(clusterManager, googleMap)
             setupCameraBounds(googleMap)
             setupMyLocation(googleMap)
-            if (Preferences.trackLocation) {
-                moveCameraToLastLocation(googleMap)
-            }
+            moveCameraToLastLocation(googleMap)
         }
     }
 
@@ -129,21 +122,11 @@ class MapFragment : BaseFragment() {
     }
 
     private fun setupMyLocation(googleMap: GoogleMap) {
-        if (Preferences.trackLocation) {
-            if (!context.hasPermission(ACCESS_FINE_LOCATION)) {
-                requestPermissions(
-                        activity,
-                        arrayOf(ACCESS_FINE_LOCATION),
-                        CHECK_LOCATION_PERMISSION
-                )
-                return
-            }
-            with(googleMap) {
-                isMyLocationEnabled = true
-                setOnMyLocationButtonClickListener {
-                    moveCameraToLastLocation(googleMap, true)
-                    true
-                }
+        with(googleMap) {
+            isMyLocationEnabled = true
+            setOnMyLocationButtonClickListener {
+                moveCameraToLastLocation(googleMap, true)
+                true
             }
         }
     }

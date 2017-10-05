@@ -10,7 +10,6 @@ object Preferences : KPref() {
     var isFirstLaunch: Boolean by kpref("IS_FIRST_TIME_LAUNCH", true)
     var lastKnownVersionCode: Int by kpref("LAST_KNOWN_VERSION_CODE", 1)
     var showChangelog: Boolean by kpref("SHOW_CHANGELOG", true)
-    var trackLocation: Boolean by kpref("TRACK_LOCATION", false)
     var useBottomSheetDialogs: Boolean by kpref("USE_BOTTOM_SHEET_DIALOGS", true)
 }
 
