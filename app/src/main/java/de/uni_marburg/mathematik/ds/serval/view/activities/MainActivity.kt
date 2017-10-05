@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.Location
@@ -97,12 +96,8 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_INTRO) {
-            if (resultCode == Activity.RESULT_OK) {
-                Preferences.isFirstLaunch = false
-                start()
-            } else {
-                finish()
-            }
+            Preferences.isFirstLaunch = false
+            start()
         }
     }
 
