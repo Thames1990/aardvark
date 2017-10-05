@@ -192,7 +192,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForNewVersion(force: Boolean = false) {
-        val versionCode = packageManager.getPackageInfo(packageName, 0).versionCode
+        val versionCode = BuildConfig.VERSION_CODE
         if (force || Preferences.showChangelog && Preferences.lastKnownVersionCode < versionCode) {
             Preferences.lastKnownVersionCode = versionCode
             showChangelog(versionCode)
