@@ -15,10 +15,10 @@
 
     <!-- Intro slides -->
     <color name="intro_1_background">#80e27e</color>
-    <color name="intro_2_background">#62c967</color>
-    <color name="intro_3_background">#44c050</color>
-    <color name="intro_4_background">#269739</color>
-    <color name="intro_5_background">#087f23</color>
-    <color name="intro_placeholder_background">@color/colorPrimaryLight</color>
+    <color name="intro_2_background">#58c15f</color>
+    <color name="intro_3_background">#30a041</color>
+    <color name="intro_4_background">#087f23</color>
+
+    <color name="placeholder_background">@color/colorPrimaryLight</color>
 </resources>
 

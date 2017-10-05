@@ -1,8 +1,8 @@
 package de.uni_marburg.mathematik.ds.serval.util
 
-const val CHECK_LOCATION_PERMISSION = 0
+const val REQUEST_CODE_INTRO = 0
 
-const val FADE_OUT_ANIMATION_DURATION = 1000L
+const val CHECK_LOCATION_PERMISSION = 0
 
 const val MAP_PADDING = 100
 
@@ -14,5 +14,3 @@ const val MAP_PADDING = 100
  * 20: Buildings
  */
 const val MAP_ZOOM = 15f
-
-const val PERMISSION_TAB = 2

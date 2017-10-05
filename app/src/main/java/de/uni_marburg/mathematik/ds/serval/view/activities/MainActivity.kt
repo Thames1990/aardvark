@@ -2,6 +2,8 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.Location
 import android.os.Bundle
@@ -9,6 +11,7 @@ import android.os.Looper
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.Menu
@@ -28,7 +31,7 @@ import de.uni_marburg.mathematik.ds.serval.model.EventProvider
 import de.uni_marburg.mathematik.ds.serval.util.CHECK_LOCATION_PERMISSION
 import de.uni_marburg.mathematik.ds.serval.util.LocationUtil
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
-import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment
+import de.uni_marburg.mathematik.ds.serval.util.REQUEST_CODE_INTRO
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment
@@ -47,19 +50,31 @@ import java.util.concurrent.TimeUnit
  */
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private val fusedLocationProviderClient: FusedLocationProviderClient by lazy {
+        FusedLocationProviderClient(this)
+    }
 
-    private lateinit var locationRequest: LocationRequest
+    private val locationRequest: LocationRequest by lazy { LocationRequest() }
 
-    private lateinit var locationCallback: LocationCallback
+    private val locationCallback: LocationCallback by lazy {
+        object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                val location = locationResult!!.lastLocation
+                if (LocationUtil.isBetterLocation(location, lastLocation)) {
+                    lastLocation = location
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        events = EventProvider.load() ?: emptyList()
-        setupLocationUpdate()
-        setupViews()
-        checkForNewVersion()
+        if (Preferences.isFirstLaunch) {
+            startActivityForResult(IntroActivity::class.java, REQUEST_CODE_INTRO)
+        } else {
+            start()
+        }
     }
 
     override fun onPause() {
@@ -76,6 +91,18 @@ class MainActivity : AppCompatActivity() {
             startLocationUpdates()
         } else {
             Preferences.trackLocation = false
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_INTRO) {
+            if (resultCode == Activity.RESULT_OK) {
+                Preferences.isFirstLaunch = false
+                start()
+            } else {
+                finish()
+            }
         }
     }
 
@@ -122,22 +149,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun start() {
+        events = EventProvider.load() ?: emptyList()
+        setupLocationUpdate()
+        setupViews()
+        checkForNewVersion()
+    }
+
     private fun setupLocationUpdate() {
         if (Preferences.trackLocation) {
-            fusedLocationProviderClient = FusedLocationProviderClient(this)
-            locationRequest = LocationRequest()
             with(locationRequest) {
                 interval = TimeUnit.SECONDS.toMillis(60)
                 fastestInterval = TimeUnit.SECONDS.toMillis(5)
                 priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            }
-            locationCallback = object : LocationCallback() {
-                override fun onLocationResult(locationResult: LocationResult?) {
-                    val location = locationResult!!.lastLocation
-                    if (LocationUtil.isBetterLocation(location, lastLocation)) {
-                        lastLocation = location
-                    }
-                }
             }
         }
     }
@@ -146,22 +170,32 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         changeScreen(PlaceholderFragment())
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
-            val current = supportFragmentManager.findFragmentById(R.id.content)
-            val fragment = when (item.itemId) {
-                R.id.action_dashboard -> PlaceholderFragment().takeIf { current !is DashboardFragment }
-                R.id.action_events -> EventsFragment().takeIf { current !is EventsFragment }
-                R.id.action_map -> MapFragment().takeIf { current !is MapFragment }
-                else -> PlaceholderFragment()
+            with(supportFragmentManager) {
+                when (item.itemId) {
+                    R.id.action_dashboard ->
+                        if (findFragmentById(R.id.content) !is PlaceholderFragment) {
+                            changeScreen(PlaceholderFragment())
+                        }
+                    R.id.action_events ->
+                        if (findFragmentById(R.id.content) !is EventsFragment) {
+                            changeScreen(EventsFragment())
+                        }
+                    R.id.action_map ->
+                        if (findFragmentById(R.id.content) !is MapFragment) {
+                            changeScreen(MapFragment())
+                        }
+                }
+                true
             }
-            if (fragment != null) {
-                changeScreen(fragment)
-            }
-            false
         }
     }
 
     private fun changeScreen(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.content, fragment).commit()
+        supportFragmentManager
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.content, fragment)
+                .commit()
     }
 
     private fun checkForNewVersion(force: Boolean = false) {

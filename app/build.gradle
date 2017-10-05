@@ -57,6 +57,10 @@ android {
             ]
         }
     }
+    
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -88,6 +92,9 @@ dependencies {
     
     // Markwon
     compile "ru.noties:markwon:$markwon_version"
+    
+    // MaterialIntro
+    compile 'com.heinrichreimersoftware:material-intro:1.6.2'
     
     // Moshi
     compile "com.squareup.moshi:moshi:$moshi_version"
