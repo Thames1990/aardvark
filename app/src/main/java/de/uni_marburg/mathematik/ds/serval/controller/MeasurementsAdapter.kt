@@ -7,7 +7,12 @@ import ca.allanwang.kau.utils.inflate
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Measurement
 
-/** Adapter for [measurements][Measurement] */
+/**
+ * [Adapter][RecyclerView.Adapter] for [measurements][Measurement].
+ *
+ * @param measurements Events bound by this adapter
+ * @param listener [Click listener lambda][View.OnClickListener]
+ */
 class MeasurementsAdapter(
         val measurements: List<Measurement>,
         private val listener: (Measurement, View) -> Unit
