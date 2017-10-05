@@ -6,6 +6,7 @@ import com.squareup.moshi.Moshi
 import okhttp3.*
 import java.io.IOException
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 object EventProvider {
 
@@ -28,7 +29,10 @@ object EventProvider {
 
     fun generate(): List<Event> = (1..1000).map {
         Event(
-                Calendar.getInstance().timeInMillis.minus(randomLong(to = 50000000)),
+                Calendar
+                        .getInstance()
+                        .timeInMillis
+                        .minus(randomLong(to = TimeUnit.DAYS.toMillis(30))),
                 GeohashLocation(
                         randomDouble(to = 90.0),
                         randomDouble(-180.0, 180.0),
@@ -37,7 +41,8 @@ object EventProvider {
                 (1..4).map {
                     Measurement(
                             MeasurementType.values()[randomInt(to = MeasurementType.values().size)],
-                            randomInt()
+                            // Dont infuriate Vegeta
+                            randomInt().coerceAtMost(9000)
                     )
                 }
         )
