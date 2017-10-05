@@ -18,28 +18,43 @@ import kotlinx.android.synthetic.main.event_row.*
 import kotlinx.android.synthetic.main.event_row.view.*
 import java.util.*
 
-/** [View holder][RecyclerView.ViewHolder] for [events][Event] */
+/** [View holder][RecyclerView.ViewHolder] for [events][Event]. */
 class EventViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
+    /**
+     * Binds an [event] to [views][View].
+     *
+     * @param event Event to bind to [views][View]
+     * @param listener [Click listener lambda][View.OnClickListener]
+     */
     fun bind(event: Event, listener: (Event) -> Unit) = with(containerView) {
-        setupTime(event)
-        setupLocation(event)
-        setupMeasurementIcons(event)
+        displayTime(event)
+        displayLocation(event)
+        displayMeasurementTypes(event)
         setOnClickListener { listener(event) }
     }
 
-    private fun setupTime(event: Event) {
+    /**
+     * Correctly formats and displays [the occurence time][Event.time] of the [event].
+     *
+     * @param event Event to correctly format and display [the occurence time][Event.time] for
+     */
+    private fun displayTime(event: Event) {
         val timeDifference = Calendar.getInstance().timeInMillis - event.time
         time.text = timeDifference.timeToString(containerView.context)
     }
 
-    private fun setupLocation(event: Event) {
+    /**
+     * Correctly displays [the location][Event.location] of the [event].
+     *
+     * @param event Event to correctly display [the location][Event.location] for
+     */
+    private fun displayLocation(event: Event) {
         location_icon.visibleIf(MainActivity.lastLocation != null)
         location.visibleIf(MainActivity.lastLocation != null)
 
-        // Location permissions are revoked/denied
         if (MainActivity.lastLocation != null) {
             val icon = ContextCompat.getDrawable(containerView.context, R.drawable.location)
             icon.setColorFilter(
@@ -53,13 +68,16 @@ class EventViewHolder(override val containerView: View) :
         }
     }
 
-    private fun setupMeasurementIcons(event: Event) {
+    /**
+     * Display the measurement types of the [event].
+     *
+     * @param event Event to correctly display [the measurement types][Event.measurements] for
+     */
+    private fun displayMeasurementTypes(event: Event) {
         measurement_types.removeAllViews()
-        val types = event.measurements.mapTo(HashSet()) { it.type }
-
-        for (type in types) {
+        event.measurements.mapTo(HashSet()) { it.type }.forEach {
             val icon = ImageView(itemView.context)
-            icon.setImageResource(type.getResId(itemView.context))
+            icon.setImageResource(it.getResId(itemView.context))
             icon.layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.MATCH_PARENT

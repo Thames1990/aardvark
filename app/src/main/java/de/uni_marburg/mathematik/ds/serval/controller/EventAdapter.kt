@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.location.Location
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.view.ViewGroup
 import ca.allanwang.kau.utils.inflate
 import de.uni_marburg.mathematik.ds.serval.R
@@ -16,7 +17,7 @@ import kotlin.properties.Delegates
  * Is able to sort [events][Event] based on their [occurence time][Event.time],
  * [location][Event.location] or [measurement][Event.measurements].
  *
- * @param listener Click listener lambda
+ * @param listener [Click listener lambda][View.OnClickListener]
  * @property events Events bound by this adapter
  */
 class EventAdapter(private val listener: (Event) -> Unit) :
