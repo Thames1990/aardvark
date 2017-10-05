@@ -16,14 +16,25 @@ import java.util.*
 class MeasurementsViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView), LayoutContainer {
 
+    /**
+     * Binds a [measurement] to [views][View].
+     *
+     * @param measurement Measurement to bind to [views][View]
+     * @param listener [Click listener lambda][View.OnClickListener]
+     */
     fun bind(measurement: Measurement, listener: (Measurement, View) -> Unit) =
             with(containerView) {
-                setupViews(measurement)
+                display(measurement)
                 explore.setOnClickListener { listener(measurement, explore) }
                 share.setOnClickListener { listener(measurement, share) }
             }
 
-    private fun setupViews(measurement: Measurement) {
+    /**
+     * Display the [measurement].
+     *
+     * @param measurement Measurement to display
+     */
+    private fun display(measurement: Measurement) {
         val value: String
         val resId: Int
         when (measurement.type) {
@@ -46,11 +57,7 @@ class MeasurementsViewHolder(override val containerView: View) :
         }
 
         measurement_type.text = measurement.type.toString()
-        measurement_value.text = String.format(
-                Locale.getDefault(),
-                value,
-                measurement.value
-        )
+        measurement_value.text = String.format(Locale.getDefault(), value, measurement.value)
         measurement_icon.setImageResource(resId)
     }
 }
