@@ -3,9 +3,18 @@ package de.uni_marburg.mathematik.ds.serval.controller
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 
+/** Extension for [RecyclerView.Adapter] to automatically notify about content changes. */
 interface AutoUpdatableAdapter {
 
-    /** Extension for [adapters][RecyclerView.Adapter] to automatically use [DiffUtil] **/
+    /**
+     * Automatically notifies [DiffUtil] to update the [RecyclerView] if [new] content is different
+     * from [old] content. This is determined by [compare].
+     *
+     * @param T The type of content
+     * @param old Old content
+     * @param new New content
+     * @param compare Compares content
+     */
     fun <T> RecyclerView.Adapter<*>.autoNotify(
             old: List<T>,
             new: List<T>,
