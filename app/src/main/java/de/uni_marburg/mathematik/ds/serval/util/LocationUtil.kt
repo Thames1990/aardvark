@@ -45,11 +45,10 @@ object LocationUtil {
     }
 
     /** Determines whether [provider1] is from the same type as [provider2]. */
-    private fun isSameProvider(provider1: String?, provider2: String?): Boolean {
-        return if (provider1 == null) {
-            provider2 == null
-        } else provider1 == provider2
-    }
+    private fun isSameProvider(provider1: String?, provider2: String?): Boolean =
+            if (provider1 == null) {
+                provider2 == null
+            } else provider1 == provider2
 
 
 }

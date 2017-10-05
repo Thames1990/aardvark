@@ -113,13 +113,11 @@ class MapFragment : BaseFragment() {
     private fun setupGoogleMapsListeners(
             clusterManager: ClusterManager<Event>,
             googleMap: GoogleMap
-    ) {
-        with(googleMap) {
-            uiSettings.isMapToolbarEnabled = false
-            setOnCameraIdleListener(clusterManager)
-            setOnMarkerClickListener(clusterManager)
-            setOnInfoWindowClickListener(clusterManager)
-        }
+    ) = with(googleMap) {
+        uiSettings.isMapToolbarEnabled = false
+        setOnCameraIdleListener(clusterManager)
+        setOnMarkerClickListener(clusterManager)
+        setOnInfoWindowClickListener(clusterManager)
     }
 
     private fun setupCameraBounds(googleMap: GoogleMap) {
@@ -150,15 +148,14 @@ class MapFragment : BaseFragment() {
         }
     }
 
-    private fun moveCameraToLastLocation(googleMap: GoogleMap, animate: Boolean = false) {
-        with(MainActivity.lastLocation!!) {
-            val lastLocationPosition = LatLng(latitude, longitude)
-            val update = CameraUpdateFactory.newLatLngZoom(lastLocationPosition, MAP_ZOOM)
-            if (animate) {
-                googleMap.animateCamera(update)
-            } else {
-                googleMap.moveCamera(update)
+    private fun moveCameraToLastLocation(googleMap: GoogleMap, animate: Boolean = false) =
+            with(MainActivity.lastLocation!!) {
+                val lastLocationPosition = LatLng(latitude, longitude)
+                val update = CameraUpdateFactory.newLatLngZoom(lastLocationPosition, MAP_ZOOM)
+                if (animate) {
+                    googleMap.animateCamera(update)
+                } else {
+                    googleMap.moveCamera(update)
+                }
             }
-        }
-    }
 }

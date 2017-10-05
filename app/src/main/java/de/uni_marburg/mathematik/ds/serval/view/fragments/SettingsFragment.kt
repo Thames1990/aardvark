@@ -107,11 +107,12 @@ class SettingsFragment :
         startActivity(shareIntent)
     }
 
-    private fun sendFeedback() {
-        activity.sendEmail(getString(R.string.email_adress_feedback), String.format(
-                Locale.getDefault(),
-                getString(R.string.intent_extra_query_from),
-                getString(R.string.app_name)
-        ))
-    }
+    private fun sendFeedback() = activity.sendEmail(
+            getString(R.string.email_adress_feedback),
+            String.format(
+                    Locale.getDefault(),
+                    getString(R.string.intent_extra_query_from),
+                    getString(R.string.app_name)
+            )
+    )
 }

@@ -36,18 +36,16 @@ fun Long.timeToString(context: Context): String {
     }
 }
 
-fun Float.distanceToString(context: Context): String {
-    return if (this < 1000) {
-        String.format(
-                Locale.getDefault(),
-                context.string(R.string.location_distance_to_meter),
-                this
-        )
-    } else {
-        String.format(
-                Locale.getDefault(),
-                context.string(R.string.location_distance_to_kilometer),
-                this / 1000
-        )
-    }
+fun Float.distanceToString(context: Context): String = if (this < 1000) {
+    String.format(
+            Locale.getDefault(),
+            context.string(R.string.location_distance_to_meter),
+            this
+    )
+} else {
+    String.format(
+            Locale.getDefault(),
+            context.string(R.string.location_distance_to_kilometer),
+            this / 1000
+    )
 }

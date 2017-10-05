@@ -47,9 +47,7 @@ object EventProvider {
         val events = mutableListOf<Event>()
 
         client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-
-            }
+            override fun onFailure(call: Call, e: IOException) = Unit
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {

@@ -131,17 +131,15 @@ class MainActivity : AppCompatActivity() {
             requestCode: Int,
             permissions: Array<String>,
             grantResults: IntArray
-    ) {
-        when (requestCode) {
-            CHECK_LOCATION_PERMISSION ->
-                if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
-                    Preferences.trackLocation = true
-                    startLocationUpdates()
-                } else {
-                    Preferences.trackLocation = false
-                }
-            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
+    ) = when (requestCode) {
+        CHECK_LOCATION_PERMISSION ->
+            if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
+                Preferences.trackLocation = true
+                startLocationUpdates()
+            } else {
+                Preferences.trackLocation = false
+            }
+        else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun start() {
@@ -250,13 +248,11 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun requestPermissions() {
-        ActivityCompat.requestPermissions(
-                this,
-                arrayOf(ACCESS_FINE_LOCATION),
-                CHECK_LOCATION_PERMISSION
-        )
-    }
+    private fun requestPermissions() = ActivityCompat.requestPermissions(
+            this,
+            arrayOf(ACCESS_FINE_LOCATION),
+            CHECK_LOCATION_PERMISSION
+    )
 
     companion object {
 
