@@ -85,9 +85,7 @@ class MapFragment : BaseFragment() {
         with(clusterManager) {
             setOnClusterClickListener { cluster ->
                 val builder = LatLngBounds.builder()
-                for (clusterItem in cluster.items) {
-                    builder.include(clusterItem.position)
-                }
+                cluster.items.forEach { builder.include(it.position) }
                 val bounds = builder.build()
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING))
                 true
