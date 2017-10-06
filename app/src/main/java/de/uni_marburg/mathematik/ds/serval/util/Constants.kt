@@ -12,3 +12,5 @@ const val MAP_PADDING = 100
  * 20: Buildings
  */
 const val MAP_ZOOM = 15f
+
+const val WIFI_ADB_PORT = 5555

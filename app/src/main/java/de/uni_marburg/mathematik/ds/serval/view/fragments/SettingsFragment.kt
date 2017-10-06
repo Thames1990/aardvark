@@ -1,17 +1,18 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.text.format.Formatter
 import ca.allanwang.kau.email.sendEmail
+import ca.allanwang.kau.utils.shareText
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
+import de.uni_marburg.mathematik.ds.serval.util.WIFI_ADB_PORT
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import java.io.DataOutputStream
 import java.util.*
@@ -72,34 +73,23 @@ class SettingsFragment :
     }
 
     private fun enableWifiAdb() {
-        val root = Runtime.getRuntime().exec("su")
-        val dos = DataOutputStream(root.outputStream)
-        dos.writeBytes("setprop service.adb.tcp.port 5555\n")
-        dos.writeBytes("stop adbd\n")
-        dos.writeBytes("start adbd\n")
-        dos.writeBytes("exit\n")
-        dos.flush()
-        dos.close()
-        root.waitFor()
+        with(Runtime.getRuntime().exec("su")) {
+            with(DataOutputStream(outputStream)) {
+                writeBytes("setprop service.adb.tcp.port $WIFI_ADB_PORT\n")
+                writeBytes("tcpip $WIFI_ADB_PORT\n")
+                writeBytes("exit\n")
+                flush()
+                close()
+            }
+            waitFor()
+        }
 
-        val mWifiManager = context.applicationContext
-                .getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val ip = mWifiManager.connectionInfo.ipAddress
-
-        shareWifiADBInfo(Formatter.formatIpAddress(ip))
+        with(context.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
+            context.shareText("adb connect " + Formatter.formatIpAddress(connectionInfo.ipAddress))
+        }
     }
 
-    private fun shareWifiADBInfo(ip: String) {
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.putExtra(
-                Intent.EXTRA_TEXT,
-                String.format(getString(R.string.intent_extra_wifi_adb), ip)
-        )
-        shareIntent.type = getString(R.string.intent_type_text_plain)
-        startActivity(shareIntent)
-    }
-
-    private fun sendFeedback() = activity.sendEmail(
+    private fun sendFeedback() = context.sendEmail(
             getString(R.string.email_adress_feedback),
             String.format(
                     Locale.getDefault(),
