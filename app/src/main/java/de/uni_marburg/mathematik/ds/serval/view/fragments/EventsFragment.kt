@@ -13,7 +13,8 @@ import android.view.View
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
-import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
+import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
+import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_events.*
@@ -54,23 +55,18 @@ class EventsFragment : BaseFragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_filter_events_distance_ascending ->
-                eventAdapter.sort(EventComparator.Distance, location = MainActivity.lastLocation)
-            R.id.action_filter_events_distance_descending ->
-                eventAdapter.sort(EventComparator.Distance, true, MainActivity.lastLocation)
-            R.id.action_filter_events_measurements_ascending ->
-                eventAdapter.sort(EventComparator.Measurement)
-            R.id.action_filter_events_measurements_descending ->
-                eventAdapter.sort(EventComparator.Measurement, true)
-            R.id.action_filter_events_time_ascending ->
-                eventAdapter.sort(EventComparator.Time)
-            R.id.action_filter_events_time_descending ->
-                eventAdapter.sort(EventComparator.Time, true)
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_filter_events_distance_ascending ->
+            consume { eventAdapter.sortBy(Distance, location = MainActivity.lastLocation) }
+        R.id.action_filter_events_distance_descending ->
+            consume { eventAdapter.sortBy(Distance, true, MainActivity.lastLocation) }
+        R.id.action_filter_events_measurements_ascending ->
+            consume { eventAdapter.sortBy(Measurement) }
+        R.id.action_filter_events_measurements_descending ->
+            consume { eventAdapter.sortBy(Measurement, true) }
+        R.id.action_filter_events_time_ascending -> consume { eventAdapter.sortBy(Time) }
+        R.id.action_filter_events_time_descending -> consume { eventAdapter.sortBy(Time, true) }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun setupRecyclerView() {
@@ -93,7 +89,7 @@ class EventsFragment : BaseFragment() {
         with(swipeRefreshLayout) {
             setOnRefreshListener {
                 eventAdapter.loadEvents(true)
-                eventAdapter.sort(EventComparator.Time)
+                eventAdapter.sortBy(Time)
                 isRefreshing = false
             }
         }

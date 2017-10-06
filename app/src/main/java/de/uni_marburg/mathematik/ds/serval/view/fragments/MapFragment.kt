@@ -19,6 +19,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.util.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM
+import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
 import org.jetbrains.anko.doAsync
@@ -67,16 +68,18 @@ class MapFragment : BaseFragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.action_change_map_type_hybrid -> googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID
-            R.id.action_change_map_type_none -> googleMap.mapType = GoogleMap.MAP_TYPE_NONE
-            R.id.action_change_map_type_normal -> googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-            R.id.action_change_map_type_satellite -> googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
-            R.id.action_change_map_type_terrain -> googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_change_map_type_hybrid ->
+            consume { googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID }
+        R.id.action_change_map_type_none ->
+            consume { googleMap.mapType = GoogleMap.MAP_TYPE_NONE }
+        R.id.action_change_map_type_normal ->
+            consume { googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL }
+        R.id.action_change_map_type_satellite ->
+            consume { googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE }
+        R.id.action_change_map_type_terrain ->
+            consume { googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun setupClusterManager(googleMap: GoogleMap): ClusterManager<Event> {

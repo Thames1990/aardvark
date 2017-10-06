@@ -20,6 +20,7 @@ import de.uni_marburg.mathematik.ds.serval.controller.MeasurementsAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.Measurement
 import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM
+import de.uni_marburg.mathematik.ds.serval.util.consume
 import kotlinx.android.synthetic.main.activity_detail.*
 import java.util.*
 
@@ -39,11 +40,9 @@ class DetailActivity : AppCompatActivity() {
         setupViews()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> finish()
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> consume { finish() }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun setupViews() {

@@ -22,6 +22,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.REQUEST_CODE_INTRO
+import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment
@@ -78,13 +79,10 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_show_changelog -> checkForNewVersion(true)
-            R.id.action_settings -> startActivity(SettingsActivity::class.java)
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_show_changelog -> consume { checkForNewVersion(true) }
+        R.id.action_settings -> consume { startActivity(SettingsActivity::class.java) }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun start() {

@@ -47,3 +47,8 @@ fun Float.distanceToString(context: Context): String = if (this < 1000) {
 }
 
 fun ClosedRange<Int>.randomRange() = (start..Random().nextInt(endInclusive - start) + start)
+
+inline fun consume(f: () -> Unit): Boolean {
+    f()
+    return true
+}

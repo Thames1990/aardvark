@@ -14,7 +14,7 @@ import kotlin.properties.Delegates
 /**
  * [Adapter][RecyclerView.Adapter] for [events][Event].
  *
- * Is able to sort [events][Event] based on their [occurence time][Event.time],
+ * Is able to sortBy [events][Event] based on their [occurence time][Event.time],
  * [location][Event.location] or [measurement][Event.measurements].
  *
  * @param listener [Click listener lambda][View.OnClickListener]
@@ -44,12 +44,12 @@ class EventAdapter(private val listener: (Event) -> Unit) :
      * Sorts [events] based on their [occurence time][Event.time], [location][Event.location]
      * or [measurement][Event.measurements].
      *
-     * @param comparator Determines how to sort the vents
+     * @param comparator Determines how to sortBy the vents
      * @param reversed Determines whether sorting should be reversed (descending)
      * @param location Location of the event. Is only useful for a [time comparator]
      * [EventComparator.Time].
      */
-    fun sort(comparator: EventComparator, reversed: Boolean = false, location: Location? = null) {
+    fun sortBy(comparator: EventComparator, reversed: Boolean = false, location: Location? = null) {
         events = when (comparator) {
             EventComparator.Distance ->
                 if (reversed) events.sortedBy { -it.location.distanceTo(location) }
