@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.model.event
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
-import de.uni_marburg.mathematik.ds.serval.util.randomRange
 import okhttp3.*
 import java.io.IOException
 import java.util.*
@@ -68,5 +67,8 @@ object EventProvider {
 
         return events
     }
+
+    private fun ClosedRange<Int>.randomRange() =
+            (start..Random().nextInt(endInclusive - start) + start)
 
 }
