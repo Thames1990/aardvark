@@ -51,21 +51,23 @@ class MapFragment : BaseFragment() {
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        super.onPrepareOptionsMenu(menu)
-        val changeMapType = menu!!.findItem(R.id.action_change_map_type)
-        val icon = context.drawable(R.drawable.map)
-        icon.setColorFilter(context.color(android.R.color.white), PorterDuff.Mode.SRC_IN)
-        changeMapType.icon = icon
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater!!.inflate(R.menu.menu_map, menu)
+        inflater?.inflate(R.menu.menu_map, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        menu?.let {
+            super.onPrepareOptionsMenu(menu)
+            val changeMapType = menu.findItem(R.id.action_change_map_type)
+            val icon = context.drawable(R.drawable.map)
+            icon.setColorFilter(context.color(android.R.color.white), PorterDuff.Mode.SRC_IN)
+            changeMapType.icon = icon
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+        when (item?.itemId) {
             R.id.action_change_map_type_hybrid -> googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID
             R.id.action_change_map_type_none -> googleMap.mapType = GoogleMap.MAP_TYPE_NONE
             R.id.action_change_map_type_normal -> googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
@@ -126,13 +128,9 @@ class MapFragment : BaseFragment() {
     }
 
     private fun moveCameraToLastLocation(googleMap: GoogleMap, animate: Boolean = false) =
-            with(MainActivity.lastLocation!!) {
-                val lastLocationPosition = LatLng(latitude, longitude)
+            MainActivity.lastLocation?.let { location ->
+                val lastLocationPosition = LatLng(location.latitude, location.longitude)
                 val update = CameraUpdateFactory.newLatLngZoom(lastLocationPosition, MAP_ZOOM)
-                if (animate) {
-                    googleMap.animateCamera(update)
-                } else {
-                    googleMap.moveCamera(update)
-                }
+                with(googleMap) { if (animate) animateCamera(update) else moveCamera(update) }
             }
 }
