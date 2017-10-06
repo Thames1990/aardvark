@@ -55,9 +55,9 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
-        with(supportActionBar!!) {
+        with(supportActionBar) {
             title = string(R.string.details)
-            setDisplayHomeAsUpEnabled(true)
+            this?.setDisplayHomeAsUpEnabled(true)
         }
         appbar_layout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             when (scrollRange) {
