@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments
 
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -80,6 +79,7 @@ class EventsFragment : BaseFragment() {
             detail.putExtra(DetailActivity.EVENT, it)
             startActivity(detail)
         }
+        eventAdapter.loadEvents(true)
 
         with(recycler_view) {
             layoutManager = LinearLayoutManager(context)
@@ -91,14 +91,11 @@ class EventsFragment : BaseFragment() {
         }
 
         with(swipeRefreshLayout) {
-            setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW)
             setOnRefreshListener {
                 eventAdapter.loadEvents(true)
                 eventAdapter.sort(EventComparator.Time)
                 isRefreshing = false
             }
         }
-
-        eventAdapter.loadEvents()
     }
 }
