@@ -87,10 +87,11 @@ class MapFragment : BaseFragment() {
         with(ClusterManager<Event>(context, this)) {
             setAnimation(false)
             setOnClusterClickListener { cluster ->
-                with(LatLngBounds.builder()) {
-                    cluster.items.forEach { include(it.position) }
-                    animateCamera(CameraUpdateFactory.newLatLngBounds(build(), MAP_PADDING))
-                    true
+                consume {
+                    with(LatLngBounds.builder()) {
+                        cluster.items.forEach { include(it.position) }
+                        animateCamera(CameraUpdateFactory.newLatLngBounds(build(), MAP_PADDING))
+                    }
                 }
             }
             setOnClusterItemInfoWindowClickListener { event ->
