@@ -76,7 +76,7 @@ class EventsFragment : BaseFragment() {
             detail.putExtra(DetailActivity.EVENT, it)
             startActivity(detail)
         }
-        eventAdapter.loadEvents(true)
+        eventAdapter.loadEvents()
 
         recycler_view.afterMeasured {
             layoutManager = LinearLayoutManager(context)
