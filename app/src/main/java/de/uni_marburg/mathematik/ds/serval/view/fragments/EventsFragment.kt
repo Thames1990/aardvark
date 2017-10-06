@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments
 
-import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -19,10 +18,13 @@ import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_events.*
+import org.jetbrains.anko.startActivity
 
 class EventsFragment : BaseFragment() {
 
-    private lateinit var eventAdapter: EventAdapter
+    private val eventAdapter: EventAdapter by lazy {
+        EventAdapter { context.startActivity<DetailActivity>(DetailActivity.EVENT to it) }
+    }
 
     override val layout: Int
         get() = R.layout.fragment_events
@@ -71,11 +73,6 @@ class EventsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        eventAdapter = EventAdapter {
-            val detail = Intent(activity, DetailActivity::class.java)
-            detail.putExtra(DetailActivity.EVENT, it)
-            startActivity(detail)
-        }
         eventAdapter.loadEvents()
 
         recycler_view.afterMeasured {
