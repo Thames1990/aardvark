@@ -7,17 +7,16 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.drawable
+import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.clustering.ClusterManager
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.util.MAP_PADDING
-import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
@@ -42,15 +41,54 @@ class MapFragment : BaseFragment() {
         Aardvark.firebaseAnalytics.setCurrentScreen(activity, getString(R.string.screen_map), null)
     }
 
+    // TODO Refactor this bitch
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        map.getMapAsync { googleMap ->
-            this.googleMap = googleMap
-            val clusterManager = setupClusterManager(googleMap)
-            setupGoogleMapsListeners(clusterManager, googleMap)
-            setupCameraBounds(googleMap)
-            setupMyLocation(googleMap)
-            moveCameraToLastLocation(googleMap)
+        map.getMapAsync {
+            with(it) {
+                isMyLocationEnabled = true
+                uiSettings.isMapToolbarEnabled = false
+
+                with(ClusterManager<Event>(context, it)) {
+                    setAnimation(false)
+                    setOnCameraIdleListener(this)
+                    setOnMarkerClickListener(this)
+                    setOnInfoWindowClickListener(this)
+                    setOnClusterClickListener {
+                        consume {
+                            with(LatLngBounds.builder()) {
+                                it.items.forEach { include(it.position) }
+                                cameraUpdate(this.build(), true)
+                            }
+                        }
+                    }
+                    setOnClusterItemInfoWindowClickListener {
+                        context.startActivity<DetailActivity>(DetailActivity.EVENT to it)
+                    }
+
+                    doAsync {
+                        with(MainActivity.events) {
+                            addItems(this)
+                            uiThread { cluster() }
+                        }
+                    }
+                }
+
+                if (MainActivity.events.isNotEmpty()) {
+                    val builder = LatLngBounds.builder()
+                    doAsync {
+                        MainActivity.events.forEach { builder.include(it.position) }
+                        uiThread {
+                            with(builder.build()) {
+                                it.setLatLngBoundsForCameraTarget(this)
+                                it.cameraUpdate(this)
+                            }
+                        }
+                    }
+                }
+
+                googleMap = it
+            }
         }
     }
 
@@ -83,60 +121,9 @@ class MapFragment : BaseFragment() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun setupClusterManager(googleMap: GoogleMap): ClusterManager<Event> = with(googleMap) {
-        with(ClusterManager<Event>(context, this)) {
-            setAnimation(false)
-            setOnClusterClickListener { cluster ->
-                consume {
-                    with(LatLngBounds.builder()) {
-                        cluster.items.forEach { include(it.position) }
-                        animateCamera(CameraUpdateFactory.newLatLngBounds(build(), MAP_PADDING))
-                    }
-                }
-            }
-            setOnClusterItemInfoWindowClickListener { event ->
-                context.startActivity<DetailActivity>(DetailActivity.EVENT to event)
-            }
-            doAsync {
-                addItems(MainActivity.events)
-                uiThread { cluster() }
-            }
-            return this
-        }
+    private fun GoogleMap.cameraUpdate(bounds: LatLngBounds, animate: Boolean = false) {
+        val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
+        if (animate) animateCamera(cameraUpdate) else moveCamera(cameraUpdate)
     }
 
-    private fun setupGoogleMapsListeners(
-            clusterManager: ClusterManager<Event>,
-            googleMap: GoogleMap
-    ) = with(googleMap) {
-        uiSettings.isMapToolbarEnabled = false
-        setOnCameraIdleListener(clusterManager)
-        setOnMarkerClickListener(clusterManager)
-        setOnInfoWindowClickListener(clusterManager)
-    }
-
-    private fun setupCameraBounds(googleMap: GoogleMap) {
-        if (MainActivity.events.isNotEmpty()) {
-            val builder = LatLngBounds.builder()
-            doAsync {
-                MainActivity.events.forEach { event: Event -> builder.include(event.position) }
-                uiThread { googleMap.setLatLngBoundsForCameraTarget(builder.build()) }
-            }
-        }
-    }
-
-    private fun setupMyLocation(googleMap: GoogleMap) = with(googleMap) {
-        isMyLocationEnabled = true
-        setOnMyLocationButtonClickListener {
-            moveCameraToLastLocation(googleMap, true)
-            true
-        }
-    }
-
-    private fun moveCameraToLastLocation(googleMap: GoogleMap, animate: Boolean = false) =
-            MainActivity.lastLocation?.let { location ->
-                val lastLocationPosition = LatLng(location.latitude, location.longitude)
-                val update = CameraUpdateFactory.newLatLngZoom(lastLocationPosition, MAP_ZOOM)
-                with(googleMap) { if (animate) animateCamera(update) else moveCamera(update) }
-            }
 }

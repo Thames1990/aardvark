@@ -22,7 +22,7 @@ import org.jetbrains.anko.startActivity
 
 class EventsFragment : BaseFragment() {
 
-    private val eventAdapter: EventAdapter by lazy {
+    val eventAdapter: EventAdapter by lazy {
         EventAdapter { context.startActivity<DetailActivity>(DetailActivity.EVENT to it) }
     }
 

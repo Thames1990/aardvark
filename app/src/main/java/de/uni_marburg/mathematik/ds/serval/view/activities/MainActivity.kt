@@ -86,7 +86,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun start() {
-        model.location.observe(this, Observer<Location> { lastLocation = it })
+        model.location.observe(this, Observer<Location> {
+            lastLocation = it
+            eventsFragment.eventAdapter.notifyDataSetChanged()
+        })
         doAsync {
             events = EventProvider.load()
             uiThread {
