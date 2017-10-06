@@ -49,7 +49,7 @@ object EventProvider {
         )
     }
 
-    fun load(): List<Event>? {
+    fun load(): List<Event> {
         val events = mutableListOf<Event>()
 
         client.newCall(request).enqueue(object : Callback {

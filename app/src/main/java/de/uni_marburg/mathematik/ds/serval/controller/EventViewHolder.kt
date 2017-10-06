@@ -55,7 +55,7 @@ class EventViewHolder(override val containerView: View) :
         location_icon.visibleIf(MainActivity.lastLocation != null)
         location.visibleIf(MainActivity.lastLocation != null)
 
-        if (MainActivity.lastLocation != null) {
+        MainActivity.lastLocation?.let {
             val icon = ContextCompat.getDrawable(containerView.context, R.drawable.location)
             icon.setColorFilter(
                     ContextCompat.getColor(containerView.context, R.color.icon_mute),

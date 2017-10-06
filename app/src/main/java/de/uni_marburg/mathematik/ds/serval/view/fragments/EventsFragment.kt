@@ -93,7 +93,8 @@ class EventsFragment : BaseFragment() {
         with(swipeRefreshLayout) {
             setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW)
             setOnRefreshListener {
-                eventAdapter.loadEvents()
+                eventAdapter.loadEvents(true)
+                eventAdapter.sort(EventComparator.Time)
                 isRefreshing = false
             }
         }

@@ -35,9 +35,9 @@ class EventAdapter(private val listener: (Event) -> Unit) :
 
     override fun getItemCount(): Int = events.size
 
-    /** Loads [events]. */
-    fun loadEvents() {
-        events = EventProvider.generate()
+    /** [Events][events] are either loaded from the API or [generated]. */
+    fun loadEvents(generated: Boolean = false) {
+        events = if (generated) EventProvider.generate() else EventProvider.load()
     }
 
     /**
