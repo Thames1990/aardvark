@@ -7,7 +7,6 @@ import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
-import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.Menu
@@ -37,6 +36,12 @@ class MainActivity : AppCompatActivity() {
     private val model: LocationViewModel by lazy {
         ViewModelProviders.of(this).get(LocationViewModel::class.java)
     }
+
+    private val dashboardFragment: PlaceholderFragment by lazy { PlaceholderFragment() }
+
+    private val eventsFragment: EventsFragment by lazy { EventsFragment() }
+
+    private val mapFragment: MapFragment by lazy { MapFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,42 +89,34 @@ class MainActivity : AppCompatActivity() {
 
     private fun start() {
         model.location.observe(this, Observer<Location> { lastLocation = it })
-        events = EventProvider.load() ?: emptyList()
+        events = EventProvider.load()
         setupViews()
         checkForNewVersion()
     }
 
+    @SuppressLint("CommitTransaction")
     private fun setupViews() {
         setSupportActionBar(toolbar)
-        changeScreen(PlaceholderFragment())
-        bottom_navigation.setOnNavigationItemSelectedListener { item ->
-            with(supportFragmentManager) {
-                when (item.itemId) {
-                    R.id.action_dashboard ->
-                        if (findFragmentById(R.id.content) !is PlaceholderFragment) {
-                            changeScreen(PlaceholderFragment())
-                        }
-                    R.id.action_events ->
-                        if (findFragmentById(R.id.content) !is EventsFragment) {
-                            changeScreen(EventsFragment())
-                        }
-                    R.id.action_map ->
-                        if (findFragmentById(R.id.content) !is MapFragment) {
-                            changeScreen(MapFragment())
-                        }
+        with(supportFragmentManager) {
+            beginTransaction()
+                    .add(R.id.content, mapFragment)
+                    .add(R.id.content, eventsFragment)
+                    .add(R.id.content, dashboardFragment)
+                    .commit()
+
+            bottom_navigation.setOnNavigationItemSelectedListener { item ->
+                with(beginTransaction()) {
+                    fragments.forEach { hide(it) }
+                    when (item.itemId) {
+                        R.id.action_dashboard -> show(dashboardFragment)
+                        R.id.action_events -> show(eventsFragment)
+                        R.id.action_map -> show(mapFragment)
+                    }
+                    commit()
+                    true
                 }
-                true
             }
         }
-    }
-
-    private fun changeScreen(fragment: Fragment) {
-        supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(R.anim.kau_fade_in, R.anim.kau_fade_out)
-                .replace(R.id.content, fragment)
-                .addToBackStack(null)
-                .commit()
     }
 
     private fun checkForNewVersion(force: Boolean = false) {

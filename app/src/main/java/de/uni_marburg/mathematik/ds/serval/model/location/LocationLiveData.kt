@@ -20,9 +20,8 @@ class LocationLiveData(val context: Context) : LiveData<Location>() {
 
     private val locationCallback: LocationCallback by lazy {
         object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                locationResult?.lastLocation.let { location -> value = location }
-            }
+            override fun onLocationResult(locationResult: LocationResult?) =
+                    locationResult?.lastLocation.let { location -> value = location }
         }
     }
 
