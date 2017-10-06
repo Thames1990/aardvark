@@ -94,11 +94,14 @@ class MainActivity : AppCompatActivity() {
     private fun setupViews() {
         setSupportActionBar(toolbar)
         with(supportFragmentManager) {
-            beginTransaction()
-                    .add(R.id.content, mapFragment)
-                    .add(R.id.content, eventsFragment)
-                    .add(R.id.content, dashboardFragment)
-                    .commit()
+            with(beginTransaction()) {
+                add(R.id.content, mapFragment)
+                add(R.id.content, eventsFragment)
+                add(R.id.content, dashboardFragment)
+                fragments.forEach { hide(it) }
+                show(dashboardFragment)
+                commit()
+            }
 
             bottom_navigation.setOnNavigationItemSelectedListener { item ->
                 with(beginTransaction()) {
