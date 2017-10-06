@@ -24,6 +24,7 @@ android {
                 KEY_FABRIC     : keystoreProperties['key_fabric'],
                 KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps']
         ]
+        multiDexEnabled true
     }
     
     signingConfigs {
