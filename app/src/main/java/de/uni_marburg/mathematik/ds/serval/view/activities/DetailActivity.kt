@@ -62,7 +62,10 @@ class DetailActivity : AppCompatActivity() {
         appbar_layout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             when (scrollRange) {
                 -1 -> scrollRange = appBarLayout.totalScrollRange
-                -verticalOffset -> collapsingToolbarLayout.title = string(R.string.details)
+                -verticalOffset -> {
+                    collapsingToolbarLayout.title = string(R.string.details)
+                    isShown = true
+                }
                 else -> if (isShown) {
                     collapsingToolbarLayout.title = " "
                     isShown = false
