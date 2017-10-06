@@ -37,24 +37,26 @@ class EventsFragment : BaseFragment() {
         setupRecyclerView()
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        super.onPrepareOptionsMenu(menu)
-        val filterEvents = menu!!.findItem(R.id.action_filter_events)
-        val icon = ContextCompat.getDrawable(context, R.drawable.filter_list)
-        icon.setColorFilter(
-                ContextCompat.getColor(context, android.R.color.white),
-                PorterDuff.Mode.SRC_IN
-        )
-        filterEvents.icon = icon
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater!!.inflate(R.menu.menu_events, menu)
+        inflater?.inflate(R.menu.menu_events, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        menu?.let {
+            super.onPrepareOptionsMenu(menu)
+            val filterEvents = menu.findItem(R.id.action_filter_events)
+            val icon = ContextCompat.getDrawable(context, R.drawable.filter_list)
+            icon.setColorFilter(
+                    ContextCompat.getColor(context, android.R.color.white),
+                    PorterDuff.Mode.SRC_IN
+            )
+            filterEvents.icon = icon
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+        when (item?.itemId) {
             R.id.action_filter_events_distance_ascending ->
                 eventAdapter.sort(EventComparator.Distance, location = MainActivity.lastLocation)
             R.id.action_filter_events_distance_descending ->
