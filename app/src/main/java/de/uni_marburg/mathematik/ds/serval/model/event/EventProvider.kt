@@ -57,10 +57,9 @@ object EventProvider {
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    val bufferedReader = response.body()!!.byteStream().bufferedReader()
-                    bufferedReader.useLines { lines ->
-                        lines.forEach {
-                            events.add(eventAdapter.fromJson(it)!!)
+                    response.body()?.byteStream()?.bufferedReader()?.useLines { lines ->
+                        lines.forEach { line ->
+                            eventAdapter.fromJson(line)?.let { event -> events.add(event) }
                         }
                     }
                 }
