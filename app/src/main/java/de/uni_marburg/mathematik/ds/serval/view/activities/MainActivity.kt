@@ -28,6 +28,8 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.changelog_bottom_sheet_dialog.view.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import ru.noties.markwon.Markwon
 import java.io.BufferedReader
 import java.util.*
@@ -85,9 +87,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun start() {
         model.location.observe(this, Observer<Location> { lastLocation = it })
-        events = EventProvider.load()
-        setupViews()
-        checkForNewVersion()
+        doAsync {
+            events = EventProvider.load()
+            uiThread {
+                setupViews()
+                checkForNewVersion()
+            }
+        }
     }
 
     @SuppressLint("CommitTransaction")
