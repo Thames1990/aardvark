@@ -81,6 +81,7 @@ class MapFragment : BaseFragment() {
     private fun setupClusterManager(googleMap: GoogleMap): ClusterManager<Event> {
         val clusterManager: ClusterManager<Event> = ClusterManager(context, googleMap)
         with(clusterManager) {
+            setAnimation(false)
             setOnClusterClickListener { cluster ->
                 val builder = LatLngBounds.builder()
                 cluster.items.forEach { builder.include(it.position) }
@@ -110,20 +111,18 @@ class MapFragment : BaseFragment() {
     }
 
     private fun setupCameraBounds(googleMap: GoogleMap) {
-        if (!MainActivity.events.isEmpty()) {
+        if (MainActivity.events.isNotEmpty()) {
             val builder = LatLngBounds.builder()
             MainActivity.events.forEach { event: Event -> builder.include(event.position) }
             googleMap.setLatLngBoundsForCameraTarget(builder.build())
         }
     }
 
-    private fun setupMyLocation(googleMap: GoogleMap) {
-        with(googleMap) {
-            isMyLocationEnabled = true
-            setOnMyLocationButtonClickListener {
-                moveCameraToLastLocation(googleMap, true)
-                true
-            }
+    private fun setupMyLocation(googleMap: GoogleMap) = with(googleMap) {
+        isMyLocationEnabled = true
+        setOnMyLocationButtonClickListener {
+            moveCameraToLastLocation(googleMap, true)
+            true
         }
     }
 
