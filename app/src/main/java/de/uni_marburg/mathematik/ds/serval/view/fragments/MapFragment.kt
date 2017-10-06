@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments
 
-import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.Menu
@@ -23,6 +22,7 @@ import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
@@ -83,28 +83,25 @@ class MapFragment : BaseFragment() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun setupClusterManager(googleMap: GoogleMap): ClusterManager<Event> {
-        val clusterManager: ClusterManager<Event> = ClusterManager(context, googleMap)
-        with(clusterManager) {
+    private fun setupClusterManager(googleMap: GoogleMap): ClusterManager<Event> = with(googleMap) {
+        with(ClusterManager<Event>(context, this)) {
             setAnimation(false)
             setOnClusterClickListener { cluster ->
-                val builder = LatLngBounds.builder()
-                cluster.items.forEach { builder.include(it.position) }
-                val bounds = builder.build()
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING))
-                true
+                with(LatLngBounds.builder()) {
+                    cluster.items.forEach { include(it.position) }
+                    animateCamera(CameraUpdateFactory.newLatLngBounds(build(), MAP_PADDING))
+                    true
+                }
             }
             setOnClusterItemInfoWindowClickListener { event ->
-                val eventIntent = Intent(activity, DetailActivity::class.java)
-                eventIntent.putExtra(DetailActivity.EVENT, event)
-                startActivity(eventIntent)
+                context.startActivity<DetailActivity>(DetailActivity.EVENT to event)
             }
             doAsync {
                 addItems(MainActivity.events)
                 uiThread { cluster() }
             }
+            return this
         }
-        return clusterManager
     }
 
     private fun setupGoogleMapsListeners(
