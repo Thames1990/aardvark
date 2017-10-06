@@ -37,26 +37,26 @@ class SettingsFragment :
     override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean =
             with(Preferences) {
                 when (preference.key) {
+                    getString(R.string.preference_confirm_exit) ->
+                        consume { confirmExit = newValue as Boolean }
                     getString(R.string.preference_show_changelog) ->
                         consume { showChangelog = newValue as Boolean }
                     getString(R.string.preference_use_bottom_sheets) ->
                         consume { useBottomSheetDialogs = newValue as Boolean }
-                    getString(R.string.preference_confirm_exit) ->
-                        consume { confirmExit = newValue as Boolean }
-                    getString(R.string.preference_enable_wifi_adb) -> consume { enableWifiAdb() }
                     else -> false
                 }
             }
 
     override fun onPreferenceClick(preference: Preference) = when (preference.key) {
+        getString(R.string.preference_enable_wifi_adb) -> consume { enableWifiAdb() }
         getString(R.string.preference_send_feedback) -> consume { sendFeedback() }
         else -> false
     }
 
     private fun createGeneralPreferences() {
+        findPreference(getString(R.string.preference_confirm_exit)).onPreferenceChangeListener = this
         findPreference(getString(R.string.preference_show_changelog)).onPreferenceChangeListener = this
         findPreference(getString(R.string.preference_use_bottom_sheets)).onPreferenceChangeListener = this
-        findPreference(getString(R.string.preference_confirm_exit)).onPreferenceChangeListener = this
     }
 
     private fun createDebugPreferences() {
