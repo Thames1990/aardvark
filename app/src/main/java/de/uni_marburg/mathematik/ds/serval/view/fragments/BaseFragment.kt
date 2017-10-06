@@ -16,7 +16,7 @@ abstract class BaseFragment : Fragment() {
             inflater: LayoutInflater?,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? = inflater!!.inflate(layout, container, false)
+    ): View? = inflater?.inflate(layout, container, false)
 
     override fun onDestroy() {
         super.onDestroy()
