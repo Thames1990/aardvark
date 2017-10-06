@@ -74,10 +74,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
+    override fun onCreateOptionsMenu(menu: Menu) =
+            consume { menuInflater.inflate(R.menu.menu_main, menu) }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_show_changelog -> consume { checkForNewVersion(true) }
@@ -110,8 +108,7 @@ class MainActivity : AppCompatActivity() {
                         R.id.action_events -> show(eventsFragment)
                         R.id.action_map -> show(mapFragment)
                     }
-                    commit()
-                    true
+                    consume { commit() }
                 }
             }
         }

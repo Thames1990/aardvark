@@ -12,6 +12,7 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
+import de.uni_marburg.mathematik.ds.serval.util.consume
 import java.io.DataOutputStream
 import java.util.*
 
@@ -33,26 +34,23 @@ class SettingsFragment :
         createAboutPreferences()
     }
 
-    override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
-        val isChecked = newValue as Boolean
+    override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean =
+            with(Preferences) {
+                when (preference.key) {
+                    getString(R.string.preference_show_changelog) ->
+                        consume { showChangelog = newValue as Boolean }
+                    getString(R.string.preference_use_bottom_sheets) ->
+                        consume { useBottomSheetDialogs = newValue as Boolean }
+                    getString(R.string.preference_confirm_exit) ->
+                        consume { confirmExit = newValue as Boolean }
+                    getString(R.string.preference_enable_wifi_adb) -> consume { enableWifiAdb() }
+                    else -> false
+                }
+            }
 
-        when (preference.key) {
-            getString(R.string.preference_show_changelog) -> Preferences.showChangelog = isChecked
-            getString(R.string.preference_use_bottom_sheets) -> Preferences.useBottomSheetDialogs = isChecked
-            getString(R.string.preference_confirm_exit) -> Preferences.confirmExit = isChecked
-            getString(R.string.preference_enable_wifi_adb) -> enableWifiAdb()
-            else -> return false
-        }
-
-        return true
-    }
-
-    override fun onPreferenceClick(preference: Preference): Boolean {
-        when (preference.key) {
-            getString(R.string.preference_send_feedback) -> sendFeedback()
-            else -> return false
-        }
-        return true
+    override fun onPreferenceClick(preference: Preference) = when (preference.key) {
+        getString(R.string.preference_send_feedback) -> consume { sendFeedback() }
+        else -> false
     }
 
     private fun createGeneralPreferences() {
@@ -67,6 +65,7 @@ class SettingsFragment :
             findPreference(getString(R.string.preference_enable_wifi_adb)).onPreferenceClickListener = this
         }
     }
+
     private fun createAboutPreferences() {
         findPreference(getString(R.string.preference_send_feedback)).onPreferenceClickListener = this
         findPreference(getString(R.string.preference_version)).summary = BuildConfig.VERSION_NAME
