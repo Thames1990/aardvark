@@ -2,7 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.util
 
 const val REQUEST_CODE_INTRO = 0
 
-const val MAP_PADDING = 100
+const val MAP_PADDING = 150
 
 /**
  * 1: World
