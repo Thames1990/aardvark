@@ -28,7 +28,7 @@ object EventProvider {
     private fun randomLong(from: Long = 0, to: Long = Long.MAX_VALUE): Long =
             (Math.random() * (to - from) + from).toLong()
 
-    fun generate(): List<Event> = (1..1000).map {
+    fun generate(): List<Event> = (1..1000).randomRange().map {
         Event(
                 Calendar
                         .getInstance()
