@@ -14,6 +14,7 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
+import de.uni_marburg.mathematik.ds.serval.util.afterMeasured
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
@@ -77,12 +78,9 @@ class EventsFragment : BaseFragment() {
         }
         eventAdapter.loadEvents(true)
 
-        with(recycler_view) {
+        recycler_view.afterMeasured {
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(DividerItemDecoration(
-                    context,
-                    DividerItemDecoration.VERTICAL
-            ))
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = eventAdapter
         }
 
