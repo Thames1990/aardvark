@@ -21,6 +21,7 @@ import de.uni_marburg.mathematik.ds.serval.util.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
+import org.jetbrains.anko.doAsync
 
 class MapFragment : BaseFragment() {
 
@@ -94,8 +95,10 @@ class MapFragment : BaseFragment() {
                 eventIntent.putExtra(DetailActivity.EVENT, event)
                 startActivity(eventIntent)
             }
-            addItems(MainActivity.events)
-            cluster()
+            doAsync {
+                addItems(MainActivity.events)
+                cluster()
+            }
         }
         return clusterManager
     }
@@ -113,8 +116,10 @@ class MapFragment : BaseFragment() {
     private fun setupCameraBounds(googleMap: GoogleMap) {
         if (MainActivity.events.isNotEmpty()) {
             val builder = LatLngBounds.builder()
-            MainActivity.events.forEach { event: Event -> builder.include(event.position) }
-            googleMap.setLatLngBoundsForCameraTarget(builder.build())
+            doAsync {
+                MainActivity.events.forEach { event: Event -> builder.include(event.position) }
+                googleMap.setLatLngBoundsForCameraTarget(builder.build())
+            }
         }
     }
 
