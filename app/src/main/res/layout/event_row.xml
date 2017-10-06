@@ -9,7 +9,7 @@
     tools:context=".view.activities.MainActivity">
 
     <TextView
-        android:id="@+id/location_time"
+        android:id="@+id/event_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -52,10 +52,10 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="0dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/location_time"
+        app:layout_constraintBottom_toBottomOf="@+id/event_time"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toRightOf="@+id/location_time"
+        app:layout_constraintLeft_toRightOf="@+id/event_time"
         app:layout_constraintRight_toLeftOf="@+id/location_icon"
-        app:layout_constraintTop_toTopOf="@+id/location_time"/>
+        app:layout_constraintTop_toTopOf="@+id/event_time"/>
 
 </android.support.constraint.ConstraintLayout>

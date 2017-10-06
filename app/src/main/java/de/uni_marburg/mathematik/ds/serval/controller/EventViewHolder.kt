@@ -40,7 +40,7 @@ class EventViewHolder(override val containerView: View) :
 
     private fun Event.displayTime() {
         val timeDifference = Calendar.getInstance().timeInMillis - time
-        location_time.text = timeDifference.timeToString(containerView.context)
+        event_time.text = timeDifference.timeToString(containerView.context)
     }
 
     private fun Event.displayLocation() {
