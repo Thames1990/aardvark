@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 class LocationLiveData(val context: Context) : LiveData<Location>() {
 
-    private val fusedLocationProviderClient: FusedLocationProviderClient by lazy {
+    private val client: FusedLocationProviderClient by lazy {
         FusedLocationProviderClient(context)
     }
 
@@ -21,7 +21,7 @@ class LocationLiveData(val context: Context) : LiveData<Location>() {
     private val locationCallback: LocationCallback by lazy {
         object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) =
-                    locationResult?.lastLocation.let { location -> value = location }
+                    locationResult?.lastLocation.let { value = it }
         }
     }
 
@@ -32,15 +32,11 @@ class LocationLiveData(val context: Context) : LiveData<Location>() {
             fastestInterval = TimeUnit.SECONDS.toMillis(5)
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
-        fusedLocationProviderClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.myLooper()
-        )
+        client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
     }
 
     override fun onInactive() {
         super.onInactive()
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+        client.removeLocationUpdates(locationCallback)
     }
 }
