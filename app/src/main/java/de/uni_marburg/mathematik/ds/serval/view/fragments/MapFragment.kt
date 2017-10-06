@@ -23,6 +23,7 @@ import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
 
@@ -100,7 +101,7 @@ class MapFragment : BaseFragment() {
             }
             doAsync {
                 addItems(MainActivity.events)
-                cluster()
+                uiThread { cluster() }
             }
         }
         return clusterManager
@@ -121,7 +122,7 @@ class MapFragment : BaseFragment() {
             val builder = LatLngBounds.builder()
             doAsync {
                 MainActivity.events.forEach { event: Event -> builder.include(event.position) }
-                googleMap.setLatLngBoundsForCameraTarget(builder.build())
+                uiThread { googleMap.setLatLngBoundsForCameraTarget(builder.build()) }
             }
         }
     }
