@@ -1,0 +1,10 @@
+- Translated Aardvark to [Kotlin](https://kotlinlang.org/)
+  - Removed **a lot** of boilerplate code
+  - Lambda gloriousness
+  - Coroutines improve asynchronous event loading and UI delegation
+- Added the ability to load events via swipe to refresh in 'EventsFragment'
+  - These events are generated locally since the API is still static
+- Performance improvements
+  - Fragments are now added on start and hidden/shown when necessary
+  - Marker clustering animations are disabled
+- Added new intro
