@@ -30,30 +30,22 @@ class EventViewHolder(override val containerView: View) :
      * @param listener [Click listener lambda][View.OnClickListener]
      */
     fun bind(event: Event, listener: (Event) -> Unit) = with(containerView) {
-        displayTime(event)
-        displayLocation(event)
-        displayMeasurementTypes(event)
-        setOnClickListener { listener(event) }
+        with(event) {
+            displayTime()
+            displayLocation()
+            displayMeasurementTypes()
+            setOnClickListener { listener(this) }
+        }
     }
 
-    /**
-     * Correctly formats and displays [the occurence time][Event.time] of the [event].
-     *
-     * @param event Event to correctly format and display [the occurence time][Event.time] for
-     */
-    private fun displayTime(event: Event) {
-        val timeDifference = Calendar.getInstance().timeInMillis - event.time
-        time.text = timeDifference.timeToString(containerView.context)
+    private fun Event.displayTime() {
+        val timeDifference = Calendar.getInstance().timeInMillis - time
+        location_time.text = timeDifference.timeToString(containerView.context)
     }
 
-    /**
-     * Correctly displays [the location][Event.location] of the [event].
-     *
-     * @param event Event to correctly display [the location][Event.location] for
-     */
-    private fun displayLocation(event: Event) {
+    private fun Event.displayLocation() {
         location_icon.visibleIf(MainActivity.lastLocation != null)
-        location.visibleIf(MainActivity.lastLocation != null)
+        location_text.visibleIf(MainActivity.lastLocation != null)
 
         MainActivity.lastLocation?.let {
             val icon = ContextCompat.getDrawable(containerView.context, R.drawable.location)
@@ -63,19 +55,14 @@ class EventViewHolder(override val containerView: View) :
             )
             location_icon.setImageDrawable(icon)
 
-            val distance = event.location.distanceTo(MainActivity.lastLocation)
-            location.text = distance.distanceToString(containerView.context)
+            val distance = location.distanceTo(MainActivity.lastLocation)
+            location_text.text = distance.distanceToString(containerView.context)
         }
     }
 
-    /**
-     * Display the measurement types of the [event].
-     *
-     * @param event Event to correctly display [the measurement types][Event.measurements] for
-     */
-    private fun displayMeasurementTypes(event: Event) {
+    private fun Event.displayMeasurementTypes() {
         measurement_types.removeAllViews()
-        event.measurements.mapTo(HashSet()) { it.type }.forEach {
+        measurements.mapTo(HashSet()) { it.type }.forEach {
             val icon = ImageView(itemView.context)
             icon.setImageResource(it.getResId(itemView.context))
             icon.layoutParams = LinearLayout.LayoutParams(

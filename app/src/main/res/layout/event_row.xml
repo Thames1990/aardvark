@@ -9,7 +9,7 @@
     tools:context=".view.activities.MainActivity">
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/location_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -27,12 +27,12 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="0dp"
         android:contentDescription="@string/content_description_location_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/location"
-        app:layout_constraintRight_toLeftOf="@+id/location"
-        app:layout_constraintTop_toTopOf="@+id/location"/>
+        app:layout_constraintBottom_toBottomOf="@+id/location_text"
+        app:layout_constraintRight_toLeftOf="@+id/location_text"
+        app:layout_constraintTop_toTopOf="@+id/location_text"/>
 
     <TextView
-        android:id="@+id/location"
+        android:id="@+id/location_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -52,10 +52,10 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="0dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/time"
+        app:layout_constraintBottom_toBottomOf="@+id/location_time"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toRightOf="@+id/time"
+        app:layout_constraintLeft_toRightOf="@+id/location_time"
         app:layout_constraintRight_toLeftOf="@+id/location_icon"
-        app:layout_constraintTop_toTopOf="@+id/time"/>
+        app:layout_constraintTop_toTopOf="@+id/location_time"/>
 
 </android.support.constraint.ConstraintLayout>
