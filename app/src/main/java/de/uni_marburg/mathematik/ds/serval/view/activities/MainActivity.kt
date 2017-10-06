@@ -36,7 +36,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val model: LocationViewModel by lazy {
+    val locationViewModel: LocationViewModel by lazy {
         ViewModelProviders.of(this).get(LocationViewModel::class.java)
     }
 
@@ -86,9 +86,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun start() {
-        model.location.observe(this, Observer<Location> {
+        locationViewModel.location.observe(this, Observer<Location> {
             lastLocation = it
-            eventsFragment.eventAdapter.notifyDataSetChanged()
         })
         doAsync {
             events = EventProvider.load()
@@ -173,6 +172,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
 
+        // TODO Figure out how to decouple this from EventViewHolder
         var lastLocation: Location? = null
 
         lateinit var events: List<Event>

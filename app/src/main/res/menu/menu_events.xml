@@ -17,11 +17,11 @@
                 <menu>
 
                     <item
-                        android:id="@+id/action_filter_events_distance_ascending"
+                        android:id="@+id/sort_distance_ascending"
                         android:title="@string/action_filter_events_ascending"/>
 
                     <item
-                        android:id="@+id/action_filter_events_distance_descending"
+                        android:id="@+id/sort_distance_descending"
                         android:title="@string/action_filter_events_descending"/>
 
                 </menu>
@@ -35,11 +35,11 @@
                 <menu>
 
                     <item
-                        android:id="@+id/action_filter_events_measurements_ascending"
+                        android:id="@+id/sort_measurements_ascending"
                         android:title="@string/action_filter_events_ascending"/>
 
                     <item
-                        android:id="@+id/action_filter_events_measurements_descending"
+                        android:id="@+id/sort_measurements_descending"
                         android:title="@string/action_filter_events_descending"/>
 
                 </menu>
@@ -53,11 +53,11 @@
                 <menu>
 
                     <item
-                        android:id="@+id/action_filter_events_time_ascending"
+                        android:id="@+id/sort_time_ascending"
                         android:title="@string/action_filter_events_ascending"/>
 
                     <item
-                        android:id="@+id/action_filter_events_time_descending"
+                        android:id="@+id/sort_time_descending"
                         android:title="@string/action_filter_events_descending"/>
 
                 </menu>
