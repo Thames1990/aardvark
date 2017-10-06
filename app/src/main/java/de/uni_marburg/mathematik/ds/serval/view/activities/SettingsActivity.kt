@@ -17,9 +17,9 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         setSupportActionBar(toolbar)
-        with(supportActionBar!!) {
+        with(supportActionBar) {
             title = string(R.string.settings)
-            setDisplayHomeAsUpEnabled(true)
+            this?.setDisplayHomeAsUpEnabled(true)
         }
         Aardvark.firebaseAnalytics.setCurrentScreen(this, string(R.string.screen_settings), null)
         supportFragmentManager.beginTransaction().replace(R.id.content, SettingsFragment()).commit()
