@@ -7,9 +7,9 @@ android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     
-    def keystorePropertiesFile = rootProject.file("keystore.properties")
-    def keystoreProperties = new Properties()
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    def keystore = rootProject.file("keystore.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(keystore))
     
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
@@ -17,22 +17,27 @@ android {
         targetSdkVersion 26
         versionCode 23
         versionName '0.4.12-20'
-        setProperty('archivesBaseName', "aardvark-$versionName")
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        vectorDrawables.useSupportLibrary = true
-        manifestPlaceholders = [
-                KEY_FABRIC     : keystoreProperties['key_fabric'],
-                KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps']
-        ]
+        
+        setProperty('archivesBaseName', "aardvark-$versionName")
+        
+        androidExtensions {experimental = true}
+        dataBinding {enabled = true}
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        
+        manifestPlaceholders = [
+                KEY_FABRIC     : properties['key_fabric'],
+                KEY_GOOGLE_MAPS: properties['key_google_maps']
+        ]
     }
     
     signingConfigs {
         release {
-            storeFile = file(keystoreProperties['storeFile'])
-            storePassword = keystoreProperties['storePassword']
-            keyAlias = keystoreProperties['keyAlias']
-            keyPassword = keystoreProperties['keyPassword']
+            storeFile = file(properties['storeFile'])
+            storePassword = properties['storePassword']
+            keyAlias = properties['keyAlias']
+            keyPassword = properties['keyPassword']
         }
     }
     
@@ -54,20 +59,9 @@ android {
             ]
         }
     }
-    
-    androidExtensions {
-        experimental = true
-    }
-    
-    dataBinding {
-        enabled = true
-    }
 }
 
 dependencies {
-    
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    
     // Android Maps Utils
     compile "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
     
