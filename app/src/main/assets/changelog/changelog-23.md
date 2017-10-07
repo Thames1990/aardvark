@@ -7,7 +7,7 @@
     - This allows Jenkins to work without modifications
 - Simplify build process
 - Update Google Support Library to 26.1.0
-- Add location tracking setting
+- Add lastLocation tracking setting
   - Doesn't change state yet
 - Add [README](https://github.com/Thames1990/aardvark/blob/4c6c1e492d5f9a6d4f36fc71de264810f201f3ca/README.md)
 - Add [MIT license](https://github.com/Thames1990/aardvark/blob/a5376a90376bdd6424d84e772dfa9cea8bc53dbb/LICENSE)

@@ -7,23 +7,23 @@
 - Remove JUnit test
 - Overhaul of GoogleMap
   - Lifecycle of GoogleMap is now respected
-  - Current location is only updated as long as the user views the map
+  - Current lastLocation is only updated as long as the user views the map
   - Camera is moved (instant) instead of animated on start
-  - Added my location button
-    - Centers bounds on current location and all event locations
+  - Added my lastLocation button
+    - Centers bounds on current lastLocation and all event locations
     - Animates the camera to the bounds
-  - Removed my location marker (uses default GoogleMap blue dot)
+  - Removed my lastLocation marker (uses default GoogleMap blue dot)
   - Location requests are now set to high accuracy (GPS) with updates rates of 5 to 60 seconds
 - Permission overhaul (merged manifest duplicates)
   - android.permission.INTERNET removed
   - android.permission.ACCESS_NETWORK_STATE removed
   - android.permission.ACCESS_COARSE_LOCATION removed, because android.permission.ACCESS_FINE_LOCATION is used for GPS
-  - Location updates are verified, which means, that a new location is only used if
-    - No last known location is present
-    - The new location is significantly newer (2 minutes and more)
-    - The new location is more accurate (see Location.getAccuracy())
-    - The new location is newer and at least as accurate
-    - The new location is newer and not significantly less accurate as well as from the same provider (GPS)
+  - Location updates are verified, which means, that a new lastLocation is only used if
+    - No last known lastLocation is present
+    - The new lastLocation is significantly newer (2 minutes and more)
+    - The new lastLocation is more accurate (see Location.getAccuracy())
+    - The new lastLocation is newer and at least as accurate
+    - The new lastLocation is newer and not significantly less accurate as well as from the same provider (GPS)
 - ButterKnife unbinds views in Fragments, which reduces memory usage and the risk of possible memory leaks
 - Major code cleanup
 - Major refactoring

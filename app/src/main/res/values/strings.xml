@@ -95,7 +95,7 @@
     <string name="intro_placeholder_description">The developer was too lazy to include a layout!</string>
 
     <!-- Location -->
-    <string name="location">Location</string>
+    <string name="lastLocation">Location</string>
     <string name="distance">Distance</string>
     <string name="distance_in_kilometer">%1$.2f km</string>
     <string name="distance_in_meter">%1$.0f m</string>

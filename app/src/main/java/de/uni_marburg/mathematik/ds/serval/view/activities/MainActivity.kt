@@ -1,8 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
@@ -17,7 +15,6 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
-import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.REQUEST_CODE_INTRO
 import de.uni_marburg.mathematik.ds.serval.util.consume
@@ -33,10 +30,6 @@ import java.io.BufferedReader
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-
-    private val locationViewModel: LocationViewModel by lazy {
-        ViewModelProviders.of(this).get(LocationViewModel::class.java)
-    }
 
     private val dashboardFragment: PlaceholderFragment by lazy { PlaceholderFragment() }
 
@@ -80,7 +73,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun start() {
-        locationViewModel.location.observe(this, Observer<Location> { lastLocation = it })
         doAsync {
             events = EventProvider.load()
             uiThread {
@@ -161,9 +153,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-
-        // TODO Figure out how to decouple this from EventViewHolder
-        var lastLocation: Location? = null
 
         lateinit var events: List<Event>
     }

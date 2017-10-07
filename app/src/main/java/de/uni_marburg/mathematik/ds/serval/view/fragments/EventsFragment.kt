@@ -26,8 +26,8 @@ class EventsFragment : BaseFragment() {
 
     private lateinit var location: Location
 
-    val eventAdapter: EventAdapter by lazy {
-        EventAdapter { context.startActivity<DetailActivity>(DetailActivity.EVENT to it) }
+    private val eventAdapter: EventAdapter by lazy {
+        EventAdapter(activity) { context.startActivity<DetailActivity>(DetailActivity.EVENT to it) }
     }
 
     private val locationViewModel: LocationViewModel by lazy {
