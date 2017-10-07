@@ -13,8 +13,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
-import com.afollestad.materialdialogs.DialogAction
-import com.afollestad.materialdialogs.MaterialDialog
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -36,7 +34,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    val locationViewModel: LocationViewModel by lazy {
+    private val locationViewModel: LocationViewModel by lazy {
         ViewModelProviders.of(this).get(LocationViewModel::class.java)
     }
 
@@ -51,9 +49,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (Preferences.isFirstLaunch) {
             startActivityForResult(IntroActivity::class.java, REQUEST_CODE_INTRO)
-        } else {
-            start()
-        }
+        } else start()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -69,11 +65,9 @@ class MainActivity : AppCompatActivity() {
             materialDialog {
                 title(R.string.confirm_exit)
                 positiveText(R.string.exit)
-                onPositive({ _: MaterialDialog, _: DialogAction -> finishSlideOut() })
+                onPositive { _, _ -> finishSlideOut() }
             }
-        } else {
-            finishSlideOut()
-        }
+        } else finishSlideOut()
     }
 
     override fun onCreateOptionsMenu(menu: Menu) =
@@ -86,9 +80,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun start() {
-        locationViewModel.location.observe(this, Observer<Location> {
-            lastLocation = it
-        })
+        locationViewModel.location.observe(this, Observer<Location> { lastLocation = it })
         doAsync {
             events = EventProvider.load()
             uiThread {
@@ -145,9 +137,7 @@ class MainActivity : AppCompatActivity() {
         )).use { input -> input.bufferedReader().use(BufferedReader::readText) }
         if (Preferences.useBottomSheetDialogs) {
             showChangelogBottomSheetDialog(versionName, changelog)
-        } else {
-            showChangelogDialog(versionName, changelog)
-        }
+        } else showChangelogDialog(versionName, changelog)
     }
 
     @SuppressLint("InflateParams")

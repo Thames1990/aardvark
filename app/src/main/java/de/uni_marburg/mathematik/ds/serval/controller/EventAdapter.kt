@@ -21,7 +21,8 @@ import kotlin.properties.Delegates
  * @property events Events bound by this adapter
  */
 class EventAdapter(private val listener: (Event) -> Unit) :
-        RecyclerView.Adapter<EventViewHolder>(), AutoUpdatableAdapter {
+        RecyclerView.Adapter<EventViewHolder>(),
+        AutoUpdatableAdapter {
 
     var events: List<Event> by Delegates.observable(emptyList()) { _, old, new ->
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
