@@ -68,7 +68,6 @@ class EventAdapter(
                 if (reversed) events.sortedBy { it.time }
                 else events.sortedBy { -it.time }
         }
-        notifyDataSetChanged()
     }
 
     class EventViewHolder(
