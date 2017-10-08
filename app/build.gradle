@@ -15,8 +15,8 @@ android {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 24
-        versionName '0.5'
+        versionCode 25
+        versionName '0.5.1'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         
         setProperty('archivesBaseName', "aardvark-$versionName")

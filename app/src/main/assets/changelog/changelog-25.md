@@ -1,0 +1,8 @@
+- Improve event reloading
+  - `DiffUtil` is faster, animates changes and keeps focus on previously focused event on top
+- Merge `EventAdapter` and `EventViewHolder`
+- Merge `MeasurementAdapter` and `MeasurementViewHolder`
+  - Therefore the location observer was decoupled from `MainActivity`
+- Update Android Architecture Components to 1.0.0-beta2
+- Fix `Fragment` `menu` visibility
+  - Fragments are initialized without a menu. After the user focuses a `Fragment`, it's `menu` is activated.
