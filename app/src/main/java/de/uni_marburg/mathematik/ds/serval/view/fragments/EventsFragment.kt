@@ -1,9 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.graphics.PorterDuff
-import android.location.Location
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
@@ -15,7 +12,6 @@ import android.view.View
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
-import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.util.afterMeasured
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
@@ -24,14 +20,8 @@ import org.jetbrains.anko.startActivity
 
 class EventsFragment : BaseFragment() {
 
-    private lateinit var location: Location
-
     private val eventAdapter: EventAdapter by lazy {
         EventAdapter(activity) { context.startActivity<DetailActivity>(DetailActivity.EVENT to it) }
-    }
-
-    private val locationViewModel: LocationViewModel by lazy {
-        ViewModelProviders.of(activity).get(LocationViewModel::class.java)
     }
 
     override val layout: Int
@@ -40,10 +30,6 @@ class EventsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        locationViewModel.location.observe(this, Observer<Location> {
-            it?.let { location = it }
-            eventAdapter.notifyDataSetChanged()
-        })
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -71,8 +57,8 @@ class EventsFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem) = with(eventAdapter) {
         when (item.itemId) {
-            R.id.sort_distance_ascending -> consume { sortBy(Distance, location = location) }
-            R.id.sort_distance_descending -> consume { sortBy(Distance, true, location) }
+            R.id.sort_distance_ascending -> consume { sortBy(Distance) }
+            R.id.sort_distance_descending -> consume { sortBy(Distance, true) }
             R.id.sort_measurements_ascending -> consume { sortBy(Measurement) }
             R.id.sort_measurements_descending -> consume { sortBy(Measurement, true) }
             R.id.sort_time_ascending -> consume { sortBy(Time) }

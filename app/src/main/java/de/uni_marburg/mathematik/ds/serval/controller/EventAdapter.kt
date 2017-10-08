@@ -21,7 +21,6 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.event_row.*
-import kotlinx.android.synthetic.main.event_row.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -31,11 +30,11 @@ class EventAdapter(
         private val listener: (Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(), AutoUpdatableAdapter {
 
+    private var lastLocation: Location = Location("")
+
     private var events: List<Event> by Delegates.observable(emptyList()) { _, old, new ->
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
     }
-
-    var lastLocation: Location? = null
 
     private val locationViewModel: LocationViewModel by lazy {
         ViewModelProviders.of(fragmentActivity).get(LocationViewModel::class.java)
@@ -43,9 +42,9 @@ class EventAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         locationViewModel.location.observe(fragmentActivity, Observer<Location> {
-            lastLocation = it
+            it?.let { lastLocation = it }
         })
-        return EventViewHolder(parent.inflate(R.layout.event_row))
+        return EventViewHolder(parent.inflate(R.layout.event_row), fragmentActivity, lastLocation)
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) =
@@ -57,7 +56,7 @@ class EventAdapter(
         events = if (generated) EventProvider.generate() else EventProvider.load()
     }
 
-    fun sortBy(comparator: EventComparator, reversed: Boolean = false, location: Location? = null) {
+    fun sortBy(comparator: EventComparator, reversed: Boolean = false) {
         events = when (comparator) {
             EventComparator.Distance ->
                 if (reversed) events.sortedBy { -it.location.distanceTo(lastLocation) }
@@ -72,17 +71,17 @@ class EventAdapter(
         notifyDataSetChanged()
     }
 
-    inner class EventViewHolder(override val containerView: View) :
-            RecyclerView.ViewHolder(containerView),
-            LayoutContainer {
+    class EventViewHolder(
+            override val containerView: View,
+            private val fragmentActivity: FragmentActivity,
+            val lastLocation: Location?
+    ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        fun bind(event: Event, listener: (Event) -> Unit) = with(containerView) {
-            with(event) {
-                displayTime()
-                displayLocation()
-                displayMeasurementTypes()
-                setOnClickListener { listener(this) }
-            }
+        fun bind(event: Event, listener: (Event) -> Unit) = with(event) {
+            displayTime()
+            displayLocation()
+            displayMeasurementTypes()
+            containerView.setOnClickListener { listener(this) }
         }
 
         private fun Event.displayTime() {
@@ -100,13 +99,13 @@ class EventAdapter(
         private fun Event.displayMeasurementTypes() {
             measurement_types.removeAllViews()
             measurements.mapTo(HashSet()) { it.type }.forEach {
-                val icon = ImageView(itemView.context)
-                icon.setImageResource(it.getResId(itemView.context))
+                val icon = ImageView(fragmentActivity)
+                icon.setImageResource(it.getResId(fragmentActivity))
                 icon.layoutParams = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                 )
-                itemView.measurement_types.addView(icon)
+                measurement_types.addView(icon)
             }
         }
 
