@@ -10,6 +10,7 @@ import ca.allanwang.kau.utils.drawable
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.*
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.clustering.ClusterManager
@@ -39,53 +40,15 @@ class MapFragment : BaseFragment() {
         setHasOptionsMenu(true)
     }
 
-    // TODO Refactor this bitch
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         map.getMapAsync {
-            with(it) {
+            googleMap = it
+            with(googleMap) {
                 isMyLocationEnabled = true
                 uiSettings.isMapToolbarEnabled = false
-
-                with(ClusterManager<Event>(context, it)) {
-                    setAnimation(false)
-                    setOnCameraIdleListener(this)
-                    setOnMarkerClickListener(this)
-                    setOnInfoWindowClickListener(this)
-                    setOnClusterClickListener {
-                        consume {
-                            with(LatLngBounds.builder()) {
-                                it.items.forEach { include(it.position) }
-                                cameraUpdate(this.build(), true)
-                            }
-                        }
-                    }
-                    setOnClusterItemInfoWindowClickListener {
-                        context.startActivity<DetailActivity>(DetailActivity.EVENT to it)
-                    }
-
-                    doAsync {
-                        with(MainActivity.events) {
-                            addItems(this)
-                            uiThread { cluster() }
-                        }
-                    }
-                }
-
-                if (MainActivity.events.isNotEmpty()) {
-                    val builder = LatLngBounds.builder()
-                    doAsync {
-                        MainActivity.events.forEach { builder.include(it.position) }
-                        uiThread {
-                            with(builder.build()) {
-                                it.setLatLngBoundsForCameraTarget(this)
-                                it.cameraUpdate(this)
-                            }
-                        }
-                    }
-                }
-
-                googleMap = it
+                setupClusterManager()
+                setupCamera()
             }
         }
     }
@@ -105,18 +68,57 @@ class MapFragment : BaseFragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_change_map_type_hybrid ->
-            consume { googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID }
-        R.id.action_change_map_type_none ->
-            consume { googleMap.mapType = GoogleMap.MAP_TYPE_NONE }
-        R.id.action_change_map_type_normal ->
-            consume { googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL }
-        R.id.action_change_map_type_satellite ->
-            consume { googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE }
-        R.id.action_change_map_type_terrain ->
-            consume { googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN }
-        else -> super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem) = with(googleMap) {
+        when (item.itemId) {
+            R.id.action_change_map_type_hybrid -> consume { mapType = MAP_TYPE_HYBRID }
+            R.id.action_change_map_type_none -> consume { mapType = MAP_TYPE_NONE }
+            R.id.action_change_map_type_normal -> consume { mapType = MAP_TYPE_NORMAL }
+            R.id.action_change_map_type_satellite -> consume { mapType = MAP_TYPE_SATELLITE }
+            R.id.action_change_map_type_terrain -> consume { mapType = MAP_TYPE_TERRAIN }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun GoogleMap.setupCamera() {
+        if (MainActivity.events.isNotEmpty()) {
+            val builder = LatLngBounds.builder()
+            doAsync {
+                MainActivity.events.forEach { builder.include(it.position) }
+                uiThread {
+                    with(builder.build()) {
+                        googleMap.setLatLngBoundsForCameraTarget(this)
+                        googleMap.cameraUpdate(this)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun GoogleMap.setupClusterManager() {
+        with(ClusterManager<Event>(context, this)) {
+            setAnimation(false)
+            setOnCameraIdleListener(this)
+            setOnMarkerClickListener(this)
+            setOnInfoWindowClickListener(this)
+            setOnClusterClickListener { cluster ->
+                consume {
+                    with(LatLngBounds.builder()) {
+                        cluster.items.forEach { event -> include(event.position) }
+                        cameraUpdate(build(), true)
+                    }
+                }
+            }
+            setOnClusterItemInfoWindowClickListener { event ->
+                context.startActivity<DetailActivity>(DetailActivity.EVENT to event)
+            }
+
+            doAsync {
+                with(MainActivity.events) {
+                    addItems(this)
+                    uiThread { cluster() }
+                }
+            }
+        }
     }
 
     private fun GoogleMap.cameraUpdate(bounds: LatLngBounds, animate: Boolean = false) {
