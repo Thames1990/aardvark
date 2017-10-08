@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <uses-feature android:name="android.hardware.location.gps" />
+    <uses-feature android:name="android.hardware.lastLocation.gps" />
     <uses-feature android:name="android.hardware.wifi" />
 
     <application
@@ -19,16 +19,18 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <activity android:name=".view.activities.IntroActivity">
+        <activity
+            android:name=".view.activities.IntroActivity"
+            android:theme="@style/Theme.Intro" />
+        <activity
+            android:name=".view.activities.MainActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.activities.MainActivity"
-            android:configChanges="orientation|screenSize" />
         <activity android:name=".view.activities.DetailActivity" />
         <activity
             android:name=".view.activities.SettingsActivity"

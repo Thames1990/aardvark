@@ -1,40 +1,43 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
-
-repositories {
-    maven {url 'https://maven.fabric.io/public'}
-    maven {url "https://s3.amazonaws.com/repo.commonsware.com"}
-}
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    buildToolsVersion '26.0.2'
     
-    def keystorePropertiesFile = rootProject.file("keystore.properties")
-    def keystoreProperties = new Properties()
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    def keystore = rootProject.file("keystore.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(keystore))
     
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 26
-        versionCode 23
-        versionName '0.4.12-20'
-        setProperty('archivesBaseName', "aardvark-$versionName")
+        versionCode 25
+        versionName '0.5.1'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        
+        setProperty('archivesBaseName', "aardvark-$versionName")
+        
+        androidExtensions {experimental = true}
+        dataBinding {enabled = true}
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        
         manifestPlaceholders = [
-                KEY_FABRIC     : keystoreProperties['key_fabric'],
-                KEY_GOOGLE_MAPS: keystoreProperties['key_google_maps']
+                KEY_FABRIC     : properties['key_fabric'],
+                KEY_GOOGLE_MAPS: properties['key_google_maps']
         ]
     }
     
     signingConfigs {
         release {
-            storeFile = file(keystoreProperties['storeFile'])
-            storePassword = keystoreProperties['storePassword']
-            keyAlias = keystoreProperties['keyAlias']
-            keyPassword = keystoreProperties['keyPassword']
+            storeFile = file(properties['storeFile'])
+            storePassword = properties['storePassword']
+            keyAlias = properties['keyAlias']
+            keyPassword = properties['keyPassword']
         }
     }
     
@@ -59,63 +62,59 @@ android {
 }
 
 dependencies {
+    // Android Maps Utils
+    compile "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
     
-    ext {
-        butterknife_version = '8.8.1'
-        google_play_services_version = '11.4.0'
-        leak_canary_version = '1.5.4'
-        support_library_version = '26.1.0'
-    }
-    
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile(
-            'com.android.support.test.espresso:espresso-core:2.2.2',
-            {exclude group: 'com.android.support', module: 'support-annotations'}
-    )
-    
-    // Butterknife
-    compile "com.jakewharton:butterknife:${butterknife_version}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${butterknife_version}"
+    // Architecture Components
+    compile "android.arch.lifecycle:extensions:$architecture_components_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$architecture_components_version"
+    compile "android.arch.persistence.room:runtime:$architecture_components_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$architecture_components_version"
+    compile "android.arch.paging:runtime:$paging_version"
     
     // Crashlytics
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {transitive = true;}
+    compile "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
     
     // Firebase
-    compile "com.google.firebase:firebase-core:${google_play_services_version}"
+    compile "com.google.firebase:firebase-core:$google_play_services_version"
     
     // Google Play Services
-    compile "com.google.android.gms:play-services-location:${google_play_services_version}"
-    compile "com.google.android.gms:play-services-maps:${google_play_services_version}"
+    compile "com.google.android.gms:play-services-location:$google_play_services_version"
+    compile "com.google.android.gms:play-services-maps:$google_play_services_version"
+    
+    // KAU
+    compile "ca.allanwang.kau:core:$kau_version"
+    
+    // Kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     
     // LeakCanary
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${leak_canary_version}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leak_canary_version}"
-    
-    // Maps Utils
-    compile 'com.google.maps.android:android-maps-utils:0.5'
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
     
     // Markwon
-    compile 'ru.noties:markwon:1.0.0'
+    compile "ru.noties:markwon:$markwon_version"
+    
+    // MaterialIntroScreen
+    compile "agency.tango.android:material-intro-screen:$material_intro_screen_version"
     
     // Moshi
-    compile 'com.squareup.moshi:moshi:1.5.0'
+    compile "com.squareup.moshi:moshi:$moshi_version"
+    compile "com.squareup.moshi:moshi-kotlin:$moshi_version"
     
     // OkHttp
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
     
     // Support libraries
-    compile "com.android.support:appcompat-v7:${support_library_version}"
-    compile "com.android.support:cardview-v7:${support_library_version}"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile "com.android.support:design:${support_library_version}"
-    compile "com.android.support:preference-v7:${support_library_version}"
-    compile "com.android.support:preference-v14:${support_library_version}"
-    compile "com.android.support:recyclerview-v7:${support_library_version}"
-    compile "com.android.support:support-v4:${support_library_version}"
-    compile "com.android.support:support-vector-drawable:${support_library_version}"
-    
-    // Testing
-    testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:$support_library_version"
+    compile "com.android.support:cardview-v7:$support_library_version"
+    compile "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+    compile "com.android.support:design:$support_library_version"
+    compile "com.android.support:preference-v7:$support_library_version"
+    compile "com.android.support:preference-v14:$support_library_version"
+    compile "com.android.support:recyclerview-v7:$support_library_version"
+    compile "com.android.support:support-v4:$support_library_version"
+    compile "com.android.support:support-vector-drawable:$support_library_version"
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -5,7 +5,7 @@ It uses pseudo-randomly generated [JSON data](https://api.splork.de/dummy_data.j
 - measurements
   - type: radiation|temperature
   - value: int
-- location
+- lastLocation
   - latitude: double
   - longitude: double
   - geohash: String

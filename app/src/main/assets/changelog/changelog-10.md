@@ -10,7 +10,7 @@
     - You’ll ship a smaller APK. Gson is 227 KiB, Moshi+Okio together are 200 KiB.
     - Moshi won’t leak implementation details of platform types into your encoded JSON. This makes me afraid of Gson: `gson.toJson(SimpleTimeZone.getTimeZone("GMT"))`
     - Moshi doesn’t do weird HTML escaping by default. Look at Gson’s default encoding of "12 & 5 = 4" for an example.
-    - No broken `Date` adapter installed by default.
+    - No broken `Date` eventAdapter installed by default.
 - Change model to conform JSON deserialization changes
 - Added `FirebaseAuth` for future login experiments
 - Set `FirebaseAnalytics` screen names depending on current Activity/Fragment

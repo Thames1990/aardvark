@@ -13,6 +13,9 @@
     @com.squareup.moshi.* <methods>;
 }
 -keep @com.squareup.moshi.JsonQualifier interface *
+-keepclassmembers class kotlin.Metadata {
+    public <methods>;
+}
 
 # OkHttp
 -dontwarn okhttp3.**

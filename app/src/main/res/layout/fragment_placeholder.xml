@@ -6,7 +6,7 @@
     android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/intro_placeholder_background">
+    android:background="@color/placeholder_background">
 
     <TextView
         android:id="@+id/title"
