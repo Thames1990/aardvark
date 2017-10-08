@@ -25,17 +25,36 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
+/**
+ * Adapter for [events][Event]
+ *
+ * @param fragmentActivity Calling context
+ * @param listener Click listener
+ */
 class EventAdapter(
         private val fragmentActivity: FragmentActivity,
         private val listener: (Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(), AutoUpdatableAdapter {
 
+    /**
+     * The last known location.
+     *
+     * This is initialized as an empty [Location] to avoid nullability.
+     */
     private var lastLocation: Location = Location("")
 
+    /**
+     * [Events][Event] tracked by this adapter. The adapter is
+     * [automatically notified][AutoUpdatableAdapter.autoNotify] about changes and updates the UI
+     * accordingly.
+     *
+     * This will be moved to a Room database.
+     */
     private var events: List<Event> by Delegates.observable(emptyList()) { _, old, new ->
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
     }
 
+    /** Keeps track about [the last known location][lastLocation] and updates the UI accordingly. */
     private val locationViewModel: LocationViewModel by lazy {
         ViewModelProviders.of(fragmentActivity).get(LocationViewModel::class.java)
     }
@@ -44,6 +63,7 @@ class EventAdapter(
         locationViewModel.location.observe(fragmentActivity, Observer<Location> {
             it?.let { lastLocation = it }
         })
+        // TODO Figure out how to use Kotlin Android extensions view caching with Kotlin inner class
         return EventViewHolder(parent.inflate(R.layout.event_row), fragmentActivity, lastLocation)
     }
 
@@ -52,10 +72,22 @@ class EventAdapter(
 
     override fun getItemCount(): Int = events.size
 
+    /**
+     * Loads [events] either from the API or generates them locally.
+     *
+     * This will use the [Serval API][https://github.com/CryptoCopter/kerval].
+     */
     fun loadEvents(generated: Boolean = false) {
         events = if (generated) EventProvider.generate() else EventProvider.load()
     }
 
+    /**
+     * Sorts [events] by a [distance][EventComparator.Distance], [time][EventComparator.Time] or
+     * [amount of measurements][EventComparator.Measurement].
+     *
+     * @param comparator [Event] comparator
+     * @param reversed If true, sorts descending; ascending otherwise.
+     */
     fun sortBy(comparator: EventComparator, reversed: Boolean = false) {
         events = when (comparator) {
             EventComparator.Distance ->
@@ -76,12 +108,25 @@ class EventAdapter(
         }
     }
 
+    /**
+     * View holder for [events][Event].
+     *
+     * @param containerView Inflated view
+     * @param fragmentActivity Calling context
+     * @param lastLocation Last known location
+     * */
     class EventViewHolder(
             override val containerView: View,
             private val fragmentActivity: FragmentActivity,
-            val lastLocation: Location?
+            val lastLocation: Location
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
+        /**
+         * Binds [event] to a view and a click listener.
+         *
+         * @param event Event to bind
+         * @param listener Click listener
+         */
         fun bindTo(event: Event, listener: (Event) -> Unit) = with(event) {
             displayTime()
             displayLocation()
@@ -89,11 +134,15 @@ class EventAdapter(
             containerView.setOnClickListener { listener(this) }
         }
 
+        /** Displays the time of the [event][Event]. */
         private fun Event.displayTime() {
             val timeDifference = Calendar.getInstance().timeInMillis - time
             event_time.text = timeDifference.timeToString()
         }
 
+        /**
+         * Displays the location of the event in relation to [the last known location][lastLocation]
+         **/
         private fun Event.displayLocation() {
             val icon = ContextCompat.getDrawable(fragmentActivity, R.drawable.location)
             icon.setColorFilter(fragmentActivity.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
@@ -101,6 +150,7 @@ class EventAdapter(
             location_text.text = location.distanceTo(lastLocation).distanceToString()
         }
 
+        /** Displays the measurements of the [event][Event]. **/
         private fun Event.displayMeasurementTypes() {
             measurement_types.removeAllViews()
             measurements.mapTo(HashSet()) { it.type }.forEach {
@@ -114,6 +164,7 @@ class EventAdapter(
             }
         }
 
+        /** Converts UNIX time to human readable information in relation to the current time **/
         private fun Long.timeToString(): String = when {
             TimeUnit.MILLISECONDS.toMinutes(this) < 60 -> String.format(
                     Locale.getDefault(),
@@ -142,6 +193,7 @@ class EventAdapter(
             )
         }
 
+        /** Converts distance in meters in relation to [lastLocation] **/
         private fun Float.distanceToString(): String = if (this < 1000) {
             String.format(
                     Locale.getDefault(),
