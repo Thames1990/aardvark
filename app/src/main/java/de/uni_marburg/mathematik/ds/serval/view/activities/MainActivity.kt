@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.app.AppCompatActivity
@@ -100,8 +99,14 @@ class MainActivity : AppCompatActivity() {
                     fragments.forEach { hide(it) }
                     when (item.itemId) {
                         R.id.action_dashboard -> show(dashboardFragment)
-                        R.id.action_events -> show(eventsFragment)
-                        R.id.action_map -> show(mapFragment)
+                        R.id.action_events -> {
+                            show(eventsFragment)
+                            eventsFragment.setHasOptionsMenu(true)
+                        }
+                        R.id.action_map -> {
+                            show(mapFragment)
+                            mapFragment.setHasOptionsMenu(true)
+                        }
                     }
                     consume { commit() }
                 }
