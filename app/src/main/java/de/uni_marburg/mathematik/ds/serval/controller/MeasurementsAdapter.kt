@@ -21,14 +21,14 @@ class MeasurementsAdapter(
             MeasurementsViewHolder(parent.inflate(R.layout.measurement_row))
 
     override fun onBindViewHolder(holder: MeasurementsViewHolder, position: Int) =
-            holder.bind(measurements[position], listener)
+            holder.bindTo(measurements[position], listener)
 
     override fun getItemCount(): Int = measurements.size
 
     class MeasurementsViewHolder(override val containerView: View) :
             RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        fun bind(measurement: Measurement, listener: (Measurement, View) -> Unit) {
+        fun bindTo(measurement: Measurement, listener: (Measurement, View) -> Unit) {
             display(measurement)
             explore.setOnClickListener { listener(measurement, explore) }
             share.setOnClickListener { listener(measurement, share) }

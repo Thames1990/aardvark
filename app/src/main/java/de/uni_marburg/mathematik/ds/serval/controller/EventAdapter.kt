@@ -48,7 +48,7 @@ class EventAdapter(
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) =
-            holder.bind(events[position], listener)
+            holder.bindTo(events[position], listener)
 
     override fun getItemCount(): Int = events.size
 
@@ -76,7 +76,7 @@ class EventAdapter(
             val lastLocation: Location?
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        fun bind(event: Event, listener: (Event) -> Unit) = with(event) {
+        fun bindTo(event: Event, listener: (Event) -> Unit) = with(event) {
             displayTime()
             displayLocation()
             displayMeasurementTypes()
