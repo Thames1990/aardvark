@@ -59,14 +59,20 @@ class EventAdapter(
     fun sortBy(comparator: EventComparator, reversed: Boolean = false) {
         events = when (comparator) {
             EventComparator.Distance ->
-                if (reversed) events.sortedBy { -it.location.distanceTo(lastLocation) }
-                else events.sortedBy { it.location.distanceTo(lastLocation) }
+                events.sortedBy {
+                    if (reversed) -it.location.distanceTo(lastLocation)
+                    else it.location.distanceTo(lastLocation)
+                }
             EventComparator.Measurement ->
-                if (reversed) events.sortedBy { -it.measurements.size }
-                else events.sortedBy { it.measurements.size }
+                events.sortedBy {
+                    if (reversed) -it.measurements.size
+                    else it.measurements.size
+                }
             EventComparator.Time ->
-                if (reversed) events.sortedBy { it.time }
-                else events.sortedBy { -it.time }
+                events.sortedBy {
+                    if (reversed) -it.time
+                    else it.time
+                }
         }
     }
 
@@ -108,38 +114,32 @@ class EventAdapter(
             }
         }
 
-        private fun Long.timeToString(): String {
-            when {
-                TimeUnit.MILLISECONDS.toMinutes(this) < 60 ->
-                    return String.format(
-                            Locale.getDefault(),
-                            fragmentActivity.getString(R.string.minutes_ago),
-                            TimeUnit.MILLISECONDS.toMinutes(this)
-                    )
-                TimeUnit.MILLISECONDS.toHours(this) < 24 ->
-                    return String.format(
-                            Locale.getDefault(),
-                            fragmentActivity.getString(R.string.hours_ago),
-                            TimeUnit.MILLISECONDS.toHours(this)
-                    )
-                TimeUnit.MILLISECONDS.toDays(this) < 30 ->
-                    return String.format(
-                            Locale.getDefault(),
-                            fragmentActivity.getString(R.string.days_ago),
-                            TimeUnit.MILLISECONDS.toDays(this)
-                    )
-                TimeUnit.MILLISECONDS.toDays(this) < 365 ->
-                    return String.format(
-                            Locale.getDefault(),
-                            fragmentActivity.getString(R.string.months_ago),
-                            TimeUnit.MILLISECONDS.toDays(this).rem(30)
-                    )
-                else -> return String.format(
-                        Locale.getDefault(),
-                        fragmentActivity.getString(R.string.years_ago),
-                        TimeUnit.MILLISECONDS.toDays(this).rem(365)
-                )
-            }
+        private fun Long.timeToString(): String = when {
+            TimeUnit.MILLISECONDS.toMinutes(this) < 60 -> String.format(
+                    Locale.getDefault(),
+                    fragmentActivity.string(R.string.minutes_ago),
+                    TimeUnit.MILLISECONDS.toMinutes(this)
+            )
+            TimeUnit.MILLISECONDS.toHours(this) < 24 -> String.format(
+                    Locale.getDefault(),
+                    fragmentActivity.string(R.string.hours_ago),
+                    TimeUnit.MILLISECONDS.toHours(this)
+            )
+            TimeUnit.MILLISECONDS.toDays(this) < 30 -> String.format(
+                    Locale.getDefault(),
+                    fragmentActivity.string(R.string.days_ago),
+                    TimeUnit.MILLISECONDS.toDays(this)
+            )
+            TimeUnit.MILLISECONDS.toDays(this) < 365 -> String.format(
+                    Locale.getDefault(),
+                    fragmentActivity.string(R.string.months_ago),
+                    TimeUnit.MILLISECONDS.toDays(this).rem(30)
+            )
+            else -> String.format(
+                    Locale.getDefault(),
+                    fragmentActivity.string(R.string.years_ago),
+                    TimeUnit.MILLISECONDS.toDays(this).rem(365)
+            )
         }
 
         private fun Float.distanceToString(): String = if (this < 1000) {
