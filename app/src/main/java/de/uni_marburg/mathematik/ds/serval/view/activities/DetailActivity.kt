@@ -88,12 +88,14 @@ class DetailActivity : AppCompatActivity() {
         val options = GoogleMapOptions().liteMode(true)
         val mapFragment = SupportMapFragment.newInstance(options)
         supportFragmentManager.beginTransaction().replace(R.id.map, mapFragment).commit()
-        mapFragment.getMapAsync { googleMap ->
-            googleMap.uiSettings.setAllGesturesEnabled(false)
-            googleMap.uiSettings.isMapToolbarEnabled = false
-            val position = LatLng(event.location.latitude, event.location.longitude)
-            googleMap.addMarker(MarkerOptions().position(position))
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM))
+        mapFragment.getMapAsync {
+            with(it) {
+                uiSettings.setAllGesturesEnabled(false)
+                uiSettings.isMapToolbarEnabled = false
+                val position = LatLng(event.location.latitude, event.location.longitude)
+                addMarker(MarkerOptions().position(position))
+                moveCamera(CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM))
+            }
         }
     }
 

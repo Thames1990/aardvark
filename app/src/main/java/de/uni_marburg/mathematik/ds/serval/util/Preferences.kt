@@ -12,4 +12,3 @@ object Preferences : KPref() {
     var showChangelog: Boolean by kpref("SHOW_CHANGELOG", true)
     var useBottomSheetDialogs: Boolean by kpref("USE_BOTTOM_SHEET_DIALOGS", true)
 }
-

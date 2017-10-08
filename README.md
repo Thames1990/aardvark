@@ -15,7 +15,7 @@
     - Types of events (measurement types)
 - List of events
   - Shows all events
-  - Shows distance to current position if location tracking permission is granted
+  - Shows distance to current position if lastLocation tracking permission is granted
   - Filter or sort events by
     - Distance
     - Measurements
