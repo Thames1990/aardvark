@@ -41,6 +41,5 @@ ext {
     material_intro_screen_version = '0.0.5'
     moshi_version = '1.5.0'
     okhttp_version = '3.9.0'
-    paging_version = '1.0.0-alpha2'
     support_library_version = '26.1.0'
 }
