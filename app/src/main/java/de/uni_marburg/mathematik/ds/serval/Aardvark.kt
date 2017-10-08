@@ -27,7 +27,7 @@ class Aardvark : Application() {
                 CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
         ).build())
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.setAnalyticsCollectionEnabled(false)
+        firebaseAnalytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG)
         refWatcher = when (BuildConfig.DEBUG) {
             true  -> LeakCanary.install(this)
             false -> RefWatcher.DISABLED
