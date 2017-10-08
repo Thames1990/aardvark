@@ -68,9 +68,6 @@ dependencies {
     // Architecture Components
     compile "android.arch.lifecycle:extensions:$architecture_components_version"
     annotationProcessor "android.arch.lifecycle:compiler:$architecture_components_version"
-    compile "android.arch.persistence.room:runtime:$architecture_components_version"
-    annotationProcessor "android.arch.persistence.room:compiler:$architecture_components_version"
-    compile "android.arch.paging:runtime:$paging_version"
     
     // Crashlytics
     compile "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
@@ -95,7 +92,7 @@ dependencies {
     // Markwon
     compile "ru.noties:markwon:$markwon_version"
     
-    // MaterialIntroScreen
+    // Material Intro Screen
     compile "agency.tango.android:material-intro-screen:$material_intro_screen_version"
     
     // Moshi
