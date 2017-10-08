@@ -39,7 +39,7 @@
     <string name="exception_measurement_type_without_icon">%1$s measurement type does not have an icon yet!</string>
 
     <!-- Files -->
-    <string name="file_changelog" translatable="false">changelog/changelog-%1$d.md</string>
+    <string name="file_changelog" translatable="false">changelog/%1$d.md</string>
 
     <!-- General -->
     <string name="ascending">Ascending</string>

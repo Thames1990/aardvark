@@ -81,7 +81,8 @@ class SettingsFragment :
         with(Runtime.getRuntime().exec("su")) {
             with(DataOutputStream(outputStream)) {
                 writeBytes("setprop service.adb.tcp.port $WIFI_ADB_PORT\n")
-                writeBytes("tcpip $WIFI_ADB_PORT\n")
+                writeBytes("stop adbd\n")
+                writeBytes("start adbd\n")
                 writeBytes("exit\n")
                 flush()
                 close()
