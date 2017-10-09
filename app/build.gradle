@@ -90,6 +90,7 @@ dependencies {
     // Moshi
     compile "com.squareup.moshi:moshi:$moshi_version"
     compile "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    // TODO See if this can be removed since it's part of Kerval
     // OkHttp
     compile "com.squareup.okhttp3:okhttp:$okhttp_version"
     // Support libraries
