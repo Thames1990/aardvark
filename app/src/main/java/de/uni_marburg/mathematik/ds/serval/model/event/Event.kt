@@ -30,7 +30,7 @@ data class Event(
             return location
         }
 
-    override fun getPosition(): LatLng = LatLng(location.latitude, location.longitude)
+    override fun getPosition(): LatLng = with(location) { LatLng(latitude, longitude) }
 
     override fun getSnippet(): String {
         val format = SimpleDateFormat.getDateTimeInstance(
