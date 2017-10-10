@@ -42,7 +42,7 @@ object EventProvider {
                     Measurement(
                             MeasurementType.values()[randomInt(to = MeasurementType.values().size)],
                             // Dont infuriate Vegeta
-                            randomInt().coerceAtMost(9000)
+                            randomInt(to = 9000)
                     )
                 }
         )
