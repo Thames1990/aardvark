@@ -6,11 +6,11 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
-    
+
     def keystore = rootProject.file("keystore.properties")
     def properties = new Properties()
     properties.load(new FileInputStream(keystore))
-    
+
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion 19
@@ -18,20 +18,20 @@ android {
         versionCode 25
         versionName '0.5.1'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        
+
         setProperty('archivesBaseName', "aardvark-$versionName")
-        
-        androidExtensions {experimental = true}
-        dataBinding {enabled = true}
+
+        androidExtensions { experimental = true }
+        dataBinding { enabled = true }
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        
+
         manifestPlaceholders = [
                 KEY_FABRIC     : properties['key_fabric'],
                 KEY_GOOGLE_MAPS: properties['key_google_maps']
         ]
     }
-    
+
     signingConfigs {
         release {
             storeFile = file(properties['storeFile'])
@@ -40,7 +40,7 @@ android {
             keyPassword = properties['keyPassword']
         }
     }
-    
+
     buildTypes {
         debug {
             ext.enableCrashlytics = false
@@ -64,44 +64,44 @@ android {
 dependencies {
     // Android Maps Utils
     implementation "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
-    
+
     // Architecture Components
     implementation "android.arch.lifecycle:extensions:$architecture_components_version"
     annotationProcessor "android.arch.lifecycle:compiler:$architecture_components_version"
-    
+
     // Crashlytics
     implementation "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
-    
+
     // Firebase
     implementation "com.google.firebase:firebase-core:$google_play_services_version"
-    
+
     // Google Play Services
     implementation "com.google.android.gms:play-services-location:$google_play_services_version"
     implementation "com.google.android.gms:play-services-maps:$google_play_services_version"
-    
+
     // KAU
     implementation "ca.allanwang.kau:core:$kau_version"
-    
+
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
-    
+
     // Markwon
     implementation "ru.noties:markwon:$markwon_version"
-    
+
     // Material Intro Screen
     implementation "agency.tango.android:material-intro-screen:$material_intro_screen_version"
-    
+
     // Moshi
     implementation "com.squareup.moshi:moshi:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
-    
+
     // OkHttp
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-    
+
     // Support libraries
     implementation "com.android.support:appcompat-v7:$support_library_version"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
