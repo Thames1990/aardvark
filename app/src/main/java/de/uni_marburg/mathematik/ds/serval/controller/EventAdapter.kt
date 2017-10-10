@@ -102,8 +102,8 @@ class EventAdapter(
                 }
             EventComparator.Time ->
                 events.sortedBy {
-                    if (reversed) -it.time
-                    else it.time
+                    if (reversed) it.time
+                    else -it.time
                 }
         }
     }
