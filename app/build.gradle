@@ -19,6 +19,7 @@ android {
         versionName '0.5.1'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
+        resValue "string", "app_version", "$versionName"
         setProperty('archivesBaseName', "aardvark-$versionName")
 
         androidExtensions { experimental = true }
@@ -80,7 +81,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:$google_play_services_version"
 
     // KAU
-    implementation "ca.allanwang.kau:core:$kau_version"
+    implementation "ca.allanwang.kau:core-ui:$kau_version"
+    implementation "ca.allanwang.kau:kpref-activity:$kau_version"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="de.uni_marburg.mathematik.ds.serval">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="de.uni_marburg.mathematik.ds.serval">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
-    <uses-feature android:name="android.hardware.lastLocation.gps" />
-    <uses-feature android:name="android.hardware.wifi" />
+    <uses-feature android:name="android.hardware.lastLocation.gps"/>
+    <uses-feature android:name="android.hardware.wifi"/>
 
     <application
         android:name=".Aardvark"
@@ -21,27 +21,27 @@
 
         <activity
             android:name=".view.activities.IntroActivity"
-            android:theme="@style/Theme.Intro" />
+            android:theme="@style/Theme.Intro"/>
         <activity
             android:name=".view.activities.MainActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.DetailActivity" />
-        <activity
-            android:name=".view.activities.SettingsActivity"
-            android:label="@string/title_activity_settings" />
+        <activity android:name=".view.activities.DetailActivity"/>
+        <activity android:name=".view.activities.PreferenceActivity"/>
+        <activity android:name=".view.activities.ChangelogActivity"/>
 
         <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="${KEY_FABRIC}" />
+            android:name="
+            io.fabric.ApiKey"
+            android:value="${KEY_FABRIC}"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${KEY_GOOGLE_MAPS}" />
+            android:value="${KEY_GOOGLE_MAPS}"/>
 
     </application>
 

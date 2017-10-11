@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_show_changelog -> consume { checkForNewVersion(true) }
-        R.id.action_settings -> consume { startActivity(SettingsActivity::class.java) }
+        R.id.action_settings -> consume { startActivity(PreferenceActivity::class.java) }
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -116,8 +116,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkForNewVersion(force: Boolean = false) {
         val versionCode = BuildConfig.VERSION_CODE
-        if (force || Preferences.showChangelog && Preferences.lastKnownVersionCode < versionCode) {
-            Preferences.lastKnownVersionCode = versionCode
+        if (force || Preferences.showChangelog && Preferences.version < versionCode) {
+            Preferences.version = versionCode
             showChangelog(versionCode)
         }
     }
