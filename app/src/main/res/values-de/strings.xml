@@ -61,4 +61,5 @@
     <string name="measurement_type_temperature">Temperatur</string>
     <string name="measurement_type_wind">Wind</string>
     <string name="preference_version">Version</string>
+    <string name="toast_network_disconnected">Keine Netzwerkverbindung</string>
 </resources>
