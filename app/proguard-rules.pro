@@ -25,3 +25,9 @@
 # General
 -keepclassmembers enum de.uni_marburg.mathematik.ds.serval.model.** { *; }
 -keepnames class de.uni_marburg.mathematik.ds.serval.view.activities.*
+
+# KAU
+-keep class .R
+-keep class **.R$* {
+    <fields>;
+}
