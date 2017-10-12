@@ -1,17 +1,16 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     ext.kotlin_version = '1.1.51'
     
     repositories {
         jcenter()
+        google()
         maven {url 'https://maven.fabric.io/public'}
     }
     
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0-beta7'
         classpath 'com.google.gms:google-services:3.1.0'
-        classpath 'io.fabric.tools:gradle:1.24.1'
+        classpath 'io.fabric.tools:gradle:1.24.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -19,8 +18,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
         maven {url "https://jitpack.io"}
-        maven {url 'https://maven.google.com'}
         maven {url "https://s3.amazonaws.com/repo.commonsware.com"}
     }
 }
@@ -34,7 +33,7 @@ ext {
     architecture_components_version = '1.0.0-beta2'
     constraint_layout_version = '1.1.0-beta2'
     crashlytics_version = '2.6.8'
-    google_play_services_version = '11.4.0'
+    google_play_services_version = '11.4.2'
     kau_version = '3.4.3'
     leak_canary_version = '1.5.4'
     markwon_version = '1.0.0'

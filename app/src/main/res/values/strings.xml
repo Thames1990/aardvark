@@ -1,31 +1,26 @@
-<resources>
-    <!-- Activity titles -->
-    <string name="title_activity_settings">@string/settings</string>
-
-    <!-- App name -->
-    <string name="app_name" translatable="false">Aardvark</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false" tools:override="true">Aardvark</string>
 
     <!-- Action menu titles -->
-    <string name="action_show_changelog">Show changelog</string>
+    <string name="action_show_changelog">Changelog</string>
     <string name="action_change_map_type">Map type</string>
-    <string name="action_change_map_type_hybrid">@string/hybrid</string>
-    <string name="action_change_map_type_none">@string/none</string>
-    <string name="action_change_map_type_normal">@string/normal</string>
-    <string name="action_change_map_type_satellite">@string/satellite</string>
-    <string name="action_change_map_type_terrain">@string/terrain</string>
-    <string name="action_filter_events">Filter events</string>
-    <string name="action_filter_events_ascending">@string/ascending</string>
-    <string name="action_filter_events_descending">@string/descending</string>
-    <string name="action_filter_events_distance">@string/distance</string>
-    <string name="action_filter_events_measurements">@string/measurements</string>
-    <string name="action_filter_events_shuffle">@string/shuffle</string>
-    <string name="action_filter_events_time">@string/time</string>
-    <string name="action_reset_app">Reset app</string>
-    <string name="action_settings">@string/settings</string>
+    <string name="action_change_map_type_hybrid" translatable="false">@string/hybrid</string>
+    <string name="action_change_map_type_none" translatable="false">@string/none</string>
+    <string name="action_change_map_type_normal" translatable="false">@string/normal</string>
+    <string name="action_change_map_type_satellite" translatable="false">@string/satellite</string>
+    <string name="action_change_map_type_terrain" translatable="false">@string/terrain</string>
+    <string name="action_filter_events">Sort events</string>
+    <string name="action_filter_events_ascending" translatable="false">@string/ascending</string>
+    <string name="action_filter_events_descending" translatable="false">@string/descending</string>
+    <string name="action_filter_events_distance" translatable="false">@string/distance</string>
+    <string name="action_filter_events_measurements" translatable="false">@string/measurements</string>
+    <string name="action_filter_events_time" translatable="false">@string/time</string>
+    <string name="action_settings" translatable="false">@string/settings</string>
 
-    <!-- Chooser titles -->
-    <string name="chooser_title_send_feedback">Choose email client</string>
-    <string name="chooser_title_share_measurement">Share measurement</string>
+    <!-- ADB commands -->
+    <string name="enable_wifi_adb" translatable="false">setprop service.adb.tcp.port %1$d\nstop adbd\nstart adbd\nexit</string>
+    <string name="disable_wifi_adb" translatable="false">setprop service.adb.tcp.port -1\nstop adbd\nstart adbd\nexit</string>
+    <string name="superuser" translatable="false">su</string>
 
     <!-- Content descriptions -->
     <string name="content_description_location_icon">Location icon</string>
@@ -38,23 +33,26 @@
     <!-- Exception messages -->
     <string name="exception_measurement_type_without_icon">%1$s measurement type does not have an icon yet!</string>
 
+    <!-- FAQ -->
+    <string name="faq_title">About Aardvark</string>
+    <string name="faq_description">Aardvark is</string>
+
     <!-- Files -->
     <string name="file_changelog" translatable="false">changelog/%1$d.md</string>
 
     <!-- General -->
     <string name="ascending">Ascending</string>
-    <string name="cancel">Cancel</string>
-    <string name="changelog">Changelog - %1$s</string>
-    <string name="chat">Chat</string>
+    <string name="changelog" translatable="false">Changelog - %1$s</string>
+    <string name="chat" translatable="false">Chat</string>
     <string name="descending">Descending</string>
     <string name="confirm_exit">Confirm exit</string>
     <string name="dashboard">Dashboard</string>
-    <string name="details">Details</string>
+    <string name="details" translatable="false">Details</string>
     <string name="event">Event</string>
     <string name="events">Events</string>
     <string name="exit">Exit</string>
     <string name="explore">Explore</string>
-    <string name="hybrid">Hybrid</string>
+    <string name="hybrid" translatable="false">Hybrid</string>
     <string name="intro">Intro</string>
     <string name="map">Map</string>
     <string name="maps">Maps</string>
@@ -65,90 +63,78 @@
     <string name="satellite">Satellite</string>
     <string name="settings">Settings</string>
     <string name="share">Share</string>
-    <string name="shuffle">Shuffle</string>
-    <string name="smartphone">Smartphone</string>
     <string name="terrain">Terrain</string>
-    <string name="with_value">with value</string>
 
     <!-- Intent extras -->
-    <string name="intent_extra_send_feeback">Manufacturer: %1$s\nModel: %2$s\nProduct: %3$s\nScreen Resolution: %4$d x %5$d\nAndroid Version: %6$s\nApp Version: %7$s</string>
     <string name="intent_extra_query_from">Query from %1$s</string>
-    <string name="intent_extra_wifi_adb">adb connect %1$s</string>
-
-    <!-- Intent types -->
-    <string name="intent_type_mailto">mailto</string>
-    <string name="intent_type_text_plain" translatable="false">text/plain</string>
 
     <!-- Intent URIs -->
-    <string name="intent_uri_show_in_google_maps">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
+    <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
 
     <!-- Intro slides -->
-    <string name="intro_1_title">@string/app_name</string>
+    <string name="intro_1_title" translatable="false">@string/app_name</string>
     <string name="intro_1_description">The easiest way to communicate without cellular connectivity!</string>
-    <string name="intro_2_title">@string/dashboard</string>
+    <string name="intro_2_title" translatable="false">@string/dashboard</string>
     <string name="intro_2_description">Easily check whether hazards are close!</string>
-    <string name="intro_3_title">@string/maps</string>
+    <string name="intro_3_title" translatable="false">@string/maps</string>
     <string name="intro_3_description">Look out for your friends and favorite locations!</string>
-    <string name="intro_4_title">@string/chat</string>
+    <string name="intro_4_title" translatable="false">@string/chat</string>
     <string name="intro_4_description">Talk to your friends and co-workers!</string>
-    <string name="intro_placeholder_title">DAMN</string>
+    <string name="intro_placeholder_title" translatable="false">DAMN</string>
     <string name="intro_placeholder_description">The developer was too lazy to include a layout!</string>
 
     <!-- Location -->
-    <string name="lastLocation">Location</string>
     <string name="distance">Distance</string>
-    <string name="distance_in_kilometer">%1$.2f km</string>
-    <string name="distance_in_meter">%1$.0f m</string>
+    <string name="distance_in_kilometer" translatable="false">%1$.2f km</string>
+    <string name="distance_in_meter" translatable="false">%1$.0f m</string>
 
-    <!-- Log messages -->
-    <string name="log_message_fail_event_load">Failed to load events: %1$s</string>
-    <string name="log_message_response_unsuccessful">Response wasn\'t successful for request: %1$s</string>
+    <!-- Measurement types -->
+    <string name="measurement_type_precipitation">Precipitation</string>
+    <string name="measurement_type_radiation">Radiation</string>
+    <string name="measurement_type_temperature">Temperature</string>
+    <string name="measurement_type_wind">Wind</string>
 
     <!-- Measurement values -->
-    <string name="measurement_value_placeholder">%1$d</string>
-    <string name="measurement_value_precipitation">%1$d mm</string>
-    <string name="measurement_value_radiation">%1$d &#956;Sv/h</string>
+    <string name="measurement_value_precipitation" translatable="false">%1$d mm</string>
+    <string name="measurement_value_radiation" translatable="false">%1$d &#956;Sv/h</string>
     <string name="measurement_value_temperature">%1$d &#176;F</string>
     <string name="measurement_value_wind">%1$d mph</string>
 
     <!-- Preferences -->
     <string name="preference_about">About</string>
     <string name="preference_confirm_exit">Confirm exit</string>
+    <string name="preference_debug" translatable="false">Debug</string>
     <string name="preference_enable_wifi_adb">Enable WiFi ADB</string>
-    <string name="preference_enable_wifi_adb_summary">Useful if you like to take a shit while building</string>
-    <string name="preference_faq">FAQ</string>
-    <string name="preference_faq_summary">View frequently asked questions</string>
+    <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>
+    <string name="preference_share_adb_command_description">Use this command on your computer</string>
+    <string name="preference_faq" translatable="false">FAQ</string>
+    <string name="preference_faq_description">Frequently asked questions</string>
     <string name="preference_general">General</string>
-    <string name="preference_privacy_policy" translatable="false">Privacy policy</string>
+    <string name="preference_privacy_policy">Privacy policy</string>
     <string name="preference_send_feedback">Send feedback</string>
+    <string name="preference_send_feedback_description">Got any queries? We are happy to help!</string>
+    <string name="preference_share_adb_command">Share ADB command</string>
     <string name="preference_show_changelog">Show changelogs after update</string>
-    <string name="preference_support_summary">Got any queries? We are happy to help!</string>
     <string name="preference_terms_and_conditions">Terms &amp; conditions</string>
     <string name="preference_use_bottom_sheets">Show menus as bottomsheets</string>
-    <string name="preference_use_bottom_sheets_summary">Popup menus from the bottom of the screen</string>
+    <string name="preference_use_bottom_sheets_description">Popup menus from the bottom of the screen</string>
     <string name="preference_version">Version</string>
-
-    <!-- Screen names -->
-    <string name="screen_dashboard">@string/dashboard</string>
-    <string name="screen_events">@string/events</string>
-    <string name="screen_intro">@string/intro</string>
-    <string name="screen_map">@string/map</string>
-    <string name="screen_settings">@string/settings</string>
+    <string name="preference_wifi_adb_text" translatable="false">adb connect %1$s</string>
 
     <!-- Time -->
     <string name="time">Time</string>
     <string name="hours_ago">%1$d hr</string>
-    <string name="minutes_ago">%1$d min</string>
+    <string name="minutes_ago" translatable="false">%1$d min</string>
     <string name="days_ago">%1$dd</string>
-    <string name="months_ago">%1$dm</string>
+    <string name="months_ago" translatable="false">%1$dm</string>
     <string name="years_ago">%1$dy</string>
 
     <!-- Tools Fake Data -->
-    <string name="tools_changelog">Changelog - Version 9001.0.0</string>
-    <string name="tools_distance">392 m</string>
+    <string name="tools_changelog" translatable="false">Changelog - Version 9001.0.0</string>
+    <string name="tools_distance" translatable="false">392 m</string>
     <string name="tools_measurement_type">Radiation</string>
-    <string name="tools_measurement_value">2 &#956;Sv/h</string>
-    <string name="tools_time">24 min</string>
+    <string name="tools_measurement_value" translatable="false">2 &#956;Sv/h</string>
+    <string name="tools_time" translatable="false">24 min</string>
 
     <!-- URLs -->
     <string name="url_rest_api" translatable="false">https://api.splork.de/dummy_data.json</string>

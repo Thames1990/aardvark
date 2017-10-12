@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         if (Preferences.confirmExit) {
             materialDialog {
                 title(R.string.confirm_exit)
+                negativeText(android.R.string.cancel)
                 positiveText(R.string.exit)
                 onPositive { _, _ -> finishSlideOut() }
             }
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_show_changelog -> consume { checkForNewVersion(true) }
-        R.id.action_settings -> consume { startActivity(SettingsActivity::class.java) }
+        R.id.action_settings -> consume { startActivity(PreferenceActivity::class.java) }
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -85,26 +86,22 @@ class MainActivity : AppCompatActivity() {
     private fun setupViews() {
         setSupportActionBar(toolbar)
         with(supportFragmentManager) {
-            with(beginTransaction()) {
-                add(R.id.content, mapFragment)
-                add(R.id.content, eventsFragment)
-                add(R.id.content, dashboardFragment)
-                fragments.forEach { hide(it) }
-                show(dashboardFragment)
-                commit()
-            }
-
             bottom_navigation.setOnNavigationItemSelectedListener { item ->
                 with(beginTransaction()) {
                     fragments.forEach { hide(it) }
                     when (item.itemId) {
-                        R.id.action_dashboard -> show(dashboardFragment)
+                        R.id.action_dashboard -> {
+                            if (dashboardFragment.isAdded) show(dashboardFragment)
+                            else add(R.id.content, dashboardFragment)
+                        }
                         R.id.action_events -> {
-                            show(eventsFragment)
+                            if (eventsFragment.isAdded) show(eventsFragment)
+                            else add(R.id.content, eventsFragment)
                             eventsFragment.setHasOptionsMenu(true)
                         }
                         R.id.action_map -> {
-                            show(mapFragment)
+                            if (mapFragment.isAdded) show(mapFragment)
+                            else add(R.id.content, mapFragment)
                             mapFragment.setHasOptionsMenu(true)
                         }
                     }
@@ -112,12 +109,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        bottom_navigation.selectedItemId = R.id.action_dashboard
     }
 
     private fun checkForNewVersion(force: Boolean = false) {
         val versionCode = BuildConfig.VERSION_CODE
-        if (force || Preferences.showChangelog && Preferences.lastKnownVersionCode < versionCode) {
-            Preferences.lastKnownVersionCode = versionCode
+        if (force || Preferences.showChangelog && Preferences.version < versionCode) {
+            Preferences.version = versionCode
             showChangelog(versionCode)
         }
     }

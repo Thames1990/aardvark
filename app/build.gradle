@@ -6,32 +6,33 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
-    
+
     def keystore = rootProject.file("keystore.properties")
     def properties = new Properties()
     properties.load(new FileInputStream(keystore))
-    
+
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 25
         versionName '0.5.1'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        
+
+        resValue "string", "app_version", "$versionName"
         setProperty('archivesBaseName', "aardvark-$versionName")
-        
-        androidExtensions {experimental = true}
-        dataBinding {enabled = true}
+
+        androidExtensions { experimental = true }
+        dataBinding { enabled = true }
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        
+
         manifestPlaceholders = [
                 KEY_FABRIC     : properties['key_fabric'],
                 KEY_GOOGLE_MAPS: properties['key_google_maps']
         ]
     }
-    
+
     signingConfigs {
         release {
             storeFile = file(properties['storeFile'])
@@ -40,7 +41,7 @@ android {
             keyPassword = properties['keyPassword']
         }
     }
-    
+
     buildTypes {
         debug {
             ext.enableCrashlytics = false
@@ -62,47 +63,55 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    
     // Android Maps Utils
-    compile "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
+    implementation "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
+
     // Architecture Components
-    compile "android.arch.lifecycle:extensions:$architecture_components_version"
+    //noinspection GradleDependency
+    implementation "android.arch.lifecycle:extensions:$architecture_components_version"
     annotationProcessor "android.arch.lifecycle:compiler:$architecture_components_version"
+
     // Crashlytics
-    compile "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
+    implementation "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
+
     // Firebase
-    compile "com.google.firebase:firebase-core:$google_play_services_version"
+    implementation "com.google.firebase:firebase-core:$google_play_services_version"
+
     // Google Play Services
-    compile "com.google.android.gms:play-services-location:$google_play_services_version"
-    compile "com.google.android.gms:play-services-maps:$google_play_services_version"
+    implementation "com.google.android.gms:play-services-location:$google_play_services_version"
+    implementation "com.google.android.gms:play-services-maps:$google_play_services_version"
+
     // KAU
-    compile "ca.allanwang.kau:core:$kau_version"
+    implementation "ca.allanwang.kau:about:$kau_version"
+    implementation "ca.allanwang.kau:kpref-activity:$kau_version"
+
     // Kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
     // LeakCanary
-    debugCompile "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
+
     // Markwon
-    compile "ru.noties:markwon:$markwon_version"
+    implementation "ru.noties:markwon:$markwon_version"
+
     // Material Intro Screen
-    compile "agency.tango.android:material-intro-screen:$material_intro_screen_version"
+    implementation "agency.tango.android:material-intro-screen:$material_intro_screen_version"
+
     // Moshi
-    compile "com.squareup.moshi:moshi:$moshi_version"
-    compile "com.squareup.moshi:moshi-kotlin:$moshi_version"
-    // TODO See if this can be removed since it's part of Kerval
+    implementation "com.squareup.moshi:moshi:$moshi_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+
     // OkHttp
-    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+
     // Support libraries
-    compile "com.android.support:appcompat-v7:$support_library_version"
-    compile "com.android.support:cardview-v7:$support_library_version"
-    compile "com.android.support.constraint:constraint-layout:$constraint_layout_version"
-    compile "com.android.support:design:$support_library_version"
-    compile "com.android.support:preference-v7:$support_library_version"
-    compile "com.android.support:preference-v14:$support_library_version"
-    compile "com.android.support:recyclerview-v7:$support_library_version"
-    compile "com.android.support:support-v4:$support_library_version"
-    compile "com.android.support:support-vector-drawable:$support_library_version"
+    implementation "com.android.support:appcompat-v7:$support_library_version"
+    implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+    implementation "com.android.support:design:$support_library_version"
+    implementation "com.android.support:recyclerview-v7:$support_library_version"
+    implementation "com.android.support:support-v4:$support_library_version"
+    implementation "com.android.support:support-vector-drawable:$support_library_version"
 }
 
 apply plugin: 'com.google.gms.google-services'

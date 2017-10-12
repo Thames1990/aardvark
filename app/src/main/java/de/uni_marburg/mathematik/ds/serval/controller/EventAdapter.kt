@@ -102,8 +102,8 @@ class EventAdapter(
                 }
             EventComparator.Time ->
                 events.sortedBy {
-                    if (reversed) -it.time
-                    else it.time
+                    if (reversed) it.time
+                    else -it.time
                 }
         }
     }
@@ -118,7 +118,7 @@ class EventAdapter(
     class EventViewHolder(
             override val containerView: View,
             private val fragmentActivity: FragmentActivity,
-            val lastLocation: Location
+            private val lastLocation: Location
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         /**

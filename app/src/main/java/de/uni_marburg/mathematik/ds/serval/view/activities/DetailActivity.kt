@@ -54,9 +54,9 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(toolbar)
-        with(supportActionBar) {
+        supportActionBar?.apply {
             title = string(R.string.details)
-            this?.setDisplayHomeAsUpEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
         }
         appbar_layout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             when (scrollRange) {
@@ -88,8 +88,8 @@ class DetailActivity : AppCompatActivity() {
         val options = GoogleMapOptions().liteMode(true)
         val mapFragment = SupportMapFragment.newInstance(options)
         supportFragmentManager.beginTransaction().replace(R.id.map, mapFragment).commit()
-        mapFragment.getMapAsync {
-            with(it) {
+        mapFragment.getMapAsync { googleMap ->
+            googleMap.apply {
                 uiSettings.setAllGesturesEnabled(false)
                 uiSettings.isMapToolbarEnabled = false
                 val position = LatLng(event.location.latitude, event.location.longitude)

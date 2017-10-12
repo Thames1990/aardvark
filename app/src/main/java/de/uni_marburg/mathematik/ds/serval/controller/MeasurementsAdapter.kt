@@ -37,21 +37,22 @@ class MeasurementsAdapter(
         private fun display(measurement: Measurement) {
             val value: String
             val resId: Int
+
             when (measurement.type) {
                 MeasurementType.PRECIPITATION -> {
-                    value = itemView.context.string(R.string.measurement_value_precipitation)
+                    value = containerView.context.string(R.string.measurement_value_precipitation)
                     resId = R.drawable.precipitation
                 }
                 MeasurementType.RADIATION -> {
-                    value = itemView.context.string(R.string.measurement_value_radiation)
+                    value = containerView.context.string(R.string.measurement_value_radiation)
                     resId = R.drawable.radiation
                 }
                 MeasurementType.TEMPERATURE -> {
-                    value = itemView.context.string(R.string.measurement_value_temperature)
+                    value = containerView.context.string(R.string.measurement_value_temperature)
                     resId = R.drawable.temperature
                 }
                 MeasurementType.WIND -> {
-                    value = itemView.context.string(R.string.measurement_value_wind)
+                    value = containerView.context.string(R.string.measurement_value_wind)
                     resId = R.drawable.wind
                 }
             }
