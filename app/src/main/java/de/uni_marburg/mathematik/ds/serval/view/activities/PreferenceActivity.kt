@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.text.format.Formatter
@@ -38,9 +37,6 @@ class PreferenceActivity : KPrefActivity() {
         super.onCreate(savedInstanceState)
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
 
-        bgCanvas.set(Color.WHITE)
-        toolbarCanvas.set(color(R.color.colorPrimary))
-
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(false)
             setDisplayShowHomeEnabled(false)
@@ -60,7 +56,7 @@ class PreferenceActivity : KPrefActivity() {
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
         accentColor = { color(R.color.colorAccent) }
-        textColor = { color(R.color.colorPrimaryText) }
+        textColor = { color(R.color.colorTextInverted) }
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
