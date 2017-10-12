@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         if (Preferences.confirmExit) {
             materialDialog {
                 title(R.string.confirm_exit)
+                negativeText(android.R.string.cancel)
                 positiveText(R.string.exit)
                 onPositive { _, _ -> finishSlideOut() }
             }
