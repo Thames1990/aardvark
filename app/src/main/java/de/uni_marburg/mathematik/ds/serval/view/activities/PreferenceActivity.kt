@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.text.format.Formatter
+import ca.allanwang.kau.about.kauLaunchAbout
 import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
 import ca.allanwang.kau.kpref.activity.KPrefActivity
@@ -16,7 +17,6 @@ import ca.allanwang.kau.swipe.kauSwipeOnCreate
 import ca.allanwang.kau.swipe.kauSwipeOnDestroy
 import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.shareText
-import ca.allanwang.kau.utils.startActivity
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
@@ -108,15 +108,17 @@ class PreferenceActivity : KPrefActivity() {
             descRes = R.string.preference_send_feedback_description
             onClick = { _, _, _ -> consume { sendFeedback() } }
         }
-        plainText(R.string.preference_faq) { descRes = R.string.preference_faq_description }
+        plainText(R.string.preference_faq) {
+            descRes = R.string.preference_faq_description
+            onClick = { _, _, _ ->
+                kauLaunchAbout(AboutActivity::class.java)
+                false
+            }
+        }
         plainText(R.string.preference_privacy_policy)
         plainText(R.string.preference_terms_and_conditions)
         plainText(R.string.preference_version) {
             descRes = R.string.app_version
-            onClick = { _, _, _ ->
-                startActivity(ChangelogActivity::class.java, transition = true)
-                false
-            }
         }
     }
 

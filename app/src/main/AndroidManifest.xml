@@ -36,8 +36,8 @@
             android:name=".view.activities.PreferenceActivity"
             android:theme="@style/Kau.Translucent"/>
         <activity
-            android:name=".view.activities.ChangelogActivity"
-            android:theme="@style/Kau.Translucent.SlideBottom"/>
+            android:name=".view.activities.AboutActivity"
+            android:theme="@style/Kau.About"/>
 
         <meta-data
             android:name="

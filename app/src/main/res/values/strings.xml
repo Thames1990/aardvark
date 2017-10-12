@@ -33,6 +33,10 @@
     <!-- Exception messages -->
     <string name="exception_measurement_type_without_icon">%1$s measurement type does not have an icon yet!</string>
 
+    <!-- FAQ -->
+    <string name="faq_title">About Aardvark</string>
+    <string name="faq_description">Aardvark is</string>
+
     <!-- Files -->
     <string name="file_changelog" translatable="false">changelog/%1$d.md</string>
 

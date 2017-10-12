@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 25
         versionName '0.5.1'
@@ -82,7 +82,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:$google_play_services_version"
 
     // KAU
-    implementation "ca.allanwang.kau:core-ui:$kau_version"
+    implementation "ca.allanwang.kau:about:$kau_version"
     implementation "ca.allanwang.kau:kpref-activity:$kau_version"
 
     // Kotlin
