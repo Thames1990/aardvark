@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.location.Location
+import android.os.Build
 import android.os.Parcelable
-import ca.allanwang.kau.utils.string
+import android.support.annotation.RequiresApi
+import ca.allanwang.kau.utils.buildIsNougatAndUp
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import com.squareup.moshi.Json
@@ -78,12 +80,37 @@ enum class MeasurementType {
         if (resId == 0) {
             throw Resources.NotFoundException(String.format(
                     Locale.getDefault(),
-                    context.string(R.string.exception_measurement_type_without_icon),
+                    Resources.getSystem().getString(R.string.exception_measurement_type_without_icon),
                     toString()
             ))
         }
         return resId
     }
 
-    override fun toString(): String = name[0] + name.substring(1).toLowerCase()
+    @SuppressLint("NewApi")
+    override fun toString(): String =
+            if (buildIsNougatAndUp) this.toStringNougatAndUP()
+            else when (this) {
+                PRECIPITATION -> "Precipitation"
+                RADIATION -> "Radiation"
+                TEMPERATURE -> "Temperature"
+                WIND -> "Wind"
+            }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun MeasurementType.toStringNougatAndUP(): String =
+            when (Resources.getSystem().configuration.locales.get(0)) {
+                Locale.GERMAN -> when (this) {
+                    PRECIPITATION -> "Precipitation"
+                    RADIATION -> "Radiation"
+                    TEMPERATURE -> "Temperature"
+                    WIND -> "Wind"
+                }
+                else -> when (this) {
+                    PRECIPITATION -> "Niederschlag"
+                    RADIATION -> "Strahlung"
+                    TEMPERATURE -> "Temperatur"
+                    WIND -> "Wind"
+                }
+            }
 }
