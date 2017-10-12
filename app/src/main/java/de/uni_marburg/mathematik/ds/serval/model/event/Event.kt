@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.model.event
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.location.Location
@@ -14,6 +15,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+@SuppressLint("ParcelCreator")
 @Parcelize
 data class Event(
         val time: Long,
@@ -44,6 +46,7 @@ data class Event(
     override fun getTitle(): String = "Event"
 }
 
+@SuppressLint("ParcelCreator")
 @Parcelize
 data class GeohashLocation(
         val latitude: Double,
@@ -51,6 +54,7 @@ data class GeohashLocation(
         private val geohash: String
 ) : Parcelable
 
+@SuppressLint("ParcelCreator")
 @Parcelize
 data class Measurement(val type: MeasurementType, val value: Int) : Parcelable
 
