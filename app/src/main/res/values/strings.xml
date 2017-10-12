@@ -129,6 +129,9 @@
     <string name="months_ago" translatable="false">%1$dm</string>
     <string name="years_ago">%1$dy</string>
 
+    <!-- Toast messages -->
+    <string name="toast_network_disconnected">No network connectivity</string>
+
     <!-- Tools Fake Data -->
     <string name="tools_changelog" translatable="false">Changelog - Version 9001.0.0</string>
     <string name="tools_distance" translatable="false">392 m</string>

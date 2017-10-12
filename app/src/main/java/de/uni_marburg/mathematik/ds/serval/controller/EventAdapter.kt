@@ -72,13 +72,8 @@ class EventAdapter(
 
     override fun getItemCount(): Int = events.size
 
-    /**
-     * Loads [events] either from the API or generates them locally.
-     *
-     * This will use the [Serval API][https://github.com/CryptoCopter/kerval].
-     */
-    fun loadEvents(generated: Boolean = false) {
-        events = if (generated) EventProvider.generate() else EventProvider.load()
+    fun loadEvents() {
+        events = EventProvider.load()
     }
 
     /**

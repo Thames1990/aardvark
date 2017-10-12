@@ -74,8 +74,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun start() {
         doAsync {
-            events = EventProvider.load()
+            events = if (isNetworkAvailable) EventProvider.load() else emptyList()
             uiThread {
+                if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
                 setupViews()
                 checkForNewVersion()
             }
