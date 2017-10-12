@@ -10,16 +10,12 @@
     <string name="faq_description">Aardvark ist</string>
     <string name="ascending">Aufsteigend</string>
     <string name="descending">Absteigend</string>
-    <string name="confirm_exit">Beenden bestätigen</string>
     <string name="dashboard">Übersicht</string>
-    <string name="event">Ereignis</string>
     <string name="events">Ereignisse</string>
     <string name="exit">Beenden</string>
     <string name="explore">Untersuchen</string>
-    <string name="intro">Einleitung</string>
     <string name="map">Karte</string>
     <string name="maps">Karten</string>
-    <string name="measurement">Messung</string>
     <string name="measurements">Messungen</string>
     <string name="none">Kein</string>
     <string name="normal">Normal</string>
@@ -56,10 +52,6 @@
     <string name="tools_measurement_type">Strahlung</string>
     <string name="hours_ago">%1$d st</string>
     <string name="preference_send_feedback">Anregungen schicken</string>
-    <string name="measurement_type_precipitation">Niederschlag</string>
-    <string name="measurement_type_radiation">Strahlung</string>
-    <string name="measurement_type_temperature">Temperatur</string>
-    <string name="measurement_type_wind">Wind</string>
     <string name="preference_version">Version</string>
     <string name="toast_network_disconnected">Keine Netzwerkverbindung</string>
 </resources>

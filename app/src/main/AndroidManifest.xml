@@ -11,13 +11,13 @@
 
     <application
         android:name=".Aardvark"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="${APP_ICON}"
         android:label="@string/app_name"
         android:roundIcon="${APP_ICON_ROUND}"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name=".view.activities.IntroActivity"
