@@ -95,7 +95,7 @@ class PreferenceActivity : KPrefActivity() {
                 { useBottomSheetDialogs },
                 { useBottomSheetDialogs = it }
         ) { descRes = R.string.preference_use_bottom_sheets_description }
-        checkbox(R.string.confirm_exit, { confirmExit }, { confirmExit = it })
+        checkbox(R.string.preference_confirm_exit, { confirmExit }, { confirmExit = it })
     }
 
     private fun KPrefAdapterBuilder.createAboutPreferences() {
