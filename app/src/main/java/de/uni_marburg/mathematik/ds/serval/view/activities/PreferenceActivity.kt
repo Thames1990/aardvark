@@ -55,8 +55,8 @@ class PreferenceActivity : KPrefActivity() {
     }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = { color(R.color.colorAccent) }
-        textColor = { color(R.color.colorTextInverted) }
+        accentColor = { color(R.color.color_accent) }
+        textColor = { color(R.color.color_text_inverted) }
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {

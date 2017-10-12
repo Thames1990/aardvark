@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- General -->
-    <color name="colorPrimary">#4caf50</color>
-    <color name="colorPrimaryLight">#80e27e</color>
-    <color name="colorPrimaryDark">#087f23</color>
-    <color name="colorAccent">#40c4ff</color>
-    <color name="colorAccentLight">#82f7ff</color>
-    <color name="colorAccentDark">#0094cc</color>
-    <color name="colorText">#000000</color>
-    <color name="colorTextInverted">#FFFFFF</color>
+    <color name="color_primary">#4caf50</color>
+    <color name="color_primary_light">#80e27e</color>
+    <color name="color_primary_dark">#087f23</color>
+    <color name="color_accent">#40c4ff</color>
+    <color name="color_accent_light">#82f7ff</color>
+    <color name="color_accent_dark">#0094cc</color>
+    <color name="color_text">#000000</color>
+    <color name="color_text_inverted">#FFFFFF</color>
 
     <!-- Icon -->
     <color name="icon_mute">#C8C8C8</color>
@@ -19,5 +19,5 @@
     <color name="intro_3_background">#30a041</color>
     <color name="intro_4_background">#087f23</color>
 
-    <color name="placeholder_background">@color/colorPrimaryLight</color>
+    <color name="placeholder_background">@color/color_primary_light</color>
 </resources>
