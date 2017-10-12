@@ -8,28 +8,38 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
+import ca.allanwang.kau.utils.isNetworkAvailable
+import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.toast
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
-import de.uni_marburg.mathematik.ds.serval.util.afterMeasured
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import kotlinx.android.synthetic.main.fragment_events.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.uiThread
 
 class EventsFragment : BaseFragment() {
-
-    private val eventAdapter: EventAdapter by lazy {
-        EventAdapter(activity) { context.startActivity<DetailActivity>(DetailActivity.EVENT to it) }
-    }
 
     override val layout: Int
         get() = R.layout.fragment_events
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private val eventAdapter: EventAdapter by lazy {
+        EventAdapter(activity) {
+            context.startActivity<DetailActivity>(DetailActivity.EVENT to it)
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setupRecyclerView()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setupRefresh()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -63,19 +73,31 @@ class EventsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        eventAdapter.loadEvents()
-
-        recycler_view.afterMeasured {
-            layoutManager = LinearLayoutManager(context)
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            adapter = eventAdapter
+        doAsync {
+            with(context) {
+                if (isNetworkAvailable) eventAdapter.loadEvents()
+                uiThread {
+                    if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
+                    with(recycler_view) {
+                        layoutManager = LinearLayoutManager(context)
+                        addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+                        adapter = eventAdapter
+                    }
+                }
+            }
         }
+    }
 
-        with(swipeRefreshLayout) {
-            setOnRefreshListener {
-                eventAdapter.loadEvents(true)
-                eventAdapter.sortBy(Time)
-                isRefreshing = false
+    private fun setupRefresh() = with(swipeRefreshLayout) {
+        setOnRefreshListener {
+            doAsync {
+                with(context) {
+                    if (isNetworkAvailable) eventAdapter.loadEvents()
+                    uiThread {
+                        if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
+                        isRefreshing = false
+                    }
+                }
             }
         }
     }

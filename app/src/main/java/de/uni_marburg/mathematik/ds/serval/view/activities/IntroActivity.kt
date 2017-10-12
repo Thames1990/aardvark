@@ -20,7 +20,7 @@ class IntroActivity : MaterialIntroActivity() {
                 .description(string(R.string.intro_1_description))
                 .image(R.drawable.speaker_phone)
                 .backgroundColor(R.color.intro_1_background)
-                .buttonsColor(R.color.colorPrimaryDark)
+                .buttonsColor(R.color.color_primary_dark)
                 .build())
 
         addSlide(SlideFragmentBuilder()
@@ -28,7 +28,7 @@ class IntroActivity : MaterialIntroActivity() {
                 .description(string(R.string.intro_2_description))
                 .image(R.drawable.dashboard)
                 .backgroundColor(R.color.intro_2_background)
-                .buttonsColor(R.color.colorPrimaryDark)
+                .buttonsColor(R.color.color_primary_dark)
                 .build())
 
         addSlide(SlideFragmentBuilder()
@@ -36,7 +36,7 @@ class IntroActivity : MaterialIntroActivity() {
                 .description(string(R.string.intro_3_description))
                 .image(R.drawable.map)
                 .backgroundColor(R.color.intro_3_background)
-                .buttonsColor(R.color.colorPrimaryDark)
+                .buttonsColor(R.color.color_primary_dark)
                 .neededPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
                 .build())
 
@@ -45,7 +45,7 @@ class IntroActivity : MaterialIntroActivity() {
                 .description(string(R.string.intro_4_description))
                 .image(R.drawable.chat)
                 .backgroundColor(R.color.intro_4_background)
-                .buttonsColor(R.color.colorPrimaryDark)
+                .buttonsColor(R.color.color_primary_dark)
                 .build())
     }
 }

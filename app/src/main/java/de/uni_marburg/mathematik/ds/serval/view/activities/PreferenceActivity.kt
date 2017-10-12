@@ -55,8 +55,8 @@ class PreferenceActivity : KPrefActivity() {
     }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = { color(R.color.colorAccent) }
-        textColor = { color(R.color.colorTextInverted) }
+        accentColor = { color(R.color.color_accent) }
+        textColor = { color(R.color.color_text_inverted) }
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
@@ -95,7 +95,7 @@ class PreferenceActivity : KPrefActivity() {
                 { useBottomSheetDialogs },
                 { useBottomSheetDialogs = it }
         ) { descRes = R.string.preference_use_bottom_sheets_description }
-        checkbox(R.string.confirm_exit, { confirmExit }, { confirmExit = it })
+        checkbox(R.string.preference_confirm_exit, { confirmExit }, { confirmExit = it })
     }
 
     private fun KPrefAdapterBuilder.createAboutPreferences() {

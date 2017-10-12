@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (Preferences.confirmExit) {
             materialDialog {
-                title(R.string.confirm_exit)
+                title(R.string.preference_confirm_exit)
                 negativeText(android.R.string.cancel)
                 positiveText(R.string.exit)
                 onPositive { _, _ -> finishSlideOut() }
@@ -74,8 +74,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun start() {
         doAsync {
-            events = EventProvider.load()
+            events = if (isNetworkAvailable) EventProvider.load() else emptyList()
             uiThread {
+                if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
                 setupViews()
                 checkForNewVersion()
             }

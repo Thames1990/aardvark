@@ -18,7 +18,7 @@
             android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="215dp"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@color/color_primary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <FrameLayout
