@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import ca.allanwang.kau.iitems.CardIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
@@ -12,6 +13,7 @@ class ChangelogActivity : ElasticRecyclerActivity() {
 
     private val adapter = FastItemAdapter<IItem<*, *>>()
 
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         recycler.adapter = adapter
         adapter.add(listOf(
