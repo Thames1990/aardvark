@@ -1,12 +1,16 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.drawable
+import ca.allanwang.kau.utils.hasPermission
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -35,12 +39,19 @@ class MapFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_map
 
+    @SuppressLint("MissingPermission")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         map.getMapAsync {
             googleMap = it
             with(googleMap) {
-                isMyLocationEnabled = true
+                with(Manifest.permission.ACCESS_FINE_LOCATION) {
+                    if (!context.hasPermission(this)) {
+                        context.kauRequestPermissions(this) { granted, _ ->
+                            if (granted) isMyLocationEnabled = true
+                        }
+                    } else isMyLocationEnabled = true
+                }
                 uiSettings.isMapToolbarEnabled = false
                 setupClusterManager()
                 setupCamera()

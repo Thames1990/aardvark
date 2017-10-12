@@ -1,9 +1,13 @@
 package de.uni_marburg.mathematik.ds.serval.model.location
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
 import android.content.Context
 import android.location.Location
 import android.os.Looper
+import ca.allanwang.kau.permissions.kauRequestPermissions
+import ca.allanwang.kau.utils.hasPermission
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -26,6 +30,7 @@ class LocationLiveData(val context: Context) : LiveData<Location>() {
         }
     }
 
+    @SuppressLint("MissingPermission")
     override fun onActive() {
         super.onActive()
         with(locationRequest) {
@@ -33,7 +38,11 @@ class LocationLiveData(val context: Context) : LiveData<Location>() {
             fastestInterval = TimeUnit.SECONDS.toMillis(5)
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
-        client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+        if (!context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            context.kauRequestPermissions(Manifest.permission.ACCESS_FINE_LOCATION) { granted, _ ->
+                if (granted) {client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())}
+            }
+        } else client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
     }
 
     override fun onInactive() {
