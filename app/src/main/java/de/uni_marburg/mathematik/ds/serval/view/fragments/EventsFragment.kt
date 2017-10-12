@@ -88,16 +88,14 @@ class EventsFragment : BaseFragment() {
         }
     }
 
-    private fun setupRefresh() {
-        with(swipeRefreshLayout) {
-            setOnRefreshListener {
-                doAsync {
-                    with(context) {
-                        if (isNetworkAvailable) eventAdapter.loadEvents()
-                        uiThread {
-                            if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
-                            isRefreshing = false
-                        }
+    private fun setupRefresh() = with(swipeRefreshLayout) {
+        setOnRefreshListener {
+            doAsync {
+                with(context) {
+                    if (isNetworkAvailable) eventAdapter.loadEvents()
+                    uiThread {
+                        if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
+                        isRefreshing = false
                     }
                 }
             }
