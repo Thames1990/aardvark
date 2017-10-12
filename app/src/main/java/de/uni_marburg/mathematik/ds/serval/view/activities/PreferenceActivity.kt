@@ -9,6 +9,7 @@ import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
 import ca.allanwang.kau.kpref.activity.KPrefActivity
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
+import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.startActivity
 import ca.allanwang.kau.utils.string
@@ -35,8 +36,8 @@ class PreferenceActivity : KPrefActivity() {
 
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-
-
+        accentColor = { color(R.color.colorAccent) }
+        textColor = { color(R.color.colorPrimaryText) }
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
