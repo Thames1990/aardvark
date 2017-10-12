@@ -24,9 +24,8 @@ class LocationLiveData(val context: Context) : LiveData<Location>() {
 
     private val locationCallback: LocationCallback by lazy {
         object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                locationResult?.lastLocation.let { value = it }
-            }
+            override fun onLocationResult(locationResult: LocationResult?) =
+                    locationResult?.lastLocation.let { value = it }
         }
     }
 
@@ -40,7 +39,9 @@ class LocationLiveData(val context: Context) : LiveData<Location>() {
         }
         if (!context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             context.kauRequestPermissions(Manifest.permission.ACCESS_FINE_LOCATION) { granted, _ ->
-                if (granted) {client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())}
+                if (granted) {
+                    client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+                }
             }
         } else client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
     }

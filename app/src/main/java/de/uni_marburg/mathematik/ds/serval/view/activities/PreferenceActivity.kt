@@ -122,14 +122,13 @@ class PreferenceActivity : KPrefActivity() {
         }
     }
 
-    private fun shareIpAddress() {
-        with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
-            shareText(String.format(
-                    string(R.string.preference_wifi_adb_text),
-                    Formatter.formatIpAddress(connectionInfo.ipAddress)
-            ))
-        }
-    }
+    private fun shareIpAddress() =
+            with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
+                shareText(String.format(
+                        string(R.string.preference_wifi_adb_text),
+                        Formatter.formatIpAddress(connectionInfo.ipAddress)
+                ))
+            }
 
     private fun sendFeedback() = sendEmail(
             getString(R.string.email_adress_feedback),

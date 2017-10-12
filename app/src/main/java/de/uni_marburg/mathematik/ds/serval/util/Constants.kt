@@ -14,5 +14,3 @@ const val MAP_PADDING = 150
 const val MAP_ZOOM = 15f
 
 const val WIFI_ADB_PORT = 5555
-
-const val RIPPLE_DURATION = 500L

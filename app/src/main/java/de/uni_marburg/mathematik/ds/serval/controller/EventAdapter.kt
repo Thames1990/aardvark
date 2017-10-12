@@ -118,7 +118,7 @@ class EventAdapter(
     class EventViewHolder(
             override val containerView: View,
             private val fragmentActivity: FragmentActivity,
-            val lastLocation: Location
+            private val lastLocation: Location
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         /**
