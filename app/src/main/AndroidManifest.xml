@@ -41,10 +41,10 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="$KEY_FABRIC"/>
+            android:value="${KEY_FABRIC}"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="$KEY_GOOGLE_MAPS"/>
+            android:value="${KEY_GOOGLE_MAPS}"/>
     </application>
 
 </manifest>
