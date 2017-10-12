@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval
 
 import android.app.Application
-import ca.allanwang.kau.logging.KL
 import ca.allanwang.kau.utils.string
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
@@ -20,7 +19,6 @@ class Aardvark : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        KL.debug(BuildConfig.DEBUG)
         Preferences.initialize(this, string(R.string.app_name))
         Fabric.with(this, Crashlytics.Builder().core(
                 CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
