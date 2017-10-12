@@ -9,20 +9,16 @@ import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
 import ca.allanwang.kau.kpref.activity.KPrefActivity
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
-import ca.allanwang.kau.ui.views.RippleCanvas
-import ca.allanwang.kau.utils.navigationBarColor
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.startActivity
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.confirmExit
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.showChangelog
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useBottomSheetDialogs
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useWifiADB
-import de.uni_marburg.mathematik.ds.serval.util.RIPPLE_DURATiON
 import de.uni_marburg.mathematik.ds.serval.util.WIFI_ADB_PORT
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import org.jetbrains.anko.toast
@@ -35,23 +31,17 @@ class PreferenceActivity : KPrefActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
-
-        bgCanvas.set(Preferences.backgroundColor)
-        toolbarCanvas.set(Preferences.accentColor)
-        navigationBarColor = Preferences.accentColor
     }
 
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        textColor = { Preferences.textColor }
-        accentColor = { Preferences.accentColor }
+
 
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
-        createGeneralPreferences()
         if (BuildConfig.DEBUG) createDebugPreferences()
-        createThemePreferences()
+        createGeneralPreferences()
         createAboutPreferences()
     }
 
@@ -85,34 +75,6 @@ class PreferenceActivity : KPrefActivity() {
                 }
             }
             onClick = { _, _, _ -> consume { shareIpAddress() } }
-        }
-    }
-
-    private fun KPrefAdapterBuilder.createThemePreferences() {
-        header(R.string.preference_theme)
-        colorPicker(R.string.preference_text_color, { Preferences.textColor }, {
-            Preferences.textColor = it
-            reload()
-        }) {
-            descRes = R.string.preference_theme_description
-            allowCustom = true
-        }
-        colorPicker(R.string.preference_accent_color, { Preferences.accentColor }, {
-            Preferences.accentColor = it
-            reload()
-            navigationBarColor = it
-            toolbarCanvas.ripple(it, RippleCanvas.MIDDLE, RippleCanvas.END, RIPPLE_DURATiON)
-        }) {
-            descRes = R.string.preference_accent_color_description
-            allowCustom = false
-        }
-        colorPicker(R.string.preference_background_color, { Preferences.backgroundColor }, {
-            Preferences.backgroundColor = it
-            bgCanvas.ripple(it, duration = RIPPLE_DURATiON)
-        }) {
-            descRes = R.string.preference_background_color_description
-            allowCustomAlpha = true
-            allowCustom = true
         }
     }
 
