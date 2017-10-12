@@ -33,7 +33,9 @@
         </activity>
         <activity android:name=".view.activities.DetailActivity"/>
         <activity android:name=".view.activities.PreferenceActivity"/>
-        <activity android:name=".view.activities.ChangelogActivity"/>
+        <activity
+            android:name=".view.activities.ChangelogActivity"
+            android:theme="@style/Kau.Translucent.SlideBottom"/>
 
         <meta-data
             android:name="
