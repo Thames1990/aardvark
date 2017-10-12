@@ -67,6 +67,7 @@ dependencies {
     implementation "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
 
     // Architecture Components
+    //noinspection GradleDependency
     implementation "android.arch.lifecycle:extensions:$architecture_components_version"
     annotationProcessor "android.arch.lifecycle:compiler:$architecture_components_version"
 
