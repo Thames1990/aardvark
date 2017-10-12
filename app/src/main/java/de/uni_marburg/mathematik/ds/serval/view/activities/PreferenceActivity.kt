@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.text.format.Formatter
@@ -9,6 +10,10 @@ import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
 import ca.allanwang.kau.kpref.activity.KPrefActivity
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
+import ca.allanwang.kau.swipe.SWIPE_EDGE_LEFT
+import ca.allanwang.kau.swipe.kauSwipeFinish
+import ca.allanwang.kau.swipe.kauSwipeOnCreate
+import ca.allanwang.kau.swipe.kauSwipeOnDestroy
 import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.startActivity
@@ -32,8 +37,26 @@ class PreferenceActivity : KPrefActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
+
+        bgCanvas.set(Color.WHITE)
+        toolbarCanvas.set(color(R.color.colorPrimary))
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowHomeEnabled(false)
+        }
+
+        kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
     }
 
+    override fun onDestroy() {
+        kauSwipeOnDestroy()
+        super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        kauSwipeFinish()
+    }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
         accentColor = { color(R.color.colorAccent) }
