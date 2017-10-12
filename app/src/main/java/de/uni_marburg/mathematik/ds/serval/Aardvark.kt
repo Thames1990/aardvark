@@ -14,7 +14,6 @@ import io.fabric.sdk.android.Fabric
 class Aardvark : Application() {
 
     companion object {
-        lateinit var fabric: Fabric
         lateinit var firebaseAnalytics: FirebaseAnalytics
         lateinit var refWatcher: RefWatcher
     }
@@ -23,7 +22,7 @@ class Aardvark : Application() {
         super.onCreate()
         KL.debug(BuildConfig.DEBUG)
         Preferences.initialize(this, string(R.string.app_name))
-        fabric = Fabric.with(this, Crashlytics.Builder().core(
+        Fabric.with(this, Crashlytics.Builder().core(
                 CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
         ).build())
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
