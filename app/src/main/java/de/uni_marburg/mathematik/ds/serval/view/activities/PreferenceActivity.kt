@@ -46,17 +46,6 @@ class PreferenceActivity : KPrefActivity() {
         createAboutPreferences()
     }
 
-    private fun KPrefAdapterBuilder.createGeneralPreferences() {
-        header(R.string.preference_general)
-        checkbox(R.string.preference_show_changelog, { showChangelog }, { showChangelog = it })
-        checkbox(
-                R.string.preference_use_bottom_sheets,
-                { useBottomSheetDialogs },
-                { useBottomSheetDialogs = it }
-        ) { descRes = R.string.preference_use_bottom_sheets_description }
-        checkbox(R.string.confirm_exit, { confirmExit }, { confirmExit = it })
-    }
-
     private fun KPrefAdapterBuilder.createDebugPreferences() {
         header(R.string.preference_debug)
         checkbox(R.string.preference_enable_wifi_adb, { useWifiADB }, {
@@ -79,13 +68,24 @@ class PreferenceActivity : KPrefActivity() {
         }
     }
 
+    private fun KPrefAdapterBuilder.createGeneralPreferences() {
+        header(R.string.preference_general)
+        checkbox(R.string.preference_show_changelog, { showChangelog }, { showChangelog = it })
+        checkbox(
+                R.string.preference_use_bottom_sheets,
+                { useBottomSheetDialogs },
+                { useBottomSheetDialogs = it }
+        ) { descRes = R.string.preference_use_bottom_sheets_description }
+        checkbox(R.string.confirm_exit, { confirmExit }, { confirmExit = it })
+    }
+
     private fun KPrefAdapterBuilder.createAboutPreferences() {
         header(R.string.preference_about)
         plainText(R.string.preference_send_feedback) {
-            descRes = R.string.preference_faq_description
+            descRes = R.string.preference_send_feedback_description
             onClick = { _, _, _ -> consume { sendFeedback() } }
         }
-        plainText(R.string.preference_faq)
+        plainText(R.string.preference_faq) { descRes = R.string.preference_faq_description }
         plainText(R.string.preference_privacy_policy)
         plainText(R.string.preference_terms_and_conditions)
         plainText(R.string.preference_version) {
@@ -124,7 +124,10 @@ class PreferenceActivity : KPrefActivity() {
 
     private fun shareIpAddress() {
         with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
-            shareText("adb connect " + Formatter.formatIpAddress(connectionInfo.ipAddress))
+            shareText(String.format(
+                    string(R.string.preference_wifi_adb_text),
+                    Formatter.formatIpAddress(connectionInfo.ipAddress)
+            ))
         }
     }
 
@@ -132,8 +135,8 @@ class PreferenceActivity : KPrefActivity() {
             getString(R.string.email_adress_feedback),
             String.format(
                     Locale.getDefault(),
-                    getString(R.string.intent_extra_query_from),
-                    getString(R.string.app_name)
+                    string(R.string.intent_extra_query_from),
+                    string(R.string.app_name)
             )
     )
 
