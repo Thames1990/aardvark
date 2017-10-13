@@ -15,8 +15,8 @@ android {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 25
-        versionName '0.5.1'
+        versionCode 26
+        versionName '0.6.0'
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
         resValue "string", "app_version", "$versionName"
