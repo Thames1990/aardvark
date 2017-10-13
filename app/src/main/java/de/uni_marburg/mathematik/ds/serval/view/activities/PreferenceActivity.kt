@@ -36,12 +36,6 @@ class PreferenceActivity : KPrefActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
-
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(false)
-            setDisplayShowHomeEnabled(false)
-        }
-
         kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
     }
 
