@@ -6,6 +6,7 @@ import ca.allanwang.kau.kpref.kpref
 object Preferences : KPref() {
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
     var isFirstLaunch: Boolean by kpref("IS_FIRST_LAUNCH", true)
+    var isLoggedIn: Boolean by kpref("IS_LOGGED_IN", false)
     var kervalBaseUrl: String by kpref("KERVAL_BASE_URL", "serval.splork.de")
     var kervalPassword: String by kpref("KERVAL_PASSWORD", "pum123")
     var kervalPort: Int by kpref("KERVAL_PORT", 80)

@@ -56,10 +56,12 @@
     <string name="measurements">Measurements</string>
     <string name="none">None</string>
     <string name="normal">Normal</string>
+    <string name="password">Password</string>
     <string name="satellite">Satellite</string>
     <string name="settings">Settings</string>
     <string name="share">Share</string>
     <string name="terrain">Terrain</string>
+    <string name="username">Username</string>
 
     <!-- Intent extras -->
     <string name="intent_extra_query_from">Query from %1$s</string>
@@ -83,6 +85,12 @@
     <string name="distance">Distance</string>
     <string name="distance_in_kilometer" translatable="false">%1$.2f km</string>
     <string name="distance_in_meter" translatable="false">%1$.0f m</string>
+
+    <!-- Login -->
+    <string name="login_required">You must be logged in</string>
+    <string name="password_must_not_be_empty">You need to enter a password</string>
+    <string name="successfully_logged_in">Successfully logged in</string>
+    <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <!-- Measurement values -->
     <string name="measurement_value_precipitation" translatable="false">%1$d mm</string>
@@ -128,6 +136,4 @@
     <string name="tools_measurement_type">Radiation</string>
     <string name="tools_measurement_value" translatable="false">2 &#956;Sv/h</string>
     <string name="tools_time" translatable="false">24 min</string>
-    <string name="progress_dialog_event_loading_message">Please wait while events are loaded...</string>
-    <string name="progress_dialog_event_loading_title">Fetching events</string>
 </resources>

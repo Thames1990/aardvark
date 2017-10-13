@@ -6,14 +6,17 @@ import android.Manifest
 import android.os.Bundle
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.view.fragments.AuthenticationSlide
 
 class IntroActivity : MaterialIntroActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setSkipButtonVisible()
         enableLastSlideAlphaExitTransition(true)
+
+        backButtonTranslationWrapper.setEnterTranslation({ view, percentage ->
+            view.alpha = percentage
+        })
 
         addSlide(SlideFragmentBuilder()
                 .title(string(R.string.intro_1_title))
@@ -47,5 +50,7 @@ class IntroActivity : MaterialIntroActivity() {
                 .backgroundColor(R.color.intro_4_background)
                 .buttonsColor(R.color.color_primary_dark)
                 .build())
+
+        addSlide(AuthenticationSlide())
     }
 }

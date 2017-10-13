@@ -54,4 +54,10 @@
     <string name="preference_send_feedback">Anregungen schicken</string>
     <string name="preference_version">Version</string>
     <string name="toast_network_disconnected">Keine Netzwerkverbindung</string>
+    <string name="username">Nutzername</string>
+    <string name="password">Passwort</string>
+    <string name="username_must_not_be_empty">Nutzername ist erforderlich</string>
+    <string name="password_must_not_be_empty">Passwort ist erforderlich</string>
+    <string name="login_required">Du musst angemeldet sein</string>
+    <string name="successfully_logged_in">Erfolgreich angemeldet</string>
 </resources>

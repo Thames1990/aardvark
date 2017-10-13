@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.app.AppCompatActivity
@@ -15,7 +14,6 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
-import de.uni_marburg.mathematik.ds.serval.util.REQUEST_CODE_INTRO
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment
@@ -23,7 +21,6 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.changelog_bottom_sheet_dialog.view.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.uiThread
 import ru.noties.markwon.Markwon
 import java.io.BufferedReader
@@ -40,16 +37,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (Preferences.isFirstLaunch) {
-            startActivityForResult(IntroActivity::class.java, REQUEST_CODE_INTRO)
-        } else start()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_INTRO) {
-            Preferences.isFirstLaunch = false
-            start()
+        doAsync {
+            events = if (isNetworkAvailable) EventProvider.load() else emptyList()
+            uiThread {
+                if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
+                setupViews()
+                checkForNewVersion()
+            }
         }
     }
 
@@ -73,45 +67,24 @@ class MainActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun start() {
-        val eventLoadProgress = indeterminateProgressDialog(
-                string(R.string.progress_dialog_event_loading_message),
-                string(R.string.progress_dialog_event_loading_title)
-        )
-        doAsync {
-            events = if (isNetworkAvailable) EventProvider.load() else emptyList()
-            uiThread {
-                eventLoadProgress.hide()
-                if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
-                setupViews()
-                checkForNewVersion()
-            }
-        }
-    }
-
     @SuppressLint("CommitTransaction")
     private fun setupViews() {
         setSupportActionBar(toolbar)
         with(supportFragmentManager) {
-            with(beginTransaction()) {
-                add(R.id.content, mapFragment)
-                add(R.id.content, eventsFragment)
-                add(R.id.content, dashboardFragment)
-                fragments.forEach { hide(it) }
-                show(dashboardFragment)
-                commit()
-            }
+            beginTransaction().add(R.id.content, dashboardFragment).commit()
             bottom_navigation.setOnNavigationItemSelectedListener { item ->
                 with(beginTransaction()) {
                     fragments.forEach { hide(it) }
                     when (item.itemId) {
                         R.id.action_dashboard -> show(dashboardFragment)
                         R.id.action_events -> {
-                            show(eventsFragment)
+                            if (eventsFragment.isAdded) show(eventsFragment)
+                            else add(R.id.content, eventsFragment)
                             eventsFragment.setHasOptionsMenu(true)
                         }
                         R.id.action_map -> {
-                            show(mapFragment)
+                            if (mapFragment.isAdded) show(mapFragment)
+                            else add(R.id.content, mapFragment)
                             mapFragment.setHasOptionsMenu(true)
                         }
                     }
