@@ -23,6 +23,7 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.changelog_bottom_sheet_dialog.view.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.uiThread
 import ru.noties.markwon.Markwon
 import java.io.BufferedReader
@@ -73,9 +74,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun start() {
+        val eventLoadProgress = indeterminateProgressDialog(
+                string(R.string.progress_dialog_event_loading_message),
+                string(R.string.progress_dialog_event_loading_title)
+        )
         doAsync {
             events = if (isNetworkAvailable) EventProvider.load() else emptyList()
             uiThread {
+                eventLoadProgress.hide()
                 if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
                 setupViews()
                 checkForNewVersion()
@@ -87,22 +93,25 @@ class MainActivity : AppCompatActivity() {
     private fun setupViews() {
         setSupportActionBar(toolbar)
         with(supportFragmentManager) {
+            with(beginTransaction()) {
+                add(R.id.content, mapFragment)
+                add(R.id.content, eventsFragment)
+                add(R.id.content, dashboardFragment)
+                fragments.forEach { hide(it) }
+                show(dashboardFragment)
+                commit()
+            }
             bottom_navigation.setOnNavigationItemSelectedListener { item ->
                 with(beginTransaction()) {
                     fragments.forEach { hide(it) }
                     when (item.itemId) {
-                        R.id.action_dashboard -> {
-                            if (dashboardFragment.isAdded) show(dashboardFragment)
-                            else add(R.id.content, dashboardFragment)
-                        }
+                        R.id.action_dashboard -> show(dashboardFragment)
                         R.id.action_events -> {
-                            if (eventsFragment.isAdded) show(eventsFragment)
-                            else add(R.id.content, eventsFragment)
+                            show(eventsFragment)
                             eventsFragment.setHasOptionsMenu(true)
                         }
                         R.id.action_map -> {
-                            if (mapFragment.isAdded) show(mapFragment)
-                            else add(R.id.content, mapFragment)
+                            show(mapFragment)
                             mapFragment.setHasOptionsMenu(true)
                         }
                     }
@@ -110,7 +119,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        bottom_navigation.selectedItemId = R.id.action_dashboard
     }
 
     private fun checkForNewVersion(force: Boolean = false) {

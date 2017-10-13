@@ -128,4 +128,6 @@
     <string name="tools_measurement_type">Radiation</string>
     <string name="tools_measurement_value" translatable="false">2 &#956;Sv/h</string>
     <string name="tools_time" translatable="false">24 min</string>
+    <string name="progress_dialog_event_loading_message">Please wait while events are loaded...</string>
+    <string name="progress_dialog_event_loading_title">Fetching events</string>
 </resources>

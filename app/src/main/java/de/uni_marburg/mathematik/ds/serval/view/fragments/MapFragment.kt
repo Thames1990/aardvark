@@ -42,8 +42,8 @@ class MapFragment : BaseFragment() {
     @SuppressLint("MissingPermission")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        map.getMapAsync {
-            googleMap = it
+        map.getMapAsync { googleMap ->
+            this.googleMap = googleMap
             with(googleMap) {
                 with(Manifest.permission.ACCESS_FINE_LOCATION) {
                     if (!context.hasPermission(this)) {
