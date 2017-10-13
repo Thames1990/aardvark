@@ -7,8 +7,8 @@ import android.view.KeyEvent.KEYCODE_DPAD_RIGHT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ca.allanwang.kau.utils.circularHide
 import ca.allanwang.kau.utils.hideKeyboard
+import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.value
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
@@ -32,9 +32,8 @@ class AuthenticationSlide : SlideFragment() {
                 Preferences.isLoggedIn = true
                 Preferences.isFirstLaunch = false
                 login.hideKeyboard()
-                slide_background.circularHide(duration = 1500L, onFinish = {
-                    activity.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KEYCODE_DPAD_RIGHT))
-                })
+                context.toast(getString(R.string.successfully_logged_in))
+                activity.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KEYCODE_DPAD_RIGHT))
             } else {
                 if (username.value.isEmpty()) {
                     username_layout.error = getString(R.string.username_must_not_be_empty)

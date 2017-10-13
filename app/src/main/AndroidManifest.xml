@@ -20,20 +20,18 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".view.activities.SplashActivity"
-            android:theme="@style/SplashScreen">
+            android:name=".view.activities.IntroActivity"
+            android:theme="@style/Theme.Intro"/>
+        <activity
+            android:name=".view.activities.MainActivity"
+            android:theme="@style/AppTheme.SplashScreen"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.activities.IntroActivity"
-            android:theme="@style/Theme.Intro"/>
-        <activity
-            android:name=".view.activities.MainActivity"
-            android:configChanges="orientation|screenSize"/>
         <activity android:name=".view.activities.DetailActivity"/>
         <activity
             android:name=".view.activities.PreferenceActivity"

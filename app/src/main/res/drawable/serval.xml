@@ -5,7 +5,8 @@
     android:width="300.000000dp"
     android:height="300.000000dp"
     android:viewportHeight="300.000000"
-    android:viewportWidth="300.000000">
+    android:viewportWidth="300.000000"
+    tools:keep="@drawable/serval">
 
     <group
         android:scaleX="0.100000"

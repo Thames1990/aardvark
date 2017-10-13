@@ -4,6 +4,7 @@ import agency.tango.materialintroscreen.MaterialIntroActivity
 import agency.tango.materialintroscreen.SlideFragmentBuilder
 import android.Manifest
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.view.fragments.AuthenticationSlide
@@ -12,6 +13,7 @@ class IntroActivity : MaterialIntroActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setSkipButtonVisible()
         enableLastSlideAlphaExitTransition(true)
 
         backButtonTranslationWrapper.setEnterTranslation({ view, percentage ->
@@ -53,4 +55,6 @@ class IntroActivity : MaterialIntroActivity() {
 
         addSlide(AuthenticationSlide())
     }
+
+    override fun onBackPressed() = ActivityCompat.finishAffinity(this)
 }

@@ -4,7 +4,8 @@
         android:width="96.02639dp"
         android:height="58.754639dp"
         android:viewportHeight="58.754639"
-        android:viewportWidth="96.02639">
+        android:viewportWidth="96.02639"
+        tools:keep="@drawable/aardvark">
 
     <path
         android:name="path51"

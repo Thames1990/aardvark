@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General -->
     <color name="color_primary">#4CAF50</color>
     <color name="color_primary_light">#80E27E</color>
     <color name="color_primary_dark">#087F23</color>
     <color name="color_accent">#40C4FF</color>
-    <color name="color_accent_light">#82F7FF</color>
-    <color name="color_accent_dark">#0094CC</color>
-    <color name="color_text">#000000</color>
+    <color name="color_accent_light" tools:keep="@color/color_accent_light">#82F7FF</color>
+    <color name="color_accent_dark" tools:keep="@color/color_accent_dark">#0094CC</color>
+    <color name="color_text" tools:keep="@color/color_text">#000000</color>
     <color name="color_text_inverted">#FFFFFF</color>
 
     <!-- Icon -->

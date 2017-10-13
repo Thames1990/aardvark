@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.app.AppCompatActivity
@@ -13,6 +14,7 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
+import de.uni_marburg.mathematik.ds.serval.util.INTRO_REQUEST_CODE
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
@@ -36,14 +38,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        doAsync {
+        if (Preferences.isFirstLaunch) {
+            startActivityForResult(IntroActivity::class.java, INTRO_REQUEST_CODE)
+        } else doAsync {
             events = if (isNetworkAvailable) EventProvider.load() else emptyList()
-            uiThread {
-                if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
-                setupViews()
-                checkForNewVersion()
-            }
+            uiThread { start() }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == INTRO_REQUEST_CODE) doAsync {
+            events = if (isNetworkAvailable) EventProvider.load() else emptyList()
+            uiThread { start() }
         }
     }
 
@@ -67,24 +74,34 @@ class MainActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
+    private fun start() {
+        setTheme(R.style.AppTheme)
+        setContentView(R.layout.activity_main)
+        setupViews()
+        checkForNewVersion()
+    }
+
     @SuppressLint("CommitTransaction")
     private fun setupViews() {
         setSupportActionBar(toolbar)
         with(supportFragmentManager) {
-            beginTransaction().add(R.id.content, dashboardFragment).commit()
+            with(beginTransaction()) {
+                add(R.id.content, mapFragment)
+                add(R.id.content, eventsFragment)
+                add(R.id.content, dashboardFragment)
+                commit()
+            }
             bottom_navigation.setOnNavigationItemSelectedListener { item ->
                 with(beginTransaction()) {
                     fragments.forEach { hide(it) }
                     when (item.itemId) {
                         R.id.action_dashboard -> show(dashboardFragment)
                         R.id.action_events -> {
-                            if (eventsFragment.isAdded) show(eventsFragment)
-                            else add(R.id.content, eventsFragment)
+                            show(eventsFragment)
                             eventsFragment.setHasOptionsMenu(true)
                         }
                         R.id.action_map -> {
-                            if (mapFragment.isAdded) show(mapFragment)
-                            else add(R.id.content, mapFragment)
+                            show(mapFragment)
                             mapFragment.setHasOptionsMenu(true)
                         }
                     }
@@ -92,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        bottom_navigation.selectedItemId = R.id.action_dashboard
     }
 
     private fun checkForNewVersion(force: Boolean = false) {
