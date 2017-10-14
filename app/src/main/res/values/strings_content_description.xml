@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="content_description_aardvark" translatable="false">@string/app_name</string>
     <string name="content_description_location_icon">Location icon</string>
     <string name="content_description_measurement_icon">Measurement icon</string>
 </resources>
