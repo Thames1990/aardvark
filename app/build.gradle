@@ -89,9 +89,6 @@ dependencies {
     implementation "ca.allanwang.kau:about:$kau_version"
     implementation "ca.allanwang.kau:kpref-activity:$kau_version"
 
-    // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
@@ -110,7 +107,6 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
 
     // Support libraries
-    implementation "com.android.support:appcompat-v7:$support_library_version"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
     implementation "com.android.support:design:$support_library_version"
     implementation "com.android.support:recyclerview-v7:$support_library_version"
