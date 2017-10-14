@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Bundle
-import android.text.format.Formatter
 import ca.allanwang.kau.about.kauLaunchAbout
 import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
@@ -28,6 +27,8 @@ import de.uni_marburg.mathematik.ds.serval.util.WIFI_ADB_PORT
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import org.jetbrains.anko.toast
 import java.io.DataOutputStream
+import java.math.BigInteger
+import java.net.InetAddress
 import java.util.*
 
 class PreferenceActivity : KPrefActivity() {
@@ -67,9 +68,9 @@ class PreferenceActivity : KPrefActivity() {
                 true -> enableWifiAdb()
                 false -> disableWifiAdb()
             }
-            reloadByTitle(R.string.preference_share_adb_command)
+            reloadByTitle(R.string.preference_share_wifi_adb_command)
         })
-        plainText(R.string.preference_share_adb_command) {
+        plainText(R.string.preference_share_wifi_adb_command) {
             descRes = R.string.preference_share_adb_command_description
             enabler = { useWifiADB }
             onDisabledClick = { itemView, _, _ ->
@@ -77,7 +78,7 @@ class PreferenceActivity : KPrefActivity() {
                     itemView.context.toast(getString(R.string.preference_enable_wifi_adb_hint))
                 }
             }
-            onClick = { _, _, _ -> consume { shareIpAddress() } }
+            onClick = { _, _, _ -> consume { shareWifiAdbCommand() } }
         }
     }
 
@@ -137,12 +138,14 @@ class PreferenceActivity : KPrefActivity() {
         }
     }
 
-    private fun shareIpAddress() =
+    private fun shareWifiAdbCommand() =
             with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
-                shareText(String.format(
-                        string(R.string.adb_connect),
-                        Formatter.formatIpAddress(connectionInfo.ipAddress)
-                ))
+                val ipAdress: ByteArray = BigInteger
+                        .valueOf(connectionInfo.ipAddress.toLong())
+                        .toByteArray()
+                        .reversedArray()
+                val hostAdress = InetAddress.getByAddress(ipAdress).hostAddress
+                shareText(String.format(string(R.string.adb_connect), hostAdress))
             }
 
     private fun sendFeedback() = sendEmail(

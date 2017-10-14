@@ -12,7 +12,7 @@
     <string name="preference_privacy_policy">Privacy policy</string>
     <string name="preference_send_feedback">Send feedback</string>
     <string name="preference_send_feedback_description">Got any queries? We are happy to help!</string>
-    <string name="preference_share_adb_command">Share ADB command</string>
+    <string name="preference_share_wifi_adb_command">Share ADB command</string>
     <string name="preference_show_changelog">Show changelogs after update</string>
     <string name="preference_terms_and_conditions">Terms &amp; conditions</string>
     <string name="preference_use_bottom_sheets">Show menus as bottomsheets</string>
