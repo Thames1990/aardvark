@@ -12,6 +12,7 @@ import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.value
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
+import de.uni_marburg.mathematik.ds.serval.util.consume
 import kotlinx.android.synthetic.main.slide_authentication.*
 
 
@@ -25,24 +26,19 @@ class AuthenticationSlide : SlideFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        login.setOnClickListener {
-            if (!username.value.isEmpty() && !password.value.isEmpty()) {
-                Preferences.kervalUser = username.value
-                Preferences.kervalPassword = password.value
-                Preferences.isLoggedIn = true
-                Preferences.isFirstLaunch = false
-                login.hideKeyboard()
-                context.toast(getString(R.string.successfully_logged_in))
-                activity.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KEYCODE_DPAD_RIGHT))
-            } else {
-                if (username.value.isEmpty()) {
-                    username_layout.error = getString(R.string.username_must_not_be_empty)
-                }
-                if (password.value.isEmpty()) {
-                    password_layout.error = getString(R.string.password_must_not_be_empty)
-                }
+        username.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                consume { login() }
             }
+            false
         }
+        password.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                consume { login() }
+            }
+            false
+        }
+        login.setOnClickListener { login() }
     }
 
     override fun backgroundColor(): Int = R.color.intro_5_background
@@ -52,4 +48,23 @@ class AuthenticationSlide : SlideFragment() {
     override fun canMoveFurther(): Boolean = Preferences.isLoggedIn
 
     override fun cantMoveFurtherErrorMessage(): String = getString(R.string.login_required)
+
+    private fun login() {
+        if (!username.value.isEmpty() && !password.value.isEmpty()) {
+            Preferences.kervalUser = username.value
+            Preferences.kervalPassword = password.value
+            Preferences.isLoggedIn = true
+            Preferences.isFirstLaunch = false
+            login.hideKeyboard()
+            context.toast(getString(R.string.successfully_logged_in))
+            activity.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KEYCODE_DPAD_RIGHT))
+        } else {
+            if (username.value.isEmpty()) {
+                username_layout.error = getString(R.string.username_must_not_be_empty)
+            }
+            if (password.value.isEmpty()) {
+                password_layout.error = getString(R.string.password_must_not_be_empty)
+            }
+        }
+    }
 }
