@@ -40,7 +40,7 @@
 | [Crashlytics](https://fabric.io/kits/android/crashlytics) | 2.7.0 |
 | [Firebase](https://firebase.google.com/)<ul><li>Firebase Core</li></ul> | 11.4.2 |
 | [Google Play Services](https://developers.google.com/android/guides/overview)<ul><li>Location</li><li>Maps</li></ul> | 11.4.2 |
-| [KAU](https://github.com/AllanWang/KAU) | 3.4.3 |
+| [KAU](https://github.com/AllanWang/KAU) | 3.4.4 |
 | [LeakCanary](https://github.com/square/leakcanary) | 1.5.4 |
 | [Markwon](https://github.com/noties/Markwon) | 1.0.0 |
 | [Material Intro Screen](https://github.com/TangoAgency/material-intro-screen) | 0.0.5 |

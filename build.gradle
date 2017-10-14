@@ -34,7 +34,7 @@ ext {
     constraint_layout_version = '1.1.0-beta3'
     crashlytics_version = '2.7.0@aar'
     google_play_services_version = '11.4.2'
-    kau_version = '3.4.3'
+    kau_version = '3.4.4'
     leak_canary_version = '1.5.4'
     markwon_version = '1.0.0'
     material_intro_screen_version = '0.0.5'
