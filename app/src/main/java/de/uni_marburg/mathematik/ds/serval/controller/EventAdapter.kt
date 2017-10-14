@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.graphics.PorterDuff
 import android.location.Location
 import android.support.v4.app.FragmentActivity
@@ -18,7 +17,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
-import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
+import de.uni_marburg.mathematik.ds.serval.model.location.LocationLiveData
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.event_row.*
 import java.util.*
@@ -54,15 +53,11 @@ class EventAdapter(
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
     }
 
-    /** Keeps track about [the last known location][lastLocation] and updates the UI accordingly. */
-    private val locationViewModel: LocationViewModel by lazy {
-        ViewModelProviders.of(fragmentActivity).get(LocationViewModel::class.java)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        locationViewModel.location.observe(fragmentActivity, Observer<Location> {
-            it?.let { lastLocation = it }
-        })
+        LocationLiveData(fragmentActivity.applicationContext).observe(
+                fragmentActivity,
+                Observer<Location> { it?.let { lastLocation = it } }
+        )
         // TODO Figure out how to use Kotlin Android extensions view caching with Kotlin inner class
         return EventViewHolder(parent.inflate(R.layout.event_row), fragmentActivity, lastLocation)
     }
