@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="changelog">Changelog - %1$s</string>
+    <string name="chat">Chat</string>
     <string name="dashboard">Dashboard</string>
     <string name="details">Details</string>
     <string name="events">Events</string>
