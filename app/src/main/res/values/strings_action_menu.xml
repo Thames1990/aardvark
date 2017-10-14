@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_show_changelog">Changelog</string>
+    <string name="action_change_map_type">Map type</string>
+    <string name="action_change_map_type_hybrid">Hybrid</string>
+    <string name="action_change_map_type_none">None</string>
+    <string name="action_change_map_type_normal">Normal</string>
+    <string name="action_change_map_type_satellite">Satellite</string>
+    <string name="action_change_map_type_terrain">Terrain</string>
+    <string name="action_sort_events">Sort events</string>
+    <string name="action_sort_events_ascending">Ascending</string>
+    <string name="action_sort_events_descending">Descending</string>
+    <string name="action_sort_events_distance">Distance</string>
+    <string name="action_sort_events_measurements">Measurements</string>
+    <string name="action_sort_events_time">Time</string>
+    <string name="action_settings">Settings</string>
+</resources>

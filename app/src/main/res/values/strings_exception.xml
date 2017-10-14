@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="exception_measurement_type_without_icon">%1$s measurement type does not have an icon yet!</string>
+</resources>

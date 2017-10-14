@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_required">You must be logged in</string>
+    <string name="password_must_not_be_empty">You need to enter a password</string>
+    <string name="successfully_logged_in">Successfully logged in</string>
+    <string name="username_must_not_be_empty">You need to enter a username</string>
+</resources>

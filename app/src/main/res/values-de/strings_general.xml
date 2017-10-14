@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="changelog">Änderungsprotokoll - %1$s</string>
+    <string name="chat">Chat</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="details">Details</string>
+    <string name="events">Ereignisse</string>
+    <string name="exit">Beenden</string>
+    <string name="explore">Untersuchen</string>
+    <string name="hybrid">Hybrid</string>
+    <string name="map">Karte</string>
+    <string name="password">Passwort</string>
+    <string name="share">Teilen</string>
+    <string name="username">Nutzername</string>
+</resources>

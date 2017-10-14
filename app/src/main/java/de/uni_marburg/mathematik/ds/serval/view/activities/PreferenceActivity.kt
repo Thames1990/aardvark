@@ -113,9 +113,9 @@ class PreferenceActivity : KPrefActivity() {
     }
 
     private fun enableWifiAdb() {
-        with(Runtime.getRuntime().exec(string(R.string.superuser))) {
+        with(Runtime.getRuntime().exec(string(R.string.adb_superuser))) {
             with(DataOutputStream(outputStream)) {
-                writeBytes(String.format(string(R.string.enable_wifi_adb), WIFI_ADB_PORT))
+                writeBytes(String.format(string(R.string.adb_wifi_enable), WIFI_ADB_PORT))
                 flush()
                 close()
             }
@@ -127,9 +127,9 @@ class PreferenceActivity : KPrefActivity() {
      * TODO Figure out how to deactivate WifiADB on isFinishing
      */
     private fun disableWifiAdb() {
-        with(Runtime.getRuntime().exec(string(R.string.superuser))) {
+        with(Runtime.getRuntime().exec(string(R.string.adb_superuser))) {
             with(DataOutputStream(outputStream)) {
-                writeBytes(string(R.string.disable_wifi_adb))
+                writeBytes(string(R.string.adb_wifi_disable))
                 flush()
                 close()
             }
@@ -140,7 +140,7 @@ class PreferenceActivity : KPrefActivity() {
     private fun shareIpAddress() =
             with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
                 shareText(String.format(
-                        string(R.string.preference_wifi_adb_text),
+                        string(R.string.adb_connect),
                         Formatter.formatIpAddress(connectionInfo.ipAddress)
                 ))
             }

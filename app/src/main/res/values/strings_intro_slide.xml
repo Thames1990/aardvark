@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intro_1_title" translatable="false">@string/app_name</string>
+    <string name="intro_1_description">The easiest way to communicate without cellular connectivity!</string>
+    <string name="intro_2_title" translatable="false">@string/dashboard</string>
+    <string name="intro_2_description">Easily check whether hazards are close!</string>
+    <string name="intro_3_title" translatable="false">@string/map</string>
+    <string name="intro_3_description">Look out for your friends and favorite locations!</string>
+    <string name="intro_4_title" translatable="false">@string/chat</string>
+    <string name="intro_4_description">Talk to your friends and co-workers!</string>
+    <string name="intro_placeholder_title" translatable="false">DAMN</string>
+    <string name="intro_placeholder_description">The developer was too lazy to include a layout!</string>
+</resources>

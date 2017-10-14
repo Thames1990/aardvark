@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_required">Du musst angemeldet sein</string>
+    <string name="password_must_not_be_empty">Passwort erforderlich</string>
+    <string name="successfully_logged_in">Erfolgreich angemeldet</string>
+    <string name="username_must_not_be_empty">Nutzername erforderlich</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="changelog">Changelog - %1$s</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="details">Details</string>
+    <string name="events">Events</string>
+    <string name="exit">Exit</string>
+    <string name="explore">Explore</string>
+    <string name="hybrid">Hybrid</string>
+    <string name="map">Map</string>
+    <string name="measurements">Measurements</string>
+    <string name="none">None</string>
+    <string name="normal">Normal</string>
+    <string name="password">Password</string>
+    <string name="satellite">Satellite</string>
+    <string name="share">Share</string>
+    <string name="terrain">Terrain</string>
+    <string name="username">Username</string>
+</resources>

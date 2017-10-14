@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="time">Zeit</string>
+    <string name="hours_ago">%1$d Std.</string>
+    <string name="minutes_ago">%1$d min</string>
+    <string name="days_ago">%1$d T.</string>
+    <string name="months_ago">%1$d Mo.</string>
+    <string name="years_ago">%1$d Jr.</string>
+</resources>
