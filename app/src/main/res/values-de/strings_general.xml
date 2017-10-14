@@ -9,7 +9,12 @@
     <string name="explore">Untersuchen</string>
     <string name="hybrid">Hybrid</string>
     <string name="map">Karte</string>
+    <string name="measurements">Messungen</string>
+    <string name="none">Kein</string>
+    <string name="normal">Normal</string>
     <string name="password">Passwort</string>
+    <string name="satellite">Satellit</string>
     <string name="share">Teilen</string>
+    <string name="terrain">Terrain</string>
     <string name="username">Nutzername</string>
 </resources>

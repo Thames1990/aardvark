@@ -20,7 +20,7 @@
     <!-- Tools Fake Data -->
     <string name="tools_changelog" translatable="false">Changelog - Version 9001.0.0</string>
     <string name="tools_distance" translatable="false">392 m</string>
-    <string name="tools_measurement_type">Radiation</string>
+    <string name="tools_measurement_type" translatable="false">Radiation</string>
     <string name="tools_measurement_value" translatable="false">2 &#956;Sv/h</string>
     <string name="tools_time" translatable="false">24 min</string>
 </resources>
