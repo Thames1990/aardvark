@@ -6,6 +6,7 @@ import android.Manifest
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import ca.allanwang.kau.utils.string
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.view.fragments.AuthenticationSlide
 
@@ -13,6 +14,8 @@ class IntroActivity : MaterialIntroActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
+
         setSkipButtonVisible()
         enableLastSlideAlphaExitTransition(true)
 

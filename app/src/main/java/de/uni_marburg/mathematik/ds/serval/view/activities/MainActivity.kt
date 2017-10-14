@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
     private fun start() {
         setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_main)
+        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
         setupViews()
         checkForNewVersion()
     }

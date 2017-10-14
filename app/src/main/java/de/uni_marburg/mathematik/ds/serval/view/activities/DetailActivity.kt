@@ -15,6 +15,7 @@ import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.MeasurementsAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -36,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
         event = intent.extras.getParcelable(EVENT)
         setupViews()
     }

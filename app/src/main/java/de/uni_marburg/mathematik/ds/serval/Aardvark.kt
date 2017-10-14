@@ -26,7 +26,7 @@ class Aardvark : Application() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG)
         refWatcher = when (BuildConfig.DEBUG) {
-            true  -> LeakCanary.install(this)
+            true -> LeakCanary.install(this)
             false -> RefWatcher.DISABLED
         }
     }

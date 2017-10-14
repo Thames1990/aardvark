@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import ca.allanwang.kau.utils.hideKeyboard
 import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.value
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.consume
@@ -17,6 +18,11 @@ import kotlinx.android.synthetic.main.slide_authentication.*
 
 
 class AuthenticationSlide : SlideFragment() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Aardvark.firebaseAnalytics.setCurrentScreen(activity, this::class.java.simpleName, null)
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,

@@ -1,9 +1,12 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
+import android.annotation.SuppressLint
+import android.os.Bundle
 import ca.allanwang.kau.about.AboutActivityBase
 import ca.allanwang.kau.adapters.FastItemThemedAdapter
 import ca.allanwang.kau.iitems.CardIItem
 import com.mikepenz.fastadapter.IItem
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 
 class AboutActivity : AboutActivityBase(R.string::class.java, {
@@ -15,6 +18,12 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
     faqXmlRes = R.xml.faq
     faqParseNewLine = false
 }) {
+
+    @SuppressLint("MissingSuperCall")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
+    }
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         adapter.add(CardIItem {
