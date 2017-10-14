@@ -24,6 +24,11 @@ class AuthenticationSlide : SlideFragment() {
         Aardvark.firebaseAnalytics.setCurrentScreen(activity, this::class.java.simpleName, null)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Aardvark.refWatcher.watch(this)
+    }
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
