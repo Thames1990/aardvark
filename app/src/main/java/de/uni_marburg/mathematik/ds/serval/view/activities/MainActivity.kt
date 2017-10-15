@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -139,7 +138,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     private fun showChangelogBottomSheetDialog(versionName: String, changelog: String) {
-        val view = LayoutInflater.from(this).inflate(R.layout.changelog_bottom_sheet_dialog, null)
+        val view = content.inflate(R.layout.changelog_bottom_sheet_dialog)
         view.version.text = versionName
         Markwon.setMarkdown(view.changelog, changelog)
         val dialog = BottomSheetDialog(this)
