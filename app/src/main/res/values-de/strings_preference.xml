@@ -7,8 +7,8 @@
     <string name="preference_enable_wifi_adb_hint">WifiADB muss aktiviert werden</string>
     <string name="preference_share_adb_command_description">Benutze dieses Kommando auf deinem PC</string>
     <string name="preference_faq">FAQ</string>
-    <string name="preference_faq_description">Frequently asked questions</string>
-    <string name="preference_general">General</string>
+    <string name="preference_faq_description">Fragen und Antworten</string>
+    <string name="preference_general">Allgemein</string>
     <string name="preference_privacy_policy">Datenschutz-Bestimmungen</string>
     <string name="preference_send_feedback">Feedback senden</string>
     <string name="preference_send_feedback_description">Haben Sie Fragen? Wir helfen gerne weiter!</string>
