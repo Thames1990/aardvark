@@ -48,6 +48,7 @@ data class Event(
     override fun getTitle(): String = "Event"
 }
 
+
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class GeohashLocation(
@@ -55,6 +56,7 @@ data class GeohashLocation(
         val longitude: Double,
         private val geohash: String
 ) : Parcelable
+
 
 @SuppressLint("ParcelCreator")
 @Parcelize

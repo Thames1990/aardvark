@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.view.fragments
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.drawable
+import ca.allanwang.kau.utils.hasPermission
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -42,7 +44,9 @@ class MapFragment : BaseFragment() {
         map.getMapAsync { googleMap ->
             this.googleMap = googleMap
             with(googleMap) {
-                isMyLocationEnabled = true
+                if (activity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    isMyLocationEnabled = true
+                }
                 uiSettings.isMapToolbarEnabled = false
                 setupClusterManager()
                 setupCamera()
