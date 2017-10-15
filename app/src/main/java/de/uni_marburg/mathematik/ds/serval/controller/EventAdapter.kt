@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.controller
 
+import android.Manifest
 import android.arch.lifecycle.Observer
 import android.graphics.PorterDuff
 import android.location.Location
@@ -10,9 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import ca.allanwang.kau.utils.color
-import ca.allanwang.kau.utils.inflate
-import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
@@ -58,7 +57,6 @@ class EventAdapter(
                 fragmentActivity,
                 Observer<Location> { it?.let { lastLocation = it } }
         )
-        // TODO Figure out how to use Kotlin Android extensions view caching with Kotlin inner class
         return EventViewHolder(parent.inflate(R.layout.event_row), fragmentActivity, lastLocation)
     }
 
@@ -134,10 +132,17 @@ class EventAdapter(
          * Displays the location of the event in relation to [the last known location][lastLocation]
          **/
         private fun Event.displayLocation() {
-            val icon = ContextCompat.getDrawable(fragmentActivity, R.drawable.location)
-            icon.setColorFilter(fragmentActivity.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
-            location_icon.setImageDrawable(icon)
-            location_text.text = location.distanceTo(lastLocation).distanceToString()
+            with(fragmentActivity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                location_icon.visibleIf(this)
+                location_text.visibleIf(this)
+            }
+
+            if (fragmentActivity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                val icon = ContextCompat.getDrawable(fragmentActivity, R.drawable.location)
+                icon.setColorFilter(fragmentActivity.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
+                location_icon.setImageDrawable(icon)
+                location_text.text = location.distanceTo(lastLocation).distanceToString()
+            }
         }
 
         /** Displays the measurements of the [event][Event]. **/

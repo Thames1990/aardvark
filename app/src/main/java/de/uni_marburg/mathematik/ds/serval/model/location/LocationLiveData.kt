@@ -31,12 +31,13 @@ class LocationLiveData(val context: Context) : LiveData<Location>() {
     @SuppressLint("MissingPermission")
     override fun onActive() {
         super.onActive()
-        with(locationRequest) {
-            interval = TimeUnit.SECONDS.toMillis(60)
-            fastestInterval = TimeUnit.SECONDS.toMillis(5)
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
         if (context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            with(locationRequest) {
+                interval = TimeUnit.SECONDS.toMillis(60)
+                fastestInterval = TimeUnit.SECONDS.toMillis(5)
+                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            }
+
             client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
         }
     }
