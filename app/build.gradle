@@ -45,19 +45,11 @@ android {
     buildTypes {
         debug {
             ext.enableCrashlytics = false
-            manifestPlaceholders = [
-                    APP_ICON      : '@mipmap/ic_launcher_dev',
-                    APP_ICON_ROUND: '@mipmap/ic_launcher_round_dev'
-            ]
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            manifestPlaceholders = [
-                    APP_ICON      : '@mipmap/ic_launcher',
-                    APP_ICON_ROUND: '@mipmap/ic_launcher_round'
-            ]
         }
     }
 }
