@@ -19,14 +19,32 @@ class Aardvark : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        setupPreferences()
+        setupCrashlytics()
+        setupFirebaseAnalytics()
+        setupLeakCanary()
+    }
+
+    private fun setupPreferences() {
         Preferences.initialize(this, string(R.string.app_name))
+    }
+
+    private fun setupCrashlytics() {
         Fabric.with(this, Crashlytics.Builder().core(
                 CrashlyticsCore.Builder().disabled(
                         BuildConfig.DEBUG || !Preferences.useAnalytics
                 ).build()
         ).build())
+    }
+
+    private fun setupFirebaseAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG)
+        firebaseAnalytics.setAnalyticsCollectionEnabled(
+                !BuildConfig.DEBUG || Preferences.useAnalytics
+        )
+    }
+
+    private fun setupLeakCanary() {
         refWatcher = when (BuildConfig.DEBUG) {
             true -> LeakCanary.install(this)
             false -> RefWatcher.DISABLED
