@@ -14,12 +14,15 @@ import ca.allanwang.kau.swipe.kauSwipeFinish
 import ca.allanwang.kau.swipe.kauSwipeOnCreate
 import ca.allanwang.kau.swipe.kauSwipeOnDestroy
 import ca.allanwang.kau.utils.color
+import ca.allanwang.kau.utils.materialDialog
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.confirmExit
+import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalPassword
+import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalUser
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.showChangelog
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useAnalytics
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useBottomSheetDialogs
@@ -58,6 +61,7 @@ class PreferenceActivity : KPrefActivity() {
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
         if (BuildConfig.DEBUG) createDebugPreferences()
         createGeneralPreferences()
+        createServalPreferences()
         createAboutPreferences()
     }
 
@@ -94,6 +98,34 @@ class PreferenceActivity : KPrefActivity() {
         checkbox(R.string.preference_confirm_exit, { confirmExit }, { confirmExit = it })
         checkbox(R.string.preference_use_analytics, { useAnalytics }, { useAnalytics = it }) {
             descRes = R.string.preference_use_analytics_description
+        }
+    }
+
+    private fun KPrefAdapterBuilder.createServalPreferences() {
+        header(R.string.preference_serval)
+        text(R.string.username, { kervalUser }, { kervalUser = it }) {
+            descRes = R.string.preference_username_description
+            onClick = { itemView, _, item ->
+                consume {
+                    itemView.context.materialDialog {
+                        title("Type text")
+                        input("Type here", item.pref, { _, input -> item.pref = input.toString() })
+                        inputRange(1, 20)
+                    }
+                }
+            }
+        }
+        text(R.string.password, { kervalPassword }, { kervalPassword = it }) {
+            descRes = R.string.preference_password_description
+            onClick = { itemView, _, item ->
+                consume {
+                    itemView.context.materialDialog {
+                        title("Type text")
+                        input("Type here", item.pref, { _, input -> item.pref = input.toString() })
+                        inputRange(1, 20)
+                    }
+                }
+            }
         }
     }
 
