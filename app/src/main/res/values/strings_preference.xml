@@ -17,5 +17,7 @@
     <string name="preference_terms_and_conditions">Terms &amp; conditions</string>
     <string name="preference_use_bottom_sheets">Show menus as bottomsheets</string>
     <string name="preference_use_bottom_sheets_description">Popup menus from the bottom of the screen</string>
+    <string name="preference_use_analytics">Use analytics</string>
+    <string name="preference_use_analytics_description">The developer is able fo fix problems faster</string>
     <string name="preference_version">Version</string>
 </resources>

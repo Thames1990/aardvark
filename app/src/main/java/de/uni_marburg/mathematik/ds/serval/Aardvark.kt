@@ -21,7 +21,9 @@ class Aardvark : Application() {
         super.onCreate()
         Preferences.initialize(this, string(R.string.app_name))
         Fabric.with(this, Crashlytics.Builder().core(
-                CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
+                CrashlyticsCore.Builder().disabled(
+                        BuildConfig.DEBUG || !Preferences.useAnalytics
+                ).build()
         ).build())
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG)

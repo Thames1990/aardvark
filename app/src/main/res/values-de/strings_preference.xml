@@ -17,5 +17,7 @@
     <string name="preference_terms_and_conditions">Geschäftsbedingungen</string>
     <string name="preference_use_bottom_sheets">Menüs als BottomSheet</string>
     <string name="preference_use_bottom_sheets_description">Menüs erscheinen vom unteren Bildschirmrand</string>
+    <string name="preference_use_analytics">Analysedaten sammeln</string>
+    <string name="preference_use_analytics_description">Der Entwickler kann Probleme schneller beheben</string>
     <string name="preference_version">Version</string>
 </resources>

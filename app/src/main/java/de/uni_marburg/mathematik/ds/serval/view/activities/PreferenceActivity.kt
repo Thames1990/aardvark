@@ -21,6 +21,7 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.confirmExit
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.showChangelog
+import de.uni_marburg.mathematik.ds.serval.util.Preferences.useAnalytics
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useBottomSheetDialogs
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useWifiADB
 import de.uni_marburg.mathematik.ds.serval.util.WIFI_ADB_PORT
@@ -91,6 +92,9 @@ class PreferenceActivity : KPrefActivity() {
                 { useBottomSheetDialogs = it }
         ) { descRes = R.string.preference_use_bottom_sheets_description }
         checkbox(R.string.preference_confirm_exit, { confirmExit }, { confirmExit = it })
+        checkbox(R.string.preference_use_analytics, { useAnalytics }, { useAnalytics = it }) {
+            descRes = R.string.preference_use_analytics_description
+        }
     }
 
     private fun KPrefAdapterBuilder.createAboutPreferences() {
