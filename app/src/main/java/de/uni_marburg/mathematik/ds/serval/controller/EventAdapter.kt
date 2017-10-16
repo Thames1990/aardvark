@@ -26,11 +26,11 @@ import kotlin.properties.Delegates
 /**
  * Adapter for [events][Event]
  *
- * @param fragmentActivity Calling context
+ * @param activity Calling activity
  * @param listener Click listener
  */
 class EventAdapter(
-        private val fragmentActivity: FragmentActivity,
+        private val activity: FragmentActivity,
         private val listener: (Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(), AutoUpdatableAdapter {
 
@@ -53,11 +53,11 @@ class EventAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        LocationLiveData(fragmentActivity.applicationContext).observe(
-                fragmentActivity,
+        LocationLiveData(activity.applicationContext).observe(
+                activity,
                 Observer<Location> { it?.let { lastLocation = it } }
         )
-        return EventViewHolder(parent.inflate(R.layout.event_row), fragmentActivity, lastLocation)
+        return EventViewHolder(parent.inflate(R.layout.event_row), activity, lastLocation)
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) =
@@ -98,12 +98,12 @@ class EventAdapter(
      * View holder for [events][Event].
      *
      * @param containerView Inflated view
-     * @param fragmentActivity Calling context
+     * @param activity Calling activity
      * @param lastLocation Last known location
      * */
     class EventViewHolder(
             override val containerView: View,
-            private val fragmentActivity: FragmentActivity,
+            private val activity: FragmentActivity,
             private val lastLocation: Location
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
@@ -130,14 +130,14 @@ class EventAdapter(
          * Displays the location of the event in relation to [the last known location][lastLocation]
          **/
         private fun Event.displayLocation() {
-            with(fragmentActivity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            with(activity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 location_icon.visibleIf(this)
                 location_text.visibleIf(this)
             }
 
-            if (fragmentActivity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                val icon = ContextCompat.getDrawable(fragmentActivity, R.drawable.location)
-                icon.setColorFilter(fragmentActivity.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
+            if (activity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                val icon = ContextCompat.getDrawable(activity, R.drawable.location)
+                icon.setColorFilter(activity.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
                 location_icon.setImageDrawable(icon)
                 location_text.text = location.distanceTo(lastLocation).distanceToString()
             }
@@ -147,8 +147,8 @@ class EventAdapter(
         private fun Event.displayMeasurementTypes() {
             measurement_types.removeAllViews()
             measurements.mapTo(HashSet()) { it.type }.forEach {
-                val icon = ImageView(fragmentActivity)
-                icon.setImageResource(it.getResId(fragmentActivity))
+                val icon = ImageView(activity)
+                icon.setImageResource(it.getResId(activity))
                 icon.layoutParams = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
@@ -161,27 +161,27 @@ class EventAdapter(
         private fun Long.timeToString(): String = when {
             TimeUnit.MILLISECONDS.toMinutes(this) < 60 -> String.format(
                     Locale.getDefault(),
-                    fragmentActivity.string(R.string.minutes_ago),
+                    activity.string(R.string.minutes_ago),
                     TimeUnit.MILLISECONDS.toMinutes(this)
             )
             TimeUnit.MILLISECONDS.toHours(this) < 24 -> String.format(
                     Locale.getDefault(),
-                    fragmentActivity.string(R.string.hours_ago),
+                    activity.string(R.string.hours_ago),
                     TimeUnit.MILLISECONDS.toHours(this)
             )
             TimeUnit.MILLISECONDS.toDays(this) < 30 -> String.format(
                     Locale.getDefault(),
-                    fragmentActivity.string(R.string.days_ago),
+                    activity.string(R.string.days_ago),
                     TimeUnit.MILLISECONDS.toDays(this)
             )
             TimeUnit.MILLISECONDS.toDays(this) < 365 -> String.format(
                     Locale.getDefault(),
-                    fragmentActivity.string(R.string.months_ago),
+                    activity.string(R.string.months_ago),
                     TimeUnit.MILLISECONDS.toDays(this).rem(30)
             )
             else -> String.format(
                     Locale.getDefault(),
-                    fragmentActivity.string(R.string.years_ago),
+                    activity.string(R.string.years_ago),
                     TimeUnit.MILLISECONDS.toDays(this).rem(365)
             )
         }
@@ -190,13 +190,13 @@ class EventAdapter(
         private fun Float.distanceToString(): String = if (this < 1000) {
             String.format(
                     Locale.getDefault(),
-                    fragmentActivity.string(R.string.distance_in_meter),
+                    activity.string(R.string.distance_in_meter),
                     this
             )
         } else {
             String.format(
                     Locale.getDefault(),
-                    fragmentActivity.string(R.string.distance_in_kilometer),
+                    activity.string(R.string.distance_in_kilometer),
                     this.div(1000)
             )
         }

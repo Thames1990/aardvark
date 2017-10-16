@@ -23,8 +23,9 @@ class LocationLiveData(val context: Context) : LiveData<Location>() {
 
     private val locationCallback: LocationCallback by lazy {
         object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) =
-                    locationResult?.lastLocation.let { value = it }
+            override fun onLocationResult(locationResult: LocationResult) {
+                value = locationResult.lastLocation
+            }
         }
     }
 
@@ -37,7 +38,6 @@ class LocationLiveData(val context: Context) : LiveData<Location>() {
                 fastestInterval = TimeUnit.SECONDS.toMillis(5)
                 priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             }
-
             client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
         }
     }
