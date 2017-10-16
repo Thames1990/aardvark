@@ -77,22 +77,20 @@ class EventAdapter(
      * @param reversed If true, sorts descending; ascending otherwise.
      */
     fun sortBy(comparator: EventComparator, reversed: Boolean = false) {
-        events = when (comparator) {
-            EventComparator.Distance ->
-                events.sortedBy {
-                    if (reversed) -it.location.distanceTo(lastLocation)
-                    else it.location.distanceTo(lastLocation)
+        events = with(events.take(100)) {
+            if (reversed) {
+                when (comparator) {
+                    EventComparator.Distance -> this.sortedBy { it.location.distanceTo(lastLocation) }
+                    EventComparator.Measurement -> this.sortedBy { it.measurements.size }
+                    EventComparator.Time -> this.sortedBy { it.time }
                 }
-            EventComparator.Measurement ->
-                events.sortedBy {
-                    if (reversed) -it.measurements.size
-                    else it.measurements.size
+            } else {
+                when (comparator) {
+                    EventComparator.Distance -> this.sortedByDescending { it.location.distanceTo(lastLocation) }
+                    EventComparator.Measurement -> this.sortedByDescending { it.measurements.size }
+                    EventComparator.Time -> this.sortedByDescending { it.time }
                 }
-            EventComparator.Time ->
-                events.sortedBy {
-                    if (reversed) it.time
-                    else -it.time
-                }
+            }
         }
     }
 
