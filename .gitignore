@@ -1,22 +1,13 @@
-# Gradle files
-.gradle/
-build/
-
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Intellij
 *.iml
-.idea/
-
-# Keystore files
+.gradle/
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
 *.jks
-
-# External Gradle properties
 keystore.properties
-
-# Google Services (e.g. APIs or Firebase)
 google-services.json
-
-# Generated builds
 *.apk
