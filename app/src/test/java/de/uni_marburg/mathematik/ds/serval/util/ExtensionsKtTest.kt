@@ -6,7 +6,5 @@ import org.junit.Test
 class ExtensionsKtTest {
 
     @Test
-    fun consume() {
-        assertEquals(consume { print("any function") }, true)
-    }
+    fun consume() = assertEquals(consume { print("any function") }, true)
 }
