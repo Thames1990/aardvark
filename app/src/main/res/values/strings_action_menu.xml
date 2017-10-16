@@ -10,7 +10,7 @@
     <string name="action_sort_events">Sort events</string>
     <string name="action_sort_events_ascending">Ascending</string>
     <string name="action_sort_events_descending">Descending</string>
-    <string name="action_sort_events_distance">Distance</string>
+    <string name="action_sort_events_distance">@string/distance</string>
     <string name="action_sort_events_measurements">Measurements</string>
     <string name="action_sort_events_time">Time</string>
     <string name="action_settings">Settings</string>
