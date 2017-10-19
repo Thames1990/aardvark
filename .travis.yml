@@ -32,8 +32,8 @@ android:
   - extra-android-support
   - extra-android-m2repository
   - extra-google-google_play_services
-  - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API
-  - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API
+  - sys-img-armeabi-v7a-android-$ANDROID_API
+  - sys-img-armeabi-v7a-android-$EMULATOR_API
 
   licenses:
   - android-sdk-preview-license-.+
