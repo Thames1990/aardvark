@@ -4,6 +4,7 @@ import android.app.Application
 import ca.allanwang.kau.utils.string
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
+import com.github.ajalt.reprint.core.Reprint
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
@@ -19,13 +20,14 @@ class Aardvark : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        setupPreferences()
+        initialize()
         setupCrashlytics()
         setupFirebaseAnalytics()
         setupLeakCanary()
     }
 
-    private fun setupPreferences() {
+    private fun initialize() {
+        Reprint.initialize(this)
         Preferences.initialize(this, string(R.string.app_name))
     }
 

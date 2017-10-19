@@ -9,6 +9,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
+import com.github.ajalt.reprint.core.AuthenticationFailureReason
+import com.github.ajalt.reprint.core.AuthenticationListener
+import com.github.ajalt.reprint.core.Reprint
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
@@ -18,10 +21,12 @@ import de.uni_marburg.mathematik.ds.serval.util.INTRO_REQUEST_CODE
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
+import de.uni_marburg.mathematik.ds.serval.view.fragments.FingerprintFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.changelog_bottom_sheet_dialog.view.*
+import kotlinx.android.synthetic.main.fragment_fingerprint.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import ru.noties.markwon.Markwon
@@ -36,22 +41,18 @@ class MainActivity : AppCompatActivity() {
 
     private val mapFragment: MapFragment by lazy { MapFragment() }
 
+    private val fingerprintFragment: FingerprintFragment by lazy { FingerprintFragment() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Preferences.isFirstLaunch) {
             startActivityForResult(IntroActivity::class.java, INTRO_REQUEST_CODE)
-        } else doAsync {
-            events = if (isNetworkAvailable) EventProvider.load() else emptyList()
-            uiThread { start() }
-        }
+        } else start()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == INTRO_REQUEST_CODE) doAsync {
-            events = if (isNetworkAvailable) EventProvider.load() else emptyList()
-            uiThread { start() }
-        }
+        if (requestCode == INTRO_REQUEST_CODE) start()
     }
 
     override fun onBackPressed() {
@@ -75,11 +76,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun start() {
-        setTheme(R.style.AppTheme)
-        setContentView(R.layout.activity_main)
-        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
-        setupViews()
-        checkForNewVersion()
+        doAsync {
+            events = if (isNetworkAvailable) EventProvider.load() else emptyList()
+            uiThread {
+                setTheme(R.style.AppTheme)
+                setContentView(R.layout.activity_main)
+                Aardvark.firebaseAnalytics.setCurrentScreen(
+                        this@MainActivity,
+                        this::class.java.simpleName,
+                        null
+                )
+                with(supportFragmentManager) {
+                    beginTransaction().add(android.R.id.content, fingerprintFragment).commit()
+                    Reprint.authenticate(object : AuthenticationListener {
+                        override fun onSuccess(moduleTag: Int) {
+                            beginTransaction().remove(fingerprintFragment).commit()
+                            setupViews()
+                            checkForNewVersion()
+                        }
+
+                        override fun onFailure(
+                                failureReason: AuthenticationFailureReason?,
+                                fatal: Boolean,
+                                errorMessage: CharSequence?,
+                                moduleTag: Int,
+                                errorCode: Int
+                        ) {
+                            description.text = errorMessage
+                        }
+                    })
+                }
+            }
+        }
     }
 
     @SuppressLint("CommitTransaction")

@@ -4,4 +4,6 @@
     <string name="password_must_not_be_empty">You need to enter a password</string>
     <string name="successfully_logged_in">Successfully logged in</string>
     <string name="username_must_not_be_empty">You need to enter a username</string>
+    <string name="fingerprint_required_description">Place your finger on the reader</string>
+    <string name="fingerprint_required">Access your secured environment</string>
 </resources>

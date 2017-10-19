@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/placeholder_background"
+    android:clickable="true"
+    android:focusable="true"
+    tools:ignore="Overdraw">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_horizontal_intro_title"
+        android:layout_marginRight="@dimen/margin_horizontal_intro_title"
+        android:layout_marginTop="@dimen/margin_top_intro_title"
+        android:gravity="center"
+        android:text="@string/fingerprint_required"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_intro_title"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <ImageView
+        android:id="@+id/fingerprint"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_intro_image"
+        android:layout_marginLeft="@dimen/margin_intro_image"
+        android:layout_marginRight="@dimen/margin_intro_image"
+        android:layout_marginTop="@dimen/margin_intro_image"
+        app:layout_constraintBottom_toTopOf="@+id/description"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:srcCompat="@drawable/fingerprint"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_bottom_slide_description"
+        android:layout_marginLeft="@dimen/margin_horizontal_slide_description"
+        android:layout_marginRight="@dimen/margin_horizontal_slide_description"
+        android:gravity="center"
+        android:maxEms="18"
+        android:text="@string/fingerprint_required_description"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_intro_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintBottom_creator="1" />
+
+</android.support.constraint.ConstraintLayout>
