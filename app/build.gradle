@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 android {
@@ -55,7 +56,6 @@ android {
 }
 
 dependencies {
-    annotationProcessor "android.arch.lifecycle:compiler:$architecture_components_version"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "agency.tango.android:material-intro-screen:$material_intro_screen_version"
     implementation "android.arch.lifecycle:extensions:$architecture_components_version"
@@ -80,6 +80,7 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "com.android.support.test:runner:$test_runner_version"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
+    kapt "android.arch.lifecycle:compiler:$architecture_components_version"
 }
 
 apply plugin: 'com.google.gms.google-services'
