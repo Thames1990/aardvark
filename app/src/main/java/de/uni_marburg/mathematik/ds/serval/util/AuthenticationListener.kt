@@ -17,7 +17,9 @@ class AuthenticationListener(val activity: MainActivity) : LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun authenticate() {
         with(activity.supportFragmentManager) {
-            beginTransaction().add(android.R.id.content, fingerprintFragment).commit()
+            if (!fingerprintFragment.isAdded) {
+                beginTransaction().add(android.R.id.content, fingerprintFragment).commit()
+            }
             Reprint.authenticate(object : AuthenticationListener {
                 override fun onSuccess(moduleTag: Int) {
                     beginTransaction().remove(fingerprintFragment).commit()
