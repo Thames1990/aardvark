@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import ca.allanwang.kau.utils.hideKeyboard
-import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.value
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
@@ -60,7 +59,7 @@ class AuthenticationSlide : SlideFragment() {
             Preferences.isLoggedIn = true
             Preferences.isFirstLaunch = false
             login.hideKeyboard()
-            context.toast(getString(R.string.successfully_logged_in))
+            // Move to "next" slide, finish intro
             activity.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KEYCODE_DPAD_RIGHT))
         } else {
             if (username.value.isEmpty()) {
