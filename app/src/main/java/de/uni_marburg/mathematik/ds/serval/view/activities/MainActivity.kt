@@ -1,32 +1,30 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
-import com.github.ajalt.reprint.core.AuthenticationFailureReason
-import com.github.ajalt.reprint.core.AuthenticationListener
-import com.github.ajalt.reprint.core.Reprint
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
+import de.uni_marburg.mathematik.ds.serval.util.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.util.INTRO_REQUEST_CODE
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
-import de.uni_marburg.mathematik.ds.serval.view.fragments.FingerprintFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.changelog_bottom_sheet_dialog.view.*
-import kotlinx.android.synthetic.main.fragment_fingerprint.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import ru.noties.markwon.Markwon
@@ -41,10 +39,9 @@ class MainActivity : AppCompatActivity() {
 
     private val mapFragment: MapFragment by lazy { MapFragment() }
 
-    private val fingerprintFragment: FingerprintFragment by lazy { FingerprintFragment() }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         if (Preferences.isFirstLaunch) {
             startActivityForResult(IntroActivity::class.java, INTRO_REQUEST_CODE)
         } else start()
@@ -80,32 +77,17 @@ class MainActivity : AppCompatActivity() {
             events = if (isNetworkAvailable) EventProvider.load() else emptyList()
             uiThread {
                 setTheme(R.style.AppTheme)
+                ProcessLifecycleOwner.get().lifecycle.addObserver(
+                        AuthenticationListener(this@MainActivity)
+                )
                 setContentView(R.layout.activity_main)
                 Aardvark.firebaseAnalytics.setCurrentScreen(
                         this@MainActivity,
                         this::class.java.simpleName,
                         null
                 )
-                with(supportFragmentManager) {
-                    beginTransaction().add(android.R.id.content, fingerprintFragment).commit()
-                    Reprint.authenticate(object : AuthenticationListener {
-                        override fun onSuccess(moduleTag: Int) {
-                            beginTransaction().remove(fingerprintFragment).commit()
-                            setupViews()
-                            checkForNewVersion()
-                        }
-
-                        override fun onFailure(
-                                failureReason: AuthenticationFailureReason?,
-                                fatal: Boolean,
-                                errorMessage: CharSequence?,
-                                moduleTag: Int,
-                                errorCode: Int
-                        ) {
-                            description.text = errorMessage
-                        }
-                    })
-                }
+                setupViews()
+                checkForNewVersion()
             }
         }
     }
