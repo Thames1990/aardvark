@@ -22,7 +22,7 @@ object EventProvider {
 
     private val eventAdapter: JsonAdapter<Event> = moshi.adapter(Event::class.java)
 
-    fun load(): List<Event> {
+    fun load(): MutableList<Event> {
         val events = mutableListOf<Event>()
         with(client.rhizome) {
             getBundleList().forEach { bundle: Bundle ->

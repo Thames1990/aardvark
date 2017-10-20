@@ -48,7 +48,7 @@ class EventAdapter(
      *
      * This will be moved to a Room database.
      */
-    private var events: List<Event> by Delegates.observable(emptyList()) { _, old, new ->
+    private var events: MutableList<Event> by Delegates.observable(mutableListOf()) { _, old, new ->
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
     }
 
@@ -77,21 +77,20 @@ class EventAdapter(
      * @param reversed If true, sorts descending; ascending otherwise.
      */
     fun sortBy(comparator: EventComparator, reversed: Boolean = false) {
-        events = with(events.take(100)) {
-            if (reversed) {
-                when (comparator) {
-                    EventComparator.Distance -> this.sortedByDescending { it.location.distanceTo(lastLocation) }
-                    EventComparator.Measurement -> this.sortedByDescending { it.measurements.size }
-                    EventComparator.Time -> this.sortedByDescending { it.time }
-                }
-            } else {
-                when (comparator) {
-                    EventComparator.Distance -> this.sortedBy { it.location.distanceTo(lastLocation) }
-                    EventComparator.Measurement -> this.sortedBy { it.measurements.size }
-                    EventComparator.Time -> this.sortedBy { it.time }
-                }
+        if (reversed) {
+            when (comparator) {
+                EventComparator.Distance -> events.sortByDescending { it.location.distanceTo(lastLocation) }
+                EventComparator.Measurement -> events.sortByDescending { it.measurements.size }
+                EventComparator.Time -> events.sortByDescending { it.time }
+            }
+        } else {
+            when (comparator) {
+                EventComparator.Distance -> events.sortBy { it.location.distanceTo(lastLocation) }
+                EventComparator.Measurement -> events.sortBy { it.measurements.size }
+                EventComparator.Time -> events.sortBy { it.time }
             }
         }
+        notifyDataSetChanged()
     }
 
     /**
