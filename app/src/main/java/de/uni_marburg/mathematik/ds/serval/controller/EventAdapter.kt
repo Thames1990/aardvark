@@ -80,15 +80,15 @@ class EventAdapter(
         events = with(events.take(100)) {
             if (reversed) {
                 when (comparator) {
-                    EventComparator.Distance -> this.sortedBy { it.location.distanceTo(lastLocation) }
-                    EventComparator.Measurement -> this.sortedBy { it.measurements.size }
-                    EventComparator.Time -> this.sortedBy { it.time }
-                }
-            } else {
-                when (comparator) {
                     EventComparator.Distance -> this.sortedByDescending { it.location.distanceTo(lastLocation) }
                     EventComparator.Measurement -> this.sortedByDescending { it.measurements.size }
                     EventComparator.Time -> this.sortedByDescending { it.time }
+                }
+            } else {
+                when (comparator) {
+                    EventComparator.Distance -> this.sortedBy { it.location.distanceTo(lastLocation) }
+                    EventComparator.Measurement -> this.sortedBy { it.measurements.size }
+                    EventComparator.Time -> this.sortedBy { it.time }
                 }
             }
         }
