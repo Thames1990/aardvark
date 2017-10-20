@@ -7,6 +7,7 @@ import android.view.KeyEvent.KEYCODE_DPAD_RIGHT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import ca.allanwang.kau.utils.hideKeyboard
 import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.value
@@ -37,17 +38,9 @@ class AuthenticationSlide : SlideFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        username.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                consume { login() }
-            }
-            false
-        }
-        password.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                consume { login() }
-            }
-            false
+        password.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) consume { login() }
+            else false
         }
         login.setOnClickListener { login() }
     }
