@@ -34,8 +34,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/username"
             android:inputType="textNoSuggestions"
-            android:nextFocusForward="@string/password"
-            android:singleLine="true" />
+            android:nextFocusForward="@string/password" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -51,8 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
-            android:inputType="textPassword"
-            android:singleLine="true" />
+            android:inputType="textPassword" />
 
     </android.support.design.widget.TextInputLayout>
 
