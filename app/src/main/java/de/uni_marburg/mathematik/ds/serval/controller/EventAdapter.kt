@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.Manifest
 import android.arch.lifecycle.Observer
-import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.location.Location
 import android.support.v4.app.FragmentActivity
@@ -12,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import ca.allanwang.kau.logging.KL
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -148,18 +146,13 @@ class EventAdapter(
         private fun Event.displayMeasurementTypes() {
             measurement_types.removeAllViews()
             measurements.toHashSet().forEach { measurement ->
-                try {
-                    val resId = measurement.type.getResId(activity)
-                    val icon = ImageView(activity)
-                    icon.setImageResource(resId)
-                    icon.layoutParams = LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT
-                    )
-                    measurement_types.addView(icon)
-                } catch (e: Resources.NotFoundException) {
-                    KL.d(e.message)
-                }
+                val icon = ImageView(activity)
+                icon.setImageResource(measurement.type.resId)
+                icon.layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                )
+                measurement_types.addView(icon)
             }
         }
 

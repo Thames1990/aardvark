@@ -13,8 +13,12 @@
     <string name="none">None</string>
     <string name="normal">Normal</string>
     <string name="password">Password</string>
+    <string name="precipitation">Precipitation</string>
+    <string name="radiation">Radiation</string>
     <string name="satellite">Satellite</string>
     <string name="share">Share</string>
+    <string name="temperature">Temperature</string>
     <string name="terrain">Terrain</string>
     <string name="username">Username</string>
+    <string name="wind">Wind</string>
 </resources>
