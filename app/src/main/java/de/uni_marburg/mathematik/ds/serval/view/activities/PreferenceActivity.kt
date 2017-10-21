@@ -185,7 +185,7 @@ class PreferenceActivity : KPrefActivity() {
             }
 
     private fun sendFeedback() = sendEmail(
-            getString(R.string.email_adress_feedback),
+            string(R.string.email_adress_feedback),
             String.format(
                     Locale.getDefault(),
                     string(R.string.intent_extra_query_from),
