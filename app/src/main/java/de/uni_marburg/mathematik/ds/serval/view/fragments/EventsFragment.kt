@@ -73,32 +73,37 @@ class EventsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        doAsync {
-            with(context) {
-                if (isNetworkAvailable) eventAdapter.loadEvents()
-                uiThread {
-                    if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
-                    with(recycler_view) {
-                        layoutManager = LinearLayoutManager(context)
-                        addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                        adapter = eventAdapter
+        with(context) {
+            if (isNetworkAvailable) {
+                doAsync {
+                    eventAdapter.loadEvents()
+                    uiThread {
+                        recycler_view.apply {
+                            layoutManager = LinearLayoutManager(context)
+                            addItemDecoration(DividerItemDecoration(
+                                    context,
+                                    DividerItemDecoration.VERTICAL
+                            ))
+                            adapter = eventAdapter
+                        }
                     }
                 }
-            }
+            } else toast(string(R.string.toast_network_disconnected))
         }
     }
 
-    private fun setupRefresh() = with(swipeRefreshLayout) {
-        setOnRefreshListener {
-            doAsync {
-                with(context) {
-                    if (isNetworkAvailable) eventAdapter.loadEvents()
-                    uiThread {
-                        if (!isNetworkAvailable) toast(string(R.string.toast_network_disconnected))
-                        isRefreshing = false
+    private fun setupRefresh() {
+        with(context) {
+            if (isNetworkAvailable) {
+                swipeRefreshLayout.apply {
+                    setOnRefreshListener {
+                        doAsync {
+                            eventAdapter.loadEvents()
+                            uiThread { isRefreshing = false }
+                        }
                     }
                 }
-            }
+            } else toast(string(R.string.toast_network_disconnected))
         }
     }
 }
