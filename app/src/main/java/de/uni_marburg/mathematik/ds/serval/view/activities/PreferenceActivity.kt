@@ -79,9 +79,7 @@ class PreferenceActivity : KPrefActivity() {
             descRes = R.string.preference_share_adb_command_description
             enabler = { useWifiADB }
             onDisabledClick = { itemView, _, _ ->
-                consume {
-                    itemView.context.toast(getString(R.string.preference_enable_wifi_adb_hint))
-                }
+                consume { itemView.context.toast(getString(R.string.preference_enable_wifi_adb_hint)) }
             }
             onClick = { _, _, _ -> consume { shareWifiAdbCommand() } }
         }
@@ -108,8 +106,8 @@ class PreferenceActivity : KPrefActivity() {
             onClick = { itemView, _, item ->
                 consume {
                     itemView.context.materialDialog {
-                        title("Type text")
-                        input("Type here", item.pref, { _, input -> item.pref = input.toString() })
+                        title(string(R.string.username))
+                        input(string(R.string.username), item.pref, { _, input -> item.pref = input.toString() })
                         inputRange(1, 20)
                     }
                 }
@@ -120,8 +118,10 @@ class PreferenceActivity : KPrefActivity() {
             onClick = { itemView, _, item ->
                 consume {
                     itemView.context.materialDialog {
-                        title("Type text")
-                        input("Type here", item.pref, { _, input -> item.pref = input.toString() })
+                        title(string(R.string.password))
+                        input(string(R.string.password), item.pref, { _, input ->
+                            item.pref = input.toString()
+                        })
                         inputRange(1, 20)
                     }
                 }

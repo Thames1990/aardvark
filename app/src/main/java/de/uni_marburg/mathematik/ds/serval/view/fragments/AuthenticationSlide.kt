@@ -13,7 +13,7 @@ import ca.allanwang.kau.utils.value
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
-import de.uni_marburg.mathematik.ds.serval.util.consume
+import de.uni_marburg.mathematik.ds.serval.util.consumeIf
 import kotlinx.android.synthetic.main.slide_authentication.*
 
 
@@ -38,8 +38,7 @@ class AuthenticationSlide : SlideFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         password.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) consume { login() }
-            else false
+            consumeIf(actionId == EditorInfo.IME_ACTION_DONE) { login() }
         }
         login.setOnClickListener { login() }
     }

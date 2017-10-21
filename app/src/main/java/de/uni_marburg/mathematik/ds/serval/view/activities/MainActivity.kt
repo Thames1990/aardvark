@@ -63,8 +63,7 @@ class MainActivity : AppCompatActivity() {
         } else finishSlideOut()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu) =
-            consume { menuInflater.inflate(R.menu.menu_main, menu) }
+    override fun onCreateOptionsMenu(menu: Menu) = consume { menuInflater.inflate(R.menu.menu_main, menu) }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_show_changelog -> consume { checkForNewVersion(true) }
