@@ -133,13 +133,13 @@ class EventAdapter(
             with(activity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 location_icon.visibleIf(this)
                 location_text.visibleIf(this)
-            }
 
-            if (activity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                val icon = ContextCompat.getDrawable(activity, R.drawable.location)
-                icon.setColorFilter(activity.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
-                location_icon.setImageDrawable(icon)
-                location_text.text = location.distanceTo(lastLocation).distanceToString()
+                if (this) {
+                    val icon = ContextCompat.getDrawable(activity, R.drawable.location)
+                    icon.setColorFilter(activity.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
+                    location_icon.setImageDrawable(icon)
+                    location_text.text = location.distanceTo(lastLocation).distanceToString()
+                }
             }
         }
 
