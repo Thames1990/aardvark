@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import ca.allanwang.kau.utils.*
+import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
@@ -39,7 +40,7 @@ class EventAdapter(
      *
      * This is initialized as an empty [Location] to avoid nullability.
      */
-    private var lastLocation: Location = Location("")
+    private var lastLocation: Location = Location(BuildConfig.APPLICATION_ID)
 
     /**
      * [Events][Event] tracked by this adapter. The adapter is
