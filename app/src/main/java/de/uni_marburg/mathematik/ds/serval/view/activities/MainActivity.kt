@@ -1,6 +1,9 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.Intent
 import android.graphics.PorterDuff
@@ -10,28 +13,35 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
 import ca.allanwang.kau.utils.*
+import ca.allanwang.kau.xml.showChangelog
+import com.github.ajalt.reprint.core.AuthenticationFailureReason
+import com.github.ajalt.reprint.core.Reprint
 import de.uni_marburg.mathematik.ds.serval.Aardvark
+import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
-import de.uni_marburg.mathematik.ds.serval.util.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.util.INTRO_REQUEST_CODE
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
+import de.uni_marburg.mathematik.ds.serval.view.fragments.FingerprintFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_fingerprint.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private val dashboardFragment: DashboardFragment by lazy { DashboardFragment() }
 
     private val eventsFragment: EventsFragment by lazy { EventsFragment() }
 
     private val mapFragment: MapFragment by lazy { MapFragment() }
+
+    private val fingerprintFragment: FingerprintFragment by lazy { FingerprintFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,20 +82,48 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun start() {
+        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
+
         doAsync {
             events = if (isNetworkAvailable) EventProvider.load() else emptyList()
             uiThread {
+                ProcessLifecycleOwner.get().lifecycle.addObserver(this@MainActivity)
                 setTheme(R.style.AppTheme)
-                ProcessLifecycleOwner.get().lifecycle.addObserver(
-                        AuthenticationListener(this@MainActivity)
-                )
                 setContentView(R.layout.activity_main)
-                Aardvark.firebaseAnalytics.setCurrentScreen(
-                        this@MainActivity,
-                        this::class.java.simpleName,
-                        null
-                )
                 setupViews()
+            }
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun authenticate() = with(supportFragmentManager) {
+        if (!fingerprintFragment.isAdded) {
+            beginTransaction().add(android.R.id.content, fingerprintFragment).commit()
+        }
+        Reprint.authenticate(object : com.github.ajalt.reprint.core.AuthenticationListener {
+            override fun onSuccess(moduleTag: Int) {
+                beginTransaction().remove(fingerprintFragment).commit()
+                checkForNewVersion()
+            }
+
+            override fun onFailure(
+                    failureReason: AuthenticationFailureReason?,
+                    fatal: Boolean,
+                    errorMessage: CharSequence?,
+                    moduleTag: Int,
+                    errorCode: Int
+            ) {
+                fingerprintFragment.description.text = errorMessage
+            }
+        })
+    }
+
+    private fun checkForNewVersion() {
+        if (Preferences.showChangelog && Preferences.version < BuildConfig.VERSION_CODE) {
+            Preferences.version = BuildConfig.VERSION_CODE
+            showChangelog(R.xml.changelog) {
+                title(R.string.kau_changelog)
+                positiveText(android.R.string.ok)
             }
         }
     }
