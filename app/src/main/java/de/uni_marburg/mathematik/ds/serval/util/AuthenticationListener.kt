@@ -43,7 +43,10 @@ class AuthenticationListener(val activity: MainActivity) : LifecycleObserver {
     private fun checkForNewVersion() {
         if (Preferences.showChangelog && Preferences.version < BuildConfig.VERSION_CODE) {
             Preferences.version = BuildConfig.VERSION_CODE
-            activity.showChangelog(R.xml.changelog)
+            activity.showChangelog(R.xml.changelog) {
+                title(R.string.kau_changelog)
+                positiveText(android.R.string.ok)
+            }
         }
     }
 }
