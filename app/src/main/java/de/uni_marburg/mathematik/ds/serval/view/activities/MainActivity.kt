@@ -3,8 +3,8 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -60,8 +60,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         val settings = menu.findItem(R.id.action_settings)
-        val settingsIcon = DrawableCompat.wrap(settings.icon)
-        DrawableCompat.setTint(settingsIcon, color(android.R.color.white))
+        val settingsIcon = settings.icon
+        settingsIcon.setColorFilter(color(android.R.color.white), PorterDuff.Mode.SRC_IN)
         settings.icon = settingsIcon
         return true
     }
