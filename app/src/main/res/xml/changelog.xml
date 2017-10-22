@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="v0.6.4" />
+    <item text="Changelog overhaul" />
+    <item text="Minor bug fixes" />
+
     <version title="v0.6.3" />
     <item text="Fix event sorting" />
     <item text="Fix fingerprint unlock after device sleep" />
