@@ -5,7 +5,6 @@ import android.arch.lifecycle.Observer
 import android.graphics.PorterDuff
 import android.location.Location
 import android.support.v4.app.FragmentActivity
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -54,11 +53,12 @@ class EventAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
+        // TODO Move to MainActivity
         LocationLiveData(activity.applicationContext).observe(
                 activity,
                 Observer<Location> { it?.let { lastLocation = it } }
         )
-        return EventViewHolder(parent.inflate(R.layout.event_row), activity, lastLocation)
+        return EventViewHolder(parent.inflate(R.layout.event_row), lastLocation)
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) =
@@ -98,12 +98,10 @@ class EventAdapter(
      * View holder for [events][Event].
      *
      * @param containerView Inflated view
-     * @param activity Calling activity
      * @param lastLocation Last known location
      * */
     class EventViewHolder(
             override val containerView: View,
-            private val activity: FragmentActivity,
             private val lastLocation: Location
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
@@ -130,13 +128,13 @@ class EventAdapter(
          * Displays the location of the event in relation to [the last known location][lastLocation]
          **/
         private fun Event.displayLocation() =
-                with(activity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                with(containerView.context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                     location_icon.visibleIf(this)
                     location_text.visibleIf(this)
 
                     if (this) {
-                        val icon = ContextCompat.getDrawable(activity, R.drawable.location)
-                        icon.setColorFilter(activity.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
+                        val icon = containerView.context.drawable(R.drawable.location)
+                        icon.setColorFilter(containerView.context.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
                         location_icon.setImageDrawable(icon)
                         location_text.text = location.distanceTo(lastLocation).distanceToString()
                     }
@@ -146,7 +144,7 @@ class EventAdapter(
         private fun Event.displayMeasurementTypes() {
             measurement_types.removeAllViews()
             measurements.toHashSet().forEach { measurement ->
-                val icon = ImageView(activity)
+                val icon = ImageView(containerView.context)
                 icon.setImageResource(measurement.type.resId)
                 icon.layoutParams = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -157,48 +155,47 @@ class EventAdapter(
         }
 
         /** Converts UNIX time to human readable information in relation to the current time **/
-        private fun Long.timeToString(): String = when {
-            TimeUnit.MILLISECONDS.toMinutes(this) < 60 -> String.format(
-                    Locale.getDefault(),
-                    activity.string(R.string.minutes_ago),
-                    TimeUnit.MILLISECONDS.toMinutes(this)
-            )
-            TimeUnit.MILLISECONDS.toHours(this) < 24 -> String.format(
-                    Locale.getDefault(),
-                    activity.string(R.string.hours_ago),
-                    TimeUnit.MILLISECONDS.toHours(this)
-            )
-            TimeUnit.MILLISECONDS.toDays(this) < 30 -> String.format(
-                    Locale.getDefault(),
-                    activity.string(R.string.days_ago),
-                    TimeUnit.MILLISECONDS.toDays(this)
-            )
-            TimeUnit.MILLISECONDS.toDays(this) < 365 -> String.format(
-                    Locale.getDefault(),
-                    activity.string(R.string.months_ago),
-                    TimeUnit.MILLISECONDS.toDays(this).rem(30)
-            )
-            else -> String.format(
-                    Locale.getDefault(),
-                    activity.string(R.string.years_ago),
-                    TimeUnit.MILLISECONDS.toDays(this).rem(365)
-            )
+        private fun Long.timeToString(): String {
+            val format: String
+            val value: Long
+
+            when {
+                TimeUnit.MILLISECONDS.toMinutes(this) < 60 -> {
+                    format = containerView.context.string(R.string.minutes_ago)
+                    value = TimeUnit.MILLISECONDS.toMinutes(this)
+                }
+                TimeUnit.MILLISECONDS.toHours(this) < 24 -> {
+                    format = containerView.context.string(R.string.hours_ago)
+                    value = TimeUnit.MILLISECONDS.toHours(this)
+                }
+                TimeUnit.MILLISECONDS.toDays(this) < 30 -> {
+                    format = containerView.context.string(R.string.days_ago)
+                    value = TimeUnit.MILLISECONDS.toDays(this)
+                }
+                TimeUnit.MILLISECONDS.toDays(this) < 365 -> {
+                    format = containerView.context.string(R.string.months_ago)
+                    value = TimeUnit.MILLISECONDS.toDays(this).rem(30)
+                }
+                else -> {
+                    format = containerView.context.string(R.string.years_ago)
+                    value = TimeUnit.MILLISECONDS.toDays(this).rem(365)
+                }
+            }
+
+            return String.format(Locale.getDefault(), format, value)
         }
 
-        /** Converts distance in meters in relation to [lastLocation] **/
-        private fun Float.distanceToString(): String = if (this < 1000) {
-            String.format(
-                    Locale.getDefault(),
-                    activity.string(R.string.distance_in_meter),
-                    this
-            )
-        } else {
-            String.format(
-                    Locale.getDefault(),
-                    activity.string(R.string.distance_in_kilometer),
-                    this.div(1000)
-            )
-        }
+        /** Converts distance in meters **/
+        private fun Float.distanceToString(): String =
+                if (this < 1000) String.format(
+                        Locale.getDefault(),
+                        containerView.context.string(R.string.distance_in_meter),
+                        this
+                ) else String.format(
+                        Locale.getDefault(),
+                        containerView.context.string(R.string.distance_in_kilometer),
+                        this.div(1000)
+                )
 
     }
 }
