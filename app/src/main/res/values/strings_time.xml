@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- TODO Use plurals -->
-<resources>
-    <string name="hours_ago">%1$d hr</string>
-    <string name="minutes_ago">%1$d min</string>
-    <string name="days_ago">%1$d d</string>
-    <string name="months_ago">%1$d m</string>
-    <string name="years_ago">%1$d y</string>
-</resources>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="measurement_value_precipitation">%1$d mm</string>
-    <string name="measurement_value_radiation">%1$d &#956;Sv/h</string>
-    <string name="measurement_value_temperature">%1$d &#176;F</string>
-    <string name="measurement_value_wind">%1$d mph</string>
-</resources>

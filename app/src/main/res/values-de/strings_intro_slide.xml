@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="intro_1_description">Unkompliziert ohne Mobilfunk kommunizieren!</string>
-    <string name="intro_2_description">Werde über interessante Ereignisse informiert!</string>
-    <string name="intro_3_description">Finde deine Freunde und Lieblingsorte!</string>
-    <string name="intro_4_description">Sprich mit deinen Freunden und Mitarbeitern!</string>
-    <string name="intro_placeholder_description">Der Entwickler war zu faul um eine Oberfläche zu entwerfen!</string>
-</resources>
