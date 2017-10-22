@@ -18,16 +18,16 @@ import de.uni_marburg.mathematik.ds.serval.util.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.util.INTRO_REQUEST_CODE
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.consume
+import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment
-import de.uni_marburg.mathematik.ds.serval.view.fragments.PlaceholderFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 class MainActivity : AppCompatActivity() {
 
-    private val dashboardFragment: PlaceholderFragment by lazy { PlaceholderFragment() }
+    private val dashboardFragment: DashboardFragment by lazy { DashboardFragment() }
 
     private val eventsFragment: EventsFragment by lazy { EventsFragment() }
 
