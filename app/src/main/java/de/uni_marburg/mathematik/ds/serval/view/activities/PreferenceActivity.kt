@@ -17,6 +17,7 @@ import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.materialDialog
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.xml.showChangelog
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
@@ -25,7 +26,6 @@ import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalPassword
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalUser
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.showChangelog
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useAnalytics
-import de.uni_marburg.mathematik.ds.serval.util.Preferences.useBottomSheetDialogs
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useWifiADB
 import de.uni_marburg.mathematik.ds.serval.util.WIFI_ADB_PORT
 import de.uni_marburg.mathematik.ds.serval.util.consume
@@ -88,11 +88,6 @@ class PreferenceActivity : KPrefActivity() {
     private fun KPrefAdapterBuilder.createGeneralPreferences() {
         header(R.string.preference_general)
         checkbox(R.string.preference_show_changelog, { showChangelog }, { showChangelog = it })
-        checkbox(
-                R.string.preference_use_bottom_sheets,
-                { useBottomSheetDialogs },
-                { useBottomSheetDialogs = it }
-        ) { descRes = R.string.preference_use_bottom_sheets_description }
         checkbox(R.string.preference_confirm_exit, { confirmExit }, { confirmExit = it })
         checkbox(R.string.preference_use_analytics, { useAnalytics }, { useAnalytics = it }) {
             descRes = R.string.preference_use_analytics_description
@@ -146,6 +141,14 @@ class PreferenceActivity : KPrefActivity() {
         plainText(R.string.preference_terms_and_conditions)
         plainText(R.string.preference_version) {
             descRes = R.string.app_version
+            onClick = { _, _, _ ->
+                consume {
+                    showChangelog(R.xml.changelog) {
+                        title(R.string.kau_changelog)
+                        positiveText(android.R.string.ok)
+                    }
+                }
+            }
         }
     }
 

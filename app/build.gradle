@@ -74,8 +74,6 @@ dependencies {
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
-    // Markwon
-    implementation "ru.noties:markwon:$markwon_version"
     // Material Intro Screen
     implementation "agency.tango.android:material-intro-screen:$material_intro_screen_version"
     // Moshi

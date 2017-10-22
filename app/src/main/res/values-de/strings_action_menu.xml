@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_show_changelog">Änderungsprotokoll</string>
     <string name="action_change_map_type">Kartentyp</string>
     <string name="action_change_map_type_hybrid">Hybrid</string>
     <string name="action_change_map_type_none">Kein</string>

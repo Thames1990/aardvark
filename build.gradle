@@ -9,7 +9,6 @@ buildscript {
     ext.kau_version = '3.4.4'
     ext.kotlin_version = '1.1.51'
     ext.leak_canary_version = '1.5.4'
-    ext.markwon_version = '1.0.0'
     ext.material_intro_screen_version = '0.0.5'
     ext.moshi_version = '1.5.0'
     ext.okhttp_version = '3.9.0'

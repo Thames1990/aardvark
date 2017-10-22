@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="changelog">Änderungsprotokoll - %1$s</string>
     <string name="chat">Chat</string>
     <string name="dashboard">Dashboard</string>
     <string name="details">Details</string>
     <string name="events">Ereignisse</string>
     <string name="exit">Beenden</string>
     <string name="explore">Untersuchen</string>
-    <string name="hybrid">Hybrid</string>
     <string name="map">Karte</string>
-    <string name="measurements">Messungen</string>
-    <string name="none">Kein</string>
-    <string name="normal">Normal</string>
     <string name="password">Passwort</string>
-    <string name="precipitation">Niederschlag</string>
-    <string name="radiation">Strahlung</string>
-    <string name="satellite">Satellit</string>
+    <string name="precipitation">Precipitation</string>
+    <string name="radiation">Radiation</string>
     <string name="share">Teilen</string>
-    <string name="temperature">Temperatur</string>
-    <string name="terrain">Terrain</string>
+    <string name="temperature">Temperature</string>
     <string name="username">Nutzername</string>
     <string name="wind">Wind</string>
 </resources>

@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.measurement_row.*
 import java.util.*
 
 class MeasurementsAdapter(
-        val measurements: List<Measurement>,
+        private val measurements: List<Measurement>,
         private val listener: (Measurement, View) -> Unit
 ) : RecyclerView.Adapter<MeasurementsAdapter.MeasurementsViewHolder>() {
 

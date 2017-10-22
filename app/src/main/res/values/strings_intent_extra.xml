@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="intent_extra_query_from">Query from %1$s</string>
-    <string name="intent_extra_missing_resource">Missing resource for %1$s</string>
 </resources>

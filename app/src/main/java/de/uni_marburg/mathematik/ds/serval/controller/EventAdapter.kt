@@ -129,19 +129,18 @@ class EventAdapter(
         /**
          * Displays the location of the event in relation to [the last known location][lastLocation]
          **/
-        private fun Event.displayLocation() {
-            with(activity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                location_icon.visibleIf(this)
-                location_text.visibleIf(this)
+        private fun Event.displayLocation() =
+                with(activity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    location_icon.visibleIf(this)
+                    location_text.visibleIf(this)
 
-                if (this) {
-                    val icon = ContextCompat.getDrawable(activity, R.drawable.location)
-                    icon.setColorFilter(activity.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
-                    location_icon.setImageDrawable(icon)
-                    location_text.text = location.distanceTo(lastLocation).distanceToString()
+                    if (this) {
+                        val icon = ContextCompat.getDrawable(activity, R.drawable.location)
+                        icon.setColorFilter(activity.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
+                        location_icon.setImageDrawable(icon)
+                        location_text.text = location.distanceTo(lastLocation).distanceToString()
+                    }
                 }
-            }
-        }
 
         /** Displays the measurements of the [event][Event]. **/
         private fun Event.displayMeasurementTypes() {

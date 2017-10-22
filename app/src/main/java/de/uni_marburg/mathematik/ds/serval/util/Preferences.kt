@@ -13,7 +13,6 @@ object Preferences : KPref() {
     var kervalUser: String by kpref("KERVAL_USER", "pum")
     var showChangelog: Boolean by kpref("SHOW_CHANGELOG", true)
     var useAnalytics: Boolean by kpref("USE_ANALYTICS", true)
-    var useBottomSheetDialogs: Boolean by kpref("USE_BOTTOM_SHEET_DIALOGS", true)
     var useWifiADB: Boolean by kpref("USE_WIFI_ADB", false)
     var version: Int by kpref("VERSION", 1)
 }
