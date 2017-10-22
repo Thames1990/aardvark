@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -36,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         setContentView(R.layout.activity_detail)
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
         event = intent.extras.getParcelable(EVENT)

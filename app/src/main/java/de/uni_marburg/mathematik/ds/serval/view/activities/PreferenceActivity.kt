@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.view.WindowManager
 import ca.allanwang.kau.about.kauLaunchAbout
 import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
@@ -40,6 +41,7 @@ class PreferenceActivity : KPrefActivity() {
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
         kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
     }
