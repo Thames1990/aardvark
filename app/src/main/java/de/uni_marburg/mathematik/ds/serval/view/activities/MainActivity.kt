@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             materialDialog {
                 title(R.string.preference_confirm_exit)
                 negativeText(android.R.string.cancel)
-                positiveText(R.string.exit)
+                positiveText(android.R.string.ok)
                 onPositive { _, _ -> finishSlideOut() }
             }
         } else finishSlideOut()
