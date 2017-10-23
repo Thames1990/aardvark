@@ -30,7 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.DetailActivity" />
+        <activity
+            android:name=".view.activities.DetailActivity"
+            android:theme="@style/Kau.Translucent.SlideBottom" />
         <activity
             android:name=".view.activities.PreferenceActivity"
             android:theme="@style/Kau.Translucent" />

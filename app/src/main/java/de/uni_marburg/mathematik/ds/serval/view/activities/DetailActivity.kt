@@ -3,104 +3,52 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.view.MenuItem
-import android.view.View
 import android.view.WindowManager
-import ca.allanwang.kau.utils.shareText
-import ca.allanwang.kau.utils.string
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMapOptions
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import de.uni_marburg.mathematik.ds.serval.Aardvark
+import ca.allanwang.kau.iitems.CardIItem
+import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
+import ca.allanwang.kau.utils.*
+import com.mikepenz.fastadapter.IItem
+import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.controller.MeasurementsAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.model.event.Measurement
-import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM
-import de.uni_marburg.mathematik.ds.serval.util.consume
-import kotlinx.android.synthetic.main.activity_detail.*
+import de.uni_marburg.mathematik.ds.serval.model.event.MeasurementType.*
+import de.uni_marburg.mathematik.ds.serval.view.views.MapIItem
 import java.util.*
 
 /** Displays all details of an [event][Event]. */
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : ElasticRecyclerActivity() {
+
+    private val adapter = FastItemAdapter<IItem<*, *>>()
 
     private lateinit var event: Event
 
-    private var isShown = true
-
-    private var scrollRange = -1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
-        setContentView(R.layout.activity_detail)
-        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
+        toolbar.setBackgroundColorRes(R.color.color_primary)
         event = intent.extras.getParcelable(EVENT)
-        setupViews()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        android.R.id.home -> consume { finish() }
-        else -> super.onOptionsItemSelected(item)
-    }
-
-    private fun setupViews() {
-        setupToolbar()
-        setupRecyclerView()
-        setupMap()
-        fab.setOnClickListener { showInGoogleMaps() }
-    }
-
-    private fun setupToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.apply {
-            title = string(R.string.details)
-            setDisplayHomeAsUpEnabled(true)
-        }
-        appbar_layout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            when (scrollRange) {
-                -1 -> scrollRange = appBarLayout.totalScrollRange
-                -verticalOffset -> {
-                    collapsingToolbarLayout.title = string(R.string.details)
-                    isShown = true
-                }
-                else -> if (isShown) {
-                    collapsingToolbarLayout.title = " "
-                    isShown = false
-                }
+        title = event.title + " | " + event.snippet
+        recycler.adapter = adapter
+        adapter.add(MapIItem(event))
+        event.measurements.forEach { measurement ->
+            val format = when(measurement.type) {
+                PRECIPITATION -> string(R.string.measurement_value_precipitation)
+                RADIATION -> string(R.string.measurement_value_radiation)
+                TEMPERATURE -> string(R.string.measurement_value_temperature)
+                WIND -> string(R.string.measurement_value_wind)
             }
+            adapter.add(CardIItem {
+                title = string(measurement.type.res)
+                desc =  String.format(Locale.getDefault(), format, measurement.value)
+                image = drawable(measurement.type.resId).tint(color(android.R.color.white))
+            })
         }
-    }
-
-    private fun setupRecyclerView() {
-        recycler_view.layoutManager = LinearLayoutManager(this)
-        recycler_view.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        recycler_view.adapter =
-                MeasurementsAdapter(event.measurements) { measurement: Measurement, view: View ->
-                    when (view.id) {
-                        R.id.share -> shareText(measurement.toString())
-                    }
-                }
-    }
-
-    private fun setupMap() {
-        val options = GoogleMapOptions().liteMode(true)
-        val mapFragment = SupportMapFragment.newInstance(options)
-        supportFragmentManager.beginTransaction().replace(R.id.map, mapFragment).commit()
-        mapFragment.getMapAsync { googleMap ->
-            googleMap.apply {
-                uiSettings.setAllGesturesEnabled(false)
-                uiSettings.isMapToolbarEnabled = false
-                val position = LatLng(event.location.latitude, event.location.longitude)
-                addMarker(MarkerOptions().position(position))
-                moveCamera(CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM))
-            }
+        fab.apply {
+            setImageResource(R.drawable.navigation)
+            setOnClickListener { showInGoogleMaps() }
+            show()
         }
+        setOutsideTapListener { finishAfterTransition() }
+        return true
     }
 
     private fun showInGoogleMaps() {
