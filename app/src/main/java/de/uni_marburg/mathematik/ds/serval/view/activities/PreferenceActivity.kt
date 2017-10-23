@@ -42,6 +42,8 @@ class PreferenceActivity : KPrefActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        bgCanvas.set(color(android.R.color.white))
+        toolbarCanvas.set(color(R.color.color_primary))
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
         kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
     }
@@ -57,7 +59,7 @@ class PreferenceActivity : KPrefActivity() {
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
         accentColor = { color(R.color.color_accent) }
-        textColor = { color(R.color.color_text_inverted) }
+        textColor = { color(R.color.color_text) }
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
