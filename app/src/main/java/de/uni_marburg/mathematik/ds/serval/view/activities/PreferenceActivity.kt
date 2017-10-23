@@ -153,9 +153,12 @@ class PreferenceActivity : KPrefActivity() {
             descRes = R.string.app_version
             onClick = { _, _, _ ->
                 consume {
-                    showChangelog(R.xml.changelog) {
+                    showChangelog(R.xml.changelog, color(R.color.color_text)) {
                         title(R.string.kau_changelog)
                         positiveText(android.R.string.ok)
+                        backgroundColor(color(android.R.color.white))
+                        titleColor(color(R.color.color_text))
+                        positiveColor(color(R.color.color_accent))
                     }
                 }
             }
