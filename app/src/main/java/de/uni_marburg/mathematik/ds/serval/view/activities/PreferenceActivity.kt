@@ -108,6 +108,10 @@ class PreferenceActivity : KPrefActivity() {
                         title(string(R.string.username))
                         input(string(R.string.username), item.pref, { _, input -> item.pref = input.toString() })
                         inputRange(1, 20)
+                        backgroundColor(color(android.R.color.white))
+                        titleColor(color(R.color.color_text))
+                        contentColor(color(R.color.color_text))
+                        positiveColor(color(R.color.color_accent))
                     }
                 }
             }
@@ -122,6 +126,10 @@ class PreferenceActivity : KPrefActivity() {
                             item.pref = input.toString()
                         })
                         inputRange(1, 20)
+                        backgroundColor(color(android.R.color.white))
+                        titleColor(color(R.color.color_text))
+                        contentColor(color(R.color.color_text))
+                        positiveColor(color(R.color.color_accent))
                     }
                 }
             }
