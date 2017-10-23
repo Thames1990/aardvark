@@ -53,11 +53,9 @@ class EventAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        // TODO Move to MainActivity
-        LocationLiveData(activity.applicationContext).observe(
-                activity,
-                Observer<Location> { it?.let { lastLocation = it } }
-        )
+        LocationLiveData(activity).observe(activity, Observer<Location> { location ->
+            location?.let { lastLocation -> this.lastLocation = lastLocation }
+        })
         return EventViewHolder(parent.inflate(R.layout.event_row), lastLocation)
     }
 
