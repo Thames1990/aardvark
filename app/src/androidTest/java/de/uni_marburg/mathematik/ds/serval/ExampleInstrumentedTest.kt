@@ -13,6 +13,5 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         val appContext = InstrumentationRegistry.getTargetContext()
         assertEquals("de.uni_marburg.mathematik.ds.serval", appContext.packageName)
-        assertEquals(BuildConfig.VERSION_CODE, appContext.assets.list("changelog").size)
     }
 }
