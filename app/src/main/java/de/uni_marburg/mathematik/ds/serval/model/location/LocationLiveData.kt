@@ -13,7 +13,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import java.util.concurrent.TimeUnit
 
-class LocationLiveData(val context: Context) : LiveData<Location>() {
+class LocationLiveData(private val context: Context) : LiveData<Location>() {
 
     private val client: FusedLocationProviderClient by lazy {
         FusedLocationProviderClient(context)
