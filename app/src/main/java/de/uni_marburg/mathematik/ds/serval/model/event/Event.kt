@@ -53,13 +53,29 @@ data class GeohashLocation(
 @Parcelize
 data class Measurement(val type: MeasurementType, val value: Int) : Parcelable
 
-enum class MeasurementType(val res: Int, val resId: Int) {
+enum class MeasurementType(val res: Int, val resFormat: Int, val resId: Int) {
     @Json(name = "precipitation")
-    PRECIPITATION(R.string.precipitation, R.drawable.precipitation),
+    PRECIPITATION(
+            R.string.precipitation,
+            R.string.measurement_value_precipitation,
+            R.drawable.precipitation
+    ),
     @Json(name = "radiation")
-    RADIATION(R.string.radiation, R.drawable.radiation),
+    RADIATION(
+            R.string.radiation,
+            R.string.measurement_value_precipitation,
+            R.drawable.radiation
+    ),
     @Json(name = "temperature")
-    TEMPERATURE(R.string.temperature, R.drawable.temperature),
+    TEMPERATURE(
+            R.string.temperature,
+            R.string.measurement_value_precipitation,
+            R.drawable.temperature
+    ),
     @Json(name = "wind")
-    WIND(R.string.wind, R.drawable.wind)
+    WIND(
+            R.string.wind,
+            R.string.measurement_value_precipitation,
+            R.drawable.wind
+    )
 }

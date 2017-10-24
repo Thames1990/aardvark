@@ -11,7 +11,6 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.model.event.MeasurementType.*
 import de.uni_marburg.mathematik.ds.serval.view.views.MapIItem
 import java.util.*
 
@@ -30,15 +29,13 @@ class DetailActivity : ElasticRecyclerActivity() {
         recycler.adapter = adapter
         adapter.add(MapIItem(event))
         event.measurements.forEach { measurement ->
-            val format = when(measurement.type) {
-                PRECIPITATION -> string(R.string.measurement_value_precipitation)
-                RADIATION -> string(R.string.measurement_value_radiation)
-                TEMPERATURE -> string(R.string.measurement_value_temperature)
-                WIND -> string(R.string.measurement_value_wind)
-            }
             adapter.add(CardIItem {
                 title = string(measurement.type.res)
-                desc =  String.format(Locale.getDefault(), format, measurement.value)
+                desc = String.format(
+                        Locale.getDefault(),
+                        string(measurement.type.resFormat),
+                        measurement.value
+                )
                 image = drawable(measurement.type.resId).tint(color(android.R.color.white))
             })
         }
