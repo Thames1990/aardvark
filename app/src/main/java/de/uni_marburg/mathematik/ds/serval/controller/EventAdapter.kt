@@ -180,17 +180,15 @@ class EventAdapter(
                 }
             }
 
-            return String.format(Locale.getDefault(), format, value)
+            return String.format(format, value)
         }
 
         /** Converts distance in meters **/
         private fun Float.distanceToString(): String =
                 if (this < 1000) String.format(
-                        Locale.getDefault(),
                         containerView.context.string(R.string.distance_in_meter),
                         this
                 ) else String.format(
-                        Locale.getDefault(),
                         containerView.context.string(R.string.distance_in_kilometer),
                         this.div(1000)
                 )

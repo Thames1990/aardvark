@@ -31,11 +31,7 @@ class DetailActivity : ElasticRecyclerActivity() {
         event.measurements.forEach { measurement ->
             adapter.add(CardIItem {
                 title = string(measurement.type.res)
-                desc = String.format(
-                        Locale.getDefault(),
-                        string(measurement.type.resFormat),
-                        measurement.value
-                )
+                desc = String.format(string(measurement.type.resFormat), measurement.value)
                 image = drawable(measurement.type.resId).tint(color(android.R.color.white))
             })
         }
