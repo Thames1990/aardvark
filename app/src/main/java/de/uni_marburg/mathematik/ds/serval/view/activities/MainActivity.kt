@@ -15,6 +15,7 @@ import android.view.WindowManager
 import ca.allanwang.kau.utils.*
 import ca.allanwang.kau.xml.showChangelog
 import com.github.ajalt.reprint.core.AuthenticationFailureReason
+import com.github.ajalt.reprint.core.AuthenticationListener
 import com.github.ajalt.reprint.core.Reprint
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
@@ -100,7 +101,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         if (!fingerprintFragment.isAdded) {
             beginTransaction().add(android.R.id.content, fingerprintFragment).commit()
         }
-        Reprint.authenticate(object : com.github.ajalt.reprint.core.AuthenticationListener {
+        Reprint.authenticate(object : AuthenticationListener {
             override fun onSuccess(moduleTag: Int) {
                 beginTransaction().remove(fingerprintFragment).commit()
                 checkForNewVersion()
