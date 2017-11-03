@@ -16,6 +16,9 @@ class IntroActivity : MaterialIntroActivity() {
         super.onCreate(savedInstanceState)
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
         enableLastSlideAlphaExitTransition(true)
+        nextButtonTranslationWrapper.setEnterTranslation { view, percentage ->
+            view.alpha = percentage
+        }
 
         addSlide(SlideFragmentBuilder()
                 .title(string(R.string.intro_1_title))
