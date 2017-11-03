@@ -12,14 +12,14 @@ abstract class BaseFragment : Fragment() {
     protected abstract val layout: Int
 
     override fun onCreateView(
-            inflater: LayoutInflater?,
+            inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? = inflater?.inflate(layout, container, false)
+    ): View? = inflater.inflate(layout, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Aardvark.firebaseAnalytics.setCurrentScreen(activity, this::class.java.simpleName, null)
+        Aardvark.firebaseAnalytics.setCurrentScreen(activity!!, this::class.java.simpleName, null)
     }
 
     override fun onDestroy() {

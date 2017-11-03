@@ -2,15 +2,12 @@ package de.uni_marburg.mathematik.ds.serval.view.fragments
 
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import ca.allanwang.kau.utils.isNetworkAvailable
-import ca.allanwang.kau.utils.string
-import ca.allanwang.kau.utils.toast
+import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
@@ -27,8 +24,8 @@ class EventsFragment : BaseFragment() {
         get() = R.layout.fragment_events
 
     private val eventAdapter: EventAdapter by lazy {
-        EventAdapter(activity) {
-            context.startActivity<DetailActivity>(DetailActivity.EVENT to it)
+        EventAdapter(activity!!) {
+            context!!.startActivity<DetailActivity>(DetailActivity.EVENT to it)
         }
     }
 
@@ -51,11 +48,8 @@ class EventsFragment : BaseFragment() {
         menu?.let {
             super.onPrepareOptionsMenu(menu)
             val filterEvents = menu.findItem(R.id.action_filter_events)
-            val icon = ContextCompat.getDrawable(context, R.drawable.filter_list)
-            icon.setColorFilter(
-                    ContextCompat.getColor(context, android.R.color.white),
-                    PorterDuff.Mode.SRC_IN
-            )
+            val icon = context!!.drawable(R.drawable.filter_list)
+            icon.setColorFilter(context!!.color(android.R.color.white), PorterDuff.Mode.SRC_IN)
             filterEvents.icon = icon
         }
     }
@@ -73,7 +67,7 @@ class EventsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        with(context) {
+        with(context!!) {
             if (isNetworkAvailable) {
                 doAsync {
                     eventAdapter.loadEvents()
@@ -93,7 +87,7 @@ class EventsFragment : BaseFragment() {
     }
 
     private fun setupRefresh() {
-        with(context) {
+        with(context!!) {
             if (isNetworkAvailable) {
                 swipeRefreshLayout.apply {
                     setOnRefreshListener {

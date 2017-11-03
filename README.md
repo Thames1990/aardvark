@@ -46,4 +46,4 @@
 | [Material Intro Screen](https://github.com/TangoAgency/material-intro-screen) | 0.0.5 |
 | [Moshi](https://github.com/square/moshi) | 1.5.0 |
 | [OkHttp](http://square.github.io/okhttp/) | 3.9.0 |
-| [Support Libraries](https://developer.android.com/topic/libraries/support-library/index.html)<ul><li>Constraint Layout 1.1.0-beta3</li><li>Design Support Library</li><li>v4 Support Libraries</li><li>v7 appcompat library</li><li>v7 cardview library</li><li>v7 Preference Support Library</li><li>v7 recyclerview library</li><li>v14 Preference Support Library</li><li>Vector Drawable Library</li></ul> | 26.1.0 |
+| [Support Libraries](https://developer.android.com/topic/libraries/support-library/index.html)<ul><li>Constraint Layout 1.1.0-beta3</li><li>Design Support Library</li><li>v4 Support Libraries</li><li>v7 appcompat library</li><li>v7 cardview library</li><li>v7 Preference Support Library</li><li>v7 recyclerview library</li><li>v14 Preference Support Library</li><li>Vector Drawable Library</li></ul> | 27.0.0 |

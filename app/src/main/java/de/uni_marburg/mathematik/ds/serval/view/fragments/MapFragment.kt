@@ -44,7 +44,7 @@ class MapFragment : BaseFragment() {
         map.getMapAsync { googleMap ->
             this.googleMap = googleMap
             with(googleMap) {
-                if (activity.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                if (activity!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                     isMyLocationEnabled = true
                 }
                 uiSettings.isMapToolbarEnabled = false
@@ -63,8 +63,8 @@ class MapFragment : BaseFragment() {
         menu?.let {
             super.onPrepareOptionsMenu(menu)
             val changeMapType = menu.findItem(R.id.action_change_map_type)
-            val icon = context.drawable(R.drawable.map)
-            icon.setColorFilter(context.color(android.R.color.white), PorterDuff.Mode.SRC_IN)
+            val icon = context!!.drawable(R.drawable.map)
+            icon.setColorFilter(context!!.color(android.R.color.white), PorterDuff.Mode.SRC_IN)
             changeMapType.icon = icon
         }
     }
@@ -110,7 +110,7 @@ class MapFragment : BaseFragment() {
                 }
             }
             setOnClusterItemInfoWindowClickListener { event ->
-                context.startActivity<DetailActivity>(DetailActivity.EVENT to event)
+                context!!.startActivity<DetailActivity>(DetailActivity.EVENT to event)
             }
 
             doAsync {

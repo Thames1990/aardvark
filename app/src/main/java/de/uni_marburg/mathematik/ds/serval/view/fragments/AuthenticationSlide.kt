@@ -21,7 +21,7 @@ class AuthenticationSlide : SlideFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Aardvark.firebaseAnalytics.setCurrentScreen(activity, this::class.java.simpleName, null)
+        Aardvark.firebaseAnalytics.setCurrentScreen(activity!!, this::class.java.simpleName, null)
     }
 
     override fun onDestroy() {
@@ -35,7 +35,7 @@ class AuthenticationSlide : SlideFragment() {
             savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.slide_authentication, container, false)
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         password.setOnEditorActionListener { _, actionId, _ ->
             consumeIf(actionId == EditorInfo.IME_ACTION_DONE) { login() }
@@ -59,7 +59,7 @@ class AuthenticationSlide : SlideFragment() {
             Preferences.isFirstLaunch = false
             login.hideKeyboard()
             // Move to "next" slide, finish intro
-            activity.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KEYCODE_DPAD_RIGHT))
+            activity!!.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KEYCODE_DPAD_RIGHT))
         } else {
             if (username.value.isEmpty()) {
                 username_layout.error = getString(R.string.username_must_not_be_empty)
