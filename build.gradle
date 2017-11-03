@@ -6,6 +6,8 @@ buildscript {
     ext.espresso_version = '3.0.1'
     ext.fabric_gradle_version = '1.24.4'
     ext.google_play_services_version = '11.4.2'
+    ext.google_play_services_gradle_version = '3.1.0'
+    ext.gradle_version = '3.0.0'
     ext.junit_version = '4.12'
     ext.kau_version = '3.4.4'
     ext.kotlin_version = '1.1.51'
@@ -16,16 +18,16 @@ buildscript {
     ext.reprint_version = '3.1.0@aar'
     ext.support_library_version = '27.0.0'
     ext.test_runner_version = '1.0.1'
-    
+
     repositories {
         google()
         jcenter()
-        maven {url 'https://maven.fabric.io/public'}
+        maven { url 'https://maven.fabric.io/public' }
     }
-    
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
-        classpath 'com.google.gms:google-services:3.1.0'
+        classpath "com.android.tools.build:gradle:$gradle_version"
+        classpath "com.google.gms:google-services:$google_play_services_gradle_version"
         classpath "io.fabric.tools:gradle:$fabric_gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -35,7 +37,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {url "https://jitpack.io"}
+        maven { url "https://jitpack.io" }
     }
 }
 
