@@ -13,7 +13,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.util.MAP_ZOOM
-import kotlinx.android.extensions.LayoutContainer
 
 class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
         R.layout.iitem_map, { ViewHolder(it) }
@@ -42,9 +41,7 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
         holder.map.onDestroy()
     }
 
-    class ViewHolder(
-            override val containerView: View
-    ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val map: MapView by bindView(R.id.map)
     }
 }

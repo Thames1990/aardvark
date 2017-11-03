@@ -106,7 +106,9 @@ class PreferenceActivity : KPrefActivity() {
                 consume {
                     itemView.context.materialDialog {
                         title(string(R.string.username))
-                        input(string(R.string.username), item.pref, { _, input -> item.pref = input.toString() })
+                        input(string(R.string.username), item.pref, { _, input ->
+                            item.pref = input.toString()
+                        })
                         backgroundColor(color(android.R.color.white))
                         titleColor(color(R.color.color_text))
                         contentColor(color(R.color.color_text))
