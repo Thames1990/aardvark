@@ -28,6 +28,7 @@ object EventProvider {
             getBundleList().forEach { bundle: Bundle ->
                 bundle.bundleId?.let { bid ->
                     getRaw(bid).byteInputStream().bufferedReader().forEachLine { line ->
+                        // This check is only necessary because the JSON contains duplicate newlines
                         if (line.isNotEmpty()) eventAdapter.fromJson(line)?.let { event ->
                             events.add(event)
                         }

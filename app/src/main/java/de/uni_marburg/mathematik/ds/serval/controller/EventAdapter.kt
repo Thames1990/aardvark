@@ -64,6 +64,7 @@ class EventAdapter(
 
     override fun getItemCount(): Int = events.size
 
+    /** Loads [events][Event] from the API server. **/
     fun loadEvents() {
         events = EventProvider.load()
     }
@@ -80,13 +81,13 @@ class EventAdapter(
             when (comparator) {
                 EventComparator.Distance -> events.sortByDescending { it.location.distanceTo(lastLocation) }
                 EventComparator.Measurement -> events.sortByDescending { it.measurements.size }
-                EventComparator.Time -> events.sortByDescending { it.time }
+                EventComparator.Time -> events.sortBy { it.time }
             }
         } else {
             when (comparator) {
                 EventComparator.Distance -> events.sortBy { it.location.distanceTo(lastLocation) }
                 EventComparator.Measurement -> events.sortBy { it.measurements.size }
-                EventComparator.Time -> events.sortBy { it.time }
+                EventComparator.Time -> events.sortByDescending { it.time }
             }
         }
         notifyDataSetChanged()
@@ -132,7 +133,10 @@ class EventAdapter(
 
                     if (this) {
                         val icon = containerView.context.drawable(R.drawable.location)
-                        icon.setColorFilter(containerView.context.color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
+                        icon.setColorFilter(
+                                containerView.context.color(R.color.icon_mute),
+                                PorterDuff.Mode.SRC_IN
+                        )
                         location_icon.setImageDrawable(icon)
                         location_text.text = location.distanceTo(lastLocation).distanceToString()
                     }

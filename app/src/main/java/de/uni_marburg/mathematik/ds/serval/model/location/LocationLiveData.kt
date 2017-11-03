@@ -13,17 +13,17 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import java.util.concurrent.TimeUnit
 
+/** Tracks changes of the location of the current device */
 class LocationLiveData(private val context: Context) : LiveData<Location>() {
 
-    private val client: FusedLocationProviderClient by lazy {
-        FusedLocationProviderClient(context)
-    }
+    private val client: FusedLocationProviderClient by lazy { FusedLocationProviderClient(context) }
 
     private val locationRequest: LocationRequest by lazy { LocationRequest() }
 
     private val locationCallback: LocationCallback by lazy {
         object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
+                // Update current location
                 value = locationResult.lastLocation
             }
         }
