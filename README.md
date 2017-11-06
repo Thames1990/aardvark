@@ -37,13 +37,13 @@
 | --- | --- |
 | [Android Maps Utils](https://github.com/googlemaps/android-maps-utils) | 0.5.0 |
 | [Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) | 1.0.0-rc1 |
-| [Crashlytics](https://fabric.io/kits/android/crashlytics) | 2.7.0 |
+| [Crashlytics](https://fabric.io/kits/android/crashlytics) | 2.7.1 |
 | [Firebase](https://firebase.google.com/)<ul><li>Firebase Core</li></ul> | 11.4.2 |
 | [Google Play Services](https://developers.google.com/android/guides/overview)<ul><li>Location</li><li>Maps</li></ul> | 11.4.2 |
 | [KAU](https://github.com/AllanWang/KAU) | 3.4.4 |
 | [LeakCanary](https://github.com/square/leakcanary) | 1.5.4 |
-| [Markwon](https://github.com/noties/Markwon) | 1.0.0 |
 | [Material Intro Screen](https://github.com/TangoAgency/material-intro-screen) | 0.0.5 |
 | [Moshi](https://github.com/square/moshi) | 1.5.0 |
 | [OkHttp](http://square.github.io/okhttp/) | 3.9.0 |
+| [Reprint](https://github.com/ajalt/reprint) | 3.2.0 |
 | [Support Libraries](https://developer.android.com/topic/libraries/support-library/index.html)<ul><li>Constraint Layout 1.1.0-beta3</li><li>Design Support Library</li><li>v4 Support Libraries</li><li>v7 appcompat library</li><li>v7 cardview library</li><li>v7 Preference Support Library</li><li>v7 recyclerview library</li><li>v14 Preference Support Library</li><li>Vector Drawable Library</li></ul> | 27.0.0 |
