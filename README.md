@@ -36,7 +36,7 @@
 | Library | Version |
 | --- | --- |
 | [Android Maps Utils](https://github.com/googlemaps/android-maps-utils) | 0.5.0 |
-| [Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) | 1.0.0-rc1 |
+| [Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) | 1.0.0 |
 | [Crashlytics](https://fabric.io/kits/android/crashlytics) | 2.7.1 |
 | [Firebase](https://firebase.google.com/)<ul><li>Firebase Core</li></ul> | 11.4.2 |
 | [Google Play Services](https://developers.google.com/android/guides/overview)<ul><li>Location</li><li>Maps</li></ul> | 11.4.2 |
