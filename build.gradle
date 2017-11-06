@@ -15,7 +15,7 @@ buildscript {
     ext.material_intro_screen_version = '0.0.5'
     ext.moshi_version = '1.5.0'
     ext.okhttp_version = '3.9.0'
-    ext.reprint_version = '3.1.0@aar'
+    ext.reprint_version = '3.2.0@aar'
     ext.support_library_version = '27.0.0'
     ext.test_runner_version = '1.0.1'
 
