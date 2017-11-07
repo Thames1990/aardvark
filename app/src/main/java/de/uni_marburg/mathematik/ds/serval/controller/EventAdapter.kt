@@ -71,7 +71,7 @@ class EventAdapter(
     }
 
     /**
-     * Sorts [events] by a [distance][EventComparator.DISTANCE], [time][EventComparator.Time] or
+     * Sorts [events] by a [distance][EventComparator.DISTANCE], [time][EventComparator.TIME] or
      * [amount of measurements][EventComparator.MEASUREMENT].
      *
      * @param comparator [Event] comparator
@@ -81,11 +81,11 @@ class EventAdapter(
         if (reversed) when (comparator) {
             DISTANCE    -> events.sortByDescending { it.location.distanceTo(lastLocation) }
             MEASUREMENT -> events.sortByDescending { it.measurements.size }
-            Time        -> events.sortByDescending { -it.time }
+            TIME        -> events.sortByDescending { -it.time }
         } else when (comparator) {
             DISTANCE    -> events.sortBy { it.location.distanceTo(lastLocation) }
             MEASUREMENT -> events.sortBy { it.measurements.size }
-            Time        -> events.sortBy { -it.time }
+            TIME        -> events.sortBy { -it.time }
         }
         notifyDataSetChanged()
     }
