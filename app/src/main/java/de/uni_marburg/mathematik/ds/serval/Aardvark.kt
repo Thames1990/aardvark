@@ -48,7 +48,7 @@ class Aardvark : Application() {
 
     private fun setupLeakCanary() {
         refWatcher = when (BuildConfig.DEBUG) {
-            true -> LeakCanary.install(this)
+            true  -> LeakCanary.install(this)
             false -> RefWatcher.DISABLED
         }
     }
