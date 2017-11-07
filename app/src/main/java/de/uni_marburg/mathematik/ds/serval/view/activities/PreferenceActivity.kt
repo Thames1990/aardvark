@@ -74,7 +74,7 @@ class PreferenceActivity : KPrefActivity() {
         checkbox(R.string.preference_enable_wifi_adb, { useWifiADB }, {
             useWifiADB = it
             when (it) {
-                true -> enableWifiAdb()
+                true  -> enableWifiAdb()
                 false -> disableWifiAdb()
             }
             reloadByTitle(R.string.preference_share_wifi_adb_command)
@@ -167,6 +167,9 @@ class PreferenceActivity : KPrefActivity() {
         }
     }
 
+    /**
+     * Enables WifiADB and lets the user send ADB connection information.
+     */
     private fun enableWifiAdb() {
         with(Runtime.getRuntime().exec(string(R.string.adb_superuser))) {
             with(DataOutputStream(outputStream)) {
@@ -179,6 +182,7 @@ class PreferenceActivity : KPrefActivity() {
     }
 
     /**
+     * Disables WifiADB.
      * TODO Figure out how to deactivate WifiADB on isFinishing
      */
     private fun disableWifiAdb() {
@@ -192,6 +196,9 @@ class PreferenceActivity : KPrefActivity() {
         }
     }
 
+    /**
+     * Share information to connect to the device via WifiADB.
+     */
     private fun shareWifiAdbCommand() =
             with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
                 val ipAdress: ByteArray = BigInteger
@@ -202,6 +209,9 @@ class PreferenceActivity : KPrefActivity() {
                 shareText(String.format(string(R.string.adb_connect), hostAdress))
             }
 
+    /**
+     * Opens an email client with device information for the user to send feedback.
+     */
     private fun sendFeedback() = sendEmail(
             string(R.string.email_adress_feedback),
             String.format(
