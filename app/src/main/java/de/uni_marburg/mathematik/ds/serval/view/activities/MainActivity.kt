@@ -21,7 +21,7 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
+import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.util.INTRO_REQUEST_CODE
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.consume
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
 
         doAsync {
-            events = if (isNetworkAvailable) EventProvider.load() else emptyList()
+            events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
             uiThread {
                 ProcessLifecycleOwner.get().lifecycle.addObserver(this@MainActivity)
                 setTheme(R.style.AppTheme)

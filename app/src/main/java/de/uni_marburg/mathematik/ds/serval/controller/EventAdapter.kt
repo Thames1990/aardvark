@@ -16,7 +16,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
-import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
+import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationLiveData
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.event_row.*
@@ -67,7 +67,7 @@ class EventAdapter(
 
     /** Loads [events][Event] from the API server. **/
     fun loadEvents() {
-        events = EventProvider.load()
+        events = EventRepository.fetch()
     }
 
     /**

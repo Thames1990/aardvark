@@ -7,8 +7,16 @@ import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import kerval.ServalClient
 import kerval.rhizome.Bundle
 
-object EventProvider {
+/**
+ * Entry point to Kerval API.
+ *
+ * Loads [events][Event] over HTTP and reads the from pseudo-JSON formatted input.
+ */
+object EventRepository {
 
+    /**
+     * Authenticates with the Serval API and offers connection to the Rhizome database.
+     */
     private val client: ServalClient by lazy {
         ServalClient(
                 Preferences.kervalBaseUrl,
@@ -18,11 +26,20 @@ object EventProvider {
         )
     }
 
+    /**
+     * JSON converter
+     */
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
+    /**
+     * Json converter adapter for [events][Event]
+     */
     private val eventAdapter: JsonAdapter<Event> = moshi.adapter(Event::class.java)
 
-    fun load(): MutableList<Event> {
+    /**
+     * Fetches [events][Event] from the [Serval client][client].
+     */
+    fun fetch(): MutableList<Event> {
         val events = mutableListOf<Event>()
         with(client.rhizome) {
             getBundleList().forEach { bundle: Bundle ->
