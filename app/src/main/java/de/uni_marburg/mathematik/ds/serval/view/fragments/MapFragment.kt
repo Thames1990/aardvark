@@ -71,12 +71,12 @@ class MapFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem) = with(googleMap) {
         when (item.itemId) {
-            R.id.action_change_map_type_hybrid -> consume { mapType = MAP_TYPE_HYBRID }
-            R.id.action_change_map_type_none -> consume { mapType = MAP_TYPE_NONE }
-            R.id.action_change_map_type_normal -> consume { mapType = MAP_TYPE_NORMAL }
+            R.id.action_change_map_type_hybrid    -> consume { mapType = MAP_TYPE_HYBRID }
+            R.id.action_change_map_type_none      -> consume { mapType = MAP_TYPE_NONE }
+            R.id.action_change_map_type_normal    -> consume { mapType = MAP_TYPE_NORMAL }
             R.id.action_change_map_type_satellite -> consume { mapType = MAP_TYPE_SATELLITE }
-            R.id.action_change_map_type_terrain -> consume { mapType = MAP_TYPE_TERRAIN }
-            else -> super.onOptionsItemSelected(item)
+            R.id.action_change_map_type_terrain   -> consume { mapType = MAP_TYPE_TERRAIN }
+            else                                  -> super.onOptionsItemSelected(item)
         }
     }
 
