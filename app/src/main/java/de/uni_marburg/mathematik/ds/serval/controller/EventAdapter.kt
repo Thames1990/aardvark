@@ -76,7 +76,7 @@ class EventAdapter(
      * @param comparator [Event] comparator
      * @param reversed If true, sorts descending; ascending otherwise.
      */
-    fun sortBy(comparator: EventComparator, reversed: Boolean = false) {
+    fun sortEventsBy(comparator: EventComparator, reversed: Boolean = false) {
         if (reversed) {
             when (comparator) {
                 EventComparator.Distance    -> events.sortByDescending { it.location.distanceTo(lastLocation) }

@@ -56,12 +56,12 @@ class EventsFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem) = with(eventAdapter) {
         when (item.itemId) {
-            R.id.sort_distance_ascending -> consume { sortBy(Distance) }
-            R.id.sort_distance_descending -> consume { sortBy(Distance, true) }
-            R.id.sort_measurements_ascending -> consume { sortBy(Measurement) }
-            R.id.sort_measurements_descending -> consume { sortBy(Measurement, true) }
-            R.id.sort_time_ascending -> consume { sortBy(Time) }
-            R.id.sort_time_descending -> consume { sortBy(Time, true) }
+            R.id.sort_distance_ascending -> consume { sortEventsBy(Distance) }
+            R.id.sort_distance_descending -> consume { sortEventsBy(Distance, true) }
+            R.id.sort_measurements_ascending -> consume { sortEventsBy(Measurement) }
+            R.id.sort_measurements_descending -> consume { sortEventsBy(Measurement, true) }
+            R.id.sort_time_ascending -> consume { sortEventsBy(Time) }
+            R.id.sort_time_descending -> consume { sortEventsBy(Time, true) }
             else -> super.onOptionsItemSelected(item)
         }
     }
