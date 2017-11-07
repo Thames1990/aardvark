@@ -25,7 +25,7 @@ class DetailActivity : ElasticRecyclerActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         toolbar.setBackgroundColorRes(R.color.color_primary)
         event = intent.extras.getParcelable(EVENT)
-        title = event.title + " | " + event.snippet
+        title = "${event.title} | ${event.snippet}"
         recycler.adapter = adapter
         adapter.add(MapIItem(event))
         event.measurements.forEach { measurement ->
