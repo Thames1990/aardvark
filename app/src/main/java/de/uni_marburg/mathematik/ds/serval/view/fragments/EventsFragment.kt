@@ -68,18 +68,16 @@ class EventsFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         with(context!!) {
-            if (isNetworkAvailable) {
-                doAsync {
-                    eventAdapter.loadEvents()
-                    uiThread {
-                        recycler_view.apply {
-                            layoutManager = LinearLayoutManager(context)
-                            addItemDecoration(DividerItemDecoration(
-                                    context,
-                                    DividerItemDecoration.VERTICAL
-                            ))
-                            adapter = eventAdapter
-                        }
+            if (isNetworkAvailable) doAsync {
+                eventAdapter.loadEvents()
+                uiThread {
+                    recycler_view.apply {
+                        layoutManager = LinearLayoutManager(context)
+                        addItemDecoration(DividerItemDecoration(
+                                context,
+                                DividerItemDecoration.VERTICAL
+                        ))
+                        adapter = eventAdapter
                     }
                 }
             } else toast(string(R.string.toast_network_disconnected))
@@ -88,13 +86,11 @@ class EventsFragment : BaseFragment() {
 
     private fun setupRefresh() {
         with(context!!) {
-            if (isNetworkAvailable) {
-                swipeRefreshLayout.apply {
-                    setOnRefreshListener {
-                        doAsync {
-                            eventAdapter.loadEvents()
-                            uiThread { isRefreshing = false }
-                        }
+            if (isNetworkAvailable) swipeRefreshLayout.apply {
+                setOnRefreshListener {
+                    doAsync {
+                        eventAdapter.loadEvents()
+                        uiThread { isRefreshing = false }
                     }
                 }
             } else toast(string(R.string.toast_network_disconnected))
