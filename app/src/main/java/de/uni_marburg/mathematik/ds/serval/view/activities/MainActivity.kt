@@ -58,28 +58,25 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     }
 
     override fun onBackPressed() {
-        if (Preferences.confirmExit) {
-            materialDialog {
-                title(R.string.preference_confirm_exit)
-                negativeText(android.R.string.cancel)
-                positiveText(android.R.string.ok)
-                onPositive { _, _ -> finishSlideOut() }
-            }
+        if (Preferences.confirmExit) materialDialog {
+            title(R.string.preference_confirm_exit)
+            negativeText(android.R.string.cancel)
+            positiveText(android.R.string.ok)
+            onPositive { _, _ -> finishSlideOut() }
         } else finishSlideOut()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean = consume {
         menuInflater.inflate(R.menu.menu_main, menu)
         val settings = menu.findItem(R.id.action_settings)
         val settingsIcon = settings.icon
         settingsIcon.setColorFilter(color(android.R.color.white), PorterDuff.Mode.SRC_IN)
         settings.icon = settingsIcon
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> consume { startActivity(PreferenceActivity::class.java) }
-        else -> super.onOptionsItemSelected(item)
+        else                 -> super.onOptionsItemSelected(item)
     }
 
     private fun start() {
@@ -88,8 +85,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         doAsync {
             events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
             uiThread {
-                ProcessLifecycleOwner.get().lifecycle.addObserver(this@MainActivity)
                 setTheme(R.style.AppTheme)
+                ProcessLifecycleOwner.get().lifecycle.addObserver(this@MainActivity)
                 setContentView(R.layout.activity_main)
                 setupViews()
             }
@@ -119,6 +116,11 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         })
     }
 
+    /**
+     * Checks if a new version of the app was detected.
+     *
+     * If a new version is detected and the user wants to view changelogs, the changelog is shown.
+     */
     private fun checkForNewVersion() {
         if (Preferences.showChangelog && Preferences.version < BuildConfig.VERSION_CODE) {
             Preferences.version = BuildConfig.VERSION_CODE
@@ -144,11 +146,11 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
                     fragments.forEach { hide(it) }
                     when (item.itemId) {
                         R.id.action_dashboard -> show(dashboardFragment)
-                        R.id.action_events -> {
+                        R.id.action_events    -> {
                             show(eventsFragment)
                             eventsFragment.setHasOptionsMenu(true)
                         }
-                        R.id.action_map -> {
+                        R.id.action_map       -> {
                             show(mapFragment)
                             mapFragment.setHasOptionsMenu(true)
                         }
