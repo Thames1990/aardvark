@@ -79,15 +79,15 @@ class EventAdapter(
     fun sortBy(comparator: EventComparator, reversed: Boolean = false) {
         if (reversed) {
             when (comparator) {
-                EventComparator.Distance -> events.sortByDescending { it.location.distanceTo(lastLocation) }
+                EventComparator.Distance    -> events.sortByDescending { it.location.distanceTo(lastLocation) }
                 EventComparator.Measurement -> events.sortByDescending { it.measurements.size }
-                EventComparator.Time -> events.sortBy { it.time }
+                EventComparator.Time        -> events.sortByDescending { -it.time }
             }
         } else {
             when (comparator) {
-                EventComparator.Distance -> events.sortBy { it.location.distanceTo(lastLocation) }
+                EventComparator.Distance    -> events.sortBy { it.location.distanceTo(lastLocation) }
                 EventComparator.Measurement -> events.sortBy { it.measurements.size }
-                EventComparator.Time -> events.sortByDescending { it.time }
+                EventComparator.Time        -> events.sortBy { -it.time }
             }
         }
         notifyDataSetChanged()
@@ -166,19 +166,19 @@ class EventAdapter(
                     format = containerView.context.string(R.string.minutes_ago)
                     value = TimeUnit.MILLISECONDS.toMinutes(this)
                 }
-                TimeUnit.MILLISECONDS.toHours(this) < 24 -> {
+                TimeUnit.MILLISECONDS.toHours(this) < 24   -> {
                     format = containerView.context.string(R.string.hours_ago)
                     value = TimeUnit.MILLISECONDS.toHours(this)
                 }
-                TimeUnit.MILLISECONDS.toDays(this) < 30 -> {
+                TimeUnit.MILLISECONDS.toDays(this) < 30    -> {
                     format = containerView.context.string(R.string.days_ago)
                     value = TimeUnit.MILLISECONDS.toDays(this)
                 }
-                TimeUnit.MILLISECONDS.toDays(this) < 365 -> {
+                TimeUnit.MILLISECONDS.toDays(this) < 365   -> {
                     format = containerView.context.string(R.string.months_ago)
                     value = TimeUnit.MILLISECONDS.toDays(this).rem(30)
                 }
-                else -> {
+                else                                       -> {
                     format = containerView.context.string(R.string.years_ago)
                     value = TimeUnit.MILLISECONDS.toDays(this).rem(365)
                 }
