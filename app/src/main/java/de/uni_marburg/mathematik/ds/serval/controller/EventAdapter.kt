@@ -98,7 +98,7 @@ class EventAdapter(
      *
      * @param containerView Inflated view
      * @param lastLocation Last known location
-     * */
+     */
     class EventViewHolder(
             override val containerView: View,
             private val lastLocation: Location
@@ -125,22 +125,20 @@ class EventAdapter(
 
         /**
          * Displays the location of the event in relation to [the last known location][lastLocation]
+         * of the current device.
          **/
-        private fun Event.displayLocation() =
-                with(containerView.context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    location_icon.visibleIf(this)
-                    location_text.visibleIf(this)
-
-                    if (this) {
-                        val icon = containerView.context.drawable(R.drawable.location)
-                        icon.setColorFilter(
-                                containerView.context.color(R.color.icon_mute),
-                                PorterDuff.Mode.SRC_IN
-                        )
-                        location_icon.setImageDrawable(icon)
-                        location_text.text = location.distanceTo(lastLocation).distanceToString()
-                    }
-                }
+        private fun Event.displayLocation() = with(containerView.context) {
+            val hasLocationPermission = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+            if (hasLocationPermission) {
+                val icon = drawable(R.drawable.location)
+                icon.setColorFilter(color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
+                location_icon.setImageDrawable(icon)
+                location_text.text = location.distanceTo(lastLocation).distanceToString()
+            } else {
+                location_icon.gone()
+                location_text.gone()
+            }
+        }
 
         /** Displays the measurements of the [event][Event]. **/
         private fun Event.displayMeasurementTypes() {
