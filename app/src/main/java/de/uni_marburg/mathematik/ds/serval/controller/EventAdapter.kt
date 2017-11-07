@@ -15,6 +15,7 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
+import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.model.event.EventProvider
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationLiveData
 import kotlinx.android.extensions.LayoutContainer
@@ -70,25 +71,21 @@ class EventAdapter(
     }
 
     /**
-     * Sorts [events] by a [distance][EventComparator.Distance], [time][EventComparator.Time] or
-     * [amount of measurements][EventComparator.Measurement].
+     * Sorts [events] by a [distance][EventComparator.DISTANCE], [time][EventComparator.Time] or
+     * [amount of measurements][EventComparator.MEASUREMENT].
      *
      * @param comparator [Event] comparator
      * @param reversed If true, sorts descending; ascending otherwise.
      */
     fun sortEventsBy(comparator: EventComparator, reversed: Boolean = false) {
-        if (reversed) {
-            when (comparator) {
-                EventComparator.Distance    -> events.sortByDescending { it.location.distanceTo(lastLocation) }
-                EventComparator.Measurement -> events.sortByDescending { it.measurements.size }
-                EventComparator.Time        -> events.sortByDescending { -it.time }
-            }
-        } else {
-            when (comparator) {
-                EventComparator.Distance    -> events.sortBy { it.location.distanceTo(lastLocation) }
-                EventComparator.Measurement -> events.sortBy { it.measurements.size }
-                EventComparator.Time        -> events.sortBy { -it.time }
-            }
+        if (reversed) when (comparator) {
+            DISTANCE    -> events.sortByDescending { it.location.distanceTo(lastLocation) }
+            MEASUREMENT -> events.sortByDescending { it.measurements.size }
+            Time        -> events.sortByDescending { -it.time }
+        } else when (comparator) {
+            DISTANCE    -> events.sortBy { it.location.distanceTo(lastLocation) }
+            MEASUREMENT -> events.sortBy { it.measurements.size }
+            Time        -> events.sortBy { -it.time }
         }
         notifyDataSetChanged()
     }
