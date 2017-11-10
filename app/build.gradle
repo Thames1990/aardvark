@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '26.0.2'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     def keystore = rootProject.file("keystore.properties")
     def properties = new Properties()
@@ -13,10 +13,11 @@ android {
 
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
-        minSdkVersion 21
-        targetSdkVersion 27
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 30
         versionName '0.6.4'
+
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
         resValue "string", "app_version", "$versionName"
@@ -48,7 +49,6 @@ android {
         }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }

@@ -1,24 +1,4 @@
 buildscript {
-    ext.android_maps_utils_version = '0.5'
-    ext.architecture_components_version = '1.0.0'
-    ext.constraint_layout_version = '1.1.0-beta3'
-    ext.crashlytics_version = '2.7.1'
-    ext.espresso_version = '3.0.1'
-    ext.fabric_gradle_version = '1.24.4'
-    ext.google_play_services_version = '11.4.2'
-    ext.google_play_services_gradle_version = '3.1.0'
-    ext.gradle_version = '3.0.0'
-    ext.junit_version = '4.12'
-    ext.kau_version = '3.4.4'
-    ext.kotlin_version = '1.1.51'
-    ext.leak_canary_version = '1.5.4'
-    ext.material_intro_screen_version = '0.0.5'
-    ext.moshi_version = '1.5.0'
-    ext.okhttp_version = '3.9.0'
-    ext.reprint_version = '3.2.0@aar'
-    ext.support_library_version = '27.0.0'
-    ext.test_runner_version = '1.0.1'
-
     repositories {
         google()
         jcenter()
@@ -26,10 +6,10 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:$gradle_version"
-        classpath "com.google.gms:google-services:$google_play_services_gradle_version"
-        classpath "io.fabric.tools:gradle:$fabric_gradle_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.android.tools.build:gradle:3.0.0"
+        classpath "com.google.gms:google-services:3.1.0"
+        classpath "io.fabric.tools:gradle:1.24.4"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.51"
     }
 }
 
@@ -43,4 +23,27 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    minSdkVersion = 21
+    targetSdkVersion = 27
+    compileSdkVersion = 27
+    buildToolsVersion = '26.0.2'
+
+    android_maps_utils_version = '0.5'
+    architecture_components_version = '1.0.0'
+    constraint_layout_version = '1.1.0-beta3'
+    crashlytics_version = '2.7.1'
+    espresso_version = '3.0.1'
+    google_play_services_version = '11.4.2'
+    junit_version = '4.12'
+    kau_version = '3.4.4'
+    leak_canary_version = '1.5.4'
+    material_intro_screen_version = '0.0.5'
+    moshi_version = '1.5.0'
+    okhttp_version = '3.9.0'
+    reprint_version = '3.2.0@aar'
+    support_library_version = '27.0.0'
+    test_runner_version = '1.0.1'
 }
