@@ -22,6 +22,7 @@ import ca.allanwang.kau.xml.showChangelog
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.confirmExit
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalPassword
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalUser
@@ -93,7 +94,23 @@ class PreferenceActivity : KPrefActivity() {
         header(R.string.preference_general)
         checkbox(R.string.preference_show_changelog, { showChangelog }, { showChangelog = it })
         checkbox(R.string.preference_confirm_exit, { confirmExit }, { confirmExit = it })
-        checkbox(R.string.preference_use_analytics, { useAnalytics }, { useAnalytics = it }) {
+        checkbox(R.string.preference_use_analytics, { useAnalytics }, { useAnalytics ->
+            Preferences.useAnalytics = useAnalytics
+            if (!useAnalytics) materialDialog {
+                title(string(R.string.preference_reset_analytics))
+                content(string(R.string.preference_reset_analytics_description))
+                positiveText(string(R.string.kau_yes))
+                negativeText(string(R.string.kau_no))
+                onPositive { _, _ ->
+                    Aardvark.firebaseAnalytics.resetAnalyticsData()
+                    toast(string(R.string.preference_reset_analytics_confirmation))
+                }
+                backgroundColor(color(android.R.color.white))
+                titleColor(color(R.color.color_text))
+                contentColor(color(R.color.color_text))
+                positiveColor(color(R.color.color_accent))
+            }
+        }) {
             descRes = R.string.preference_use_analytics_description
         }
     }
