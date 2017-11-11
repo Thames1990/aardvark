@@ -31,7 +31,8 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
                     }
                     val position = LatLng(event.location.latitude, event.location.longitude)
                     addMarker(MarkerOptions().position(position))
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM))
+                    val cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM)
+                    moveCamera(cameraUpdate)
                 }
             }
         }
