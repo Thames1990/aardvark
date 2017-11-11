@@ -158,23 +158,23 @@ class EventAdapter(
 
             when {
                 TimeUnit.MILLISECONDS.toMinutes(this) < 60 -> {
-                    format = containerView.context.string(R.string.minutes_ago)
+                    format = containerView.context.string(R.string.time_minutes_ago)
                     value = TimeUnit.MILLISECONDS.toMinutes(this)
                 }
                 TimeUnit.MILLISECONDS.toHours(this) < 24   -> {
-                    format = containerView.context.string(R.string.hours_ago)
+                    format = containerView.context.string(R.string.time_hours_ago)
                     value = TimeUnit.MILLISECONDS.toHours(this)
                 }
                 TimeUnit.MILLISECONDS.toDays(this) < 30    -> {
-                    format = containerView.context.string(R.string.days_ago)
+                    format = containerView.context.string(R.string.time_days_ago)
                     value = TimeUnit.MILLISECONDS.toDays(this)
                 }
                 TimeUnit.MILLISECONDS.toDays(this) < 365   -> {
-                    format = containerView.context.string(R.string.months_ago)
+                    format = containerView.context.string(R.string.time_months_ago)
                     value = TimeUnit.MILLISECONDS.toDays(this).rem(30)
                 }
                 else                                       -> {
-                    format = containerView.context.string(R.string.years_ago)
+                    format = containerView.context.string(R.string.time_years_ago)
                     value = TimeUnit.MILLISECONDS.toDays(this).rem(365)
                 }
             }

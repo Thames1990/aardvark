@@ -29,8 +29,6 @@
 
     <string name="dashboard">Dashboard</string>
 
-    <string name="days_ago">%1$d d</string>
-
     <string name="details">Details</string>
 
     <string name="distance">Distance</string>
@@ -48,8 +46,6 @@
 
     <string name="fingerprint_required">Access your secured environment</string>
     <string name="fingerprint_required_description">Place your finger on the reader</string>
-
-    <string name="hours_ago">%1$d hr</string>
 
     <string name="intent_extra_query_from">Query from %1$s</string>
     <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
@@ -71,10 +67,6 @@
     <string name="measurement_value_radiation">%1$d μSv/h</string>
     <string name="measurement_value_temperature">%1$d °F</string>
     <string name="measurement_value_wind">%1$d mph</string>
-
-    <string name="minutes_ago">%1$d min</string>
-
-    <string name="months_ago">%1$d m</string>
 
     <string name="password">Password</string>
     <string name="password_must_not_be_empty">You need to enter a password</string>
@@ -115,6 +107,12 @@
 
     <string name="temperature">Temperature</string>
 
+    <string name="time_days_ago">%1$d days ago</string>
+    <string name="time_hours_ago">%1$d hours ago</string>
+    <string name="time_minutes_ago">%1$d minutes ago</string>
+    <string name="time_months_ago">%1$d months ago</string>
+    <string name="time_years_ago">%1$d years ago</string>
+
     <string name="toast_network_disconnected">No network connectivity</string>
 
     <string name="tools_distance" translatable="false">392 m</string>
@@ -126,6 +124,4 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
-
-    <string name="years_ago">%1$d y</string>
 </resources>
