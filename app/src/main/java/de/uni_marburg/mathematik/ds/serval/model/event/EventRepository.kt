@@ -14,9 +14,7 @@ import kerval.rhizome.Bundle
  */
 object EventRepository {
 
-    /**
-     * Authenticates with the Serval API and offers connection to the Rhizome database.
-     */
+    /** Authenticates with the Serval API and offers connection to the Rhizome database. */
     private val client: ServalClient by lazy {
         ServalClient(
                 Preferences.kervalBaseUrl,
@@ -26,19 +24,13 @@ object EventRepository {
         )
     }
 
-    /**
-     * JSON converter
-     */
+    /** JSON converter */
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-    /**
-     * Json converter adapter for [events][Event]
-     */
+    /** Json converter adapter for [events][Event] */
     private val eventAdapter: JsonAdapter<Event> = moshi.adapter(Event::class.java)
 
-    /**
-     * Fetches [events][Event] from the [Serval client][client].
-     */
+    /** Fetches [events][Event] from the [Serval client][client]. */
     fun fetch(): MutableList<Event> {
         val events = mutableListOf<Event>()
         with(client.rhizome) {

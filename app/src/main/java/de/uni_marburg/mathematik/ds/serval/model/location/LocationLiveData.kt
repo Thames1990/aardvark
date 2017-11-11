@@ -16,14 +16,16 @@ import java.util.concurrent.TimeUnit
 /** Tracks changes of the location of the current device */
 class LocationLiveData(private val context: Context) : LiveData<Location>() {
 
+    /** Location provider client */
     private val client: FusedLocationProviderClient by lazy { FusedLocationProviderClient(context) }
 
+    /** Requests location updates */
     private val locationRequest: LocationRequest by lazy { LocationRequest() }
 
+    /** Updates the last location of the device, if the position has changed */
     private val locationCallback: LocationCallback by lazy {
         object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                // Update current location
                 value = locationResult.lastLocation
             }
         }
