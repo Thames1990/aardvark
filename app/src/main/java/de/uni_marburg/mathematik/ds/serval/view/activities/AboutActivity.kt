@@ -6,8 +6,8 @@ import ca.allanwang.kau.about.AboutActivityBase
 import ca.allanwang.kau.adapters.FastItemThemedAdapter
 import ca.allanwang.kau.iitems.CardIItem
 import com.mikepenz.fastadapter.IItem
-import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
 
 class AboutActivity : AboutActivityBase(R.string::class.java, {
     cutoutDrawableRes = R.drawable.aardvark
@@ -22,7 +22,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
+        setCurrentScreen()
     }
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {

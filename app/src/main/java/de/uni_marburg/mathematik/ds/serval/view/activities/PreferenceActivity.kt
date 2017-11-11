@@ -31,6 +31,7 @@ import de.uni_marburg.mathematik.ds.serval.util.Preferences.useAnalytics
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useWifiADB
 import de.uni_marburg.mathematik.ds.serval.util.WIFI_ADB_PORT
 import de.uni_marburg.mathematik.ds.serval.util.consume
+import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
 import org.jetbrains.anko.toast
 import java.io.DataOutputStream
 import java.math.BigInteger
@@ -42,10 +43,10 @@ class PreferenceActivity : KPrefActivity() {
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setCurrentScreen()
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         bgCanvas.set(color(android.R.color.white))
         toolbarCanvas.set(color(R.color.color_primary))
-        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
         kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
     }
 

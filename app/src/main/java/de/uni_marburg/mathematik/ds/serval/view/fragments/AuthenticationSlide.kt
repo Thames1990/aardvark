@@ -19,11 +19,6 @@ import kotlinx.android.synthetic.main.slide_authentication.*
 
 class AuthenticationSlide : SlideFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Aardvark.firebaseAnalytics.setCurrentScreen(activity!!, this::class.java.simpleName, null)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         Aardvark.refWatcher.watch(this)

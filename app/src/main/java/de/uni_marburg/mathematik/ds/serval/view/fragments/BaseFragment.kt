@@ -17,11 +17,6 @@ abstract class BaseFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? = inflater.inflate(layout, container, false)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Aardvark.firebaseAnalytics.setCurrentScreen(activity!!, this::class.java.simpleName, null)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         Aardvark.refWatcher.watch(this)

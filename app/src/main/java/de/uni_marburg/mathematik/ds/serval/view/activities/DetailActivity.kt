@@ -12,6 +12,7 @@ import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.util.consume
+import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.view.views.MapIItem
 import java.util.*
 
@@ -24,6 +25,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean = consume {
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        setCurrentScreen()
         toolbar.setBackgroundColorRes(R.color.color_primary)
         event = intent.extras.getParcelable(EVENT)
         title = event.title

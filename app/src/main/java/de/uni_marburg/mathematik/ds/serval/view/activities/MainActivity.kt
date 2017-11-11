@@ -17,7 +17,6 @@ import ca.allanwang.kau.xml.showChangelog
 import com.github.ajalt.reprint.core.AuthenticationFailureReason
 import com.github.ajalt.reprint.core.AuthenticationListener
 import com.github.ajalt.reprint.core.Reprint
-import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -25,6 +24,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.util.INTRO_REQUEST_CODE
 import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.consume
+import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.FingerprintFragment
@@ -80,8 +80,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     }
 
     private fun start() {
-        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
-
+        setCurrentScreen()
         doAsync {
             events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
             uiThread {
