@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="v0.6.5" />
+    <item text="Secure app from screenshots and other interception techniques" />
+    <item text="Overhaul event detail view" />
+    <item text="Fix landscape bottom navigation background color" />
+    <item text="Improve splash screen" />
+    <item text="Replace skip button with back button in intro" />
+    <item text="Improve color scheme" />
+    <item text="Remove maximum characters for username and password" />
+    <item text="Update dependencies" />
+    <item text="Update SDK version to 27" />
+
     <version title="v0.6.4" />
     <item text="Changelog overhaul" />
     <item text="Minor bug fixes" />
