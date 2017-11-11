@@ -38,8 +38,8 @@
 | [Android Maps Utils](https://github.com/googlemaps/android-maps-utils) | 0.5.0 |
 | [Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html) | 1.0.0 |
 | [Crashlytics](https://fabric.io/kits/android/crashlytics) | 2.7.1 |
-| [Firebase](https://firebase.google.com/)<ul><li>Firebase Core</li></ul> | 11.4.2 |
-| [Google Play Services](https://developers.google.com/android/guides/overview)<ul><li>Location</li><li>Maps</li></ul> | 11.4.2 |
+| [Firebase](https://firebase.google.com/)<ul><li>Firebase Core</li></ul> | 11.6.0 |
+| [Google Play Services](https://developers.google.com/android/guides/overview)<ul><li>Location</li><li>Maps</li></ul> | 11.6.0 |
 | [KAU](https://github.com/AllanWang/KAU) | 3.4.4 |
 | [LeakCanary](https://github.com/square/leakcanary) | 1.5.4 |
 | [Material Intro Screen](https://github.com/TangoAgency/material-intro-screen) | 0.0.5 |
