@@ -11,6 +11,7 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.view.views.MapIItem
 import java.util.*
 
@@ -21,16 +22,21 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private lateinit var event: Event
 
-    override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
+    override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean = consume {
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         toolbar.setBackgroundColorRes(R.color.color_primary)
         event = intent.extras.getParcelable(EVENT)
-        title = "${event.title} | ${event.snippet}"
+        title = event.title
         recycler.adapter = adapter
         adapter.add(MapIItem(event))
+        adapter.add(CardIItem {
+            titleRes = R.string.time
+            desc = event.snippet
+            image = drawable(R.drawable.time).tint(color(android.R.color.white))
+        })
         event.measurements.forEach { measurement ->
             adapter.add(CardIItem {
-                title = string(measurement.type.res)
+                titleRes = measurement.type.res
                 desc = String.format(string(measurement.type.resFormat), measurement.value)
                 image = drawable(measurement.type.resId).tint(color(android.R.color.white))
             })
@@ -41,7 +47,6 @@ class DetailActivity : ElasticRecyclerActivity() {
             show()
         }
         setOutsideTapListener { finishAfterTransition() }
-        return true
     }
 
     private fun showInGoogleMaps() {
