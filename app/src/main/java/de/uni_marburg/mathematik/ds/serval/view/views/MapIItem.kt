@@ -27,6 +27,7 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
                     uiSettings.apply {
                         setAllGesturesEnabled(false)
                         isMapToolbarEnabled = false
+                        isClickable = false
                     }
                     val position = LatLng(event.location.latitude, event.location.longitude)
                     addMarker(MarkerOptions().position(position))
