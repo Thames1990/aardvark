@@ -1,27 +1,23 @@
 language: android
 sudo: required
 jdk: oraclejdk8
-
 before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-  - $HOME/.gradle/caches/
-  - $HOME/.gradle/wrapper/
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 env:
   global:
   - APP_NAME=aardvark
-  - ANDROID_API=26
+  - ANDROID_API=27
   - EMULATOR_API=21
   - ANDROID_BUILD_TOOLS=26.0.2
   - ADB_INSTALL_TIMEOUT=5
   - secure: cZgR8Sy9tuOaeKgE+p45ZxgLyMaLlKMWi/tBHy26yLNn15JcFG05SDl41p2Nx9vamytLymTIivywBPmh6M+QEHP9PBuRI0qqhwB95p5HjQ24PqzjU5PEXTg43YNFVt5PTp4oMFNEia92DZUi+2kri031n/wIdw/qcCltzMg9eDQqbrUefOBY7vHdKbax5j2g7pX30pgf7LaQzu5Z5PFJ246eI/yChSolxjaUQjPJzdP41B5Vq8NmiZbtIivfI3u+MrXGvOY/eRCzBRXLjQeFeFgXu4rvYV8KhsOij+AT0OgMXjTWnWVnCE8C6Ui+Y/h3yaKBFYNOhfi6ZiBUWL9VwZEdhdsWJwx9zyhnXXtxt6Z8y0+x+wdQjP8Ybc2FgFNUtuYVQC8mJ1t/LMuVyue2jjBgNjQQjQE8er8ZU9AXPiDYLpDGl1KXrCJ360t/9XxZqXBfLpFuDSsZP5BCGhxEFvXO3cD+TkY+YzTDrScQgsG9EDkNTRD6VhC9crBCJ1BUDXACRSqcdpJRfREPF4gHyAB3Ilc5EX/9DpMgaQ3mNlEouUI5efzREVsxUzAnljo9B8Er0R2q74P11VcyOzDSkqVwIKH1aS4ydVopJrrzUj/M+dRgy2GxEDZH/CELBX2QyFwb+Q8gDDNMdOkcQAYAQ02RNrD0vVLZH36RpmeGsCU=
   - secure: EiPY8Vgxpr8l294VniV0fTtd7jkuIGz2KFipjCeVLlGVrSLVI77/1dT+qdxpCdToaum3eWPXB2M8Xao7CGEs+/3D0+hDjCj/hEF+sPHhfb7oK7NNldQI49HIQg8dhh0pXSnyRpYAL/Guw8I+wohD3tVHA7tGcXpUrmelpO5I/U7pNjDrimELnCJzSsPFvqq78zyND3NyELqj/Qr4E0i6OiagnQA+5XV/OkUEPoOGbws/1NmcX0NxlWLhHl+yzw3xQ0QvSeg9hkgtIC8rBBcMJjYKNCy1/prHvmiaJKDF2AU43/6OXVG6YS39WQam8CRbFeWfRw+rg3ZH8/ukHmVo3swuU8bammlhA+l6xlQzTpMLeUC7SmKEkV5bdZtDxxwC3ZZc31/ernmp2FfRWVXozktwnAlJouSdMJojNMrmiOSl2of7Z5jqEkJP/cAXNKeJT2SZrcgPjOp+Pv79XsWPFYXzKy9uqAEQmwvLjjsvUtEixzLrFdo1iqtvLgIoPplzPqV5+UaGL8H9yo8lCf6zWnxPf1R2//hneslPdpkecokbVy0HfWdX+92+BGFoNH5f+2Lvg7TdTaAC1bjF5l0WTRWK5fz+z3qbhuj6N0nbAVyEWZvxu1LtRhzbhImCnOpDsJ3/IAkSoU+DDWvgoQ1iPW4+j8El77VJPjVWWmppbUs=
   - secure: RP9rFxntp46SVUfqZHljQMejHW9/SsG4b2X2OhwptS7J9ekklLTbF/sOXRqybpv+mrrt2Ja29SfYqIPZSlUNRQtw+UxxqhTZY78Fm7DRwdZRwNPqcOqMY3jttLLPp+aOeMfaX7mj+L7X4uh1U95dMQa3rj7fvi+1TT9lFOmzEETgfDJYjVGWEVa0FmChjUwZmNGQALu/u4kwOq+67R8tb56JhuAdz2FwR21n9grIyqUj5WgKBLarRNAGv0imBI5+gdhkjxydX5WYR5U6kVx+5AHArG3PbzNrrQ3ymsvl9t6Bo9oYm1gtzigBOvLixQsAUH4RacYsQc7QXJiE3ewRdKS0BDkthBJUq9xaB2YA8mVmokXzfWGdy3ZTEDbi8b5TlHpWWojaw2PYWs3+NDLWTRKJNbNRCyJZl898q2q0EOQOELQJmw+0zx75LeBv/K9tCoK4FiXs6FXY5ts7LoY2g2jXj1Hdg+QxsRzg0n3gz8R6MAdpLQfsqqFthhvaalSLjrtmRw71lwEHLixEO1CJJEPwPl9yeQxhZAqSKbDv3bDyvd3G4eWsQlKlvO1Kjl+jqUTAjQ0FXZmh0VQmdziBzkh7Xb3DsYzywjJxvWKUlLxjFOANHBKtMvMZSf0d4d2M7khv15FxW2wtSQ2lFUNcjdP6+wNXtjLfxhYnKrJOFcc=
-
 android:
   components:
   - tools
@@ -34,38 +30,31 @@ android:
   - extra-google-google_play_services
   - sys-img-armeabi-v7a-android-$ANDROID_API
   - sys-img-armeabi-v7a-android-$EMULATOR_API
-
   licenses:
   - android-sdk-preview-license-.+
   - android-sdk-license-.+
   - google-gdk-license-.+
-
 before_install:
-- openssl aes-256-cbc -K $encrypted_7b7d53b231fa_key -iv $encrypted_7b7d53b231fa_iv -in secrets.tar.enc -out secrets.tar -d
+- openssl aes-256-cbc -K $encrypted_7b7d53b231fa_key -iv $encrypted_7b7d53b231fa_iv
+  -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
-- mv production.jks app
 - mkdir "$ANDROID_HOME/licenses" || true
 - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 - chmod +x gradlew
-
 before_script:
 - echo no | android create avd --force --name test --target android-21 --abi armeabi-v7a
 - emulator -avd test -no-audio -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
-
 script:
-- ./gradlew clean build connectedCheck -PdisablePreDex --stacktrace
-
+- "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"
 before_deploy:
 - cd app/build/outputs/apk/
-
 deploy:
   provider: releases
-  file: ${APP_NAME}-$(echo ${TRAVIS_TAG//[!0-9.-]/})-release.apk
+  file: "${APP_NAME}-$(echo ${TRAVIS_TAG//[!0-9.-]/})-release.apk"
   skip_cleanup: true
-
   on:
     repo: Thames1990/aardvark
     tags: true
