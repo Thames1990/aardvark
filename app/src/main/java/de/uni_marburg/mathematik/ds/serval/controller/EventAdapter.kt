@@ -49,7 +49,7 @@ class EventAdapter(
      *
      * This will be moved to a Room database.
      */
-    private var events: MutableList<Event> by Delegates.observable(mutableListOf()) { _, old, new ->
+    private var events: List<Event> by Delegates.observable(emptyList()) { _, old, new ->
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
     }
 
@@ -78,16 +78,17 @@ class EventAdapter(
      * @param reversed If true, sorts descending; ascending otherwise.
      */
     fun sortEventsBy(comparator: EventComparator, reversed: Boolean = false) {
-        if (reversed) when (comparator) {
-            DISTANCE    -> events.sortByDescending { it.location.distanceTo(lastLocation) }
-            MEASUREMENT -> events.sortByDescending { it.measurements.size }
-            TIME        -> events.sortByDescending { -it.time }
-        } else when (comparator) {
-            DISTANCE    -> events.sortBy { it.location.distanceTo(lastLocation) }
-            MEASUREMENT -> events.sortBy { it.measurements.size }
-            TIME        -> events.sortBy { -it.time }
-        }
-        notifyDataSetChanged()
+        events = events.take(100).sortedWith(compareBy {
+            if (reversed) when (comparator) {
+                DISTANCE    -> -it.location.distanceTo(lastLocation)
+                MEASUREMENT -> -it.measurements.size
+                TIME        -> -it.time
+            } else when (comparator) {
+                DISTANCE    -> it.location.distanceTo(lastLocation)
+                MEASUREMENT -> it.measurements.size
+                TIME        -> it.time
+            }
+        })
     }
 
     /**
