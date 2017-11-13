@@ -15,8 +15,8 @@ android {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 31
-        versionName '0.6.5'
+        versionCode 32
+        versionName '0.6.6'
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 

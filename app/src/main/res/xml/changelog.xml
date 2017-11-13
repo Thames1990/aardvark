@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="v0.6.6" />
+    <item text="Re-add DiffUtil (WIP)" />
+    <item text="Add time to detail view" />
+    <item text="Disable click functionality on detail view map" />
+    <item text="Add fast scroller" />
+
     <version title="v0.6.5" />
     <item text="Secure app from screenshots and other interception techniques" />
     <item text="Overhaul event detail view" />
