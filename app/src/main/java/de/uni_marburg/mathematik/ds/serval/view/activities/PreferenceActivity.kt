@@ -13,7 +13,7 @@ import ca.allanwang.kau.swipe.SWIPE_EDGE_LEFT
 import ca.allanwang.kau.swipe.kauSwipeFinish
 import ca.allanwang.kau.swipe.kauSwipeOnCreate
 import ca.allanwang.kau.swipe.kauSwipeOnDestroy
-import ca.allanwang.kau.utils.color
+import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.utils.materialDialog
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
@@ -42,8 +42,8 @@ class PreferenceActivity : KPrefActivity() {
         super.onCreate(savedInstanceState)
         setSecureFlag()
         setCurrentScreen()
-        bgCanvas.set(color(android.R.color.white))
-        toolbarCanvas.set(color(R.color.color_primary))
+        bgCanvas.set(Preferences.colorBackground)
+        toolbarCanvas.set(Preferences.colorAccent)
         kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
     }
 
@@ -57,13 +57,14 @@ class PreferenceActivity : KPrefActivity() {
     }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = { color(R.color.color_accent) }
-        textColor = { color(R.color.color_text) }
+        accentColor = { Preferences.colorAccent }
+        textColor = { Preferences.colorText }
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
         if (BuildConfig.DEBUG) createDebugPreferences()
         createGeneralPreferences()
+        createThemePreferences()
         createServalPreferences()
         createAboutPreferences()
     }
@@ -106,14 +107,27 @@ class PreferenceActivity : KPrefActivity() {
                     Aardvark.firebaseAnalytics.resetAnalyticsData()
                     toast(string(R.string.preference_reset_analytics_confirmation))
                 }
-                backgroundColor(color(android.R.color.white))
-                titleColor(color(R.color.color_text))
-                contentColor(color(R.color.color_text))
-                positiveColor(color(R.color.color_accent))
             }
         }) {
             descRes = R.string.preference_use_analytics_description
         }
+    }
+
+    private fun KPrefAdapterBuilder.createThemePreferences() {
+        header(R.string.preference_theme)
+        colorPicker(R.string.color_text, { Preferences.colorText }, {
+            Preferences.colorText = it
+            reload()
+        })
+        colorPicker(R.string.color_accent, { Preferences.colorAccent }, {
+            Preferences.colorAccent = it
+            reload()
+            toolbarCanvas.ripple(it, RippleCanvas.MIDDLE, RippleCanvas.END, 500L)
+        })
+        colorPicker(R.string.color_background, { Preferences.colorBackground }, {
+            Preferences.colorBackground = it
+            bgCanvas.ripple(it, duration = 500L)
+        })
     }
 
     private fun KPrefAdapterBuilder.createServalPreferences() {
@@ -127,10 +141,6 @@ class PreferenceActivity : KPrefActivity() {
                         input(string(R.string.username), item.pref, { _, input ->
                             item.pref = input.toString()
                         })
-                        backgroundColor(color(android.R.color.white))
-                        titleColor(color(R.color.color_text))
-                        contentColor(color(R.color.color_text))
-                        positiveColor(color(R.color.color_accent))
                     }
                 }
             }
@@ -144,10 +154,6 @@ class PreferenceActivity : KPrefActivity() {
                         input(string(R.string.password), item.pref, { _, input ->
                             item.pref = input.toString()
                         })
-                        backgroundColor(color(android.R.color.white))
-                        titleColor(color(R.color.color_text))
-                        contentColor(color(R.color.color_text))
-                        positiveColor(color(R.color.color_accent))
                     }
                 }
             }
@@ -173,12 +179,10 @@ class PreferenceActivity : KPrefActivity() {
             descRes = R.string.app_version
             onClick = { _, _, _ ->
                 consume {
-                    showChangelog(R.xml.changelog, color(R.color.color_text)) {
-                        title(R.string.kau_changelog)
-                        positiveText(android.R.string.ok)
-                        backgroundColor(color(android.R.color.white))
-                        titleColor(color(R.color.color_text))
-                        positiveColor(color(R.color.color_accent))
+                    showChangelog(R.xml.changelog, Preferences.colorText) {
+                        titleColor(Preferences.colorText)
+                        backgroundColor(Preferences.colorBackground)
+                        positiveColor(Preferences.colorAccent)
                     }
                 }
             }

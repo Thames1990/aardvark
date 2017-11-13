@@ -23,6 +23,10 @@
 
     <string name="chat">Chat</string>
 
+    <string name="color_accent">Accent color</string>
+    <string name="color_background">Background color</string>
+    <string name="color_text">Text color</string>
+
     <string name="content_description_aardvark" translatable="false">@string/app_name</string>
     <string name="content_description_location_icon">Location icon</string>
     <string name="content_description_measurement_icon">Measurement icon</string>
@@ -100,8 +104,11 @@
     <string name="preference_share_wifi_adb_command">Share ADB command</string>
     <string name="preference_show_changelog">Show changelogs after update</string>
     <string name="preference_terms_and_conditions">Terms &amp; conditions</string>
+    <string name="preference_theme">Theme</string>
     <string name="preference_use_analytics">Use analytics</string>
     <string name="preference_use_analytics_description">The developer is able fo fix problems faster</string>
+    <string name="preference_use_secure_flag">Use secure flag</string>
+    <string name="preference_use_secure_flag_description">Prohibit screenshots and interception of screen status</string>
     <string name="preference_username_description">Serval API username</string>
     <string name="preference_version">Version</string>
 
@@ -144,6 +151,4 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
-    <string name="preference_use_secure_flag">Use secure flag</string>
-    <string name="preference_use_secure_flag_description">Prohibit screenshots and interception of screen status</string>
 </resources>

@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval
 
 import android.app.Application
-import ca.allanwang.kau.utils.string
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import com.github.ajalt.reprint.core.Reprint
@@ -28,7 +27,7 @@ class Aardvark : Application() {
 
     private fun initialize() {
         Reprint.initialize(this)
-        Preferences.initialize(this, string(R.string.app_name))
+        Preferences.initialize(this, BuildConfig.APPLICATION_ID)
     }
 
     private fun setupCrashlytics() {
