@@ -44,8 +44,11 @@ fun Activity.setSecureFlag() {
 }
 
 /** Sets the current screen (activity) for analytics. */
-fun Activity.setCurrentScreen() =
-        Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
+fun Activity.setCurrentScreen() = Aardvark.firebaseAnalytics.setCurrentScreen(
+        this,
+        this::class.java.simpleName,
+        null
+)
 
 /** Converts UNIX time to human readable information in relation to the current time **/
 fun Long.timeToString(context: Context): String {
@@ -80,10 +83,7 @@ fun Long.timeToString(context: Context): String {
 
 /** Converts distance in meters **/
 fun Float.distanceToString(context: Context): String =
-        if (this < 1000) String.format(
-                context.string(R.string.distance_in_meter),
-                this
-        ) else String.format(
-                context.string(R.string.distance_in_kilometer),
-                this.div(1000)
-        )
+        // in meter
+        if (this < 1000) String.format(context.string(R.string.distance_in_meter), this)
+        // in kilometer
+        else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
