@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 27
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 27
         versionCode 32
         versionName '0.6.6'
 
@@ -65,41 +65,55 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     // Android Maps Utils
     implementation "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
+
     // Architecture Components
     implementation "android.arch.lifecycle:extensions:$architecture_components_version"
+
     // Crashlytics
     implementation "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
+
     // Fastscroll
     implementation "com.simplecityapps:recyclerview-fastscroll:$fastscroll_version"
+
     // Firebase
     implementation "com.google.firebase:firebase-core:$google_play_services_version"
+
     // Google Play Services
     implementation "com.google.android.gms:play-services-location:$google_play_services_version"
     implementation "com.google.android.gms:play-services-maps:$google_play_services_version"
+
     // KAU
     implementation "ca.allanwang.kau:about:$kau_version"
     implementation "ca.allanwang.kau:kpref-activity:$kau_version"
+
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
+
     // Material Intro Screen
     implementation "agency.tango.android:material-intro-screen:$material_intro_screen_version"
+
     // Moshi
     implementation "com.squareup.moshi:moshi:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+
     // OkHttp
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+
     // Reprint
     implementation "com.github.ajalt.reprint:core:$reprint_version"
+
     // Support Libraries
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
     implementation "com.android.support:design:$support_library_version"
     implementation "com.android.support:recyclerview-v7:$support_library_version"
     implementation "com.android.support:support-v4:$support_library_version"
     implementation "com.android.support:support-vector-drawable:$support_library_version"
+
     // Testing
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "com.android.support.test:runner:$test_runner_version"
