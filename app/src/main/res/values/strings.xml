@@ -19,7 +19,7 @@
     <string name="adb_wifi_disable" translatable="false">setprop service.adb.tcp.port -1\nstop adbd\nstart adbd\nexit</string>
     <string name="adb_wifi_enable" translatable="false">setprop service.adb.tcp.port %1$d\nstop adbd\nstart adbd\nexit</string>
 
-    <string name="app_name" tools:override="true" translatable="false">Aardvark</string>
+    <string name="app_name" translatable="false" tools:override="true">Aardvark</string>
 
     <string name="chat">Chat</string>
 

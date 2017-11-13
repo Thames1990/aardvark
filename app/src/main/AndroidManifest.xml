@@ -17,10 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".view.activities.IntroActivity"
             android:theme="@style/Theme.Intro" />
+        <activity android:name=".view.activities.FingerprintActivity" />
         <activity
             android:name=".view.activities.MainActivity"
             android:configChanges="orientation|screenSize"
