@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.WindowManager
 import ca.allanwang.kau.utils.*
 import ca.allanwang.kau.xml.showChangelog
 import com.github.ajalt.reprint.core.AuthenticationFailureReason
@@ -21,10 +20,7 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
-import de.uni_marburg.mathematik.ds.serval.util.INTRO_REQUEST_CODE
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
-import de.uni_marburg.mathematik.ds.serval.util.consume
-import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
+import de.uni_marburg.mathematik.ds.serval.util.*
 import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.FingerprintFragment
@@ -46,7 +42,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         if (Preferences.isFirstLaunch) {
             startActivityForResult(IntroActivity::class.java, INTRO_REQUEST_CODE)
         } else start()
@@ -80,6 +75,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     }
 
     private fun start() {
+        setSecureFlag()
         setCurrentScreen()
         doAsync {
             events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()

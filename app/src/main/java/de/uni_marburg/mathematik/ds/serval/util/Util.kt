@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.util
 
 import android.app.Activity
 import android.content.Context
+import android.view.WindowManager
 import ca.allanwang.kau.utils.plural
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.Aardvark
@@ -30,6 +31,8 @@ inline fun consumeIf(predicate: Boolean, f: () -> Unit): Boolean {
     }
     return false
 }
+
+fun Activity.setSecureFlag() = window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
 
 /**
  * Sets the current screen (activity) for analytics.

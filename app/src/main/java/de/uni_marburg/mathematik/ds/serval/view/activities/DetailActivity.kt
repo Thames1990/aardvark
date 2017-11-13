@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.WindowManager
 import ca.allanwang.kau.iitems.CardIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
 import ca.allanwang.kau.utils.*
@@ -13,6 +12,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
+import de.uni_marburg.mathematik.ds.serval.util.setSecureFlag
 import de.uni_marburg.mathematik.ds.serval.view.views.MapIItem
 import java.util.*
 
@@ -24,7 +24,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     private lateinit var event: Event
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean = consume {
-        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        setSecureFlag()
         setCurrentScreen()
         toolbar.setBackgroundColorRes(R.color.color_primary)
         event = intent.extras.getParcelable(EVENT)

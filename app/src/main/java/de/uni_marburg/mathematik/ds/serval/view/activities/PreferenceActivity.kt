@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Bundle
-import android.view.WindowManager
 import ca.allanwang.kau.about.kauLaunchAbout
 import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
@@ -22,16 +21,13 @@ import ca.allanwang.kau.xml.showChangelog
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
+import de.uni_marburg.mathematik.ds.serval.util.*
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.confirmExit
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalPassword
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalUser
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.showChangelog
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useAnalytics
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useWifiADB
-import de.uni_marburg.mathematik.ds.serval.util.WIFI_ADB_PORT
-import de.uni_marburg.mathematik.ds.serval.util.consume
-import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
 import org.jetbrains.anko.toast
 import java.io.DataOutputStream
 import java.math.BigInteger
@@ -43,8 +39,8 @@ class PreferenceActivity : KPrefActivity() {
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setSecureFlag()
         setCurrentScreen()
-        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         bgCanvas.set(color(android.R.color.white))
         toolbarCanvas.set(color(R.color.color_primary))
         kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
