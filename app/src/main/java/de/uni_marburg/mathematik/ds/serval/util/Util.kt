@@ -6,6 +6,7 @@ import android.view.WindowManager
 import ca.allanwang.kau.utils.plural
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.Aardvark
+import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import java.util.concurrent.TimeUnit
 
@@ -32,7 +33,9 @@ inline fun consumeIf(predicate: Boolean, f: () -> Unit): Boolean {
     return false
 }
 
-fun Activity.setSecureFlag() = window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+fun Activity.setSecureFlag() {
+    if (!BuildConfig.DEBUG) window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+}
 
 /**
  * Sets the current screen (activity) for analytics.
