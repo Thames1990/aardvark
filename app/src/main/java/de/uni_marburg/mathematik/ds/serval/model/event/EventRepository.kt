@@ -31,7 +31,7 @@ object EventRepository {
     private val eventAdapter: JsonAdapter<Event> = moshi.adapter(Event::class.java)
 
     /** Fetches [events][Event] from the [Serval client][client]. */
-    fun fetch(): MutableList<Event> {
+    fun fetch(): List<Event> {
         val events = mutableListOf<Event>()
         with(client.rhizome) {
             getBundleList().forEach { bundle: Bundle ->
@@ -45,7 +45,7 @@ object EventRepository {
                 }
             }
         }
-        return events
+        return events.take(1000)
     }
 
 }
