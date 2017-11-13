@@ -8,6 +8,6 @@
 /captures
 .externalNativeBuild
 *.jks
-keystore.properties
+gradle.properties
 google-services.json
 *.apk

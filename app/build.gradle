@@ -7,10 +7,6 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
-    def keystore = rootProject.file("keystore.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(keystore))
-
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion rootProject.ext.minSdkVersion
@@ -28,18 +24,27 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 
-        manifestPlaceholders = [
-                KEY_FABRIC     : properties['key_fabric'],
-                KEY_GOOGLE_MAPS: properties['key_google_maps']
-        ]
+        try {
+            manifestPlaceholders = [KEY_FABRIC: KEY_FABRIC, KEY_GOOGLE_MAPS: KEY_GOOGLE_MAPS]
+        } catch (ignored) {
+            throw new InvalidUserDataException(
+                    "You should define Fabric and Google Maps keys in gradle.properties."
+            )
+        }
     }
 
     signingConfigs {
         release {
-            storeFile = file(properties['storeFile'])
-            storePassword = properties['storePassword']
-            keyAlias = properties['keyAlias']
-            keyPassword = properties['keyPassword']
+            try {
+                storeFile = file(STORE_FILE)
+                storePassword = STORE_PASSWORD
+                keyAlias = KEY_ALIAS
+                keyPassword = KEY_PASSWORD
+            } catch (ignored) {
+                throw new InvalidUserDataException(
+                        "You should define release signing secrets in gradle.properties."
+                )
+            }
         }
     }
 
