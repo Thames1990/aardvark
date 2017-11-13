@@ -23,7 +23,7 @@ inline fun consume(f: () -> Unit): Boolean {
 /**
  * If the [predicate] is fullfilled, [a function][f] is executed.
  *
- * @return True, if [predicate] is fullfilled; false otherwise
+ * @return True, if [predicate] is fullfilled; false otherwise.
  */
 inline fun consumeIf(predicate: Boolean, f: () -> Unit): Boolean {
     if (predicate) {
