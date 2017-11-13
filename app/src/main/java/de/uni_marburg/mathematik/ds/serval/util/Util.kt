@@ -2,6 +2,8 @@ package de.uni_marburg.mathematik.ds.serval.util
 
 import android.app.Activity
 import android.content.Context
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.RecyclerView
 import android.view.WindowManager
 import ca.allanwang.kau.utils.plural
 import ca.allanwang.kau.utils.string
@@ -87,3 +89,7 @@ fun Float.distanceToString(context: Context): String =
         if (this < 1000) String.format(context.string(R.string.distance_in_meter), this)
         // in kilometer
         else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
+
+fun RecyclerView.withDividerDecoration(context: Context, orientation: Int) {
+    addItemDecoration(DividerItemDecoration(context, orientation))
+}

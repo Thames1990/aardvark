@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.view.fragments
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -12,6 +11,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.util.consume
+import de.uni_marburg.mathematik.ds.serval.util.withDividerDecoration
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.jetbrains.anko.doAsync
@@ -71,14 +71,8 @@ class EventsFragment : BaseFragment() {
             if (isNetworkAvailable) doAsync {
                 eventAdapter.loadEvents()
                 uiThread {
-                    recycler_view.apply {
-                        layoutManager = LinearLayoutManager(context)
-                        addItemDecoration(DividerItemDecoration(
-                                context,
-                                DividerItemDecoration.VERTICAL
-                        ))
-                        adapter = eventAdapter
-                    }
+                    recycler_view.withLinearAdapter(eventAdapter)
+                    recycler_view.withDividerDecoration(this@with, DividerItemDecoration.VERTICAL)
                 }
             } else toast(string(R.string.toast_network_disconnected))
         }
