@@ -3,16 +3,19 @@ package de.uni_marburg.mathematik.ds.serval.view.fragments
 import agency.tango.materialintroscreen.SlideFragment
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.KeyEvent.KEYCODE_DPAD_RIGHT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import ca.allanwang.kau.utils.hideKeyboard
+import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.value
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
+import de.uni_marburg.mathematik.ds.serval.util.Preferences.isFirstLaunch
+import de.uni_marburg.mathematik.ds.serval.util.Preferences.isLoggedIn
+import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalPassword
+import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalUser
 import de.uni_marburg.mathematik.ds.serval.util.consumeIf
 import kotlinx.android.synthetic.main.slide_authentication.*
 
@@ -42,19 +45,32 @@ class AuthenticationSlide : SlideFragment() {
 
     override fun buttonsColor(): Int = R.color.color_primary_dark
 
-    override fun canMoveFurther(): Boolean = Preferences.isLoggedIn
+    override fun canMoveFurther(): Boolean = isLoggedIn
 
     override fun cantMoveFurtherErrorMessage(): String = getString(R.string.login_required)
 
     private fun login() {
         if (!username.value.isEmpty() && !password.value.isEmpty()) {
-            Preferences.kervalUser = username.value
-            Preferences.kervalPassword = password.value
-            Preferences.isLoggedIn = true
-            Preferences.isFirstLaunch = false
-            login.hideKeyboard()
-            // Move to "next" slide, finish intro
-            activity!!.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KEYCODE_DPAD_RIGHT))
+            // Check against default. Momentarily there's only one correct API credential.
+            // Without this check the app would hang on trying to download events.
+            if (username.value == kervalUser && password.value == kervalPassword) {
+                kervalUser = username.value
+                kervalPassword = password.value
+                isLoggedIn = true
+                isFirstLaunch = false
+
+                login.hideKeyboard()
+
+                // Move to "next" slide, finish intro
+                activity!!.dispatchKeyEvent(KeyEvent(
+                        KeyEvent.ACTION_DOWN,
+                        KeyEvent.KEYCODE_DPAD_RIGHT
+                ))
+            } else {
+                username.text.clear()
+                password.text.clear()
+                activity!!.toast("Incorrect login credentials")
+            }
         } else {
             if (username.value.isEmpty()) {
                 username_layout.error = getString(R.string.username_must_not_be_empty)
