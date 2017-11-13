@@ -19,7 +19,7 @@
     <string name="adb_wifi_disable" translatable="false">setprop service.adb.tcp.port -1\nstop adbd\nstart adbd\nexit</string>
     <string name="adb_wifi_enable" translatable="false">setprop service.adb.tcp.port %1$d\nstop adbd\nstart adbd\nexit</string>
 
-    <string name="app_name" translatable="false" tools:override="true">Aardvark</string>
+    <string name="app_name" tools:override="true" translatable="false">Aardvark</string>
 
     <string name="chat">Chat</string>
 
@@ -63,6 +63,10 @@
 
     <string name="map">Map</string>
 
+    <plurals name="measurement_count">
+        <item quantity="one">%1$d measurement</item>
+        <item quantity="other">%1$d measurements</item>
+    </plurals>
     <string name="measurement_value_precipitation">%1$d mm</string>
     <string name="measurement_value_radiation">%1$d μSv/h</string>
     <string name="measurement_value_temperature">%1$d °F</string>
@@ -108,11 +112,26 @@
     <string name="temperature">Temperature</string>
 
     <string name="time">Time</string>
-    <string name="time_days_ago">%1$d days ago</string>
-    <string name="time_hours_ago">%1$d hours ago</string>
-    <string name="time_minutes_ago">%1$d minutes ago</string>
-    <string name="time_months_ago">%1$d months ago</string>
-    <string name="time_years_ago">%1$d years ago</string>
+    <plurals name="time_days_ago">
+        <item quantity="one">%1$d day ago</item>
+        <item quantity="other">%1$d days ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%1$d hour ago</item>
+        <item quantity="other">%1$d hours ago</item>
+    </plurals>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%1$d minute ago</item>
+        <item quantity="other">%1$d minutes ago</item>
+    </plurals>
+    <plurals name="time_months_ago">
+        <item quantity="one">%1$d month ago</item>
+        <item quantity="other">%1$d months ago</item>
+    </plurals>
+    <plurals name="time_years_ago">
+        <item quantity="one">%1$d year ago</item>
+        <item quantity="other">%1$d years ago</item>
+    </plurals>
 
     <string name="toast_network_disconnected">No network connectivity</string>
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import ca.allanwang.kau.utils.*
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -18,10 +19,11 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationLiveData
+import de.uni_marburg.mathematik.ds.serval.util.distanceToString
+import de.uni_marburg.mathematik.ds.serval.util.timeToString
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.event_row.*
 import java.util.*
-import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 /**
@@ -33,7 +35,9 @@ import kotlin.properties.Delegates
 class EventAdapter(
         private val activity: FragmentActivity,
         private val listener: (Event) -> Unit
-) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(), AutoUpdatableAdapter {
+) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(),
+        AutoUpdatableAdapter,
+        FastScrollRecyclerView.SectionedAdapter {
 
     /**
      * The last known location.
@@ -53,6 +57,8 @@ class EventAdapter(
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
     }
 
+    private var currentSortMode = TIME
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         LocationLiveData(activity).observe(activity, Observer<Location> { location ->
             location?.let { lastLocation -> this.lastLocation = lastLocation }
@@ -64,6 +70,18 @@ class EventAdapter(
             holder.bindTo(events[position], listener)
 
     override fun getItemCount(): Int = events.size
+
+    override fun getSectionName(position: Int): String {
+        val event = events[position]
+        return when (currentSortMode) {
+            DISTANCE    -> event.location.distanceTo(lastLocation).distanceToString(activity)
+            MEASUREMENT -> activity.plural(R.plurals.measurement_count, event.measurements.size)
+            TIME        -> {
+                val timeDifference = Calendar.getInstance().timeInMillis - event.time
+                timeDifference.timeToString(activity)
+            }
+        }
+    }
 
     /** Loads [events][Event] from the API server. **/
     fun loadEvents() {
@@ -89,6 +107,7 @@ class EventAdapter(
                 TIME        -> it.time
             }
         })
+        currentSortMode = comparator
     }
 
     /**
@@ -118,7 +137,7 @@ class EventAdapter(
         /** Displays the time of the [event][Event]. */
         private fun Event.displayTime() {
             val timeDifference = Calendar.getInstance().timeInMillis - time
-            event_time.text = timeDifference.timeToString()
+            event_time.text = timeDifference.timeToString(containerView.context)
         }
 
         /**
@@ -131,7 +150,7 @@ class EventAdapter(
                 val icon = drawable(R.drawable.location)
                 icon.setColorFilter(color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
                 location_icon.setImageDrawable(icon)
-                location_text.text = location.distanceTo(lastLocation).distanceToString()
+                location_text.text = location.distanceTo(lastLocation).distanceToString(this)
             } else {
                 location_icon.gone()
                 location_text.gone()
@@ -151,47 +170,6 @@ class EventAdapter(
                 measurement_types.addView(icon)
             }
         }
-
-        /** Converts UNIX time to human readable information in relation to the current time **/
-        private fun Long.timeToString(): String {
-            val format: String
-            val value: Long
-
-            when {
-                TimeUnit.MILLISECONDS.toMinutes(this) < 60 -> {
-                    format = containerView.context.string(R.string.time_minutes_ago)
-                    value = TimeUnit.MILLISECONDS.toMinutes(this)
-                }
-                TimeUnit.MILLISECONDS.toHours(this) < 24   -> {
-                    format = containerView.context.string(R.string.time_hours_ago)
-                    value = TimeUnit.MILLISECONDS.toHours(this)
-                }
-                TimeUnit.MILLISECONDS.toDays(this) < 30    -> {
-                    format = containerView.context.string(R.string.time_days_ago)
-                    value = TimeUnit.MILLISECONDS.toDays(this)
-                }
-                TimeUnit.MILLISECONDS.toDays(this) < 365   -> {
-                    format = containerView.context.string(R.string.time_months_ago)
-                    value = TimeUnit.MILLISECONDS.toDays(this).rem(30)
-                }
-                else                                       -> {
-                    format = containerView.context.string(R.string.time_years_ago)
-                    value = TimeUnit.MILLISECONDS.toDays(this).rem(365)
-                }
-            }
-
-            return String.format(format, value)
-        }
-
-        /** Converts distance in meters **/
-        private fun Float.distanceToString(): String =
-                if (this < 1000) String.format(
-                        containerView.context.string(R.string.distance_in_meter),
-                        this
-                ) else String.format(
-                        containerView.context.string(R.string.distance_in_kilometer),
-                        this.div(1000)
-                )
 
     }
 }
