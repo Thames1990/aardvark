@@ -8,11 +8,21 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import java.util.concurrent.TimeUnit
 
+/**
+ * Executes [a function][f].
+ *
+ * @return True
+ */
 inline fun consume(f: () -> Unit): Boolean {
     f()
     return true
 }
 
+/**
+ * If the [predicate] is fullfilled, [a function][f] is executed.
+ *
+ * @return True, if [predicate] is fullfilled; false otherwise.
+ */
 inline fun consumeIf(predicate: Boolean, f: () -> Unit): Boolean {
     if (predicate) {
         f()
@@ -21,6 +31,9 @@ inline fun consumeIf(predicate: Boolean, f: () -> Unit): Boolean {
     return false
 }
 
+/**
+ * Sets the current screen (activity) for analytics.
+ */
 fun Activity.setCurrentScreen() =
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
 
