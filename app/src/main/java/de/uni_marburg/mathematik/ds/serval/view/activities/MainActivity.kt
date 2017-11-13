@@ -77,15 +77,13 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
                 ProcessLifecycleOwner.get().lifecycle.addObserver(this@MainActivity)
                 setContentView(R.layout.activity_main)
                 setupViews()
+                checkForNewVersion()
             }
         }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun authenticate() {
-        startActivity(FingerprintActivity::class.java)
-        checkForNewVersion()
-    }
+    fun authenticate() = startActivity(FingerprintActivity::class.java)
 
     /**
      * Checks if a new version of the app was detected.
