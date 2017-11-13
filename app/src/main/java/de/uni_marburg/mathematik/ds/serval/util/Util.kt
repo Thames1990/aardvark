@@ -33,13 +33,15 @@ inline fun consumeIf(predicate: Boolean, f: () -> Unit): Boolean {
     return false
 }
 
+/**
+ * Sets [secure flag][WindowManager.LayoutParams.FLAG_SECURE], which disables screenshots and
+ * beeing able to intercept screen status of the app.
+ */
 fun Activity.setSecureFlag() {
     if (!BuildConfig.DEBUG) window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
 }
 
-/**
- * Sets the current screen (activity) for analytics.
- */
+/** Sets the current screen (activity) for analytics. */
 fun Activity.setCurrentScreen() =
         Aardvark.firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
 
