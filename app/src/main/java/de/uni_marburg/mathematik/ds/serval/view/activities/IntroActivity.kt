@@ -4,7 +4,6 @@ import agency.tango.materialintroscreen.MaterialIntroActivity
 import agency.tango.materialintroscreen.SlideFragmentBuilder
 import android.Manifest
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
@@ -56,5 +55,5 @@ class IntroActivity : MaterialIntroActivity() {
         addSlide(AuthenticationSlide())
     }
 
-    override fun onBackPressed() = ActivityCompat.finishAffinity(this)
+    override fun onBackPressed() = finishAffinity()
 }
