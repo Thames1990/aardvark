@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.util
 
+import android.view.WindowManager
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
 
@@ -34,6 +35,12 @@ object Preferences : KPref() {
 
     /** Determines whether anlytics collection is enabled */
     var useAnalytics: Boolean by kpref("USE_ANALYTICS", true)
+
+    /**
+     * Determines whether [secure flag][WindowManager.LayoutParams.FLAG_SECURE] is set, which
+     * disables screenshots and intercepting screen status of the app.
+     */
+    var useSecureFlag: Boolean by kpref("USE_SECURE_FLAG", true)
 
     /**
      * Determines whether WiFi ADB is activated.
