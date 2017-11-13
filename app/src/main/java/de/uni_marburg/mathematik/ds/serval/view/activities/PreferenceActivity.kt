@@ -27,6 +27,7 @@ import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalPassword
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalUser
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.showChangelog
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useAnalytics
+import de.uni_marburg.mathematik.ds.serval.util.Preferences.useSecureFlag
 import de.uni_marburg.mathematik.ds.serval.util.Preferences.useWifiADB
 import org.jetbrains.anko.toast
 import java.io.DataOutputStream
@@ -91,6 +92,9 @@ class PreferenceActivity : KPrefActivity() {
         header(R.string.preference_general)
         checkbox(R.string.preference_show_changelog, { showChangelog }, { showChangelog = it })
         checkbox(R.string.preference_confirm_exit, { confirmExit }, { confirmExit = it })
+        checkbox(R.string.preference_use_secure_flag, { useSecureFlag }, { useSecureFlag = it }) {
+            descRes = R.string.preference_use_secure_flag_description
+        }
         checkbox(R.string.preference_use_analytics, { useAnalytics }, { useAnalytics ->
             Preferences.useAnalytics = useAnalytics
             if (!useAnalytics) materialDialog {
