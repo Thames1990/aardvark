@@ -45,6 +45,6 @@ ext {
     moshi_version = '1.5.0'
     okhttp_version = '3.9.0'
     reprint_version = '3.2.0@aar'
-    support_library_version = '27.0.0'
+    support_library_version = '27.0.1'
     test_runner_version = '1.0.1'
 }
