@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="v0.6.7" />
+    <item text="Add preference for secure flag (prohibits screenshots)" />
+    <item text="Add credential check for predefined user and password" />
+    <item text="Update libraries" />
+
     <version title="v0.6.6" />
     <item text="Re-add DiffUtil (WIP)" />
     <item text="Add time to detail view" />
