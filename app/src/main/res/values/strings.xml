@@ -25,6 +25,7 @@
 
     <string name="color_accent">Accent color</string>
     <string name="color_background">Background color</string>
+    <string name="color_primary">Primary color</string>
     <string name="color_text">Text color</string>
 
     <string name="content_description_aardvark" translatable="false">@string/app_name</string>

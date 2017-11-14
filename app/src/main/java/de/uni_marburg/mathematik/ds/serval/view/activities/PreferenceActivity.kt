@@ -43,7 +43,7 @@ class PreferenceActivity : KPrefActivity() {
         setSecureFlag()
         setCurrentScreen()
         bgCanvas.set(Preferences.colorBackground)
-        toolbarCanvas.set(Preferences.colorAccent)
+        toolbarCanvas.set(Preferences.colorPrimary)
         kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
     }
 
@@ -115,18 +115,22 @@ class PreferenceActivity : KPrefActivity() {
 
     private fun KPrefAdapterBuilder.createThemePreferences() {
         header(R.string.preference_theme)
-        colorPicker(R.string.color_text, { Preferences.colorText }, {
-            Preferences.colorText = it
+        colorPicker(R.string.color_primary, { Preferences.colorPrimary }, {
+            Preferences.colorPrimary = it
             reload()
+            toolbarCanvas.ripple(it, RippleCanvas.MIDDLE, RippleCanvas.END, 500L)
         })
         colorPicker(R.string.color_accent, { Preferences.colorAccent }, {
             Preferences.colorAccent = it
             reload()
-            toolbarCanvas.ripple(it, RippleCanvas.MIDDLE, RippleCanvas.END, 500L)
         })
         colorPicker(R.string.color_background, { Preferences.colorBackground }, {
             Preferences.colorBackground = it
             bgCanvas.ripple(it, duration = 500L)
+        })
+        colorPicker(R.string.color_text, { Preferences.colorText }, {
+            Preferences.colorText = it
+            reload()
         })
     }
 

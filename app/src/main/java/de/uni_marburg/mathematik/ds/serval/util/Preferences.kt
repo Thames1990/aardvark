@@ -6,14 +6,16 @@ import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
 
 object Preferences : KPref() {
-    /** Defines text color */
-    var colorText: Int by kpref("COLOR_TEXT", Color.WHITE)
-
     /** Defines accent color */
     var colorAccent: Int by kpref("COLOR_ACCENT", 0xff82F7FF.toInt())
 
     /** Defines background color */
     var colorBackground: Int by kpref("COLOR_BACKGROUND", 0xff303030.toInt())
+
+    var colorPrimary: Int by kpref("COLOR_PRIMARY", 0xff4CAF50.toInt())
+
+    /** Defines text color */
+    var colorText: Int by kpref("COLOR_TEXT", Color.WHITE)
 
     /** Determines whether the user is asked to confirm the intention of exiting the application */
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
