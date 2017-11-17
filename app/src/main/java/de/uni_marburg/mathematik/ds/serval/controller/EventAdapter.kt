@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.Manifest
 import android.arch.lifecycle.Observer
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.location.Location
 import android.support.v4.app.FragmentActivity
@@ -19,6 +20,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationLiveData
+import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.distanceToString
 import de.uni_marburg.mathematik.ds.serval.util.timeToString
 import kotlinx.android.extensions.LayoutContainer
@@ -131,13 +133,17 @@ class EventAdapter(
             displayTime()
             displayLocation()
             displayMeasurementTypes()
+            containerView.setBackgroundColor(Preferences.colorBackground)
             containerView.setOnClickListener { listener(this) }
         }
 
         /** Displays the time of the [event][Event]. */
         private fun Event.displayTime() {
             val timeDifference = Calendar.getInstance().timeInMillis - time
-            event_time.text = timeDifference.timeToString(containerView.context)
+            event_time.apply {
+                text = timeDifference.timeToString(containerView.context)
+                setTextColor(Preferences.colorText)
+            }
         }
 
         /**
@@ -150,7 +156,10 @@ class EventAdapter(
                 val icon = drawable(R.drawable.location)
                 icon.setColorFilter(color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
                 location_icon.setImageDrawable(icon)
-                location_text.text = location.distanceTo(lastLocation).distanceToString(this)
+                location_text.apply {
+                    text = location.distanceTo(lastLocation).distanceToString(this@with)
+                    setTextColor(Preferences.colorText)
+                }
             } else {
                 location_icon.gone()
                 location_text.gone()
@@ -167,7 +176,14 @@ class EventAdapter(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                 )
-                measurement_types.addView(icon)
+                measurement_types.addView(ImageView(containerView.context).apply {
+                    setImageResource(measurement.type.resId)
+                    setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+                    layoutParams = LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                })
             }
         }
 

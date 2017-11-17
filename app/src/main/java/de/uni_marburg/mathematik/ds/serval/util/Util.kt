@@ -2,11 +2,12 @@ package de.uni_marburg.mathematik.ds.serval.util
 
 import android.app.Activity
 import android.content.Context
+import android.support.annotation.ColorRes
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.view.WindowManager
-import ca.allanwang.kau.utils.plural
-import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
@@ -90,6 +91,14 @@ fun Float.distanceToString(context: Context): String =
         // in kilometer
         else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
 
-fun RecyclerView.withDividerDecoration(context: Context, orientation: Int) {
-    addItemDecoration(DividerItemDecoration(context, orientation))
+fun RecyclerView.withDividerDecoration(
+        context: Context,
+        orientation: Int,
+        @ColorRes colorId: Int = R.color.color_primary
+) {
+    val divider = DividerItemDecoration(context, orientation)
+    val resource = context.drawable(R.drawable.line_divider)
+    DrawableCompat.wrap(resource).tint(context.color(colorId))
+    divider.setDrawable(resource)
+    addItemDecoration(divider)
 }
