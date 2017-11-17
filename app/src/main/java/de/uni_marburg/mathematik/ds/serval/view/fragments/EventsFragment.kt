@@ -10,6 +10,7 @@ import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
+import de.uni_marburg.mathematik.ds.serval.util.Preferences
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.util.withDividerDecoration
 import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
@@ -71,8 +72,11 @@ class EventsFragment : BaseFragment() {
             if (isNetworkAvailable) doAsync {
                 eventAdapter.loadEvents()
                 uiThread {
-                    recycler_view.withLinearAdapter(eventAdapter)
-                    recycler_view.withDividerDecoration(this@with, DividerItemDecoration.VERTICAL)
+                    recycler_view.apply {
+                        withLinearAdapter(eventAdapter)
+                        withDividerDecoration(this@with, DividerItemDecoration.VERTICAL)
+                        setBackgroundColor(Preferences.colorBackground)
+                    }
                 }
             } else toast(string(R.string.toast_network_disconnected))
         }
