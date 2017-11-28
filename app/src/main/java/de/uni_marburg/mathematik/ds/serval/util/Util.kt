@@ -73,11 +73,11 @@ fun Long.timeToString(context: Context): String {
         }
         TimeUnit.MILLISECONDS.toDays(this) < 365   -> {
             id = R.plurals.time_months_ago
-            quantity = TimeUnit.MILLISECONDS.toDays(this).rem(30)
+            quantity = TimeUnit.MILLISECONDS.toDays(this) / 30
         }
         else                                       -> {
             id = R.plurals.time_years_ago
-            quantity = TimeUnit.MILLISECONDS.toDays(this).rem(365)
+            quantity = TimeUnit.MILLISECONDS.toDays(this) / 365
         }
     }
 
