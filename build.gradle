@@ -38,7 +38,7 @@ ext {
     leak_canary_version = '1.5.4'
     material_intro_screen_version = '0.0.5'
     moshi_version = '1.5.0'
-    okhttp_version = '3.9.0'
+    okhttp_version = '3.9.1'
     reprint_version = '3.2.0@aar'
     support_library_version = '27.0.1'
     test_runner_version = '1.0.1'
