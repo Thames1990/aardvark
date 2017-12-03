@@ -19,7 +19,6 @@ import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
 import ca.allanwang.kau.xml.showChangelog
 import de.uni_marburg.mathematik.ds.serval.Aardvark
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.*
 import de.uni_marburg.mathematik.ds.serval.util.Prefs.confirmExit
@@ -104,6 +103,8 @@ class PreferenceActivity : KPrefActivity() {
                 negativeText(string(R.string.kau_no))
                 onPositive { _, _ ->
                     Aardvark.firebaseAnalytics.resetAnalyticsData()
+                    Prefs.installDate = -1L
+                    Prefs.identifier = -1
                     toast(string(R.string.preference_reset_analytics_confirmation))
                 }
             }
