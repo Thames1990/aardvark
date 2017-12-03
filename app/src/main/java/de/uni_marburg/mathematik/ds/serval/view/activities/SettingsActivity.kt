@@ -28,7 +28,28 @@ import java.net.InetAddress
 
 class SettingsActivity : KPrefActivity() {
 
-    val resultFlag = Activity.RESULT_CANCELED
+    var resultFlag = Activity.RESULT_CANCELED
+
+    override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
+        accentColor = { Prefs.colorAccent }
+        textColor = { Prefs.textColor }
+    }
+
+    override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
+        if (Prefs.debugSettings) createDebugPreferences()
+        subItems(R.string.preference_general, getBehaviourPrefs()) {
+            descRes = R.string.behaviour_desc
+            iicon = GoogleMaterial.Icon.gmd_settings
+        }
+        // TODO Modify other settings
+        createThemePreferences()
+        createServalPreferences()
+        createAboutPreferences()
+    }
+
+    fun shouldRestartMain() {
+        setAardvarkResult(MainActivity.REQUEST_RESTART)
+    }
 
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,21 +75,8 @@ class SettingsActivity : KPrefActivity() {
         }
     }
 
-    override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = { Prefs.colorAccent }
-        textColor = { Prefs.textColor }
-    }
-
-    override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
-        if (Prefs.debugSettings) createDebugPreferences()
-        subItems(R.string.preference_general, getBehaviourPrefs()) {
-            descRes = R.string.behaviour_desc
-            iicon = GoogleMaterial.Icon.gmd_settings
-        }
-        // TODO Modify other settings
-        createThemePreferences()
-        createServalPreferences()
-        createAboutPreferences()
+    fun setAardvarkResult(flag: Int) {
+        resultFlag = resultFlag or flag
     }
 
     private fun KPrefAdapterBuilder.createDebugPreferences() {
