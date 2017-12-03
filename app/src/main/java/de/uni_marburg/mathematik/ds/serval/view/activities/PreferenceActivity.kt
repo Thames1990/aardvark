@@ -46,7 +46,9 @@ class PreferenceActivity : KPrefActivity() {
     }
 
     override fun onBackPressed() {
-        kauSwipeFinish()
+        if (!super.backPress()) {
+            kauSwipeFinish()
+        }
     }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
