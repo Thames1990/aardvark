@@ -36,7 +36,7 @@
             android:name=".view.activities.DetailActivity"
             android:theme="@style/Kau.Translucent.SlideBottom" />
         <activity
-            android:name=".view.activities.PreferenceActivity"
+            android:name=".view.activities.SettingsActivity"
             android:theme="@style/Kau.Translucent" />
         <activity
             android:name=".view.activities.AboutActivity"

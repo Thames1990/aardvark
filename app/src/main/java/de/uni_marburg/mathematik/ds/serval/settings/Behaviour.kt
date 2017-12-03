@@ -6,10 +6,10 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Prefs
 import de.uni_marburg.mathematik.ds.serval.util.materialDialogThemed
-import de.uni_marburg.mathematik.ds.serval.view.activities.PreferenceActivity
+import de.uni_marburg.mathematik.ds.serval.view.activities.SettingsActivity
 import org.jetbrains.anko.toast
 
-fun PreferenceActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
+fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(R.string.preference_changelog, { Prefs.changelog }, { Prefs.changelog = it }) {
         descRes = R.string.preference_changelog_desc

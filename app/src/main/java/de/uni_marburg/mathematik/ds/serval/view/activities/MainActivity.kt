@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> {
             consume {
-                val intent = Intent(this, PreferenceActivity::class.java)
+                val intent = Intent(this, SettingsActivity::class.java)
                 val bundle = ActivityOptionsCompat.makeCustomAnimation(
                         this,
                         R.anim.kau_slide_in_right,

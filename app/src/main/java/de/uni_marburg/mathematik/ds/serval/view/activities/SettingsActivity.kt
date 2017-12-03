@@ -26,7 +26,7 @@ import java.io.DataOutputStream
 import java.math.BigInteger
 import java.net.InetAddress
 
-class PreferenceActivity : KPrefActivity() {
+class SettingsActivity : KPrefActivity() {
 
     val resultFlag = Activity.RESULT_CANCELED
 
