@@ -21,6 +21,7 @@ object Prefs : KPref() {
     /** Determines whether the user is asked to confirm the intention of exiting the application */
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
 
+    /** Determines whether debug settings are activated */
     var debugSettings: Boolean by kpref("DEBUG_SETTINGS", BuildConfig.DEBUG)
 
     /**
