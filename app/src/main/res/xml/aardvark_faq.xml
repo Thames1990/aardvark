@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <question><![CDATA[Can you add feature xxx?]]></question>
+    <answer>
+        <![CDATA[I&apos;m always opened to suggestions,
+        and if a feature will enhance your experience, I&apos;d like to hear it.
+        However, please consider taking a look at my
+        <a href="https://github.com/Thames1990/aardvark/issues">issue tracker</a>
+        first to avoid duplicate requests.]]>
+    </answer>
+</resources>

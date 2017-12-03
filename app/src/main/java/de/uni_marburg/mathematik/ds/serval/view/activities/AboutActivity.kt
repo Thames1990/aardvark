@@ -33,7 +33,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
     cutoutForeground = Preferences.colorPrimary
     cutoutDrawableRes = R.drawable.aardvark
     faqPageTitleRes = R.string.faq_title
-    faqXmlRes = R.xml.faq
+    faqXmlRes = R.xml.aardvark_faq
     faqParseNewLine = false
 }) {
 
