@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Prefs.isFirstLaunch) {
-            startActivityForResult(IntroActivity::class.java, INTRO_REQUEST_CODE)
+            startActivityForResult(IntroActivity2::class.java, INTRO_REQUEST_CODE)
         } else start()
     }
 
