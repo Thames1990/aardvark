@@ -33,7 +33,6 @@ import org.jetbrains.anko.toast
 import java.io.DataOutputStream
 import java.math.BigInteger
 import java.net.InetAddress
-import java.util.*
 
 class PreferenceActivity : KPrefActivity() {
 
@@ -240,11 +239,7 @@ class PreferenceActivity : KPrefActivity() {
      */
     private fun sendFeedback() = sendEmail(
             string(R.string.email_adress_feedback),
-            String.format(
-                    Locale.getDefault(),
-                    string(R.string.intent_extra_query_from),
-                    string(R.string.app_name)
-            )
+            String.format(string(R.string.intent_extra_query_from), string(R.string.app_name))
     )
 
 }
