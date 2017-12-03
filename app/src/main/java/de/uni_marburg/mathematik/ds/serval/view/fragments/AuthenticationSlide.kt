@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import ca.allanwang.kau.utils.colorToBackground
 import ca.allanwang.kau.utils.hideKeyboard
 import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.value
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.util.Prefs
 import de.uni_marburg.mathematik.ds.serval.util.Prefs.isFirstLaunch
 import de.uni_marburg.mathematik.ds.serval.util.Prefs.isLoggedIn
 import de.uni_marburg.mathematik.ds.serval.util.Prefs.kervalPassword
@@ -43,7 +45,7 @@ class AuthenticationSlide : SlideFragment() {
 
     override fun backgroundColor(): Int = R.color.intro_5_background
 
-    override fun buttonsColor(): Int = R.color.color_primary_dark
+    override fun buttonsColor(): Int = Prefs.colorPrimary.colorToBackground()
 
     override fun canMoveFurther(): Boolean = isLoggedIn
 
