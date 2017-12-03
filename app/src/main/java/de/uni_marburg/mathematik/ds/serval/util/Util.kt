@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.util
 import android.app.Activity
 import android.content.Context
 import android.support.annotation.ColorRes
+import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
@@ -102,3 +103,14 @@ fun RecyclerView.withDividerDecoration(
     divider.setDrawable(resource)
     addItemDecoration(divider)
 }
+
+/**
+ * Obtain a Context which will store data to device encrypted storage, permitting our app to access
+ * it before the user has logged in to the device.
+ */
+fun Context.safeContext(): Context =
+        takeUnless { ContextCompat.isDeviceProtectedStorage(this) }?.run {
+            applicationContext.let {
+                ContextCompat.createDeviceProtectedStorageContext(it) ?: it
+            }
+        } ?: this
