@@ -61,7 +61,7 @@ class PreferenceActivity : KPrefActivity() {
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
-        if (BuildConfig.DEBUG) createDebugPreferences()
+        if (BuildConfig.DEBUG || Prefs.debugSettings) createDebugPreferences()
         createGeneralPreferences()
         createThemePreferences()
         createServalPreferences()
