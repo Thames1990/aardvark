@@ -6,7 +6,6 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -58,8 +57,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         menuInflater.inflate(R.menu.menu_main, menu)
         val settings = menu.findItem(R.id.action_settings)
         val settingsIcon = settings.icon
-        settingsIcon.setColorFilter(color(android.R.color.white), PorterDuff.Mode.SRC_IN)
-        settings.icon = settingsIcon
+        settingsIcon.tint(color(android.R.color.white))
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
