@@ -1,3 +1,7 @@
+plugins {
+    id 'com.gladed.androidgitversion' version '0.4.3'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -11,8 +15,8 @@ android {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 33
-        versionName '0.6.7'
+        versionName androidGitVersion.name()
+        versionCode androidGitVersion.code()
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
