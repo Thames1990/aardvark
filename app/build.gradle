@@ -11,6 +11,10 @@ android {
     compileSdkVersion 27
     buildToolsVersion '27.0.1'
 
+    androidGitVersion {
+        prefix 'v'
+    }
+
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion 21
