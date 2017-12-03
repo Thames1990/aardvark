@@ -60,6 +60,7 @@ class PreferenceActivity : KPrefActivity() {
             descRes = R.string.behaviour_desc
             iicon = GoogleMaterial.Icon.gmd_settings
         }
+        // TODO Modify other settings
         createThemePreferences()
         createServalPreferences()
         createAboutPreferences()
