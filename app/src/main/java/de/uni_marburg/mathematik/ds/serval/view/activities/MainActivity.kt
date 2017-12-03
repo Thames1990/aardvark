@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
      * If a new version is detected and the user wants to view changelogs, the changelog is shown.
      */
     private fun checkForNewVersion() {
-        if (Prefs.showChangelog && Prefs.version < BuildConfig.VERSION_CODE) {
+        if (Prefs.changelog && Prefs.version < BuildConfig.VERSION_CODE) {
             Prefs.version = BuildConfig.VERSION_CODE
             aardvarkChangelog()
         }

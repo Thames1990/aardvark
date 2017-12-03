@@ -16,15 +16,12 @@ import ca.allanwang.kau.swipe.kauSwipeOnDestroy
 import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
-import de.uni_marburg.mathematik.ds.serval.Aardvark
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.settings.getBehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.util.*
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.confirmExit
 import de.uni_marburg.mathematik.ds.serval.util.Prefs.kervalPassword
 import de.uni_marburg.mathematik.ds.serval.util.Prefs.kervalUser
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.showChangelog
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.useAnalytics
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.useSecureFlag
 import de.uni_marburg.mathematik.ds.serval.util.Prefs.useWifiADB
 import org.jetbrains.anko.toast
 import java.io.DataOutputStream
@@ -59,7 +56,10 @@ class PreferenceActivity : KPrefActivity() {
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
         if (Prefs.debugSettings) createDebugPreferences()
-        createGeneralPreferences()
+        subItems(R.string.preference_general, getBehaviourPrefs()) {
+            descRes = R.string.behaviour_desc
+            iicon = GoogleMaterial.Icon.gmd_settings
+        }
         createThemePreferences()
         createServalPreferences()
         createAboutPreferences()
@@ -82,32 +82,6 @@ class PreferenceActivity : KPrefActivity() {
                 consume { itemView.context.toast(getString(R.string.preference_enable_wifi_adb_hint)) }
             }
             onClick = { _, _, _ -> consume { shareWifiAdbCommand() } }
-        }
-    }
-
-    private fun KPrefAdapterBuilder.createGeneralPreferences() {
-        header(R.string.preference_general)
-        checkbox(R.string.preference_show_changelog, { showChangelog }, { showChangelog = it })
-        checkbox(R.string.preference_confirm_exit, { confirmExit }, { confirmExit = it })
-        checkbox(R.string.preference_use_secure_flag, { useSecureFlag }, { useSecureFlag = it }) {
-            descRes = R.string.preference_use_secure_flag_description
-        }
-        checkbox(R.string.preference_use_analytics, { useAnalytics }, { useAnalytics ->
-            Prefs.useAnalytics = useAnalytics
-            if (!useAnalytics) materialDialogThemed {
-                title(string(R.string.preference_reset_analytics))
-                content(string(R.string.preference_reset_analytics_description))
-                positiveText(string(R.string.kau_yes))
-                negativeText(string(R.string.kau_no))
-                onPositive { _, _ ->
-                    Aardvark.firebaseAnalytics.resetAnalyticsData()
-                    Prefs.installDate = -1L
-                    Prefs.identifier = -1
-                    toast(string(R.string.preference_reset_analytics_confirmation))
-                }
-            }
-        }) {
-            descRes = R.string.preference_use_analytics_description
         }
     }
 

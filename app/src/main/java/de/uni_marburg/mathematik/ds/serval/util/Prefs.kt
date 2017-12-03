@@ -47,7 +47,7 @@ object Prefs : KPref() {
     var kervalUser: String by kpref("KERVAL_USER", "pum")
 
     /** Determines if a changelog is shown when a new version is installed **/
-    var showChangelog: Boolean by kpref("SHOW_CHANGELOG", true)
+    var changelog: Boolean by kpref("SHOW_CHANGELOG", true)
 
     /** Determines whether anlytics collection is enabled */
     var useAnalytics: Boolean by kpref("USE_ANALYTICS", true)
