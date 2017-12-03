@@ -73,4 +73,6 @@ object Prefs : KPref() {
     var identifier: Int by kpref("identifier", -1)
     val aardvarkId: String
         get() = "$installDate-$identifier"
+
+    var lastLaunch: Long by kpref("LAST_LAUNCH", -1L)
 }

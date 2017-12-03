@@ -30,7 +30,10 @@ class Aardvark : Application() {
         Reprint.initialize(this)
         Prefs.initialize(this, BuildConfig.APPLICATION_ID)
 
-        if (Prefs.installDate == -1L) Prefs.installDate = System.currentTimeMillis()
+        val now = System.currentTimeMillis()
+        Prefs.lastLaunch = now
+
+        if (Prefs.installDate == -1L) Prefs.installDate = now
         if (Prefs.identifier == -1) Prefs.identifier = Random().nextInt(Int.MAX_VALUE)
     }
 
