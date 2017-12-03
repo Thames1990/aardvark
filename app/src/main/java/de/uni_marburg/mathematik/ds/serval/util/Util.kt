@@ -42,7 +42,7 @@ inline fun consumeIf(predicate: Boolean, f: () -> Unit): Boolean {
  * beeing able to intercept screen status of the app.
  */
 fun Activity.setSecureFlag() {
-    if (!BuildConfig.DEBUG && Preferences.useSecureFlag) {
+    if (!BuildConfig.DEBUG && Prefs.useSecureFlag) {
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 }

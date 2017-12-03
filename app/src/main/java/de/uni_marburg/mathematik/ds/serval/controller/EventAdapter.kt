@@ -20,7 +20,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationLiveData
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
+import de.uni_marburg.mathematik.ds.serval.util.Prefs
 import de.uni_marburg.mathematik.ds.serval.util.distanceToString
 import de.uni_marburg.mathematik.ds.serval.util.timeToString
 import kotlinx.android.extensions.LayoutContainer
@@ -133,7 +133,7 @@ class EventAdapter(
             displayTime()
             displayLocation()
             displayMeasurementTypes()
-            containerView.setBackgroundColor(Preferences.colorBackground)
+            containerView.setBackgroundColor(Prefs.colorBackground)
             containerView.setOnClickListener { listener(this) }
         }
 
@@ -142,7 +142,7 @@ class EventAdapter(
             val timeDifference = Calendar.getInstance().timeInMillis - time
             event_time.apply {
                 text = timeDifference.timeToString(containerView.context)
-                setTextColor(Preferences.colorText)
+                setTextColor(Prefs.colorText)
             }
         }
 
@@ -158,7 +158,7 @@ class EventAdapter(
                 location_icon.setImageDrawable(icon)
                 location_text.apply {
                     text = location.distanceTo(lastLocation).distanceToString(this@with)
-                    setTextColor(Preferences.colorText)
+                    setTextColor(Prefs.colorText)
                 }
             } else {
                 location_icon.gone()

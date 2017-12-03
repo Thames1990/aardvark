@@ -3,7 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.model.event
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
+import de.uni_marburg.mathematik.ds.serval.util.Prefs
 import kerval.ServalClient
 import kerval.rhizome.Bundle
 
@@ -17,10 +17,10 @@ object EventRepository {
     /** Authenticates with the Serval API and offers connection to the Rhizome database. */
     private val client: ServalClient by lazy {
         ServalClient(
-                Preferences.kervalBaseUrl,
-                Preferences.kervalPort,
-                Preferences.kervalUser,
-                Preferences.kervalPassword
+                Prefs.kervalBaseUrl,
+                Prefs.kervalPort,
+                Prefs.kervalUser,
+                Prefs.kervalPassword
         )
     }
 

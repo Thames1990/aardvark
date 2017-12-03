@@ -71,6 +71,12 @@
     <string name="intro_3_title" translatable="false">@string/map</string>
     <string name="intro_4_description">Talk to your friends and co-workers!</string>
     <string name="intro_4_title" translatable="false">@string/chat</string>
+    <string name="intro_end">Let\'s begin</string>
+    <string name="intro_multiple_accounts">Multiple Accounts</string>
+    <string name="intro_multiple_accounts_desc">Add and switch accounts directly from the navigation bar.\nTap the current avatar to jump to your profile.</string>
+    <string name="intro_slide_to_continue">Slide to continue</string>
+    <string name="intro_tap_to_exit">Tap anywhere to exit</string>
+    <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
 
     <string name="license_name">MIT License</string>
     <string name="license_website">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
@@ -127,6 +133,8 @@
     <string name="radiation">Radiation</string>
 
     <string name="share">Share</string>
+
+    <string name="skip">Skip</string>
 
     <string name="temperature">Temperature</string>
 

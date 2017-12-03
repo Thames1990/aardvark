@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Preferences.isFirstLaunch) {
+        if (Prefs.isFirstLaunch) {
             startActivityForResult(IntroActivity::class.java, INTRO_REQUEST_CODE)
         } else start()
     }
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     }
 
     override fun onBackPressed() {
-        if (Preferences.confirmExit) materialDialog {
+        if (Prefs.confirmExit) materialDialog {
             title(R.string.preference_confirm_exit)
             negativeText(android.R.string.cancel)
             positiveText(android.R.string.ok)
@@ -90,8 +90,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
      * If a new version is detected and the user wants to view changelogs, the changelog is shown.
      */
     private fun checkForNewVersion() {
-        if (Preferences.showChangelog && Preferences.version < BuildConfig.VERSION_CODE) {
-            Preferences.version = BuildConfig.VERSION_CODE
+        if (Prefs.showChangelog && Prefs.version < BuildConfig.VERSION_CODE) {
+            Prefs.version = BuildConfig.VERSION_CODE
             showChangelog(R.xml.changelog) {
                 title(R.string.kau_changelog)
                 positiveText(android.R.string.ok)

@@ -5,7 +5,7 @@ import android.view.WindowManager
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
 
-object Preferences : KPref() {
+object Prefs : KPref() {
     /** Defines accent color */
     var colorAccent: Int by kpref("COLOR_ACCENT", 0xff82F7FF.toInt())
 

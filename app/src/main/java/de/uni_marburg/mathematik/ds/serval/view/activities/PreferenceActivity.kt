@@ -22,13 +22,13 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.*
-import de.uni_marburg.mathematik.ds.serval.util.Preferences.confirmExit
-import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalPassword
-import de.uni_marburg.mathematik.ds.serval.util.Preferences.kervalUser
-import de.uni_marburg.mathematik.ds.serval.util.Preferences.showChangelog
-import de.uni_marburg.mathematik.ds.serval.util.Preferences.useAnalytics
-import de.uni_marburg.mathematik.ds.serval.util.Preferences.useSecureFlag
-import de.uni_marburg.mathematik.ds.serval.util.Preferences.useWifiADB
+import de.uni_marburg.mathematik.ds.serval.util.Prefs.confirmExit
+import de.uni_marburg.mathematik.ds.serval.util.Prefs.kervalPassword
+import de.uni_marburg.mathematik.ds.serval.util.Prefs.kervalUser
+import de.uni_marburg.mathematik.ds.serval.util.Prefs.showChangelog
+import de.uni_marburg.mathematik.ds.serval.util.Prefs.useAnalytics
+import de.uni_marburg.mathematik.ds.serval.util.Prefs.useSecureFlag
+import de.uni_marburg.mathematik.ds.serval.util.Prefs.useWifiADB
 import org.jetbrains.anko.toast
 import java.io.DataOutputStream
 import java.math.BigInteger
@@ -41,8 +41,8 @@ class PreferenceActivity : KPrefActivity() {
         super.onCreate(savedInstanceState)
         setSecureFlag()
         setCurrentScreen()
-        bgCanvas.set(Preferences.colorBackground)
-        toolbarCanvas.set(Preferences.colorPrimary)
+        bgCanvas.set(Prefs.colorBackground)
+        toolbarCanvas.set(Prefs.colorPrimary)
         kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
     }
 
@@ -56,8 +56,8 @@ class PreferenceActivity : KPrefActivity() {
     }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = { Preferences.colorAccent }
-        textColor = { Preferences.colorText }
+        accentColor = { Prefs.colorAccent }
+        textColor = { Prefs.colorText }
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
@@ -96,7 +96,7 @@ class PreferenceActivity : KPrefActivity() {
             descRes = R.string.preference_use_secure_flag_description
         }
         checkbox(R.string.preference_use_analytics, { useAnalytics }, { useAnalytics ->
-            Preferences.useAnalytics = useAnalytics
+            Prefs.useAnalytics = useAnalytics
             if (!useAnalytics) materialDialog {
                 title(string(R.string.preference_reset_analytics))
                 content(string(R.string.preference_reset_analytics_description))
@@ -114,21 +114,21 @@ class PreferenceActivity : KPrefActivity() {
 
     private fun KPrefAdapterBuilder.createThemePreferences() {
         header(R.string.preference_theme)
-        colorPicker(R.string.color_primary, { Preferences.colorPrimary }, {
-            Preferences.colorPrimary = it
+        colorPicker(R.string.color_primary, { Prefs.colorPrimary }, {
+            Prefs.colorPrimary = it
             reload()
             toolbarCanvas.ripple(it, RippleCanvas.MIDDLE, RippleCanvas.END, 500L)
         })
-        colorPicker(R.string.color_accent, { Preferences.colorAccent }, {
-            Preferences.colorAccent = it
+        colorPicker(R.string.color_accent, { Prefs.colorAccent }, {
+            Prefs.colorAccent = it
             reload()
         })
-        colorPicker(R.string.color_background, { Preferences.colorBackground }, {
-            Preferences.colorBackground = it
+        colorPicker(R.string.color_background, { Prefs.colorBackground }, {
+            Prefs.colorBackground = it
             bgCanvas.ripple(it, duration = 500L)
         })
-        colorPicker(R.string.color_text, { Preferences.colorText }, {
-            Preferences.colorText = it
+        colorPicker(R.string.color_text, { Prefs.colorText }, {
+            Prefs.colorText = it
             reload()
         })
     }
@@ -182,10 +182,10 @@ class PreferenceActivity : KPrefActivity() {
             descRes = R.string.app_version
             onClick = { _, _, _ ->
                 consume {
-                    showChangelog(R.xml.changelog, Preferences.colorText) {
-                        titleColor(Preferences.colorText)
-                        backgroundColor(Preferences.colorBackground)
-                        positiveColor(Preferences.colorAccent)
+                    showChangelog(R.xml.changelog, Prefs.colorText) {
+                        titleColor(Prefs.colorText)
+                        backgroundColor(Prefs.colorBackground)
+                        positiveColor(Prefs.colorAccent)
                     }
                 }
             }

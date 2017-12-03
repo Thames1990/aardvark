@@ -7,7 +7,7 @@ import com.github.ajalt.reprint.core.Reprint
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
+import de.uni_marburg.mathematik.ds.serval.util.Prefs
 import io.fabric.sdk.android.Fabric
 
 class Aardvark : Application() {
@@ -27,13 +27,13 @@ class Aardvark : Application() {
 
     private fun initialize() {
         Reprint.initialize(this)
-        Preferences.initialize(this, BuildConfig.APPLICATION_ID)
+        Prefs.initialize(this, BuildConfig.APPLICATION_ID)
     }
 
     private fun setupCrashlytics() {
         Fabric.with(this, Crashlytics.Builder().core(
                 CrashlyticsCore.Builder().disabled(
-                        BuildConfig.DEBUG || !Preferences.useAnalytics
+                        BuildConfig.DEBUG || !Prefs.useAnalytics
                 ).build()
         ).build())
     }
@@ -41,7 +41,7 @@ class Aardvark : Application() {
     private fun setupFirebaseAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.setAnalyticsCollectionEnabled(
-                !BuildConfig.DEBUG || Preferences.useAnalytics
+                !BuildConfig.DEBUG || Prefs.useAnalytics
         )
     }
 

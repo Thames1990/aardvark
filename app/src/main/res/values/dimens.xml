@@ -1,6 +1,7 @@
 <resources>
     <!-- General -->
     <dimen name="margin_fab">16dp</dimen>
+    <dimen name="intro_bar_height">64dp</dimen>
 
     <!-- Intro sliders -->
     <dimen name="margin_bottom_slide_description">80dp</dimen>

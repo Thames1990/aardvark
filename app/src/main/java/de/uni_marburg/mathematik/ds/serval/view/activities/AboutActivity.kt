@@ -22,15 +22,15 @@ import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
+import de.uni_marburg.mathematik.ds.serval.util.Prefs
 import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
 import org.jetbrains.anko.toast
 
 class AboutActivity : AboutActivityBase(R.string::class.java, {
-    textColor = Preferences.colorText
-    accentColor = Preferences.colorAccent
-    backgroundColor = Preferences.colorBackground
-    cutoutForeground = Preferences.colorPrimary
+    textColor = Prefs.colorText
+    accentColor = Prefs.colorAccent
+    backgroundColor = Prefs.colorBackground
+    cutoutForeground = Prefs.colorPrimary
     cutoutDrawableRes = R.drawable.aardvark
     faqPageTitleRes = R.string.faq_title
     faqXmlRes = R.xml.aardvark_faq
@@ -66,8 +66,8 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                 if (now - lastClick > 500) clickCount = 0
                 else clickCount++
                 lastClick = now
-                if (clickCount == 7 && !Preferences.debugSettings) {
-                    Preferences.debugSettings = true
+                if (clickCount == 7 && !Prefs.debugSettings) {
+                    Prefs.debugSettings = true
                     toast(R.string.debug_enabled)
                 }
             }

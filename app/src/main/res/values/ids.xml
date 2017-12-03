@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="item_about_links" type="id" />
+
+    <item name="intro_phone" type="id" />
+    <item name="intro_phone_screen" type="id" />
+    <item name="intro_title" type="id" />
+    <item name="intro_image" type="id" />
+    <item name="intro_desc" type="id" />
 </resources>
