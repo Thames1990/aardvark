@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.WindowManager
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
+import de.uni_marburg.mathematik.ds.serval.BuildConfig
 
 object Prefs : KPref() {
     /** Defines accent color */
@@ -20,7 +21,7 @@ object Prefs : KPref() {
     /** Determines whether the user is asked to confirm the intention of exiting the application */
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
 
-    var debugSettings: Boolean by kpref("DEBUG_SETTINGS", false)
+    var debugSettings: Boolean by kpref("DEBUG_SETTINGS", BuildConfig.DEBUG)
 
     /**
      * Determines whether the application has been launched before.
