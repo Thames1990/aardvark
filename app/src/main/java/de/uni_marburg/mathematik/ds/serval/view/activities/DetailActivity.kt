@@ -14,6 +14,7 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.util.Prefs
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.util.setSecureFlag
@@ -30,7 +31,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean = consume {
         setSecureFlag()
         setCurrentScreen()
-        toolbar.setBackgroundColorRes(R.color.color_primary)
+        toolbar.setBackgroundColorRes(Prefs.colorPrimary)
         event = intent.extras.getParcelable(EVENT)
         title = event.title
         recycler.adapter = adapter
