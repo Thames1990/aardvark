@@ -80,7 +80,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    // TODO: This fixes memory leaks for now. Should be switched back to ON_START.
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun authenticate() = startActivity(FingerprintActivity::class.java)
 
     /**
