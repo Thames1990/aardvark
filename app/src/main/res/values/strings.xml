@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="about_description">Aardvark is</string>
+    <string name="about_title">About Aardvark</string>
+
     <string name="action_change_map_type">Map type</string>
     <string name="action_change_map_type_hybrid">Hybrid</string>
     <string name="action_change_map_type_none">None</string>
@@ -19,7 +22,7 @@
     <string name="adb_wifi_disable" translatable="false">setprop service.adb.tcp.port -1\nstop adbd\nstart adbd\nexit</string>
     <string name="adb_wifi_enable" translatable="false">setprop service.adb.tcp.port %1$d\nstop adbd\nstart adbd\nexit</string>
 
-    <string name="app_name" translatable="false" tools:override="true">Aardvark</string>
+    <string name="app_name" tools:override="true" translatable="false">Aardvark</string>
 
     <string name="chat">Chat</string>
 
@@ -34,6 +37,8 @@
 
     <string name="dashboard">Dashboard</string>
 
+    <string name="debug_enabled">Debug settings activated</string>
+
     <string name="details">Details</string>
 
     <string name="distance">Distance</string>
@@ -46,8 +51,7 @@
 
     <string name="explore">Explore</string>
 
-    <string name="faq_description">Aardvark is</string>
-    <string name="faq_title">About Aardvark</string>
+    <string name="faq_title">Frequently asked questions</string>
 
     <string name="fingerprint_required">Access your secured environment</string>
     <string name="fingerprint_required_description">Place your finger on the reader</string>
