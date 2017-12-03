@@ -1,10 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
-import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -72,17 +69,12 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
             uiThread {
                 setTheme(R.style.AppTheme)
-                ProcessLifecycleOwner.get().lifecycle.addObserver(this@MainActivity)
                 setContentView(R.layout.activity_main)
                 setupViews()
                 checkForNewVersion()
             }
         }
     }
-
-    // TODO: This fixes memory leaks for now. Should be switched back to ON_START.
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun authenticate() = startActivity(FingerprintActivity::class.java)
 
     /**
      * Checks if a new version of the app was detected.
