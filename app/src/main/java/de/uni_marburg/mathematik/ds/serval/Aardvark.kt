@@ -21,8 +21,7 @@ class Aardvark : Application() {
     override fun onCreate() {
         super.onCreate()
         initialize()
-        setupCrashlytics()
-        setupFirebaseAnalytics()
+        setupAnalytics()
         setupLeakCanary()
     }
 
@@ -37,18 +36,15 @@ class Aardvark : Application() {
         if (Prefs.identifier == -1) Prefs.identifier = Random().nextInt(Int.MAX_VALUE)
     }
 
-    private fun setupCrashlytics() {
+    private fun setupAnalytics() {
+        // Only use analytics on release versions and if the user accepted
         if (!BuildConfig.DEBUG || !Prefs.useAnalytics) {
             Fabric.with(this, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(Prefs.aardvarkId)
         }
-    }
 
-    private fun setupFirebaseAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.setAnalyticsCollectionEnabled(
-                !BuildConfig.DEBUG || Prefs.useAnalytics
-        )
+        firebaseAnalytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG || Prefs.useAnalytics)
     }
 
     private fun setupLeakCanary() {
