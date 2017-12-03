@@ -67,4 +67,10 @@ object Prefs : KPref() {
 
     /** Stores the version number of the app **/
     var version: Int by kpref("VERSION", 1)
+
+    // Crashlytics user identifier
+    var installDate: Long by kpref("install_date", -1L)
+    var identifier: Int by kpref("identifier", -1)
+    val aardvarkId: String
+        get() = "$installDate-$identifier"
 }
