@@ -153,7 +153,7 @@ class IntroActivity2 : KauBaseActivity(), ViewPager.PageTransformer, ViewPager.O
 
     override fun onPageSelected(position: Int) {
         fragments[position].onPageSelected()
-        val hasNext = position != fragments.size + 1
+        val hasNext = position != fragments.size - 1
         if (barHasNext == hasNext) return
         barHasNext = hasNext
         next.fadeScaleTransition {
