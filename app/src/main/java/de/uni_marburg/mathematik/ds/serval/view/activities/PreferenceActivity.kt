@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Bundle
@@ -9,11 +10,8 @@ import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
 import ca.allanwang.kau.kpref.activity.KPrefActivity
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
-import ca.allanwang.kau.swipe.SWIPE_EDGE_LEFT
-import ca.allanwang.kau.swipe.kauSwipeFinish
-import ca.allanwang.kau.swipe.kauSwipeOnCreate
-import ca.allanwang.kau.swipe.kauSwipeOnDestroy
 import ca.allanwang.kau.ui.views.RippleCanvas
+import ca.allanwang.kau.utils.finishSlideOut
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -30,24 +28,29 @@ import java.net.InetAddress
 
 class PreferenceActivity : KPrefActivity() {
 
+    val resultFlag = Activity.RESULT_CANCELED
+
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSecureFlag()
         setCurrentScreen()
-        bgCanvas.set(Prefs.bgColor)
-        toolbarCanvas.set(Prefs.colorPrimary)
-        kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
+        animate = Prefs.animate
+        themeExterior(false)
     }
 
-    override fun onDestroy() {
-        kauSwipeOnDestroy()
-        super.onDestroy()
+    fun themeExterior(animate: Boolean = true) {
+        if (animate) bgCanvas.fade(Prefs.bgColor)
+        else bgCanvas.set(Prefs.bgColor)
+        if (animate) toolbarCanvas.ripple(Prefs.headerColor, RippleCanvas.MIDDLE, RippleCanvas.END)
+        else toolbarCanvas.set(Prefs.headerColor)
+        aardvarkNavigationBar()
     }
 
     override fun onBackPressed() {
         if (!super.backPress()) {
-            kauSwipeFinish()
+            setResult(resultFlag)
+            finishSlideOut()
         }
     }
 

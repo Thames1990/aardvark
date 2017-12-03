@@ -15,6 +15,8 @@ object Prefs : KPref() {
 
     var colorPrimary: Int by kpref("COLOR_PRIMARY", 0xff4CAF50.toInt())
 
+    val headerColor: Int by kpref("HEADER_COLOR", Color.BLUE)
+
     /** Defines text color */
     var textColor: Int by kpref("COLOR_TEXT", Color.WHITE)
 
@@ -75,4 +77,8 @@ object Prefs : KPref() {
         get() = "$installDate-$identifier"
 
     var lastLaunch: Long by kpref("LAST_LAUNCH", -1L)
+
+    val animate: Boolean by kpref("ANIMATE", true)
+
+    val tintNavBar: Boolean by kpref("TINT_NAV_BAR", true)
 }

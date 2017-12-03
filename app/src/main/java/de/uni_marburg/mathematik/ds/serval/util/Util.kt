@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.util
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.DividerItemDecoration
@@ -136,4 +137,8 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
 
 fun Context.aardvarkChangelog() = showChangelog(R.xml.changelog, Prefs.textColor) {
     theme()
+}
+
+fun Activity.aardvarkNavigationBar() {
+    navigationBarColor = if (Prefs.tintNavBar) Prefs.headerColor else Color.BLACK
 }

@@ -1,9 +1,13 @@
 package de.uni_marburg.mathematik.ds.serval.view.activities
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.arch.lifecycle.LifecycleObserver
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -35,8 +39,26 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         } else start()
     }
 
+    @SuppressLint("NewApi")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ACTIVITY_SETTINGS && resultCode and REQUEST_RESTART_APPLICATION > 0) {
+            val intent = packageManager.getLaunchIntentForPackage(packageName)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            val pending = PendingIntent.getActivity(this, 666, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+            val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            if (buildIsMarshmallowAndUp) {
+                alarm.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC,
+                        System.currentTimeMillis() + 100,
+                        pending
+                )
+            } else alarm.setExact(AlarmManager.RTC, System.currentTimeMillis() + 100, pending)
+            finish()
+            System.exit(0)
+            return
+        }
+        if (resultCode and REQUEST_RESTART > 0) return restart()
         if (requestCode == INTRO_REQUEST_CODE) start()
     }
 
@@ -56,8 +78,19 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         settingsIcon.tint(color(android.R.color.white))
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_settings -> consume { startActivity(PreferenceActivity::class.java) }
+        R.id.action_settings -> {
+            consume {
+                val intent = Intent(this, PreferenceActivity::class.java)
+                val bundle = ActivityOptionsCompat.makeCustomAnimation(
+                        this,
+                        R.anim.kau_slide_in_right,
+                        R.anim.kau_fade_out
+                ).toBundle()
+                startActivityForResult(intent, ACTIVITY_SETTINGS, bundle)
+            }
+        }
         else                 -> super.onOptionsItemSelected(item)
     }
 
@@ -119,6 +152,9 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     }
 
     companion object {
+        const val ACTIVITY_SETTINGS = 97
+        const val REQUEST_RESTART_APPLICATION = 1 shl 1
+        const val REQUEST_RESTART = 1 shl 2
 
         lateinit var events: List<Event>
     }
