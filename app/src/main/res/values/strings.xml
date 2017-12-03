@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="about_description">Aardvark is</string>
+    <string name="aardvark_description">Aardvark is</string>
+    <string name="aardvark_name" tools:override="true" translatable="false">Aardvark</string>
+
     <string name="about_title">About Aardvark</string>
 
     <string name="action_change_map_type">Map type</string>
@@ -22,8 +24,6 @@
     <string name="adb_wifi_disable" translatable="false">setprop service.adb.tcp.port -1\nstop adbd\nstart adbd\nexit</string>
     <string name="adb_wifi_enable" translatable="false">setprop service.adb.tcp.port %1$d\nstop adbd\nstart adbd\nexit</string>
 
-    <string name="app_name" tools:override="true" translatable="false">Aardvark</string>
-
     <string name="chat">Chat</string>
 
     <string name="color_accent">Accent color</string>
@@ -31,7 +31,7 @@
     <string name="color_primary">Primary color</string>
     <string name="color_text">Text color</string>
 
-    <string name="content_description_aardvark" translatable="false">@string/app_name</string>
+    <string name="content_description_aardvark" translatable="false">@string/aardvark_name</string>
     <string name="content_description_location_icon">Location icon</string>
     <string name="content_description_measurement_icon">Measurement icon</string>
 
@@ -40,6 +40,8 @@
     <string name="debug_enabled">Debug settings activated</string>
 
     <string name="details">Details</string>
+
+    <string name="dev_name">Thomas Mohr</string>
 
     <string name="distance">Distance</string>
     <string name="distance_in_kilometer">%1$.2f km</string>
@@ -56,17 +58,22 @@
     <string name="fingerprint_required">Access your secured environment</string>
     <string name="fingerprint_required_description">Place your finger on the reader</string>
 
+    <string name="github_url">https://github.com/Thames1990/aardvark</string>
+
     <string name="intent_extra_query_from">Query from %1$s</string>
     <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
 
     <string name="intro_1_description">The easiest way to communicate without cellular connectivity!</string>
-    <string name="intro_1_title" translatable="false">@string/app_name</string>
+    <string name="intro_1_title" translatable="false">@string/aardvark_name</string>
     <string name="intro_2_description">Easily check whether hazards are close!</string>
     <string name="intro_2_title" translatable="false">@string/dashboard</string>
     <string name="intro_3_description">Look out for your friends and favorite locations!</string>
     <string name="intro_3_title" translatable="false">@string/map</string>
     <string name="intro_4_description">Talk to your friends and co-workers!</string>
     <string name="intro_4_title" translatable="false">@string/chat</string>
+
+    <string name="license_name">MIT License</string>
+    <string name="license_website">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
 
     <string name="login_required">You must be logged in</string>
 

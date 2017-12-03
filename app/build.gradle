@@ -86,6 +86,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:$google_play_services_version"
     implementation "com.google.android.gms:play-services-maps:$google_play_services_version"
 
+    // Ionicons
+    implementation 'com.mikepenz:community-material-typeface:2.0.46.1@aar'
+
     // KAU
     implementation "ca.allanwang.kau:about:$kau_version"
     implementation "ca.allanwang.kau:kpref-activity:$kau_version"

@@ -239,7 +239,7 @@ class PreferenceActivity : KPrefActivity() {
      */
     private fun sendFeedback() = sendEmail(
             string(R.string.email_adress_feedback),
-            String.format(string(R.string.intent_extra_query_from), string(R.string.app_name))
+            String.format(string(R.string.intent_extra_query_from), string(R.string.aardvark_name))
     )
 
 }
