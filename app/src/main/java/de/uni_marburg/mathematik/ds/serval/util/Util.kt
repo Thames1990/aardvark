@@ -7,10 +7,9 @@ import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.view.WindowManager
-import ca.allanwang.kau.utils.drawable
-import ca.allanwang.kau.utils.plural
-import ca.allanwang.kau.utils.string
-import ca.allanwang.kau.utils.tint
+import ca.allanwang.kau.utils.*
+import ca.allanwang.kau.xml.showChangelog
+import com.afollestad.materialdialogs.MaterialDialog
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
@@ -116,3 +115,25 @@ fun Context.safeContext(): Context =
                 ContextCompat.createDeviceProtectedStorageContext(it) ?: it
             }
         } ?: this
+
+fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Unit): MaterialDialog {
+    val builder = MaterialDialog.Builder(this).theme()
+    builder.action()
+    return builder.show()
+}
+
+fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
+    val dimmerTextColor = Prefs.textColor.adjustAlpha(0.8f)
+    titleColor(Prefs.textColor)
+    contentColor(dimmerTextColor)
+    widgetColor(dimmerTextColor)
+    backgroundColor(Prefs.bgColor.lighten(0.1f).withMinAlpha(200))
+    positiveColor(Prefs.textColor)
+    negativeColor(Prefs.textColor)
+    neutralColor(Prefs.textColor)
+    return this
+}
+
+fun Context.aardvarkChangelog() = showChangelog(R.xml.changelog, Prefs.textColor) {
+    theme()
+}

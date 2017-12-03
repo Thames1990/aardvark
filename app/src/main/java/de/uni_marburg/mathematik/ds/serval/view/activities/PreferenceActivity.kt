@@ -14,10 +14,8 @@ import ca.allanwang.kau.swipe.kauSwipeFinish
 import ca.allanwang.kau.swipe.kauSwipeOnCreate
 import ca.allanwang.kau.swipe.kauSwipeOnDestroy
 import ca.allanwang.kau.ui.views.RippleCanvas
-import ca.allanwang.kau.utils.materialDialog
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
-import ca.allanwang.kau.xml.showChangelog
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.*
@@ -40,7 +38,7 @@ class PreferenceActivity : KPrefActivity() {
         super.onCreate(savedInstanceState)
         setSecureFlag()
         setCurrentScreen()
-        bgCanvas.set(Prefs.colorBackground)
+        bgCanvas.set(Prefs.bgColor)
         toolbarCanvas.set(Prefs.colorPrimary)
         kauSwipeOnCreate { edgeFlag = SWIPE_EDGE_LEFT }
     }
@@ -56,7 +54,7 @@ class PreferenceActivity : KPrefActivity() {
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
         accentColor = { Prefs.colorAccent }
-        textColor = { Prefs.colorText }
+        textColor = { Prefs.textColor }
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
@@ -96,7 +94,7 @@ class PreferenceActivity : KPrefActivity() {
         }
         checkbox(R.string.preference_use_analytics, { useAnalytics }, { useAnalytics ->
             Prefs.useAnalytics = useAnalytics
-            if (!useAnalytics) materialDialog {
+            if (!useAnalytics) materialDialogThemed {
                 title(string(R.string.preference_reset_analytics))
                 content(string(R.string.preference_reset_analytics_description))
                 positiveText(string(R.string.kau_yes))
@@ -124,12 +122,12 @@ class PreferenceActivity : KPrefActivity() {
             Prefs.colorAccent = it
             reload()
         })
-        colorPicker(R.string.color_background, { Prefs.colorBackground }, {
-            Prefs.colorBackground = it
+        colorPicker(R.string.color_background, { Prefs.bgColor }, {
+            Prefs.bgColor = it
             bgCanvas.ripple(it, duration = 500L)
         })
-        colorPicker(R.string.color_text, { Prefs.colorText }, {
-            Prefs.colorText = it
+        colorPicker(R.string.color_text, { Prefs.textColor }, {
+            Prefs.textColor = it
             reload()
         })
     }
@@ -140,7 +138,7 @@ class PreferenceActivity : KPrefActivity() {
             descRes = R.string.preference_username_description
             onClick = { itemView, _, item ->
                 consume {
-                    itemView.context.materialDialog {
+                    itemView.context.materialDialogThemed {
                         title(string(R.string.username))
                         input(string(R.string.username), item.pref, { _, input ->
                             item.pref = input.toString()
@@ -153,7 +151,7 @@ class PreferenceActivity : KPrefActivity() {
             descRes = R.string.preference_password_description
             onClick = { itemView, _, item ->
                 consume {
-                    itemView.context.materialDialog {
+                    itemView.context.materialDialogThemed {
                         title(string(R.string.password))
                         input(string(R.string.password), item.pref, { _, input ->
                             item.pref = input.toString()
@@ -181,15 +179,7 @@ class PreferenceActivity : KPrefActivity() {
         plainText(R.string.preference_terms_and_conditions)
         plainText(R.string.preference_version) {
             descRes = R.string.app_version
-            onClick = { _, _, _ ->
-                consume {
-                    showChangelog(R.xml.changelog, Prefs.colorText) {
-                        titleColor(Prefs.colorText)
-                        backgroundColor(Prefs.colorBackground)
-                        positiveColor(Prefs.colorAccent)
-                    }
-                }
-            }
+            onClick = { _, _, _ -> consume { aardvarkChangelog() } }
         }
     }
 

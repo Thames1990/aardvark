@@ -11,12 +11,12 @@ object Prefs : KPref() {
     var colorAccent: Int by kpref("COLOR_ACCENT", 0xff82F7FF.toInt())
 
     /** Defines background color */
-    var colorBackground: Int by kpref("COLOR_BACKGROUND", 0xff303030.toInt())
+    var bgColor: Int by kpref("COLOR_BACKGROUND", 0xff303030.toInt())
 
     var colorPrimary: Int by kpref("COLOR_PRIMARY", 0xff4CAF50.toInt())
 
     /** Defines text color */
-    var colorText: Int by kpref("COLOR_TEXT", Color.WHITE)
+    var textColor: Int by kpref("COLOR_TEXT", Color.WHITE)
 
     /** Determines whether the user is asked to confirm the intention of exiting the application */
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)

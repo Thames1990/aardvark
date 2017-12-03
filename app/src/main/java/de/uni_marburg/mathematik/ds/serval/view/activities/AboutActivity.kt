@@ -27,9 +27,9 @@ import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
 import org.jetbrains.anko.toast
 
 class AboutActivity : AboutActivityBase(R.string::class.java, {
-    textColor = Prefs.colorText
+    textColor = Prefs.textColor
     accentColor = Prefs.colorAccent
-    backgroundColor = Prefs.colorBackground
+    backgroundColor = Prefs.bgColor
     cutoutForeground = Prefs.colorPrimary
     cutoutDrawableRes = R.drawable.aardvark
     faqPageTitleRes = R.string.faq_title

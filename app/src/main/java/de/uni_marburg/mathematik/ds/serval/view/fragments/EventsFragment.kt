@@ -75,7 +75,7 @@ class EventsFragment : BaseFragment() {
                     recycler_view.apply {
                         withLinearAdapter(eventAdapter)
                         withDividerDecoration(this@with, DividerItemDecoration.VERTICAL)
-                        setBackgroundColor(Prefs.colorBackground)
+                        setBackgroundColor(Prefs.bgColor)
                     }
                 }
             } else toast(string(R.string.toast_network_disconnected))

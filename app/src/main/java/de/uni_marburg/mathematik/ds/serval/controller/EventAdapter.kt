@@ -133,7 +133,7 @@ class EventAdapter(
             displayTime()
             displayLocation()
             displayMeasurementTypes()
-            containerView.setBackgroundColor(Prefs.colorBackground)
+            containerView.setBackgroundColor(Prefs.bgColor)
             containerView.setOnClickListener { listener(this) }
         }
 
@@ -142,7 +142,7 @@ class EventAdapter(
             val timeDifference = Calendar.getInstance().timeInMillis - time
             event_time.apply {
                 text = timeDifference.timeToString(containerView.context)
-                setTextColor(Prefs.colorText)
+                setTextColor(Prefs.textColor)
             }
         }
 
@@ -158,7 +158,7 @@ class EventAdapter(
                 location_icon.setImageDrawable(icon)
                 location_text.apply {
                     text = location.distanceTo(lastLocation).distanceToString(this@with)
-                    setTextColor(Prefs.colorText)
+                    setTextColor(Prefs.textColor)
                 }
             } else {
                 location_icon.gone()

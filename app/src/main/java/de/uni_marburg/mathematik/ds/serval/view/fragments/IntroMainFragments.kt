@@ -76,7 +76,7 @@ abstract class BaseIntroFragment(val layoutRes: Int) : Fragment() {
     }
 
     protected open fun themeFragmentImpl() {
-        view?.childrenSequence()?.forEach { (it as? TextView)?.setTextColor(Prefs.colorText) }
+        view?.childrenSequence()?.forEach { (it as? TextView)?.setTextColor(Prefs.textColor) }
     }
 
     protected val viewArray: Array<Array<out View>> by lazyResettableRegistered { viewArray() }
@@ -106,7 +106,7 @@ abstract class BaseIntroFragment(val layoutRes: Int) : Fragment() {
 
         override fun themeFragmentImpl() {
             super.themeFragmentImpl()
-            image.imageTintList = ColorStateList.valueOf(Prefs.colorText)
+            image.imageTintList = ColorStateList.valueOf(Prefs.textColor)
         }
     }
 
@@ -118,7 +118,7 @@ abstract class BaseIntroFragment(val layoutRes: Int) : Fragment() {
 
         override fun themeFragmentImpl() {
             super.themeFragmentImpl()
-            image.imageTintList = ColorStateList.valueOf(Prefs.colorText)
+            image.imageTintList = ColorStateList.valueOf(Prefs.textColor)
         }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

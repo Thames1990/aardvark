@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import ca.allanwang.kau.utils.*
-import ca.allanwang.kau.xml.showChangelog
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -42,7 +41,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     }
 
     override fun onBackPressed() {
-        if (Prefs.confirmExit) materialDialog {
+        if (Prefs.confirmExit) materialDialogThemed {
             title(R.string.preference_confirm_exit)
             negativeText(android.R.string.cancel)
             positiveText(android.R.string.ok)
@@ -84,10 +83,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     private fun checkForNewVersion() {
         if (Prefs.showChangelog && Prefs.version < BuildConfig.VERSION_CODE) {
             Prefs.version = BuildConfig.VERSION_CODE
-            showChangelog(R.xml.changelog) {
-                title(R.string.kau_changelog)
-                positiveText(android.R.string.ok)
-            }
+            aardvarkChangelog()
         }
     }
 

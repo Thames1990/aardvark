@@ -38,10 +38,10 @@ abstract class BaseImageIntroFragment(
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
-        title.setTextColor(Prefs.colorText)
-        desc.setTextColor(Prefs.colorText)
-        phone.tint(Prefs.colorText)
-        screen.tint(Prefs.colorBackground)
+        title.setTextColor(Prefs.textColor)
+        desc.setTextColor(Prefs.textColor)
+        phone.tint(Prefs.textColor)
+        screen.tint(Prefs.bgColor)
     }
 
     fun themeImageComponent(color: Int, vararg id: Int) {
@@ -75,12 +75,12 @@ abstract class BaseImageIntroFragment(
         override fun themeFragmentImpl() {
             super.themeFragmentImpl()
             themeImageComponent(
-                    Prefs.colorText,
+                    Prefs.textColor,
                     R.id.intro_phone_avatar_1,
                     R.id.intro_phone_avatar_2
             )
             themeImageComponent(
-                    Prefs.colorBackground.colorToForeground(),
+                    Prefs.bgColor.colorToForeground(),
                     R.id.intro_phone_nav
             )
             themeImageComponent(Prefs.colorAccent, R.id.intro_phone_header)

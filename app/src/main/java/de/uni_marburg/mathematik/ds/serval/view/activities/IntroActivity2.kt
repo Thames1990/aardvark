@@ -65,12 +65,12 @@ class IntroActivity2 : KauBaseActivity(), ViewPager.PageTransformer, ViewPager.O
     }
 
     fun theme() {
-        ripple.set(Prefs.colorBackground)
+        ripple.set(Prefs.bgColor)
         statusBarColor = Prefs.colorAccent
         navigationBarColor = Prefs.colorAccent
-        skip.setTextColor(Prefs.colorText)
-        next.imageTintList = ColorStateList.valueOf(Prefs.colorText)
-        indicator.setColour(Prefs.colorText)
+        skip.setTextColor(Prefs.textColor)
+        next.imageTintList = ColorStateList.valueOf(Prefs.textColor)
+        indicator.setColour(Prefs.textColor)
         indicator.invalidate()
         fragments.forEach { it.themeFragment() }
     }
@@ -107,12 +107,12 @@ class IntroActivity2 : KauBaseActivity(), ViewPager.PageTransformer, ViewPager.O
         ).forEach {
             it?.animate()?.alpha(0f)?.setDuration(600)?.start()
         }
-        if (Prefs.colorText != Color.WHITE) {
+        if (Prefs.textColor != Color.WHITE) {
             val f = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
             if (f != null) {
                 ValueAnimator.ofFloat(0f, 1f).apply {
                     addUpdateListener {
-                        f.setTint(Prefs.colorText.blendWith(Color.WHITE, it.animatedValue as Float))
+                        f.setTint(Prefs.textColor.blendWith(Color.WHITE, it.animatedValue as Float))
                     }
                     duration = 600
                     start()
@@ -160,7 +160,7 @@ class IntroActivity2 : KauBaseActivity(), ViewPager.PageTransformer, ViewPager.O
             setIcon(
                     if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
                     else GoogleMaterial.Icon.gmd_done,
-                    color = Prefs.colorText
+                    color = Prefs.textColor
             )
         }
         skip.animate().scaleXY(if (barHasNext) 1f else 0f)
