@@ -1,13 +1,13 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AardvarkThemeBase" parent="MaterialDrawerTheme.ActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@android:color/white</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
-    <style name="AardvarkTheme" parent="@style/AppTheme">
+    <style name="AardvarkTheme" parent="@style/AardvarkThemeBase">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -19,9 +19,44 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
-    <style name="AppTheme.SplashScreen" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/splash_screen_background</item>
+    <style name="AardvarkTheme.Transparent">
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
+    <style name="AardvarkTheme.Light.Transparent">
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="AardvarkTheme.Overlay">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AardvarkTheme.Overlay.Slide">
+        <item name="android:windowAnimationStyle">@style/KauSlideInFadeOut</item>
+    </style>
+
+    <style name="AardvarkTheme.Overlay.Fade">
+        <item name="android:windowAnimationStyle">@style/KauFadeInFadeOut</item>
+    </style>
+
+    <style name="AardvarkTheme.Settings" parent="AardvarkTheme">
+        <item name="android:windowAnimationStyle">@style/KauSlideInFadeOut</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
+
+    <style name="AardvarkTheme.Splash" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_background</item>
+        <item name="android:navigationBarColor">@color/aardvark_splash_background</item>
+        <item name="colorPrimaryDark">@color/aardvark_splash_background</item>
+        <item name="colorAccent">@color/aardvark_splash_background</item>
+    </style>
+
+    <style name="AardvarkTheme.Intro" parent="AardvarkTheme.Transparent" />
 
     <style name="IntroBarButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:elevation">0dp</item>
@@ -39,4 +74,11 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textAlignment">center</item>
     </style>
+
+    <style name="IntroButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:elevation">0dp</item>
+        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+        <item name="android:padding">@dimen/kau_padding_large</item>
+    </style>
+
 </resources>

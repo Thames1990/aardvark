@@ -11,6 +11,8 @@ import android.view.WindowManager
 import ca.allanwang.kau.utils.*
 import ca.allanwang.kau.xml.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.CustomEvent
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
@@ -146,4 +148,20 @@ fun Activity.aardvarkNavigationBar() {
 fun Activity.setAardvarkTheme() {
     if (Prefs.bgColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
+}
+
+fun aardvarkAnswers(action: Answers.() -> Unit) {
+    if (BuildConfig.DEBUG || !Prefs.analytics) return
+    Answers.getInstance().action()
+}
+
+fun aardvarkAnswersCustom(name: String, vararg events: Pair<String, Any>) {
+    aardvarkAnswers {
+        logCustom(CustomEvent("Aardvark $name").apply {
+            events.forEach { (key, value) ->
+                if (value is Number) putCustomAttribute(key, value)
+                else putCustomAttribute(key, value.toString())
+            }
+        })
+    }
 }

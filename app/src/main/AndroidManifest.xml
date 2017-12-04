@@ -16,16 +16,11 @@
         android:label="@string/aardvark_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AardvarkTheme.Splash">
         <activity
-            android:name=".view.activities.IntroActivity"
-            android:theme="@style/Theme.Intro" />
-        <activity android:name=".view.activities.IntroActivity2" />
-        <activity android:name=".view.activities.FingerprintActivity" />
-        <activity
-            android:name=".view.activities.MainActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/AppTheme.SplashScreen">
+            android:name=".view.activities.StartActivity"
+            android:noHistory="true"
+            android:theme="@style/AardvarkTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,11 +28,22 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".view.activities.IntroActivity"
+            android:theme="@style/Theme.Intro" />
+        <activity
+            android:name=".view.activities.IntroActivity2"
+            android:theme="@style/AardvarkTheme.Intro" />
+        <activity android:name=".view.activities.FingerprintActivity" />
+        <activity
+            android:name=".view.activities.MainActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:theme="@style/AardvarkTheme" />
+        <activity
             android:name=".view.activities.DetailActivity"
             android:theme="@style/Kau.Translucent.SlideBottom" />
         <activity
             android:name=".view.activities.SettingsActivity"
-            android:theme="@style/Kau.Translucent" />
+            android:theme="@style/AardvarkTheme.Settings" />
         <activity
             android:name=".view.activities.AboutActivity"
             android:theme="@style/Kau.About" />

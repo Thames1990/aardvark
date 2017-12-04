@@ -6,37 +6,63 @@ import android.app.PendingIntent
 import android.arch.lifecycle.LifecycleObserver
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import ca.allanwang.kau.utils.*
+import co.zsmb.materialdrawerkt.builders.accountHeader
+import co.zsmb.materialdrawerkt.builders.drawer
+import co.zsmb.materialdrawerkt.draweritems.profile.profile
+import co.zsmb.materialdrawerkt.draweritems.profile.profileSetting
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.materialdrawer.AccountHeader
+import com.mikepenz.materialdrawer.Drawer
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.util.*
-import de.uni_marburg.mathematik.ds.serval.view.fragments.DashboardFragment
-import de.uni_marburg.mathematik.ds.serval.view.fragments.EventsFragment
-import de.uni_marburg.mathematik.ds.serval.view.fragments.MapFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
-    private val dashboardFragment: DashboardFragment by lazy { DashboardFragment() }
+    val toolbar: Toolbar by bindView(R.id.toolbar)
+    lateinit var drawer: Drawer
+    lateinit var drawerHeader: AccountHeader
 
-    private val eventsFragment: EventsFragment by lazy { EventsFragment() }
+    companion object {
+        const val ACTIVITY_SETTINGS = 97
+        const val REQUEST_RESTART_APPLICATION = 1 shl 1
+        const val REQUEST_RESTART = 1 shl 2
+        const val REQUEST_NAV = 1 shl 3
 
-    private val mapFragment: MapFragment by lazy { MapFragment() }
+        lateinit var events: List<Event>
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Prefs.isFirstLaunch) {
-            startActivityForResult(IntroActivity2::class.java, INTRO_REQUEST_CODE)
-        } else start()
+        if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
+            Prefs.versionCode = BuildConfig.VERSION_CODE
+            if (!BuildConfig.DEBUG) {
+                aardvarkChangelog()
+                aardvarkAnswersCustom(
+                        "Version",
+                        "Version code" to BuildConfig.VERSION_CODE,
+                        "Version name" to BuildConfig.VERSION_NAME,
+                        "Build type" to BuildConfig.BUILD_TYPE,
+                        "Aardvark id" to Prefs.aardvarkId
+                )
+            }
+            setContentView(R.layout.activity_main)
+            setSupportActionBar(toolbar)
+            setupDrawer(savedInstanceState)
+        }
     }
 
     @SuppressLint("NewApi")
@@ -117,63 +143,49 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         doAsync {
             events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
             uiThread {
-                setTheme(R.style.AppTheme)
                 setContentView(R.layout.activity_main)
-                setupViews()
-                checkForNewVersion()
             }
         }
     }
 
-    /**
-     * Checks if a new version of the app was detected.
-     *
-     * If a new version is detected and the user wants to view changelogs, the changelog is shown.
-     */
-    private fun checkForNewVersion() {
-        if (Prefs.changelog && Prefs.versionCode < BuildConfig.VERSION_CODE) {
-            Prefs.versionCode = BuildConfig.VERSION_CODE
-            aardvarkChangelog()
-        }
-    }
-
-    @SuppressLint("CommitTransaction")
-    private fun setupViews() {
-        setSupportActionBar(toolbar)
-        with(supportFragmentManager) {
-            with(beginTransaction()) {
-                add(R.id.content, mapFragment)
-                add(R.id.content, eventsFragment)
-                add(R.id.content, dashboardFragment)
-                commit()
-            }
-            bottom_navigation.setOnNavigationItemSelectedListener { item ->
-                with(beginTransaction()) {
-                    fragments.forEach { hide(it) }
-                    when (item.itemId) {
-                        R.id.action_dashboard -> show(dashboardFragment)
-                        R.id.action_events    -> {
-                            show(eventsFragment)
-                            eventsFragment.setHasOptionsMenu(true)
-                        }
-                        R.id.action_map       -> {
-                            show(mapFragment)
-                            mapFragment.setHasOptionsMenu(true)
-                        }
-                    }
-                    consume { commit() }
+    fun setupDrawer(savedInstanceState: Bundle?) {
+        val navBg = Prefs.bgColor.withMinAlpha(200).toLong()
+        val navHeader = Prefs.headerColor.withMinAlpha(200)
+        drawer = drawer {
+            toolbar = this@MainActivity.toolbar
+            savedInstance = savedInstanceState
+            translucentStatusBar = false
+            sliderBackgroundColor = navBg
+            drawerHeader = accountHeader {
+                customViewRes = R.layout.material_drawer_header
+                textColor = Prefs.iconColor.toLong()
+                backgroundDrawable = ColorDrawable(navHeader)
+                selectionSecondLineShown = false
+                profile(name = BuildConfig.APPLICATION_ID) {
+                    textColor = Prefs.textColor.toLong()
+                    selectedTextColor = Prefs.textColor.toLong()
+                    selectedColor = 0x00000001.toLong()
+                    identifier = 1L
+                }
+                profileSetting(nameRes = R.string.kau_logout) {
+                    iicon = GoogleMaterial.Icon.gmd_exit_to_app
+                    iconColor = Prefs.textColor.toLong()
+                    textColor = Prefs.textColor.toLong()
+                    identifier = -2L
+                }
+                profileSetting(nameRes = R.string.kau_add_account) {
+                    iconDrawable = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_add).actionBar().paddingDp(5).color(Prefs.textColor)
+                    textColor = Prefs.textColor.toLong()
+                    identifier = -3L
+                }
+                profileSetting(nameRes = R.string.kau_manage_account) {
+                    iicon = GoogleMaterial.Icon.gmd_settings
+                    iconColor = Prefs.textColor.toLong()
+                    textColor = Prefs.textColor.toLong()
+                    identifier = -4L
                 }
             }
+            drawerHeader.setActiveProfile(1L)
         }
-        bottom_navigation.selectedItemId = R.id.action_dashboard
-    }
-
-    companion object {
-        const val ACTIVITY_SETTINGS = 97
-        const val REQUEST_RESTART_APPLICATION = 1 shl 1
-        const val REQUEST_RESTART = 1 shl 2
-        const val REQUEST_NAV = 1 shl 3
-
-        lateinit var events: List<Event>
     }
 }
