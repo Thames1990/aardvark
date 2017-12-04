@@ -196,4 +196,6 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
+    <string name="top_bar">Top bar</string>
+    <string name="bottom_bar">Bottom bar</string>
 </resources>

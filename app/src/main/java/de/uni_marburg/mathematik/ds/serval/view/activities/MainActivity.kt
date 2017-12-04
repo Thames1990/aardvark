@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
                         "Aardvark id" to Prefs.aardvarkId
                 )
             }
-            setContentView(R.layout.activity_main)
+            setContentView(Prefs.mainActivityLayout.layoutRes)
             setSupportActionBar(toolbar)
             setupDrawer(savedInstanceState)
             doAsync {

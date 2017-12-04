@@ -8,6 +8,7 @@ import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.isColorVisibleOn
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.enums.AARDVARK_GREEN
+import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 
 object Prefs : KPref() {
@@ -78,6 +79,11 @@ object Prefs : KPref() {
     var analytics: Boolean by kpref("USE_ANALYTICS", true)
 
     var debugSettings: Boolean by kpref("DEBUG_SETTINGS", BuildConfig.DEBUG)
+
+    var mainActivityLayoutType: Int by kpref("main_activity_layout_type", 0)
+
+    val mainActivityLayout: MainActivityLayout
+        get() = MainActivityLayout(mainActivityLayoutType)
 
     var colorPrimary: Int by kpref("COLOR_PRIMARY", 0xff4CAF50.toInt())
 
