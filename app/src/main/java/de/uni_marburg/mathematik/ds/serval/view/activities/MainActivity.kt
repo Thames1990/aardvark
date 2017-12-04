@@ -66,6 +66,15 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             setContentView(R.layout.activity_main)
             setSupportActionBar(toolbar)
             setupDrawer(savedInstanceState)
+            doAsync {
+                val now = System.currentTimeMillis()
+                events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
+                uiThread {
+                    val later = System.currentTimeMillis()
+                    val timePasses = later - now
+                    toast("Loading events took $timePasses milliseconds")
+                }
+            }
         }
     }
 
@@ -73,7 +82,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            ACTIVITY_SETTINGS  -> {
+            ACTIVITY_SETTINGS -> {
                 // Completely restart application
                 if (resultCode and REQUEST_RESTART_APPLICATION > 0) {
                     val intent = packageManager.getLaunchIntentForPackage(packageName)
@@ -105,7 +114,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
                 if (resultCode and REQUEST_RESTART > 0 && data != null) return restart()
                 if (resultCode and REQUEST_NAV > 0) aardvarkNavigationBar()
             }
-            INTRO_REQUEST_CODE -> start()
         }
     }
 
@@ -140,17 +148,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             }
         }
         else                 -> super.onOptionsItemSelected(item)
-    }
-
-    private fun start() {
-        setSecureFlag()
-        setCurrentScreen()
-        doAsync {
-            events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
-            uiThread {
-                setContentView(R.layout.activity_main)
-            }
-        }
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
