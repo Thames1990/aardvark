@@ -14,16 +14,20 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import ca.allanwang.kau.utils.*
+import co.zsmb.materialdrawerkt.builders.Builder
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
+import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import co.zsmb.materialdrawerkt.draweritems.profile.profileSetting
+import com.crashlytics.android.answers.ContentViewEvent
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.Drawer
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.util.*
@@ -189,6 +193,28 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
                 }
             }
             drawerHeader.setActiveProfile(1L)
+            primaryAardvarkItem(AardvarkItem.DASHBOARD)
+            primaryAardvarkItem(AardvarkItem.EVENTS)
+            primaryAardvarkItem(AardvarkItem.MAP)
+        }
+    }
+
+    private fun Builder.primaryAardvarkItem(item: AardvarkItem) = this.primaryItem(item.titleId) {
+        iicon = item.icon
+        iconColor = Prefs.textColor.toLong()
+        textColor = Prefs.textColor.toLong()
+        selectedIconColor = Prefs.textColor.toLong()
+        selectedTextColor = Prefs.textColor.toLong()
+        selectedColor = 0x00000001.toLong()
+        identifier = item.titleId.toLong()
+        onClick { _ ->
+            de.uni_marburg.mathematik.ds.serval.util.aardvarkAnswers {
+                logContentView(ContentViewEvent()
+                        .putContentName(item.name)
+                        .putContentType("drawer_item")
+                )
+            }
+            false
         }
     }
 }
