@@ -120,9 +120,10 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean = consume {
         menuInflater.inflate(R.menu.menu_main, menu)
-        val settings = menu.findItem(R.id.action_settings)
-        val settingsIcon = settings.icon
-        settingsIcon.tint(color(android.R.color.white))
+        toolbar.tint(Prefs.iconColor)
+        setMenuIcons(menu, Prefs.iconColor,
+                R.id.action_settings to GoogleMaterial.Icon.gmd_settings
+        )
     }
 
     @SuppressLint("RestrictedApi")
@@ -208,7 +209,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         selectedColor = 0x00000001.toLong()
         identifier = item.titleId.toLong()
         onClick { _ ->
-            de.uni_marburg.mathematik.ds.serval.util.aardvarkAnswers {
+            aardvarkAnswers {
                 logContentView(ContentViewEvent()
                         .putContentName(item.name)
                         .putContentType("drawer_item")
