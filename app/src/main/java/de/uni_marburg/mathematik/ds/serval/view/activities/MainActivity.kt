@@ -42,24 +42,41 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     @SuppressLint("NewApi")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ACTIVITY_SETTINGS && resultCode and REQUEST_RESTART_APPLICATION > 0) {
-            val intent = packageManager.getLaunchIntentForPackage(packageName)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            val pending = PendingIntent.getActivity(this, 666, intent, PendingIntent.FLAG_CANCEL_CURRENT)
-            val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            if (buildIsMarshmallowAndUp) {
-                alarm.setExactAndAllowWhileIdle(
-                        AlarmManager.RTC,
-                        System.currentTimeMillis() + 100,
-                        pending
-                )
-            } else alarm.setExact(AlarmManager.RTC, System.currentTimeMillis() + 100, pending)
-            finish()
-            System.exit(0)
-            return
+        when (requestCode) {
+            ACTIVITY_SETTINGS  -> {
+                // Completely restart application
+                if (resultCode and REQUEST_RESTART_APPLICATION > 0) {
+                    val intent = packageManager.getLaunchIntentForPackage(packageName)
+                    intent.addFlags(
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    )
+                    val pending = PendingIntent.getActivity(
+                            this,
+                            666,
+                            intent,
+                            PendingIntent.FLAG_CANCEL_CURRENT
+                    )
+                    val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    if (buildIsMarshmallowAndUp) {
+                        alarm.setExactAndAllowWhileIdle(
+                                AlarmManager.RTC,
+                                System.currentTimeMillis() + 100,
+                                pending
+                        )
+                    } else alarm.setExact(
+                            AlarmManager.RTC,
+                            System.currentTimeMillis() + 100,
+                            pending
+                    )
+                    finish()
+                    System.exit(0)
+                    return
+                }
+                if (resultCode and REQUEST_RESTART > 0 && data != null) return restart()
+                if (resultCode and REQUEST_NAV > 0) aardvarkNavigationBar()
+            }
+            INTRO_REQUEST_CODE -> start()
         }
-        if (resultCode and REQUEST_RESTART > 0) return restart()
-        if (requestCode == INTRO_REQUEST_CODE) start()
     }
 
     override fun onBackPressed() {
@@ -155,8 +172,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         const val ACTIVITY_SETTINGS = 97
         const val REQUEST_RESTART_APPLICATION = 1 shl 1
         const val REQUEST_RESTART = 1 shl 2
-        const val REQUEST_REFRESH = 1 shl 3
-        const val REQUEST_NAV = 1 shl 4
+        const val REQUEST_NAV = 1 shl 3
 
         lateinit var events: List<Event>
     }
