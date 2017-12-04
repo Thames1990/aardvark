@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
     }
 
-    fun setupDrawer(savedInstanceState: Bundle?) {
+    private fun setupDrawer(savedInstanceState: Bundle?) {
         val navBg = Prefs.bgColor.withMinAlpha(200).toLong()
         val navHeader = Prefs.headerColor.withMinAlpha(200)
         drawer = drawer {
@@ -174,7 +174,10 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
                     identifier = -2L
                 }
                 profileSetting(nameRes = R.string.kau_add_account) {
-                    iconDrawable = IconicsDrawable(this@MainActivity, GoogleMaterial.Icon.gmd_add).actionBar().paddingDp(5).color(Prefs.textColor)
+                    iconDrawable = IconicsDrawable(
+                            this@MainActivity,
+                            GoogleMaterial.Icon.gmd_add
+                    ).actionBar().paddingDp(5).color(Prefs.textColor)
                     textColor = Prefs.textColor.toLong()
                     identifier = -3L
                 }
