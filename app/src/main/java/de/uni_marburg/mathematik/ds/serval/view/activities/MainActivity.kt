@@ -3,13 +3,11 @@ package de.uni_marburg.mathematik.ds.serval.view.activities
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.arch.lifecycle.LifecycleObserver
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -34,7 +32,7 @@ import de.uni_marburg.mathematik.ds.serval.util.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class MainActivity : AppCompatActivity(), LifecycleObserver {
+class MainActivity : BaseActivity() {
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     lateinit var drawer: Drawer
@@ -117,13 +115,21 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
     }
 
-    override fun onBackPressed() {
-        if (Prefs.exitConfirmation) materialDialogThemed {
-            title(R.string.preference_confirm_exit)
-            negativeText(android.R.string.cancel)
-            positiveText(android.R.string.ok)
-            onPositive { _, _ -> finishSlideOut() }
-        } else finishSlideOut()
+    override fun backConsumer(): Boolean {
+        if (Prefs.exitConfirmation) {
+            materialDialogThemed {
+                title(R.string.kau_exit)
+                content(R.string.kau_exit_confirmation)
+                positiveText(R.string.kau_yes)
+                negativeText(R.string.kau_no)
+                onPositive { _, _ -> finish() }
+                checkBoxPromptRes(R.string.kau_do_not_show_again, false, { _, b ->
+                    Prefs.exitConfirmation = !b
+                })
+            }
+            return true
+        }
+        return false
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean = consume {
