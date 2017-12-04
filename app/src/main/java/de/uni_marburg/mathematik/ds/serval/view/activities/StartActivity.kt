@@ -9,7 +9,7 @@ class StartActivity : KauBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Prefs.lastLaunch != -1L) startActivity(MainActivity::class.java)
-        else startActivity(IntroActivity2::class.java)
+        if (Prefs.isFirstLaunch) startActivity(IntroActivity2::class.java)
+        else startActivity(MainActivity::class.java)
     }
 }

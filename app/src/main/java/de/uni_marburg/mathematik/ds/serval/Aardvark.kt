@@ -28,10 +28,12 @@ class Aardvark : Application() {
     }
 
     private fun initialize() {
-        Reprint.initialize(this)
         Prefs.initialize(this, BuildConfig.APPLICATION_ID)
 
-        ProcessLifecycleOwner.get().lifecycle.addObserver(ForegroundBackgroundListener(this))
+        if (!BuildConfig.DEBUG) {
+            Reprint.initialize(this)
+            ProcessLifecycleOwner.get().lifecycle.addObserver(ForegroundBackgroundListener(this))
+        }
 
         val now = System.currentTimeMillis()
         Prefs.lastLaunch = now

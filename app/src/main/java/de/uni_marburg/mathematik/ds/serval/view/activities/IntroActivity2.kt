@@ -133,8 +133,8 @@ class IntroActivity2 : KauBaseActivity(), ViewPager.PageTransformer, ViewPager.O
     }
 
     override fun finish() {
-        startActivity(MainActivity::class.java)
         Prefs.isFirstLaunch = false
+        startActivity(MainActivity::class.java)
         super.finish()
     }
 
