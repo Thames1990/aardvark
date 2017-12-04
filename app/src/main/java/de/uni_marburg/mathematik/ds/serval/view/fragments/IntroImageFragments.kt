@@ -83,7 +83,7 @@ abstract class BaseImageIntroFragment(
                     Prefs.bgColor.colorToForeground(),
                     R.id.intro_phone_nav
             )
-            themeImageComponent(Prefs.colorAccent, R.id.intro_phone_header)
+            themeImageComponent(Prefs.accentColor, R.id.intro_phone_header)
         }
 
         override fun onPageScrolledImpl(positionOffset: Float) {

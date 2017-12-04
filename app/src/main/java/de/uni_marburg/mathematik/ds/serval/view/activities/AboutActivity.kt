@@ -28,7 +28,7 @@ import org.jetbrains.anko.toast
 
 class AboutActivity : AboutActivityBase(R.string::class.java, {
     textColor = Prefs.textColor
-    accentColor = Prefs.colorAccent
+    accentColor = Prefs.accentColor
     backgroundColor = Prefs.bgColor
     cutoutForeground = Prefs.colorPrimary
     cutoutDrawableRes = R.drawable.aardvark

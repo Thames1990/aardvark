@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="aardvark_amoled">AMOLED</string>
+    <string name="aardvark_custom">Custom</string>
+    <string name="aardvark_dark">Dark</string>
+    <string name="aardvark_default">Default</string>
     <string name="aardvark_description">Aardvark is</string>
+    <string name="aardvark_light">Light</string>
     <string name="aardvark_name" tools:override="true" translatable="false">Aardvark</string>
 
     <string name="about_title">About Aardvark</string>
@@ -24,6 +29,10 @@
     <string name="adb_wifi_disable" translatable="false">setprop service.adb.tcp.port -1\nstop adbd\nstart adbd\nexit</string>
     <string name="adb_wifi_enable" translatable="false">setprop service.adb.tcp.port %1$d\nstop adbd\nstart adbd\nexit</string>
 
+    <string name="appearance">Appearance</string>
+    <string name="appearance_desc">Theme, Items to display, etc</string>
+
+    <string name="behaviour">Behaviour</string>
     <string name="behaviour_desc">Define how the app interacts in certain settings</string>
 
     <string name="chat">Chat</string>
@@ -61,6 +70,12 @@
     <string name="fingerprint_required_description">Place your finger on the reader</string>
 
     <string name="github_url">https://github.com/Thames1990/aardvark</string>
+
+    <string name="global_customization">Global Customization</string>
+
+    <string name="header_color">Header color</string>
+
+    <string name="icon_color">Icon color</string>
 
     <string name="intent_extra_query_from">Query from %1$s</string>
     <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
@@ -113,7 +128,6 @@
     <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>
     <string name="preference_faq">FAQ</string>
     <string name="preference_faq_description">Frequently asked questions</string>
-    <string name="preference_general">General</string>
     <string name="preference_password_description">Serval API password</string>
     <string name="preference_privacy_policy">Privacy policy</string>
     <string name="preference_reset_analytics">Reset analytics</string>
@@ -135,11 +149,16 @@
 
     <string name="radiation">Radiation</string>
 
+    <string name="requires_custom_theme">Requires custom theme</string>
+
     <string name="share">Share</string>
 
     <string name="skip">Skip</string>
 
     <string name="temperature">Temperature</string>
+
+    <string name="theme">Theme</string>
+    <string name="theme_customization">Theme Customization</string>
 
     <string name="time">Time</string>
     <plurals name="time_days_ago">
@@ -162,6 +181,9 @@
         <item quantity="one">%1$d year ago</item>
         <item quantity="other">%1$d years ago</item>
     </plurals>
+
+    <string name="tint_nav">Tint nav bar</string>
+    <string name="tint_nav_desc">Navigation bar will be the same color as the header</string>
 
     <string name="toast_network_disconnected">No network connectivity</string>
 

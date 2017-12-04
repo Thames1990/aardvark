@@ -66,8 +66,8 @@ class IntroActivity2 : KauBaseActivity(), ViewPager.PageTransformer, ViewPager.O
 
     fun theme() {
         ripple.set(Prefs.bgColor)
-        statusBarColor = Prefs.colorAccent
-        navigationBarColor = Prefs.colorAccent
+        statusBarColor = Prefs.accentColor
+        navigationBarColor = Prefs.accentColor
         skip.setTextColor(Prefs.textColor)
         next.imageTintList = ColorStateList.valueOf(Prefs.textColor)
         indicator.setColour(Prefs.textColor)
@@ -119,10 +119,10 @@ class IntroActivity2 : KauBaseActivity(), ViewPager.PageTransformer, ViewPager.O
                 }
             }
         }
-        if (Prefs.colorAccent != accent) {
+        if (Prefs.accentColor != accent) {
             ValueAnimator.ofFloat(0f, 1f).apply {
                 addUpdateListener {
-                    val c = Prefs.colorAccent.blendWith(accent, it.animatedValue as Float)
+                    val c = Prefs.accentColor.blendWith(accent, it.animatedValue as Float)
                     statusBarColor = c
                     navigationBarColor = c
                 }

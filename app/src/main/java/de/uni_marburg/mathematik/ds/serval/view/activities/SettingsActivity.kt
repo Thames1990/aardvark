@@ -16,6 +16,7 @@ import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.settings.getAppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.getBehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.util.*
 import de.uni_marburg.mathematik.ds.serval.util.Prefs.kervalPassword
@@ -31,18 +32,21 @@ class SettingsActivity : KPrefActivity() {
     var resultFlag = Activity.RESULT_CANCELED
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = { Prefs.colorAccent }
+        accentColor = { Prefs.accentColor }
         textColor = { Prefs.textColor }
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
         if (Prefs.debugSettings) createDebugPreferences()
-        subItems(R.string.preference_general, getBehaviourPrefs()) {
+        subItems(R.string.behaviour, getBehaviourPrefs()) {
             descRes = R.string.behaviour_desc
             iicon = GoogleMaterial.Icon.gmd_settings
         }
+        subItems(R.string.appearance, getAppearancePrefs()) {
+            descRes = R.string.appearance_desc
+            iicon = GoogleMaterial.Icon.gmd_palette
+        }
         // TODO Modify other settings
-        createThemePreferences()
         createServalPreferences()
         createAboutPreferences()
     }
@@ -97,27 +101,6 @@ class SettingsActivity : KPrefActivity() {
             }
             onClick = { _, _, _ -> consume { shareWifiAdbCommand() } }
         }
-    }
-
-    private fun KPrefAdapterBuilder.createThemePreferences() {
-        header(R.string.preference_theme)
-        colorPicker(R.string.color_primary, { Prefs.colorPrimary }, {
-            Prefs.colorPrimary = it
-            reload()
-            toolbarCanvas.ripple(it, RippleCanvas.MIDDLE, RippleCanvas.END, 500L)
-        })
-        colorPicker(R.string.color_accent, { Prefs.colorAccent }, {
-            Prefs.colorAccent = it
-            reload()
-        })
-        colorPicker(R.string.color_background, { Prefs.bgColor }, {
-            Prefs.bgColor = it
-            bgCanvas.ripple(it, duration = 500L)
-        })
-        colorPicker(R.string.color_text, { Prefs.textColor }, {
-            Prefs.textColor = it
-            reload()
-        })
     }
 
     private fun KPrefAdapterBuilder.createServalPreferences() {

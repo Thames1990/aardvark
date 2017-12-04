@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     }
 
     override fun onBackPressed() {
-        if (Prefs.confirmExit) materialDialogThemed {
+        if (Prefs.exitConfirmation) materialDialogThemed {
             title(R.string.preference_confirm_exit)
             negativeText(android.R.string.cancel)
             positiveText(android.R.string.ok)
@@ -114,8 +114,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
      * If a new version is detected and the user wants to view changelogs, the changelog is shown.
      */
     private fun checkForNewVersion() {
-        if (Prefs.changelog && Prefs.version < BuildConfig.VERSION_CODE) {
-            Prefs.version = BuildConfig.VERSION_CODE
+        if (Prefs.changelog && Prefs.versionCode < BuildConfig.VERSION_CODE) {
+            Prefs.versionCode = BuildConfig.VERSION_CODE
             aardvarkChangelog()
         }
     }
@@ -155,6 +155,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         const val ACTIVITY_SETTINGS = 97
         const val REQUEST_RESTART_APPLICATION = 1 shl 1
         const val REQUEST_RESTART = 1 shl 2
+        const val REQUEST_REFRESH = 1 shl 3
+        const val REQUEST_NAV = 1 shl 4
 
         lateinit var events: List<Event>
     }

@@ -15,14 +15,14 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
         descRes = R.string.preference_changelog_desc
     }
 
-    checkbox(R.string.preference_confirm_exit, { Prefs.confirmExit }, { Prefs.confirmExit = it })
+    checkbox(R.string.preference_confirm_exit, { Prefs.exitConfirmation }, { Prefs.exitConfirmation = it })
 
     checkbox(R.string.preference_use_secure_flag, { Prefs.useSecureFlag }, { Prefs.useSecureFlag = it }) {
         descRes = R.string.preference_use_secure_flag_description
     }
 
-    checkbox(R.string.preference_use_analytics, { Prefs.useAnalytics }, { useAnalytics ->
-        Prefs.useAnalytics = useAnalytics
+    checkbox(R.string.preference_use_analytics, { Prefs.analytics }, { useAnalytics ->
+        Prefs.analytics = useAnalytics
         if (!useAnalytics) materialDialogThemed {
             title(string(R.string.preference_reset_analytics))
             content(string(R.string.preference_reset_analytics_description))

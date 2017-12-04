@@ -105,6 +105,9 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
 
+    // MaterialDrawer
+    implementation "co.zsmb:materialdrawer-kt:$material_drawer_version"
+
     // Material Intro Screen
     implementation "agency.tango.android:material-intro-screen:$material_intro_screen_version"
 

@@ -142,3 +142,8 @@ fun Context.aardvarkChangelog() = showChangelog(R.xml.changelog, Prefs.textColor
 fun Activity.aardvarkNavigationBar() {
     navigationBarColor = if (Prefs.tintNavBar) Prefs.headerColor else Color.BLACK
 }
+
+fun Activity.setAardvarkTheme() {
+    if (Prefs.bgColor.isColorDark) setTheme(R.style.AardvarkTheme)
+    else setTheme(R.style.AardvarkTheme_Light)
+}
