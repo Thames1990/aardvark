@@ -24,13 +24,14 @@ import de.uni_marburg.mathematik.ds.serval.view.fragments.BaseImageIntroFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.BaseIntroFragment
 import de.uni_marburg.mathematik.ds.serval.view.fragments.BaseIntroFragment.IntroFragmentEnd
 import de.uni_marburg.mathematik.ds.serval.view.fragments.BaseIntroFragment.IntroFragmentWelcome
+import de.uni_marburg.mathematik.ds.serval.view.fragments.IntroFragmentTheme
 import org.jetbrains.anko.find
 
 class IntroActivity2 : KauBaseActivity() {
 
     private val indicator: InkPageIndicator by bindView(R.id.intro_indicator)
     private val next: ImageButton by bindView(R.id.intro_next)
-    private val ripple: RippleCanvas by bindView(R.id.intro_ripple)
+    val ripple: RippleCanvas by bindView(R.id.intro_ripple)
     private val skip: Button by bindView(R.id.intro_skip)
     private val viewpager: ViewPager by bindView(R.id.intro_viewpager)
 
@@ -40,6 +41,7 @@ class IntroActivity2 : KauBaseActivity() {
 
     private val fragments = listOf(
             IntroFragmentWelcome(),
+            IntroFragmentTheme(),
             IntroAccountFragment(),
             IntroFragmentEnd()
     )

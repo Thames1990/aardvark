@@ -35,6 +35,8 @@
     <string name="behaviour">Behaviour</string>
     <string name="behaviour_desc">Define how the app interacts in certain settings</string>
 
+    <string name="bottom_bar">Bottom bar</string>
+
     <string name="chat">Chat</string>
 
     <string name="color_accent">Accent color</string>
@@ -91,6 +93,7 @@
     <string name="intro_end">Let\'s begin</string>
     <string name="intro_multiple_accounts">Multiple Accounts</string>
     <string name="intro_multiple_accounts_desc">Add and switch accounts directly from the navigation bar.\nTap the current avatar to jump to your profile.</string>
+    <string name="intro_select_theme">Select a theme</string>
     <string name="intro_slide_to_continue">Slide to continue</string>
     <string name="intro_tap_to_exit">Tap anywhere to exit</string>
     <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
@@ -192,10 +195,10 @@
     <string name="tools_measurement_value" translatable="false">2 μSv/h</string>
     <string name="tools_time" translatable="false">24 min</string>
 
+    <string name="top_bar">Top bar</string>
+
     <string name="username">Username</string>
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
-    <string name="top_bar">Top bar</string>
-    <string name="bottom_bar">Bottom bar</string>
 </resources>
