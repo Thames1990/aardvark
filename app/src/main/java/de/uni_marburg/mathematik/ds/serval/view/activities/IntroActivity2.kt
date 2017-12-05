@@ -62,51 +62,49 @@ class IntroActivity2 : KauBaseActivity() {
     }
 
     private fun setupViewPager() {
-        viewpager.apply {
-            setPageTransformer(true) { page, position ->
-                // Only apply to adjacent pages
-                if ((position < 0 && position > -1) || (position > 0 && position < 1)) {
-                    val pageWidth = page.width
-                    val translateValue = position * -pageWidth
-                    page.translationX = if (translateValue > -pageWidth) translateValue else 0f
-                    page.alpha = if (position < 0) 1 + position else 1f
-                } else {
-                    page.alpha = 1f
-                    page.translationX = 0f
+        viewpager.setPageTransformer(true) { page, position ->
+            // Only apply to adjacent pages
+            if ((position < 0 && position > -1) || (position > 0 && position < 1)) {
+                val pageWidth = page.width
+                val translateValue = position * -pageWidth
+                page.translationX = if (translateValue > -pageWidth) translateValue else 0f
+                page.alpha = if (position < 0) 1 + position else 1f
+            } else {
+                page.alpha = 1f
+                page.translationX = 0f
+            }
+        }
+        viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) = Unit
+
+            override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+            ) {
+                fragments[position].onPageScrolled(positionOffset)
+                if (position + 1 < fragments.size) {
+                    fragments[position + 1].onPageScrolled(positionOffset - 1)
                 }
             }
-            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-                override fun onPageScrollStateChanged(state: Int) = Unit
 
-                override fun onPageScrolled(
-                        position: Int,
-                        positionOffset: Float,
-                        positionOffsetPixels: Int
-                ) {
-                    fragments[position].onPageScrolled(positionOffset)
-                    if (position + 1 < fragments.size) {
-                        fragments[position + 1].onPageScrolled(positionOffset - 1)
-                    }
+            override fun onPageSelected(position: Int) {
+                fragments[position].onPageSelected()
+                val hasNext = position != fragments.size - 1
+                if (barHasNext == hasNext) return
+                barHasNext = hasNext
+                next.fadeScaleTransition {
+                    setIcon(
+                            if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
+                            else GoogleMaterial.Icon.gmd_done,
+                            color = Prefs.textColor
+                    )
                 }
+                skip.animate().scaleXY(if (barHasNext) 1f else 0f)
+            }
 
-                override fun onPageSelected(position: Int) {
-                    fragments[position].onPageSelected()
-                    val hasNext = position != fragments.size - 1
-                    if (barHasNext == hasNext) return
-                    barHasNext = hasNext
-                    next.fadeScaleTransition {
-                        setIcon(
-                                if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
-                                else GoogleMaterial.Icon.gmd_done,
-                                color = Prefs.textColor
-                        )
-                    }
-                    skip.animate().scaleXY(if (barHasNext) 1f else 0f)
-                }
-
-            })
-            adapter = this.adapter
-        }
+        })
+        viewpager.adapter = this.adapter
     }
 
     fun theme() {
