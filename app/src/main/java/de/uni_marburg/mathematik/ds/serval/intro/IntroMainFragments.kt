@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.view.fragments
+package de.uni_marburg.mathematik.ds.serval.intro
 
 import android.content.res.ColorStateList
 import android.os.Bundle

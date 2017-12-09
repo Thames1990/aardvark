@@ -20,11 +20,11 @@ import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Prefs
-import de.uni_marburg.mathematik.ds.serval.view.fragments.BaseImageIntroFragment.IntroAccountFragment
-import de.uni_marburg.mathematik.ds.serval.view.fragments.BaseIntroFragment
-import de.uni_marburg.mathematik.ds.serval.view.fragments.BaseIntroFragment.IntroFragmentEnd
-import de.uni_marburg.mathematik.ds.serval.view.fragments.BaseIntroFragment.IntroFragmentWelcome
-import de.uni_marburg.mathematik.ds.serval.view.fragments.IntroFragmentTheme
+import de.uni_marburg.mathematik.ds.serval.intro.BaseImageIntroFragment.IntroAccountFragment
+import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment
+import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentEnd
+import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentWelcome
+import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTheme
 import org.jetbrains.anko.find
 
 class IntroActivity2 : KauBaseActivity() {
