@@ -50,7 +50,7 @@ class IntroActivity2 : KauBaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
         adapter = IntroPageAdapter(supportFragmentManager, fragments)
-        setupViewPager()
+        viewpager.init()
         indicator.setViewPager(viewpager)
         next.apply {
             setIcon(GoogleMaterial.Icon.gmd_navigate_next)
@@ -63,8 +63,8 @@ class IntroActivity2 : KauBaseActivity() {
         theme()
     }
 
-    private fun setupViewPager() {
-        viewpager.setPageTransformer(true) { page, position ->
+    private fun ViewPager.init() {
+        setPageTransformer(true) { page, position ->
             // Only apply to adjacent pages
             if ((position < 0 && position > -1) || (position > 0 && position < 1)) {
                 val pageWidth = page.width
@@ -76,7 +76,7 @@ class IntroActivity2 : KauBaseActivity() {
                 page.translationX = 0f
             }
         }
-        viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) = Unit
 
             override fun onPageScrolled(
@@ -106,7 +106,7 @@ class IntroActivity2 : KauBaseActivity() {
             }
 
         })
-        viewpager.adapter = this.adapter
+        adapter = this@IntroActivity2.adapter
     }
 
     fun theme() {
