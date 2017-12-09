@@ -6,7 +6,7 @@
     <string name="aardvark_default">Default</string>
     <string name="aardvark_description">Aardvark is</string>
     <string name="aardvark_light">Light</string>
-    <string name="aardvark_name" tools:override="true" translatable="false">Aardvark</string>
+    <string name="aardvark_name" translatable="false" tools:override="true">Aardvark</string>
 
     <string name="about_aardvark">About Aardvark</string>
     <string name="about_aardvark_desc">Version, Credits, and FAQs</string>
@@ -37,6 +37,9 @@
     <string name="bottom_bar">Bottom bar</string>
 
     <string name="bug_report">Bug Report</string>
+
+    <string name="changelog">Changelog</string>
+    <string name="changelog_desc">Show changelogs after updates</string>
 
     <string name="chat">Chat</string>
 
@@ -70,6 +73,9 @@
     <string name="experimental_disclaimer">Disclaimer</string>
 
     <string name="explore">Explore</string>
+
+    <string name="fancy_animations">Fancy Animations</string>
+    <string name="fancy_animations_desc">Use ripples and animate transitions</string>
 
     <string name="faq_title">Frequently asked questions</string>
 
@@ -134,7 +140,6 @@
     <string name="precipitation">Precipitation</string>
 
     <string name="preference_changelog">Changelog</string>
-    <string name="preference_changelog_desc">Show changelogs after updates</string>
     <string name="preference_confirm_exit">Confirm exit</string>
     <string name="preference_enable_wifi_adb">Enable WiFi ADB</string>
     <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>

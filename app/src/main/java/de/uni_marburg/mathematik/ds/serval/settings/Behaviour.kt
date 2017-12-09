@@ -4,15 +4,22 @@ import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
-import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import org.jetbrains.anko.toast
 
 fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
 
-    checkbox(R.string.preference_changelog, { Prefs.changelog }, { Prefs.changelog = it }) {
-        descRes = R.string.preference_changelog_desc
+    checkbox(R.string.fancy_animations, { Prefs.animate }, {
+        Prefs.animate = it
+        animate = it
+    }) {
+        descRes = R.string.fancy_animations_desc
+    }
+
+    checkbox(R.string.changelog, { Prefs.changelog }, { Prefs.changelog = it }) {
+        descRes = R.string.changelog_desc
     }
 
     checkbox(R.string.preference_confirm_exit, { Prefs.exitConfirmation }, { Prefs.exitConfirmation = it })
