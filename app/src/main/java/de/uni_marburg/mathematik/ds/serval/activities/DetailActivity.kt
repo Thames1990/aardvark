@@ -16,7 +16,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
-import de.uni_marburg.mathematik.ds.serval.view.views.MapIItem
+import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import java.util.*
 
 /** Displays all details of an [event][Event]. */

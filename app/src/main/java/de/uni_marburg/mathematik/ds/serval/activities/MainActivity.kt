@@ -8,6 +8,9 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.TabLayout
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.Toolbar
 import android.view.Menu
@@ -36,7 +39,10 @@ import org.jetbrains.anko.uiThread
 class MainActivity : BaseActivity() {
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
+    val fab: FloatingActionButton by bindView(R.id.fab)
+    val tabs: TabLayout by bindView(R.id.tabs)
     val appBar: AppBarLayout by bindView(R.id.appbar)
+    val coordinator: CoordinatorLayout by bindView(R.id.main_content)
     lateinit var drawer: Drawer
     lateinit var drawerHeader: AccountHeader
 
@@ -67,7 +73,9 @@ class MainActivity : BaseActivity() {
         setContentView(Prefs.mainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
         setupDrawer(savedInstanceState)
+        tabs.init()
         setAardvarkColors(toolbar, themeWindow = false, headers = arrayOf(appBar))
+        tabs.setBackgroundColor(Prefs.mainActivityLayout.backgroundColor())
         doAsync {
             val now = System.currentTimeMillis()
             events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
@@ -77,6 +85,15 @@ class MainActivity : BaseActivity() {
                 toast("Loading events took $timePasses milliseconds")
             }
         }
+    }
+
+    private fun TabLayout.init() {
+        addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab) = Unit
+            override fun onTabUnselected(tab: TabLayout.Tab) = Unit
+            override fun onTabSelected(tab: TabLayout.Tab) = Unit
+        })
+        addTab(newTab().setText("Test"))
     }
 
     @SuppressLint("NewApi")
