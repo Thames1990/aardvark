@@ -3,11 +3,15 @@ package de.uni_marburg.mathematik.ds.serval.utils
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.view.View
 import android.view.WindowManager
+import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import ca.allanwang.kau.xml.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
@@ -148,6 +152,24 @@ fun Activity.aardvarkNavigationBar() {
 fun Activity.setAardvarkTheme() {
     if (Prefs.bgColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
+}
+
+fun Activity.setAardvarkColors(
+        toolbar: Toolbar? = null,
+        themeWindow: Boolean = true,
+        texts: Array<TextView> = arrayOf(),
+        headers: Array<View> = arrayOf(),
+        backgrounds: Array<View> = arrayOf()
+) {
+    statusBarColor = Prefs.headerColor.darken(0.1f).withAlpha(255)
+    if (Prefs.tintNavBar) navigationBarColor = Prefs.headerColor
+    if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.bgColor))
+    toolbar?.setBackgroundColor(Prefs.headerColor)
+    toolbar?.setTitleTextColor(Prefs.iconColor)
+    toolbar?.overflowIcon?.setTint(Prefs.iconColor)
+    texts.forEach { it.setTextColor(Prefs.textColor) }
+    headers.forEach { it.setBackgroundColor(Prefs.headerColor) }
+    backgrounds.forEach { it.setBackgroundColor(Prefs.bgColor) }
 }
 
 fun aardvarkAnswers(action: Answers.() -> Unit) {
