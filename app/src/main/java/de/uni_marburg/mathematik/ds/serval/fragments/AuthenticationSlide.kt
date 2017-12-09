@@ -13,12 +13,12 @@ import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.value
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.util.Prefs
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.isFirstLaunch
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.isLoggedIn
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.kervalPassword
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.kervalUser
-import de.uni_marburg.mathematik.ds.serval.util.consumeIf
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs.isFirstLaunch
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs.isLoggedIn
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs.kervalPassword
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs.kervalUser
+import de.uni_marburg.mathematik.ds.serval.utils.consumeIf
 import kotlinx.android.synthetic.main.slide_authentication.*
 
 

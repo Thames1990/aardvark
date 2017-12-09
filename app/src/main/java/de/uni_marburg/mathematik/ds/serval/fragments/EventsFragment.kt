@@ -10,9 +10,9 @@ import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
-import de.uni_marburg.mathematik.ds.serval.util.Prefs
-import de.uni_marburg.mathematik.ds.serval.util.consume
-import de.uni_marburg.mathematik.ds.serval.util.withDividerDecoration
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.consume
+import de.uni_marburg.mathematik.ds.serval.utils.withDividerDecoration
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.jetbrains.anko.doAsync

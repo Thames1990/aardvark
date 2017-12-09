@@ -7,7 +7,7 @@ import android.view.View
 import ca.allanwang.kau.utils.colorToForeground
 import ca.allanwang.kau.utils.tint
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.util.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import kotlin.math.absoluteValue
 
 /** Created by thames1990 on 03.12.17. */

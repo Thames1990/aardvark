@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.util
+package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver

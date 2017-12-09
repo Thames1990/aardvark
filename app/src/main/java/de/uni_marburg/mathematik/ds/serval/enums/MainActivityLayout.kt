@@ -1,7 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.enums
 
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.util.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
 /** Created by thames1990 on 04.12.17. */
 enum class MainActivityLayout(

@@ -14,10 +14,10 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.util.Prefs
-import de.uni_marburg.mathematik.ds.serval.util.consume
-import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
-import de.uni_marburg.mathematik.ds.serval.util.setSecureFlag
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.consume
+import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
+import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 import de.uni_marburg.mathematik.ds.serval.view.views.MapIItem
 import java.util.*
 

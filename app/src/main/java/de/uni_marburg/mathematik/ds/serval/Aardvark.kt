@@ -8,8 +8,8 @@ import com.github.ajalt.reprint.core.Reprint
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
-import de.uni_marburg.mathematik.ds.serval.util.ForegroundBackgroundListener
-import de.uni_marburg.mathematik.ds.serval.util.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.ForegroundBackgroundListener
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import io.fabric.sdk.android.Fabric
 import java.util.*
 

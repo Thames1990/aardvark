@@ -18,10 +18,10 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.settings.getAppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.getBehaviourPrefs
-import de.uni_marburg.mathematik.ds.serval.util.*
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.kervalPassword
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.kervalUser
-import de.uni_marburg.mathematik.ds.serval.util.Prefs.useWifiADB
+import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs.kervalPassword
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs.kervalUser
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs.useWifiADB
 import org.jetbrains.anko.toast
 import java.io.DataOutputStream
 import java.math.BigInteger

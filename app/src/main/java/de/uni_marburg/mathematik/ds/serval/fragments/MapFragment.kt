@@ -19,8 +19,8 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.clustering.ClusterManager
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.util.MAP_PADDING
-import de.uni_marburg.mathematik.ds.serval.util.consume
+import de.uni_marburg.mathematik.ds.serval.utils.MAP_PADDING
+import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import org.jetbrains.anko.doAsync

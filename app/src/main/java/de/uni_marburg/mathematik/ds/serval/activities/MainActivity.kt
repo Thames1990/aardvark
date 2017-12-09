@@ -28,7 +28,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
-import de.uni_marburg.mathematik.ds.serval.util.*
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 

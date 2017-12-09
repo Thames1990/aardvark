@@ -3,7 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.enums
 import android.graphics.Color
 import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.util.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
 const val AARDVARK_GREEN = 0xff4CAF50.toInt()
 const val AARDVARK_GREEN_LIGHT = 0xff80E27E.toInt()
