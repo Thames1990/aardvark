@@ -20,7 +20,7 @@ enum class MainActivityLayout(
     BOTTOM_BAR(
             R.string.bottom_bar,
             R.layout.activity_main_bottom_tabs,
-            { Prefs.bgColor },
+            { Prefs.backgroundColor },
             { Prefs.textColor }
     );
 

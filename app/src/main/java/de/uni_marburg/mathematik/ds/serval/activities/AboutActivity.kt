@@ -29,7 +29,7 @@ import org.jetbrains.anko.toast
 class AboutActivity : AboutActivityBase(R.string::class.java, {
     textColor = Prefs.textColor
     accentColor = Prefs.accentColor
-    backgroundColor = Prefs.bgColor
+    backgroundColor = Prefs.backgroundColor
     cutoutForeground = Prefs.colorPrimary
     cutoutDrawableRes = R.drawable.aardvark
     faqPageTitleRes = R.string.faq_title

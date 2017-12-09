@@ -160,7 +160,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
-        val navBg = Prefs.bgColor.withMinAlpha(200).toLong()
+        val navBg = Prefs.backgroundColor.withMinAlpha(200).toLong()
         val navHeader = Prefs.headerColor.withMinAlpha(200)
         drawer = drawer {
             toolbar = this@MainActivity.toolbar

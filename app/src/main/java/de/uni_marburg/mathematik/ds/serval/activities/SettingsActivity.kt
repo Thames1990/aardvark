@@ -77,8 +77,8 @@ class SettingsActivity : KPrefActivity() {
     }
 
     fun themeExterior(animate: Boolean = true) {
-        if (animate) bgCanvas.fade(Prefs.bgColor)
-        else bgCanvas.set(Prefs.bgColor)
+        if (animate) bgCanvas.fade(Prefs.backgroundColor)
+        else bgCanvas.set(Prefs.backgroundColor)
         if (animate) toolbarCanvas.ripple(Prefs.headerColor, RippleCanvas.MIDDLE, RippleCanvas.END)
         else toolbarCanvas.set(Prefs.headerColor)
         aardvarkNavigationBar()

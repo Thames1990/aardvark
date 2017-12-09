@@ -110,7 +110,7 @@ class IntroActivity2 : KauBaseActivity() {
     }
 
     fun theme() {
-        ripple.set(Prefs.bgColor)
+        ripple.set(Prefs.backgroundColor)
         statusBarColor = Prefs.headerColor
         navigationBarColor = Prefs.headerColor
         skip.setTextColor(Prefs.textColor)

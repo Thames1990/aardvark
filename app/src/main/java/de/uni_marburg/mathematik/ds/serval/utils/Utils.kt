@@ -137,7 +137,7 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     titleColor(Prefs.textColor)
     contentColor(dimmerTextColor)
     widgetColor(dimmerTextColor)
-    backgroundColor(Prefs.bgColor.lighten(0.1f).withMinAlpha(200))
+    backgroundColor(Prefs.backgroundColor.lighten(0.1f).withMinAlpha(200))
     positiveColor(Prefs.textColor)
     negativeColor(Prefs.textColor)
     neutralColor(Prefs.textColor)
@@ -166,7 +166,7 @@ fun Activity.aardvarkNavigationBar() {
 }
 
 fun Activity.setAardvarkTheme() {
-    if (Prefs.bgColor.isColorDark) setTheme(R.style.AardvarkTheme)
+    if (Prefs.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
 }
 
@@ -179,13 +179,13 @@ fun Activity.setAardvarkColors(
 ) {
     statusBarColor = Prefs.headerColor.darken(0.1f).withAlpha(255)
     if (Prefs.tintNavBar) navigationBarColor = Prefs.headerColor
-    if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.bgColor))
+    if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.backgroundColor))
     toolbar?.setBackgroundColor(Prefs.headerColor)
     toolbar?.setTitleTextColor(Prefs.iconColor)
     toolbar?.overflowIcon?.setTint(Prefs.iconColor)
     texts.forEach { it.setTextColor(Prefs.textColor) }
     headers.forEach { it.setBackgroundColor(Prefs.headerColor) }
-    backgrounds.forEach { it.setBackgroundColor(Prefs.bgColor) }
+    backgrounds.forEach { it.setBackgroundColor(Prefs.backgroundColor) }
 }
 
 fun aardvarkAnswers(action: Answers.() -> Unit) {

@@ -133,7 +133,7 @@ class EventAdapter(
             displayTime()
             displayLocation()
             displayMeasurementTypes()
-            containerView.setBackgroundColor(Prefs.bgColor)
+            containerView.setBackgroundColor(Prefs.backgroundColor)
             containerView.setOnClickListener { listener(this) }
         }
 

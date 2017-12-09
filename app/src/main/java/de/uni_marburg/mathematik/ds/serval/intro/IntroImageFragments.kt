@@ -41,7 +41,7 @@ abstract class BaseImageIntroFragment(
         title.setTextColor(Prefs.textColor)
         desc.setTextColor(Prefs.textColor)
         phone.tint(Prefs.textColor)
-        screen.tint(Prefs.bgColor)
+        screen.tint(Prefs.backgroundColor)
     }
 
     fun themeImageComponent(color: Int, vararg id: Int) {
@@ -80,7 +80,7 @@ abstract class BaseImageIntroFragment(
                     R.id.intro_phone_avatar_2
             )
             themeImageComponent(
-                    Prefs.bgColor.colorToForeground(),
+                    Prefs.backgroundColor.colorToForeground(),
                     R.id.intro_phone_nav
             )
             themeImageComponent(Prefs.accentColor, R.id.intro_phone_header)

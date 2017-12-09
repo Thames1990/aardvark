@@ -40,7 +40,7 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
             Prefs.theme = theme.ordinal
             (activity as IntroActivity2).apply {
                 // TODO Fix ripple
-                ripple.ripple(Prefs.bgColor, v.x + v.pivotX, v.y + v.pivotY)
+                ripple.ripple(Prefs.backgroundColor, v.x + v.pivotX, v.y + v.pivotY)
                 theme()
             }
             themeList.forEach { it.animate().scaleXY(if (it == this) 1.6f else 0.8f).start() }
