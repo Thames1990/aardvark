@@ -21,8 +21,8 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.util.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.util.consume
-import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
-import de.uni_marburg.mathematik.ds.serval.view.activities.MainActivity
+import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
+import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread

@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.view.activities
+package de.uni_marburg.mathematik.ds.serval.activities
 
 import agency.tango.materialintroscreen.MaterialIntroActivity
 import agency.tango.materialintroscreen.SlideFragmentBuilder

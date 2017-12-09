@@ -15,7 +15,7 @@ import ca.allanwang.kau.utils.bindViewResettable
 import ca.allanwang.kau.utils.setOnSingleTapListener
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Prefs
-import de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity2
+import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity2
 import org.jetbrains.anko.childrenSequence
 import kotlin.math.absoluteValue
 

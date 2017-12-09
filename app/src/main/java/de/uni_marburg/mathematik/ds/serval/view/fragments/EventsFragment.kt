@@ -13,7 +13,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.util.Prefs
 import de.uni_marburg.mathematik.ds.serval.util.consume
 import de.uni_marburg.mathematik.ds.serval.util.withDividerDecoration
-import de.uni_marburg.mathematik.ds.serval.view.activities.DetailActivity
+import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity

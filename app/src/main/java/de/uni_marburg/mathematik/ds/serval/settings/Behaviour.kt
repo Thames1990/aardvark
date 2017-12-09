@@ -6,7 +6,7 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Prefs
 import de.uni_marburg.mathematik.ds.serval.util.materialDialogThemed
-import de.uni_marburg.mathematik.ds.serval.view.activities.SettingsActivity
+import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import org.jetbrains.anko.toast
 
 fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {

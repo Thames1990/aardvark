@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.view.activities
+package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.os.Bundle
 import ca.allanwang.kau.internal.KauBaseActivity

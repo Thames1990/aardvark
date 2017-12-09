@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:foreground="?android:attr/selectableItemBackground"
-    tools:context=".view.activities.MainActivity"
+    tools:context=".activities.MainActivity"
     tools:layout_editor_absoluteY="25dp">
 
     <TextView

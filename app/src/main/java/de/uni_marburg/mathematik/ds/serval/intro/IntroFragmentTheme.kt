@@ -7,7 +7,7 @@ import ca.allanwang.kau.utils.scaleXY
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.util.Prefs
-import de.uni_marburg.mathematik.ds.serval.view.activities.IntroActivity2
+import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity2
 
 /** Created by thames1990 on 05.12.17. */
 class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
