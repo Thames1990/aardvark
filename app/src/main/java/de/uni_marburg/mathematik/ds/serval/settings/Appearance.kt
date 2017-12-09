@@ -32,6 +32,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                             setAardvarkTheme()
                             themeExterior()
                             invalidateOptionsMenu()
+                            aardvarkAnswersCustom("Theme", "Count" to Theme(which).name)
                         }
                     }
                 }
