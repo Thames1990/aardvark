@@ -112,6 +112,8 @@
 
     <string name="login_required">You must be logged in</string>
 
+    <string name="main_activity_layout">Main Activity Layout</string>
+
     <string name="map">Map</string>
 
     <plurals name="measurement_count">
@@ -152,10 +154,14 @@
 
     <string name="radiation">Radiation</string>
 
+    <string name="replay_intro">Replay Introduction</string>
+
     <string name="requires_custom_theme">Requires custom theme</string>
 
     <string name="serval">Serval</string>
     <string name="serval_desc">Serval login information</string>
+
+    <string name="set_main_activity_layout">Set Main Activity Layout</string>
 
     <string name="share">Share</string>
 
@@ -207,5 +213,4 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
-    <string name="replay_intro">Replay Introduction</string>
 </resources>

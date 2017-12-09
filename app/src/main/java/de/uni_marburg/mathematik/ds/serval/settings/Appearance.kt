@@ -8,6 +8,7 @@ import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
+import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
@@ -98,6 +99,32 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
     }
 
     header(R.string.global_customization)
+
+    text(
+            R.string.main_activity_layout,
+            { Prefs.mainActivityLayoutType },
+            { Prefs.mainActivityLayoutType = it }
+    ) {
+        textGetter = { string(Prefs.mainActivityLayout.titleRes) }
+        onClick = { _, _, item ->
+            consume {
+                materialDialogThemed {
+                    title(R.string.set_main_activity_layout)
+                    items(MainActivityLayout.values.map { string(it.titleRes) })
+                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                        consumeIf(item.pref != which) {
+                            item.pref = which
+                            shouldRestartMain()
+                            aardvarkAnswersCustom(
+                                    "Main Layout",
+                                    "Type" to MainActivityLayout(which).name
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     checkbox(R.string.tint_nav, { Prefs.tintNavBar }, {
         Prefs.tintNavBar = it
