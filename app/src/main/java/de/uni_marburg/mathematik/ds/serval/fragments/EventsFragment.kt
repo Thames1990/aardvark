@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.view.fragments
+package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.graphics.PorterDuff
 import android.os.Bundle

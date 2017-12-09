@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.view.fragments
+package de.uni_marburg.mathematik.ds.serval.fragments
 
 import agency.tango.materialintroscreen.SlideFragment
 import android.os.Bundle

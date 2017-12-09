@@ -9,7 +9,7 @@ import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.util.Prefs
 import de.uni_marburg.mathematik.ds.serval.util.setCurrentScreen
-import de.uni_marburg.mathematik.ds.serval.view.fragments.AuthenticationSlide
+import de.uni_marburg.mathematik.ds.serval.fragments.AuthenticationSlide
 
 class IntroActivity : MaterialIntroActivity() {
 
