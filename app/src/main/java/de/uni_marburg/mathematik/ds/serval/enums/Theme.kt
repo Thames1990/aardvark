@@ -17,15 +17,6 @@ enum class Theme(
         private val iconColorGetter: () -> Int
 ) {
 
-    DEFAULT(
-            R.string.aardvark_default,
-            { 0xde000000.toInt() },
-            { AARDVARK_GREEN },
-            { 0xfffafafa.toInt() },
-            { AARDVARK_GREEN },
-            { Color.WHITE }
-    ),
-
     LIGHT(
             R.string.aardvark_light,
             { 0xde000000.toInt() },
