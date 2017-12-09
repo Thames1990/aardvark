@@ -6,10 +6,10 @@ import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.utils.snackbar
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.Theme
-import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
+import de.uni_marburg.mathematik.ds.serval.enums.Theme
+import de.uni_marburg.mathematik.ds.serval.utils.*
 
 fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
 
@@ -25,7 +25,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                             .map { string(it) }
                     )
                     itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                        consume {
+                        consumeIf(item.pref != which) {
                             item.pref = which
                             shouldRestartMain()
                             reload()
