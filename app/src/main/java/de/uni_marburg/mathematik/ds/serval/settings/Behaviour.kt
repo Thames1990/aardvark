@@ -36,6 +36,6 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
             }
         }
     }) {
-        descRes = R.string.preference_use_analytics_description
+        descRes = R.string.analytics_desc
     }
 }

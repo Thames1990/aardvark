@@ -143,7 +143,7 @@
     <string name="preference_terms_and_conditions">Terms &amp; conditions</string>
     <string name="preference_theme">Theme</string>
     <string name="preference_use_analytics">Use analytics</string>
-    <string name="preference_use_analytics_description">The developer is able fo fix problems faster</string>
+    <string name="analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
     <string name="preference_use_secure_flag">Use secure flag</string>
     <string name="preference_use_secure_flag_description">Prohibit screenshots and interception of screen status</string>
     <string name="preference_username_description">Serval API username</string>
