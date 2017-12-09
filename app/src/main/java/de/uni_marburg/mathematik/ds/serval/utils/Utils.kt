@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.support.annotation.StringRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.DividerItemDecoration
@@ -12,6 +13,8 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
+import ca.allanwang.kau.email.EmailBuilder
+import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.utils.*
 import ca.allanwang.kau.xml.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
@@ -143,6 +146,19 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
 
 fun Context.aardvarkChangelog() = showChangelog(R.xml.changelog, Prefs.textColor) {
     theme()
+}
+
+inline fun Context.sendAardvarkEmail(
+        @StringRes subjectId: Int,
+        crossinline builder: EmailBuilder.() -> Unit
+) = sendAardvarkEmail(string(subjectId), builder)
+
+inline fun Context.sendAardvarkEmail(
+        subjectId: String,
+        crossinline builder: EmailBuilder.() -> Unit
+) = sendEmail(string(R.string.dev_email), subjectId) {
+    builder()
+    addItem("Random Aardvark ID", Prefs.aardvarkId)
 }
 
 fun Activity.aardvarkNavigationBar() {

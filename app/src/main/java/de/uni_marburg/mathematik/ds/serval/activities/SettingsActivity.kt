@@ -5,23 +5,20 @@ import android.app.Activity
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Bundle
-import ca.allanwang.kau.about.kauLaunchAbout
-import ca.allanwang.kau.email.sendEmail
+import android.view.Menu
+import android.view.MenuItem
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
 import ca.allanwang.kau.kpref.activity.KPrefActivity
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.ui.views.RippleCanvas
-import ca.allanwang.kau.utils.finishSlideOut
-import ca.allanwang.kau.utils.shareText
-import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.Support
 import de.uni_marburg.mathematik.ds.serval.settings.getAppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.getBehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.getServalPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs.kervalPassword
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs.kervalUser
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs.useWifiADB
 import org.jetbrains.anko.toast
 import java.io.DataOutputStream
@@ -39,6 +36,7 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
         if (Prefs.debugSettings) createDebugPreferences()
+
         subItems(R.string.behaviour, getBehaviourPrefs()) {
             descRes = R.string.behaviour_desc
             iicon = GoogleMaterial.Icon.gmd_settings
@@ -51,7 +49,16 @@ class SettingsActivity : KPrefActivity() {
             descRes = R.string.serval_desc
             iicon = GoogleMaterial.Icon.gmd_network_wifi
         }
-        createAboutPreferences()
+
+        plainText(R.string.about_aardvark) {
+            descRes = R.string.about_aardvark_desc
+            iicon = GoogleMaterial.Icon.gmd_info
+            onClick = { _, _, _ ->
+                consume {
+                    startActivityForResult(AboutActivity::class.java, 9, true)
+                }
+            }
+        }
     }
 
     fun shouldRestartMain() {
@@ -82,6 +89,29 @@ class SettingsActivity : KPrefActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean = consume {
+        menuInflater.inflate(R.menu.menu_settings, menu)
+        toolbar.tint(Prefs.iconColor)
+        setMenuIcons(menu, Prefs.iconColor,
+                R.id.action_email to GoogleMaterial.Icon.gmd_email,
+                R.id.action_changelog to GoogleMaterial.Icon.gmd_info
+        )
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = consume {
+        when (item.itemId) {
+            R.id.action_email     -> materialDialogThemed {
+                title(R.string.subject)
+                items(Support.values().map { string(it.title) })
+                itemsCallback { _, _, which, _ ->
+                    Support.values()[which].sendEmail(this@SettingsActivity)
+                }
+            }
+            R.id.action_changelog -> aardvarkChangelog()
+            else                  -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     fun setAardvarkResult(flag: Int) {
         resultFlag = resultFlag or flag
     }
@@ -103,27 +133,6 @@ class SettingsActivity : KPrefActivity() {
                 consume { itemView.context.toast(getString(R.string.preference_enable_wifi_adb_hint)) }
             }
             onClick = { _, _, _ -> consume { shareWifiAdbCommand() } }
-        }
-    }
-
-    private fun KPrefAdapterBuilder.createAboutPreferences() {
-        header(R.string.preference_about)
-        plainText(R.string.preference_send_feedback) {
-            descRes = R.string.preference_send_feedback_description
-            onClick = { _, _, _ -> consume { sendFeedback() } }
-        }
-        plainText(R.string.preference_faq) {
-            descRes = R.string.preference_faq_description
-            onClick = { _, _, _ ->
-                kauLaunchAbout(AboutActivity::class.java)
-                false
-            }
-        }
-        plainText(R.string.preference_privacy_policy)
-        plainText(R.string.preference_terms_and_conditions)
-        plainText(R.string.preference_version) {
-            descRes = R.string.app_version
-            onClick = { _, _, _ -> consume { aardvarkChangelog() } }
         }
     }
 
@@ -168,13 +177,5 @@ class SettingsActivity : KPrefActivity() {
                 val hostAdress = InetAddress.getByAddress(ipAdress).hostAddress
                 shareText(String.format(string(R.string.adb_connect), hostAdress))
             }
-
-    /**
-     * Opens an email client with device information for the user to send feedback.
-     */
-    private fun sendFeedback() = sendEmail(
-            string(R.string.email_adress_feedback),
-            String.format(string(R.string.intent_extra_query_from), string(R.string.aardvark_name))
-    )
 
 }

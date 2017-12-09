@@ -29,6 +29,8 @@
     <string name="adb_wifi_disable" translatable="false">setprop service.adb.tcp.port -1\nstop adbd\nstart adbd\nexit</string>
     <string name="adb_wifi_enable" translatable="false">setprop service.adb.tcp.port %1$d\nstop adbd\nstart adbd\nexit</string>
 
+    <string name="analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
+
     <string name="appearance">Appearance</string>
     <string name="appearance_desc">Theme, Items to display, etc</string>
 
@@ -36,6 +38,8 @@
     <string name="behaviour_desc">Define how the app interacts in certain settings</string>
 
     <string name="bottom_bar">Bottom bar</string>
+
+    <string name="bug_report">Bug Report</string>
 
     <string name="chat">Chat</string>
 
@@ -54,19 +58,22 @@
 
     <string name="details">Details</string>
 
+    <string name="dev_email" translatable="false">ThomasMohr1990@gmail.com</string>
     <string name="dev_name">Thomas Mohr</string>
 
     <string name="distance">Distance</string>
     <string name="distance_in_kilometer">%1$.2f km</string>
     <string name="distance_in_meter">%1$.0f m</string>
 
-    <string name="email_adress_feedback" translatable="false">ThomasMohr1990@gmail.com</string>
-
     <string name="events">Events</string>
 
     <string name="explore">Explore</string>
 
     <string name="faq_title">Frequently asked questions</string>
+
+    <string name="feature_request">Feature Request</string>
+
+    <string name="feedback">Feedback</string>
 
     <string name="fingerprint_required">Access your secured environment</string>
     <string name="fingerprint_required_description">Place your finger on the reader</string>
@@ -122,17 +129,15 @@
 
     <string name="precipitation">Precipitation</string>
 
-    <string name="preference_about">About</string>
     <string name="preference_changelog">Changelog</string>
     <string name="preference_changelog_desc">Show changelogs after updates</string>
     <string name="preference_confirm_exit">Confirm exit</string>
     <string name="preference_debug">Debug</string>
     <string name="preference_enable_wifi_adb">Enable WiFi ADB</string>
     <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>
-    <string name="preference_faq">FAQ</string>
-    <string name="preference_faq_description">Frequently asked questions</string>
+    <string name="about_aardvark">About Aardvark</string>
+    <string name="about_aardvark_desc">Version, Credits, and FAQs</string>
     <string name="preference_password_description">Serval API password</string>
-    <string name="preference_privacy_policy">Privacy policy</string>
     <string name="preference_reset_analytics">Reset analytics</string>
     <string name="preference_reset_analytics_confirmation">Your analytics collection was removed</string>
     <string name="preference_reset_analytics_description">Do you want to delete all collected analytics data?</string>
@@ -140,29 +145,30 @@
     <string name="preference_send_feedback_description">Got any queries? We are happy to help!</string>
     <string name="preference_share_adb_command_description">Use this command on your computer</string>
     <string name="preference_share_wifi_adb_command">Share ADB command</string>
-    <string name="preference_terms_and_conditions">Terms &amp; conditions</string>
     <string name="preference_theme">Theme</string>
     <string name="preference_use_analytics">Use analytics</string>
-    <string name="analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
     <string name="preference_use_secure_flag">Use secure flag</string>
     <string name="preference_use_secure_flag_description">Prohibit screenshots and interception of screen status</string>
     <string name="preference_username_description">Serval API username</string>
-    <string name="preference_version">Version</string>
 
     <string name="radiation">Radiation</string>
 
     <string name="requires_custom_theme">Requires custom theme</string>
 
     <string name="serval">Serval</string>
+    <string name="serval_desc">Serval login information</string>
 
     <string name="share">Share</string>
 
     <string name="skip">Skip</string>
 
+    <string name="subject">Subject</string>
+
     <string name="temperature">Temperature</string>
 
     <string name="theme">Theme</string>
     <string name="theme_customization">Theme Customization</string>
+    <string name="theme_issue">Theme Issue</string>
 
     <string name="time">Time</string>
     <plurals name="time_days_ago">
@@ -202,5 +208,4 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
-    <string name="serval_desc">Serval login information</string>
 </resources>
