@@ -6,7 +6,7 @@
     <string name="aardvark_default">Default</string>
     <string name="aardvark_description">Aardvark is</string>
     <string name="aardvark_light">Light</string>
-    <string name="aardvark_name" tools:override="true" translatable="false">Aardvark</string>
+    <string name="aardvark_name" translatable="false" tools:override="true">Aardvark</string>
 
     <string name="about_title">About Aardvark</string>
 
@@ -23,11 +23,6 @@
     <string name="action_sort_events_distance">@string/distance</string>
     <string name="action_sort_events_measurements">Measurements</string>
     <string name="action_sort_events_time">Time</string>
-
-    <string name="adb_connect" translatable="false">adb connect %1$s</string>
-    <string name="adb_superuser" translatable="false">su</string>
-    <string name="adb_wifi_disable" translatable="false">setprop service.adb.tcp.port -1\nstop adbd\nstart adbd\nexit</string>
-    <string name="adb_wifi_enable" translatable="false">setprop service.adb.tcp.port %1$d\nstop adbd\nstart adbd\nexit</string>
 
     <string name="analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
 
@@ -132,7 +127,7 @@
     <string name="preference_changelog">Changelog</string>
     <string name="preference_changelog_desc">Show changelogs after updates</string>
     <string name="preference_confirm_exit">Confirm exit</string>
-    <string name="preference_debug">Debug</string>
+    <string name="debug">Debug</string>
     <string name="preference_enable_wifi_adb">Enable WiFi ADB</string>
     <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>
     <string name="about_aardvark">About Aardvark</string>
@@ -208,4 +203,5 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
+    <string name="debug_desc">Useful features for developers</string>
 </resources>

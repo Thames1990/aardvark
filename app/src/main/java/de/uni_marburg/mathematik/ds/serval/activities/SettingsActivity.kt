@@ -2,8 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,18 +10,15 @@ import ca.allanwang.kau.kpref.activity.KPrefActivity
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.utils.*
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Support
 import de.uni_marburg.mathematik.ds.serval.settings.getAppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.getBehaviourPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.getDebugPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.getServalPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs.useWifiADB
-import org.jetbrains.anko.toast
-import java.io.DataOutputStream
-import java.math.BigInteger
-import java.net.InetAddress
 
 class SettingsActivity : KPrefActivity() {
 
@@ -35,7 +30,10 @@ class SettingsActivity : KPrefActivity() {
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
-        if (Prefs.debugSettings) createDebugPreferences()
+        if (Prefs.debugSettings) subItems(R.string.debug, getDebugPrefs()) {
+            descRes = R.string.debug_desc
+            iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
+        }
 
         subItems(R.string.behaviour, getBehaviourPrefs()) {
             descRes = R.string.behaviour_desc
@@ -115,67 +113,5 @@ class SettingsActivity : KPrefActivity() {
     fun setAardvarkResult(flag: Int) {
         resultFlag = resultFlag or flag
     }
-
-    private fun KPrefAdapterBuilder.createDebugPreferences() {
-        header(R.string.preference_debug)
-        checkbox(R.string.preference_enable_wifi_adb, { useWifiADB }, {
-            useWifiADB = it
-            when (it) {
-                true  -> enableWifiAdb()
-                false -> disableWifiAdb()
-            }
-            reloadByTitle(R.string.preference_share_wifi_adb_command)
-        })
-        plainText(R.string.preference_share_wifi_adb_command) {
-            descRes = R.string.preference_share_adb_command_description
-            enabler = { useWifiADB }
-            onDisabledClick = { itemView, _, _ ->
-                consume { itemView.context.toast(getString(R.string.preference_enable_wifi_adb_hint)) }
-            }
-            onClick = { _, _, _ -> consume { shareWifiAdbCommand() } }
-        }
-    }
-
-    /**
-     * Enables WifiADB and lets the user send ADB connection information.
-     */
-    private fun enableWifiAdb() {
-        with(Runtime.getRuntime().exec(string(R.string.adb_superuser))) {
-            with(DataOutputStream(outputStream)) {
-                writeBytes(String.format(string(R.string.adb_wifi_enable), WIFI_ADB_PORT))
-                flush()
-                close()
-            }
-            waitFor()
-        }
-    }
-
-    /**
-     * Disables WifiADB.
-     * TODO Figure out how to deactivate WifiADB on isFinishing
-     */
-    private fun disableWifiAdb() {
-        with(Runtime.getRuntime().exec(string(R.string.adb_superuser))) {
-            with(DataOutputStream(outputStream)) {
-                writeBytes(string(R.string.adb_wifi_disable))
-                flush()
-                close()
-            }
-            waitFor()
-        }
-    }
-
-    /**
-     * Share information to connect to the device via WifiADB.
-     */
-    private fun shareWifiAdbCommand() =
-            with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
-                val ipAdress: ByteArray = BigInteger
-                        .valueOf(connectionInfo.ipAddress.toLong())
-                        .toByteArray()
-                        .reversedArray()
-                val hostAdress = InetAddress.getByAddress(ipAdress).hostAddress
-                shareText(String.format(string(R.string.adb_connect), hostAdress))
-            }
 
 }
