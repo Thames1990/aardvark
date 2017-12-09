@@ -112,7 +112,8 @@ class MainActivity : BaseActivity() {
                     System.exit(0)
                     return
                 }
-                if (resultCode and REQUEST_RESTART > 0) return restart()
+                // TODO Check why we can't restart the activity
+                if (resultCode and REQUEST_RESTART > 0 && data != null) return restart()
                 if (resultCode and REQUEST_NAV > 0) aardvarkNavigationBar()
             }
         }
