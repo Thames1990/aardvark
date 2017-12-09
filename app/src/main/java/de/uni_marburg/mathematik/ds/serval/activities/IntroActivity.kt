@@ -1,61 +1,187 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
-import agency.tango.materialintroscreen.MaterialIntroActivity
-import agency.tango.materialintroscreen.SlideFragmentBuilder
-import android.Manifest
+import android.animation.ValueAnimator
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
-import ca.allanwang.kau.utils.colorToBackground
-import ca.allanwang.kau.utils.string
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.ViewPager
+import android.view.View
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
+import ca.allanwang.kau.internal.KauBaseActivity
+import ca.allanwang.kau.ui.views.RippleCanvas
+import ca.allanwang.kau.ui.widgets.InkPageIndicator
+import ca.allanwang.kau.utils.*
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
-import de.uni_marburg.mathematik.ds.serval.fragments.AuthenticationSlide
+import de.uni_marburg.mathematik.ds.serval.intro.BaseImageIntroFragment.IntroAccountFragment
+import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment
+import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentEnd
+import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentWelcome
+import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTheme
+import org.jetbrains.anko.find
 
-class IntroActivity : MaterialIntroActivity() {
+class IntroActivity : KauBaseActivity() {
+
+    private val indicator: InkPageIndicator by bindView(R.id.intro_indicator)
+    private val next: ImageButton by bindView(R.id.intro_next)
+    val ripple: RippleCanvas by bindView(R.id.intro_ripple)
+    private val skip: Button by bindView(R.id.intro_skip)
+    private val viewpager: ViewPager by bindView(R.id.intro_viewpager)
+
+    private lateinit var adapter: IntroPageAdapter
+
+    private var barHasNext = true
+
+    private val fragments = listOf(
+            IntroFragmentWelcome(),
+            IntroFragmentTheme(),
+            IntroAccountFragment(),
+            IntroFragmentEnd()
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setCurrentScreen()
-        enableLastSlideAlphaExitTransition(true)
-        nextButtonTranslationWrapper.setEnterTranslation { view, percentage ->
-            view.alpha = percentage
+        setContentView(R.layout.activity_intro)
+        adapter = IntroPageAdapter(supportFragmentManager, fragments)
+        viewpager.init()
+        indicator.setViewPager(viewpager)
+        next.apply {
+            setIcon(GoogleMaterial.Icon.gmd_navigate_next)
+            setOnClickListener {
+                if (barHasNext) viewpager.setCurrentItem(viewpager.currentItem + 1, true)
+                else finish(next.x + next.pivotX, next.y + next.pivotY)
+            }
         }
-
-        addSlide(SlideFragmentBuilder()
-                .title(string(R.string.intro_1_title))
-                .description(string(R.string.intro_1_description))
-                .image(R.drawable.speaker_phone)
-                .backgroundColor(R.color.intro_1_background)
-                .buttonsColor(Prefs.colorPrimary.colorToBackground())
-                .build())
-
-        addSlide(SlideFragmentBuilder()
-                .title(string(R.string.intro_2_title))
-                .description(string(R.string.intro_2_description))
-                .image(R.drawable.dashboard)
-                .backgroundColor(R.color.intro_2_background)
-                .buttonsColor(Prefs.colorPrimary.colorToBackground())
-                .build())
-
-        addSlide(SlideFragmentBuilder()
-                .title(string(R.string.intro_3_title))
-                .description(string(R.string.intro_3_description))
-                .image(R.drawable.map)
-                .backgroundColor(R.color.intro_3_background)
-                .buttonsColor(Prefs.colorPrimary.colorToBackground())
-                .neededPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
-                .build())
-
-        addSlide(SlideFragmentBuilder()
-                .title(string(R.string.intro_4_title))
-                .description(string(R.string.intro_4_description))
-                .image(R.drawable.chat)
-                .backgroundColor(R.color.intro_4_background)
-                .buttonsColor(Prefs.colorPrimary.colorToBackground())
-                .build())
-
-        addSlide(AuthenticationSlide())
+        skip.setOnClickListener { finish() }
+        theme()
     }
 
-    override fun onBackPressed() = finishAffinity()
+    private fun ViewPager.init() {
+        setPageTransformer(true) { page, position ->
+            // Only apply to adjacent pages
+            if ((position < 0 && position > -1) || (position > 0 && position < 1)) {
+                val pageWidth = page.width
+                val translateValue = position * -pageWidth
+                page.translationX = if (translateValue > -pageWidth) translateValue else 0f
+                page.alpha = if (position < 0) 1 + position else 1f
+            } else {
+                page.alpha = 1f
+                page.translationX = 0f
+            }
+        }
+        addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) = Unit
+
+            override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+            ) {
+                fragments[position].onPageScrolled(positionOffset)
+                if (position + 1 < fragments.size) {
+                    fragments[position + 1].onPageScrolled(positionOffset - 1)
+                }
+            }
+
+            override fun onPageSelected(position: Int) {
+                fragments[position].onPageSelected()
+                val hasNext = position != fragments.size - 1
+                if (barHasNext == hasNext) return
+                barHasNext = hasNext
+                next.fadeScaleTransition {
+                    setIcon(
+                            if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
+                            else GoogleMaterial.Icon.gmd_done,
+                            color = Prefs.textColor
+                    )
+                }
+                skip.animate().scaleXY(if (barHasNext) 1f else 0f)
+            }
+
+        })
+        adapter = this@IntroActivity.adapter
+    }
+
+    fun theme() {
+        ripple.set(Prefs.backgroundColor)
+        statusBarColor = Prefs.headerColor
+        navigationBarColor = Prefs.headerColor
+        skip.setTextColor(Prefs.textColor)
+        next.imageTintList = ColorStateList.valueOf(Prefs.textColor)
+        indicator.setColour(Prefs.textColor)
+        indicator.invalidate()
+        fragments.forEach { it.themeFragment() }
+    }
+
+    fun finish(x: Float, y: Float) {
+        val green = color(R.color.aardvark_green)
+        window.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        )
+        ripple.ripple(green, x, y, 600) {
+            postDelayed(1000) { finish() }
+        }
+        @Suppress("RemoveExplicitTypeArguments")
+        arrayOf(
+                skip,
+                indicator,
+                next,
+                fragments.last().view?.find<View>(R.id.intro_title),
+                fragments.last().view?.find<View>(R.id.intro_desc)
+        ).forEach {
+            it?.animate()?.alpha(0f)?.setDuration(600)?.start()
+        }
+        if (Prefs.textColor != Color.WHITE) {
+            val f = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
+            if (f != null) {
+                ValueAnimator.ofFloat(0f, 1f).apply {
+                    addUpdateListener {
+                        f.setTint(Prefs.textColor.blendWith(Color.WHITE, it.animatedValue as Float))
+                    }
+                    duration = 600
+                    start()
+                }
+            }
+        }
+        if (Prefs.headerColor != green) {
+            ValueAnimator.ofFloat(0f, 1f).apply {
+                addUpdateListener {
+                    val color = Prefs.headerColor.blendWith(green, it.animatedValue as Float)
+                    statusBarColor = color
+                    navigationBarColor = color
+                }
+                duration = 600
+                start()
+            }
+        }
+    }
+
+    override fun finish() {
+        Prefs.isFirstLaunch = false
+        startActivity(MainActivity::class.java)
+        super.finish()
+    }
+
+    override fun onBackPressed() {
+        if (viewpager.currentItem > 0) viewpager.setCurrentItem(viewpager.currentItem - 1, true)
+        else finish()
+    }
+
+    class IntroPageAdapter(
+            fm: FragmentManager,
+            private val fragments: List<BaseIntroFragment>
+    ) : FragmentPagerAdapter(fm) {
+
+        override fun getItem(position: Int): Fragment = fragments[position]
+
+        override fun getCount(): Int = fragments.size
+    }
 }

@@ -106,7 +106,7 @@ fun Float.distanceToString(context: Context): String =
 fun RecyclerView.withDividerDecoration(
         context: Context,
         orientation: Int,
-        color: Int = Prefs.colorPrimary
+        color: Int = Prefs.accentColor
 ) {
     val divider = DividerItemDecoration(context, orientation)
     val resource = context.drawable(R.drawable.line_divider)

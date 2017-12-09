@@ -15,7 +15,7 @@ import ca.allanwang.kau.utils.bindViewResettable
 import ca.allanwang.kau.utils.setOnSingleTapListener
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity2
+import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 import org.jetbrains.anko.childrenSequence
 import kotlin.math.absoluteValue
 
@@ -124,7 +124,7 @@ abstract class BaseIntroFragment(val layoutRes: Int) : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
             container.setOnSingleTapListener { _, event ->
-                (activity as IntroActivity2).finish(event.x, event.y)
+                (activity as IntroActivity).finish(event.x, event.y)
             }
         }
     }

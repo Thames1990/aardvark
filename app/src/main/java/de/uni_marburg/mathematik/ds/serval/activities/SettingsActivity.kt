@@ -59,7 +59,7 @@ class SettingsActivity : KPrefActivity() {
         }
         plainText(R.string.replay_intro) {
             iicon = GoogleMaterial.Icon.gmd_replay
-            onClick = { _, _, _ -> consume { startActivity(IntroActivity2::class.java) } }
+            onClick = { _, _, _ -> consume { startActivity(IntroActivity::class.java) } }
         }
     }
 

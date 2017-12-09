@@ -7,7 +7,7 @@ import ca.allanwang.kau.utils.scaleXY
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity2
+import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 
 /** Created by thames1990 on 05.12.17. */
 class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
@@ -38,7 +38,7 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
     private fun View.setThemeCLick(theme: Theme) {
         setOnClickListener { v ->
             Prefs.theme = theme.ordinal
-            (activity as IntroActivity2).apply {
+            (activity as IntroActivity).apply {
                 // TODO Fix ripple
                 ripple.ripple(Prefs.backgroundColor, v.x + v.pivotX, v.y + v.pivotY)
                 theme()

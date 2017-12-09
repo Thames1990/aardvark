@@ -29,9 +29,6 @@
         </activity>
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.IntroActivity"
-            android:theme="@style/Theme.Intro" />
-        <activity
-            android:name="de.uni_marburg.mathematik.ds.serval.activities.IntroActivity2"
             android:theme="@style/AardvarkTheme.Intro" />
         <activity android:name="de.uni_marburg.mathematik.ds.serval.activities.FingerprintActivity" />
         <activity

@@ -7,14 +7,12 @@ import android.os.Bundle
 import ca.allanwang.kau.iitems.CardIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
 import ca.allanwang.kau.utils.drawable
-import ca.allanwang.kau.utils.setBackgroundColorRes
 import ca.allanwang.kau.utils.string
 import ca.allanwang.kau.utils.tint
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
@@ -31,7 +29,6 @@ class DetailActivity : ElasticRecyclerActivity() {
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean = consume {
         setSecureFlag()
         setCurrentScreen()
-        toolbar.setBackgroundColorRes(Prefs.colorPrimary)
         event = intent.extras.getParcelable(EVENT)
         title = event.title
         recycler.adapter = adapter
