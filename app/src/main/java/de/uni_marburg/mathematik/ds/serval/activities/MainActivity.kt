@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.Toolbar
 import android.view.Menu
@@ -35,6 +36,7 @@ import org.jetbrains.anko.uiThread
 class MainActivity : BaseActivity() {
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
+    val appBar: AppBarLayout by bindView(R.id.appbar)
     lateinit var drawer: Drawer
     lateinit var drawerHeader: AccountHeader
 
@@ -64,6 +66,7 @@ class MainActivity : BaseActivity() {
             setContentView(Prefs.mainActivityLayout.layoutRes)
             setSupportActionBar(toolbar)
             setupDrawer(savedInstanceState)
+            setAardvarkColors(toolbar, themeWindow = false, headers = arrayOf(appBar))
             doAsync {
                 val now = System.currentTimeMillis()
                 events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
