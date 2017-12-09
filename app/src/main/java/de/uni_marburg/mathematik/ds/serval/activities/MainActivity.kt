@@ -112,7 +112,7 @@ class MainActivity : BaseActivity() {
                     System.exit(0)
                     return
                 }
-                if (resultCode and REQUEST_RESTART > 0 && data != null) return restart()
+                if (resultCode and REQUEST_RESTART > 0) return restart()
                 if (resultCode and REQUEST_NAV > 0) aardvarkNavigationBar()
             }
         }

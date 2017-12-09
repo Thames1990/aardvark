@@ -18,6 +18,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.settings.getAppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.getBehaviourPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.getServalPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs.kervalPassword
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs.kervalUser
@@ -46,8 +47,10 @@ class SettingsActivity : KPrefActivity() {
             descRes = R.string.appearance_desc
             iicon = GoogleMaterial.Icon.gmd_palette
         }
-        // TODO Modify other settings
-        createServalPreferences()
+        subItems(R.string.serval, getServalPrefs()) {
+            descRes = R.string.serval_desc
+            iicon = GoogleMaterial.Icon.gmd_network_wifi
+        }
         createAboutPreferences()
     }
 
@@ -100,36 +103,6 @@ class SettingsActivity : KPrefActivity() {
                 consume { itemView.context.toast(getString(R.string.preference_enable_wifi_adb_hint)) }
             }
             onClick = { _, _, _ -> consume { shareWifiAdbCommand() } }
-        }
-    }
-
-    private fun KPrefAdapterBuilder.createServalPreferences() {
-        header(R.string.preference_serval)
-        text(R.string.username, { kervalUser }, { kervalUser = it }) {
-            descRes = R.string.preference_username_description
-            onClick = { itemView, _, item ->
-                consume {
-                    itemView.context.materialDialogThemed {
-                        title(string(R.string.username))
-                        input(string(R.string.username), item.pref, { _, input ->
-                            item.pref = input.toString()
-                        })
-                    }
-                }
-            }
-        }
-        text(R.string.password, { kervalPassword }, { kervalPassword = it }) {
-            descRes = R.string.preference_password_description
-            onClick = { itemView, _, item ->
-                consume {
-                    itemView.context.materialDialogThemed {
-                        title(string(R.string.password))
-                        input(string(R.string.password), item.pref, { _, input ->
-                            item.pref = input.toString()
-                        })
-                    }
-                }
-            }
         }
     }
 
