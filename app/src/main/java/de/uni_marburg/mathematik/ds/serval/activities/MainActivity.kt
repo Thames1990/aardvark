@@ -63,18 +63,18 @@ class MainActivity : BaseActivity() {
                         "Aardvark id" to Prefs.aardvarkId
                 )
             }
-            setContentView(Prefs.mainActivityLayout.layoutRes)
-            setSupportActionBar(toolbar)
-            setupDrawer(savedInstanceState)
-            setAardvarkColors(toolbar, themeWindow = false, headers = arrayOf(appBar))
-            doAsync {
-                val now = System.currentTimeMillis()
-                events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
-                uiThread {
-                    val later = System.currentTimeMillis()
-                    val timePasses = later - now
-                    toast("Loading events took $timePasses milliseconds")
-                }
+        }
+        setContentView(Prefs.mainActivityLayout.layoutRes)
+        setSupportActionBar(toolbar)
+        setupDrawer(savedInstanceState)
+        setAardvarkColors(toolbar, themeWindow = false, headers = arrayOf(appBar))
+        doAsync {
+            val now = System.currentTimeMillis()
+            events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
+            uiThread {
+                val later = System.currentTimeMillis()
+                val timePasses = later - now
+                toast("Loading events took $timePasses milliseconds")
             }
         }
     }
