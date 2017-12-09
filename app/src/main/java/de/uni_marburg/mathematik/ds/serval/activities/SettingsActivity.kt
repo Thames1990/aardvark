@@ -22,7 +22,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.*
 
 class SettingsActivity : KPrefActivity() {
 
-    var resultFlag = Activity.RESULT_CANCELED
+    private var resultFlag = Activity.RESULT_CANCELED
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
         accentColor = { Prefs.accentColor }
@@ -69,6 +69,7 @@ class SettingsActivity : KPrefActivity() {
 
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
+        setAardvarkTheme()
         super.onCreate(savedInstanceState)
         setSecureFlag()
         setCurrentScreen()
