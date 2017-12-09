@@ -39,7 +39,6 @@ object Prefs : KPref() {
     var animate: Boolean by kpref("ANIMATE", true)
     var analytics: Boolean by kpref("USE_ANALYTICS", true)
     var changelog: Boolean by kpref("SHOW_CHANGELOG", true)
-    var colorPrimary: Int by kpref("COLOR_PRIMARY", 0xff4CAF50.toInt())
     var customTextColor: Int by kpref("color_text", 0xffeceff1.toInt())
     var customAccentColor: Int by kpref("color_accent", 0xff0288d1.toInt())
     var customBackgroundColor: Int by kpref("color_bg", 0xff212121.toInt())

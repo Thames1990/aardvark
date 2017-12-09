@@ -97,12 +97,6 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
         allowCustomAlpha = false
     }
 
-    colorPicker(R.string.color_primary, { Prefs.colorPrimary }, {
-        Prefs.colorPrimary = it
-        reload()
-        toolbarCanvas.ripple(it, RippleCanvas.MIDDLE, RippleCanvas.END, 500L)
-    })
-
     header(R.string.global_customization)
 
     checkbox(R.string.tint_nav, { Prefs.tintNavBar }, {
