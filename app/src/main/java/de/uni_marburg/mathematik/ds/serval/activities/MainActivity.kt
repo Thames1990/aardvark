@@ -91,7 +91,9 @@ class MainActivity : BaseActivity() {
             override fun onTabUnselected(tab: TabLayout.Tab) = Unit
             override fun onTabSelected(tab: TabLayout.Tab) = Unit
         })
-        addTab(newTab().setText("Test"))
+        AardvarkItem.values().map {
+            addTab(newTab().setText(it.titleId))
+        }
     }
 
     @SuppressLint("NewApi")
@@ -230,9 +232,9 @@ class MainActivity : BaseActivity() {
                 }
             }
             drawerHeader.setActiveProfile(Prefs.identifier.toLong())
-            primaryAardvarkItem(AardvarkItem.DASHBOARD)
-            primaryAardvarkItem(AardvarkItem.EVENTS)
-            primaryAardvarkItem(AardvarkItem.MAP)
+            AardvarkItem.values().map {
+                primaryAardvarkItem(it)
+            }
         }
     }
 
