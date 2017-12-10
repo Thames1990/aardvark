@@ -188,11 +188,12 @@ class MainActivity : BaseActivity() {
                 textColor = Prefs.iconColor.toLong()
                 backgroundDrawable = ColorDrawable(navHeader)
                 selectionSecondLineShown = false
-                profile(name = BuildConfig.APPLICATION_ID) {
+                profile(name = Prefs.aardvarkId) {
+                    icon = R.drawable.aardvark
                     textColor = Prefs.textColor.toLong()
                     selectedTextColor = Prefs.textColor.toLong()
                     selectedColor = 0x00000001.toLong()
-                    identifier = 1L
+                    identifier = Prefs.identifier.toLong()
                 }
                 profileSetting(nameRes = R.string.kau_logout) {
                     iicon = GoogleMaterial.Icon.gmd_exit_to_app
