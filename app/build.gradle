@@ -106,9 +106,6 @@ dependencies {
     // MaterialDrawer
     implementation "co.zsmb:materialdrawer-kt:$material_drawer_version"
 
-    // Material Intro Screen
-    implementation "agency.tango.android:material-intro-screen:$material_intro_screen_version"
-
     // Moshi
     implementation "com.squareup.moshi:moshi:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
