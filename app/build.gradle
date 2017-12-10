@@ -24,7 +24,6 @@ android {
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
-        resValue "string", "app_version", "$versionName"
         setProperty('archivesBaseName', "aardvark-$versionName")
 
         androidExtensions { experimental = true }
