@@ -79,8 +79,8 @@ class MainActivity : BaseActivity() {
             events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
             uiThread {
                 val later = System.currentTimeMillis()
-                val timePasses = later - now
-                toast("Loading events took $timePasses milliseconds")
+                val timePassed = later - now
+                snackbar("Loading events took $timePassed milliseconds")
             }
         }
     }
