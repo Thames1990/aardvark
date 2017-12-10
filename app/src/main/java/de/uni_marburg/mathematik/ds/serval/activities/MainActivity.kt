@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.Toolbar
@@ -39,7 +38,6 @@ import org.jetbrains.anko.uiThread
 class MainActivity : BaseActivity() {
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
-    val fab: FloatingActionButton by bindView(R.id.fab)
     val tabs: TabLayout by bindView(R.id.tabs)
     val appBar: AppBarLayout by bindView(R.id.appbar)
     val coordinator: CoordinatorLayout by bindView(R.id.main_content)
