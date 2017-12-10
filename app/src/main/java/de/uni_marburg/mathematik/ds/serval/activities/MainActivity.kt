@@ -188,7 +188,7 @@ class MainActivity : BaseActivity() {
                 textColor = Prefs.iconColor.toLong()
                 backgroundDrawable = ColorDrawable(navHeader)
                 selectionSecondLineShown = false
-                profile(name = Prefs.aardvarkId) {
+                profile(name = Prefs.kervalUser) {
                     icon = R.drawable.aardvark
                     textColor = Prefs.textColor.toLong()
                     selectedTextColor = Prefs.textColor.toLong()
@@ -214,6 +214,13 @@ class MainActivity : BaseActivity() {
                     iconColor = Prefs.textColor.toLong()
                     textColor = Prefs.textColor.toLong()
                     identifier = -4L
+                }
+                onProfileChanged { _, profile, current ->
+                    when (profile.identifier) {
+                        -2L -> {
+
+                        }
+                    }
                 }
             }
             drawerHeader.setActiveProfile(1L)
