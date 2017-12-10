@@ -28,7 +28,6 @@ android {
         setProperty('archivesBaseName', "aardvark-$versionName")
 
         androidExtensions { experimental = true }
-        dataBinding { enabled = true }
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 
