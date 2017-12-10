@@ -215,15 +215,25 @@ class MainActivity : BaseActivity() {
                     textColor = Prefs.textColor.toLong()
                     identifier = -4L
                 }
-                onProfileChanged { _, profile, current ->
+                onProfileChanged { _, profile, _ ->
                     when (profile.identifier) {
-                        -2L -> {
-
+                        -2L -> materialDialogThemed {
+                            title(R.string.kau_logout)
+                            content(String.format(
+                                    string(R.string.kau_logout_confirm_as_x),
+                                    Prefs.kervalUser
+                            ))
+                            positiveText(R.string.kau_yes)
+                            negativeText(R.string.kau_no)
+                            onPositive { _, _ -> toast("Logout will be implemented soon") }
                         }
+                        -3L -> toast("Login will be implemented soon")
+                        -4L -> toast("Profile selector will be implemented soon")
                     }
+                    false
                 }
             }
-            drawerHeader.setActiveProfile(1L)
+            drawerHeader.setActiveProfile(Prefs.identifier.toLong())
             primaryAardvarkItem(AardvarkItem.DASHBOARD)
             primaryAardvarkItem(AardvarkItem.EVENTS)
             primaryAardvarkItem(AardvarkItem.MAP)
