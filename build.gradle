@@ -35,6 +35,7 @@ ext {
     google_play_services_version = '11.6.2'
     junit_version = '4.12'
     kau_version = '3.5.1'
+    kerval_version = '0.0.8-1'
     leak_canary_version = '1.5.4'
     material_drawer_version = '1.2.2'
     moshi_version = '1.5.0'

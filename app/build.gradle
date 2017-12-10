@@ -9,7 +9,7 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.1'
+    buildToolsVersion '27.0.2'
 
     androidGitVersion {
         prefix 'v'
@@ -71,7 +71,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // Android Maps Utils
     implementation "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
@@ -98,6 +97,9 @@ dependencies {
     // KAU
     implementation "ca.allanwang.kau:about:$kau_version"
     implementation "ca.allanwang.kau:kpref-activity:$kau_version"
+
+    // Kerval
+    implementation files("libs/kerval-${kerval_version}.jar")
 
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
