@@ -52,13 +52,11 @@ inline fun consumeIf(predicate: Boolean, f: () -> Unit): Boolean {
     return false
 }
 
-/**
- * Sets [secure flag][WindowManager.LayoutParams.FLAG_SECURE], which disables screenshots and
- * beeing able to intercept screen status of the app.
- */
-fun Activity.setSecureFlag() {
-    if (!BuildConfig.DEBUG && Prefs.useSecureFlag) {
-        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+fun Activity.setSecureFlag(secure: Boolean = Prefs.useSecureFlag) {
+    if (!BuildConfig.DEBUG) {
+        val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
+        if (secure) window.setFlags(secureFlag, secureFlag)
+        else window.clearFlags(secureFlag)
     }
 }
 
@@ -158,9 +156,9 @@ inline fun Context.sendAardvarkEmail(
 ) = sendAardvarkEmail(string(subjectId), builder)
 
 inline fun Context.sendAardvarkEmail(
-        subjectId: String,
+        subject: String,
         crossinline builder: EmailBuilder.() -> Unit
-) = sendEmail(string(R.string.dev_email), subjectId) {
+) = sendEmail(string(R.string.dev_email), subject) {
     builder()
     addItem("Random Aardvark ID", Prefs.aardvarkId)
 }

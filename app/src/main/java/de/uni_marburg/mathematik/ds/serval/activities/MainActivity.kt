@@ -65,6 +65,7 @@ class MainActivity : BaseActivity() {
                 )
             }
         }
+        setSecureFlag()
         setContentView(Prefs.mainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
         setupDrawer(savedInstanceState)
