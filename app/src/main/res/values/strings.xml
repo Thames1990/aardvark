@@ -218,4 +218,5 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
+    <string name="event_loading_time">Loading events took %1$d ms</string>
 </resources>

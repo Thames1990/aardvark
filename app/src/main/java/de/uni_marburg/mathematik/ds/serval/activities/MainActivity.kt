@@ -77,7 +77,10 @@ class MainActivity : BaseActivity() {
             uiThread {
                 val later = System.currentTimeMillis()
                 val timePassed = later - now
-                aardvarkSnackbar("Loading events took $timePassed milliseconds")
+                coordinator.aardvarkSnackbar(String.format(
+                        string(R.string.event_loading_time),
+                        timePassed
+                ))
             }
         }
     }

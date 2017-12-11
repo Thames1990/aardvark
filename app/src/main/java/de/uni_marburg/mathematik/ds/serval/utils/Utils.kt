@@ -217,6 +217,9 @@ fun Activity.aardvarkSnackbar(text: String, builder: Snackbar.() -> Unit = {})
 fun View.aardvarkSnackbar(@StringRes textRes: Int, builder: Snackbar.() -> Unit = {})
         = snackbar(textRes, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
 
+fun View.aardvarkSnackbar(text: String, builder: Snackbar.() -> Unit = {})
+        = snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
+
 @SuppressLint("RestrictedApi")
 private inline fun aardvarkSnackbar(
         crossinline builder: Snackbar.() -> Unit
