@@ -1,33 +1,47 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.support.annotation.StringRes
 import android.support.design.internal.SnackbarContentLayout
 import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
-import android.view.View
-import android.view.WindowManager
 import android.widget.FrameLayout
-import android.widget.TextView
-import ca.allanwang.kau.email.EmailBuilder
-import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.utils.*
-import ca.allanwang.kau.xml.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
-import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import java.util.concurrent.TimeUnit
+
+fun aardvarkAnswers(action: Answers.() -> Unit) {
+    if (BuildConfig.DEBUG || !Prefs.analytics) return
+    Answers.getInstance().action()
+}
+
+fun aardvarkAnswersCustom(name: String, vararg events: Pair<String, Any>) {
+    aardvarkAnswers {
+        logCustom(CustomEvent("Aardvark $name").apply {
+            events.forEach { (key, value) ->
+                if (value is Number) putCustomAttribute(key, value)
+                else putCustomAttribute(key, value.toString())
+            }
+        })
+    }
+}
+
+@SuppressLint("RestrictedApi")
+inline fun aardvarkSnackbar(
+        crossinline builder: Snackbar.() -> Unit
+): Snackbar.() -> Unit = {
+    builder()
+    // Hacky workaround, but it has proper checks and shouldn't crash
+    ((view as? FrameLayout)?.getChildAt(0) as? SnackbarContentLayout)?.apply {
+        messageView.setTextColor(Prefs.textColor)
+        actionView.setTextColor(Prefs.accentColor)
+        //only set if previous text colors are set
+        view.setBackgroundColor(Prefs.backgroundColor.withAlpha(255).colorToForeground(0.1f))
+    }
+}
 
 /**
  * Executes [a function][f].
@@ -52,20 +66,12 @@ inline fun consumeIf(predicate: Boolean, f: () -> Unit): Boolean {
     return false
 }
 
-fun Activity.setSecureFlag(secure: Boolean = Prefs.useSecureFlag) {
-    if (!BuildConfig.DEBUG) {
-        val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
-        if (secure) window.setFlags(secureFlag, secureFlag)
-        else window.clearFlags(secureFlag)
-    }
-}
-
-/** Sets the current screen (activity) for analytics. */
-fun Activity.setCurrentScreen() = Aardvark.firebaseAnalytics.setCurrentScreen(
-        this,
-        this::class.java.simpleName,
-        null
-)
+/** Converts distance in meters **/
+fun Float.distanceToString(context: Context): String =
+        // in meter
+        if (this < 1000) String.format(context.string(R.string.distance_in_meter), this)
+        // in kilometer
+        else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
 
 /** Converts UNIX time to human readable information in relation to the current time **/
 fun Long.timeToString(context: Context): String {
@@ -98,42 +104,6 @@ fun Long.timeToString(context: Context): String {
     return context.plural(id, quantity)
 }
 
-/** Converts distance in meters **/
-fun Float.distanceToString(context: Context): String =
-        // in meter
-        if (this < 1000) String.format(context.string(R.string.distance_in_meter), this)
-        // in kilometer
-        else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
-
-fun RecyclerView.withDividerDecoration(
-        context: Context,
-        orientation: Int,
-        color: Int = Prefs.accentColor
-) {
-    val divider = DividerItemDecoration(context, orientation)
-    val resource = context.drawable(R.drawable.line_divider)
-    DrawableCompat.wrap(resource).tint(color)
-    divider.setDrawable(resource)
-    addItemDecoration(divider)
-}
-
-/**
- * Obtain a Context which will store data to device encrypted storage, permitting our app to access
- * it before the user has logged in to the device.
- */
-fun Context.safeContext(): Context =
-        takeUnless { ContextCompat.isDeviceProtectedStorage(this) }?.run {
-            applicationContext.let {
-                ContextCompat.createDeviceProtectedStorageContext(it) ?: it
-            }
-        } ?: this
-
-fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Unit): MaterialDialog {
-    val builder = MaterialDialog.Builder(this).theme()
-    builder.action()
-    return builder.show()
-}
-
 fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     val dimmerTextColor = Prefs.textColor.adjustAlpha(0.8f)
     titleColor(Prefs.textColor)
@@ -144,90 +114,4 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     negativeColor(Prefs.textColor)
     neutralColor(Prefs.textColor)
     return this
-}
-
-fun Context.aardvarkChangelog() = showChangelog(R.xml.changelog, Prefs.textColor) {
-    theme()
-}
-
-inline fun Context.sendAardvarkEmail(
-        @StringRes subjectId: Int,
-        crossinline builder: EmailBuilder.() -> Unit
-) = sendAardvarkEmail(string(subjectId), builder)
-
-inline fun Context.sendAardvarkEmail(
-        subject: String,
-        crossinline builder: EmailBuilder.() -> Unit
-) = sendEmail(string(R.string.dev_email), subject) {
-    builder()
-    addItem("Random Aardvark ID", Prefs.aardvarkId)
-}
-
-fun Activity.aardvarkNavigationBar() {
-    navigationBarColor = if (Prefs.tintNavBar) Prefs.headerColor else Color.BLACK
-}
-
-fun Activity.setAardvarkTheme() {
-    if (Prefs.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
-    else setTheme(R.style.AardvarkTheme_Light)
-}
-
-fun Activity.setAardvarkColors(
-        toolbar: Toolbar? = null,
-        themeWindow: Boolean = true,
-        texts: Array<TextView> = arrayOf(),
-        headers: Array<View> = arrayOf(),
-        backgrounds: Array<View> = arrayOf()
-) {
-    statusBarColor = Prefs.headerColor.darken(0.1f).withAlpha(255)
-    if (Prefs.tintNavBar) navigationBarColor = Prefs.headerColor
-    if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.backgroundColor))
-    toolbar?.setBackgroundColor(Prefs.headerColor)
-    toolbar?.setTitleTextColor(Prefs.iconColor)
-    toolbar?.overflowIcon?.setTint(Prefs.iconColor)
-    texts.forEach { it.setTextColor(Prefs.textColor) }
-    headers.forEach { it.setBackgroundColor(Prefs.headerColor) }
-    backgrounds.forEach { it.setBackgroundColor(Prefs.backgroundColor) }
-}
-
-fun aardvarkAnswers(action: Answers.() -> Unit) {
-    if (BuildConfig.DEBUG || !Prefs.analytics) return
-    Answers.getInstance().action()
-}
-
-fun aardvarkAnswersCustom(name: String, vararg events: Pair<String, Any>) {
-    aardvarkAnswers {
-        logCustom(CustomEvent("Aardvark $name").apply {
-            events.forEach { (key, value) ->
-                if (value is Number) putCustomAttribute(key, value)
-                else putCustomAttribute(key, value.toString())
-            }
-        })
-    }
-}
-
-fun Activity.aardvarkSnackbar(@StringRes textRes: Int, builder: Snackbar.() -> Unit = {})
-        = aardvarkSnackbar(string(textRes), builder)
-
-fun Activity.aardvarkSnackbar(text: String, builder: Snackbar.() -> Unit = {})
-        = snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
-
-fun View.aardvarkSnackbar(@StringRes textRes: Int, builder: Snackbar.() -> Unit = {})
-        = snackbar(textRes, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
-
-fun View.aardvarkSnackbar(text: String, builder: Snackbar.() -> Unit = {})
-        = snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
-
-@SuppressLint("RestrictedApi")
-private inline fun aardvarkSnackbar(
-        crossinline builder: Snackbar.() -> Unit
-): Snackbar.() -> Unit = {
-    builder()
-    //hacky workaround, but it has proper checks and shouldn't crash
-    ((view as? FrameLayout)?.getChildAt(0) as? SnackbarContentLayout)?.apply {
-        messageView.setTextColor(Prefs.textColor)
-        actionView.setTextColor(Prefs.accentColor)
-        //only set if previous text colors are set
-        view.setBackgroundColor(Prefs.backgroundColor.withAlpha(255).colorToForeground(0.1f))
-    }
 }
