@@ -1,9 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -46,8 +43,7 @@ class MainActivity : BaseActivity() {
     lateinit var drawerHeader: AccountHeader
 
     companion object {
-        const val ACTIVITY_SETTINGS = 97
-        const val REQUEST_RESTART_APPLICATION = 1 shl 1
+        const val ACTIVITY_SETTINGS = 1 shl 1
         const val REQUEST_RESTART = 1 shl 2
         const val REQUEST_NAV = 1 shl 3
 
@@ -102,36 +98,13 @@ class MainActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             ACTIVITY_SETTINGS -> {
-                // Completely restart application
-                if (resultCode and REQUEST_RESTART_APPLICATION > 0) {
-                    val intent = packageManager.getLaunchIntentForPackage(packageName)
-                    intent.addFlags(
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    )
-                    val pending = PendingIntent.getActivity(
-                            this,
-                            666,
-                            intent,
-                            PendingIntent.FLAG_CANCEL_CURRENT
-                    )
-                    val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    if (buildIsMarshmallowAndUp) {
-                        alarm.setExactAndAllowWhileIdle(
-                                AlarmManager.RTC,
-                                System.currentTimeMillis() + 100,
-                                pending
-                        )
-                    } else alarm.setExact(
-                            AlarmManager.RTC,
-                            System.currentTimeMillis() + 100,
-                            pending
-                    )
+                if (resultCode and REQUEST_RESTART > 0) {
+                    // Fix until i figure out how to properly use restart
+                    startActivity(MainActivity::class.java)
+                    overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
                     finish()
-                    System.exit(0)
-                    return
+                    overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
                 }
-                // TODO Check why we can't restart the activity
-                if (resultCode and REQUEST_RESTART > 0 && data != null) return restart()
                 if (resultCode and REQUEST_NAV > 0) aardvarkNavigationBar()
             }
         }
