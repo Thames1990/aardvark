@@ -101,6 +101,9 @@ dependencies {
     // Kerval
     implementation files("libs/kerval-${kerval_version}.jar")
 
+    // Kotlin Reflect
+    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.2.0'
+
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
