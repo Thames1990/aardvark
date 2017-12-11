@@ -32,6 +32,7 @@ import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -92,7 +93,7 @@ class MainActivity : BaseActivity() {
             override fun onTabSelected(tab: TabLayout.Tab) = Unit
         })
         AardvarkItem.values().map {
-            addTab(newTab().setText(it.titleId))
+            addTab(newTab().setCustomView(BadgedIcon(this@MainActivity).apply { iicon = it.icon }))
         }
     }
 
