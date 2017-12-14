@@ -153,8 +153,8 @@
     <string name="preference_share_wifi_adb_command">Share ADB command</string>
     <string name="preference_theme">Theme</string>
     <string name="preference_use_analytics">Use analytics</string>
-    <string name="preference_use_secure_flag">Use secure flag</string>
-    <string name="preference_use_secure_flag_description">Prohibit screenshots and interception of screen status</string>
+    <string name="secure_app">Secure privacy</string>
+    <string name="secure_app_desc">Prohibit screenshots and interception of screen status and require fingerprint authentication</string>
     <string name="preference_username_description">Serval API username</string>
 
     <string name="radiation">Radiation</string>

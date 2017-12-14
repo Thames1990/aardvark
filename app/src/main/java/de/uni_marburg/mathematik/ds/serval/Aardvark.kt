@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval
 
 import android.app.Application
+import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ProcessLifecycleOwner
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
@@ -8,7 +9,7 @@ import com.github.ajalt.reprint.core.Reprint
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
-import de.uni_marburg.mathematik.ds.serval.utils.ForegroundBackgroundListener
+import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import io.fabric.sdk.android.Fabric
 import java.util.*
@@ -18,6 +19,13 @@ class Aardvark : Application() {
     companion object {
         lateinit var firebaseAnalytics: FirebaseAnalytics
         lateinit var refWatcher: RefWatcher
+        lateinit var lifecycle: Lifecycle
+        lateinit var authenticationListener: AuthenticationListener
+
+        fun requireAuthentication(authenticate: Boolean = Prefs.secure_app) {
+            if (authenticate) lifecycle.addObserver(authenticationListener)
+            else lifecycle.removeObserver(authenticationListener)
+        }
     }
 
     override fun onCreate() {
@@ -32,7 +40,9 @@ class Aardvark : Application() {
 
         if (!BuildConfig.DEBUG) {
             Reprint.initialize(this)
-            ProcessLifecycleOwner.get().lifecycle.addObserver(ForegroundBackgroundListener(this))
+            authenticationListener = AuthenticationListener(this)
+            lifecycle = ProcessLifecycleOwner.get().lifecycle
+            requireAuthentication()
         }
 
         val now = System.currentTimeMillis()

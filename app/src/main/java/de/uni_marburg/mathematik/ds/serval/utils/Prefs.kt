@@ -60,7 +60,7 @@ object Prefs : KPref() {
     var mainActivityLayoutType: Int by kpref("main_activity_layout_type", 0)
     var theme: Int by kpref("theme", 0, postSetter = { _: Int -> loader.invalidate() })
     var tintNavBar: Boolean by kpref("TINT_NAV_BAR", true)
-    var useSecureFlag: Boolean by kpref("USE_SECURE_FLAG", true)
+    var secure_app: Boolean by kpref("USE_SECURE_FLAG", true)
     var useWifiADB: Boolean by kpref("USE_WIFI_ADB", false)
     var versionCode: Int by kpref("VERSION", -1)
 }

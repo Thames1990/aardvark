@@ -55,7 +55,7 @@ fun Activity.setCurrentScreen() = Aardvark.firebaseAnalytics.setCurrentScreen(
         null
 )
 
-fun Activity.setSecureFlag(secure: Boolean = Prefs.useSecureFlag) {
+fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
     if (!BuildConfig.DEBUG) {
         val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
         if (secure) window.setFlags(secureFlag, secureFlag)
