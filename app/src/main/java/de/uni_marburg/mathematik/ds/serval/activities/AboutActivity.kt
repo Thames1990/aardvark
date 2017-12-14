@@ -23,8 +23,8 @@ import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
-import org.jetbrains.anko.toast
 
 class AboutActivity : AboutActivityBase(R.string::class.java, {
     textColor = Prefs.textColor
@@ -68,7 +68,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                 lastClick = now
                 if (clickCount == 7 && !Prefs.debugSettings) {
                     Prefs.debugSettings = true
-                    toast(R.string.debug_enabled)
+                    aardvarkSnackbar(R.string.debug_enabled)
                 }
             }
             false
