@@ -8,7 +8,7 @@
         android:id="@+id/action_settings"
         android:icon="@drawable/settings"
         android:orderInCategory="1000"
-        android:title="@string/action_settings"
+        android:title="@string/kau_settings"
         app:showAsAction="always" />
 
 </menu>
