@@ -29,7 +29,7 @@ ext {
     android_maps_utils_version = '0.5'
     architecture_components_version = '1.0.0'
     community_material_typeface_version = '2.0.46.1@aar'
-    constraint_layout_version = '1.1.0-beta3'
+    constraint_layout_version = '1.1.0-beta4'
     crashlytics_version = '2.8.0'
     espresso_version = '3.0.1'
     fastscroll_version = '1.0.16'
