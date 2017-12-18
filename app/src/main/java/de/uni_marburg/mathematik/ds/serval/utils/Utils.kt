@@ -79,25 +79,21 @@ fun Long.timeToString(context: Context): String {
     val quantity: Long
 
     when {
+        TimeUnit.MILLISECONDS.toSeconds(this) < 60 -> {
+            id = R.plurals.kau_x_seconds
+            quantity = TimeUnit.MILLISECONDS.toSeconds(this)
+        }
         TimeUnit.MILLISECONDS.toMinutes(this) < 60 -> {
-            id = R.plurals.time_minutes_ago
+            id = R.plurals.kau_x_minutes
             quantity = TimeUnit.MILLISECONDS.toMinutes(this)
         }
         TimeUnit.MILLISECONDS.toHours(this) < 24   -> {
-            id = R.plurals.time_hours_ago
+            id = R.plurals.kau_x_hours
             quantity = TimeUnit.MILLISECONDS.toHours(this)
         }
-        TimeUnit.MILLISECONDS.toDays(this) < 30    -> {
-            id = R.plurals.time_days_ago
-            quantity = TimeUnit.MILLISECONDS.toDays(this)
-        }
-        TimeUnit.MILLISECONDS.toDays(this) < 365   -> {
-            id = R.plurals.time_months_ago
-            quantity = TimeUnit.MILLISECONDS.toDays(this) / 30
-        }
         else                                       -> {
-            id = R.plurals.time_years_ago
-            quantity = TimeUnit.MILLISECONDS.toDays(this) / 365
+            id = R.plurals.kau_x_days
+            quantity = TimeUnit.MILLISECONDS.toDays(this) / 30
         }
     }
 
