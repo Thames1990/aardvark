@@ -18,7 +18,7 @@ enum class Theme(
 ) {
 
     LIGHT(
-            R.string.aardvark_light,
+            R.string.kau_light,
             { 0xde000000.toInt() },
             { AARDVARK_GREEN },
             { 0xfffafafa.toInt() },
@@ -27,7 +27,7 @@ enum class Theme(
     ),
 
     DARK(
-            R.string.aardvark_dark,
+            R.string.kau_dark,
             { Color.WHITE },
             { AARDVARK_GREEN_LIGHT },
             { 0xff303030.toInt() },
@@ -36,7 +36,7 @@ enum class Theme(
     ),
 
     AMOLED(
-            R.string.aardvark_amoled,
+            R.string.kau_amoled,
             { android.graphics.Color.WHITE },
             { AARDVARK_GREEN_LIGHT },
             { Color.BLACK },
@@ -45,7 +45,7 @@ enum class Theme(
     ),
 
     CUSTOM(
-            R.string.aardvark_custom,
+            R.string.kau_custom,
             { Prefs.customTextColor },
             { Prefs.customAccentColor },
             { Prefs.customBackgroundColor },
