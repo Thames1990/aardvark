@@ -38,7 +38,7 @@ class Aardvark : Application() {
     private fun initialize() {
         Prefs.initialize(this, BuildConfig.APPLICATION_ID)
 
-        if (!BuildConfig.DEBUG) {
+        if (Prefs.secure_app) {
             Reprint.initialize(this)
             authenticationListener = AuthenticationListener(this)
             lifecycle = ProcessLifecycleOwner.get().lifecycle
