@@ -1,14 +1,16 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.github.ajalt.reprint.core.AuthenticationFailureReason
 import com.github.ajalt.reprint.core.AuthenticationListener
 import com.github.ajalt.reprint.core.Reprint
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.utils.consume
 import kotlinx.android.synthetic.main.activity_fingerprint.*
 
-class FingerprintActivity : AppCompatActivity() {
+class FingerprintActivity : BaseActivity() {
+
+    override fun backConsumer(): Boolean = consume { finishAffinity() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,4 @@ class FingerprintActivity : AppCompatActivity() {
             }
         })
     }
-
-    override fun onBackPressed() = finishAffinity()
 }
