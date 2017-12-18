@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import ca.allanwang.kau.iitems.CardIItem
+import ca.allanwang.kau.iitems.HeaderIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
 import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.string
@@ -13,11 +14,9 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
-import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import java.util.*
 
 /** Displays all details of an [event][Event]. */
@@ -43,12 +42,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     private fun setupAdapter() {
-        adapter.add(MapIItem(event))
-        adapter.add(CardIItem {
-            titleRes = R.string.time
-            desc = event.snippet
-            image = drawable(R.drawable.time).tint(Color.WHITE)
-        })
+        adapter.add(HeaderIItem(event.snippet))
         event.measurements.forEach { measurement ->
             adapter.add(CardIItem {
                 titleRes = measurement.type.res
