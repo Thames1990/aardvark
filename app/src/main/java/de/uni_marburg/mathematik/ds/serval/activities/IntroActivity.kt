@@ -72,6 +72,12 @@ class IntroActivity : BaseActivity() {
         return consume { finishAffinity() }
     }
 
+    override fun finish() {
+        Prefs.isFirstLaunch = false
+        startActivity(MainActivity::class.java)
+        super.finish()
+    }
+
     private fun ViewPager.init() {
         setPageTransformer(true) { page, position ->
             // Only apply to adjacent pages
@@ -171,12 +177,6 @@ class IntroActivity : BaseActivity() {
                 start()
             }
         }
-    }
-
-    override fun finish() {
-        Prefs.isFirstLaunch = false
-        startActivity(MainActivity::class.java)
-        super.finish()
     }
 
     class IntroPageAdapter(
