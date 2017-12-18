@@ -13,25 +13,27 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import ca.allanwang.kau.internal.KauBaseActivity
 import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.ui.widgets.InkPageIndicator
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.intro.BaseImageIntroFragment.IntroAccountFragment
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentEnd
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentWelcome
 import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTheme
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.consume
+import de.uni_marburg.mathematik.ds.serval.utils.consumeIf
 import org.jetbrains.anko.find
 
-class IntroActivity : KauBaseActivity() {
+class IntroActivity : BaseActivity() {
+
+    val ripple: RippleCanvas by bindView(R.id.intro_ripple)
 
     private val indicator: InkPageIndicator by bindView(R.id.intro_indicator)
     private val next: ImageButton by bindView(R.id.intro_next)
-    val ripple: RippleCanvas by bindView(R.id.intro_ripple)
     private val skip: Button by bindView(R.id.intro_skip)
     private val viewpager: ViewPager by bindView(R.id.intro_viewpager)
 
@@ -61,6 +63,13 @@ class IntroActivity : KauBaseActivity() {
         }
         skip.setOnClickListener { finish() }
         theme()
+    }
+
+    override fun backConsumer(): Boolean {
+        consumeIf(viewpager.currentItem > 0) {
+            viewpager.setCurrentItem(viewpager.currentItem - 1, true)
+        }
+        return consume { finishAffinity() }
     }
 
     private fun ViewPager.init() {
@@ -168,11 +177,6 @@ class IntroActivity : KauBaseActivity() {
         Prefs.isFirstLaunch = false
         startActivity(MainActivity::class.java)
         super.finish()
-    }
-
-    override fun onBackPressed() {
-        if (viewpager.currentItem > 0) viewpager.setCurrentItem(viewpager.currentItem - 1, true)
-        else finish()
     }
 
     class IntroPageAdapter(
