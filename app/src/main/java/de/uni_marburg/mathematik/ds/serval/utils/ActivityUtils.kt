@@ -11,7 +11,6 @@ import android.view.WindowManager
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.Aardvark
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 
 fun Activity.aardvarkNavigationBar() {
@@ -56,9 +55,7 @@ fun Activity.setCurrentScreen() = Aardvark.firebaseAnalytics.setCurrentScreen(
 )
 
 fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
-    if (!BuildConfig.DEBUG) {
-        val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
-        if (secure) window.setFlags(secureFlag, secureFlag)
-        else window.clearFlags(secureFlag)
-    }
+    val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
+    if (secure) window.setFlags(secureFlag, secureFlag)
+    else window.clearFlags(secureFlag)
 }
