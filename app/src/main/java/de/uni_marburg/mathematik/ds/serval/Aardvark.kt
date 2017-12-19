@@ -38,12 +38,10 @@ class Aardvark : Application() {
     private fun initialize() {
         Prefs.initialize(this, BuildConfig.APPLICATION_ID)
 
-        if (Prefs.secure_app) {
-            Reprint.initialize(this)
-            authenticationListener = AuthenticationListener(this)
-            lifecycle = ProcessLifecycleOwner.get().lifecycle
-            requireAuthentication()
-        }
+        Reprint.initialize(this)
+        authenticationListener = AuthenticationListener(this)
+        lifecycle = ProcessLifecycleOwner.get().lifecycle
+        requireAuthentication()
 
         val now = System.currentTimeMillis()
         Prefs.lastLaunch = now
