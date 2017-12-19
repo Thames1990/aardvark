@@ -18,11 +18,9 @@ import ca.allanwang.kau.ui.widgets.InkPageIndicator
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.intro.BaseImageIntroFragment.IntroAccountFragment
-import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment
+import de.uni_marburg.mathematik.ds.serval.intro.*
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentEnd
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentWelcome
-import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTheme
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.utils.consumeIf
@@ -45,6 +43,8 @@ class IntroActivity : BaseActivity() {
             IntroFragmentWelcome(),
             IntroFragmentTheme(),
             IntroAccountFragment(),
+            IntroTabTouchFragment(),
+            IntroTabContextFragment(),
             IntroFragmentEnd()
     )
 

@@ -6,7 +6,7 @@
     <string name="aardvark_default">Default</string>
     <string name="aardvark_description">Aardvark is</string>
     <string name="aardvark_light">Light</string>
-    <string name="aardvark_name" translatable="false" tools:override="true">Aardvark</string>
+    <string name="aardvark_name" tools:override="true" translatable="false">Aardvark</string>
 
     <string name="about_aardvark">About Aardvark</string>
     <string name="about_aardvark_desc">Version, Credits, and FAQs</string>
@@ -68,6 +68,8 @@
     <string name="distance_in_kilometer">%1$.2f km</string>
     <string name="distance_in_meter">%1$.0f m</string>
 
+    <string name="event_loading_time">Loading events took %1$d ms</string>
+
     <string name="events">Events</string>
 
     <string name="experimental_disclaimer">Disclaimer</string>
@@ -105,6 +107,10 @@
     <string name="intro_3_title" translatable="false">@string/map</string>
     <string name="intro_4_description">Talk to your friends and co-workers!</string>
     <string name="intro_4_title" translatable="false">@string/chat</string>
+    <string name="intro_context_aware">Context Aware</string>
+    <string name="intro_context_aware_desc">Long press links to copy and share them.\nLong press images to zoom and download.\nLong press cards to scroll horizontally.</string>
+    <string name="intro_easy_navigation">Easy Navigation</string>
+    <string name="intro_easy_navigation_desc">Slide between views with a swipe, and click the tab icon to go back to the top.\nClick the icon again to reload the page.</string>
     <string name="intro_end">Let\'s begin</string>
     <string name="intro_multiple_accounts">Multiple Accounts</string>
     <string name="intro_multiple_accounts_desc">Add and switch accounts directly from the navigation bar.\nTap the current avatar to jump to your profile.</string>
@@ -153,8 +159,6 @@
     <string name="preference_share_wifi_adb_command">Share ADB command</string>
     <string name="preference_theme">Theme</string>
     <string name="preference_use_analytics">Use analytics</string>
-    <string name="secure_app">Secure privacy</string>
-    <string name="secure_app_desc">Prohibit screenshots and interception of screen status and require fingerprint authentication</string>
     <string name="preference_username_description">Serval API username</string>
 
     <string name="radiation">Radiation</string>
@@ -162,6 +166,9 @@
     <string name="replay_intro">Replay Introduction</string>
 
     <string name="requires_custom_theme">Requires custom theme</string>
+
+    <string name="secure_app">Secure privacy</string>
+    <string name="secure_app_desc">Prohibit screenshots and interception of screen status and require fingerprint authentication</string>
 
     <string name="serval">Serval</string>
     <string name="serval_desc">Serval login information</string>
@@ -218,5 +225,4 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
-    <string name="event_loading_time">Loading events took %1$d ms</string>
 </resources>
