@@ -5,9 +5,9 @@ import android.view.View
 import ca.allanwang.kau.utils.bindViewResettable
 import ca.allanwang.kau.utils.scaleXY
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 
 /** Created by thames1990 on 05.12.17. */
 class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
@@ -24,9 +24,9 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        light.setThemeCLick(Theme.LIGHT)
-        dark.setThemeCLick(Theme.DARK)
-        amoled.setThemeCLick(Theme.AMOLED)
+        light.setThemeClick(Theme.LIGHT)
+        dark.setThemeClick(Theme.DARK)
+        amoled.setThemeClick(Theme.AMOLED)
         val currentTheme = Prefs.theme - 1
         if (currentTheme in 0..2) {
             themeList.forEachIndexed { index, v ->
@@ -35,7 +35,7 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
         }
     }
 
-    private fun View.setThemeCLick(theme: Theme) {
+    private fun View.setThemeClick(theme: Theme) {
         setOnClickListener { v ->
             Prefs.theme = theme.ordinal
             (activity as IntroActivity).apply {
