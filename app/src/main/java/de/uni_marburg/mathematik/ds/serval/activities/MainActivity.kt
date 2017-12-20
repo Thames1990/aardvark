@@ -35,10 +35,12 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
-    val toolbar: Toolbar by bindView(R.id.toolbar)
-    val tabs: TabLayout by bindView(R.id.tabs)
-    val appBar: AppBarLayout by bindView(R.id.appbar)
     val coordinator: CoordinatorLayout by bindView(R.id.main_content)
+    val toolbar: Toolbar by bindView(R.id.toolbar)
+
+    private val tabs: TabLayout by bindView(R.id.tabs)
+    private val appBar: AppBarLayout by bindView(R.id.appbar)
+
     lateinit var drawer: Drawer
     lateinit var drawerHeader: AccountHeader
 
