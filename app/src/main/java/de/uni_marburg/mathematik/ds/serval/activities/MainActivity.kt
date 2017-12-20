@@ -26,6 +26,10 @@ import com.mikepenz.materialdrawer.Drawer
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
+import de.uni_marburg.mathematik.ds.serval.fragments.BaseFragment
+import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
+import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
+import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.utils.*
@@ -40,6 +44,16 @@ class MainActivity : BaseActivity() {
 
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val appBar: AppBarLayout by bindView(R.id.appbar)
+
+    private val dashboardFragment by lazy { DashboardFragment() }
+    private val eventsFragment by lazy { EventsFragment() }
+    private val mapFragment by lazy { MapFragment() }
+
+    private val fragments: Array<BaseFragment> = arrayOf(
+            dashboardFragment,
+            eventsFragment,
+            mapFragment
+    )
 
     lateinit var drawer: Drawer
     lateinit var drawerHeader: AccountHeader
@@ -68,34 +82,12 @@ class MainActivity : BaseActivity() {
             }
         }
         setContentView(Prefs.mainActivityLayout.layoutRes)
+        // TODO Set loading fragment
+        loadEvents()
         setSupportActionBar(toolbar)
         setupDrawer(savedInstanceState)
-        tabs.init()
         setAardvarkColors(toolbar, themeWindow = false, headers = arrayOf(appBar))
         tabs.setBackgroundColor(Prefs.mainActivityLayout.backgroundColor())
-        doAsync {
-            val now = System.currentTimeMillis()
-            events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
-            uiThread {
-                val later = System.currentTimeMillis()
-                val timePassed = later - now
-                coordinator.aardvarkSnackbar(String.format(
-                        string(R.string.event_loading_time),
-                        timePassed
-                ))
-            }
-        }
-    }
-
-    private fun TabLayout.init() {
-        addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab) = Unit
-            override fun onTabUnselected(tab: TabLayout.Tab) = Unit
-            override fun onTabSelected(tab: TabLayout.Tab) = Unit
-        })
-        AardvarkItem.values().map {
-            addTab(newTab().setCustomView(BadgedIcon(this@MainActivity).apply { iicon = it.icon }))
-        }
     }
 
     @SuppressLint("NewApi")
@@ -150,6 +142,55 @@ class MainActivity : BaseActivity() {
             }
         }
         else                 -> super.onOptionsItemSelected(item)
+    }
+
+    private fun loadEvents() {
+        doAsync {
+            val now = System.currentTimeMillis()
+            events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
+            uiThread {
+                val later = System.currentTimeMillis()
+                val timePassed = later - now
+                coordinator.aardvarkSnackbar(String.format(
+                        string(R.string.event_loading_time),
+                        timePassed
+                ))
+                fragments.init()
+                tabs.init()
+            }
+        }
+    }
+
+    private fun TabLayout.init() {
+        addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
+
+            override fun onTabSelected(tab: TabLayout.Tab?) = Unit
+
+            // TODO Move to onTabUnselected. Figure out why events weren't loaded.
+            @SuppressLint("CommitTransaction")
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                with(supportFragmentManager.beginTransaction()) {
+                    fragments.forEach { hide(it) }
+                    show(fragments[tab.position])
+                    commit()
+                }
+            }
+
+        })
+        AardvarkItem.values().map {
+            addTab(newTab().setCustomView(BadgedIcon(this@MainActivity).apply { iicon = it.icon }))
+        }
+    }
+
+    @SuppressLint("CommitTransaction")
+    private fun Array<BaseFragment>.init() {
+        with(supportFragmentManager.beginTransaction()) {
+            forEach { fragment ->
+                add(R.id.container, fragment)
+            }
+            commit()
+        }
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
