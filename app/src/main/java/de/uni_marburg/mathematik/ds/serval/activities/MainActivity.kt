@@ -161,13 +161,21 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("CommitTransaction")
+    private fun Array<BaseFragment>.init() {
+        with(supportFragmentManager.beginTransaction()) {
+            forEach { fragment -> add(R.id.container, fragment) }
+            commit()
+        }
+    }
+
     private fun TabLayout.init() {
         addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
+            override fun onTabUnselected(tab: TabLayout.Tab) = Unit
 
-            override fun onTabSelected(tab: TabLayout.Tab?) = Unit
+            override fun onTabSelected(tab: TabLayout.Tab) = Unit
 
-            // TODO Move to onTabUnselected. Figure out why events weren't loaded.
+            // TODO Move to onTabSelected. Figure out why events weren't loaded.
             @SuppressLint("CommitTransaction")
             override fun onTabReselected(tab: TabLayout.Tab) {
                 with(supportFragmentManager.beginTransaction()) {
@@ -180,16 +188,6 @@ class MainActivity : BaseActivity() {
         })
         AardvarkItem.values().map {
             addTab(newTab().setCustomView(BadgedIcon(this@MainActivity).apply { iicon = it.icon }))
-        }
-    }
-
-    @SuppressLint("CommitTransaction")
-    private fun Array<BaseFragment>.init() {
-        with(supportFragmentManager.beginTransaction()) {
-            forEach { fragment ->
-                add(R.id.container, fragment)
-            }
-            commit()
         }
     }
 
