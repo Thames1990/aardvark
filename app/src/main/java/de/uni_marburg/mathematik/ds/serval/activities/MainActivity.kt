@@ -161,7 +161,6 @@ class MainActivity : BaseActivity() {
 
     private fun TabLayout.init() {
         addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabUnselected(tab: TabLayout.Tab) = Unit
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val fragment = fragments[tab.position]
                 val transaction = supportFragmentManager.beginTransaction()
@@ -170,11 +169,17 @@ class MainActivity : BaseActivity() {
                 transaction.commit()
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab) = Unit
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                val fragment = fragments[tab.position]
+                supportFragmentManager.beginTransaction().hide(fragment).commit()
+            }
 
+            override fun onTabReselected(tab: TabLayout.Tab) = Unit
         })
         AardvarkItem.values().map {
-            addTab(newTab().setCustomView(BadgedIcon(this@MainActivity).apply { iicon = it.icon }))
+            addTab(newTab().setCustomView(BadgedIcon(this@MainActivity).apply {
+                iicon = it.icon
+            }))
         }
     }
 
