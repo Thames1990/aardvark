@@ -8,6 +8,7 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.TabLayout
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -42,21 +43,19 @@ class MainActivity : BaseActivity() {
     val coordinator: CoordinatorLayout by bindView(R.id.main_content)
     val toolbar: Toolbar by bindView(R.id.toolbar)
 
+    private lateinit var drawer: Drawer
+    private lateinit var drawerHeader: AccountHeader
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val appBar: AppBarLayout by bindView(R.id.appbar)
 
     private val dashboardFragment by lazy { DashboardFragment() }
     private val eventsFragment by lazy { EventsFragment() }
     private val mapFragment by lazy { MapFragment() }
-
-    private val fragments: Array<BaseFragment> = arrayOf(
+    private val fragments: Array<Fragment> = arrayOf(
             dashboardFragment,
             eventsFragment,
             mapFragment
     )
-
-    lateinit var drawer: Drawer
-    lateinit var drawerHeader: AccountHeader
 
     companion object {
         const val ACTIVITY_SETTINGS = 1 shl 1
@@ -141,7 +140,7 @@ class MainActivity : BaseActivity() {
                 startActivityForResult(intent, ACTIVITY_SETTINGS, bundle)
             }
         }
-        else                 -> super.onOptionsItemSelected(item)
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun loadEvents() {
@@ -155,35 +154,23 @@ class MainActivity : BaseActivity() {
                         string(R.string.event_loading_time),
                         timePassed
                 ))
-                fragments.init()
                 tabs.init()
             }
-        }
-    }
-
-    @SuppressLint("CommitTransaction")
-    private fun Array<BaseFragment>.init() {
-        with(supportFragmentManager.beginTransaction()) {
-            forEach { fragment -> add(R.id.container, fragment) }
-            commit()
         }
     }
 
     private fun TabLayout.init() {
         addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabUnselected(tab: TabLayout.Tab) = Unit
-
-            override fun onTabSelected(tab: TabLayout.Tab) = Unit
-
-            // TODO Move to onTabSelected. Figure out why events weren't loaded.
-            @SuppressLint("CommitTransaction")
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                with(supportFragmentManager.beginTransaction()) {
-                    fragments.forEach { hide(it) }
-                    show(fragments[tab.position])
-                    commit()
-                }
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val fragment = fragments[tab.position]
+                val transaction = supportFragmentManager.beginTransaction()
+                if (!fragment.isAdded) transaction.add(R.id.content_main, fragment)
+                transaction.show(fragment)
+                transaction.commit()
             }
+
+            override fun onTabReselected(tab: TabLayout.Tab) = Unit
 
         })
         AardvarkItem.values().map {

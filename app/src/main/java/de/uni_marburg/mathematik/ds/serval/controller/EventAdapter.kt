@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import ca.allanwang.kau.R.attr.color
+import ca.allanwang.kau.ui.R.attr.color
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
@@ -85,13 +87,13 @@ class EventAdapter(
     fun sortEventsBy(comparator: EventComparator, reversed: Boolean = false) {
         events = events.sortedWith(compareBy {
             if (reversed) when (comparator) {
-                DISTANCE    -> -it.location.distanceTo(lastLocation)
+                DISTANCE -> -it.location.distanceTo(lastLocation)
                 MEASUREMENT -> -it.measurements.size
-                TIME        -> -it.time
+                TIME -> -it.time
             } else when (comparator) {
-                DISTANCE    -> it.location.distanceTo(lastLocation)
+                DISTANCE -> it.location.distanceTo(lastLocation)
                 MEASUREMENT -> it.measurements.size
-                TIME        -> it.time
+                TIME -> it.time
             }
         })
         currentSortMode = comparator
@@ -139,7 +141,7 @@ class EventAdapter(
             val hasLocationPermission = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
             if (hasLocationPermission) {
                 val icon = drawable(R.drawable.location)
-                icon.setColorFilter(color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
+                icon.setColorFilter(Prefs.textColor, PorterDuff.Mode.SRC_IN)
                 location_icon.setImageDrawable(icon)
                 location_text.apply {
                     text = location.distanceTo(lastLocation).distanceToString(this@with)
@@ -163,7 +165,7 @@ class EventAdapter(
                 )
                 measurement_types.addView(ImageView(containerView.context).apply {
                     setImageResource(measurement.type.resId)
-                    setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+                    setColorFilter(Prefs.textColor, PorterDuff.Mode.SRC_IN)
                     layoutParams = LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.MATCH_PARENT
