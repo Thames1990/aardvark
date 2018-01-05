@@ -51,15 +51,11 @@ class SettingsActivity : KPrefActivity() {
         plainText(R.string.about_aardvark) {
             descRes = R.string.about_aardvark_desc
             iicon = GoogleMaterial.Icon.gmd_info
-            onClick = { _, _, _ ->
-                consume {
-                    startActivityForResult(AboutActivity::class.java, 9, true)
-                }
-            }
+            onClick = { startActivityForResult(AboutActivity::class.java, 9) }
         }
         plainText(R.string.replay_intro) {
             iicon = GoogleMaterial.Icon.gmd_replay
-            onClick = { _, _, _ -> consume { startActivity(IntroActivity::class.java) } }
+            onClick = { startActivity(IntroActivity::class.java) }
         }
     }
 
@@ -103,7 +99,7 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = consume {
         when (item.itemId) {
-            R.id.action_email     -> materialDialogThemed {
+            R.id.action_email -> materialDialogThemed {
                 title(R.string.subject)
                 items(Support.values().map { string(it.title) })
                 itemsCallback { _, _, which, _ ->
@@ -111,7 +107,7 @@ class SettingsActivity : KPrefActivity() {
                 }
             }
             R.id.action_changelog -> aardvarkChangelog()
-            else                  -> return super.onOptionsItemSelected(item)
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 

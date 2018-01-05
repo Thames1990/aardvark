@@ -17,24 +17,22 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
     header(R.string.theme_customization)
 
     text(R.string.theme, { Prefs.theme }, { Prefs.theme = it }) {
-        onClick = { _, _, item ->
-            consume {
-                materialDialogThemed {
-                    title(R.string.theme)
-                    items(Theme.values()
-                            .map { it.textRes }
-                            .map { string(it) }
-                    )
-                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                        consumeIf(item.pref != which) {
-                            item.pref = which
-                            shouldRestartMain()
-                            reload()
-                            setAardvarkTheme()
-                            themeExterior()
-                            invalidateOptionsMenu()
-                            aardvarkAnswersCustom("Theme", "Count" to Theme(which).name)
-                        }
+        onClick = {
+            materialDialogThemed {
+                title(R.string.theme)
+                items(Theme.values()
+                        .map { it.textRes }
+                        .map { string(it) }
+                )
+                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                    consumeIf(item.pref != which) {
+                        item.pref = which
+                        shouldRestartMain()
+                        reload()
+                        setAardvarkTheme()
+                        themeExterior()
+                        invalidateOptionsMenu()
+                        aardvarkAnswersCustom("Theme", "Count" to Theme(which).name)
                     }
                 }
             }
@@ -46,7 +44,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefColorPicker.KPrefColorContract.dependsOnCustom() {
         enabler = { Prefs.isCustomTheme }
-        onDisabledClick = { _, _, _ -> consume { snackbar(R.string.requires_custom_theme) } }
+        onDisabledClick = { snackbar(R.string.requires_custom_theme) }
         allowCustom = true
     }
 
@@ -106,20 +104,18 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
             { Prefs.mainActivityLayoutType = it }
     ) {
         textGetter = { string(Prefs.mainActivityLayout.titleRes) }
-        onClick = { _, _, item ->
-            consume {
-                materialDialogThemed {
-                    title(R.string.set_main_activity_layout)
-                    items(MainActivityLayout.values.map { string(it.titleRes) })
-                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                        consumeIf(item.pref != which) {
-                            item.pref = which
-                            shouldRestartMain()
-                            aardvarkAnswersCustom(
-                                    "Main Layout",
-                                    "Type" to MainActivityLayout(which).name
-                            )
-                        }
+        onClick = {
+            materialDialogThemed {
+                title(R.string.set_main_activity_layout)
+                items(MainActivityLayout.values.map { string(it.titleRes) })
+                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                    consumeIf(item.pref != which) {
+                        item.pref = which
+                        shouldRestartMain()
+                        aardvarkAnswersCustom(
+                                "Main Layout",
+                                "Type" to MainActivityLayout(which).name
+                        )
                     }
                 }
             }

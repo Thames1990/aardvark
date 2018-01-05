@@ -22,7 +22,7 @@ fun SettingsActivity.getDebugPrefs(): KPrefAdapterBuilder.() -> Unit = {
     checkbox(R.string.preference_enable_wifi_adb, { Prefs.useWifiADB }, {
         Prefs.useWifiADB = it
         when (it) {
-            true  -> enableWifiAdb()
+            true -> enableWifiAdb()
             false -> disableWifiAdb()
         }
         reloadByTitle(R.string.preference_share_wifi_adb_command)
@@ -30,12 +30,8 @@ fun SettingsActivity.getDebugPrefs(): KPrefAdapterBuilder.() -> Unit = {
     plainText(R.string.preference_share_wifi_adb_command) {
         descRes = R.string.preference_share_adb_command_description
         enabler = { Prefs.useWifiADB }
-        onDisabledClick = { _, _, _ ->
-            consume {
-                toast(getString(R.string.preference_enable_wifi_adb_hint))
-            }
-        }
-        onClick = { _, _, _ -> consume { shareWifiAdbCommand() } }
+        onDisabledClick = { toast(getString(R.string.preference_enable_wifi_adb_hint)) }
+        onClick = { shareWifiAdbCommand() }
     }
 }
 

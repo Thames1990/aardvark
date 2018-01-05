@@ -13,27 +13,19 @@ fun SettingsActivity.getServalPrefs(): KPrefAdapterBuilder.() -> Unit = {
     header(R.string.serval)
     text(R.string.username, { Prefs.kervalUser }, { Prefs.kervalUser = it }) {
         descRes = R.string.preference_username_description
-        onClick = { itemView, _, item ->
-            consume {
-                itemView.context.materialDialogThemed {
-                    title(string(R.string.username))
-                    input(string(R.string.username), item.pref, { _, input ->
-                        item.pref = input.toString()
-                    })
-                }
+        onClick = {
+            itemView.context.materialDialogThemed {
+                title(string(R.string.username))
+                input(string(R.string.username), item.pref, { _, input -> item.pref = input.toString() })
             }
         }
     }
     text(R.string.password, { Prefs.kervalPassword }, { Prefs.kervalPassword = it }) {
         descRes = R.string.preference_password_description
-        onClick = { itemView, _, item ->
-            consume {
-                itemView.context.materialDialogThemed {
-                    title(string(R.string.password))
-                    input(string(R.string.password), item.pref, { _, input ->
-                        item.pref = input.toString()
-                    })
-                }
+        onClick = {
+            itemView.context.materialDialogThemed {
+                title(string(R.string.password))
+                input(string(R.string.password), item.pref, { _, input -> item.pref = input.toString() })
             }
         }
     }
