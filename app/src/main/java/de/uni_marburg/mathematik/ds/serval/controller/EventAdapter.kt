@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import ca.allanwang.kau.utils.*
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -37,9 +36,7 @@ import kotlin.properties.Delegates
 class EventAdapter(
         private val activity: FragmentActivity,
         private val listener: (Event) -> Unit
-) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(),
-        AutoUpdatableAdapter,
-        FastScrollRecyclerView.SectionedAdapter {
+) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(), AutoUpdatableAdapter {
 
     /**
      * The last known location.
@@ -72,18 +69,6 @@ class EventAdapter(
             holder.bindTo(events[position], listener)
 
     override fun getItemCount(): Int = events.size
-
-    override fun getSectionName(position: Int): String {
-        val event = events[position]
-        return when (currentSortMode) {
-            DISTANCE    -> event.location.distanceTo(lastLocation).distanceToString(activity)
-            MEASUREMENT -> activity.plural(R.plurals.measurement_count, event.measurements.size)
-            TIME        -> {
-                val timeDifference = Calendar.getInstance().timeInMillis - event.time
-                timeDifference.timeToString(activity)
-            }
-        }
-    }
 
     /** Loads [events][Event] from the API server. **/
     fun loadEvents() {

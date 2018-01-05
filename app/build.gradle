@@ -76,9 +76,6 @@ dependencies {
     // Crashlytics
     implementation "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
 
-    // Fastscroll
-    implementation "com.simplecityapps:recyclerview-fastscroll:$fastscroll_version"
-
     // Firebase
     implementation "com.google.firebase:firebase-core:$google_play_services_version"
 

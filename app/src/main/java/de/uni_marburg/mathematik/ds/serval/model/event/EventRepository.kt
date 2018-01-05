@@ -45,7 +45,7 @@ object EventRepository {
                 }
             }
         }
-        return events.take(1000)
+        return events
     }
 
 }
