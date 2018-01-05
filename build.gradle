@@ -7,7 +7,6 @@ buildscript {
         crashlytics_version = '2.8.0'
         espresso_version = '3.0.1'
         fabric_gradle_tools_version='1.25.0'
-        fastscroll_version = '1.0.16'
         google_play_services_version = '11.8.0'
         google_play_services_tools_version='3.1.1'
         gradle_version='3.0.1'
