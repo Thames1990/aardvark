@@ -16,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.*
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.clustering.ClusterManager
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -23,6 +24,8 @@ import de.uni_marburg.mathematik.ds.serval.utils.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
+import de.uni_marburg.mathematik.ds.serval.enums.Theme
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
@@ -47,7 +50,7 @@ class MapFragment : BaseFragment() {
                 if (activity!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                     isMyLocationEnabled = true
                 }
-                uiSettings.isMapToolbarEnabled = false
+                style()
                 setupClusterManager()
                 setupCamera()
             }
@@ -71,12 +74,24 @@ class MapFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem) = with(googleMap) {
         when (item.itemId) {
-            R.id.action_change_map_type_hybrid    -> consume { mapType = MAP_TYPE_HYBRID }
-            R.id.action_change_map_type_none      -> consume { mapType = MAP_TYPE_NONE }
-            R.id.action_change_map_type_normal    -> consume { mapType = MAP_TYPE_NORMAL }
+            R.id.action_change_map_type_hybrid -> consume { mapType = MAP_TYPE_HYBRID }
+            R.id.action_change_map_type_none -> consume { mapType = MAP_TYPE_NONE }
+            R.id.action_change_map_type_normal -> consume { mapType = MAP_TYPE_NORMAL }
             R.id.action_change_map_type_satellite -> consume { mapType = MAP_TYPE_SATELLITE }
-            R.id.action_change_map_type_terrain   -> consume { mapType = MAP_TYPE_TERRAIN }
-            else                                  -> super.onOptionsItemSelected(item)
+            R.id.action_change_map_type_terrain -> consume { mapType = MAP_TYPE_TERRAIN }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun GoogleMap.style() {
+        uiSettings.isMapToolbarEnabled = false
+        when (Prefs.theme) {
+            Theme.DARK.ordinal -> setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style_dark)
+            )
+            Theme.AMOLED.ordinal -> setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style_night)
+            )
         }
     }
 
