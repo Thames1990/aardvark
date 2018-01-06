@@ -43,6 +43,7 @@ class MainActivity : BaseActivity() {
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
 
+    // TODO Replace Kotterknife with Kotlin Android Extension synthetic views
     private val appBar: AppBarLayout by bindView(R.id.appbar)
     private val coordinator: CoordinatorLayout by bindView(R.id.main_content)
     private val tabs: TabLayout by bindView(R.id.tabs)
