@@ -40,22 +40,19 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
-    val coordinator: CoordinatorLayout by bindView(R.id.main_content)
-    val toolbar: Toolbar by bindView(R.id.toolbar)
-
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
-    private val tabs: TabLayout by bindView(R.id.tabs)
+
     private val appBar: AppBarLayout by bindView(R.id.appbar)
+    private val coordinator: CoordinatorLayout by bindView(R.id.main_content)
+    private val tabs: TabLayout by bindView(R.id.tabs)
+    private val toolbar: Toolbar by bindView(R.id.toolbar)
 
     private val dashboardFragment by lazy { DashboardFragment() }
     private val eventsFragment by lazy { EventsFragment() }
     private val mapFragment by lazy { MapFragment() }
-    private val fragments: Array<Fragment> = arrayOf(
-            dashboardFragment,
-            eventsFragment,
-            mapFragment
-    )
+
+    private val fragments: Array<Fragment> = arrayOf(dashboardFragment, eventsFragment, mapFragment)
 
     companion object {
         const val ACTIVITY_SETTINGS = 1 shl 1
@@ -162,6 +159,7 @@ class MainActivity : BaseActivity() {
     private fun TabLayout.init() {
         addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
+                appBar.setExpanded(true, Prefs.animate)
                 val fragment = fragments[tab.position]
                 val transaction = supportFragmentManager.beginTransaction()
                 if (!fragment.isAdded) transaction.add(R.id.content_main, fragment)
