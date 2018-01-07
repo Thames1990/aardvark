@@ -41,6 +41,7 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
         max = Prefs.locationRequestInterval
     }
 
+    // TODO Refactor to the way I implemented it in Appearance with theme
     plainText(R.string.location_request_priority) {
         onClick = {
             itemView.context.materialDialogThemed {
