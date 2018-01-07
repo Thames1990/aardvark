@@ -91,7 +91,9 @@ class SettingsActivity : KPrefActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean = consume {
         menuInflater.inflate(R.menu.menu_settings, menu)
         toolbar.tint(Prefs.iconColor)
-        setMenuIcons(menu, Prefs.iconColor,
+        setMenuIcons(
+                menu,
+                Prefs.iconColor,
                 R.id.action_email to GoogleMaterial.Icon.gmd_email,
                 R.id.action_changelog to GoogleMaterial.Icon.gmd_info
         )
