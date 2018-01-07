@@ -201,13 +201,13 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupDrawer(savedInstanceState: Bundle?) {
-        val navBg = Prefs.backgroundColor.withMinAlpha(200).toLong()
+        val navBackground = Prefs.backgroundColor.withMinAlpha(200).toLong()
         val navHeader = Prefs.headerColor.withMinAlpha(200)
         drawer = drawer {
             toolbar = this@MainActivity.toolbar
             savedInstance = savedInstanceState
             translucentStatusBar = false
-            sliderBackgroundColor = navBg
+            sliderBackgroundColor = navBackground
             drawerHeader = accountHeader {
                 customViewRes = R.layout.material_drawer_header
                 textColor = Prefs.iconColor.toLong()
