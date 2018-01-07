@@ -159,7 +159,9 @@ class MainActivity : BaseActivity() {
     private fun loadEvents() {
         doAsync {
             val now = System.currentTimeMillis()
-            events = if (isNetworkAvailable) EventRepository.fetch() else emptyList()
+            events =
+                    if (isNetworkAvailable) EventRepository.fetch(Prefs.eventCount)
+                    else emptyList()
             uiThread {
                 val later = System.currentTimeMillis()
                 val timePassed = later - now
@@ -193,6 +195,7 @@ class MainActivity : BaseActivity() {
         AardvarkItem.values().map {
             addTab(newTab().setCustomView(BadgedIcon(this@MainActivity).apply {
                 iicon = it.icon
+                badgeText = events.size.toString()
             }))
         }
     }

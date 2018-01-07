@@ -45,6 +45,7 @@ object Prefs : KPref() {
     var customHeaderColor: Int by kpref("color_header", 0xff01579b.toInt())
     var customIconColor: Int by kpref("color_icons", 0xffeceff1.toInt())
     var debugSettings: Boolean by kpref("DEBUG_SETTINGS", BuildConfig.DEBUG)
+    var eventCount: Int by kpref("EVENT_COUNT", 10000)
     var exitConfirmation: Boolean by kpref("CONFIRM_EXIT", true)
     var identifier: Int by kpref("identifier", -1)
     var installDate: Long by kpref("install_date", -1L)

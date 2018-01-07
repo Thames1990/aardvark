@@ -74,7 +74,7 @@ class EventAdapter(
 
     /** Loads [events][Event] from the API server. **/
     fun loadEvents() {
-        events = EventRepository.fetch()
+        events = EventRepository.fetch(Prefs.eventCount)
     }
 
     /**

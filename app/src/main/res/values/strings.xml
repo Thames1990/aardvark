@@ -68,6 +68,7 @@
     <string name="distance_in_kilometer">%1$.2f km</string>
     <string name="distance_in_meter">%1$.0f m</string>
 
+    <string name="event_count">Event count</string>
     <string name="event_loading_time">Loading events took %1$d ms</string>
 
     <string name="events">Events</string>
@@ -225,4 +226,5 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
+    <string name="event_count_description">Define how many events should be loaded</string>
 </resources>

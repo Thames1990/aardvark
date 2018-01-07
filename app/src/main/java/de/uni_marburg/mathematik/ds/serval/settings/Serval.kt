@@ -29,4 +29,10 @@ fun SettingsActivity.getServalPrefs(): KPrefAdapterBuilder.() -> Unit = {
             }
         }
     }
+    seekbar(R.string.event_count, {Prefs.eventCount}, { Prefs.eventCount = it }) {
+        descRes = R.string.event_count_description
+        min = 1
+        max = 10000
+        shouldRestartMain()
+    }
 }
