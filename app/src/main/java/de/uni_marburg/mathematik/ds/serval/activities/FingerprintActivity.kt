@@ -41,7 +41,9 @@ class FingerprintActivity : BaseActivity() {
     }
 
     fun theme() {
-        setAardvarkColors(texts = arrayOf(title, description))
+        setAardvarkColors {
+            text(title, description)
+        }
         fingerprint.setColorFilter(Prefs.textColor)
     }
 }

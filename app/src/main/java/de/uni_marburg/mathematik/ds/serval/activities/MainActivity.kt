@@ -83,7 +83,11 @@ class MainActivity : BaseActivity() {
         loadEvents()
         setSupportActionBar(toolbar)
         setupDrawer(savedInstanceState)
-        setAardvarkColors(toolbar, themeWindow = false, headers = arrayOf(appBar))
+        setAardvarkColors {
+            toolbar(toolbar)
+            themeWindow = false
+            header(appBar)
+        }
         tabs.setBackgroundColor(Prefs.mainActivityLayout.backgroundColor())
     }
 

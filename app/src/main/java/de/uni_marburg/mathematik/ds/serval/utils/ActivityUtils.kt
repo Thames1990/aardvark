@@ -23,24 +23,10 @@ fun Activity.aardvarkSnackbar(@StringRes textRes: Int, builder: Snackbar.() -> U
 fun Activity.aardvarkSnackbar(text: String, builder: Snackbar.() -> Unit = {})
         = snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
 
-fun Activity.setAardvarkColors(
-        toolbar: Toolbar? = null,
-        themeWindow: Boolean = true,
-        texts: Array<TextView> = arrayOf(),
-        headers: Array<View> = arrayOf(),
-        backgrounds: Array<View> = arrayOf()
-) {
-    statusBarColor = Prefs.headerColor.darken(0.1f).withAlpha(255)
-    if (Prefs.tintNavBar) navigationBarColor = Prefs.headerColor
-    if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.backgroundColor))
-    toolbar?.apply {
-        setBackgroundColor(Prefs.headerColor)
-        setTitleTextColor(Prefs.iconColor)
-        overflowIcon?.setTint(Prefs.iconColor)
-    }
-    texts.forEach { it.setTextColor(Prefs.textColor) }
-    headers.forEach { it.setBackgroundColor(Prefs.headerColor) }
-    backgrounds.forEach { it.setBackgroundColor(Prefs.backgroundColor) }
+fun Activity.setAardvarkColors(builder: ActivityThemeUtils.() -> Unit) {
+    val themer = ActivityThemeUtils()
+    themer.builder()
+    themer.theme(this)
 }
 
 fun Activity.setAardvarkTheme() {
@@ -58,4 +44,45 @@ fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
     val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
     if (secure) window.setFlags(secureFlag, secureFlag)
     else window.clearFlags(secureFlag)
+}
+
+class ActivityThemeUtils {
+
+    var themeWindow = true
+
+    private var toolbar: Toolbar? = null
+    private var texts = mutableListOf<TextView>()
+    private var headers = mutableListOf<View>()
+    private var backgrounds = mutableListOf<View>()
+
+    fun toolbar(toolbar: Toolbar) {
+        this.toolbar = toolbar
+    }
+
+    fun text(vararg views: TextView) {
+        texts.addAll(views)
+    }
+
+    fun header(vararg views: View) {
+        headers.addAll(views)
+    }
+
+    fun background(vararg views: View) {
+        backgrounds.addAll(views)
+    }
+
+    fun theme(activity: Activity) {
+        with(activity) {
+            statusBarColor = Prefs.headerColor.darken(0.1f).withAlpha(255)
+            if (Prefs.tintNavBar) navigationBarColor = Prefs.headerColor
+            if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.backgroundColor))
+            toolbar?.setBackgroundColor(Prefs.headerColor)
+            toolbar?.setTitleTextColor(Prefs.iconColor)
+            toolbar?.overflowIcon?.setTint(Prefs.iconColor)
+            texts.forEach { it.setTextColor(Prefs.textColor) }
+            headers.forEach { it.setBackgroundColor(Prefs.headerColor) }
+            backgrounds.forEach { it.setBackgroundColor(Prefs.backgroundColor) }
+        }
+    }
+
 }
