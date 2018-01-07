@@ -4,9 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.hasPermission
@@ -40,6 +38,15 @@ class MapFragment : BaseFragment() {
 
     override val layout: Int
         get() = R.layout.fragment_map
+
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     @SuppressLint("MissingPermission")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
