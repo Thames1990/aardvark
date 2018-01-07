@@ -61,7 +61,7 @@ class EventsFragment : BaseFragment() {
             with(context!!) {
                 val filterEvents = menu.findItem(R.id.action_filter_events)
                 val icon = drawable(R.drawable.filter_list)
-                icon.setColorFilter(color(android.R.color.white), PorterDuff.Mode.SRC_IN)
+                icon.setColorFilter(color(Prefs.iconColor), PorterDuff.Mode.SRC_IN)
                 filterEvents.icon = icon
             }
         }
