@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/location_icon"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/event_time"
+        app:layout_constraintStart_toEndOf="@id/event_time"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -43,7 +43,7 @@
         android:layout_marginTop="8dp"
         android:contentDescription="@string/content_description_location_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.Guideline
