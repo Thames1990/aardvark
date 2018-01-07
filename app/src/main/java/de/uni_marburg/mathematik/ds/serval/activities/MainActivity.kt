@@ -49,11 +49,7 @@ class MainActivity : BaseActivity() {
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
 
-    private val dashboardFragment by lazy { DashboardFragment() }
-    private val eventsFragment by lazy { EventsFragment() }
-    private val mapFragment by lazy { MapFragment() }
-
-    private val fragments: Array<Fragment> = arrayOf(dashboardFragment, eventsFragment, mapFragment)
+    private val fragments = listOf(DashboardFragment(), EventsFragment(), MapFragment())
 
     companion object {
         const val ACTIVITY_SETTINGS = 1 shl 1
