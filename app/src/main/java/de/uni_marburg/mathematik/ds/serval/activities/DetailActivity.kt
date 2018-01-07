@@ -12,11 +12,13 @@ import ca.allanwang.kau.utils.string
 import ca.allanwang.kau.utils.tint
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
+import de.uni_marburg.mathematik.ds.serval.utils.timeToString
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import java.util.*
 
@@ -44,23 +46,17 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private fun setupAdapter() {
         adapter.add(MapIItem(event))
-        adapter.add(HeaderIItem(event.snippet))
-        event.measurements.forEach { measurement ->
+        adapter.add(CardIItem {
+            val timeDifference = Calendar.getInstance().timeInMillis - event.time
+            titleRes = R.string.time
+            desc = "${event.snippet}\n${timeDifference.timeToString(this@DetailActivity)}"
+            imageIIcon = GoogleMaterial.Icon.gmd_access_time
+        })
+        event.measurements.map {
             adapter.add(CardIItem {
-                titleRes = measurement.type.res
-                desc = String.format(string(measurement.type.resFormat), measurement.value)
-                image = drawable(measurement.type.resId).tint(Color.WHITE)
-            })
-            // TODO Remove duplicate cards once I figured out how to properly design the overlay
-            adapter.add(CardIItem {
-                titleRes = measurement.type.res
-                desc = String.format(string(measurement.type.resFormat), measurement.value)
-                image = drawable(measurement.type.resId).tint(Color.WHITE)
-            })
-            adapter.add(CardIItem {
-                titleRes = measurement.type.res
-                desc = String.format(string(measurement.type.resFormat), measurement.value)
-                image = drawable(measurement.type.resId).tint(Color.WHITE)
+                titleRes = it.type.res
+                desc = String.format(string(it.type.resFormat), it.value)
+                image = drawable(it.type.resId).tint(Color.WHITE)
             })
         }
     }
