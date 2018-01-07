@@ -5,7 +5,6 @@ import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
 /** Created by thames1990 on 09.12.17. */
@@ -29,7 +28,7 @@ fun SettingsActivity.getServalPrefs(): KPrefAdapterBuilder.() -> Unit = {
             }
         }
     }
-    seekbar(R.string.event_count, {Prefs.eventCount}, { Prefs.eventCount = it }) {
+    seekbar(R.string.event_count, { Prefs.eventCount }, { Prefs.eventCount = it }) {
         descRes = R.string.event_count_description
         min = 1
         max = 10000
