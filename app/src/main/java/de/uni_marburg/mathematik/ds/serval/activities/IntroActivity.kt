@@ -62,6 +62,7 @@ class IntroActivity : BaseActivity() {
             }
         }
         skip.setOnClickListener { finish() }
+        ripple.set(Prefs.backgroundColor)
         theme()
     }
 
@@ -125,7 +126,6 @@ class IntroActivity : BaseActivity() {
     }
 
     fun theme() {
-        ripple.set(Prefs.backgroundColor)
         statusBarColor = Prefs.headerColor
         navigationBarColor = Prefs.headerColor
         skip.setTextColor(Prefs.textColor)
