@@ -17,6 +17,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
+import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import java.util.*
 
 /** Displays all details of an [event][Event]. */
@@ -42,8 +43,20 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     private fun setupAdapter() {
+        adapter.add(MapIItem(event))
         adapter.add(HeaderIItem(event.snippet))
         event.measurements.forEach { measurement ->
+            adapter.add(CardIItem {
+                titleRes = measurement.type.res
+                desc = String.format(string(measurement.type.resFormat), measurement.value)
+                image = drawable(measurement.type.resId).tint(Color.WHITE)
+            })
+            // TODO Remove duplicate cards once I figured out how to properly design the overlay
+            adapter.add(CardIItem {
+                titleRes = measurement.type.res
+                desc = String.format(string(measurement.type.resFormat), measurement.value)
+                image = drawable(measurement.type.resId).tint(Color.WHITE)
+            })
             adapter.add(CardIItem {
                 titleRes = measurement.type.res
                 desc = String.format(string(measurement.type.resFormat), measurement.value)
