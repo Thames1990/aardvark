@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.settings
 
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.utils.string
-import ca.allanwang.kau.utils.toast
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority

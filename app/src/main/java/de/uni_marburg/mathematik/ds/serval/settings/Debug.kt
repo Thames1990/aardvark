@@ -7,7 +7,6 @@ import ca.allanwang.kau.utils.shareText
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.consume
 import org.jetbrains.anko.toast
 import java.io.DataOutputStream
 import java.lang.Runtime.getRuntime

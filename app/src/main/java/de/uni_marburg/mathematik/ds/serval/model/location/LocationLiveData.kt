@@ -7,7 +7,6 @@ import android.content.Context
 import android.location.Location
 import android.os.Looper
 import ca.allanwang.kau.utils.hasPermission
-import ca.allanwang.kau.utils.toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest

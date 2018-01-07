@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import ca.allanwang.kau.iitems.CardIItem
-import ca.allanwang.kau.iitems.HeaderIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
 import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.string

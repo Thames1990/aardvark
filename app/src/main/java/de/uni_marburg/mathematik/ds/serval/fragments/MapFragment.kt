@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.*
-import ca.allanwang.kau.utils.color
 import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.hasPermission
 import com.google.android.gms.maps.CameraUpdate
@@ -17,13 +16,13 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.clustering.ClusterManager
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.utils.MAP_PADDING
-import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
+import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.utils.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.consume
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
