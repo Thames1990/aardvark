@@ -37,7 +37,7 @@ enum class Theme(
 
     AMOLED(
             R.string.kau_amoled,
-            { android.graphics.Color.WHITE },
+            { Color.WHITE },
             { AARDVARK_GREEN_LIGHT },
             { Color.BLACK },
             { Color.BLACK },
