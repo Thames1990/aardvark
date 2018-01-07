@@ -14,10 +14,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Support
-import de.uni_marburg.mathematik.ds.serval.settings.getAppearancePrefs
-import de.uni_marburg.mathematik.ds.serval.settings.getBehaviourPrefs
-import de.uni_marburg.mathematik.ds.serval.settings.getDebugPrefs
-import de.uni_marburg.mathematik.ds.serval.settings.getServalPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
 class SettingsActivity : KPrefActivity() {
@@ -31,25 +28,31 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
         if (Prefs.debugSettings) subItems(R.string.debug, getDebugPrefs()) {
-            descRes = R.string.debug_desc
+            descRes = R.string.debug_description
             iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
         }
 
         subItems(R.string.behaviour, getBehaviourPrefs()) {
-            descRes = R.string.behaviour_desc
+            descRes = R.string.behaviour_description
             iicon = GoogleMaterial.Icon.gmd_settings
         }
         subItems(R.string.appearance, getAppearancePrefs()) {
-            descRes = R.string.appearance_desc
+            descRes = R.string.appearance_description
             iicon = GoogleMaterial.Icon.gmd_palette
         }
+        if (Prefs.debugSettings) {
+            subItems(R.string.location, getLocationPrefs()) {
+                descRes = R.string.location_description
+                iicon = GoogleMaterial.Icon.gmd_my_location
+            }
+        }
         subItems(R.string.serval, getServalPrefs()) {
-            descRes = R.string.serval_desc
+            descRes = R.string.serval_description
             iicon = GoogleMaterial.Icon.gmd_network_wifi
         }
 
         plainText(R.string.about_aardvark) {
-            descRes = R.string.about_aardvark_desc
+            descRes = R.string.about_aardvark_description
             iicon = GoogleMaterial.Icon.gmd_info
             onClick = { startActivityForResult(AboutActivity::class.java, 9) }
         }

@@ -9,6 +9,7 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.enums.AARDVARK_GREEN
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
+import java.util.concurrent.TimeUnit
 
 object Prefs : KPref() {
 
@@ -22,8 +23,8 @@ object Prefs : KPref() {
     val accentColorForWhite: Int
         get() = when {
             accentColor.isColorVisibleOn(Color.WHITE) -> accentColor
-            textColor.isColorVisibleOn(Color.WHITE)   -> textColor
-            else                                      -> AARDVARK_GREEN
+            textColor.isColorVisibleOn(Color.WHITE) -> textColor
+            else -> AARDVARK_GREEN
         }
     val backgroundColor: Int
         get() = t.bgColor
@@ -56,6 +57,8 @@ object Prefs : KPref() {
     var kervalPort: Int by kpref("KERVAL_PORT", 80)
     var kervalUser: String by kpref("KERVAL_USER", "pum")
     var lastLaunch: Long by kpref("LAST_LAUNCH", -1L)
+    var locationRequestInterval: Int by kpref("LOCATION_REQUEST_INTERVAL", 60)
+    var locationRequestFastestInterval: Int by kpref("LOCATION_REQUEST_FASTEST_INTERVAL", 5)
     val mainActivityLayout: MainActivityLayout
         get() = MainActivityLayout(mainActivityLayoutType)
     var mainActivityLayoutType: Int by kpref("main_activity_layout_type", 0)

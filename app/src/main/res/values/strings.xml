@@ -9,7 +9,7 @@
     <string name="aardvark_name" tools:override="true" translatable="false">Aardvark</string>
 
     <string name="about_aardvark">About Aardvark</string>
-    <string name="about_aardvark_desc">Version, Credits, and FAQs</string>
+    <string name="about_aardvark_description">Version, Credits, and FAQs</string>
     <string name="about_title">About Aardvark</string>
 
     <string name="action_change_map_type">Map type</string>
@@ -29,10 +29,10 @@
     <string name="analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
 
     <string name="appearance">Appearance</string>
-    <string name="appearance_desc">Theme, Items to display, etc</string>
+    <string name="appearance_description">Theme, Items to display, etc</string>
 
     <string name="behaviour">Behaviour</string>
-    <string name="behaviour_desc">Define how the app interacts in certain settings</string>
+    <string name="behaviour_description">Define how the app interacts in certain settings</string>
 
     <string name="bottom_bar">Bottom bar</string>
 
@@ -55,7 +55,7 @@
     <string name="dashboard">Dashboard</string>
 
     <string name="debug">Debug</string>
-    <string name="debug_desc">Useful features for developers</string>
+    <string name="debug_description">Useful features for developers</string>
     <string name="debug_disclaimer_info">Please only use these settings if you are absolutely sure, what you are doing!</string>
     <string name="debug_enabled">Debug settings activated</string>
 
@@ -69,6 +69,7 @@
     <string name="distance_in_meter">%1$.0f m</string>
 
     <string name="event_count">Event count</string>
+    <string name="event_count_description">Define how many events should be loaded</string>
     <string name="event_loading_time">Loading events took %1$d ms</string>
 
     <string name="events">Events</string>
@@ -123,6 +124,14 @@
     <string name="license_name">MIT License</string>
     <string name="license_website">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
 
+    <string name="location">Location</string>
+    <string name="location_dependency_warning">Caution! Currently the depency between the active and passive location request isn\'t implemented correctly.\nTherefore you could increase the passive interval to a value above the active interval, which should be avoided at all cost.\nYou are using this feature at your own risk!</string>
+    <string name="location_description">Control your location settings</string>
+    <string name="location_request_fastest_interval">Active location request interval</string>
+    <string name="location_request_fastest_interval_description">Define the interval in minutes between active location updates</string>
+    <string name="location_request_interval">Passive location request interval</string>
+    <string name="location_request_interval_description">Define the interval in minutes between passive location updates</string>
+
     <string name="login_required">You must be logged in</string>
 
     <string name="main_activity_layout">Main Activity Layout</string>
@@ -172,7 +181,7 @@
     <string name="secure_app_desc">Prohibit screenshots and interception of screen status and require fingerprint authentication</string>
 
     <string name="serval">Serval</string>
-    <string name="serval_desc">Serval login information</string>
+    <string name="serval_description">Serval login information</string>
 
     <string name="set_main_activity_layout">Set Main Activity Layout</string>
 
@@ -226,5 +235,4 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
-    <string name="event_count_description">Define how many events should be loaded</string>
 </resources>
