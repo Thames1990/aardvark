@@ -54,9 +54,8 @@ class MapFragment : BaseFragment() {
         map.getMapAsync { googleMap ->
             this.googleMap = googleMap
             with(googleMap) {
-                if (activity!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    isMyLocationEnabled = true
-                }
+                val hasLocationPermission = context!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                if (hasLocationPermission) isMyLocationEnabled = true
                 style()
                 setupClusterManager()
                 setupCamera()
@@ -72,10 +71,12 @@ class MapFragment : BaseFragment() {
     override fun onPrepareOptionsMenu(menu: Menu?) {
         menu?.let {
             super.onPrepareOptionsMenu(menu)
-            val changeMapType = menu.findItem(R.id.action_change_map_type)
-            val icon = context!!.drawable(R.drawable.map)
-            icon.setColorFilter(context!!.color(android.R.color.white), PorterDuff.Mode.SRC_IN)
-            changeMapType.icon = icon
+            with(context!!) {
+                val changeMapType = menu.findItem(R.id.action_change_map_type)
+                val icon = drawable(R.drawable.map)
+                icon.setColorFilter(Prefs.iconColor, PorterDuff.Mode.SRC_IN)
+                changeMapType.icon = icon
+            }
         }
     }
 
