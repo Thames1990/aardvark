@@ -63,9 +63,10 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
         adapter.withOnClickListener { _, _, item, _ ->
             if (item is LibraryIItem) {
                 val now = System.currentTimeMillis()
-                if (now - lastClick > 500) clickCount = 0
-                else clickCount++
+                // Only register clicks within a timespan of 500 milliseconds
+                if (now - lastClick > 500) clickCount = 0 else clickCount++
                 lastClick = now
+                // Enable debug settings if the user clicked 7 times in a short timespan
                 if (clickCount == 7 && !Prefs.debugSettings) {
                     Prefs.debugSettings = true
                     aardvarkSnackbar(R.string.debug_enabled)
@@ -87,7 +88,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
 
         override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
             super.bindView(holder, payloads)
-            with(holder) {
+            holder.apply {
                 bindIconColor(*images.toTypedArray())
                 bindBackgroundColor(container)
             }
@@ -101,6 +102,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
             init {
                 val context = itemView.context
                 val size = context.dimenPixelSize(R.dimen.kau_avatar_bounds)
+                // TODO Refactor with AboutItem enum class
                 images = arrayOf<Pair<IIcon, () -> Unit>>(
                         CommunityMaterial.Icon.cmd_github_circle to {
                             context.startLink(R.string.github_url)
