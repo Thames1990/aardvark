@@ -48,12 +48,12 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark = Library().apply {
-            libraryName = string(R.string.aardvark_name)
             author = string(R.string.dev_name)
-            libraryWebsite = string(R.string.github_url)
             isOpenSource = true
             libraryDescription = string(R.string.aardvark_description)
+            libraryName = string(R.string.aardvark_name)
             libraryVersion = BuildConfig.VERSION_NAME
+            libraryWebsite = string(R.string.github_url)
             license = License().apply {
                 licenseName = getString(R.string.license_name)
                 licenseWebsite = getString(R.string.license_website)
