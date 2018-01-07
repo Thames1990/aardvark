@@ -3,9 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.fragments
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
@@ -38,6 +36,15 @@ class EventsFragment : BaseFragment() {
         setupRecyclerView()
     }
 
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupRefresh()
@@ -51,10 +58,12 @@ class EventsFragment : BaseFragment() {
     override fun onPrepareOptionsMenu(menu: Menu?) {
         menu?.let {
             super.onPrepareOptionsMenu(menu)
-            val filterEvents = menu.findItem(R.id.action_filter_events)
-            val icon = context!!.drawable(R.drawable.filter_list)
-            icon.setColorFilter(context!!.color(android.R.color.white), PorterDuff.Mode.SRC_IN)
-            filterEvents.icon = icon
+            with(context!!) {
+                val filterEvents = menu.findItem(R.id.action_filter_events)
+                val icon = drawable(R.drawable.filter_list)
+                icon.setColorFilter(color(android.R.color.white), PorterDuff.Mode.SRC_IN)
+                filterEvents.icon = icon
+            }
         }
     }
 
