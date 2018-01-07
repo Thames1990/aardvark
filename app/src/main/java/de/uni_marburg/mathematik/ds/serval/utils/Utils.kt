@@ -93,7 +93,7 @@ fun Long.timeToString(context: Context): String {
         }
         else                                       -> {
             id = R.plurals.kau_x_days
-            quantity = TimeUnit.MILLISECONDS.toDays(this) / 30
+            quantity = TimeUnit.MILLISECONDS.toDays(this)
         }
     }
 
