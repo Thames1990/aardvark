@@ -160,7 +160,7 @@ class MainActivity : BaseActivity() {
         doAsync {
             val now = System.currentTimeMillis()
             events =
-                    if (isNetworkAvailable) EventRepository.fetch(Prefs.eventCount)
+                    if (isNetworkAvailable) EventRepository.fetch()
                     else emptyList()
             uiThread {
                 val later = System.currentTimeMillis()
