@@ -176,12 +176,12 @@ class MainActivity : BaseActivity() {
     private fun TabLayout.init() {
         addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
+                addFragmentSafely(
+                        fragment = fragments[tab.position],
+                        tag = tab.position.toString(),
+                        containerViewId = R.id.content_main
+                )
                 appBar.setExpanded(true, Prefs.animate)
-                val fragment = fragments[tab.position]
-                val transaction = supportFragmentManager.beginTransaction()
-                if (!fragment.isAdded) transaction.add(R.id.content_main, fragment)
-                transaction.show(fragment)
-                transaction.commit()
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {

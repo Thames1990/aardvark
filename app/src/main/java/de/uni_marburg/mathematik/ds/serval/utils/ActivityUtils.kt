@@ -3,8 +3,12 @@ package de.uni_marburg.mathematik.ds.serval.utils
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.support.annotation.AnimRes
+import android.support.annotation.IdRes
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.WindowManager
@@ -44,6 +48,48 @@ fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
     val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
     if (secure) window.setFlags(secureFlag, secureFlag)
     else window.clearFlags(secureFlag)
+}
+
+fun AppCompatActivity.replaceFragmentSafely(
+        fragment: Fragment,
+        tag: String,
+        allowStateLoss: Boolean = false,
+        @IdRes containerViewId: Int,
+        @AnimRes enterAnimation: Int = 0,
+        @AnimRes exitAnimation: Int = 0,
+        @AnimRes popEnterAnimation: Int = 0,
+        @AnimRes popExitAnimation: Int = 0
+) {
+    val ft = supportFragmentManager.beginTransaction()
+    ft.setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
+    ft.replace(containerViewId, fragment, tag)
+    if (!supportFragmentManager.isStateSaved) ft.commit()
+    else if (allowStateLoss) ft.commitAllowingStateLoss()
+}
+
+fun AppCompatActivity.addFragmentSafely(
+        fragment: Fragment,
+        tag: String,
+        allowStateLoss: Boolean = false,
+        @IdRes containerViewId: Int,
+        @AnimRes enterAnimation: Int = 0,
+        @AnimRes exitAnimation: Int = 0,
+        @AnimRes popEnterAnimation: Int = 0,
+        @AnimRes popExitAnimation: Int = 0
+) {
+    val ft = supportFragmentManager.beginTransaction()
+    ft.setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
+    if (!existsFragmentByTag(tag)) ft.add(containerViewId, fragment, tag) else ft.show(fragment)
+    if (!supportFragmentManager.isStateSaved) ft.commit()
+    else if (allowStateLoss) ft.commitAllowingStateLoss()
+}
+
+fun AppCompatActivity.existsFragmentByTag(tag: String): Boolean {
+    return supportFragmentManager.findFragmentByTag(tag) != null
+}
+
+fun AppCompatActivity.findFragmentByTag(tag: String): Fragment? {
+    return supportFragmentManager.findFragmentByTag(tag)
 }
 
 class ActivityThemeUtils {
