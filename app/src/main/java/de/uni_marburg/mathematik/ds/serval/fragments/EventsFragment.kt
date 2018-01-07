@@ -98,6 +98,11 @@ class EventsFragment : BaseFragment() {
         with(context!!) {
             if (isNetworkAvailable) swipeRefreshLayout.apply {
                 setOnRefreshListener {
+                    setColorSchemeColors(
+                            Prefs.backgroundColor,
+                            Prefs.accentColor,
+                            Prefs.backgroundColor
+                    )
                     doAsync {
                         eventAdapter.loadEvents()
                         uiThread { isRefreshing = false }
