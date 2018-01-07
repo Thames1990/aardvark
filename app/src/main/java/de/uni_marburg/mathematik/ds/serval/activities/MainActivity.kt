@@ -1,6 +1,9 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -8,7 +11,6 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.TabLayout
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -27,7 +29,6 @@ import com.mikepenz.materialdrawer.Drawer
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
-import de.uni_marburg.mathematik.ds.serval.fragments.BaseFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
@@ -43,7 +44,6 @@ class MainActivity : BaseActivity() {
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
 
-    // TODO Replace Kotterknife with Kotlin Android Extension synthetic views
     private val appBar: AppBarLayout by bindView(R.id.appbar)
     private val coordinator: CoordinatorLayout by bindView(R.id.main_content)
     private val tabs: TabLayout by bindView(R.id.tabs)
@@ -54,7 +54,8 @@ class MainActivity : BaseActivity() {
     companion object {
         const val ACTIVITY_SETTINGS = 1 shl 1
         const val REQUEST_RESTART = 1 shl 2
-        const val REQUEST_NAV = 1 shl 3
+        const val REQUEST_RESTART_APPLICATION = 1 shl 3
+        const val REQUEST_NAV = 1 shl 4
 
         lateinit var events: List<Event>
     }
@@ -98,6 +99,24 @@ class MainActivity : BaseActivity() {
                     overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
                     finish()
                     overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
+                }
+                if (resultCode and REQUEST_RESTART_APPLICATION > 0) {
+                    val intent = packageManager.getLaunchIntentForPackage(packageName)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    val pending = PendingIntent.getActivity(
+                            this,
+                            666,
+                            intent,
+                            PendingIntent.FLAG_CANCEL_CURRENT
+                    )
+                    val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    val soon = System.currentTimeMillis() + 100
+                    if (buildIsMarshmallowAndUp) {
+                        alarm.setExactAndAllowWhileIdle(AlarmManager.RTC, soon, pending)
+                    } else alarm.setExact(AlarmManager.RTC, soon, pending)
+                    finish()
+                    System.exit(0)
+                    return
                 }
                 if (resultCode and REQUEST_NAV > 0) aardvarkNavigationBar()
             }
