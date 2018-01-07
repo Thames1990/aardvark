@@ -130,8 +130,8 @@ class MainActivity : BaseActivity() {
             positiveText(R.string.kau_yes)
             negativeText(R.string.kau_no)
             onPositive { _, _ -> finish() }
-            checkBoxPromptRes(R.string.kau_do_not_show_again, false, { _, b ->
-                Prefs.exitConfirmation = !b
+            checkBoxPromptRes(R.string.kau_do_not_show_again, false, { _, isChecked ->
+                Prefs.exitConfirmation = !isChecked
             })
         }
     }
