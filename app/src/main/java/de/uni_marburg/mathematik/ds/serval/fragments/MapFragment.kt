@@ -125,7 +125,10 @@ class MapFragment : BaseFragment() {
                 }
             }
             setOnClusterItemInfoWindowClickListener { event ->
-                context!!.startActivity<DetailActivity>(DetailActivity.EVENT to event)
+                context!!.startActivity<DetailActivity>(
+                        DetailActivity.EVENT to event,
+                        DetailActivity.SHOW_MAP to false
+                )
             }
 
             doAsync {

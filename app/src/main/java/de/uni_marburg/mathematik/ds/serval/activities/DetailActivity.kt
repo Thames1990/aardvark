@@ -45,7 +45,8 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     private fun setupAdapter() {
-        adapter.add(MapIItem(event))
+        val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
+        if (showMap) adapter.add(MapIItem(event))
         adapter.add(CardIItem {
             val timeDifference = Calendar.getInstance().timeInMillis - event.time
             titleRes = R.string.time
@@ -77,7 +78,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     companion object {
-
         const val EVENT = "EVENT"
+        const val SHOW_MAP = "SHOW_MAP"
     }
 }
