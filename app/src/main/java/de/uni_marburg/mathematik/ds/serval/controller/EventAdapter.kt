@@ -2,17 +2,15 @@ package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.Manifest
 import android.arch.lifecycle.Observer
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.location.Location
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import ca.allanwang.kau.R.attr.color
-import ca.allanwang.kau.ui.R.attr.color
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
@@ -150,6 +148,9 @@ class EventAdapter(
             } else {
                 location_icon.gone()
                 location_text.gone()
+                val params = guideline.layoutParams as ConstraintLayout.LayoutParams
+                params.guideEnd = 0
+                guideline.layoutParams = params
             }
         }
 
