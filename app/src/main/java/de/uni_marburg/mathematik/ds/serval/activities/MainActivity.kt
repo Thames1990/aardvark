@@ -192,10 +192,10 @@ class MainActivity : BaseActivity() {
 
             override fun onTabReselected(tab: TabLayout.Tab) = Unit
         })
-        AardvarkItem.values().map {
+        AardvarkItem.values().mapIndexed { index, aardvarkItem ->
             addTab(newTab().setCustomView(BadgedIcon(this@MainActivity).apply {
-                iicon = it.icon
-                badgeText = events.size.toString()
+                iicon = aardvarkItem.icon
+                if (index == 1) badgeText = events.size.toString()
             }))
         }
     }
