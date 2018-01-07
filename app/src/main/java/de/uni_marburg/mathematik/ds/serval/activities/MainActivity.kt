@@ -267,9 +267,9 @@ class MainActivity : BaseActivity() {
 
     private fun Builder.primaryAardvarkItem(item: AardvarkItem) = this.primaryItem(item.titleId) {
         iicon = item.icon
-        iconColor = Prefs.textColor.toLong()
+        iconColor = Prefs.iconColor.toLong()
         textColor = Prefs.textColor.toLong()
-        selectedIconColor = Prefs.textColor.toLong()
+        selectedIconColor = Prefs.iconColor.toLong()
         selectedTextColor = Prefs.textColor.toLong()
         selectedColor = 0x00000001.toLong()
         identifier = item.titleId.toLong()
