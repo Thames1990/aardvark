@@ -15,7 +15,7 @@ enum class Support(@StringRes val title: Int) {
 
     fun sendEmail(context: Context) {
         with(context) {
-            this.sendAardvarkEmail("${string(R.string.aardvark_name)}: ${string(title)}") {}
+            sendAardvarkEmail("${string(R.string.aardvark_name)}: ${string(title)}") {}
         }
     }
 }
