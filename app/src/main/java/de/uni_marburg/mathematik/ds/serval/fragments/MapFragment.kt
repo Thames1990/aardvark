@@ -120,7 +120,7 @@ class MapFragment : BaseFragment() {
 
     private fun GoogleMap.setupClusterManager() {
         with(ClusterManager<Event>(context, this)) {
-            setAnimation(false)
+            setAnimation(Prefs.animate)
             setOnCameraIdleListener(this)
             setOnMarkerClickListener(this)
             setOnInfoWindowClickListener(this)
@@ -128,7 +128,7 @@ class MapFragment : BaseFragment() {
                 consume {
                     with(LatLngBounds.builder()) {
                         cluster.items.forEach { event -> include(event.position) }
-                        cameraUpdate(build(), true)
+                        cameraUpdate(build(), Prefs.animate)
                     }
                 }
             }

@@ -15,6 +15,7 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
     checkbox(R.string.fancy_animations, { Prefs.animate }, {
         Prefs.animate = it
         animate = it
+        shouldRestartMain()
     }) {
         descRes = R.string.fancy_animations_desc
     }
