@@ -9,8 +9,8 @@ import de.uni_marburg.mathematik.ds.serval.R
  */
 enum class LocationRequestPriority(
         val priority: Int,
-        @StringRes val resId: Int,
-        @StringRes val descriptionResId: Int
+        @StringRes val textRes: Int,
+        @StringRes val descTextRes: Int
 ) {
     PASSIVE(
             LocationRequest.PRIORITY_NO_POWER,
@@ -31,5 +31,10 @@ enum class LocationRequestPriority(
             LocationRequest.PRIORITY_HIGH_ACCURACY,
             R.string.location_request_priority_accurate,
             R.string.location_request_priority_accurate_description
-    )
+    );
+
+    companion object {
+        val values = values() // save one instance
+        operator fun invoke(index: Int) = values[index]
+    }
 }

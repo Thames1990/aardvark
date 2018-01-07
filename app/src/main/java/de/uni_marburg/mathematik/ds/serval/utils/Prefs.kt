@@ -10,15 +10,15 @@ import de.uni_marburg.mathematik.ds.serval.enums.AARDVARK_GREEN
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
-import java.util.concurrent.TimeUnit
 
 object Prefs : KPref() {
 
-    private val loader = lazyResettable { Theme.values[theme] }
-    private val t: Theme by loader
-
     val aardvarkId: String
         get() = "$installDate-$identifier"
+
+    private val themeLoader = lazyResettable { Theme.values[theme] }
+    private val t: Theme by themeLoader
+
     val accentColor: Int
         get() = t.accentColor
     val accentColorForWhite: Int
@@ -37,6 +37,14 @@ object Prefs : KPref() {
         get() = t == Theme.CUSTOM
     val textColor: Int
         get() = t.textColor
+
+    private val locationRequestPriorityLoader = lazyResettable {
+        LocationRequestPriority.values[locationRequestPriority]
+    }
+    private val l: LocationRequestPriority by locationRequestPriorityLoader
+
+    val priority: Int
+        get() = l.priority
 
     var animate: Boolean by kpref("ANIMATE", true)
     var analytics: Boolean by kpref("USE_ANALYTICS", true)
@@ -62,16 +70,13 @@ object Prefs : KPref() {
     var locationRequestFastestInterval: Int by kpref("LOCATION_REQUEST_FASTEST_INTERVAL", 5)
     var locationRequestPriority: Int by kpref(
             "LOCATION_REQUEST_PRIORITY",
-            LocationRequestPriority.ACCURATE.ordinal
-    )
-    var locationRequestPriorityDialogIndex: Int by kpref(
-            "LOCATION_REQUEST_PRIORITY_DIALOG_INDEX",
-            3
+            LocationRequestPriority.ACCURATE.ordinal,
+            postSetter = { _: Int -> locationRequestPriorityLoader.invalidate() }
     )
     val mainActivityLayout: MainActivityLayout
         get() = MainActivityLayout(mainActivityLayoutType)
     var mainActivityLayoutType: Int by kpref("main_activity_layout_type", 0)
-    var theme: Int by kpref("theme", 0, postSetter = { _: Int -> loader.invalidate() })
+    var theme: Int by kpref("theme", 0, postSetter = { _: Int -> themeLoader.invalidate() })
     var tintNavBar: Boolean by kpref("TINT_NAV_BAR", true)
     var secure_app: Boolean by kpref("USE_SECURE_FLAG", false)
     var useWifiADB: Boolean by kpref("USE_WIFI_ADB", false)

@@ -7,10 +7,12 @@ import android.content.Context
 import android.location.Location
 import android.os.Looper
 import ca.allanwang.kau.utils.hasPermission
+import ca.allanwang.kau.utils.toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import java.util.concurrent.TimeUnit
 
@@ -39,7 +41,7 @@ class LocationLiveData(private val context: Context) : LiveData<Location>() {
             with(locationRequest) {
                 interval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestInterval.toLong())
                 fastestInterval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestFastestInterval.toLong())
-                priority = Prefs.locationRequestPriority
+                priority = LocationRequestPriority(Prefs.locationRequestPriority).priority
             }
             client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
         }
