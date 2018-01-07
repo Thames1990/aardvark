@@ -131,6 +131,14 @@
     <string name="location_request_fastest_interval_description">Define the interval in minutes between active location updates</string>
     <string name="location_request_interval">Passive location request interval</string>
     <string name="location_request_interval_description">Define the interval in minutes between passive location updates</string>
+    <string name="location_request_priority_accurate">Accurate</string>
+    <string name="location_request_priority_accurate_description">Accurate as possible at the expense of battery life</string>
+    <string name="location_request_priority_block_accuracy">Block accuracy</string>
+    <string name="location_request_priority_block_accuracy_description">~100m \"block\" accuracy</string>
+    <string name="location_request_priority_city_accuracy">City accuracy</string>
+    <string name="location_request_priority_city_accuracy_description">~10km \"city\" accuracy</string>
+    <string name="location_request_priority_passive">Passive</string>
+    <string name="location_request_priority_passive_description">Passively listens for location updates from other clients</string>
 
     <string name="login_required">You must be logged in</string>
 
@@ -235,4 +243,5 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
+    <string name="location_request_priority">Location request priority</string>
 </resources>

@@ -7,6 +7,7 @@ import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.isColorVisibleOn
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.enums.AARDVARK_GREEN
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import java.util.concurrent.TimeUnit
@@ -59,6 +60,14 @@ object Prefs : KPref() {
     var lastLaunch: Long by kpref("LAST_LAUNCH", -1L)
     var locationRequestInterval: Int by kpref("LOCATION_REQUEST_INTERVAL", 60)
     var locationRequestFastestInterval: Int by kpref("LOCATION_REQUEST_FASTEST_INTERVAL", 5)
+    var locationRequestPriority: Int by kpref(
+            "LOCATION_REQUEST_PRIORITY",
+            LocationRequestPriority.ACCURATE.ordinal
+    )
+    var locationRequestPriorityDialogIndex: Int by kpref(
+            "LOCATION_REQUEST_PRIORITY_DIALOG_INDEX",
+            3
+    )
     val mainActivityLayout: MainActivityLayout
         get() = MainActivityLayout(mainActivityLayoutType)
     var mainActivityLayoutType: Int by kpref("main_activity_layout_type", 0)
