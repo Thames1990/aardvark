@@ -9,7 +9,6 @@ import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
 /** Created by thames1990 on 09.12.17. */
 fun SettingsActivity.getServalPrefs(): KPrefAdapterBuilder.() -> Unit = {
-    header(R.string.serval)
     text(R.string.username, { Prefs.kervalUser }, { Prefs.kervalUser = it }) {
         descRes = R.string.preference_username_description
         onClick = {
