@@ -139,23 +139,19 @@ class MainActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean = consume {
         menuInflater.inflate(R.menu.menu_main, menu)
         toolbar.tint(Prefs.iconColor)
-        setMenuIcons(menu, Prefs.iconColor,
-                R.id.action_settings to GoogleMaterial.Icon.gmd_settings
-        )
+        setMenuIcons(menu, Prefs.iconColor, R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
     }
 
     @SuppressLint("RestrictedApi")
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_settings -> {
-            consume {
-                val intent = Intent(this, SettingsActivity::class.java)
-                val bundle = ActivityOptionsCompat.makeCustomAnimation(
-                        this,
+        R.id.action_settings -> consume {
+            startActivityForResult(SettingsActivity::class.java, ACTIVITY_SETTINGS, {
+                withCustomAnimation(
+                        this@MainActivity,
                         R.anim.kau_slide_in_right,
                         R.anim.kau_fade_out
-                ).toBundle()
-                startActivityForResult(intent, ACTIVITY_SETTINGS, bundle)
-            }
+                )
+            })
         }
         else -> super.onOptionsItemSelected(item)
     }
