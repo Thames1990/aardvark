@@ -1,15 +1,11 @@
 <resources>
-    <!-- General -->
-    <dimen name="margin_fab">16dp</dimen>
-
-    <!-- Intro sliders -->
-    <dimen name="margin_bottom_slide_description">80dp</dimen>
-    <dimen name="margin_horizontal_intro_title">32dp</dimen>
-    <dimen name="margin_horizontal_slide_description">32dp</dimen>
-    <dimen name="margin_intro_image">32dp</dimen>
-    <dimen name="margin_top_intro_title">80dp</dimen>
-    <dimen name="text_size_intro_description">20sp</dimen>
-    <dimen name="text_size_intro_title">28sp</dimen>
+    <dimen name="margin_bottom_fragment">80dp</dimen>
+    <dimen name="margin_horizontal_fragment_title">32dp</dimen>
+    <dimen name="margin_horizontal_fragment_description">32dp</dimen>
+    <dimen name="margin_fragment_image">32dp</dimen>
+    <dimen name="margin_top_fragment_title">80dp</dimen>
+    <dimen name="text_size_fragment_description">20sp</dimen>
+    <dimen name="text_size_fragment_title">28sp</dimen>
 
     <dimen name="tab_bar_height">50dp</dimen>
     <dimen name="intro_bar_height">64dp</dimen>
