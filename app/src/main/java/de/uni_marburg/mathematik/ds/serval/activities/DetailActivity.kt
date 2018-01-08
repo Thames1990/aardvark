@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import ca.allanwang.kau.iitems.CardIItem
@@ -15,6 +14,7 @@ import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 import de.uni_marburg.mathematik.ds.serval.utils.timeToString
@@ -56,7 +56,7 @@ class DetailActivity : ElasticRecyclerActivity() {
             adapter.add(CardIItem {
                 titleRes = it.type.res
                 desc = String.format(string(it.type.resFormat), it.value)
-                image = drawable(it.type.resId).tint(Color.WHITE)
+                image = drawable(it.type.resId).tint(Prefs.iconColor)
             })
         }
         return adapter
