@@ -12,7 +12,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.*
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MapStyleOptions.loadRawResourceStyle
 import com.google.maps.android.clustering.ClusterManager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
@@ -52,7 +52,7 @@ class MapFragment : BaseFragment() {
             this.googleMap = googleMap
             with(googleMap) {
                 val hasLocationPermission = context!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                if (hasLocationPermission) isMyLocationEnabled = true
+                isMyLocationEnabled = hasLocationPermission
                 style()
                 setupClusterManager()
                 zoomToAllMarkers(animate = false)
@@ -91,12 +91,8 @@ class MapFragment : BaseFragment() {
         uiSettings.isMapToolbarEnabled = false
         setMinZoomPreference(MAP_MIN_ZOOM)
         when (Prefs.theme) {
-            Theme.DARK.ordinal -> setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style_dark)
-            )
-            Theme.AMOLED.ordinal -> setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style_night)
-            )
+            Theme.DARK.ordinal -> setMapStyle(loadRawResourceStyle(context, R.raw.map_style_dark))
+            Theme.AMOLED.ordinal -> setMapStyle(loadRawResourceStyle(context, R.raw.map_style_night))
         }
     }
 
@@ -106,17 +102,19 @@ class MapFragment : BaseFragment() {
             setOnCameraIdleListener(this)
             setOnMarkerClickListener(this)
             setOnInfoWindowClickListener(this)
-            setOnClusterClickListener { cluster ->
+            setOnClusterClickListener {
                 with(LatLngBounds.builder()) {
-                    cluster.items.forEach { event -> include(event.position) }
+                    it.items.forEach { event -> include(event.position) }
                     cameraUpdate(build(), Prefs.animate)
                 }
                 true
             }
-            setOnClusterItemInfoWindowClickListener { event ->
+            setOnClusterItemInfoWindowClickListener {
                 context!!.startActivity<DetailActivity>(
-                        DetailActivity.EVENT to event,
-                        DetailActivity.SHOW_MAP to false
+                        params = *arrayOf(
+                                DetailActivity.EVENT to it,
+                                DetailActivity.SHOW_MAP to false
+                        )
                 )
             }
 
