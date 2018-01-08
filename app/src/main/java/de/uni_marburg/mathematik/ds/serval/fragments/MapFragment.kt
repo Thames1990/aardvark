@@ -90,6 +90,7 @@ class MapFragment : BaseFragment() {
     private fun GoogleMap.style() {
         uiSettings.isScrollGesturesEnabled = false
         uiSettings.isMapToolbarEnabled = false
+        setMinZoomPreference(MIN_ZOOM)
         when (Prefs.theme) {
             Theme.DARK.ordinal -> setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style_dark)
@@ -97,21 +98,6 @@ class MapFragment : BaseFragment() {
             Theme.AMOLED.ordinal -> setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style_night)
             )
-        }
-    }
-
-    private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
-        if (MainActivity.events.isNotEmpty()) {
-            val builder = LatLngBounds.builder()
-            doAsync {
-                MainActivity.events.forEach { builder.include(it.position) }
-                uiThread {
-                    with(builder.build()) {
-                        googleMap.setLatLngBoundsForCameraTarget(this)
-                        googleMap.cameraUpdate(bounds = this, animate = animate)
-                    }
-                }
-            }
         }
     }
 
@@ -144,9 +130,28 @@ class MapFragment : BaseFragment() {
         }
     }
 
+    private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
+        if (MainActivity.events.isNotEmpty()) {
+            val builder = LatLngBounds.builder()
+            doAsync {
+                MainActivity.events.forEach { builder.include(it.position) }
+                uiThread {
+                    with(builder.build()) {
+                        googleMap.setLatLngBoundsForCameraTarget(this)
+                        googleMap.cameraUpdate(bounds = this, animate = animate)
+                    }
+                }
+            }
+        }
+    }
+
     private fun GoogleMap.cameraUpdate(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) animateCamera(cameraUpdate) else moveCamera(cameraUpdate)
+    }
+
+    companion object {
+        const val MIN_ZOOM = 5f
     }
 
 }
