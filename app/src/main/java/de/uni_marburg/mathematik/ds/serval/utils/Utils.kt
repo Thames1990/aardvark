@@ -30,9 +30,7 @@ fun aardvarkAnswersCustom(name: String, vararg events: Pair<String, Any>) {
 }
 
 @SuppressLint("RestrictedApi")
-inline fun aardvarkSnackbar(
-        crossinline builder: Snackbar.() -> Unit
-): Snackbar.() -> Unit = {
+inline fun aardvarkSnackbar(crossinline builder: Snackbar.() -> Unit): Snackbar.() -> Unit = {
     builder()
     // Hacky workaround, but it has proper checks and shouldn't crash
     ((view as? FrameLayout)?.getChildAt(0) as? SnackbarContentLayout)?.apply {
@@ -64,11 +62,11 @@ fun Long.timeToString(context: Context): String {
             id = R.plurals.kau_x_minutes
             quantity = TimeUnit.MILLISECONDS.toMinutes(this)
         }
-        TimeUnit.MILLISECONDS.toHours(this) < 24   -> {
+        TimeUnit.MILLISECONDS.toHours(this) < 24 -> {
             id = R.plurals.kau_x_hours
             quantity = TimeUnit.MILLISECONDS.toHours(this)
         }
-        else                                       -> {
+        else -> {
             id = R.plurals.kau_x_days
             quantity = TimeUnit.MILLISECONDS.toDays(this)
         }
