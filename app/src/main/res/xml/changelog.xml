@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.7.0"/>
+    <item text="Complete overhaul" />
+    <item text="Fully themeable design" />
+    <item text="Add badged icons to tabs. This allows info about the number of events, close events and so on." />
+    <item text="Add navigation drawer for easier user switching. This might be removed if there is no demand for user switching. Also currently the navigation drawer only contains the same items, which are available with the tabs." />
+    <item text="Add map styling options" />
+    <item text="Add zoom to all markers menu item for map" />
+    <item text="Add a lot more settings. Just look for yourself." />
+    <item text="Replace bottom navigation with tabs. These can be moved from the bottom to the top." />
+    <item text="Disable map movement scroll gestures" />
+    <item text="Only show the map in event detail view, if the event was gathered from the event list." />
+    <item text="Fix location icon misalignment with different distances" />
+    <item text="Probably a lot more i forgot since i started this refactor about two months ago." />
+
     <version title="v0.6.7" />
     <item text="Add preference for secure flag (prohibits screenshots)" />
     <item text="Add credential check for predefined user and password" />
