@@ -1,17 +1,16 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.view.*
 import ca.allanwang.kau.utils.*
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.utils.withDividerDecoration
-import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import kotlinx.android.synthetic.main.fragment_events.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
@@ -50,33 +49,27 @@ class EventsFragment : BaseFragment() {
         setupRefresh()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_events, menu)
+        inflater.inflate(R.menu.menu_events, menu)
+        activity?.setMenuIcons(
+                menu = menu,
+                color = Prefs.iconColor,
+                iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
+        )
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu?.let {
-            super.onPrepareOptionsMenu(menu)
-            with(context!!) {
-                val filterEvents = menu.findItem(R.id.action_filter_events)
-                val icon = drawable(R.drawable.filter_list)
-                icon.setColorFilter(Prefs.iconColor, PorterDuff.Mode.SRC_IN)
-                filterEvents.icon = icon
-            }
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = with(eventAdapter) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = with(eventAdapter) {
         when (item.itemId) {
-            R.id.sort_distance_ascending -> consume { sortEventsBy(DISTANCE) }
-            R.id.sort_distance_descending -> consume { sortEventsBy(DISTANCE, true) }
-            R.id.sort_measurements_ascending -> consume { sortEventsBy(MEASUREMENT) }
-            R.id.sort_measurements_descending -> consume { sortEventsBy(MEASUREMENT, true) }
-            R.id.sort_time_ascending -> consume { sortEventsBy(TIME) }
-            R.id.sort_time_descending -> consume { sortEventsBy(TIME, true) }
-            else -> super.onOptionsItemSelected(item)
+            R.id.sort_distance_ascending -> sortEventsBy(DISTANCE)
+            R.id.sort_distance_descending -> sortEventsBy(DISTANCE, true)
+            R.id.sort_measurements_ascending -> sortEventsBy(MEASUREMENT)
+            R.id.sort_measurements_descending -> sortEventsBy(MEASUREMENT, true)
+            R.id.sort_time_ascending -> sortEventsBy(TIME)
+            R.id.sort_time_descending -> sortEventsBy(TIME, true)
+            else -> return super.onOptionsItemSelected(item)
         }
+        return true
     }
 
     private fun setupRecyclerView() {
