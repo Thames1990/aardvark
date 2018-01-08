@@ -6,7 +6,6 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.consumeIf
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
 /**
@@ -51,11 +50,12 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
                         .map { "${string(it.textRes)}\n${string(it.descTextRes)}" }
                 )
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                    consumeIf(item.pref != which) {
+                    if (item.pref != which) {
                         item.pref = which
                         shouldRestartMain()
                         reload()
                     }
+                    true
                 }
             }
         }

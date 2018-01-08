@@ -25,7 +25,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                         .map { string(it) }
                 )
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                    consumeIf(item.pref != which) {
+                    if (item.pref != which) {
                         item.pref = which
                         shouldRestartMain()
                         reload()
@@ -34,6 +34,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                         invalidateOptionsMenu()
                         aardvarkAnswersCustom("Theme", "Count" to Theme(which).name)
                     }
+                    true
                 }
             }
         }
@@ -109,7 +110,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                 title(R.string.set_main_activity_layout)
                 items(MainActivityLayout.values.map { string(it.titleRes) })
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                    consumeIf(item.pref != which) {
+                    if (item.pref != which) {
                         item.pref = which
                         shouldRestartMain()
                         aardvarkAnswersCustom(
@@ -117,6 +118,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                                 "Type" to MainActivityLayout(which).name
                         )
                     }
+                    true
                 }
             }
         }

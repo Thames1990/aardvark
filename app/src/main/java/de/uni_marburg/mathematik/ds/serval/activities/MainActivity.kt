@@ -122,17 +122,21 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    override fun backConsumer(): Boolean = consumeIf(Prefs.exitConfirmation) {
-        materialDialogThemed {
-            title(R.string.kau_exit)
-            content(R.string.kau_exit_confirmation)
-            positiveText(R.string.kau_yes)
-            negativeText(R.string.kau_no)
-            onPositive { _, _ -> finish() }
-            checkBoxPromptRes(R.string.kau_do_not_show_again, false, { _, isChecked ->
-                Prefs.exitConfirmation = !isChecked
-            })
+    override fun backConsumer(): Boolean {
+        if (Prefs.exitConfirmation) {
+            materialDialogThemed {
+                title(R.string.kau_exit)
+                content(R.string.kau_exit_confirmation)
+                positiveText(R.string.kau_yes)
+                negativeText(R.string.kau_no)
+                onPositive { _, _ -> finish() }
+                checkBoxPromptRes(R.string.kau_do_not_show_again, false, { _, isChecked ->
+                    Prefs.exitConfirmation = !isChecked
+                })
+            }
+            return true
         }
+        return false
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

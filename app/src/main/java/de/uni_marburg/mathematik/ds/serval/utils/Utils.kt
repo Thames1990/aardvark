@@ -43,19 +43,6 @@ inline fun aardvarkSnackbar(
     }
 }
 
-/**
- * If the [predicate] is fullfilled, [a function][f] is executed.
- *
- * @return True, if [predicate] is fullfilled; false otherwise.
- */
-inline fun consumeIf(predicate: Boolean, f: () -> Unit): Boolean {
-    if (predicate) {
-        f()
-        return true
-    }
-    return false
-}
-
 /** Converts distance in meters **/
 fun Float.distanceToString(context: Context): String =
         // in meter
