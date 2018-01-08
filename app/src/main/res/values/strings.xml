@@ -25,6 +25,7 @@
     <string name="action_sort_events_distance">@string/distance</string>
     <string name="action_sort_events_measurements">Measurements</string>
     <string name="action_sort_events_time">Time</string>
+    <string name="action_zoom_to_all_markers">Zoom to all markers</string>
 
     <string name="analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
 
@@ -76,8 +77,6 @@
 
     <string name="experimental_disclaimer">Disclaimer</string>
 
-    <string name="explore">Explore</string>
-
     <string name="fancy_animations">Fancy Animations</string>
     <string name="fancy_animations_desc">Use ripples and animate transitions</string>
 
@@ -101,14 +100,6 @@
     <string name="intent_extra_query_from">Query from %1$s</string>
     <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
 
-    <string name="intro_1_description">The easiest way to communicate without cellular connectivity!</string>
-    <string name="intro_1_title" translatable="false">@string/aardvark_name</string>
-    <string name="intro_2_description">Easily check whether hazards are close!</string>
-    <string name="intro_2_title" translatable="false">@string/dashboard</string>
-    <string name="intro_3_description">Look out for your friends and favorite locations!</string>
-    <string name="intro_3_title" translatable="false">@string/map</string>
-    <string name="intro_4_description">Talk to your friends and co-workers!</string>
-    <string name="intro_4_title" translatable="false">@string/chat</string>
     <string name="intro_context_aware">Context Aware</string>
     <string name="intro_context_aware_desc">Long press links to copy and share them.\nLong press images to zoom and download.\nLong press cards to scroll horizontally.</string>
     <string name="intro_easy_navigation">Easy Navigation</string>
@@ -194,8 +185,6 @@
 
     <string name="set_main_activity_layout">Set Main Activity Layout</string>
 
-    <string name="share">Share</string>
-
     <string name="skip">Skip</string>
 
     <string name="subject">Subject</string>
@@ -244,5 +233,4 @@
     <string name="username_must_not_be_empty">You need to enter a username</string>
 
     <string name="wind">Wind</string>
-    <string name="action_zoom_to_all_markers">Zoom to all markers</string>
 </resources>
