@@ -20,14 +20,14 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
         get() = listOf(light, dark, amoled)
 
     override fun viewArray(): Array<Array<out View>> =
-            arrayOf(arrayOf(title), arrayOf(light, dark, amoled))
+            arrayOf(arrayOf(title), themeList.toTypedArray())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         light.setThemeClick(Theme.LIGHT)
         dark.setThemeClick(Theme.DARK)
         amoled.setThemeClick(Theme.AMOLED)
-        val currentTheme = Prefs.theme - 1
+        val currentTheme = Prefs.theme
         if (currentTheme in 0..2) {
             themeList.forEachIndexed { index, v ->
                 v.scaleXY = if (index == currentTheme) 1.6f else 0.8f
