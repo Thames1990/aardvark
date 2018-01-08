@@ -14,7 +14,6 @@ import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 import de.uni_marburg.mathematik.ds.serval.utils.timeToString
@@ -28,7 +27,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private lateinit var event: Event
 
-    override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean = consume {
+    override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         setSecureFlag()
         setCurrentScreen()
         event = intent.extras.getParcelable(EVENT)
@@ -41,6 +40,7 @@ class DetailActivity : ElasticRecyclerActivity() {
             show()
         }
         setOutsideTapListener { finishAfterTransition() }
+        return true
     }
 
     private fun setupAdapter() {

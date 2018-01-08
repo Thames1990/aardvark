@@ -22,8 +22,6 @@ import de.uni_marburg.mathematik.ds.serval.intro.*
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentEnd
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentWelcome
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.consume
-import de.uni_marburg.mathematik.ds.serval.utils.consumeIf
 import org.jetbrains.anko.find
 
 class IntroActivity : BaseActivity() {
@@ -67,10 +65,12 @@ class IntroActivity : BaseActivity() {
     }
 
     override fun backConsumer(): Boolean {
-        consumeIf(viewpager.currentItem > 0) {
+        if (viewpager.currentItem > 0) {
             viewpager.setCurrentItem(viewpager.currentItem - 1, true)
+            return true
         }
-        return consume { finishAffinity() }
+        finishAffinity()
+        return true
     }
 
     override fun finish() {

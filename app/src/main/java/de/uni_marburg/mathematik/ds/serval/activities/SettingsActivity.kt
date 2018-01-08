@@ -91,18 +91,21 @@ class SettingsActivity : KPrefActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean = consume {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_settings, menu)
         toolbar.tint(Prefs.iconColor)
         setMenuIcons(
-                menu,
-                Prefs.iconColor,
-                R.id.action_email to GoogleMaterial.Icon.gmd_email,
-                R.id.action_changelog to GoogleMaterial.Icon.gmd_info
+                menu = menu,
+                color = Prefs.iconColor,
+                iicons = *arrayOf(
+                        R.id.action_email to GoogleMaterial.Icon.gmd_email,
+                        R.id.action_changelog to GoogleMaterial.Icon.gmd_info
+                )
         )
+        return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = consume {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_email -> materialDialogThemed {
                 title(R.string.subject)
@@ -114,6 +117,7 @@ class SettingsActivity : KPrefActivity() {
             R.id.action_changelog -> aardvarkChangelog()
             else -> return super.onOptionsItemSelected(item)
         }
+        return true
     }
 
     fun setAardvarkResult(flag: Int) {

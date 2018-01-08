@@ -135,27 +135,33 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean = consume {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         setMenuIcons(
                 menu = menu,
                 color = Prefs.iconColor,
                 iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
         )
+        return true
     }
 
     @SuppressLint("RestrictedApi")
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_settings -> consume {
-            startActivityForResult(SettingsActivity::class.java, ACTIVITY_SETTINGS, {
-                withCustomAnimation(
-                        this@MainActivity,
-                        R.anim.kau_slide_in_right,
-                        R.anim.kau_fade_out
-                )
-            })
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_settings -> startActivityForResult(
+                    SettingsActivity::class.java,
+                    ACTIVITY_SETTINGS,
+                    {
+                        withCustomAnimation(
+                                this@MainActivity,
+                                R.anim.kau_slide_in_right,
+                                R.anim.kau_fade_out
+                        )
+                    }
+            )
+            else -> return super.onOptionsItemSelected(item)
         }
-        else -> super.onOptionsItemSelected(item)
+        return true
     }
 
     private fun loadEvents() {

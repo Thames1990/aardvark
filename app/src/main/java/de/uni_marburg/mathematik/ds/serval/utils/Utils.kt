@@ -44,16 +44,6 @@ inline fun aardvarkSnackbar(
 }
 
 /**
- * Executes [a function][f].
- *
- * @return True
- */
-inline fun consume(f: () -> Unit): Boolean {
-    f()
-    return true
-}
-
-/**
  * If the [predicate] is fullfilled, [a function][f] is executed.
  *
  * @return True, if [predicate] is fullfilled; false otherwise.

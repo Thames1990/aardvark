@@ -22,7 +22,6 @@ import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.utils.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.consume
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
@@ -123,12 +122,11 @@ class MapFragment : BaseFragment() {
             setOnMarkerClickListener(this)
             setOnInfoWindowClickListener(this)
             setOnClusterClickListener { cluster ->
-                consume {
-                    with(LatLngBounds.builder()) {
-                        cluster.items.forEach { event -> include(event.position) }
-                        cameraUpdate(build(), Prefs.animate)
-                    }
+                with(LatLngBounds.builder()) {
+                    cluster.items.forEach { event -> include(event.position) }
+                    cameraUpdate(build(), Prefs.animate)
                 }
+                true
             }
             setOnClusterItemInfoWindowClickListener { event ->
                 context!!.startActivity<DetailActivity>(

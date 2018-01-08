@@ -9,7 +9,6 @@ import com.github.ajalt.reprint.core.AuthenticationListener
 import com.github.ajalt.reprint.core.Reprint
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.consume
 import de.uni_marburg.mathematik.ds.serval.utils.setAardvarkColors
 
 class FingerprintActivity : BaseActivity() {
@@ -19,7 +18,10 @@ class FingerprintActivity : BaseActivity() {
 
     private val fingerprint: ImageView by bindView(R.id.fingerprint)
 
-    override fun backConsumer(): Boolean = consume { finishAffinity() }
+    override fun backConsumer(): Boolean {
+        finishAffinity()
+        return true
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
