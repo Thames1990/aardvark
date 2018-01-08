@@ -84,6 +84,7 @@ data class Measurement(val type: MeasurementType, val value: Int) : Parcelable
  * @param resFormat Localized format of the measurement type
  * @param resId Image resource of the measurement type
  */
+// TODO Replace icon drawable with IIcon from Weather Icons
 enum class MeasurementType(val res: Int, val resFormat: Int, val resId: Int) {
     /** Signals that rainfall or snowfall was measured */
     @Json(name = "precipitation")
