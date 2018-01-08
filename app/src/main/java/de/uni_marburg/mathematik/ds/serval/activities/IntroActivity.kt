@@ -56,7 +56,10 @@ class IntroActivity : BaseActivity() {
             setIcon(GoogleMaterial.Icon.gmd_navigate_next)
             setOnClickListener {
                 if (barHasNext) viewpager.setCurrentItem(viewpager.currentItem + 1, true)
-                else finish(next.x + next.pivotX, next.y + next.pivotY)
+                else finish(
+                        x = next.x + next.pivotX,
+                        y = next.y + next.pivotY
+                )
             }
         }
         skip.setOnClickListener { finish() }
@@ -115,7 +118,7 @@ class IntroActivity : BaseActivity() {
                     setIcon(
                             if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
                             else GoogleMaterial.Icon.gmd_done,
-                            color = Prefs.textColor
+                            color = Prefs.iconColor
                     )
                 }
                 skip.animate().scaleXY(if (barHasNext) 1f else 0f)
@@ -141,8 +144,13 @@ class IntroActivity : BaseActivity() {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         )
-        ripple.ripple(green, x, y, 600) {
-            postDelayed(1000) { finish() }
+        ripple.ripple(
+                color = green,
+                startX = x,
+                startY = y,
+                duration = 600
+        ) {
+            postDelayed(delay = 1000) { finish() }
         }
         @Suppress("RemoveExplicitTypeArguments")
         arrayOf(
@@ -159,7 +167,10 @@ class IntroActivity : BaseActivity() {
             if (f != null) {
                 ValueAnimator.ofFloat(0f, 1f).apply {
                     addUpdateListener {
-                        f.setTint(Prefs.textColor.blendWith(Color.WHITE, it.animatedValue as Float))
+                        f.setTint(Prefs.textColor.blendWith(
+                                color = Color.WHITE,
+                                ratio = it.animatedValue as Float
+                        ))
                     }
                     duration = 600
                     start()
@@ -169,7 +180,10 @@ class IntroActivity : BaseActivity() {
         if (Prefs.headerColor != green) {
             ValueAnimator.ofFloat(0f, 1f).apply {
                 addUpdateListener {
-                    val color = Prefs.headerColor.blendWith(green, it.animatedValue as Float)
+                    val color = Prefs.headerColor.blendWith(
+                            color = green,
+                            ratio = it.animatedValue as Float
+                    )
                     statusBarColor = color
                     navigationBarColor = color
                 }
