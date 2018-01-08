@@ -66,11 +66,13 @@ class MainActivity : BaseActivity() {
             if (!BuildConfig.DEBUG) {
                 aardvarkChangelog()
                 aardvarkAnswersCustom(
-                        "Version",
-                        "Version code" to BuildConfig.VERSION_CODE,
-                        "Version name" to BuildConfig.VERSION_NAME,
-                        "Build type" to BuildConfig.BUILD_TYPE,
-                        "Aardvark id" to Prefs.aardvarkId
+                        name = "Version",
+                        events = *arrayOf(
+                                "Version code" to BuildConfig.VERSION_CODE,
+                                "Version name" to BuildConfig.VERSION_NAME,
+                                "Build type" to BuildConfig.BUILD_TYPE,
+                                "Aardvark id" to Prefs.aardvarkId
+                        )
                 )
             }
         }
@@ -153,13 +155,13 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_settings -> startActivityForResult(
-                    SettingsActivity::class.java,
-                    ACTIVITY_SETTINGS,
-                    {
+                    clazz = SettingsActivity::class.java,
+                    requestCode = ACTIVITY_SETTINGS,
+                    bundleBuilder = {
                         withCustomAnimation(
-                                this@MainActivity,
-                                R.anim.kau_slide_in_right,
-                                R.anim.kau_fade_out
+                                context = this@MainActivity,
+                                enterResId = R.anim.kau_slide_in_right,
+                                exitResId = R.anim.kau_fade_out
                         )
                     }
             )
@@ -177,10 +179,9 @@ class MainActivity : BaseActivity() {
             uiThread {
                 val later = System.currentTimeMillis()
                 val timePassed = later - now
-                coordinator.aardvarkSnackbar(String.format(
-                        string(R.string.event_loading_time),
-                        timePassed
-                ))
+                coordinator.aardvarkSnackbar(
+                        String.format(string(R.string.event_loading_time), timePassed)
+                )
                 tabs.init()
             }
         }
@@ -205,7 +206,7 @@ class MainActivity : BaseActivity() {
             override fun onTabReselected(tab: TabLayout.Tab) = Unit
         })
         AardvarkItem.values().mapIndexed { index, aardvarkItem ->
-            addTab(newTab().setCustomView(BadgedIcon(this@MainActivity).apply {
+            addTab(newTab().setCustomView(BadgedIcon(context).apply {
                 iicon = aardvarkItem.icon
                 if (index == 1) badgeText = events.size.toString()
             }))
