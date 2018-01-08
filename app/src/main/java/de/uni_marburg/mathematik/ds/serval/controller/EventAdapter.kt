@@ -61,8 +61,6 @@ class EventAdapter(
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
     }
 
-    private var currentSortMode = TIME
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         LocationLiveData(activity).observe(activity, Observer<Location> { location ->
             location?.let { lastLocation -> this.lastLocation = lastLocation }
@@ -99,7 +97,6 @@ class EventAdapter(
                 TIME -> it.time
             }
         })
-        currentSortMode = comparator
     }
 
     /**
@@ -163,15 +160,9 @@ class EventAdapter(
         private fun Event.displayMeasurementTypes() {
             measurement_types.removeAllViews()
             measurements.toHashSet().forEach { measurement ->
-                val icon = ImageView(containerView.context)
-                icon.setImageResource(measurement.type.resId)
-                icon.layoutParams = LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                )
                 measurement_types.addView(ImageView(containerView.context).apply {
                     setImageResource(measurement.type.resId)
-                    setColorFilter(Prefs.textColor, PorterDuff.Mode.SRC_IN)
+                    setColorFilter(Prefs.iconColor, PorterDuff.Mode.SRC_IN)
                     layoutParams = LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.MATCH_PARENT
