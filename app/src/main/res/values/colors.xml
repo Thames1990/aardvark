@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <color name="aardvark_splash_background">@color/aardvark_green</color>
     <color name="aardvark_green">#4CAF50</color>
-    <color name="aardvark_green_dark">#197C1D</color>
+    <color name="aardvark_splash_background">@color/aardvark_green</color>
     <color name="aardvark_notification_accent">@color/aardvark_green</color>
 
-    <color name="color_accent">#40C4FF</color>
-    <color name="color_accent_dark">#0094CC</color>
-    <color name="color_accent_light">#82F7FF</color>
     <color name="color_primary">#4CAF50</color>
     <color name="color_primary_dark">#087F23</color>
-    <color name="color_primary_light">#80E27E</color>
-    <color name="color_text">#000000</color>
-    <color name="color_text_inverted">#FFFFFF</color>
-
-    <color name="icon_mute">#C8C8C8</color>
-
-    <color name="intro_1_background">#80E27E</color>
-    <color name="intro_2_background">#62C967</color>
-    <color name="intro_3_background">#44B050</color>
-    <color name="intro_4_background">#269739</color>
-    <color name="intro_5_background">#087F23</color>
 </resources>
