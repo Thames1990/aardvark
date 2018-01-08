@@ -161,7 +161,7 @@ class EventAdapter(
             measurement_types.removeAllViews()
             measurements.toHashSet().forEach { measurement ->
                 measurement_types.addView(ImageView(containerView.context).apply {
-                    setImageResource(measurement.type.resId)
+                    setImageResource(measurement.type.iconRes)
                     setColorFilter(Prefs.iconColor, PorterDuff.Mode.SRC_IN)
                     layoutParams = LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,

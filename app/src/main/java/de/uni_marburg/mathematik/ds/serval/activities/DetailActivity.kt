@@ -54,9 +54,9 @@ class DetailActivity : ElasticRecyclerActivity() {
         })
         event.measurements.map {
             adapter.add(CardIItem {
-                titleRes = it.type.res
-                desc = String.format(string(it.type.resFormat), it.value)
-                image = drawable(it.type.resId).tint(Prefs.iconColor)
+                titleRes = it.type.textRes
+                desc = String.format(string(it.type.formatRes), it.value)
+                image = drawable(it.type.iconRes).tint(Prefs.iconColor)
             })
         }
         return adapter

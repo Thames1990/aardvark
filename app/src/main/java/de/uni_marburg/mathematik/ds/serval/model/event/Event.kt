@@ -80,38 +80,38 @@ data class Measurement(val type: MeasurementType, val value: Int) : Parcelable
 /**
  * Measurement type of a [measurement][Measurement]
  *
- * @param res Localized name of the measrurement type
- * @param resFormat Localized format of the measurement type
- * @param resId Image resource of the measurement type
+ * @param textRes Localized name of the measrurement type
+ * @param formatRes Localized format of the measurement type
+ * @param iconRes Image resource of the measurement type
  */
 // TODO Replace icon drawable with IIcon from Weather Icons
-enum class MeasurementType(val res: Int, val resFormat: Int, val resId: Int) {
+enum class MeasurementType(val textRes: Int, val formatRes: Int, val iconRes: Int) {
     /** Signals that rainfall or snowfall was measured */
     @Json(name = "precipitation")
     PRECIPITATION(
-            R.string.precipitation,
-            R.string.measurement_value_precipitation,
-            R.drawable.precipitation
+            textRes = R.string.precipitation,
+            formatRes = R.string.measurement_value_precipitation,
+            iconRes = R.drawable.precipitation
     ),
     /** Signals that radiation was measured */
     @Json(name = "radiation")
     RADIATION(
-            R.string.radiation,
-            R.string.measurement_value_precipitation,
-            R.drawable.radiation
+            textRes = R.string.radiation,
+            formatRes = R.string.measurement_value_precipitation,
+            iconRes = R.drawable.radiation
     ),
     /** Signals that temperature was measured */
     @Json(name = "temperature")
     TEMPERATURE(
-            R.string.temperature,
-            R.string.measurement_value_precipitation,
-            R.drawable.temperature
+            textRes = R.string.temperature,
+            formatRes = R.string.measurement_value_precipitation,
+            iconRes = R.drawable.temperature
     ),
     /** Signals that wind was measured */
     @Json(name = "wind")
     WIND(
-            R.string.wind,
-            R.string.measurement_value_precipitation,
-            R.drawable.wind
+            textRes = R.string.wind,
+            formatRes = R.string.measurement_value_precipitation,
+            iconRes = R.drawable.wind
     )
 }
