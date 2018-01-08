@@ -13,20 +13,21 @@ import kotlin.math.absoluteValue
 
 /** Created by thames1990 on 03.12.17. */
 abstract class BaseImageIntroFragment(
-        val titleRes: Int,
-        val imageRes: Int,
-        val descRes: Int
+        private val titleRes: Int,
+        private val imageRes: Int,
+        private val descRes: Int
 ) : BaseIntroFragment(R.layout.intro_image) {
 
-    val imageDrawable: LayerDrawable by lazyResettableRegistered {
+    private val imageDrawable: LayerDrawable by lazyResettableRegistered {
         image.drawable as LayerDrawable
     }
-    val phone: Drawable by lazyResettableRegistered {
+    private val phone: Drawable by lazyResettableRegistered {
         imageDrawable.findDrawableByLayerId(R.id.intro_phone)
     }
-    val screen: Drawable by lazyResettableRegistered {
+    private val screen: Drawable by lazyResettableRegistered {
         imageDrawable.findDrawableByLayerId(R.id.intro_phone_screen)
     }
+
     val icon: ImageView by bindViewResettable(R.id.intro_button)
 
     override fun viewArray(): Array<Array<out View>> = arrayOf(arrayOf(title), arrayOf(desc))
@@ -46,8 +47,8 @@ abstract class BaseImageIntroFragment(
         screen.tint(Prefs.backgroundColor)
     }
 
-    fun themeImageComponent(color: Int, vararg id: Int) {
-        id.forEach { imageDrawable.findDrawableByLayerId(it).tint(color) }
+    fun themeImageComponent(color: Int, vararg ids: Int) {
+        ids.forEach { imageDrawable.findDrawableByLayerId(it).tint(color) }
     }
 
     override fun onPageScrolledImpl(positionOffset: Float) {
@@ -78,20 +79,22 @@ class IntroAccountFragment : BaseImageIntroFragment(
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         themeImageComponent(
-                Prefs.textColor,
-                R.id.intro_phone_avatar_1,
-                R.id.intro_phone_avatar_2
+                color = Prefs.textColor,
+                ids = *intArrayOf(R.id.intro_phone_avatar_1, R.id.intro_phone_avatar_2)
         )
         themeImageComponent(
-                Prefs.backgroundColor.colorToForeground(),
-                R.id.intro_phone_nav
+                color = Prefs.backgroundColor.colorToForeground(),
+                ids = *intArrayOf(R.id.intro_phone_nav)
         )
-        themeImageComponent(Prefs.accentColor, R.id.intro_phone_header)
+        themeImageComponent(
+                color = Prefs.accentColor,
+                ids = *intArrayOf(R.id.intro_phone_header)
+        )
     }
 
     override fun onPageScrolledImpl(positionOffset: Float) {
         super.onPageScrolledImpl(positionOffset)
-        firstImageFragmentTransition(positionOffset)
+        firstImageFragmentTransition(offset = positionOffset)
     }
 }
 
@@ -103,7 +106,7 @@ class IntroTabTouchFragment : BaseImageIntroFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        icon.visible().setIcon(GoogleMaterial.Icon.gmd_edit, 24)
+        icon.visible().setIcon(icon = GoogleMaterial.Icon.gmd_edit, sizeDp = 24)
         icon.setOnClickListener {
             activity?.toast("Editing tabs incoming")
         }
@@ -112,14 +115,22 @@ class IntroTabTouchFragment : BaseImageIntroFragment(
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         themeImageComponent(
-                Prefs.iconColor,
-                R.id.intro_phone_icon_1,
-                R.id.intro_phone_icon_2,
-                R.id.intro_phone_icon_3,
-                R.id.intro_phone_icon_4
+                color = Prefs.iconColor,
+                ids = *intArrayOf(
+                        R.id.intro_phone_icon_1,
+                        R.id.intro_phone_icon_2,
+                        R.id.intro_phone_icon_3,
+                        R.id.intro_phone_icon_4
+                )
         )
-        themeImageComponent(Prefs.headerColor, R.id.intro_phone_tab)
-        themeImageComponent(Prefs.textColor.withAlpha(80), R.id.intro_phone_icon_ripple)
+        themeImageComponent(
+                color = Prefs.headerColor,
+                ids = *intArrayOf(R.id.intro_phone_tab)
+        )
+        themeImageComponent(
+                color = Prefs.textColor.withAlpha(80),
+                ids = *intArrayOf(R.id.intro_phone_icon_ripple)
+        )
     }
 }
 
@@ -131,29 +142,38 @@ class IntroTabContextFragment : BaseImageIntroFragment(
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
-        themeImageComponent(Prefs.headerColor, R.id.intro_phone_toolbar)
-        themeImageComponent(Prefs.backgroundColor.colorToForeground(0.1f), R.id.intro_phone_image)
         themeImageComponent(
-                Prefs.backgroundColor.colorToForeground(0.2f),
-                R.id.intro_phone_like,
-                R.id.intro_phone_share
-        )
-        themeImageComponent(Prefs.backgroundColor.colorToForeground(0.3f), R.id.intro_phone_comment)
-        themeImageComponent(
-                Prefs.backgroundColor.colorToForeground(0.1f),
-                R.id.intro_phone_card_1,
-                R.id.intro_phone_card_2
+                color = Prefs.headerColor,
+                ids = *intArrayOf(R.id.intro_phone_toolbar)
         )
         themeImageComponent(
-                Prefs.textColor,
-                R.id.intro_phone_image_indicator,
-                R.id.intro_phone_comment_indicator,
-                R.id.intro_phone_card_indicator
+                color = Prefs.backgroundColor.colorToForeground(0.1f),
+                ids = *intArrayOf(R.id.intro_phone_image)
+        )
+        themeImageComponent(
+                color = Prefs.backgroundColor.colorToForeground(0.2f),
+                ids = *intArrayOf(R.id.intro_phone_like, R.id.intro_phone_share)
+        )
+        themeImageComponent(
+                color = Prefs.backgroundColor.colorToForeground(0.3f),
+                ids = *intArrayOf(R.id.intro_phone_comment)
+        )
+        themeImageComponent(
+                color = Prefs.backgroundColor.colorToForeground(0.1f),
+                ids = *intArrayOf(R.id.intro_phone_card_1, R.id.intro_phone_card_2)
+        )
+        themeImageComponent(
+                color = Prefs.textColor,
+                ids = *intArrayOf(
+                        R.id.intro_phone_image_indicator,
+                        R.id.intro_phone_comment_indicator,
+                        R.id.intro_phone_card_indicator
+                )
         )
     }
 
     override fun onPageScrolledImpl(positionOffset: Float) {
         super.onPageScrolledImpl(positionOffset)
-        lastImageFragmentTransition(positionOffset)
+        lastImageFragmentTransition(offset = positionOffset)
     }
 }
