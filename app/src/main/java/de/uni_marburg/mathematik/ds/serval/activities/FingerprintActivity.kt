@@ -13,10 +13,9 @@ import de.uni_marburg.mathematik.ds.serval.utils.setAardvarkColors
 
 class FingerprintActivity : BaseActivity() {
 
-    val title: TextView by bindView(R.id.title)
-    val description: TextView by bindView(R.id.description)
-
+    private val description: TextView by bindView(R.id.description)
     private val fingerprint: ImageView by bindView(R.id.fingerprint)
+    private val title: TextView by bindView(R.id.title)
 
     override fun backConsumer(): Boolean {
         finishAffinity()
@@ -43,9 +42,7 @@ class FingerprintActivity : BaseActivity() {
     }
 
     fun theme() {
-        setAardvarkColors {
-            text(title, description)
-        }
+        setAardvarkColors { text(title, description) }
         fingerprint.setColorFilter(Prefs.textColor)
     }
 }
