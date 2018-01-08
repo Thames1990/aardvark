@@ -6,9 +6,9 @@ import android.os.Bundle
 import ca.allanwang.kau.iitems.CardIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
 import ca.allanwang.kau.utils.drawable
+import ca.allanwang.kau.utils.setIcon
 import ca.allanwang.kau.utils.string
 import ca.allanwang.kau.utils.tint
-import ca.allanwang.kau.utils.toDrawable
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -35,7 +35,7 @@ class DetailActivity : ElasticRecyclerActivity() {
         title = event.title
         recycler.adapter = setupAdapter()
         fab.apply {
-            setImageDrawable(GoogleMaterial.Icon.gmd_navigation.toDrawable(context))
+            setIcon(GoogleMaterial.Icon.gmd_navigation)
             setOnClickListener { showInGoogleMaps() }
             show()
         }
