@@ -19,8 +19,8 @@ class BadgedIcon(
         desStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, desStyleAttr) {
 
-    val badgeTextView: TextView by bindView(R.id.badge_text)
-    val badgeImage: ImageView by bindView(R.id.badge_image)
+    private val badgeTextView: TextView by bindView(R.id.badge_text)
+    private val badgeImage: ImageView by bindView(R.id.badge_image)
 
     init {
         View.inflate(context, R.layout.view_badged_icon, this)
