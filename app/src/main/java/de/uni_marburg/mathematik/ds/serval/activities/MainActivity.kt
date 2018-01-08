@@ -137,8 +137,11 @@ class MainActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean = consume {
         menuInflater.inflate(R.menu.menu_main, menu)
-        toolbar.tint(Prefs.iconColor)
-        setMenuIcons(menu, Prefs.iconColor, R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
+        setMenuIcons(
+                menu = menu,
+                color = Prefs.iconColor,
+                iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
+        )
     }
 
     @SuppressLint("RestrictedApi")

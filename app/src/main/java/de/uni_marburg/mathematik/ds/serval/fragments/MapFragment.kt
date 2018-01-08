@@ -2,11 +2,10 @@ package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.*
-import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.hasPermission
+import ca.allanwang.kau.utils.setMenuIcons
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.clustering.ClusterManager
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
@@ -57,40 +57,39 @@ class MapFragment : BaseFragment() {
                 if (hasLocationPermission) isMyLocationEnabled = true
                 style()
                 setupClusterManager()
-                setupCamera()
+                zoomToAllMarkers(animate = false)
             }
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_map, menu)
+        inflater.inflate(R.menu.menu_map, menu)
+        activity?.setMenuIcons(
+                menu = menu,
+                color = Prefs.iconColor,
+                iicons = *arrayOf(
+                        R.id.action_zoom_to_all_markers to GoogleMaterial.Icon.gmd_zoom_out_map,
+                        R.id.action_change_map_type to GoogleMaterial.Icon.gmd_map
+                )
+        )
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu?.let {
-            super.onPrepareOptionsMenu(menu)
-            with(context!!) {
-                val changeMapType = menu.findItem(R.id.action_change_map_type)
-                val icon = drawable(R.drawable.map)
-                icon.setColorFilter(Prefs.iconColor, PorterDuff.Mode.SRC_IN)
-                changeMapType.icon = icon
-            }
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = with(googleMap) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = with(googleMap) {
         when (item.itemId) {
-            R.id.action_change_map_type_hybrid -> consume { mapType = MAP_TYPE_HYBRID }
-            R.id.action_change_map_type_none -> consume { mapType = MAP_TYPE_NONE }
-            R.id.action_change_map_type_normal -> consume { mapType = MAP_TYPE_NORMAL }
-            R.id.action_change_map_type_satellite -> consume { mapType = MAP_TYPE_SATELLITE }
-            R.id.action_change_map_type_terrain -> consume { mapType = MAP_TYPE_TERRAIN }
-            else -> super.onOptionsItemSelected(item)
+            R.id.action_change_map_type_hybrid -> mapType = MAP_TYPE_HYBRID
+            R.id.action_change_map_type_none -> mapType = MAP_TYPE_NONE
+            R.id.action_change_map_type_normal -> mapType = MAP_TYPE_NORMAL
+            R.id.action_change_map_type_satellite -> mapType = MAP_TYPE_SATELLITE
+            R.id.action_change_map_type_terrain -> mapType = MAP_TYPE_TERRAIN
+            R.id.action_zoom_to_all_markers -> zoomToAllMarkers()
+            else -> return super.onOptionsItemSelected(item)
         }
+        return true
     }
 
     private fun GoogleMap.style() {
+        uiSettings.isScrollGesturesEnabled = false
         uiSettings.isMapToolbarEnabled = false
         when (Prefs.theme) {
             Theme.DARK.ordinal -> setMapStyle(
@@ -102,7 +101,7 @@ class MapFragment : BaseFragment() {
         }
     }
 
-    private fun GoogleMap.setupCamera() {
+    private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
         if (MainActivity.events.isNotEmpty()) {
             val builder = LatLngBounds.builder()
             doAsync {
@@ -110,7 +109,7 @@ class MapFragment : BaseFragment() {
                 uiThread {
                     with(builder.build()) {
                         googleMap.setLatLngBoundsForCameraTarget(this)
-                        googleMap.cameraUpdate(this)
+                        googleMap.cameraUpdate(bounds = this, animate = animate)
                     }
                 }
             }
@@ -147,7 +146,7 @@ class MapFragment : BaseFragment() {
         }
     }
 
-    private fun GoogleMap.cameraUpdate(bounds: LatLngBounds, animate: Boolean = false) {
+    private fun GoogleMap.cameraUpdate(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) animateCamera(cameraUpdate) else moveCamera(cameraUpdate)
     }
