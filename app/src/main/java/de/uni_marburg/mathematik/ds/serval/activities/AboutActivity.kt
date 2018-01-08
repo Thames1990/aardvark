@@ -104,18 +104,10 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                 val size = context.dimenPixelSize(R.dimen.kau_avatar_bounds)
                 // TODO Refactor with AboutItem enum class
                 images = arrayOf<Pair<IIcon, () -> Unit>>(
-                        CommunityMaterial.Icon.cmd_github_circle to {
-                            context.startLink(R.string.github_url)
-                        },
-                        CommunityMaterial.Icon.cmd_github_circle to {
-                            context.startLink(R.string.github_url)
-                        },
-                        CommunityMaterial.Icon.cmd_github_circle to {
-                            context.startLink(R.string.github_url)
-                        },
-                        CommunityMaterial.Icon.cmd_github_circle to {
-                            context.startLink(R.string.github_url)
-                        }
+                        CommunityMaterial.Icon.cmd_github_circle to { context.startLink(R.string.github_url) },
+                        CommunityMaterial.Icon.cmd_github_circle to { context.startLink(R.string.github_url) },
+                        CommunityMaterial.Icon.cmd_github_circle to { context.startLink(R.string.github_url) },
+                        CommunityMaterial.Icon.cmd_github_circle to { context.startLink(R.string.github_url) }
                 ).mapIndexed { i, (icon, onClick) ->
                     ImageView(context).apply {
                         layoutParams = ViewGroup.LayoutParams(size, size)
