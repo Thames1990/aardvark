@@ -32,7 +32,10 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                         setAardvarkTheme()
                         themeExterior()
                         invalidateOptionsMenu()
-                        aardvarkAnswersCustom("Theme", "Count" to Theme(which).name)
+                        aardvarkAnswersCustom(
+                                name = "Theme",
+                                events = *arrayOf("Count" to Theme(which).name)
+                        )
                     }
                     true
                 }
@@ -114,8 +117,8 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                         item.pref = which
                         shouldRestartMain()
                         aardvarkAnswersCustom(
-                                "Main Layout",
-                                "Type" to MainActivityLayout(which).name
+                                name = "Main Layout",
+                                events = *arrayOf("Type" to MainActivityLayout(which).name)
                         )
                     }
                     true
