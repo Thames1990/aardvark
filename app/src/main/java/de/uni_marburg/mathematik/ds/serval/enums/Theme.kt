@@ -5,9 +5,6 @@ import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
-const val AARDVARK_GREEN = 0xff4CAF50.toInt()
-const val AARDVARK_GREEN_LIGHT = 0xff80E27E.toInt()
-
 enum class Theme(
         @StringRes val textRes: Int,
         private val textColorGetter: () -> Int,
@@ -71,5 +68,8 @@ enum class Theme(
     companion object {
         val values = values() //save one instance
         operator fun invoke(index: Int) = values[index]
+
+        const val AARDVARK_GREEN = 0xff4CAF50.toInt()
+        const val AARDVARK_GREEN_LIGHT = 0xff80E27E.toInt()
     }
 }

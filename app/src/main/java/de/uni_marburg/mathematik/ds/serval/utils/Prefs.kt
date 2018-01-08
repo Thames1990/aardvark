@@ -6,7 +6,6 @@ import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.isColorVisibleOn
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
-import de.uni_marburg.mathematik.ds.serval.enums.AARDVARK_GREEN
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
@@ -25,7 +24,7 @@ object Prefs : KPref() {
         get() = when {
             accentColor.isColorVisibleOn(Color.WHITE) -> accentColor
             textColor.isColorVisibleOn(Color.WHITE) -> textColor
-            else -> AARDVARK_GREEN
+            else -> Theme.AARDVARK_GREEN
         }
     val backgroundColor: Int
         get() = t.bgColor
