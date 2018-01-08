@@ -33,8 +33,7 @@ class DetailActivity : ElasticRecyclerActivity() {
         setCurrentScreen()
         event = intent.extras.getParcelable(EVENT)
         title = event.title
-        recycler.adapter = adapter
-        setupAdapter()
+        recycler.adapter = setupAdapter()
         fab.apply {
             setImageDrawable(GoogleMaterial.Icon.gmd_navigation.toDrawable(context))
             setOnClickListener { showInGoogleMaps() }
@@ -44,7 +43,7 @@ class DetailActivity : ElasticRecyclerActivity() {
         return true
     }
 
-    private fun setupAdapter() {
+    private fun setupAdapter(): FastItemAdapter<IItem<*, *>> {
         val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
         if (showMap) adapter.add(MapIItem(event))
         adapter.add(CardIItem {
@@ -60,6 +59,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 image = drawable(it.type.resId).tint(Color.WHITE)
             })
         }
+        return adapter
     }
 
     private fun showInGoogleMaps() {
