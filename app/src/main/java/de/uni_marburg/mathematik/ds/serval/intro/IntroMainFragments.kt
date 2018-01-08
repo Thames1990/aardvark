@@ -14,45 +14,20 @@ import ca.allanwang.kau.utils.Kotterknife
 import ca.allanwang.kau.utils.bindViewResettable
 import ca.allanwang.kau.utils.setOnSingleTapListener
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import org.jetbrains.anko.childrenSequence
 import kotlin.math.absoluteValue
 
 /** Created by thames1990 on 03.12.17. */
-abstract class BaseIntroFragment(val layoutRes: Int) : Fragment() {
+abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
 
-    val screenWidth
+    private val screenWidth
         get() = resources.displayMetrics.widthPixels
 
-    val lazyRegistry = LazyResettableRegistry()
+    private val lazyRegistry = LazyResettableRegistry()
 
-    protected fun translate(offset: Float, views: Array<Array<out View>>) {
-        val maxTranslation = offset * screenWidth
-        val increment = maxTranslation / views.size
-        views.forEachIndexed { i, group ->
-            group.forEach {
-                it.translationX =
-                        if (offset > 0) -maxTranslation + i * increment
-                        else -(i + 1) * increment
-                it.alpha = 1 - offset.absoluteValue
-            }
-        }
-    }
-
-    fun <T : Any> lazyResettableRegistered(initializer: () -> T) = lazyRegistry.lazy(initializer)
-
-    // Note that these ids aren't actually inside all layouts.
-    // However, they are in most of them, so they are added here for convenience.
-    protected val title: TextView by bindViewResettable(R.id.intro_title)
-    protected val image: ImageView by bindViewResettable(R.id.intro_image)
-    protected val desc: TextView by bindViewResettable(R.id.intro_desc)
-
-    protected fun defaultViewArray(): Array<Array<out View>> = arrayOf(
-            arrayOf(title),
-            arrayOf(image),
-            arrayOf(desc)
-    )
+    private val viewArray: Array<Array<out View>> by lazyResettableRegistered { viewArray() }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -67,22 +42,47 @@ abstract class BaseIntroFragment(val layoutRes: Int) : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Kotterknife.reset(this)
+        Kotterknife.reset(target = this)
         lazyRegistry.invalidateAll()
     }
 
-    fun themeFragment() {
-        if (view != null) themeFragmentImpl()
+    private fun translate(offset: Float, views: Array<Array<out View>>) {
+        val maxTranslation = offset * screenWidth
+        val increment = maxTranslation / views.size
+        views.forEachIndexed { i, group ->
+            group.forEach {
+                it.translationX =
+                        if (offset > 0) -maxTranslation + i * increment
+                        else -(i + 1) * increment
+                it.alpha = 1 - offset.absoluteValue
+            }
+        }
     }
+
+    // Note that these ids aren't actually inside all layouts.
+    // However, they are in most of them, so they are added here for convenience.
+    protected val title: TextView by bindViewResettable(R.id.intro_title)
+    protected val image: ImageView by bindViewResettable(R.id.intro_image)
+    protected val desc: TextView by bindViewResettable(R.id.intro_desc)
+
+    protected fun defaultViewArray(): Array<Array<out View>> = arrayOf(
+            arrayOf(title),
+            arrayOf(image),
+            arrayOf(desc)
+    )
 
     protected open fun themeFragmentImpl() {
         view?.childrenSequence()?.forEach { (it as? TextView)?.setTextColor(Prefs.textColor) }
     }
 
-    protected val viewArray: Array<Array<out View>> by lazyResettableRegistered { viewArray() }
-
-
     protected abstract fun viewArray(): Array<Array<out View>>
+
+    fun <T : Any> lazyResettableRegistered(initializer: () -> T) = lazyRegistry.lazy(initializer)
+
+
+    fun themeFragment() {
+        if (view != null) themeFragmentImpl()
+    }
 
     fun onPageScrolled(positionOffset: Float) {
         if (view != null) onPageScrolledImpl(positionOffset)
@@ -96,9 +96,7 @@ abstract class BaseIntroFragment(val layoutRes: Int) : Fragment() {
         if (view != null) onPageSelectedImpl()
     }
 
-    protected open fun onPageSelectedImpl() {
-
-    }
+    protected open fun onPageSelectedImpl() = Unit
 
     class IntroFragmentWelcome : BaseIntroFragment(R.layout.intro_welcome) {
 
