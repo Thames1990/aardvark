@@ -16,15 +16,11 @@
         android:label="@string/aardvark_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AardvarkTheme.Splash">
         <activity
-            android:name=".view.activities.IntroActivity"
-            android:theme="@style/Theme.Intro" />
-        <activity android:name=".view.activities.FingerprintActivity" />
-        <activity
-            android:name=".view.activities.MainActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/AppTheme.SplashScreen">
+            android:name="de.uni_marburg.mathematik.ds.serval.activities.StartActivity"
+            android:noHistory="true"
+            android:theme="@style/AardvarkTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,13 +28,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activities.DetailActivity"
+            android:name="de.uni_marburg.mathematik.ds.serval.activities.IntroActivity"
+            android:theme="@style/AardvarkTheme.Intro" />
+        <activity android:name="de.uni_marburg.mathematik.ds.serval.activities.FingerprintActivity" />
+        <activity
+            android:name="de.uni_marburg.mathematik.ds.serval.activities.MainActivity"
+            android:configChanges="orientation|screenSize|locale"
+            android:theme="@style/AardvarkTheme" />
+        <activity
+            android:name="de.uni_marburg.mathematik.ds.serval.activities.DetailActivity"
             android:theme="@style/Kau.Translucent.SlideBottom" />
         <activity
-            android:name=".view.activities.PreferenceActivity"
-            android:theme="@style/Kau.Translucent" />
+            android:name="de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity"
+            android:theme="@style/AardvarkTheme.Settings" />
         <activity
-            android:name=".view.activities.AboutActivity"
+            android:name="de.uni_marburg.mathematik.ds.serval.activities.AboutActivity"
             android:theme="@style/Kau.About" />
 
         <meta-data

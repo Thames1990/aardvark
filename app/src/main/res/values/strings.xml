@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="aardvark_amoled">AMOLED</string>
+    <string name="aardvark_custom">Custom</string>
+    <string name="aardvark_dark">Dark</string>
+    <string name="aardvark_default">Default</string>
     <string name="aardvark_description">Aardvark is</string>
+    <string name="aardvark_light">Light</string>
     <string name="aardvark_name" tools:override="true" translatable="false">Aardvark</string>
 
+    <string name="about_aardvark">About Aardvark</string>
+    <string name="about_aardvark_description">Version, Credits, and FAQs</string>
     <string name="about_title">About Aardvark</string>
 
     <string name="action_change_map_type">Map type</string>
@@ -18,11 +25,22 @@
     <string name="action_sort_events_distance">@string/distance</string>
     <string name="action_sort_events_measurements">Measurements</string>
     <string name="action_sort_events_time">Time</string>
+    <string name="action_zoom_to_all_markers">Zoom to all markers</string>
 
-    <string name="adb_connect" translatable="false">adb connect %1$s</string>
-    <string name="adb_superuser" translatable="false">su</string>
-    <string name="adb_wifi_disable" translatable="false">setprop service.adb.tcp.port -1\nstop adbd\nstart adbd\nexit</string>
-    <string name="adb_wifi_enable" translatable="false">setprop service.adb.tcp.port %1$d\nstop adbd\nstart adbd\nexit</string>
+    <string name="analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
+
+    <string name="appearance">Appearance</string>
+    <string name="appearance_description">Theme, Items to display, etc</string>
+
+    <string name="behaviour">Behaviour</string>
+    <string name="behaviour_description">Define how the app interacts in certain settings</string>
+
+    <string name="bottom_bar">Bottom bar</string>
+
+    <string name="bug_report">Bug Report</string>
+
+    <string name="changelog">Changelog</string>
+    <string name="changelog_desc">Show changelogs after updates</string>
 
     <string name="chat">Chat</string>
 
@@ -37,45 +55,86 @@
 
     <string name="dashboard">Dashboard</string>
 
+    <string name="debug">Debug</string>
+    <string name="debug_description">Useful features for developers</string>
+    <string name="debug_disclaimer_info">Please only use these settings if you are absolutely sure, what you are doing!</string>
     <string name="debug_enabled">Debug settings activated</string>
 
     <string name="details">Details</string>
 
+    <string name="dev_email" translatable="false">ThomasMohr1990@gmail.com</string>
     <string name="dev_name">Thomas Mohr</string>
 
     <string name="distance">Distance</string>
     <string name="distance_in_kilometer">%1$.2f km</string>
     <string name="distance_in_meter">%1$.0f m</string>
 
-    <string name="email_adress_feedback" translatable="false">ThomasMohr1990@gmail.com</string>
+    <string name="event_count">Event count</string>
+    <string name="event_count_description">Define how many events should be loaded</string>
+    <string name="event_loading_time">Loading events took %1$d ms</string>
 
     <string name="events">Events</string>
 
-    <string name="explore">Explore</string>
+    <string name="experimental_disclaimer">Disclaimer</string>
+
+    <string name="fancy_animations">Fancy Animations</string>
+    <string name="fancy_animations_desc">Use ripples and animate transitions</string>
 
     <string name="faq_title">Frequently asked questions</string>
+
+    <string name="feature_request">Feature Request</string>
+
+    <string name="feedback">Feedback</string>
 
     <string name="fingerprint_required">Access your secured environment</string>
     <string name="fingerprint_required_description">Place your finger on the reader</string>
 
     <string name="github_url">https://github.com/Thames1990/aardvark</string>
 
+    <string name="global_customization">Global Customization</string>
+
+    <string name="header_color">Header color</string>
+
+    <string name="icon_color">Icon color</string>
+
     <string name="intent_extra_query_from">Query from %1$s</string>
     <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
 
-    <string name="intro_1_description">The easiest way to communicate without cellular connectivity!</string>
-    <string name="intro_1_title" translatable="false">@string/aardvark_name</string>
-    <string name="intro_2_description">Easily check whether hazards are close!</string>
-    <string name="intro_2_title" translatable="false">@string/dashboard</string>
-    <string name="intro_3_description">Look out for your friends and favorite locations!</string>
-    <string name="intro_3_title" translatable="false">@string/map</string>
-    <string name="intro_4_description">Talk to your friends and co-workers!</string>
-    <string name="intro_4_title" translatable="false">@string/chat</string>
+    <string name="intro_context_aware">Context Aware</string>
+    <string name="intro_context_aware_desc">Long press links to copy and share them.\nLong press images to zoom and download.\nLong press cards to scroll horizontally.</string>
+    <string name="intro_easy_navigation">Easy Navigation</string>
+    <string name="intro_easy_navigation_desc">Slide between views with a swipe, and click the tab icon to go back to the top.\nClick the icon again to reload the page.</string>
+    <string name="intro_end">Let\'s begin</string>
+    <string name="intro_multiple_accounts">Multiple Accounts</string>
+    <string name="intro_multiple_accounts_desc">Add and switch accounts directly from the navigation bar.\nTap the current avatar to jump to your profile.</string>
+    <string name="intro_select_theme">Select a theme</string>
+    <string name="intro_slide_to_continue">Slide to continue</string>
+    <string name="intro_tap_to_exit">Tap anywhere to exit</string>
+    <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
 
     <string name="license_name">MIT License</string>
     <string name="license_website">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
 
+    <string name="location">Location</string>
+    <string name="location_dependency_warning">Caution! Currently the depency between the active and passive location request isn\'t implemented correctly.\nTherefore you could increase the passive interval to a value above the active interval, which should be avoided at all cost.\nYou are using this feature at your own risk!</string>
+    <string name="location_description">Control your location settings</string>
+    <string name="location_request_fastest_interval">Active location request interval</string>
+    <string name="location_request_fastest_interval_description">Define the interval in minutes between active location updates</string>
+    <string name="location_request_interval">Passive location request interval</string>
+    <string name="location_request_interval_description">Define the interval in minutes between passive location updates</string>
+    <string name="location_request_priority">Location request priority</string>
+    <string name="location_request_priority_accurate">Accurate</string>
+    <string name="location_request_priority_accurate_description">Accurate as possible at the expense of battery life</string>
+    <string name="location_request_priority_block_accuracy">Block accuracy</string>
+    <string name="location_request_priority_block_accuracy_description">~100m \"block\" accuracy</string>
+    <string name="location_request_priority_city_accuracy">City accuracy</string>
+    <string name="location_request_priority_city_accuracy_description">~10km \"city\" accuracy</string>
+    <string name="location_request_priority_passive">Passive</string>
+    <string name="location_request_priority_passive_description">Passively listens for location updates from other clients</string>
+
     <string name="login_required">You must be logged in</string>
+
+    <string name="main_activity_layout">Main Activity Layout</string>
 
     <string name="map">Map</string>
 
@@ -96,39 +155,45 @@
 
     <string name="precipitation">Precipitation</string>
 
-    <string name="preference_about">About</string>
+    <string name="preference_changelog">Changelog</string>
     <string name="preference_confirm_exit">Confirm exit</string>
-    <string name="preference_debug">Debug</string>
     <string name="preference_enable_wifi_adb">Enable WiFi ADB</string>
     <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>
-    <string name="preference_faq">FAQ</string>
-    <string name="preference_faq_description">Frequently asked questions</string>
-    <string name="preference_general">General</string>
     <string name="preference_password_description">Serval API password</string>
-    <string name="preference_privacy_policy">Privacy policy</string>
     <string name="preference_reset_analytics">Reset analytics</string>
     <string name="preference_reset_analytics_confirmation">Your analytics collection was removed</string>
     <string name="preference_reset_analytics_description">Do you want to delete all collected analytics data?</string>
     <string name="preference_send_feedback">Send feedback</string>
     <string name="preference_send_feedback_description">Got any queries? We are happy to help!</string>
-    <string name="preference_serval">Serval</string>
     <string name="preference_share_adb_command_description">Use this command on your computer</string>
     <string name="preference_share_wifi_adb_command">Share ADB command</string>
-    <string name="preference_show_changelog">Show changelogs after update</string>
-    <string name="preference_terms_and_conditions">Terms &amp; conditions</string>
     <string name="preference_theme">Theme</string>
     <string name="preference_use_analytics">Use analytics</string>
-    <string name="preference_use_analytics_description">The developer is able fo fix problems faster</string>
-    <string name="preference_use_secure_flag">Use secure flag</string>
-    <string name="preference_use_secure_flag_description">Prohibit screenshots and interception of screen status</string>
     <string name="preference_username_description">Serval API username</string>
-    <string name="preference_version">Version</string>
 
     <string name="radiation">Radiation</string>
 
-    <string name="share">Share</string>
+    <string name="replay_intro">Replay Introduction</string>
+
+    <string name="requires_custom_theme">Requires custom theme</string>
+
+    <string name="secure_app">Secure privacy</string>
+    <string name="secure_app_desc">Prohibit screenshots and interception of screen status and require fingerprint authentication</string>
+
+    <string name="serval">Serval</string>
+    <string name="serval_description">Serval login information</string>
+
+    <string name="set_main_activity_layout">Set Main Activity Layout</string>
+
+    <string name="skip">Skip</string>
+
+    <string name="subject">Subject</string>
 
     <string name="temperature">Temperature</string>
+
+    <string name="theme">Theme</string>
+    <string name="theme_customization">Theme Customization</string>
+    <string name="theme_issue">Theme Issue</string>
 
     <string name="time">Time</string>
     <plurals name="time_days_ago">
@@ -152,12 +217,17 @@
         <item quantity="other">%1$d years ago</item>
     </plurals>
 
+    <string name="tint_nav">Tint nav bar</string>
+    <string name="tint_nav_desc">Navigation bar will be the same color as the header</string>
+
     <string name="toast_network_disconnected">No network connectivity</string>
 
     <string name="tools_distance" translatable="false">392 m</string>
     <string name="tools_measurement_type" translatable="false">Radiation</string>
     <string name="tools_measurement_value" translatable="false">2 μSv/h</string>
     <string name="tools_time" translatable="false">24 min</string>
+
+    <string name="top_bar">Top bar</string>
 
     <string name="username">Username</string>
     <string name="username_must_not_be_empty">You need to enter a username</string>

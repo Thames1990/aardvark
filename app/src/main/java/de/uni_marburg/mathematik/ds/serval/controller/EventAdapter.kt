@@ -2,17 +2,20 @@ package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.Manifest
 import android.arch.lifecycle.Observer
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.location.Location
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import ca.allanwang.kau.utils.*
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+import ca.allanwang.kau.utils.gone
+import ca.allanwang.kau.utils.hasPermission
+import ca.allanwang.kau.utils.inflate
+import ca.allanwang.kau.utils.setIcon
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -20,13 +23,14 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationLiveData
-import de.uni_marburg.mathematik.ds.serval.util.Preferences
-import de.uni_marburg.mathematik.ds.serval.util.distanceToString
-import de.uni_marburg.mathematik.ds.serval.util.timeToString
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.distanceToString
+import de.uni_marburg.mathematik.ds.serval.utils.timeToString
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.event_row.*
 import java.util.*
 import kotlin.properties.Delegates
+import kotlin.with
 
 /**
  * Adapter for [events][Event]
@@ -37,15 +41,14 @@ import kotlin.properties.Delegates
 class EventAdapter(
         private val activity: FragmentActivity,
         private val listener: (Event) -> Unit
-) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(),
-        AutoUpdatableAdapter,
-        FastScrollRecyclerView.SectionedAdapter {
+) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(), AutoUpdatableAdapter {
 
     /**
      * The last known location.
      *
      * This is initialized as an empty [Location] to avoid nullability.
      */
+    // TODO Save last location information in SharedPreferences
     private var lastLocation: Location = Location(BuildConfig.APPLICATION_ID)
 
     /**
@@ -59,8 +62,6 @@ class EventAdapter(
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
     }
 
-    private var currentSortMode = TIME
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         LocationLiveData(activity).observe(activity, Observer<Location> { location ->
             location?.let { lastLocation -> this.lastLocation = lastLocation }
@@ -72,18 +73,6 @@ class EventAdapter(
             holder.bindTo(events[position], listener)
 
     override fun getItemCount(): Int = events.size
-
-    override fun getSectionName(position: Int): String {
-        val event = events[position]
-        return when (currentSortMode) {
-            DISTANCE    -> event.location.distanceTo(lastLocation).distanceToString(activity)
-            MEASUREMENT -> activity.plural(R.plurals.measurement_count, event.measurements.size)
-            TIME        -> {
-                val timeDifference = Calendar.getInstance().timeInMillis - event.time
-                timeDifference.timeToString(activity)
-            }
-        }
-    }
 
     /** Loads [events][Event] from the API server. **/
     fun loadEvents() {
@@ -100,16 +89,15 @@ class EventAdapter(
     fun sortEventsBy(comparator: EventComparator, reversed: Boolean = false) {
         events = events.sortedWith(compareBy {
             if (reversed) when (comparator) {
-                DISTANCE    -> -it.location.distanceTo(lastLocation)
+                DISTANCE -> -it.location.distanceTo(lastLocation)
                 MEASUREMENT -> -it.measurements.size
-                TIME        -> -it.time
+                TIME -> -it.time
             } else when (comparator) {
-                DISTANCE    -> it.location.distanceTo(lastLocation)
+                DISTANCE -> it.location.distanceTo(lastLocation)
                 MEASUREMENT -> it.measurements.size
-                TIME        -> it.time
+                TIME -> it.time
             }
         })
-        currentSortMode = comparator
     }
 
     /**
@@ -133,7 +121,7 @@ class EventAdapter(
             displayTime()
             displayLocation()
             displayMeasurementTypes()
-            containerView.setBackgroundColor(Preferences.colorBackground)
+            containerView.setBackgroundColor(Prefs.backgroundColor)
             containerView.setOnClickListener { listener(this) }
         }
 
@@ -142,7 +130,7 @@ class EventAdapter(
             val timeDifference = Calendar.getInstance().timeInMillis - time
             event_time.apply {
                 text = timeDifference.timeToString(containerView.context)
-                setTextColor(Preferences.colorText)
+                setTextColor(Prefs.textColor)
             }
         }
 
@@ -153,16 +141,20 @@ class EventAdapter(
         private fun Event.displayLocation() = with(containerView.context) {
             val hasLocationPermission = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
             if (hasLocationPermission) {
-                val icon = drawable(R.drawable.location)
-                icon.setColorFilter(color(R.color.icon_mute), PorterDuff.Mode.SRC_IN)
-                location_icon.setImageDrawable(icon)
+                location_icon.setIcon(
+                        icon = GoogleMaterial.Icon.gmd_my_location,
+                        color = Prefs.iconColor
+                )
                 location_text.apply {
                     text = location.distanceTo(lastLocation).distanceToString(this@with)
-                    setTextColor(Preferences.colorText)
+                    setTextColor(Prefs.textColor)
                 }
             } else {
                 location_icon.gone()
                 location_text.gone()
+                val params = guideline.layoutParams as ConstraintLayout.LayoutParams
+                params.guideEnd = 0
+                guideline.layoutParams = params
             }
         }
 
@@ -170,15 +162,9 @@ class EventAdapter(
         private fun Event.displayMeasurementTypes() {
             measurement_types.removeAllViews()
             measurements.toHashSet().forEach { measurement ->
-                val icon = ImageView(containerView.context)
-                icon.setImageResource(measurement.type.resId)
-                icon.layoutParams = LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                )
                 measurement_types.addView(ImageView(containerView.context).apply {
-                    setImageResource(measurement.type.resId)
-                    setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+                    setImageResource(measurement.type.iconRes)
+                    setColorFilter(Prefs.iconColor, PorterDuff.Mode.SRC_IN)
                     layoutParams = LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.MATCH_PARENT
