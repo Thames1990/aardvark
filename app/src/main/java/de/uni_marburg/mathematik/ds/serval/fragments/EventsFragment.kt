@@ -24,8 +24,10 @@ class EventsFragment : BaseFragment() {
     private val eventAdapter: EventAdapter by lazy {
         EventAdapter(activity!!) {
             context!!.startActivity<DetailActivity>(
-                    DetailActivity.EVENT to it,
-                    DetailActivity.SHOW_MAP to true
+                    params = *arrayOf(
+                            DetailActivity.EVENT to it,
+                            DetailActivity.SHOW_MAP to true
+                    )
             )
         }
     }
@@ -79,7 +81,7 @@ class EventsFragment : BaseFragment() {
                 uiThread {
                     recycler_view.apply {
                         withLinearAdapter(eventAdapter)
-                        withDividerDecoration(this@with, DividerItemDecoration.VERTICAL)
+                        withDividerDecoration(context, DividerItemDecoration.VERTICAL)
                         setBackgroundColor(Prefs.backgroundColor)
                     }
                 }
