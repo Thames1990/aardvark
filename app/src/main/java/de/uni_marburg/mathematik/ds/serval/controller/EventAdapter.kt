@@ -11,10 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.gone
 import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.inflate
+import ca.allanwang.kau.utils.setIcon
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -140,9 +141,10 @@ class EventAdapter(
         private fun Event.displayLocation() = with(containerView.context) {
             val hasLocationPermission = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
             if (hasLocationPermission) {
-                val icon = drawable(R.drawable.location)
-                icon.setColorFilter(Prefs.textColor, PorterDuff.Mode.SRC_IN)
-                location_icon.setImageDrawable(icon)
+                location_icon.setIcon(
+                        icon = GoogleMaterial.Icon.gmd_my_location,
+                        color = Prefs.iconColor
+                )
                 location_text.apply {
                     text = location.distanceTo(lastLocation).distanceToString(this@with)
                     setTextColor(Prefs.textColor)

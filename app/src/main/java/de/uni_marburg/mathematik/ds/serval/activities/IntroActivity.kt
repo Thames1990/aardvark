@@ -54,7 +54,7 @@ class IntroActivity : BaseActivity() {
         viewpager.init()
         indicator.setViewPager(viewpager)
         next.apply {
-            setIcon(GoogleMaterial.Icon.gmd_navigate_next)
+            setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.iconColor)
             setOnClickListener {
                 if (barHasNext) viewpager.setCurrentItem(viewpager.currentItem + 1, true)
                 else finish(

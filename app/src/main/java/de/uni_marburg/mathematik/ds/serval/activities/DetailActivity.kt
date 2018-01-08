@@ -35,7 +35,7 @@ class DetailActivity : ElasticRecyclerActivity() {
         title = event.title
         recycler.adapter = setupAdapter()
         fab.apply {
-            setIcon(GoogleMaterial.Icon.gmd_navigation)
+            setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
             setOnClickListener { showInGoogleMaps() }
             show()
         }
