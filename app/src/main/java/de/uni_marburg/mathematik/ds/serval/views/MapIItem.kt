@@ -12,7 +12,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.utils.MAP_ZOOM
 
 class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
         R.layout.iitem_map, { ViewHolder(it) }
@@ -45,5 +44,9 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val map: MapView by bindView(R.id.map)
+    }
+
+    companion object {
+        const val MAP_ZOOM = 15f
     }
 }

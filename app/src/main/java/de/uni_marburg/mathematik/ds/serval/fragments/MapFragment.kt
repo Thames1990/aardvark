@@ -20,7 +20,6 @@ import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.utils.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
@@ -90,7 +89,7 @@ class MapFragment : BaseFragment() {
     private fun GoogleMap.style() {
         uiSettings.isScrollGesturesEnabled = false
         uiSettings.isMapToolbarEnabled = false
-        setMinZoomPreference(MIN_ZOOM)
+        setMinZoomPreference(MAP_MIN_ZOOM)
         when (Prefs.theme) {
             Theme.DARK.ordinal -> setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style_dark)
@@ -151,7 +150,8 @@ class MapFragment : BaseFragment() {
     }
 
     companion object {
-        const val MIN_ZOOM = 5f
+        const val MAP_MIN_ZOOM = 5f
+        const val MAP_PADDING = 150
     }
 
 }
