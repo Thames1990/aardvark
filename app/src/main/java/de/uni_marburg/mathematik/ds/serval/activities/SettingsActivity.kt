@@ -77,10 +77,14 @@ class SettingsActivity : KPrefActivity() {
     }
 
     fun themeExterior(animate: Boolean = true) {
-        if (animate) bgCanvas.fade(Prefs.backgroundColor)
+        if (animate) bgCanvas.fade(color = Prefs.backgroundColor)
         else bgCanvas.set(Prefs.backgroundColor)
-        if (animate) toolbarCanvas.ripple(Prefs.headerColor, RippleCanvas.MIDDLE, RippleCanvas.END)
-        else toolbarCanvas.set(Prefs.headerColor)
+        if (animate) toolbarCanvas.ripple(
+                color = Prefs.headerColor,
+                startX = RippleCanvas.MIDDLE,
+                startY = RippleCanvas.END
+        )
+        else toolbarCanvas.set(color = Prefs.headerColor)
         aardvarkNavigationBar()
     }
 
@@ -93,7 +97,7 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_settings, menu)
-        toolbar.tint(Prefs.iconColor)
+        toolbar.tint(color = Prefs.iconColor)
         setMenuIcons(
                 menu = menu,
                 color = Prefs.iconColor,
@@ -111,7 +115,7 @@ class SettingsActivity : KPrefActivity() {
                 title(R.string.subject)
                 items(Support.values().map { string(it.title) })
                 itemsCallback { _, _, which, _ ->
-                    Support.values()[which].sendEmail(this@SettingsActivity)
+                    Support.values()[which].sendEmail(context)
                 }
             }
             R.id.action_changelog -> aardvarkChangelog()
