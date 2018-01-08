@@ -11,7 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import ca.allanwang.kau.utils.*
+import ca.allanwang.kau.utils.drawable
+import ca.allanwang.kau.utils.gone
+import ca.allanwang.kau.utils.hasPermission
+import ca.allanwang.kau.utils.inflate
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -26,6 +29,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.event_row.*
 import java.util.*
 import kotlin.properties.Delegates
+import kotlin.with
 
 /**
  * Adapter for [events][Event]
@@ -43,6 +47,7 @@ class EventAdapter(
      *
      * This is initialized as an empty [Location] to avoid nullability.
      */
+    // TODO Save last location information in SharedPreferences
     private var lastLocation: Location = Location(BuildConfig.APPLICATION_ID)
 
     /**
