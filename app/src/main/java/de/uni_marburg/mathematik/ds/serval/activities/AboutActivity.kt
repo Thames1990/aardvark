@@ -22,6 +22,7 @@ import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.AboutItem
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
@@ -102,22 +103,17 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
             init {
                 val context = itemView.context
                 val size = context.dimenPixelSize(R.dimen.kau_avatar_bounds)
-                // TODO Refactor with AboutItem enum class
-                images = arrayOf<Pair<IIcon, () -> Unit>>(
-                        CommunityMaterial.Icon.cmd_github_circle to { context.startLink(R.string.github_url) },
-                        CommunityMaterial.Icon.cmd_github_circle to { context.startLink(R.string.github_url) },
-                        CommunityMaterial.Icon.cmd_github_circle to { context.startLink(R.string.github_url) },
-                        CommunityMaterial.Icon.cmd_github_circle to { context.startLink(R.string.github_url) }
-                ).mapIndexed { i, (icon, onClick) ->
+
+                images = AboutItem.values().mapIndexed { index, aboutItem ->
                     ImageView(context).apply {
+                        id = index
                         layoutParams = ViewGroup.LayoutParams(size, size)
-                        id = 109389 + i
-                        setImageDrawable(icon.toDrawable(context, 32))
                         scaleType = ImageView.ScaleType.CENTER
                         background = context.resolveDrawable(
                                 android.R.attr.selectableItemBackgroundBorderless
                         )
-                        setOnClickListener { onClick() }
+                        setIcon(icon = aboutItem.iicon, color = Prefs.iconColor)
+                        setOnClickListener { context.startLink(aboutItem.linkResId) }
                         container.addView(this)
                     }
                 }
