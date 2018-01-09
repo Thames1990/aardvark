@@ -36,7 +36,7 @@ data class Event(
         }
 
     /** Title of the event used for map info windows **/
-    override fun getTitle(): String = this::class.java.simpleName
+    override fun getTitle(): String = javaClass.simpleName
 
     /** Snippet of the event used for map info windows **/
     override fun getSnippet(): String {

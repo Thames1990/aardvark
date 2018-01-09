@@ -40,7 +40,7 @@ fun Activity.setAardvarkTheme() {
 
 fun Activity.setCurrentScreen() = Aardvark.firebaseAnalytics.setCurrentScreen(
         this,
-        this::class.java.simpleName,
+        javaClass.simpleName,
         null
 )
 
