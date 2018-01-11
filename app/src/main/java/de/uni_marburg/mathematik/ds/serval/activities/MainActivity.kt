@@ -25,6 +25,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.Drawer
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
@@ -55,8 +56,6 @@ class MainActivity : BaseActivity() {
         const val REQUEST_RESTART = 1 shl 2
         const val REQUEST_RESTART_APPLICATION = 1 shl 3
         const val REQUEST_NAV = 1 shl 4
-
-        lateinit var events: List<Event>
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -173,9 +172,10 @@ class MainActivity : BaseActivity() {
     private fun loadEvents() {
         doAsync {
             val now = System.currentTimeMillis()
-            events =
-                    if (isNetworkAvailable) EventRepository.fetch()
-                    else emptyList()
+            if (isNetworkAvailable) {
+                val events: List<Event> = EventRepository.fetch()
+                Aardvark.eventDatabase.eventDao().insertEvents(events)
+            }
             uiThread {
                 val later = System.currentTimeMillis()
                 val timePassed = later - now
@@ -208,7 +208,12 @@ class MainActivity : BaseActivity() {
         AardvarkItem.values().mapIndexed { index, aardvarkItem ->
             addTab(newTab().setCustomView(BadgedIcon(context).apply {
                 iicon = aardvarkItem.icon
-                if (index == 1) badgeText = events.size.toString()
+                doAsync {
+                    val eventCount: Int = Aardvark.eventDatabase.eventDao().getAllEvents().size
+                    uiThread {
+                        if (index == 1) badgeText = eventCount.toString()
+                    }
+                }
             }))
         }
     }

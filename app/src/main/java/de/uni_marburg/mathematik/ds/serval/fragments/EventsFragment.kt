@@ -5,10 +5,13 @@ import android.support.v7.widget.DividerItemDecoration
 import android.view.*
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
+import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
+import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.withDividerDecoration
 import kotlinx.android.synthetic.main.fragment_events.*
@@ -22,10 +25,10 @@ class EventsFragment : BaseFragment() {
         get() = R.layout.fragment_events
 
     private val eventAdapter: EventAdapter by lazy {
-        EventAdapter(activity!!) {
+        EventAdapter(activity!!) { event ->
             context!!.startActivity<DetailActivity>(
                     params = *arrayOf(
-                            DetailActivity.EVENT to it,
+                            DetailActivity.EVENT to event,
                             DetailActivity.SHOW_MAP to true
                     )
             )
@@ -77,7 +80,7 @@ class EventsFragment : BaseFragment() {
     private fun setupRecyclerView() {
         with(context!!) {
             if (isNetworkAvailable) doAsync {
-                eventAdapter.loadEvents()
+                eventAdapter.events = Aardvark.eventDatabase.eventDao().getAllEvents()
                 uiThread {
                     recycler_view.apply {
                         withLinearAdapter(eventAdapter)
@@ -99,7 +102,8 @@ class EventsFragment : BaseFragment() {
                             Prefs.backgroundColor
                     )
                     doAsync {
-                        eventAdapter.loadEvents()
+                        val events: List<Event> = EventRepository.fetch()
+                        Aardvark.eventDatabase.eventDao().insertEvents(events)
                         uiThread { isRefreshing = false }
                     }
                 }

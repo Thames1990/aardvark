@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.setMenuIcons
+import ca.allanwang.kau.utils.string
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,14 +16,15 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions.loadRawResourceStyle
 import com.google.maps.android.clustering.ClusterManager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
-import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
@@ -119,7 +121,7 @@ class MapFragment : BaseFragment() {
             }
 
             doAsync {
-                with(MainActivity.events) {
+                with(Aardvark.eventDatabase.eventDao().getAllEvents()) {
                     addItems(this)
                     uiThread { cluster() }
                 }
@@ -128,14 +130,25 @@ class MapFragment : BaseFragment() {
     }
 
     private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
-        if (MainActivity.events.isNotEmpty()) {
-            val builder = LatLngBounds.builder()
-            doAsync {
-                MainActivity.events.forEach { builder.include(it.position) }
-                uiThread {
-                    with(builder.build()) {
-                        googleMap.setLatLngBoundsForCameraTarget(this)
-                        googleMap.cameraUpdate(bounds = this, animate = animate)
+        doAsync {
+            val now = System.currentTimeMillis()
+            val events: List<Event> = Aardvark.eventDatabase.eventDao().getAllEvents()
+            uiThread {
+                val later = System.currentTimeMillis()
+                val timePassed = later - now
+                with(context!!) {
+                    toast(String.format(string(R.string.event_loading_time), timePassed))
+                }
+                if (events.isNotEmpty()) {
+                    val builder = LatLngBounds.builder()
+                    doAsync {
+                        events.forEach { builder.include(it.position) }
+                        uiThread {
+                            with(builder.build()) {
+                                googleMap.setLatLngBoundsForCameraTarget(this)
+                                googleMap.cameraUpdate(bounds = this, animate = animate)
+                            }
+                        }
                     }
                 }
             }

@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.model.event
 
 import android.annotation.SuppressLint
+import android.arch.persistence.room.Entity
 import android.location.Location
 import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
@@ -21,11 +22,17 @@ import java.util.*
  * @param measurements Measurements recorded by the event
  */
 @SuppressLint("ParcelCreator")
+@Entity(tableName = "events", primaryKeys = ["time", "geohashLocation"])
 @Parcelize
 data class Event(
-        val time: Long,
-        @Json(name = "location") private val geohashLocation: GeohashLocation,
-        val measurements: List<Measurement>
+        var time: Long = 0,
+        @Json(name = "location")
+        var geohashLocation: GeohashLocation = GeohashLocation(
+                latitude = 0.0,
+                longitude = 0.0,
+                geohash = ""
+        ),
+        var measurements: List<Measurement> = listOf()
 ) : ClusterItem, Parcelable {
 
     /** Generates a [location][Location] from the [geohash location][geohashLocation]. **/

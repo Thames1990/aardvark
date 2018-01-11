@@ -21,7 +21,6 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
-import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationLiveData
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.distanceToString
@@ -58,7 +57,7 @@ class EventAdapter(
      *
      * This will be moved to a Room database.
      */
-    private var events: List<Event> by Delegates.observable(emptyList()) { _, old, new ->
+    var events: List<Event> by Delegates.observable(emptyList()) { _, old, new ->
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
     }
 
@@ -73,11 +72,6 @@ class EventAdapter(
             holder.bindTo(events[position], listener)
 
     override fun getItemCount(): Int = events.size
-
-    /** Loads [events][Event] from the API server. **/
-    fun loadEvents() {
-        events = EventRepository.fetch()
-    }
 
     /**
      * Sorts [events] by a [distance][EventComparator.DISTANCE], [time][EventComparator.TIME] or

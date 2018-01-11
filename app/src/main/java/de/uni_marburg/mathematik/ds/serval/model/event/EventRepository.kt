@@ -25,7 +25,7 @@ object EventRepository {
     }
 
     /** JSON converter */
-    private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+    val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
     /** Json converter adapter for [events][Event] */
     private val eventAdapter: JsonAdapter<Event> = moshi.adapter(Event::class.java)
