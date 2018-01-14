@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.*
 import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.setMenuIcons
-import ca.allanwang.kau.utils.string
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,7 +23,6 @@ import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
@@ -131,14 +129,8 @@ class MapFragment : BaseFragment() {
 
     private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
         doAsync {
-            val now = System.currentTimeMillis()
             val events: List<Event> = Aardvark.eventDatabase.eventDao().getAllEvents()
             uiThread {
-                val later = System.currentTimeMillis()
-                val timePassed = later - now
-                with(context!!) {
-                    toast(String.format(string(R.string.event_loading_time), timePassed))
-                }
                 if (events.isNotEmpty()) {
                     val builder = LatLngBounds.builder()
                     doAsync {

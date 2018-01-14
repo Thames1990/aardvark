@@ -25,14 +25,10 @@ import java.util.*
 @Entity(tableName = "events", primaryKeys = ["time", "geohashLocation"])
 @Parcelize
 data class Event(
-        var time: Long = 0,
+        var time: Long,
         @Json(name = "location")
-        var geohashLocation: GeohashLocation = GeohashLocation(
-                latitude = 0.0,
-                longitude = 0.0,
-                geohash = ""
-        ),
-        var measurements: List<Measurement> = listOf()
+        var geohashLocation: GeohashLocation,
+        var measurements: List<Measurement>
 ) : ClusterItem, Parcelable {
 
     /** Generates a [location][Location] from the [geohash location][geohashLocation]. **/

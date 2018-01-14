@@ -103,6 +103,7 @@ class EventsFragment : BaseFragment() {
                     )
                     doAsync {
                         val events: List<Event> = EventRepository.fetch()
+                        eventAdapter.events = events
                         Aardvark.eventDatabase.eventDao().insertEvents(events)
                         uiThread { isRefreshing = false }
                     }
