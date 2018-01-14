@@ -76,6 +76,7 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$architecture_components_version"
     implementation "android.arch.persistence.room:runtime:$architecture_components_version"
     kapt "android.arch.persistence.room:compiler:$architecture_components_version"
+    implementation "android.arch.paging:runtime:$paging_version"
 
     // Crashlytics
     implementation "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
