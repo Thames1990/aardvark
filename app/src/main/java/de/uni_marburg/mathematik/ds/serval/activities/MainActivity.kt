@@ -32,8 +32,6 @@ import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
-import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import org.jetbrains.anko.doAsync
@@ -77,7 +75,7 @@ class MainActivity : BaseActivity() {
         }
         setContentView(Prefs.mainActivityLayout.layoutRes)
         // TODO Set loading fragment
-        loadEvents()
+        tabs.init()
         setSupportActionBar(toolbar)
         setupDrawer(savedInstanceState)
         setAardvarkColors {
@@ -169,24 +167,6 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun loadEvents() {
-        doAsync {
-            val now = System.currentTimeMillis()
-            if (isNetworkAvailable) {
-                val events: List<Event> = EventRepository.fetch()
-                Aardvark.eventDatabase.eventDao().insertEvents(events)
-            }
-            uiThread {
-                val later = System.currentTimeMillis()
-                val timePassed = later - now
-                coordinator.aardvarkSnackbar(
-                        String.format(string(R.string.event_loading_time), timePassed)
-                )
-                tabs.init()
-            }
-        }
-    }
-
     private fun TabLayout.init() {
         addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -209,7 +189,7 @@ class MainActivity : BaseActivity() {
             addTab(newTab().setCustomView(BadgedIcon(context).apply {
                 iicon = aardvarkItem.icon
                 doAsync {
-                    val eventCount: Int = Aardvark.eventDatabase.eventDao().getAllEvents().size
+                    val eventCount: Int = Aardvark.eventDao.getAllEvents().size
                     uiThread {
                         if (index == 1) badgeText = eventCount.toString()
                     }

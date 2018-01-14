@@ -9,6 +9,7 @@ import com.github.ajalt.reprint.core.Reprint
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import de.uni_marburg.mathematik.ds.serval.model.event.EventDao
 import de.uni_marburg.mathematik.ds.serval.model.event.EventDatabase
 import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
@@ -22,7 +23,7 @@ class Aardvark : Application() {
         lateinit var refWatcher: RefWatcher
         lateinit var lifecycle: Lifecycle
         lateinit var authenticationListener: AuthenticationListener
-        lateinit var eventDatabase: EventDatabase
+        lateinit var eventDao: EventDao
 
         fun requireAuthentication(authenticate: Boolean = Prefs.secure_app) {
             if (authenticate) lifecycle.addObserver(authenticationListener)
@@ -38,7 +39,7 @@ class Aardvark : Application() {
     }
 
     private fun initialize() {
-        eventDatabase = EventDatabase.getInstance(this)
+        eventDao = EventDatabase.getInstance(applicationContext).eventDao()
 
         Prefs.initialize(this, BuildConfig.APPLICATION_ID)
 
