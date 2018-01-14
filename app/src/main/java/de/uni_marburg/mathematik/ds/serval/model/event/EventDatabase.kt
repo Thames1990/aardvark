@@ -7,9 +7,6 @@ import com.squareup.moshi.Types
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.utils.SingletonHolder
 
-/**
- * Created by thames1990 on 10.01.18.
- */
 @Database(entities = [Event::class], version = 1, exportSchema = false)
 @TypeConverters(EventConverters::class)
 abstract class EventDatabase : RoomDatabase() {

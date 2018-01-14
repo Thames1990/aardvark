@@ -80,7 +80,7 @@ class EventsFragment : BaseFragment() {
     private fun setupRecyclerView() {
         with(context!!) {
             if (isNetworkAvailable) doAsync {
-                eventAdapter.events = Aardvark.eventDao.getAllEvents()
+                eventAdapter.events = Aardvark.eventDao.getAll()
                 uiThread {
                     recycler_view.apply {
                         withLinearAdapter(eventAdapter)
@@ -104,7 +104,7 @@ class EventsFragment : BaseFragment() {
                     doAsync {
                         val events: List<Event> = EventRepository.fetch()
                         eventAdapter.events = events
-                        Aardvark.eventDao.insertEvents(events)
+                        Aardvark.eventDao.insertAll(events)
                         uiThread { isRefreshing = false }
                     }
                 }

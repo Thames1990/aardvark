@@ -39,7 +39,7 @@ class Aardvark : Application() {
     }
 
     private fun initialize() {
-        eventDao = EventDatabase.getInstance(applicationContext).eventDao()
+        eventDao = EventDatabase.getInstance(this).eventDao()
 
         Prefs.initialize(this, BuildConfig.APPLICATION_ID)
 

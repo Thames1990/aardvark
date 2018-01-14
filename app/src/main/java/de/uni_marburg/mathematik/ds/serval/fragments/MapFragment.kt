@@ -119,7 +119,7 @@ class MapFragment : BaseFragment() {
             }
 
             doAsync {
-                with(Aardvark.eventDao.getAllEvents()) {
+                with(Aardvark.eventDao.getAll()) {
                     addItems(this)
                     uiThread { cluster() }
                 }
@@ -129,7 +129,7 @@ class MapFragment : BaseFragment() {
 
     private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
         doAsync {
-            val events: List<Event> = Aardvark.eventDao.getAllEvents()
+            val events: List<Event> = Aardvark.eventDao.getAll()
             uiThread {
                 if (events.isNotEmpty()) {
                     val builder = LatLngBounds.builder()

@@ -189,7 +189,7 @@ class MainActivity : BaseActivity() {
             addTab(newTab().setCustomView(BadgedIcon(context).apply {
                 iicon = aardvarkItem.icon
                 doAsync {
-                    val eventCount: Int = Aardvark.eventDao.getAllEvents().size
+                    val eventCount: Int = Aardvark.eventDao.count()
                     uiThread {
                         if (index == 1) badgeText = eventCount.toString()
                     }

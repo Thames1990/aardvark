@@ -1,8 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
-/**
- * Created by thames1990 on 11.01.18.
- */
 open class SingletonHolder<out T, in A>(creator: (A) -> T) {
 
     private var creator: ((A) -> T)? = creator
