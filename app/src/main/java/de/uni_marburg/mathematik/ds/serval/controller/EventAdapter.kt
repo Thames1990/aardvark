@@ -1,11 +1,9 @@
 package de.uni_marburg.mathematik.ds.serval.controller
 
 import android.Manifest
-import android.arch.lifecycle.Observer
 import android.graphics.PorterDuff
 import android.location.Location
 import android.support.constraint.ConstraintLayout
-import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +19,6 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
-import de.uni_marburg.mathematik.ds.serval.model.location.LocationLiveData
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.distanceToString
 import de.uni_marburg.mathematik.ds.serval.utils.timeToString
@@ -31,16 +28,8 @@ import java.util.*
 import kotlin.properties.Delegates
 import kotlin.with
 
-/**
- * Adapter for [events][Event]
- *
- * @param activity Calling activity
- * @param listener Click listener
- */
-class EventAdapter(
-        private val activity: FragmentActivity,
-        private val listener: (Event) -> Unit
-) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(), AutoUpdatableAdapter {
+class EventAdapter(private val listener: (Event) -> Unit) :
+        RecyclerView.Adapter<EventAdapter.EventViewHolder>(), AutoUpdatableAdapter {
 
     /**
      * The last known location.
@@ -61,12 +50,8 @@ class EventAdapter(
         autoNotify(old, new) { event1, event2 -> event1.time == event2.time }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        LocationLiveData(activity).observe(activity, Observer<Location> { location ->
-            location?.let { lastLocation -> this.lastLocation = lastLocation }
-        })
-        return EventViewHolder(parent.inflate(R.layout.event_row), lastLocation)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder =
+            EventViewHolder(parent.inflate(R.layout.event_row), lastLocation)
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) =
             holder.bindTo(events[position], listener)

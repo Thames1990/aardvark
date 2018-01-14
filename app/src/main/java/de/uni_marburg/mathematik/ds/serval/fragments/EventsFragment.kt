@@ -2,7 +2,9 @@ package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.Aardvark
@@ -24,33 +26,16 @@ class EventsFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_events
 
-    private val eventAdapter: EventAdapter by lazy {
-        EventAdapter(activity!!) { event ->
-            context!!.startActivity<DetailActivity>(
-                    params = *arrayOf(
-                            DetailActivity.EVENT to event,
-                            DetailActivity.SHOW_MAP to true
-                    )
-            )
-        }
-    }
+    private lateinit var eventAdapter: EventAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupRecyclerView()
-    }
-
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
         setHasOptionsMenu(true)
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setupRecyclerView()
         setupRefresh()
     }
 
@@ -78,17 +63,31 @@ class EventsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        with(context!!) {
-            if (isNetworkAvailable) doAsync {
-                eventAdapter.events = Aardvark.eventDao.getAll()
-                uiThread {
-                    recycler_view.apply {
-                        withLinearAdapter(eventAdapter)
-                        withDividerDecoration(context, DividerItemDecoration.VERTICAL)
-                        setBackgroundColor(Prefs.backgroundColor)
-                    }
-                }
-            } else toast(string(R.string.toast_network_disconnected))
+        eventAdapter = EventAdapter {
+            context!!.startActivity<DetailActivity>(
+                    DetailActivity.EVENT to it, DetailActivity.SHOW_MAP to true
+            )
+        }
+
+        recycler_view.apply {
+            withLinearAdapter(eventAdapter)
+            withDividerDecoration(context, DividerItemDecoration.VERTICAL)
+            setBackgroundColor(Prefs.backgroundColor)
+        }
+
+        doAsync {
+            val events: List<Event>
+
+            if (context!!.isNetworkAvailable) {
+                events = EventRepository.fetch()
+                Aardvark.eventDao.insertAll(events)
+            } else {
+                events = Aardvark.eventDao.getAll()
+            }
+
+            uiThread {
+                eventAdapter.events = events
+            }
         }
     }
 
