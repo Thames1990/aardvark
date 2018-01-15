@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.view.Menu
 import android.view.MenuInflater
+import ca.allanwang.kau.animators.KauAnimator
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
@@ -59,6 +60,7 @@ class EventsFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         recycler_view.apply {
+            itemAnimator = KauAnimator()
             withLinearAdapter(eventAdapter)
             withDividerDecoration(context, DividerItemDecoration.VERTICAL)
             setBackgroundColor(Prefs.backgroundColor)
