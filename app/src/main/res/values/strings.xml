@@ -220,7 +220,7 @@
     <string name="tint_nav">Tint nav bar</string>
     <string name="tint_nav_desc">Navigation bar will be the same color as the header</string>
 
-    <string name="toast_network_disconnected">No network connectivity</string>
+    <string name="network_disconnected">No network connectivity</string>
 
     <string name="tools_distance" translatable="false">392 m</string>
     <string name="tools_measurement_type" translatable="false">Radiation</string>

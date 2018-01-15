@@ -1,6 +1,10 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.support.design.internal.SnackbarContentLayout
+import android.support.design.widget.Snackbar
+import android.widget.FrameLayout
 import ca.allanwang.kau.utils.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.crashlytics.android.answers.Answers
@@ -22,6 +26,20 @@ fun aardvarkAnswersCustom(name: String, vararg events: Pair<String, Any>) {
                 else putCustomAttribute(key, value.toString())
             }
         })
+    }
+}
+
+@SuppressLint("RestrictedApi")
+inline fun aardvarkSnackbar(crossinline builder: Snackbar.() -> Unit): Snackbar.() -> Unit = {
+    builder()
+    // Hacky workaround, but it has proper checks and shouldn't crash
+    ((view as? FrameLayout)?.getChildAt(0) as? SnackbarContentLayout)?.apply {
+        messageView.setTextColor(Prefs.textColor)
+        actionView.setTextColor(Prefs.accentColor)
+        //only set if previous text colors are set
+        view.setBackgroundColor(
+                Prefs.backgroundColor.withAlpha(255).colorToForeground(0.1f)
+        )
     }
 }
 
