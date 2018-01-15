@@ -17,11 +17,11 @@ class EventAdapter(
 
     companion object {
         private val diffCallback = object : DiffCallback<Event>() {
-            override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean =
-                    oldItem == newItem
+            override fun areContentsTheSame(oldEvent: Event, newEvent: Event): Boolean =
+                    oldEvent == newEvent
 
-            override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean =
-                    oldItem.id == newItem.id
+            override fun areItemsTheSame(oldEvent: Event, newEvent: Event): Boolean =
+                    oldEvent.id == newEvent.id
 
         }
     }
