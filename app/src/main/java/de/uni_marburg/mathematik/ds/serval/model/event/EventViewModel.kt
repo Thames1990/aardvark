@@ -10,7 +10,7 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     val dao = EventDatabase.get(application).eventDao()
 
     companion object {
-        private const val PAGE_SIZE = 30
+        private const val PAGE_SIZE = 100
         private const val ENABLE_PLACEHOLDERS = true
     }
 
