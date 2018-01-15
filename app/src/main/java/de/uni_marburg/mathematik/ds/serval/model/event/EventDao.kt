@@ -11,6 +11,9 @@ interface EventDao {
     @Query("SELECT COUNT(*) FROM events")
     fun count(): Int
 
+    @Query("SELECT * FROM events WHERE id = :id")
+    fun getById(id: Long): Event
+
     @Query("SELECT * FROM events")
     fun getAll(): List<Event>
 

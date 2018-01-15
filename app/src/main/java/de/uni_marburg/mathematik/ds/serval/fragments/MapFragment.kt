@@ -4,9 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.setMenuIcons
 import com.google.android.gms.maps.CameraUpdate
@@ -43,9 +41,13 @@ class MapFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_map
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
         setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     @SuppressLint("MissingPermission")
@@ -115,7 +117,7 @@ class MapFragment : BaseFragment() {
             setOnClusterItemInfoWindowClickListener {
                 context!!.startActivity<DetailActivity>(
                         params = *arrayOf(
-                                DetailActivity.EVENT to it,
+                                DetailActivity.EVENT_ID to it.id,
                                 DetailActivity.SHOW_MAP to false
                         )
                 )

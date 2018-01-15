@@ -14,11 +14,14 @@ import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.model.event.EventDatabase
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 import de.uni_marburg.mathematik.ds.serval.utils.timeToString
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.*
 
 /** Displays all details of an [event][Event]. */
@@ -31,15 +34,19 @@ class DetailActivity : ElasticRecyclerActivity() {
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         setSecureFlag()
         setCurrentScreen()
-        event = intent.extras.getParcelable(EVENT)
-        title = event.title
-        recycler.adapter = setupAdapter()
-        fab.apply {
-            setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
-            setOnClickListener { showInGoogleMaps() }
-            show()
+        doAsync {
+            event = EventDatabase.get(application).eventDao().getById(intent.extras.getLong(EVENT_ID))
+            uiThread {
+                title = event.title
+                recycler.adapter = setupAdapter()
+                fab.apply {
+                    setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
+                    setOnClickListener { showInGoogleMaps() }
+                    show()
+                }
+                setOutsideTapListener { finishAfterTransition() }
+            }
         }
-        setOutsideTapListener { finishAfterTransition() }
         return true
     }
 
@@ -78,7 +85,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     companion object {
-        const val EVENT = "EVENT"
+        const val EVENT_ID = "EVENT_ID"
         const val SHOW_MAP = "SHOW_MAP"
     }
 }

@@ -4,7 +4,6 @@ plugins {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
@@ -22,12 +21,8 @@ android {
         targetSdkVersion 27
         versionName androidGitVersion.name()
         versionCode androidGitVersion.code()
-
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-
         setProperty('archivesBaseName', "aardvark-$versionName")
-
-        androidExtensions { experimental = true }
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 
