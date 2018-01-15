@@ -15,10 +15,12 @@ import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.model.event.EventAdapter
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import de.uni_marburg.mathematik.ds.serval.utils.withDividerDecoration
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
+
 
 class EventsFragment : BaseFragment() {
 
@@ -77,26 +79,25 @@ class EventsFragment : BaseFragment() {
             setBackgroundColor(Prefs.backgroundColor)
         }
 
-        if (context!!.isNetworkAvailable) {
-            eventViewModel.reload()
+        with(context!!) {
+            if (isNetworkAvailable) eventViewModel.reload()
+            else recyclerView.aardvarkSnackbar(string(R.string.network_disconnected))
         }
     }
 
     private fun setupRefresh() {
-        with(context!!) {
-            if (isNetworkAvailable) swipeRefreshLayout.apply {
-                setOnRefreshListener {
-                    setColorSchemeColors(
-                            Prefs.backgroundColor,
-                            Prefs.accentColor,
-                            Prefs.backgroundColor
-                    )
+        swipeRefreshLayout.apply {
+            setOnRefreshListener {
+                if (context.isNetworkAvailable) {
                     doAsync {
                         eventViewModel.reload()
                         uiThread { isRefreshing = false }
                     }
+                } else {
+                    isRefreshing = false
+                    aardvarkSnackbar(context.string(R.string.network_disconnected))
                 }
-            } else toast(string(R.string.toast_network_disconnected))
+            }
         }
     }
 }
