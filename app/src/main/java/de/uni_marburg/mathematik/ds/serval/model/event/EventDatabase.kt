@@ -1,11 +1,11 @@
 package de.uni_marburg.mathematik.ds.serval.model.event
 
+import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.*
 import android.content.Context
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Types
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
-import de.uni_marburg.mathematik.ds.serval.utils.SingletonHolder
+import java.util.concurrent.Executors
 
 @Database(entities = [Event::class], version = 1, exportSchema = false)
 @TypeConverters(EventConverters::class)
@@ -13,13 +13,31 @@ abstract class EventDatabase : RoomDatabase() {
 
     abstract fun eventDao(): EventDao
 
-    companion object : SingletonHolder<EventDatabase, Context>({
-        Room.databaseBuilder(
-                it.applicationContext,
-                EventDatabase::class.java,
-                BuildConfig.APPLICATION_ID
-        ).build()
-    })
+    companion object {
+        private var instance: EventDatabase? = null
+
+        @Synchronized
+        fun get(context: Context): EventDatabase {
+            if (instance == null) {
+                instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        EventDatabase::class.java,
+                        BuildConfig.APPLICATION_ID
+                ).addCallback(object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        fillInDb(context.applicationContext)
+                    }
+                }).build()
+            }
+            return instance!!
+        }
+
+        fun fillInDb(context: Context) {
+            ioThread {
+                get(context).eventDao().insert(EventRepository.fetch())
+            }
+        }
+    }
 
 }
 
@@ -55,4 +73,10 @@ class EventConverters {
     fun fromGeohashLocationObject(geohashLocation: GeohashLocation): String {
         return geohashLocationAdapter.toJson(geohashLocation)
     }
+}
+
+private val ioExecutor = Executors.newSingleThreadExecutor()
+
+fun ioThread(f: () -> Unit) {
+    ioExecutor.execute(f)
 }

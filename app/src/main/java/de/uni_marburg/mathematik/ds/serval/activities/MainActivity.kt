@@ -3,12 +3,13 @@ package de.uni_marburg.mathematik.ds.serval.activities
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.Toolbar
 import android.view.Menu
@@ -25,13 +26,13 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.Drawer
-import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
+import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import org.jetbrains.anko.doAsync
@@ -43,11 +44,17 @@ class MainActivity : BaseActivity() {
     private lateinit var drawerHeader: AccountHeader
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
-    private val coordinator: CoordinatorLayout by bindView(R.id.main_content)
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
 
-    private val fragments = listOf(DashboardFragment(), EventsFragment(), MapFragment())
+    private val dashboardFragment = DashboardFragment()
+    private val eventsFragment = EventsFragment()
+    private val mapFragment = MapFragment()
+    private val fragments = listOf(dashboardFragment, eventsFragment, mapFragment)
+
+    private val eventViewModel by lazy(LazyThreadSafetyMode.NONE) {
+        ViewModelProviders.of(this).get(EventViewModel::class.java)
+    }
 
     companion object {
         const val ACTIVITY_SETTINGS = 1 shl 1
@@ -58,6 +65,22 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(Prefs.mainActivityLayout.layoutRes)
+        checkForNewVersion()
+        tabs.init()
+        setSupportActionBar(toolbar)
+        setupDrawer(savedInstanceState)
+        setAardvarkColors {
+            toolbar(toolbar)
+            themeWindow = false
+            header(appBar)
+        }
+        eventViewModel.allEvents.observe(this, Observer {
+            tabs.reloadTabs()
+        })
+    }
+
+    private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
             if (!BuildConfig.DEBUG) {
@@ -73,17 +96,6 @@ class MainActivity : BaseActivity() {
                 )
             }
         }
-        setContentView(Prefs.mainActivityLayout.layoutRes)
-        // TODO Set loading fragment
-        tabs.init()
-        setSupportActionBar(toolbar)
-        setupDrawer(savedInstanceState)
-        setAardvarkColors {
-            toolbar(toolbar)
-            themeWindow = false
-            header(appBar)
-        }
-        tabs.setBackgroundColor(Prefs.mainActivityLayout.backgroundColor())
     }
 
     @SuppressLint("NewApi")
@@ -185,13 +197,21 @@ class MainActivity : BaseActivity() {
 
             override fun onTabReselected(tab: TabLayout.Tab) = Unit
         })
+        setBackgroundColor(Prefs.mainActivityLayout.backgroundColor())
+        reloadTabs()
+    }
+
+    private fun TabLayout.reloadTabs() {
+        removeAllTabs()
         AardvarkItem.values().mapIndexed { index, aardvarkItem ->
             addTab(newTab().setCustomView(BadgedIcon(context).apply {
                 iicon = aardvarkItem.icon
                 doAsync {
-                    val eventCount: Int = Aardvark.eventDao.count()
+                    val eventCount: Int = eventViewModel.dao.count()
                     uiThread {
-                        if (index == 1) badgeText = eventCount.toString()
+                        if (index == fragments.indexOf(eventsFragment)) {
+                            badgeText = eventCount.toString()
+                        }
                     }
                 }
             }))

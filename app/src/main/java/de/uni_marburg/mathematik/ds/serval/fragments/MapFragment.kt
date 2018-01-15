@@ -2,8 +2,11 @@ package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.setMenuIcons
 import com.google.android.gms.maps.CameraUpdate
@@ -15,11 +18,11 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions.loadRawResourceStyle
 import com.google.maps.android.clustering.ClusterManager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
@@ -33,16 +36,16 @@ class MapFragment : BaseFragment() {
         childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
     }
 
+    private val eventViewModel by lazy(LazyThreadSafetyMode.NONE) {
+        ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
+    }
+
     override val layout: Int
         get() = R.layout.fragment_map
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     @SuppressLint("MissingPermission")
@@ -119,7 +122,7 @@ class MapFragment : BaseFragment() {
             }
 
             doAsync {
-                with(Aardvark.eventDao.getAll()) {
+                with(eventViewModel.dao.getAll()) {
                     addItems(this)
                     uiThread { cluster() }
                 }
@@ -129,7 +132,7 @@ class MapFragment : BaseFragment() {
 
     private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
         doAsync {
-            val events: List<Event> = Aardvark.eventDao.getAll()
+            val events: List<Event> = eventViewModel.dao.getAll()
             uiThread {
                 if (events.isNotEmpty()) {
                     val builder = LatLngBounds.builder()

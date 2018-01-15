@@ -1,19 +1,17 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
-import de.uni_marburg.mathematik.ds.serval.controller.EventAdapter
-import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator.*
-import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
+import de.uni_marburg.mathematik.ds.serval.model.event.EventAdapter
+import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.withDividerDecoration
 import kotlinx.android.synthetic.main.fragment_events.*
@@ -26,11 +24,21 @@ class EventsFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_events
 
-    private lateinit var eventAdapter: EventAdapter
+    private val eventAdapter = EventAdapter {
+        context!!.startActivity<DetailActivity>(
+                DetailActivity.EVENT to it,
+                DetailActivity.SHOW_MAP to true
+        )
+    }
+
+    private val eventViewModel by lazy(LazyThreadSafetyMode.NONE) {
+        ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        eventViewModel.allEvents.observe(this, Observer(eventAdapter::setList))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -49,45 +57,15 @@ class EventsFragment : BaseFragment() {
         )
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = with(eventAdapter) {
-        when (item.itemId) {
-            R.id.sort_distance_ascending -> sortEventsBy(DISTANCE)
-            R.id.sort_distance_descending -> sortEventsBy(DISTANCE, true)
-            R.id.sort_measurements_ascending -> sortEventsBy(MEASUREMENT)
-            R.id.sort_measurements_descending -> sortEventsBy(MEASUREMENT, true)
-            R.id.sort_time_ascending -> sortEventsBy(TIME)
-            R.id.sort_time_descending -> sortEventsBy(TIME, true)
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
-    }
-
     private fun setupRecyclerView() {
-        eventAdapter = EventAdapter {
-            context!!.startActivity<DetailActivity>(
-                    DetailActivity.EVENT to it, DetailActivity.SHOW_MAP to true
-            )
-        }
-
         recycler_view.apply {
             withLinearAdapter(eventAdapter)
             withDividerDecoration(context, DividerItemDecoration.VERTICAL)
             setBackgroundColor(Prefs.backgroundColor)
         }
 
-        doAsync {
-            val events: List<Event>
-
-            if (context!!.isNetworkAvailable) {
-                events = EventRepository.fetch()
-                Aardvark.eventDao.insertAll(events)
-            } else {
-                events = Aardvark.eventDao.getAll()
-            }
-
-            uiThread {
-                eventAdapter.events = events
-            }
+        if (context!!.isNetworkAvailable) {
+            eventViewModel.reload()
         }
     }
 
@@ -101,9 +79,7 @@ class EventsFragment : BaseFragment() {
                             Prefs.backgroundColor
                     )
                     doAsync {
-                        val events: List<Event> = EventRepository.fetch()
-                        eventAdapter.events = events
-                        Aardvark.eventDao.insertAll(events)
+                        eventViewModel.reload()
                         uiThread { isRefreshing = false }
                     }
                 }

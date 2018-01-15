@@ -26,9 +26,11 @@ import java.util.*
 @Entity(tableName = "events")
 @Parcelize
 data class Event(
-        @PrimaryKey(autoGenerate = true) val id: Long,
+        @PrimaryKey(autoGenerate = true)
+        val id: Long = 0,
         val time: Long,
-        @Json(name = "location") val geohashLocation: GeohashLocation,
+        @Json(name = "location")
+        val geohashLocation: GeohashLocation,
         val measurements: List<Measurement>
 ) : ClusterItem, Parcelable {
 
