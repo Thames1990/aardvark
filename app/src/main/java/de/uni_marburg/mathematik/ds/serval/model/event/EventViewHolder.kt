@@ -57,7 +57,7 @@ class EventViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         )
         if (hasLocationPermission) {
             locationIconView.setIcon(
-                    icon = GoogleMaterial.Icon.gmd_my_location,
+                    icon = GoogleMaterial.Icon.gmd_location_on,
                     color = Prefs.iconColor
             )
             locationView.apply {
