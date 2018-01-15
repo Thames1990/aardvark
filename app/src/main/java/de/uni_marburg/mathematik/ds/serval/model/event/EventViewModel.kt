@@ -5,9 +5,6 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 
-/**
- * Created by thames1990 on 15.01.18.
- */
 class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     val dao = EventDatabase.get(application).eventDao()
@@ -26,6 +23,7 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     ).build()
 
     fun reload() = ioThread {
+        dao.deleteAll()
         dao.insert(EventRepository.fetch())
     }
 }

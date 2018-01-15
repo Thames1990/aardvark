@@ -28,4 +28,7 @@ interface EventDao {
 
     @Insert
     fun insert(events: List<Event>)
+
+    @Query("DELETE FROM events")
+    fun deleteAll()
 }
