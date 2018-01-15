@@ -78,11 +78,6 @@ class EventsFragment : BaseFragment() {
             withDividerDecoration(context, DividerItemDecoration.VERTICAL)
             setBackgroundColor(Prefs.backgroundColor)
         }
-
-        with(context!!) {
-            if (isNetworkAvailable) eventViewModel.reload()
-            else recyclerView.aardvarkSnackbar(string(R.string.network_disconnected))
-        }
     }
 
     private fun setupRefresh() {

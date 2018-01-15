@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.model.event
 
+import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.*
 import android.content.Context
 import com.squareup.moshi.JsonAdapter
@@ -22,7 +23,13 @@ abstract class EventDatabase : RoomDatabase() {
                         context.applicationContext,
                         EventDatabase::class.java,
                         BuildConfig.APPLICATION_ID
-                ).build()
+                ).addCallback(object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        ioThread {
+                            get(context).eventDao().insert(EventRepository.fetch())
+                        }
+                    }
+                }).build()
             }
             return instance!!
         }
