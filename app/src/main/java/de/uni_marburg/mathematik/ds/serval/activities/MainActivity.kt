@@ -67,7 +67,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(Prefs.mainActivityLayout.layoutRes)
+        setContentView(Prefs.mainActivityLayout.layoutResId)
         setSupportActionBar(toolbar)
 
         setAardvarkColors {

@@ -7,23 +7,23 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
 /** Created by thames1990 on 04.12.17. */
 enum class MainActivityLayout(
-        @StringRes val titleRes: Int,
-        @LayoutRes val layoutRes: Int,
+        @StringRes val titleResId: Int,
+        @LayoutRes val layoutResId: Int,
         val backgroundColor: () -> Int,
         val iconColor: () -> Int
 ) {
     TOP_BAR(
-            R.string.top_bar,
-            R.layout.activity_main,
-            { Prefs.headerColor },
-            { Prefs.iconColor }
+            titleResId = R.string.top_bar,
+            layoutResId = R.layout.activity_main,
+            backgroundColor = { Prefs.headerColor },
+            iconColor = { Prefs.iconColor }
     ),
 
     BOTTOM_BAR(
-            R.string.bottom_bar,
-            R.layout.activity_main_bottom_tabs,
-            { Prefs.backgroundColor },
-            { Prefs.textColor }
+            titleResId = R.string.bottom_bar,
+            layoutResId = R.layout.activity_main_bottom_tabs,
+            backgroundColor = { Prefs.backgroundColor },
+            iconColor = { Prefs.textColor }
     );
 
     companion object {
