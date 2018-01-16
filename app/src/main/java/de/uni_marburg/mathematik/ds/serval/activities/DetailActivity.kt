@@ -35,7 +35,10 @@ class DetailActivity : ElasticRecyclerActivity() {
         setSecureFlag()
         setCurrentScreen()
         doAsync {
-            event = EventDatabase.get(this@DetailActivity).eventDao().getById(intent.extras.getLong(EVENT_ID))
+            event = EventDatabase
+                    .get(this@DetailActivity)
+                    .eventDao()
+                    .getById(intent.extras.getLong(EVENT_ID))
             uiThread {
                 title = event.title
                 recycler.adapter = setupAdapter()
