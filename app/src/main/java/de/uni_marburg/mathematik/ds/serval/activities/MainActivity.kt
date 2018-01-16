@@ -299,14 +299,14 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun Builder.primaryAardvarkItem(item: AardvarkItem) = this.primaryItem(item.titleId) {
+    private fun Builder.primaryAardvarkItem(item: AardvarkItem) = this.primaryItem(item.titleResId) {
         iicon = item.icon
         iconColor = Prefs.iconColor.toLong()
         textColor = Prefs.textColor.toLong()
         selectedIconColor = Prefs.iconColor.toLong()
         selectedTextColor = Prefs.textColor.toLong()
         selectedColor = 0x00000001.toLong()
-        identifier = item.titleId.toLong()
+        identifier = item.titleResId.toLong()
         onClick { _ ->
             aardvarkAnswers {
                 logContentView(ContentViewEvent()
