@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -43,6 +44,7 @@ class FingerprintActivity : BaseActivity() {
 
     fun theme() {
         setAardvarkColors { text(title, description) }
-        fingerprint.setColorFilter(Prefs.textColor)
+//        fingerprint.setColorFilter(Prefs.textColor)
+        fingerprint.imageTintList = ColorStateList.valueOf(Prefs.textColor)
     }
 }
