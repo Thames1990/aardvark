@@ -195,7 +195,9 @@ class MainActivity : BaseActivity() {
                 supportFragmentManager.beginTransaction().hide(fragment).commit()
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab) = Unit
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                eventViewModel.reload()
+            }
         })
         setBackgroundColor(Prefs.mainActivityLayout.backgroundColor())
         reloadTabs()
