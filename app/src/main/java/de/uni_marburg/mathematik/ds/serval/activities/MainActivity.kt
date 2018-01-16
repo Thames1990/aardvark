@@ -52,6 +52,8 @@ class MainActivity : BaseActivity() {
     private val mapFragment = MapFragment()
     private val fragments = listOf(dashboardFragment, eventsFragment, mapFragment)
 
+    private lateinit var eventBadgedIcon: BadgedIcon
+
     private val eventViewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProviders.of(this).get(EventViewModel::class.java)
     }
@@ -174,7 +176,7 @@ class MainActivity : BaseActivity() {
                         )
                     }
             )
-            else -> return super.onOptionsItemSelected(item)
+            else                 -> return super.onOptionsItemSelected(item)
         }
         return true
     }
@@ -200,25 +202,30 @@ class MainActivity : BaseActivity() {
             }
         })
         setBackgroundColor(Prefs.mainActivityLayout.backgroundColor())
-        reloadTabs()
+        loadTabs()
+    }
+
+    private fun TabLayout.loadTabs() {
+        AardvarkItem.values().map { aardvarkItem ->
+            eventBadgedIcon = BadgedIcon(context).apply {
+                iicon = aardvarkItem.icon
+                doAsync {
+                    val eventCount: Int = eventViewModel.dao.count()
+                    uiThread {
+                        badgeText = eventCount.toString()
+                    }
+                }
+            }
+            addTab(newTab().setCustomView(eventBadgedIcon))
+        }
     }
 
     private fun TabLayout.reloadTabs() {
-        removeAllTabs()
-        AardvarkItem.values().mapIndexed { index, aardvarkItem ->
-            addTab(newTab().setCustomView(
-                    BadgedIcon(context).apply {
-                        iicon = aardvarkItem.icon
-                        doAsync {
-                            val eventCount: Int = eventViewModel.dao.count()
-                            uiThread {
-                                if (index == fragments.indexOf(eventsFragment)) {
-                                    badgeText = eventCount.toString()
-                                }
-                            }
-                        }
-                    })
-            )
+        doAsync {
+            val eventCount: Int = eventViewModel.dao.count()
+            uiThread {
+                eventBadgedIcon.badgeText = eventCount.toString()
+            }
         }
     }
 
