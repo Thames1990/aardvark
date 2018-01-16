@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
+    <string name="aardvark_about">About Aardvark</string>
+    <string name="aardvark_about_description">Version, Credits, and FAQs</string>
     <string name="aardvark_amoled">AMOLED</string>
     <string name="aardvark_custom">Custom</string>
     <string name="aardvark_dark">Dark</string>
-    <string name="aardvark_default">Default</string>
     <string name="aardvark_description">Aardvark is</string>
     <string name="aardvark_light">Light</string>
-    <string name="aardvark_name" tools:override="true" translatable="false">Aardvark</string>
-
-    <string name="about_aardvark">About Aardvark</string>
-    <string name="about_aardvark_description">Version, Credits, and FAQs</string>
-    <string name="about_title">About Aardvark</string>
+    <string name="aardvark_name" translatable="false">Aardvark</string>
 
     <string name="action_change_map_type">Map type</string>
     <string name="action_change_map_type_hybrid">Hybrid</string>
@@ -23,11 +20,11 @@
     <string name="action_sort_events_ascending">Ascending</string>
     <string name="action_sort_events_descending">Descending</string>
     <string name="action_sort_events_distance">@string/distance</string>
-    <string name="action_sort_events_measurements">Measurements</string>
+    <string name="action_sort_events_measurements">@string/measurements</string>
     <string name="action_sort_events_time">Time</string>
     <string name="action_zoom_to_all_markers">Zoom to all markers</string>
 
-    <string name="analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
+    <string name="analytics_description">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
 
     <string name="appearance">Appearance</string>
     <string name="appearance_description">Theme, Items to display, etc</string>
@@ -40,18 +37,14 @@
     <string name="bug_report">Bug Report</string>
 
     <string name="changelog">Changelog</string>
-    <string name="changelog_desc">Show changelogs after updates</string>
-
-    <string name="chat">Chat</string>
+    <string name="changelog_description">Show changelogs after updates</string>
 
     <string name="color_accent">Accent color</string>
     <string name="color_background">Background color</string>
+    <string name="color_header">Header color</string>
+    <string name="color_icon">Icon color</string>
     <string name="color_primary">Primary color</string>
     <string name="color_text">Text color</string>
-
-    <string name="content_description_aardvark" translatable="false">@string/aardvark_name</string>
-    <string name="content_description_location_icon">Location icon</string>
-    <string name="content_description_measurement_icon">Measurement icon</string>
 
     <string name="dashboard">Dashboard</string>
 
@@ -60,10 +53,8 @@
     <string name="debug_disclaimer_info">Please only use these settings if you are absolutely sure, what you are doing!</string>
     <string name="debug_enabled">Debug settings activated</string>
 
-    <string name="details">Details</string>
-
-    <string name="dev_email" translatable="false">ThomasMohr1990@gmail.com</string>
-    <string name="dev_name">Thomas Mohr</string>
+    <string name="developer_email" translatable="false">ThomasMohr1990@gmail.com</string>
+    <string name="developer_name" translatable="false">Thomas Mohr</string>
 
     <string name="distance">Distance</string>
     <string name="distance_in_kilometer">%1$.2f km</string>
@@ -75,10 +66,8 @@
 
     <string name="events">Events</string>
 
-    <string name="experimental_disclaimer">Disclaimer</string>
-
     <string name="fancy_animations">Fancy Animations</string>
-    <string name="fancy_animations_desc">Use ripples and animate transitions</string>
+    <string name="fancy_animations_description">Use ripples and animate transitions</string>
 
     <string name="faq_title">Frequently asked questions</string>
 
@@ -89,31 +78,26 @@
     <string name="fingerprint_required">Access your secured environment</string>
     <string name="fingerprint_required_description">Place your finger on the reader</string>
 
-    <string name="github_url">https://github.com/Thames1990/aardvark</string>
+    <string name="github_url" translatable="false">https://github.com/Thames1990/aardvark</string>
 
     <string name="global_customization">Global Customization</string>
 
-    <string name="header_color">Header color</string>
-
-    <string name="icon_color">Icon color</string>
-
-    <string name="intent_extra_query_from">Query from %1$s</string>
     <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
 
     <string name="intro_context_aware">Context Aware</string>
-    <string name="intro_context_aware_desc">Long press links to copy and share them.\nLong press images to zoom and download.\nLong press cards to scroll horizontally.</string>
+    <string name="intro_context_aware_description">Long press links to copy and share them.\nLong press images to zoom and download.\nLong press cards to scroll horizontally.</string>
     <string name="intro_easy_navigation">Easy Navigation</string>
     <string name="intro_easy_navigation_desc">Slide between views with a swipe, and click the tab icon to go back to the top.\nClick the icon again to reload the page.</string>
     <string name="intro_end">Let\'s begin</string>
     <string name="intro_multiple_accounts">Multiple Accounts</string>
-    <string name="intro_multiple_accounts_desc">Add and switch accounts directly from the navigation bar.\nTap the current avatar to jump to your profile.</string>
+    <string name="intro_multiple_accounts_description">Add and switch accounts directly from the navigation bar.\nTap the current avatar to jump to your profile.</string>
     <string name="intro_select_theme">Select a theme</string>
     <string name="intro_slide_to_continue">Slide to continue</string>
     <string name="intro_tap_to_exit">Tap anywhere to exit</string>
     <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
 
     <string name="license_name">MIT License</string>
-    <string name="license_website">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
+    <string name="license_website" translatable="false">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
 
     <string name="location">Location</string>
     <string name="location_dependency_warning">Caution! Currently the depency between the active and passive location request isn\'t implemented correctly.\nTherefore you could increase the passive interval to a value above the active interval, which should be avoided at all cost.\nYou are using this feature at your own risk!</string>
@@ -142,18 +126,24 @@
         <item quantity="one">%1$d measurement</item>
         <item quantity="other">%1$d measurements</item>
     </plurals>
+    <string name="measurement_precipitation">Precipitation</string>
+    <string name="measurement_radiation">Radiation</string>
+    <string name="measurement_temperature">Temperature</string>
     <string name="measurement_value_precipitation">%1$d mm</string>
     <string name="measurement_value_radiation">%1$d μSv/h</string>
-    <string name="measurement_value_temperature">%1$d °F</string>
-    <string name="measurement_value_wind">%1$d mph</string>
+    <string name="measurement_value_temperature">%1$d °C</string>
+    <string name="measurement_value_wind">%1$d km/h</string>
+    <string name="measurement_wind">Wind</string>
+
+    <string name="measurements">Measurements</string>
+
+    <string name="network_disconnected">No network connectivity</string>
 
     <string name="password">Password</string>
     <string name="password_must_not_be_empty">You need to enter a password</string>
 
     <string name="placeholder_description">The developer was too lazy to include a layout!</string>
-    <string name="placeholder_title" translatable="false">DAMN</string>
-
-    <string name="precipitation">Precipitation</string>
+    <string name="placeholder_title">DAMN</string>
 
     <string name="preference_changelog">Changelog</string>
     <string name="preference_confirm_exit">Confirm exit</string>
@@ -171,8 +161,6 @@
     <string name="preference_use_analytics">Use analytics</string>
     <string name="preference_username_description">Serval API username</string>
 
-    <string name="radiation">Radiation</string>
-
     <string name="replay_intro">Replay Introduction</string>
 
     <string name="requires_custom_theme">Requires custom theme</string>
@@ -188,8 +176,6 @@
     <string name="skip">Skip</string>
 
     <string name="subject">Subject</string>
-
-    <string name="temperature">Temperature</string>
 
     <string name="theme">Theme</string>
     <string name="theme_customization">Theme Customization</string>
@@ -220,8 +206,6 @@
     <string name="tint_nav">Tint nav bar</string>
     <string name="tint_nav_desc">Navigation bar will be the same color as the header</string>
 
-    <string name="network_disconnected">No network connectivity</string>
-
     <string name="tools_distance" translatable="false">392 m</string>
     <string name="tools_measurement_type" translatable="false">Radiation</string>
     <string name="tools_measurement_value" translatable="false">2 μSv/h</string>
@@ -231,6 +215,4 @@
 
     <string name="username">Username</string>
     <string name="username_must_not_be_empty">You need to enter a username</string>
-
-    <string name="wind">Wind</string>
 </resources>

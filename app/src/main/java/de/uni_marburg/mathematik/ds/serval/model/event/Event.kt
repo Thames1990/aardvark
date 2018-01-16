@@ -48,26 +48,26 @@ data class Measurement(val type: MeasurementType, val value: Int)
 enum class MeasurementType(val textRes: Int, val formatRes: Int, val iconRes: Int) {
     @Json(name = "precipitation")
     PRECIPITATION(
-            textRes = R.string.precipitation,
+            textRes = R.string.measurement_precipitation,
             formatRes = R.string.measurement_value_precipitation,
             iconRes = R.drawable.precipitation
     ),
 
     @Json(name = "radiation")
     RADIATION(
-            textRes = R.string.radiation,
+            textRes = R.string.measurement_radiation,
             formatRes = R.string.measurement_value_precipitation,
             iconRes = R.drawable.radiation
     ),
     @Json(name = "temperature")
     TEMPERATURE(
-            textRes = R.string.temperature,
+            textRes = R.string.measurement_temperature,
             formatRes = R.string.measurement_value_precipitation,
             iconRes = R.drawable.temperature
     ),
     @Json(name = "wind")
     WIND(
-            textRes = R.string.wind,
+            textRes = R.string.measurement_wind,
             formatRes = R.string.measurement_value_precipitation,
             iconRes = R.drawable.wind
     )

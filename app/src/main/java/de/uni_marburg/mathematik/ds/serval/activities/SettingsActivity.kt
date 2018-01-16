@@ -51,8 +51,8 @@ class SettingsActivity : KPrefActivity() {
             iicon = GoogleMaterial.Icon.gmd_network_wifi
         }
 
-        plainText(R.string.about_aardvark) {
-            descRes = R.string.about_aardvark_description
+        plainText(R.string.aardvark_about) {
+            descRes = R.string.aardvark_about_description
             iicon = GoogleMaterial.Icon.gmd_info
             onClick = { startActivityForResult(AboutActivity::class.java, 9) }
         }

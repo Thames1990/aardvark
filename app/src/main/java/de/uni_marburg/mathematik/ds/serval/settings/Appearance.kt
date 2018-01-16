@@ -80,7 +80,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
         allowCustomAlpha = true
     }
 
-    colorPicker(R.string.header_color, { Prefs.customHeaderColor }, {
+    colorPicker(R.string.color_header, { Prefs.customHeaderColor }, {
         Prefs.customHeaderColor = it
         aardvarkNavigationBar()
         toolbarCanvas.ripple(it, RippleCanvas.MIDDLE, RippleCanvas.END, duration = 500L)
@@ -91,7 +91,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
         allowCustomAlpha = true
     }
 
-    colorPicker(R.string.icon_color, { Prefs.customIconColor }, {
+    colorPicker(R.string.color_icon, { Prefs.customIconColor }, {
         Prefs.customIconColor = it
         invalidateOptionsMenu()
         shouldRestartMain()

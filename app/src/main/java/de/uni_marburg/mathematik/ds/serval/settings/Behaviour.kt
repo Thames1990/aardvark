@@ -17,11 +17,11 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
         animate = it
         shouldRestartMain()
     }) {
-        descRes = R.string.fancy_animations_desc
+        descRes = R.string.fancy_animations_description
     }
 
     checkbox(R.string.changelog, { Prefs.changelog }, { Prefs.changelog = it }) {
-        descRes = R.string.changelog_desc
+        descRes = R.string.changelog_description
     }
 
     checkbox(R.string.preference_confirm_exit, { Prefs.exitConfirmation }, { Prefs.exitConfirmation = it })
@@ -50,6 +50,6 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
             }
         }
     }) {
-        descRes = R.string.analytics_desc
+        descRes = R.string.analytics_description
     }
 }

@@ -73,7 +73,7 @@ abstract class BaseImageIntroFragment(
 class IntroAccountFragment : BaseImageIntroFragment(
         R.string.intro_multiple_accounts,
         R.drawable.intro_phone_nav,
-        R.string.intro_multiple_accounts_desc
+        R.string.intro_multiple_accounts_description
 ) {
 
     override fun themeFragmentImpl() {
@@ -137,7 +137,7 @@ class IntroTabTouchFragment : BaseImageIntroFragment(
 class IntroTabContextFragment : BaseImageIntroFragment(
         R.string.intro_context_aware,
         R.drawable.intro_phone_long_press,
-        R.string.intro_context_aware_desc
+        R.string.intro_context_aware_description
 ) {
 
     override fun themeFragmentImpl() {
