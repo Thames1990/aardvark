@@ -68,10 +68,10 @@ class SettingsActivity : KPrefActivity() {
 
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
-        setAardvarkTheme()
         super.onCreate(savedInstanceState)
-        setSecureFlag()
         setCurrentScreen()
+        setSecureFlag()
+        setAardvarkTheme()
         animate = Prefs.animate
         themeExterior(false)
     }
