@@ -1,7 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.v7.widget.RecyclerView
@@ -36,9 +36,8 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
     faqParseNewLine = false
 }) {
 
-    @SuppressLint("MissingSuperCall")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
         setCurrentScreen()
     }
 
