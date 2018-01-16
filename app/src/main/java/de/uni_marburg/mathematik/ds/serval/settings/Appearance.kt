@@ -21,7 +21,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
             materialDialogThemed {
                 title(R.string.theme)
                 items(Theme.values()
-                        .map { it.textRes }
+                        .map { it.textResId }
                         .map { string(it) }
                 )
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
@@ -42,7 +42,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
             }
         }
         textGetter = {
-            string(Theme(it).textRes)
+            string(Theme(it).textResId)
         }
     }
 

@@ -6,7 +6,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
 enum class Theme(
-        @StringRes val textRes: Int,
+        @StringRes val textResId: Int,
         private val textColorGetter: () -> Int,
         private val accentColorGetter: () -> Int,
         private val backgroundColorGetter: () -> Int,
@@ -15,39 +15,39 @@ enum class Theme(
 ) {
 
     LIGHT(
-            R.string.kau_light,
-            { 0xde000000.toInt() },
-            { AARDVARK_GREEN },
-            { 0xfffafafa.toInt() },
-            { AARDVARK_GREEN },
-            { Color.WHITE }
+            textResId = R.string.kau_light,
+            textColorGetter = { 0xde000000.toInt() },
+            accentColorGetter = { AARDVARK_GREEN },
+            backgroundColorGetter = { 0xfffafafa.toInt() },
+            headerColorGetter = { AARDVARK_GREEN },
+            iconColorGetter = { Color.WHITE }
     ),
 
     DARK(
-            R.string.kau_dark,
-            { Color.WHITE },
-            { AARDVARK_GREEN_LIGHT },
-            { 0xff303030.toInt() },
-            { 0xff2e4b86.toInt() },
-            { Color.WHITE }
+            textResId = R.string.kau_dark,
+            textColorGetter = { Color.WHITE },
+            accentColorGetter = { AARDVARK_GREEN_LIGHT },
+            backgroundColorGetter = { 0xff303030.toInt() },
+            headerColorGetter = { 0xff2e4b86.toInt() },
+            iconColorGetter = { Color.WHITE }
     ),
 
     AMOLED(
-            R.string.kau_amoled,
-            { Color.WHITE },
-            { AARDVARK_GREEN_LIGHT },
-            { Color.BLACK },
-            { Color.BLACK },
-            { Color.WHITE }
+            textResId = R.string.kau_amoled,
+            textColorGetter = { Color.WHITE },
+            accentColorGetter = { AARDVARK_GREEN_LIGHT },
+            backgroundColorGetter = { Color.BLACK },
+            headerColorGetter = { Color.BLACK },
+            iconColorGetter = { Color.WHITE }
     ),
 
     CUSTOM(
-            R.string.kau_custom,
-            { Prefs.customTextColor },
-            { Prefs.customAccentColor },
-            { Prefs.customBackgroundColor },
-            { Prefs.customHeaderColor },
-            { Prefs.customIconColor }
+            textResId = R.string.kau_custom,
+            textColorGetter = { Prefs.customTextColor },
+            accentColorGetter = { Prefs.customAccentColor },
+            backgroundColorGetter = { Prefs.customBackgroundColor },
+            headerColorGetter = { Prefs.customHeaderColor },
+            iconColorGetter = { Prefs.customIconColor }
     );
 
     val textColor: Int
