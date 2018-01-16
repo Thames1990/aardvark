@@ -77,14 +77,17 @@ class SettingsActivity : KPrefActivity() {
     }
 
     fun themeExterior(animate: Boolean = Prefs.animate) {
-        if (animate) bgCanvas.fade(color = Prefs.backgroundColor)
-        else bgCanvas.set(Prefs.backgroundColor)
-        if (animate) toolbarCanvas.ripple(
-                color = Prefs.headerColor,
-                startX = RippleCanvas.MIDDLE,
-                startY = RippleCanvas.END
-        )
-        else toolbarCanvas.set(color = Prefs.headerColor)
+        if (animate) {
+            bgCanvas.fade(color = Prefs.backgroundColor)
+            toolbarCanvas.ripple(
+                    color = Prefs.headerColor,
+                    startX = RippleCanvas.MIDDLE,
+                    startY = RippleCanvas.END
+            )
+        } else {
+            bgCanvas.set(color = Prefs.backgroundColor)
+            toolbarCanvas.set(color = Prefs.headerColor)
+        }
         aardvarkNavigationBar()
     }
 
@@ -111,7 +114,7 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_email -> materialDialogThemed {
+            R.id.action_email     -> materialDialogThemed {
                 title(R.string.subject)
                 items(Support.values().map { string(it.title) })
                 itemsCallback { _, _, which, _ ->
@@ -119,7 +122,7 @@ class SettingsActivity : KPrefActivity() {
                 }
             }
             R.id.action_changelog -> aardvarkChangelog()
-            else -> return super.onOptionsItemSelected(item)
+            else                  -> return super.onOptionsItemSelected(item)
         }
         return true
     }
