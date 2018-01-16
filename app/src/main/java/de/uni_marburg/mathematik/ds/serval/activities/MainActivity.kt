@@ -204,17 +204,19 @@ class MainActivity : BaseActivity() {
     private fun TabLayout.reloadTabs() {
         removeAllTabs()
         AardvarkItem.values().mapIndexed { index, aardvarkItem ->
-            addTab(newTab().setCustomView(BadgedIcon(context).apply {
-                iicon = aardvarkItem.icon
-                doAsync {
-                    val eventCount: Int = eventViewModel.dao.count()
-                    uiThread {
-                        if (index == fragments.indexOf(eventsFragment)) {
-                            badgeText = eventCount.toString()
+            addTab(newTab().setCustomView(
+                    BadgedIcon(context).apply {
+                        iicon = aardvarkItem.icon
+                        doAsync {
+                            val eventCount: Int = eventViewModel.dao.count()
+                            uiThread {
+                                if (index == fragments.indexOf(eventsFragment)) {
+                                    badgeText = eventCount.toString()
+                                }
+                            }
                         }
-                    }
-                }
-            }))
+                    })
+            )
         }
     }
 
