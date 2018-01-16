@@ -42,17 +42,17 @@ class MainActivity : BaseActivity() {
 
     private lateinit var drawer: Drawer
     private lateinit var drawerHeader: AccountHeader
+    private lateinit var eventBadgedIcon: BadgedIcon
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
 
-    private val dashboardFragment = DashboardFragment()
-    private val eventsFragment = EventsFragment()
-    private val mapFragment = MapFragment()
-    private val fragments = listOf(dashboardFragment, eventsFragment, mapFragment)
-
-    private lateinit var eventBadgedIcon: BadgedIcon
+    private val fragments = listOf(
+            DashboardFragment(),
+            EventsFragment(),
+            MapFragment()
+    )
 
     private val eventViewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProviders.of(this).get(EventViewModel::class.java)
@@ -68,36 +68,19 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(Prefs.mainActivityLayout.layoutRes)
-        checkForNewVersion()
-        tabs.init()
         setSupportActionBar(toolbar)
-        setupDrawer(savedInstanceState)
+
         setAardvarkColors {
             toolbar(toolbar)
             themeWindow = false
             header(appBar)
         }
-        eventViewModel.allEvents.observe(this, Observer {
-            tabs.reloadTabs()
-        })
-    }
 
-    private fun checkForNewVersion() {
-        if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
-            Prefs.versionCode = BuildConfig.VERSION_CODE
-            if (!BuildConfig.DEBUG) {
-                aardvarkChangelog()
-                aardvarkAnswersCustom(
-                        name = "Version",
-                        events = *arrayOf(
-                                "Version code" to BuildConfig.VERSION_CODE,
-                                "Version name" to BuildConfig.VERSION_NAME,
-                                "Build type" to BuildConfig.BUILD_TYPE,
-                                "Aardvark id" to Prefs.aardvarkId
-                        )
-                )
-            }
-        }
+        setupDrawer(savedInstanceState)
+        tabs.setup()
+
+        checkForNewVersion()
+        eventViewModel.allEvents.observe(this, Observer { tabs.reloadTabs() })
     }
 
     @SuppressLint("NewApi")
@@ -181,7 +164,7 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun TabLayout.init() {
+    private fun TabLayout.setup() {
         addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 addFragmentSafely(
@@ -197,9 +180,7 @@ class MainActivity : BaseActivity() {
                 supportFragmentManager.beginTransaction().hide(fragment).commit()
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                eventViewModel.reload()
-            }
+            override fun onTabReselected(tab: TabLayout.Tab) = eventViewModel.reload()
         })
         setBackgroundColor(Prefs.mainActivityLayout.backgroundColor())
         loadTabs()
@@ -231,6 +212,24 @@ class MainActivity : BaseActivity() {
             val eventCount: Int = eventViewModel.dao.count()
             uiThread {
                 eventBadgedIcon.badgeText = eventCount.toString()
+            }
+        }
+    }
+
+    private fun checkForNewVersion() {
+        if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
+            Prefs.versionCode = BuildConfig.VERSION_CODE
+            if (!BuildConfig.DEBUG) {
+                aardvarkChangelog()
+                aardvarkAnswersCustom(
+                        name = "Version",
+                        events = *arrayOf(
+                                "Version code" to BuildConfig.VERSION_CODE,
+                                "Version name" to BuildConfig.VERSION_NAME,
+                                "Build type" to BuildConfig.BUILD_TYPE,
+                                "Aardvark id" to Prefs.aardvarkId
+                        )
+                )
             }
         }
     }
