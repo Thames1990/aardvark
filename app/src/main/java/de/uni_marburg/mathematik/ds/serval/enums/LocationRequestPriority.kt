@@ -4,9 +4,6 @@ import android.support.annotation.StringRes
 import com.google.android.gms.location.LocationRequest
 import de.uni_marburg.mathematik.ds.serval.R
 
-/**
- * Created by thames1990 on 07.01.18.
- */
 enum class LocationRequestPriority(
         val priority: Int,
         @StringRes val textRes: Int,
