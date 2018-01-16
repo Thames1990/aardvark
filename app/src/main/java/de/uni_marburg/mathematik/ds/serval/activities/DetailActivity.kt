@@ -34,6 +34,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         setSecureFlag()
         setCurrentScreen()
+
         doAsync {
             event = EventDatabase
                     .get(this@DetailActivity)
@@ -50,18 +51,21 @@ class DetailActivity : ElasticRecyclerActivity() {
                 setOutsideTapListener { finishAfterTransition() }
             }
         }
+
         return true
     }
 
     private fun setupAdapter(): FastItemAdapter<IItem<*, *>> {
         val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
         if (showMap) adapter.add(MapIItem(event))
+
         adapter.add(CardIItem {
             val timeDifference = Calendar.getInstance().timeInMillis - event.time
             titleRes = R.string.time
             desc = "${event.snippet}\n${timeDifference.timeToString(this@DetailActivity)}"
             imageIIcon = GoogleMaterial.Icon.gmd_access_time
         })
+
         event.measurements.map {
             adapter.add(CardIItem {
                 titleRes = it.type.textRes
@@ -69,6 +73,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 image = drawable(it.type.iconRes).tint(Prefs.iconColor)
             })
         }
+
         return adapter
     }
 
