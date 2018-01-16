@@ -176,7 +176,7 @@ class MainActivity : BaseActivity() {
                         )
                     }
             )
-            else                 -> return super.onOptionsItemSelected(item)
+            else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
@@ -207,16 +207,22 @@ class MainActivity : BaseActivity() {
 
     private fun TabLayout.loadTabs() {
         AardvarkItem.values().map { aardvarkItem ->
-            eventBadgedIcon = BadgedIcon(context).apply {
-                iicon = aardvarkItem.icon
-                doAsync {
-                    val eventCount: Int = eventViewModel.dao.count()
-                    uiThread {
-                        badgeText = eventCount.toString()
+            if (aardvarkItem.ordinal == AardvarkItem.EVENTS.ordinal) {
+                eventBadgedIcon = BadgedIcon(context).apply {
+                    iicon = aardvarkItem.icon
+                    doAsync {
+                        val eventCount: Int = eventViewModel.dao.count()
+                        uiThread {
+                            badgeText = eventCount.toString()
+                        }
                     }
                 }
+                addTab(newTab().setCustomView(eventBadgedIcon))
+            } else {
+                addTab(newTab().setCustomView(BadgedIcon(context).apply {
+                    iicon = aardvarkItem.icon
+                }))
             }
-            addTab(newTab().setCustomView(eventBadgedIcon))
         }
     }
 
