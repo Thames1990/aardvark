@@ -160,8 +160,8 @@ class IntroActivity : BaseActivity() {
                 next,
                 fragments.last().view?.find<View>(R.id.intro_title),
                 fragments.last().view?.find<View>(R.id.intro_desc)
-        ).forEach {
-            it?.animate()?.alpha(0f)?.setDuration(600)?.start()
+        ).forEach { view ->
+            view?.animate()?.alpha(0f)?.setDuration(600)?.start()
         }
         if (Prefs.textColor != Color.WHITE) {
             val f = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
