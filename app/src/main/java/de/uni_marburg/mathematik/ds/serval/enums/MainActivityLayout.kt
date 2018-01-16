@@ -1,11 +1,12 @@
 package de.uni_marburg.mathematik.ds.serval.enums
 
+import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
 /** Created by thames1990 on 04.12.17. */
 enum class MainActivityLayout(
-        val titleRes: Int,
+        @StringRes val titleRes: Int,
         val layoutRes: Int,
         val backgroundColor: () -> Int,
         val iconColor: () -> Int
