@@ -76,7 +76,7 @@ class SettingsActivity : KPrefActivity() {
         themeExterior(false)
     }
 
-    fun themeExterior(animate: Boolean = true) {
+    fun themeExterior(animate: Boolean = Prefs.animate) {
         if (animate) bgCanvas.fade(color = Prefs.backgroundColor)
         else bgCanvas.set(Prefs.backgroundColor)
         if (animate) toolbarCanvas.ripple(
