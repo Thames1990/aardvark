@@ -73,7 +73,7 @@ class SettingsActivity : KPrefActivity() {
         setSecureFlag()
         setAardvarkTheme()
         animate = Prefs.animate
-        themeExterior(false)
+        themeExterior(animate = false)
     }
 
     fun themeExterior(animate: Boolean = Prefs.animate) {
@@ -114,7 +114,7 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_email     -> materialDialogThemed {
+            R.id.action_email -> materialDialogThemed {
                 title(R.string.subject)
                 items(Support.values().map { string(it.title) })
                 itemsCallback { _, _, which, _ ->
@@ -122,7 +122,7 @@ class SettingsActivity : KPrefActivity() {
                 }
             }
             R.id.action_changelog -> aardvarkChangelog()
-            else                  -> return super.onOptionsItemSelected(item)
+            else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
