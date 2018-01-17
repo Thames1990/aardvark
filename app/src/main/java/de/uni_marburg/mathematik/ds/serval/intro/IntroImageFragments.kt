@@ -70,34 +70,6 @@ abstract class BaseImageIntroFragment(
     }
 }
 
-class IntroAccountFragment : BaseImageIntroFragment(
-    R.string.intro_multiple_accounts,
-    R.drawable.intro_phone_nav,
-    R.string.intro_multiple_accounts_description
-) {
-
-    override fun themeFragmentImpl() {
-        super.themeFragmentImpl()
-        themeImageComponent(
-            color = Prefs.textColor,
-            ids = *intArrayOf(R.id.intro_phone_avatar_1, R.id.intro_phone_avatar_2)
-        )
-        themeImageComponent(
-            color = Prefs.backgroundColor.colorToForeground(),
-            ids = *intArrayOf(R.id.intro_phone_nav)
-        )
-        themeImageComponent(
-            color = Prefs.accentColor,
-            ids = *intArrayOf(R.id.intro_phone_header)
-        )
-    }
-
-    override fun onPageScrolledImpl(positionOffset: Float) {
-        super.onPageScrolledImpl(positionOffset)
-        firstImageFragmentTransition(offset = positionOffset)
-    }
-}
-
 class IntroTabTouchFragment : BaseImageIntroFragment(
     R.string.intro_easy_navigation,
     R.drawable.intro_phone_tab,
