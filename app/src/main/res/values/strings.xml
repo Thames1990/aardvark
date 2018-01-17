@@ -66,6 +66,8 @@
 
     <string name="events">Events</string>
 
+    <string name="experimental">Experimental</string>
+
     <string name="fancy_animations">Fancy Animations</string>
     <string name="fancy_animations_description">Use ripples and animate transitions</string>
 

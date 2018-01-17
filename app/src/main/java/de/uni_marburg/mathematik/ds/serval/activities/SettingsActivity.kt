@@ -27,11 +27,6 @@ class SettingsActivity : KPrefActivity() {
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
-        if (Prefs.debugSettings) subItems(R.string.debug, getDebugPrefs()) {
-            descRes = R.string.debug_description
-            iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
-        }
-
         subItems(R.string.behaviour, getBehaviourPrefs()) {
             descRes = R.string.behaviour_description
             iicon = GoogleMaterial.Icon.gmd_settings
@@ -39,12 +34,6 @@ class SettingsActivity : KPrefActivity() {
         subItems(R.string.appearance, getAppearancePrefs()) {
             descRes = R.string.appearance_description
             iicon = GoogleMaterial.Icon.gmd_palette
-        }
-        if (Prefs.debugSettings) {
-            subItems(R.string.location, getLocationPrefs()) {
-                descRes = R.string.location_description
-                iicon = GoogleMaterial.Icon.gmd_my_location
-            }
         }
         subItems(R.string.serval, getServalPrefs()) {
             descRes = R.string.serval_description
@@ -59,6 +48,17 @@ class SettingsActivity : KPrefActivity() {
         plainText(R.string.replay_intro) {
             iicon = GoogleMaterial.Icon.gmd_replay
             onClick = { startActivity(IntroActivity::class.java) }
+        }
+        if (Prefs.debugSettings) {
+            header(R.string.experimental)
+            subItems(R.string.debug, getDebugPrefs()) {
+                descRes = R.string.debug_description
+                iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
+            }
+            subItems(R.string.location, getLocationPrefs()) {
+                descRes = R.string.location_description
+                iicon = GoogleMaterial.Icon.gmd_my_location
+            }
         }
     }
 
