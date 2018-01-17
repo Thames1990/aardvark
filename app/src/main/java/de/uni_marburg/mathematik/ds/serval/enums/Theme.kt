@@ -6,7 +6,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
 enum class Theme(
-    @StringRes val textResId: Int,
+    @StringRes val titleRes: Int,
     private val textColorGetter: () -> Int,
     private val accentColorGetter: () -> Int,
     private val backgroundColorGetter: () -> Int,
@@ -15,7 +15,7 @@ enum class Theme(
 ) {
 
     LIGHT(
-        textResId = R.string.aardvark_light,
+        titleRes = R.string.aardvark_light,
         textColorGetter = { 0xde000000.toInt() },
         accentColorGetter = { AARDVARK_GREEN },
         backgroundColorGetter = { 0xfffafafa.toInt() },
@@ -24,7 +24,7 @@ enum class Theme(
     ),
 
     DARK(
-        textResId = R.string.aardvark_dark,
+        titleRes = R.string.aardvark_dark,
         textColorGetter = { Color.WHITE },
         accentColorGetter = { AARDVARK_GREEN_LIGHT },
         backgroundColorGetter = { 0xff303030.toInt() },
@@ -33,7 +33,7 @@ enum class Theme(
     ),
 
     AMOLED(
-        textResId = R.string.aardvark_amoled,
+        titleRes = R.string.aardvark_amoled,
         textColorGetter = { Color.WHITE },
         accentColorGetter = { AARDVARK_GREEN_LIGHT },
         backgroundColorGetter = { Color.BLACK },
@@ -42,7 +42,7 @@ enum class Theme(
     ),
 
     CUSTOM(
-        textResId = R.string.aardvark_custom,
+        titleRes = R.string.aardvark_custom,
         textColorGetter = { Prefs.customTextColor },
         accentColorGetter = { Prefs.customAccentColor },
         backgroundColorGetter = { Prefs.customBackgroundColor },

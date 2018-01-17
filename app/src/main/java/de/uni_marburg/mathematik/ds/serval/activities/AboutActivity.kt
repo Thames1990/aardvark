@@ -113,7 +113,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                             android.R.attr.selectableItemBackgroundBorderless
                         )
                         setIcon(icon = aboutItem.iicon, color = Prefs.iconColor)
-                        setOnClickListener { context.startLink(aboutItem.linkResId) }
+                        setOnClickListener { context.startLink(aboutItem.linkRes) }
                         container.addView(this)
                     }
                 }

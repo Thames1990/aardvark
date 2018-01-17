@@ -5,9 +5,6 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
 
-enum class AboutItem(@StringRes val linkResId: Int, val iicon: IIcon) {
-    GITHUB(
-        linkResId = R.string.github_url,
-        iicon = CommunityMaterial.Icon.cmd_github_circle
-    )
+enum class AboutItem(@StringRes val linkRes: Int, val iicon: IIcon) {
+    GITHUB(R.string.github_url, CommunityMaterial.Icon.cmd_github_circle)
 }

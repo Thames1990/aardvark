@@ -7,24 +7,30 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
 /** Created by thames1990 on 04.12.17. */
 enum class MainActivityLayout(
-    @StringRes val titleResId: Int,
-    @LayoutRes val layoutResId: Int,
-    val backgroundColor: () -> Int,
-    val iconColor: () -> Int
+    @StringRes val titleRes: Int,
+    @LayoutRes val layoutRes: Int,
+    private val backgroundColorGetter: () -> Int,
+    private val iconColorGetter: () -> Int
 ) {
     TOP_BAR(
-        titleResId = R.string.top_bar,
-        layoutResId = R.layout.activity_main,
-        backgroundColor = { Prefs.headerColor },
-        iconColor = { Prefs.iconColor }
+        titleRes = R.string.top_bar,
+        layoutRes = R.layout.activity_main,
+        backgroundColorGetter = { Prefs.headerColor },
+        iconColorGetter = { Prefs.iconColor }
     ),
 
     BOTTOM_BAR(
-        titleResId = R.string.bottom_bar,
-        layoutResId = R.layout.activity_main_bottom_tabs,
-        backgroundColor = { Prefs.backgroundColor },
-        iconColor = { Prefs.textColor }
+        titleRes = R.string.bottom_bar,
+        layoutRes = R.layout.activity_main_bottom_tabs,
+        backgroundColorGetter = { Prefs.backgroundColor },
+        iconColorGetter = { Prefs.textColor }
     );
+
+    val backgroundColor
+        get() = backgroundColorGetter()
+
+    val iconColor
+        get() = iconColorGetter()
 
     companion object {
         val values = values()

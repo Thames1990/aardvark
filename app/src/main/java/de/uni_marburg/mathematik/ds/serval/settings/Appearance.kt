@@ -21,7 +21,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
             materialDialogThemed {
                 title(R.string.theme)
                 items(Theme.values()
-                    .map { it.textResId }
+                    .map { it.titleRes }
                     .map { string(it) }
                 )
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
@@ -42,7 +42,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
             }
         }
         textGetter = {
-            string(Theme(it).textResId)
+            string(Theme(it).titleRes)
         }
     }
 
@@ -107,11 +107,11 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
         { Prefs.mainActivityLayoutType },
         { Prefs.mainActivityLayoutType = it }
     ) {
-        textGetter = { string(Prefs.mainActivityLayout.titleResId) }
+        textGetter = { string(Prefs.mainActivityLayout.titleRes) }
         onClick = {
             materialDialogThemed {
                 title(R.string.set_main_activity_layout)
-                items(MainActivityLayout.values.map { string(it.titleResId) })
+                items(MainActivityLayout.values.map { string(it.titleRes) })
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                     if (item.pref != which) {
                         item.pref = which

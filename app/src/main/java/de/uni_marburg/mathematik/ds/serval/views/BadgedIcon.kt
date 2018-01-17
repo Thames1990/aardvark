@@ -24,7 +24,7 @@ class BadgedIcon(
 
     init {
         View.inflate(context, R.layout.view_badged_icon, this)
-        val badgeColor = Prefs.mainActivityLayout.backgroundColor()
+        val badgeColor = Prefs.mainActivityLayout.backgroundColor
             .withAlpha(255)
             .colorToForeground(0.2f)
         val badgeBackground = GradientDrawable(
@@ -33,7 +33,7 @@ class BadgedIcon(
         )
         badgeBackground.cornerRadius = 13.dpToPx.toFloat()
         badgeTextView.background = badgeBackground
-        badgeTextView.setTextColor(Prefs.mainActivityLayout.iconColor())
+        badgeTextView.setTextColor(Prefs.mainActivityLayout.iconColor)
     }
 
     var iicon: IIcon? = null
@@ -43,7 +43,7 @@ class BadgedIcon(
                 value?.toDrawable(
                     context,
                     sizeDp = 20,
-                    color = Prefs.mainActivityLayout.iconColor()
+                    color = Prefs.mainActivityLayout.iconColor
                 )
             )
         }

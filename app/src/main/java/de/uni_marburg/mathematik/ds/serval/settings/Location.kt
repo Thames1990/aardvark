@@ -47,7 +47,7 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
             itemView.context.materialDialogThemed {
                 title(R.string.location_request_priority)
                 items(LocationRequestPriority.values()
-                    .map { "${string(it.textRes)}\n${string(it.descTextRes)}" }
+                    .map { "${string(it.titleRes)}\n${string(it.descTextRes)}" }
                 )
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                     if (item.pref != which) {
@@ -60,7 +60,7 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
             }
         }
         textGetter = {
-            string(LocationRequestPriority(it).textRes)
+            string(LocationRequestPriority(it).titleRes)
         }
     }
 }

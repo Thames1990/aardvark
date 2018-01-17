@@ -50,7 +50,7 @@ class MainActivity : BaseActivity() {
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
 
-        setContentView(Prefs.mainActivityLayout.layoutResId)
+        setContentView(Prefs.mainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
 
         setAardvarkColors {
@@ -146,7 +146,7 @@ class MainActivity : BaseActivity() {
 
             override fun onTabReselected(tab: TabLayout.Tab) = eventViewModel.reload()
         })
-        setBackgroundColor(Prefs.mainActivityLayout.backgroundColor())
+        setBackgroundColor(Prefs.mainActivityLayout.backgroundColor)
         loadTabs()
     }
 
@@ -155,7 +155,8 @@ class MainActivity : BaseActivity() {
             when (aardvarkItem) {
                 AardvarkItem.EVENTS -> {
                     eventBadgedIcon = BadgedIcon(context).apply {
-                        iicon = aardvarkItem.icon
+                        title = string(aardvarkItem.titleRes)
+                        iicon = aardvarkItem.iicon
                         doAsync {
                             val eventCount: Int = eventViewModel.dao.count()
                             uiThread { badgeText = eventCount.toString() }
@@ -164,7 +165,7 @@ class MainActivity : BaseActivity() {
                     addTab(newTab().setCustomView(eventBadgedIcon))
                 }
                 else -> addTab(newTab().setCustomView(BadgedIcon(context).apply {
-                    iicon = aardvarkItem.icon
+                    iicon = aardvarkItem.iicon
                 }))
             }
         }
