@@ -27,6 +27,7 @@ import org.jetbrains.anko.uiThread
 class MainActivity : BaseActivity() {
 
     private lateinit var eventBadgedIcon: BadgedIcon
+    private lateinit var eventViewModel: EventViewModel
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
     private val tabs: TabLayout by bindView(R.id.tabs)
@@ -38,10 +39,6 @@ class MainActivity : BaseActivity() {
         MapFragment()
     )
 
-    private val eventViewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProviders.of(this).get(EventViewModel::class.java)
-    }
-
     companion object {
         const val ACTIVITY_SETTINGS = 1 shl 1
         const val REQUEST_RESTART = 1 shl 2
@@ -50,6 +47,9 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+
         setContentView(Prefs.mainActivityLayout.layoutResId)
         setSupportActionBar(toolbar)
 
