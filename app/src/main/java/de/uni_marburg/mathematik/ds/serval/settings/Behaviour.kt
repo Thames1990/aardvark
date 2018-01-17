@@ -16,9 +16,7 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
         Prefs.animate = it
         animate = it
         shouldRestartMain()
-    }) {
-        descRes = R.string.fancy_animations_description
-    }
+    }) { descRes = R.string.fancy_animations_description }
 
     checkbox(R.string.changelog, { Prefs.changelog }, { Prefs.changelog = it }) {
         descRes = R.string.changelog_description
@@ -35,9 +33,7 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
         setSecureFlag()
         Aardvark.requireAuthentication()
         shouldRestartMain()
-    }) {
-        descRes = R.string.secure_app_desc
-    }
+    }) { descRes = R.string.secure_app_desc }
 
     checkbox(R.string.preference_use_analytics, { Prefs.analytics }, { useAnalytics ->
         Prefs.analytics = useAnalytics
@@ -53,7 +49,5 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
                 toast(string(R.string.preference_reset_analytics_confirmation))
             }
         }
-    }) {
-        descRes = R.string.analytics_description
-    }
+    }) { descRes = R.string.analytics_description }
 }
