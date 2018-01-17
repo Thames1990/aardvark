@@ -13,7 +13,7 @@ buildscript {
         junit_version = '4.12'
         kau_version = '3.6.1'
         kerval_version = '0.0.8-1'
-        kotlin_version = '1.2.10'
+        kotlin_version = '1.2.20'
         leak_canary_version = '1.5.4'
         material_drawer_version = '1.2.2'
         moshi_version = '1.5.0'
