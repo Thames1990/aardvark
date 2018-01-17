@@ -3,6 +3,8 @@ package de.uni_marburg.mathematik.ds.serval.model.event
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.location.Location
+import android.support.annotation.DrawableRes
+import android.support.annotation.StringRes
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import com.squareup.moshi.Json
@@ -45,7 +47,11 @@ data class GeohashLocation(val latitude: Double, val longitude: Double, val geoh
 data class Measurement(val type: MeasurementType, val value: Int)
 
 // TODO Replace icon drawable with IIcon from Weather Icons
-enum class MeasurementType(val titleRes: Int, val formatRes: Int, val iconRes: Int) {
+enum class MeasurementType(
+    @StringRes val titleRes: Int,
+    @StringRes val formatRes: Int,
+    @DrawableRes val iconRes: Int
+) {
     @Json(name = "precipitation")
     PRECIPITATION(
         titleRes = R.string.measurement_precipitation,
