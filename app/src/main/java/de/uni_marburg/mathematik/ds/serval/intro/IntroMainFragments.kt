@@ -49,12 +49,12 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
     private fun translate(offset: Float, views: Array<Array<out View>>) {
         val maxTranslation = offset * screenWidth
         val increment = maxTranslation / views.size
-        views.forEachIndexed { i, group ->
-            group.forEach {
-                it.translationX =
-                        if (offset > 0) -maxTranslation + i * increment
-                        else -(i + 1) * increment
-                it.alpha = 1 - offset.absoluteValue
+        views.forEachIndexed { index, group ->
+            group.forEach { view ->
+                view.translationX =
+                        if (offset > 0) -maxTranslation + index * increment
+                        else -(index + 1) * increment
+                view.alpha = 1 - offset.absoluteValue
             }
         }
     }
