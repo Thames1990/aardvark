@@ -3,6 +3,8 @@ package de.uni_marburg.mathematik.ds.serval.intro
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
+import android.support.annotation.DrawableRes
+import android.support.annotation.StringRes
 import android.view.View
 import android.widget.ImageView
 import ca.allanwang.kau.utils.*
@@ -13,9 +15,9 @@ import kotlin.math.absoluteValue
 
 /** Created by thames1990 on 03.12.17. */
 abstract class BaseImageIntroFragment(
-    private val titleRes: Int,
-    private val imageRes: Int,
-    private val descRes: Int
+    @StringRes private val titleRes: Int,
+    @DrawableRes private val imageRes: Int,
+    @StringRes private val descRes: Int
 ) : BaseIntroFragment(R.layout.intro_image) {
 
     private val imageDrawable: LayerDrawable by lazyResettableRegistered {
