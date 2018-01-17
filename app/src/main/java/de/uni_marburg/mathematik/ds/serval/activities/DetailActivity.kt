@@ -71,7 +71,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
         event.measurements.map { measurement ->
             adapter.add(CardIItem {
-                titleRes = measurement.type.textRes
+                titleRes = measurement.type.titleRes
                 desc = String.format(string(measurement.type.formatRes), measurement.value)
                 image = drawable(measurement.type.iconRes).tint(Prefs.iconColor)
             })

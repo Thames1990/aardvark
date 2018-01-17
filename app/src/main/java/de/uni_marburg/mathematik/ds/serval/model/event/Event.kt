@@ -45,29 +45,29 @@ data class GeohashLocation(val latitude: Double, val longitude: Double, val geoh
 data class Measurement(val type: MeasurementType, val value: Int)
 
 // TODO Replace icon drawable with IIcon from Weather Icons
-enum class MeasurementType(val textRes: Int, val formatRes: Int, val iconRes: Int) {
+enum class MeasurementType(val titleRes: Int, val formatRes: Int, val iconRes: Int) {
     @Json(name = "precipitation")
     PRECIPITATION(
-        textRes = R.string.measurement_precipitation,
+        titleRes = R.string.measurement_precipitation,
         formatRes = R.string.measurement_value_precipitation,
         iconRes = R.drawable.precipitation
     ),
 
     @Json(name = "radiation")
     RADIATION(
-        textRes = R.string.measurement_radiation,
+        titleRes = R.string.measurement_radiation,
         formatRes = R.string.measurement_value_precipitation,
         iconRes = R.drawable.radiation
     ),
     @Json(name = "temperature")
     TEMPERATURE(
-        textRes = R.string.measurement_temperature,
+        titleRes = R.string.measurement_temperature,
         formatRes = R.string.measurement_value_precipitation,
         iconRes = R.drawable.temperature
     ),
     @Json(name = "wind")
     WIND(
-        textRes = R.string.measurement_wind,
+        titleRes = R.string.measurement_wind,
         formatRes = R.string.measurement_value_precipitation,
         iconRes = R.drawable.wind
     )
