@@ -60,14 +60,6 @@ abstract class BaseImageIntroFragment(
             if (d != phone) d.alpha = alpha
         }
     }
-
-    fun firstImageFragmentTransition(offset: Float) {
-        if (offset < 0) image.alpha = 1 - offset
-    }
-
-    fun lastImageFragmentTransition(offset: Float) {
-        if (offset > 0) image.alpha = 1 - offset
-    }
 }
 
 class IntroFragmentTabTouch : BaseImageIntroFragment(
@@ -79,9 +71,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         icon.visible().setIcon(icon = GoogleMaterial.Icon.gmd_edit, sizeDp = 24)
-        icon.setOnClickListener {
-            activity?.toast("Editing tabs incoming")
-        }
+        icon.setOnClickListener { activity?.toast("Editing tabs incoming") }
     }
 
     override fun themeFragmentImpl() {
