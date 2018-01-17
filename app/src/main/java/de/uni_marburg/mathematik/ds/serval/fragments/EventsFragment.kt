@@ -24,25 +24,24 @@ import org.jetbrains.anko.uiThread
 
 class EventsFragment : BaseFragment() {
 
+    private lateinit var eventAdapter: EventAdapter
+    private lateinit var eventViewModel: EventViewModel
+
+    private val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
+    private val swipeRefreshLayout by bindView<SwipeRefreshLayout>(R.id.swipe_refresh)
+
     override val layout: Int
         get() = R.layout.fragment_events
 
-    private val swipeRefreshLayout by bindView<SwipeRefreshLayout>(R.id.swipe_refresh)
-    private val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
-
-    private val eventAdapter = EventAdapter {
-        context!!.startActivity<DetailActivity>(
-            DetailActivity.EVENT_ID to it.id,
-            DetailActivity.SHOW_MAP to true
-        )
-    }
-
-    private val eventViewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        eventAdapter = EventAdapter { event ->
+            context!!.startActivity<DetailActivity>(
+                DetailActivity.EVENT_ID to event.id,
+                DetailActivity.SHOW_MAP to true
+            )
+        }
+        eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
         eventViewModel.allEvents.observe(this, Observer(eventAdapter::setList))
     }
 
