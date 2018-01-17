@@ -49,9 +49,9 @@ class MainActivity : BaseActivity() {
     private val toolbar: Toolbar by bindView(R.id.toolbar)
 
     private val fragments = listOf(
-            DashboardFragment(),
-            EventsFragment(),
-            MapFragment()
+        DashboardFragment(),
+        EventsFragment(),
+        MapFragment()
     )
 
     private val eventViewModel by lazy(LazyThreadSafetyMode.NONE) {
@@ -99,10 +99,10 @@ class MainActivity : BaseActivity() {
                     val intent = packageManager.getLaunchIntentForPackage(packageName)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     val pending = PendingIntent.getActivity(
-                            this,
-                            666,
-                            intent,
-                            PendingIntent.FLAG_CANCEL_CURRENT
+                        this,
+                        666,
+                        intent,
+                        PendingIntent.FLAG_CANCEL_CURRENT
                     )
                     val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     val soon = System.currentTimeMillis() + 100
@@ -138,9 +138,9 @@ class MainActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         setMenuIcons(
-                menu = menu,
-                color = Prefs.iconColor,
-                iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
+            menu = menu,
+            color = Prefs.iconColor,
+            iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
         )
         return true
     }
@@ -149,15 +149,15 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_settings -> startActivityForResult(
-                    clazz = SettingsActivity::class.java,
-                    requestCode = ACTIVITY_SETTINGS,
-                    bundleBuilder = {
-                        withCustomAnimation(
-                                context = this@MainActivity,
-                                enterResId = R.anim.kau_slide_in_right,
-                                exitResId = R.anim.kau_fade_out
-                        )
-                    }
+                clazz = SettingsActivity::class.java,
+                requestCode = ACTIVITY_SETTINGS,
+                bundleBuilder = {
+                    withCustomAnimation(
+                        context = this@MainActivity,
+                        enterResId = R.anim.kau_slide_in_right,
+                        exitResId = R.anim.kau_fade_out
+                    )
+                }
             )
             else -> return super.onOptionsItemSelected(item)
         }
@@ -168,9 +168,9 @@ class MainActivity : BaseActivity() {
         addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 addFragmentSafely(
-                        fragment = fragments[tab.position],
-                        tag = tab.position.toString(),
-                        containerViewId = R.id.content_main
+                    fragment = fragments[tab.position],
+                    tag = tab.position.toString(),
+                    containerViewId = R.id.content_main
                 )
                 appBar.setExpanded(true, Prefs.animate)
             }
@@ -222,13 +222,13 @@ class MainActivity : BaseActivity() {
             if (!BuildConfig.DEBUG) {
                 aardvarkChangelog()
                 aardvarkAnswersCustom(
-                        name = "Version",
-                        events = *arrayOf(
-                                "Version code" to BuildConfig.VERSION_CODE,
-                                "Version name" to BuildConfig.VERSION_NAME,
-                                "Build type" to BuildConfig.BUILD_TYPE,
-                                "Aardvark id" to Prefs.aardvarkId
-                        )
+                    name = "Version",
+                    events = *arrayOf(
+                        "Version code" to BuildConfig.VERSION_CODE,
+                        "Version name" to BuildConfig.VERSION_NAME,
+                        "Build type" to BuildConfig.BUILD_TYPE,
+                        "Aardvark id" to Prefs.aardvarkId
+                    )
                 )
             }
         }
@@ -262,8 +262,8 @@ class MainActivity : BaseActivity() {
                 }
                 profileSetting(nameRes = R.string.kau_add_account) {
                     iconDrawable = IconicsDrawable(
-                            this@MainActivity,
-                            GoogleMaterial.Icon.gmd_add
+                        this@MainActivity,
+                        GoogleMaterial.Icon.gmd_add
                     ).actionBar().paddingDp(5).color(Prefs.textColor)
                     textColor = Prefs.textColor.toLong()
                     identifier = -3L
@@ -278,10 +278,12 @@ class MainActivity : BaseActivity() {
                     when (profile.identifier) {
                         -2L -> materialDialogThemed {
                             title(R.string.kau_logout)
-                            content(String.format(
+                            content(
+                                String.format(
                                     string(R.string.kau_logout_confirm_as_x),
                                     Prefs.kervalUser
-                            ))
+                                )
+                            )
                             positiveText(R.string.kau_yes)
                             negativeText(R.string.kau_no)
                             onPositive { _, _ -> toast("Logout will be implemented soon") }
@@ -299,22 +301,24 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun Builder.primaryAardvarkItem(item: AardvarkItem) = this.primaryItem(item.titleResId) {
-        iicon = item.icon
-        iconColor = Prefs.iconColor.toLong()
-        textColor = Prefs.textColor.toLong()
-        selectedIconColor = Prefs.iconColor.toLong()
-        selectedTextColor = Prefs.textColor.toLong()
-        selectedColor = 0x00000001.toLong()
-        identifier = item.titleResId.toLong()
-        onClick { _ ->
-            aardvarkAnswers {
-                logContentView(ContentViewEvent()
-                        .putContentName(item.name)
-                        .putContentType("drawer_item")
-                )
+    private fun Builder.primaryAardvarkItem(item: AardvarkItem) =
+        this.primaryItem(item.titleResId) {
+            iicon = item.icon
+            iconColor = Prefs.iconColor.toLong()
+            textColor = Prefs.textColor.toLong()
+            selectedIconColor = Prefs.iconColor.toLong()
+            selectedTextColor = Prefs.textColor.toLong()
+            selectedColor = 0x00000001.toLong()
+            identifier = item.titleResId.toLong()
+            onClick { _ ->
+                aardvarkAnswers {
+                    logContentView(
+                        ContentViewEvent()
+                            .putContentName(item.name)
+                            .putContentType("drawer_item")
+                    )
+                }
+                false
             }
-            false
         }
-    }
 }

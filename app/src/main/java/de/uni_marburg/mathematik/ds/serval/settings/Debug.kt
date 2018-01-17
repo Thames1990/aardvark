@@ -63,11 +63,11 @@ private fun disableWifiAdb() {
 
 /** Share information to connect to the device via WifiADB. */
 private fun SettingsActivity.shareWifiAdbCommand() =
-        with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
-            val ipAdress: ByteArray = BigInteger
-                    .valueOf(connectionInfo.ipAddress.toLong())
-                    .toByteArray()
-                    .reversedArray()
-            val hostAdress = InetAddress.getByAddress(ipAdress).hostAddress
-            shareText("adb connect $hostAdress")
-        }
+    with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
+        val ipAdress: ByteArray = BigInteger
+            .valueOf(connectionInfo.ipAddress.toLong())
+            .toByteArray()
+            .reversedArray()
+        val hostAdress = InetAddress.getByAddress(ipAdress).hostAddress
+        shareText("adb connect $hostAdress")
+    }

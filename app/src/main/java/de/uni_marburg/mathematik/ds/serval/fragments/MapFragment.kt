@@ -42,9 +42,9 @@ class MapFragment : BaseFragment() {
         get() = R.layout.fragment_map
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -56,7 +56,8 @@ class MapFragment : BaseFragment() {
         map.getMapAsync { googleMap ->
             this.googleMap = googleMap
             with(googleMap) {
-                val hasLocationPermission = context!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                val hasLocationPermission =
+                    context!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 isMyLocationEnabled = hasLocationPermission
                 style()
                 setupClusterManager()
@@ -69,12 +70,12 @@ class MapFragment : BaseFragment() {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_map, menu)
         activity?.setMenuIcons(
-                menu = menu,
-                color = Prefs.iconColor,
-                iicons = *arrayOf(
-                        R.id.action_zoom_to_all_markers to GoogleMaterial.Icon.gmd_zoom_out_map,
-                        R.id.action_change_map_type to GoogleMaterial.Icon.gmd_map
-                )
+            menu = menu,
+            color = Prefs.iconColor,
+            iicons = *arrayOf(
+                R.id.action_zoom_to_all_markers to GoogleMaterial.Icon.gmd_zoom_out_map,
+                R.id.action_change_map_type to GoogleMaterial.Icon.gmd_map
+            )
         )
     }
 
@@ -97,7 +98,12 @@ class MapFragment : BaseFragment() {
         setMinZoomPreference(MAP_MIN_ZOOM)
         when (Prefs.theme) {
             Theme.DARK.ordinal -> setMapStyle(loadRawResourceStyle(context, R.raw.map_style_dark))
-            Theme.AMOLED.ordinal -> setMapStyle(loadRawResourceStyle(context, R.raw.map_style_night))
+            Theme.AMOLED.ordinal -> setMapStyle(
+                loadRawResourceStyle(
+                    context,
+                    R.raw.map_style_night
+                )
+            )
         }
     }
 
@@ -116,10 +122,10 @@ class MapFragment : BaseFragment() {
             }
             setOnClusterItemInfoWindowClickListener {
                 context!!.startActivity<DetailActivity>(
-                        params = *arrayOf(
-                                DetailActivity.EVENT_ID to it.id,
-                                DetailActivity.SHOW_MAP to false
-                        )
+                    params = *arrayOf(
+                        DetailActivity.EVENT_ID to it.id,
+                        DetailActivity.SHOW_MAP to false
+                    )
                 )
             }
 

@@ -20,18 +20,18 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
     // TODO Fix min/max dependency
 
     seekbar(
-            R.string.location_request_interval,
-            { Prefs.locationRequestInterval },
-            { Prefs.locationRequestInterval = it }
+        R.string.location_request_interval,
+        { Prefs.locationRequestInterval },
+        { Prefs.locationRequestInterval = it }
     ) {
         descRes = R.string.location_request_interval_description
         min = Prefs.locationRequestFastestInterval
     }
 
     seekbar(
-            R.string.location_request_fastest_interval,
-            { Prefs.locationRequestFastestInterval },
-            { Prefs.locationRequestFastestInterval = it }
+        R.string.location_request_fastest_interval,
+        { Prefs.locationRequestFastestInterval },
+        { Prefs.locationRequestFastestInterval = it }
     ) {
         descRes = R.string.location_request_fastest_interval_description
         min = 1
@@ -39,15 +39,15 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
     }
 
     text(
-            R.string.location_request_priority,
-            { Prefs.locationRequestPriority },
-            { Prefs.locationRequestPriority = it }
+        R.string.location_request_priority,
+        { Prefs.locationRequestPriority },
+        { Prefs.locationRequestPriority = it }
     ) {
         onClick = {
             itemView.context.materialDialogThemed {
                 title(R.string.location_request_priority)
                 items(LocationRequestPriority.values()
-                        .map { "${string(it.textRes)}\n${string(it.descTextRes)}" }
+                    .map { "${string(it.textRes)}\n${string(it.descTextRes)}" }
                 )
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                     if (item.pref != which) {

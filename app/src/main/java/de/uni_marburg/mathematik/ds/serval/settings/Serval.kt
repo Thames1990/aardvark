@@ -14,7 +14,11 @@ fun SettingsActivity.getServalPrefs(): KPrefAdapterBuilder.() -> Unit = {
         onClick = {
             itemView.context.materialDialogThemed {
                 title(string(R.string.username))
-                input(string(R.string.username), item.pref, { _, input -> item.pref = input.toString() })
+                input(
+                    string(R.string.username),
+                    item.pref,
+                    { _, input -> item.pref = input.toString() }
+                )
             }
         }
     }
@@ -23,7 +27,10 @@ fun SettingsActivity.getServalPrefs(): KPrefAdapterBuilder.() -> Unit = {
         onClick = {
             itemView.context.materialDialogThemed {
                 title(string(R.string.password))
-                input(string(R.string.password), item.pref, { _, input -> item.pref = input.toString() })
+                input(
+                    string(R.string.password),
+                    item.pref,
+                    { _, input -> item.pref = input.toString() })
             }
         }
     }

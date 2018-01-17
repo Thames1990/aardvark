@@ -20,9 +20,9 @@ abstract class EventDatabase : RoomDatabase() {
         fun get(context: Context): EventDatabase {
             if (instance == null) {
                 instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        EventDatabase::class.java,
-                        BuildConfig.APPLICATION_ID
+                    context.applicationContext,
+                    EventDatabase::class.java,
+                    BuildConfig.APPLICATION_ID
                 ).addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         ioThread {
@@ -41,10 +41,10 @@ class EventConverters {
 
     private val listType = Types.newParameterizedType(List::class.java, Measurement::class.java)
     private val measurementsAdapter: JsonAdapter<List<Measurement>> =
-            EventRepository.moshi.adapter(listType)
+        EventRepository.moshi.adapter(listType)
 
     private val geohashLocationAdapter: JsonAdapter<GeohashLocation> =
-            EventRepository.moshi.adapter(GeohashLocation::class.java)
+        EventRepository.moshi.adapter(GeohashLocation::class.java)
 
     @TypeConverter
     fun fromMeasurementJson(json: String): List<Measurement> {
@@ -59,9 +59,9 @@ class EventConverters {
     @TypeConverter
     fun fromGeohashLocationJson(json: String): GeohashLocation {
         return geohashLocationAdapter.fromJson(json) ?: GeohashLocation(
-                latitude = 0.0,
-                longitude = 0.0,
-                geohash = ""
+            latitude = 0.0,
+            longitude = 0.0,
+            geohash = ""
         )
     }
 

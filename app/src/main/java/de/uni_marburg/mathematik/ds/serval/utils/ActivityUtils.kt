@@ -21,11 +21,11 @@ fun Activity.aardvarkNavigationBar() {
     navigationBarColor = if (Prefs.tintNavBar) Prefs.headerColor else Color.BLACK
 }
 
-fun Activity.aardvarkSnackbar(@StringRes textRes: Int, builder: Snackbar.() -> Unit = {})
-        = aardvarkSnackbar(string(textRes), builder)
+fun Activity.aardvarkSnackbar(@StringRes textRes: Int, builder: Snackbar.() -> Unit = {}) =
+    aardvarkSnackbar(string(textRes), builder)
 
-fun Activity.aardvarkSnackbar(text: String, builder: Snackbar.() -> Unit = {})
-        = snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
+fun Activity.aardvarkSnackbar(text: String, builder: Snackbar.() -> Unit = {}) =
+    snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
 
 fun Activity.setAardvarkColors(builder: ActivityThemeUtils.() -> Unit) {
     val themer = ActivityThemeUtils()
@@ -39,9 +39,9 @@ fun Activity.setAardvarkTheme() {
 }
 
 fun Activity.setCurrentScreen() = Aardvark.firebaseAnalytics.setCurrentScreen(
-        this,
-        javaClass.simpleName,
-        null
+    this,
+    javaClass.simpleName,
+    null
 )
 
 fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
@@ -51,14 +51,14 @@ fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
 }
 
 fun AppCompatActivity.replaceFragmentSafely(
-        fragment: Fragment,
-        tag: String,
-        allowStateLoss: Boolean = false,
-        @IdRes containerViewId: Int,
-        @AnimRes enterAnimation: Int = 0,
-        @AnimRes exitAnimation: Int = 0,
-        @AnimRes popEnterAnimation: Int = 0,
-        @AnimRes popExitAnimation: Int = 0
+    fragment: Fragment,
+    tag: String,
+    allowStateLoss: Boolean = false,
+    @IdRes containerViewId: Int,
+    @AnimRes enterAnimation: Int = 0,
+    @AnimRes exitAnimation: Int = 0,
+    @AnimRes popEnterAnimation: Int = 0,
+    @AnimRes popExitAnimation: Int = 0
 ) {
     val ft = supportFragmentManager.beginTransaction()
     ft.setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
@@ -68,14 +68,14 @@ fun AppCompatActivity.replaceFragmentSafely(
 }
 
 fun AppCompatActivity.addFragmentSafely(
-        fragment: Fragment,
-        tag: String,
-        allowStateLoss: Boolean = false,
-        @IdRes containerViewId: Int,
-        @AnimRes enterAnimation: Int = 0,
-        @AnimRes exitAnimation: Int = 0,
-        @AnimRes popEnterAnimation: Int = 0,
-        @AnimRes popExitAnimation: Int = 0
+    fragment: Fragment,
+    tag: String,
+    allowStateLoss: Boolean = false,
+    @IdRes containerViewId: Int,
+    @AnimRes enterAnimation: Int = 0,
+    @AnimRes exitAnimation: Int = 0,
+    @AnimRes popEnterAnimation: Int = 0,
+    @AnimRes popExitAnimation: Int = 0
 ) {
     val ft = supportFragmentManager.beginTransaction()
     ft.setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)

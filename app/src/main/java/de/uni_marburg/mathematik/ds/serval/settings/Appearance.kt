@@ -21,8 +21,8 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
             materialDialogThemed {
                 title(R.string.theme)
                 items(Theme.values()
-                        .map { it.textResId }
-                        .map { string(it) }
+                    .map { it.textResId }
+                    .map { string(it) }
                 )
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                     if (item.pref != which) {
@@ -33,8 +33,8 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                         themeExterior()
                         invalidateOptionsMenu()
                         aardvarkAnswersCustom(
-                                name = "Theme",
-                                events = *arrayOf("Count" to Theme(which).name)
+                            name = "Theme",
+                            events = *arrayOf("Count" to Theme(which).name)
                         )
                     }
                     true
@@ -103,9 +103,9 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
     header(R.string.global_customization)
 
     text(
-            R.string.main_activity_layout,
-            { Prefs.mainActivityLayoutType },
-            { Prefs.mainActivityLayoutType = it }
+        R.string.main_activity_layout,
+        { Prefs.mainActivityLayoutType },
+        { Prefs.mainActivityLayoutType = it }
     ) {
         textGetter = { string(Prefs.mainActivityLayout.titleResId) }
         onClick = {
@@ -117,8 +117,8 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                         item.pref = which
                         shouldRestartMain()
                         aardvarkAnswersCustom(
-                                name = "Main Layout",
-                                events = *arrayOf("Type" to MainActivityLayout(which).name)
+                            name = "Main Layout",
+                            events = *arrayOf("Type" to MainActivityLayout(which).name)
                         )
                     }
                     true

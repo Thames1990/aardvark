@@ -26,25 +26,20 @@ class FingerprintActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fingerprint)
-        theme()
+        setAardvarkColors { text(title, description) }
+        fingerprint.imageTintList = ColorStateList.valueOf(Prefs.textColor)
         Reprint.authenticate(object : AuthenticationListener {
             override fun onSuccess(moduleTag: Int) = finish()
 
             override fun onFailure(
-                    failureReason: AuthenticationFailureReason?,
-                    fatal: Boolean,
-                    errorMessage: CharSequence?,
-                    moduleTag: Int,
-                    errorCode: Int
+                failureReason: AuthenticationFailureReason?,
+                fatal: Boolean,
+                errorMessage: CharSequence?,
+                moduleTag: Int,
+                errorCode: Int
             ) {
                 description.text = errorMessage
             }
         })
-    }
-
-    fun theme() {
-        setAardvarkColors { text(title, description) }
-//        fingerprint.setColorFilter(Prefs.textColor)
-        fingerprint.imageTintList = ColorStateList.valueOf(Prefs.textColor)
     }
 }

@@ -15,11 +15,11 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     val allEvents = LivePagedListBuilder(
-            dao.getAllPaged(),
-            PagedList.Config.Builder()
-                    .setPageSize(PAGE_SIZE)
-                    .setEnablePlaceholders(ENABLE_PLACEHOLDERS)
-                    .build()
+        dao.getAllPaged(),
+        PagedList.Config.Builder()
+            .setPageSize(PAGE_SIZE)
+            .setEnablePlaceholders(ENABLE_PLACEHOLDERS)
+            .build()
     ).build()
 
     fun reload() = ioThread {

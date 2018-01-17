@@ -21,7 +21,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.timeToString
 import java.util.*
 
 class EventViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.event_row, parent, false)
+    LayoutInflater.from(parent.context).inflate(R.layout.event_row, parent, false)
 ) {
 
     private val timeView = itemView.findViewById<TextView>(R.id.time)
@@ -53,12 +53,12 @@ class EventViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
     private fun Event.displayLocation() {
         val hasLocationPermission = itemView.context.hasPermission(
-                Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION
         )
         if (hasLocationPermission) {
             locationIconView.setIcon(
-                    icon = GoogleMaterial.Icon.gmd_location_on,
-                    color = Prefs.iconColor
+                icon = GoogleMaterial.Icon.gmd_location_on,
+                color = Prefs.iconColor
             )
             locationView.apply {
                 text = location.distanceTo(location).distanceToString(itemView.context)
@@ -80,8 +80,8 @@ class EventViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                 setImageResource(measurement.type.iconRes)
                 setColorFilter(Prefs.iconColor, PorterDuff.Mode.SRC_IN)
                 layoutParams = LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
                 )
             })
         }

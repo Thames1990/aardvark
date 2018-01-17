@@ -37,9 +37,9 @@ class DetailActivity : ElasticRecyclerActivity() {
 
         doAsync {
             event = EventDatabase
-                    .get(this@DetailActivity)
-                    .eventDao()
-                    .getById(intent.extras.getLong(EVENT_ID))
+                .get(this@DetailActivity)
+                .eventDao()
+                .getById(intent.extras.getLong(EVENT_ID))
             uiThread {
                 title = event.title
                 recycler.adapter = setupAdapter()
@@ -66,11 +66,11 @@ class DetailActivity : ElasticRecyclerActivity() {
             imageIIcon = GoogleMaterial.Icon.gmd_access_time
         })
 
-        event.measurements.map {
+        event.measurements.map { measurement ->
             adapter.add(CardIItem {
-                titleRes = it.type.textRes
-                desc = String.format(string(it.type.formatRes), it.value)
-                image = drawable(it.type.iconRes).tint(Prefs.iconColor)
+                titleRes = measurement.type.textRes
+                desc = String.format(string(measurement.type.formatRes), measurement.value)
+                image = drawable(measurement.type.iconRes).tint(Prefs.iconColor)
             })
         }
 
@@ -79,14 +79,16 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private fun showInGoogleMaps() {
         val navigationIntent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(String.format(
-                        string(R.string.intent_uri_show_in_google_maps),
-                        // Forces decimal points
-                        String.format(Locale.ENGLISH, "%.5f", event.location.latitude),
-                        String.format(Locale.ENGLISH, "%.5f", event.location.longitude),
-                        event.title
-                ))
+            Intent.ACTION_VIEW,
+            Uri.parse(
+                String.format(
+                    string(R.string.intent_uri_show_in_google_maps),
+                    // Forces decimal points
+                    String.format(Locale.ENGLISH, "%.5f", event.location.latitude),
+                    String.format(Locale.ENGLISH, "%.5f", event.location.longitude),
+                    event.title
+                )
+            )
         )
         navigationIntent.`package` = "com.google.android.apps.maps"
         startActivity(navigationIntent)

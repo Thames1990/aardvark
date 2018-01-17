@@ -14,7 +14,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 
 class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
-        R.layout.iitem_map, { ViewHolder(it) }
+    R.layout.iitem_map, { ViewHolder(it) }
 ), ThemableIItem by ThemableIItemDelegate() {
 
     override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {

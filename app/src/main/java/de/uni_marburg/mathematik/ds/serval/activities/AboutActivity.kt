@@ -75,8 +75,8 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
     }
 
     class AboutLinks :
-            AbstractItem<AboutLinks, AboutLinks.ViewHolder>(),
-            ThemableIItem by ThemableIItemDelegate() {
+        AbstractItem<AboutLinks, AboutLinks.ViewHolder>(),
+        ThemableIItem by ThemableIItemDelegate() {
 
         override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
 
@@ -107,7 +107,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                         layoutParams = ViewGroup.LayoutParams(size, size)
                         scaleType = ImageView.ScaleType.CENTER
                         background = context.resolveDrawable(
-                                android.R.attr.selectableItemBackgroundBorderless
+                            android.R.attr.selectableItemBackgroundBorderless
                         )
                         setIcon(icon = aboutItem.iicon, color = Prefs.iconColor)
                         setOnClickListener { context.startLink(aboutItem.linkResId) }
@@ -120,13 +120,13 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                     val set = ConstraintSet()
                     set.clone(container)
                     set.createHorizontalChain(
-                            ConstraintSet.PARENT_ID,
-                            ConstraintSet.LEFT,
-                            ConstraintSet.PARENT_ID,
-                            ConstraintSet.RIGHT,
-                            images.map { it.id }.toIntArray(),
-                            null,
-                            ConstraintSet.CHAIN_SPREAD_INSIDE
+                        ConstraintSet.PARENT_ID,
+                        ConstraintSet.LEFT,
+                        ConstraintSet.PARENT_ID,
+                        ConstraintSet.RIGHT,
+                        images.map { it.id }.toIntArray(),
+                        null,
+                        ConstraintSet.CHAIN_SPREAD_INSIDE
                     )
                     set.applyTo(container)
                 }

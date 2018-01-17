@@ -32,8 +32,8 @@ class EventsFragment : BaseFragment() {
 
     private val eventAdapter = EventAdapter {
         context!!.startActivity<DetailActivity>(
-                DetailActivity.EVENT_ID to it.id,
-                DetailActivity.SHOW_MAP to true
+            DetailActivity.EVENT_ID to it.id,
+            DetailActivity.SHOW_MAP to true
         )
     }
 
@@ -47,9 +47,9 @@ class EventsFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -65,9 +65,9 @@ class EventsFragment : BaseFragment() {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_events, menu)
         activity?.setMenuIcons(
-                menu = menu,
-                color = Prefs.iconColor,
-                iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
+            menu = menu,
+            color = Prefs.iconColor,
+            iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
         )
     }
 

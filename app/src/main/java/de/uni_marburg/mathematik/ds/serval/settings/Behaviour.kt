@@ -24,7 +24,11 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
         descRes = R.string.changelog_description
     }
 
-    checkbox(R.string.preference_confirm_exit, { Prefs.exitConfirmation }, { Prefs.exitConfirmation = it })
+    checkbox(
+        R.string.preference_confirm_exit,
+        { Prefs.exitConfirmation },
+        { Prefs.exitConfirmation = it }
+    )
 
     checkbox(R.string.secure_app, { Prefs.secure_app }, {
         Prefs.secure_app = it

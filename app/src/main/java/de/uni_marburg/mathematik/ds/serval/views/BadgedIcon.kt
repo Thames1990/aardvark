@@ -14,9 +14,9 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
 /** Created by thames1990 on 11.12.17. */
 class BadgedIcon(
-        context: Context,
-        attrs: AttributeSet? = null,
-        desStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    desStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, desStyleAttr) {
 
     private val badgeTextView: TextView by bindView(R.id.badge_text)
@@ -25,11 +25,11 @@ class BadgedIcon(
     init {
         View.inflate(context, R.layout.view_badged_icon, this)
         val badgeColor = Prefs.mainActivityLayout.backgroundColor()
-                .withAlpha(255)
-                .colorToForeground(0.2f)
+            .withAlpha(255)
+            .colorToForeground(0.2f)
         val badgeBackground = GradientDrawable(
-                GradientDrawable.Orientation.BOTTOM_TOP,
-                intArrayOf(badgeColor, badgeColor)
+            GradientDrawable.Orientation.BOTTOM_TOP,
+            intArrayOf(badgeColor, badgeColor)
         )
         badgeBackground.cornerRadius = 13.dpToPx.toFloat()
         badgeTextView.background = badgeBackground
@@ -39,11 +39,13 @@ class BadgedIcon(
     var iicon: IIcon? = null
         set(value) {
             field = value
-            badgeImage.setImageDrawable(value?.toDrawable(
+            badgeImage.setImageDrawable(
+                value?.toDrawable(
                     context,
                     sizeDp = 20,
                     color = Prefs.mainActivityLayout.iconColor()
-            ))
+                )
+            )
         }
 
     var badgeText: String?

@@ -7,7 +7,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 
 enum class AboutItem(@StringRes val linkResId: Int, val iicon: IIcon) {
     GITHUB(
-            linkResId = R.string.github_url,
-            iicon = CommunityMaterial.Icon.cmd_github_circle
+        linkResId = R.string.github_url,
+        iicon = CommunityMaterial.Icon.cmd_github_circle
     )
 }

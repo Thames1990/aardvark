@@ -13,9 +13,9 @@ import kotlin.math.absoluteValue
 
 /** Created by thames1990 on 03.12.17. */
 abstract class BaseImageIntroFragment(
-        private val titleRes: Int,
-        private val imageRes: Int,
-        private val descRes: Int
+    private val titleRes: Int,
+    private val imageRes: Int,
+    private val descRes: Int
 ) : BaseIntroFragment(R.layout.intro_image) {
 
     private val imageDrawable: LayerDrawable by lazyResettableRegistered {
@@ -71,24 +71,24 @@ abstract class BaseImageIntroFragment(
 }
 
 class IntroAccountFragment : BaseImageIntroFragment(
-        R.string.intro_multiple_accounts,
-        R.drawable.intro_phone_nav,
-        R.string.intro_multiple_accounts_description
+    R.string.intro_multiple_accounts,
+    R.drawable.intro_phone_nav,
+    R.string.intro_multiple_accounts_description
 ) {
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         themeImageComponent(
-                color = Prefs.textColor,
-                ids = *intArrayOf(R.id.intro_phone_avatar_1, R.id.intro_phone_avatar_2)
+            color = Prefs.textColor,
+            ids = *intArrayOf(R.id.intro_phone_avatar_1, R.id.intro_phone_avatar_2)
         )
         themeImageComponent(
-                color = Prefs.backgroundColor.colorToForeground(),
-                ids = *intArrayOf(R.id.intro_phone_nav)
+            color = Prefs.backgroundColor.colorToForeground(),
+            ids = *intArrayOf(R.id.intro_phone_nav)
         )
         themeImageComponent(
-                color = Prefs.accentColor,
-                ids = *intArrayOf(R.id.intro_phone_header)
+            color = Prefs.accentColor,
+            ids = *intArrayOf(R.id.intro_phone_header)
         )
     }
 
@@ -99,9 +99,9 @@ class IntroAccountFragment : BaseImageIntroFragment(
 }
 
 class IntroTabTouchFragment : BaseImageIntroFragment(
-        R.string.intro_easy_navigation,
-        R.drawable.intro_phone_tab,
-        R.string.intro_easy_navigation_desc
+    R.string.intro_easy_navigation,
+    R.drawable.intro_phone_tab,
+    R.string.intro_easy_navigation_desc
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -115,60 +115,60 @@ class IntroTabTouchFragment : BaseImageIntroFragment(
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         themeImageComponent(
-                color = Prefs.iconColor,
-                ids = *intArrayOf(
-                        R.id.intro_phone_icon_1,
-                        R.id.intro_phone_icon_2,
-                        R.id.intro_phone_icon_3,
-                        R.id.intro_phone_icon_4
-                )
+            color = Prefs.iconColor,
+            ids = *intArrayOf(
+                R.id.intro_phone_icon_1,
+                R.id.intro_phone_icon_2,
+                R.id.intro_phone_icon_3,
+                R.id.intro_phone_icon_4
+            )
         )
         themeImageComponent(
-                color = Prefs.headerColor,
-                ids = *intArrayOf(R.id.intro_phone_tab)
+            color = Prefs.headerColor,
+            ids = *intArrayOf(R.id.intro_phone_tab)
         )
         themeImageComponent(
-                color = Prefs.textColor.withAlpha(80),
-                ids = *intArrayOf(R.id.intro_phone_icon_ripple)
+            color = Prefs.textColor.withAlpha(80),
+            ids = *intArrayOf(R.id.intro_phone_icon_ripple)
         )
     }
 }
 
 class IntroTabContextFragment : BaseImageIntroFragment(
-        R.string.intro_context_aware,
-        R.drawable.intro_phone_long_press,
-        R.string.intro_context_aware_description
+    R.string.intro_context_aware,
+    R.drawable.intro_phone_long_press,
+    R.string.intro_context_aware_description
 ) {
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         themeImageComponent(
-                color = Prefs.headerColor,
-                ids = *intArrayOf(R.id.intro_phone_toolbar)
+            color = Prefs.headerColor,
+            ids = *intArrayOf(R.id.intro_phone_toolbar)
         )
         themeImageComponent(
-                color = Prefs.backgroundColor.colorToForeground(0.1f),
-                ids = *intArrayOf(R.id.intro_phone_image)
+            color = Prefs.backgroundColor.colorToForeground(0.1f),
+            ids = *intArrayOf(R.id.intro_phone_image)
         )
         themeImageComponent(
-                color = Prefs.backgroundColor.colorToForeground(0.2f),
-                ids = *intArrayOf(R.id.intro_phone_like, R.id.intro_phone_share)
+            color = Prefs.backgroundColor.colorToForeground(0.2f),
+            ids = *intArrayOf(R.id.intro_phone_like, R.id.intro_phone_share)
         )
         themeImageComponent(
-                color = Prefs.backgroundColor.colorToForeground(0.3f),
-                ids = *intArrayOf(R.id.intro_phone_comment)
+            color = Prefs.backgroundColor.colorToForeground(0.3f),
+            ids = *intArrayOf(R.id.intro_phone_comment)
         )
         themeImageComponent(
-                color = Prefs.backgroundColor.colorToForeground(0.1f),
-                ids = *intArrayOf(R.id.intro_phone_card_1, R.id.intro_phone_card_2)
+            color = Prefs.backgroundColor.colorToForeground(0.1f),
+            ids = *intArrayOf(R.id.intro_phone_card_1, R.id.intro_phone_card_2)
         )
         themeImageComponent(
-                color = Prefs.textColor,
-                ids = *intArrayOf(
-                        R.id.intro_phone_image_indicator,
-                        R.id.intro_phone_comment_indicator,
-                        R.id.intro_phone_card_indicator
-                )
+            color = Prefs.textColor,
+            ids = *intArrayOf(
+                R.id.intro_phone_image_indicator,
+                R.id.intro_phone_comment_indicator,
+                R.id.intro_phone_card_indicator
+            )
         )
     }
 

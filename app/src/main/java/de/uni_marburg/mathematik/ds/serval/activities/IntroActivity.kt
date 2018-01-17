@@ -39,12 +39,12 @@ class IntroActivity : BaseActivity() {
     private var barHasNext = true
 
     private val fragments = listOf(
-            IntroFragmentWelcome(),
-            IntroFragmentTheme(),
-            IntroAccountFragment(),
-            IntroTabTouchFragment(),
-            IntroTabContextFragment(),
-            IntroFragmentEnd()
+        IntroFragmentWelcome(),
+        IntroFragmentTheme(),
+        IntroAccountFragment(),
+        IntroTabTouchFragment(),
+        IntroTabContextFragment(),
+        IntroFragmentEnd()
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,8 +58,8 @@ class IntroActivity : BaseActivity() {
             setOnClickListener {
                 if (barHasNext) viewpager.setCurrentItem(viewpager.currentItem + 1, true)
                 else finish(
-                        x = next.x + next.pivotX,
-                        y = next.y + next.pivotY
+                    x = next.x + next.pivotX,
+                    y = next.y + next.pivotY
                 )
             }
         }
@@ -100,9 +100,9 @@ class IntroActivity : BaseActivity() {
             override fun onPageScrollStateChanged(state: Int) = Unit
 
             override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
             ) {
                 fragments[position].onPageScrolled(positionOffset)
                 if (position + 1 < fragments.size) {
@@ -117,9 +117,9 @@ class IntroActivity : BaseActivity() {
                 barHasNext = hasNext
                 next.fadeScaleTransition {
                     setIcon(
-                            if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
-                            else GoogleMaterial.Icon.gmd_done,
-                            color = Prefs.iconColor
+                        if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
+                        else GoogleMaterial.Icon.gmd_done,
+                        color = Prefs.iconColor
                     )
                 }
                 skip.animate().scaleXY(if (barHasNext) 1f else 0f)
@@ -142,36 +142,38 @@ class IntroActivity : BaseActivity() {
     fun finish(x: Float, y: Float) {
         val green = Theme.AARDVARK_GREEN
         window.setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         )
         ripple.ripple(
-                color = green,
-                startX = x,
-                startY = y,
-                duration = 600
+            color = green,
+            startX = x,
+            startY = y,
+            duration = 600
         ) {
             postDelayed(delay = 1000) { finish() }
         }
         @Suppress("RemoveExplicitTypeArguments")
         arrayOf(
-                skip,
-                indicator,
-                next,
-                fragments.last().view?.find<View>(R.id.intro_title),
-                fragments.last().view?.find<View>(R.id.intro_desc)
+            skip,
+            indicator,
+            next,
+            fragments.last().view?.find<View>(R.id.intro_title),
+            fragments.last().view?.find<View>(R.id.intro_desc)
         ).forEach { view ->
             view?.animate()?.alpha(0f)?.setDuration(600)?.start()
         }
         if (Prefs.textColor != Color.WHITE) {
-            val f = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
-            if (f != null) {
+            val image = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
+            if (image != null) {
                 ValueAnimator.ofFloat(0f, 1f).apply {
                     addUpdateListener {
-                        f.setTint(Prefs.textColor.blendWith(
+                        image.setTint(
+                            Prefs.textColor.blendWith(
                                 color = Color.WHITE,
                                 ratio = it.animatedValue as Float
-                        ))
+                            )
+                        )
                     }
                     duration = 600
                     start()
@@ -182,8 +184,8 @@ class IntroActivity : BaseActivity() {
             ValueAnimator.ofFloat(0f, 1f).apply {
                 addUpdateListener {
                     val color = Prefs.headerColor.blendWith(
-                            color = green,
-                            ratio = it.animatedValue as Float
+                        color = green,
+                        ratio = it.animatedValue as Float
                     )
                     statusBarColor = color
                     navigationBarColor = color
@@ -195,8 +197,8 @@ class IntroActivity : BaseActivity() {
     }
 
     class IntroPageAdapter(
-            fm: FragmentManager,
-            private val fragments: List<BaseIntroFragment>
+        fm: FragmentManager,
+        private val fragments: List<BaseIntroFragment>
     ) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment = fragments[position]

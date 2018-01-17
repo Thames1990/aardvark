@@ -80,9 +80,9 @@ class SettingsActivity : KPrefActivity() {
         if (animate) {
             bgCanvas.fade(color = Prefs.backgroundColor)
             toolbarCanvas.ripple(
-                    color = Prefs.headerColor,
-                    startX = RippleCanvas.MIDDLE,
-                    startY = RippleCanvas.END
+                color = Prefs.headerColor,
+                startX = RippleCanvas.MIDDLE,
+                startY = RippleCanvas.END
             )
         } else {
             bgCanvas.set(color = Prefs.backgroundColor)
@@ -102,12 +102,12 @@ class SettingsActivity : KPrefActivity() {
         menuInflater.inflate(R.menu.menu_settings, menu)
         toolbar.tint(color = Prefs.iconColor)
         setMenuIcons(
-                menu = menu,
-                color = Prefs.iconColor,
-                iicons = *arrayOf(
-                        R.id.action_email to GoogleMaterial.Icon.gmd_email,
-                        R.id.action_changelog to GoogleMaterial.Icon.gmd_info
-                )
+            menu = menu,
+            color = Prefs.iconColor,
+            iicons = *arrayOf(
+                R.id.action_email to GoogleMaterial.Icon.gmd_email,
+                R.id.action_changelog to GoogleMaterial.Icon.gmd_info
+            )
         )
         return true
     }

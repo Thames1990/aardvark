@@ -20,13 +20,13 @@ fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Unit): Mat
 }
 
 inline fun Context.sendAardvarkEmail(
-        @StringRes subjectId: Int,
-        crossinline builder: EmailBuilder.() -> Unit
+    @StringRes subjectId: Int,
+    crossinline builder: EmailBuilder.() -> Unit
 ) = sendAardvarkEmail(string(subjectId), builder)
 
 inline fun Context.sendAardvarkEmail(
-        subject: String,
-        crossinline builder: EmailBuilder.() -> Unit
+    subject: String,
+    crossinline builder: EmailBuilder.() -> Unit
 ) = sendEmail(string(R.string.developer_email), subject) {
     builder()
     addItem("Random Aardvark ID", Prefs.aardvarkId)

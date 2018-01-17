@@ -38,7 +38,7 @@ inline fun aardvarkSnackbar(crossinline builder: Snackbar.() -> Unit): Snackbar.
         actionView.setTextColor(Prefs.accentColor)
         //only set if previous text colors are set
         view.setBackgroundColor(
-                Prefs.backgroundColor.withAlpha(255).colorToForeground(0.1f)
+            Prefs.backgroundColor.withAlpha(255).colorToForeground(0.1f)
         )
     }
 }
@@ -46,9 +46,9 @@ inline fun aardvarkSnackbar(crossinline builder: Snackbar.() -> Unit): Snackbar.
 /** Converts distance in meters **/
 fun Float.distanceToString(context: Context): String =
         // in meter
-        if (this < 1000) String.format(context.string(R.string.distance_in_meter), this)
-        // in kilometer
-        else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
+    if (this < 1000) String.format(context.string(R.string.distance_in_meter), this)
+    // in kilometer
+    else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
 
 /** Converts UNIX time to human readable information in relation to the current time **/
 fun Long.timeToString(context: Context): String {

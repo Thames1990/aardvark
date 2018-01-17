@@ -20,7 +20,7 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
         get() = listOf(light, dark, amoled)
 
     override fun viewArray(): Array<Array<out View>> =
-            arrayOf(arrayOf(title), themeList.toTypedArray())
+        arrayOf(arrayOf(title), themeList.toTypedArray())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,9 +40,9 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
             Prefs.theme = theme.ordinal
             (activity as IntroActivity).apply {
                 ripple.ripple(
-                        color = Prefs.backgroundColor,
-                        startX = v.x + v.pivotX,
-                        startY = v.y + v.pivotY
+                    color = Prefs.backgroundColor,
+                    startX = v.x + v.pivotX,
+                    startY = v.y + v.pivotY
                 )
                 theme()
             }
