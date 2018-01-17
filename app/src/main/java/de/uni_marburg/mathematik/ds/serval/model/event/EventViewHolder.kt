@@ -33,14 +33,16 @@ class EventViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private var event: Event? = null
 
     fun bindTo(event: Event?, listener: (Event) -> Unit) {
-        this.event = event
+        if (event != null) {
+            this.event = event.apply {
+                displayTime()
+                displayLocation()
+                displayMeasurementTypes()
+            }
 
-        event?.displayTime()
-        event?.displayLocation()
-        event?.displayMeasurementTypes()
-
-        itemView.setBackgroundColor(Prefs.backgroundColor)
-        itemView.setOnClickListener { listener(event!!) }
+            itemView.setBackgroundColor(Prefs.backgroundColor)
+            itemView.setOnClickListener { listener(event) }
+        }
     }
 
     private fun Event.displayTime() {
@@ -52,16 +54,16 @@ class EventViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     }
 
     private fun Event.displayLocation() {
-        val hasLocationPermission = itemView.context.hasPermission(
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
+        val context = itemView.context
+
+        val hasLocationPermission = context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
         if (hasLocationPermission) {
             locationIconView.setIcon(
                 icon = GoogleMaterial.Icon.gmd_location_on,
                 color = Prefs.textColor
             )
             locationView.apply {
-                text = location.distanceTo(location).distanceToString(itemView.context)
+                text = location.distanceTo(location).distanceToString(context)
                 setTextColor(Prefs.textColor)
             }
         } else {
