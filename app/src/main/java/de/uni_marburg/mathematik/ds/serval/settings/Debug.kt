@@ -15,9 +15,7 @@ import java.net.InetAddress
 
 /** Created by thames1990 on 09.12.17. */
 fun SettingsActivity.getDebugPrefs(): KPrefAdapterBuilder.() -> Unit = {
-    plainText(R.string.debug_disclaimer_info) {
-        descRes = R.string.debug_disclaimer_info
-    }
+    plainText(R.string.debug_disclaimer_info) { descRes = R.string.debug_disclaimer_info }
     checkbox(R.string.preference_enable_wifi_adb, { Prefs.useWifiADB }, {
         Prefs.useWifiADB = it
         when (it) {
@@ -37,7 +35,7 @@ fun SettingsActivity.getDebugPrefs(): KPrefAdapterBuilder.() -> Unit = {
 /** Enables WifiADB and lets the user send ADB connection information. */
 private fun enableWifiAdb() {
     with(getRuntime().exec("su")) {
-        with(DataOutputStream(outputStream)) {
+        DataOutputStream(outputStream).apply {
             writeBytes("setprop service.adb.tcp.port 5555\\nstop adbd\\nstart adbd\\nexit")
             flush()
             close()
@@ -52,7 +50,7 @@ private fun enableWifiAdb() {
  */
 private fun disableWifiAdb() {
     with(getRuntime().exec("su")) {
-        with(DataOutputStream(outputStream)) {
+        DataOutputStream(outputStream).apply {
             writeBytes("setprop service.adb.tcp.port -1\\nstop adbd\\nstart adbd\\nexit")
             flush()
             close()
