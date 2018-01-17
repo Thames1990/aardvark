@@ -70,7 +70,7 @@ abstract class BaseImageIntroFragment(
     }
 }
 
-class IntroTabTouchFragment : BaseImageIntroFragment(
+class IntroFragmentTabTouch : BaseImageIntroFragment(
     R.string.intro_easy_navigation,
     R.drawable.intro_phone_tab,
     R.string.intro_easy_navigation_desc
@@ -103,49 +103,5 @@ class IntroTabTouchFragment : BaseImageIntroFragment(
             color = Prefs.textColor.withAlpha(80),
             ids = *intArrayOf(R.id.intro_phone_icon_ripple)
         )
-    }
-}
-
-class IntroTabContextFragment : BaseImageIntroFragment(
-    R.string.intro_context_aware,
-    R.drawable.intro_phone_long_press,
-    R.string.intro_context_aware_description
-) {
-
-    override fun themeFragmentImpl() {
-        super.themeFragmentImpl()
-        themeImageComponent(
-            color = Prefs.headerColor,
-            ids = *intArrayOf(R.id.intro_phone_toolbar)
-        )
-        themeImageComponent(
-            color = Prefs.backgroundColor.colorToForeground(0.1f),
-            ids = *intArrayOf(R.id.intro_phone_image)
-        )
-        themeImageComponent(
-            color = Prefs.backgroundColor.colorToForeground(0.2f),
-            ids = *intArrayOf(R.id.intro_phone_like, R.id.intro_phone_share)
-        )
-        themeImageComponent(
-            color = Prefs.backgroundColor.colorToForeground(0.3f),
-            ids = *intArrayOf(R.id.intro_phone_comment)
-        )
-        themeImageComponent(
-            color = Prefs.backgroundColor.colorToForeground(0.1f),
-            ids = *intArrayOf(R.id.intro_phone_card_1, R.id.intro_phone_card_2)
-        )
-        themeImageComponent(
-            color = Prefs.textColor,
-            ids = *intArrayOf(
-                R.id.intro_phone_image_indicator,
-                R.id.intro_phone_comment_indicator,
-                R.id.intro_phone_card_indicator
-            )
-        )
-    }
-
-    override fun onPageScrolledImpl(positionOffset: Float) {
-        super.onPageScrolledImpl(positionOffset)
-        lastImageFragmentTransition(offset = positionOffset)
     }
 }

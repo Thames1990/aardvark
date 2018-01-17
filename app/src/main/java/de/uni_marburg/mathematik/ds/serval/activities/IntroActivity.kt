@@ -21,9 +21,8 @@ import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentEnd
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentWelcome
+import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTabTouch
 import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTheme
-import de.uni_marburg.mathematik.ds.serval.intro.IntroTabContextFragment
-import de.uni_marburg.mathematik.ds.serval.intro.IntroTabTouchFragment
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import org.jetbrains.anko.find
 
@@ -43,8 +42,7 @@ class IntroActivity : BaseActivity() {
     private val fragments = listOf(
         IntroFragmentWelcome(),
         IntroFragmentTheme(),
-        IntroTabTouchFragment(),
-        IntroTabContextFragment(),
+        IntroFragmentTabTouch(),
         IntroFragmentEnd()
     )
 
