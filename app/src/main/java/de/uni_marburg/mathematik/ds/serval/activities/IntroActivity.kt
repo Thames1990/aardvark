@@ -68,11 +68,10 @@ class IntroActivity : BaseActivity() {
     }
 
     override fun backConsumer(): Boolean {
-        if (viewpager.currentItem > 0) {
-            viewpager.setCurrentItem(viewpager.currentItem - 1, true)
-            return true
+        with(viewpager) {
+            if (currentItem > 0) setCurrentItem(currentItem - 1, true)
+            else finishAffinity()
         }
-        finishAffinity()
         return true
     }
 
