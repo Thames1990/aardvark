@@ -36,7 +36,8 @@ class LocationLiveData(private val context: Context) : LiveData<Location>() {
     @SuppressLint("MissingPermission")
     override fun onActive() {
         super.onActive()
-        if (context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+        val hasLocationPermission = context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        if (hasLocationPermission) {
             with(locationRequest) {
                 interval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestInterval.toLong())
                 fastestInterval =
