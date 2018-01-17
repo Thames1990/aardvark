@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
@@ -12,17 +11,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import ca.allanwang.kau.utils.*
-import co.zsmb.materialdrawerkt.builders.Builder
-import co.zsmb.materialdrawerkt.builders.accountHeader
-import co.zsmb.materialdrawerkt.builders.drawer
-import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
-import co.zsmb.materialdrawerkt.draweritems.profile.profile
-import co.zsmb.materialdrawerkt.draweritems.profile.profileSetting
-import com.crashlytics.android.answers.ContentViewEvent
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
-import com.mikepenz.materialdrawer.AccountHeader
-import com.mikepenz.materialdrawer.Drawer
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
@@ -37,8 +26,6 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var drawer: Drawer
-    private lateinit var drawerHeader: AccountHeader
     private lateinit var eventBadgedIcon: BadgedIcon
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
@@ -72,7 +59,6 @@ class MainActivity : BaseActivity() {
             header(appBar)
         }
 
-        setupDrawer(savedInstanceState)
         tabs.setup()
 
         checkForNewVersion()
@@ -166,19 +152,18 @@ class MainActivity : BaseActivity() {
 
     private fun TabLayout.loadTabs() {
         AardvarkItem.values().map { aardvarkItem ->
-            if (aardvarkItem.ordinal == AardvarkItem.EVENTS.ordinal) {
-                eventBadgedIcon = BadgedIcon(context).apply {
-                    iicon = aardvarkItem.icon
-                    doAsync {
-                        val eventCount: Int = eventViewModel.dao.count()
-                        uiThread {
-                            badgeText = eventCount.toString()
+            when (aardvarkItem) {
+                AardvarkItem.EVENTS -> {
+                    eventBadgedIcon = BadgedIcon(context).apply {
+                        iicon = aardvarkItem.icon
+                        doAsync {
+                            val eventCount: Int = eventViewModel.dao.count()
+                            uiThread { badgeText = eventCount.toString() }
                         }
                     }
+                    addTab(newTab().setCustomView(eventBadgedIcon))
                 }
-                addTab(newTab().setCustomView(eventBadgedIcon))
-            } else {
-                addTab(newTab().setCustomView(BadgedIcon(context).apply {
+                else -> addTab(newTab().setCustomView(BadgedIcon(context).apply {
                     iicon = aardvarkItem.icon
                 }))
             }
@@ -188,9 +173,7 @@ class MainActivity : BaseActivity() {
     private fun TabLayout.reloadTabs() {
         doAsync {
             val eventCount: Int = eventViewModel.dao.count()
-            uiThread {
-                eventBadgedIcon.badgeText = eventCount.toString()
-            }
+            uiThread { eventBadgedIcon.badgeText = eventCount.toString() }
         }
     }
 
@@ -211,92 +194,4 @@ class MainActivity : BaseActivity() {
             }
         }
     }
-
-    private fun setupDrawer(savedInstanceState: Bundle?) {
-        val navBackground = Prefs.backgroundColor.withMinAlpha(200).toLong()
-        val navHeader = Prefs.headerColor.withMinAlpha(200)
-        drawer = drawer {
-            toolbar = this@MainActivity.toolbar
-            savedInstance = savedInstanceState
-            translucentStatusBar = false
-            sliderBackgroundColor = navBackground
-            drawerHeader = accountHeader {
-                customViewRes = R.layout.material_drawer_header
-                textColor = Prefs.iconColor.toLong()
-                backgroundDrawable = ColorDrawable(navHeader)
-                selectionSecondLineShown = false
-                profile(name = Prefs.kervalUser) {
-                    icon = R.drawable.aardvark
-                    textColor = Prefs.textColor.toLong()
-                    selectedTextColor = Prefs.textColor.toLong()
-                    selectedColor = 0x00000001.toLong()
-                    identifier = Prefs.identifier.toLong()
-                }
-                profileSetting(nameRes = R.string.kau_logout) {
-                    iicon = GoogleMaterial.Icon.gmd_exit_to_app
-                    iconColor = Prefs.textColor.toLong()
-                    textColor = Prefs.textColor.toLong()
-                    identifier = -2L
-                }
-                profileSetting(nameRes = R.string.kau_add_account) {
-                    iconDrawable = IconicsDrawable(
-                        this@MainActivity,
-                        GoogleMaterial.Icon.gmd_add
-                    ).actionBar().paddingDp(5).color(Prefs.textColor)
-                    textColor = Prefs.textColor.toLong()
-                    identifier = -3L
-                }
-                profileSetting(nameRes = R.string.kau_manage_account) {
-                    iicon = GoogleMaterial.Icon.gmd_settings
-                    iconColor = Prefs.textColor.toLong()
-                    textColor = Prefs.textColor.toLong()
-                    identifier = -4L
-                }
-                onProfileChanged { _, profile, _ ->
-                    when (profile.identifier) {
-                        -2L -> materialDialogThemed {
-                            title(R.string.kau_logout)
-                            content(
-                                String.format(
-                                    string(R.string.kau_logout_confirm_as_x),
-                                    Prefs.kervalUser
-                                )
-                            )
-                            positiveText(R.string.kau_yes)
-                            negativeText(R.string.kau_no)
-                            onPositive { _, _ -> toast("Logout will be implemented soon") }
-                        }
-                        -3L -> toast("Login will be implemented soon")
-                        -4L -> toast("Profile selector will be implemented soon")
-                    }
-                    false
-                }
-            }
-            drawerHeader.setActiveProfile(Prefs.identifier.toLong())
-            AardvarkItem.values().map {
-                primaryAardvarkItem(it)
-            }
-        }
-    }
-
-    private fun Builder.primaryAardvarkItem(item: AardvarkItem) =
-        this.primaryItem(item.titleResId) {
-            iicon = item.icon
-            iconColor = Prefs.iconColor.toLong()
-            textColor = Prefs.textColor.toLong()
-            selectedIconColor = Prefs.iconColor.toLong()
-            selectedTextColor = Prefs.textColor.toLong()
-            selectedColor = 0x00000001.toLong()
-            identifier = item.titleResId.toLong()
-            onClick { _ ->
-                aardvarkAnswers {
-                    logContentView(
-                        ContentViewEvent()
-                            .putContentName(item.name)
-                            .putContentType("drawer_item")
-                    )
-                }
-                false
-            }
-        }
 }

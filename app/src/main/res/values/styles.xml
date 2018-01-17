@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AardvarkThemeBase" parent="MaterialDrawerTheme.ActionBar">
+    <style name="AardvarkThemeBase" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@android:color/white</item>
@@ -12,9 +12,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AardvarkTheme.Light" parent="MaterialDrawerTheme.Light.DarkToolbar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
+    <style name="AardvarkTheme.Light" parent="Theme.AppCompat.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@android:color/black</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
