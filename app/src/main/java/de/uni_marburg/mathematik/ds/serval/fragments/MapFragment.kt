@@ -4,7 +4,9 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.setMenuIcons
 import com.google.android.gms.maps.CameraUpdate
@@ -28,34 +30,27 @@ import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
 
+    private lateinit var eventViewModel: EventViewModel
     private lateinit var googleMap: GoogleMap
-
-    private val map: SupportMapFragment by lazy {
-        childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-    }
-
-    private val eventViewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
-    }
+    private lateinit var map: SupportMapFragment
 
     override val layout: Int
         get() = R.layout.fragment_map
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     @SuppressLint("MissingPermission")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
+        map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+
         map.getMapAsync { googleMap ->
-            this.googleMap = googleMap
-            with(googleMap) {
+            this.googleMap = googleMap.apply {
                 val hasLocationPermission =
                     context!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 isMyLocationEnabled = hasLocationPermission
@@ -93,8 +88,6 @@ class MapFragment : BaseFragment() {
     }
 
     private fun GoogleMap.style() {
-        uiSettings.isScrollGesturesEnabled = false
-        uiSettings.isMapToolbarEnabled = false
         setMinZoomPreference(MAP_MIN_ZOOM)
         when (Prefs.theme) {
             Theme.DARK.ordinal -> setMapStyle(loadRawResourceStyle(context, R.raw.map_style_dark))
@@ -108,32 +101,32 @@ class MapFragment : BaseFragment() {
     }
 
     private fun GoogleMap.setupClusterManager() {
-        with(ClusterManager<Event>(context, this)) {
+        val clusterManager = ClusterManager<Event>(context, this)
+        clusterManager.apply {
             setAnimation(Prefs.animate)
             setOnCameraIdleListener(this)
-            setOnMarkerClickListener(this)
-            setOnInfoWindowClickListener(this)
-            setOnClusterClickListener {
-                with(LatLngBounds.builder()) {
-                    it.items.forEach { event -> include(event.position) }
-                    cameraUpdate(build(), Prefs.animate)
+            setOnClusterClickListener { cluster ->
+                val builder = LatLngBounds.builder()
+                cluster.items.forEach { event ->
+                    builder.include(event.position)
+                    val bounds = builder.build()
+                    cameraUpdate(bounds, Prefs.animate)
                 }
                 true
             }
-            setOnClusterItemInfoWindowClickListener {
+            setOnClusterItemInfoWindowClickListener { event ->
                 context!!.startActivity<DetailActivity>(
-                    params = *arrayOf(
-                        DetailActivity.EVENT_ID to it.id,
-                        DetailActivity.SHOW_MAP to false
-                    )
+                    DetailActivity.EVENT_ID to event.id,
+                    DetailActivity.SHOW_MAP to false
                 )
             }
+            setOnInfoWindowClickListener(this)
+            setOnMarkerClickListener(this)
 
             doAsync {
-                with(eventViewModel.dao.getAll()) {
-                    addItems(this)
-                    uiThread { cluster() }
-                }
+                val events: List<Event> = eventViewModel.dao.getAll()
+                addItems(events)
+                uiThread { cluster() }
             }
         }
     }
@@ -141,16 +134,15 @@ class MapFragment : BaseFragment() {
     private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
         doAsync {
             val events: List<Event> = eventViewModel.dao.getAll()
-            uiThread {
+            uiThread { googleMap ->
                 if (events.isNotEmpty()) {
                     val builder = LatLngBounds.builder()
                     doAsync {
-                        events.forEach { builder.include(it.position) }
+                        events.forEach { event -> builder.include(event.position) }
                         uiThread {
-                            with(builder.build()) {
-                                googleMap.setLatLngBoundsForCameraTarget(this)
-                                googleMap.cameraUpdate(bounds = this, animate = animate)
-                            }
+                            val bounds: LatLngBounds = builder.build()
+                            googleMap.setLatLngBoundsForCameraTarget(bounds)
+                            googleMap.cameraUpdate(bounds, animate)
                         }
                     }
                 }
