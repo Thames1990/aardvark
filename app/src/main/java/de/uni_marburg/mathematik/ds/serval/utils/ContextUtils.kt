@@ -9,9 +9,7 @@ import ca.allanwang.kau.xml.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
 import de.uni_marburg.mathematik.ds.serval.R
 
-fun Context.aardvarkChangelog() = showChangelog(R.xml.changelog, Prefs.textColor) {
-    theme()
-}
+fun Context.aardvarkChangelog() = showChangelog(R.xml.changelog, Prefs.textColor) { theme() }
 
 fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Unit): MaterialDialog {
     val builder = MaterialDialog.Builder(this).theme()
