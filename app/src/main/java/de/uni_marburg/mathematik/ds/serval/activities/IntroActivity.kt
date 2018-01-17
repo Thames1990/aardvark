@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
-import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageButton
@@ -117,6 +116,7 @@ class IntroActivity : BaseActivity() {
                 barHasNext = hasNext
                 next.fadeScaleTransition {
                     setIcon(
+                        icon =
                         if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
                         else GoogleMaterial.Icon.gmd_done,
                         color = Prefs.iconColor
@@ -153,15 +153,14 @@ class IntroActivity : BaseActivity() {
         ) {
             postDelayed(delay = 1000) { finish() }
         }
-        @Suppress("RemoveExplicitTypeArguments")
         arrayOf(
             skip,
             indicator,
             next,
-            fragments.last().view?.find<View>(R.id.intro_title),
-            fragments.last().view?.find<View>(R.id.intro_desc)
+            fragments.last().view?.find(R.id.intro_title)!!,
+            fragments.last().view?.find(R.id.intro_desc)!!
         ).forEach { view ->
-            view?.animate()?.alpha(0f)?.setDuration(600)?.start()
+            view.animate()?.alpha(0f)?.setDuration(600)?.start()
         }
         if (Prefs.textColor != Color.WHITE) {
             val image = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
