@@ -8,9 +8,8 @@ class EventAdapter(
     private val listener: (Event) -> Unit
 ) : PagedListAdapter<Event, EventViewHolder>(diffCallback) {
 
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EventViewHolder, position: Int) =
         holder.bindTo(getItem(position), listener)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder =
         EventViewHolder(parent)
