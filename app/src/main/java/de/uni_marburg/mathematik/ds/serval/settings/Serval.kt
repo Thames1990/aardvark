@@ -30,7 +30,8 @@ fun SettingsActivity.getServalPrefs(): KPrefAdapterBuilder.() -> Unit = {
                 input(
                     string(R.string.password),
                     item.pref,
-                    { _, input -> item.pref = input.toString() })
+                    { _, input -> item.pref = input.toString() }
+                )
             }
         }
     }
