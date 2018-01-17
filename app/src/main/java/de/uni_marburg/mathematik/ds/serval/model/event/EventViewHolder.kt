@@ -58,7 +58,7 @@ class EventViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         if (hasLocationPermission) {
             locationIconView.setIcon(
                 icon = GoogleMaterial.Icon.gmd_location_on,
-                color = Prefs.iconColor
+                color = Prefs.textColor
             )
             locationView.apply {
                 text = location.distanceTo(location).distanceToString(itemView.context)
@@ -78,7 +78,7 @@ class EventViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         measurements.toHashSet().forEach { measurement ->
             measurementsView.addView(ImageView(itemView.context).apply {
                 setImageResource(measurement.type.iconRes)
-                setColorFilter(Prefs.iconColor, PorterDuff.Mode.SRC_IN)
+                setColorFilter(Prefs.textColor, PorterDuff.Mode.SRC_IN)
                 layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
