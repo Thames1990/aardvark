@@ -24,11 +24,8 @@ abstract class EventDatabase : RoomDatabase() {
                     EventDatabase::class.java,
                     BuildConfig.APPLICATION_ID
                 ).addCallback(object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        ioThread {
-                            get(context).eventDao().insert(EventRepository.fetch())
-                        }
-                    }
+                    override fun onCreate(db: SupportSQLiteDatabase) =
+                        ioThread { get(context).eventDao().insert(EventRepository.fetch()) }
                 }).build()
             }
             return instance!!
@@ -47,28 +44,23 @@ class EventConverters {
         EventRepository.moshi.adapter(GeohashLocation::class.java)
 
     @TypeConverter
-    fun fromMeasurementJson(json: String): List<Measurement> {
-        return measurementsAdapter.fromJson(json) ?: emptyList()
-    }
+    fun fromMeasurementJson(json: String): List<Measurement> =
+        measurementsAdapter.fromJson(json) ?: emptyList()
 
     @TypeConverter
-    fun fromMeasurementList(list: List<Measurement>): String {
-        return measurementsAdapter.toJson(list)
-    }
+    fun fromMeasurementList(list: List<Measurement>): String = measurementsAdapter.toJson(list)
 
     @TypeConverter
-    fun fromGeohashLocationJson(json: String): GeohashLocation {
-        return geohashLocationAdapter.fromJson(json) ?: GeohashLocation(
+    fun fromGeohashLocationJson(json: String): GeohashLocation =
+        geohashLocationAdapter.fromJson(json) ?: GeohashLocation(
             latitude = 0.0,
             longitude = 0.0,
             geohash = ""
         )
-    }
 
     @TypeConverter
-    fun fromGeohashLocationObject(geohashLocation: GeohashLocation): String {
-        return geohashLocationAdapter.toJson(geohashLocation)
-    }
+    fun fromGeohashLocationObject(geohashLocation: GeohashLocation): String =
+        geohashLocationAdapter.toJson(geohashLocation)
 }
 
 private val ioExecutor = Executors.newSingleThreadExecutor()
