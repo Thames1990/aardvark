@@ -38,11 +38,8 @@ fun Activity.setAardvarkTheme() {
     else setTheme(R.style.AardvarkTheme_Light)
 }
 
-fun Activity.setCurrentScreen() = Aardvark.firebaseAnalytics.setCurrentScreen(
-    this,
-    javaClass.simpleName,
-    null
-)
+fun Activity.setCurrentScreen() =
+    Aardvark.firebaseAnalytics.setCurrentScreen(this, javaClass.simpleName, null)
 
 fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
     val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
@@ -84,13 +81,11 @@ fun AppCompatActivity.addFragmentSafely(
     else if (allowStateLoss) ft.commitAllowingStateLoss()
 }
 
-fun AppCompatActivity.existsFragmentByTag(tag: String): Boolean {
-    return supportFragmentManager.findFragmentByTag(tag) != null
-}
+fun AppCompatActivity.existsFragmentByTag(tag: String): Boolean =
+    supportFragmentManager.findFragmentByTag(tag) != null
 
-fun AppCompatActivity.findFragmentByTag(tag: String): Fragment? {
-    return supportFragmentManager.findFragmentByTag(tag)
-}
+fun AppCompatActivity.findFragmentByTag(tag: String): Fragment? =
+    supportFragmentManager.findFragmentByTag(tag)
 
 class ActivityThemeUtils {
 
