@@ -62,7 +62,7 @@ class MainActivity : BaseActivity() {
         tabs.setup()
 
         checkForNewVersion()
-        eventViewModel.allEvents.observe(this, Observer { tabs.reloadTabs() })
+        eventViewModel.events.observe(this, Observer { tabs.reloadTabs() })
     }
 
     @SuppressLint("NewApi")

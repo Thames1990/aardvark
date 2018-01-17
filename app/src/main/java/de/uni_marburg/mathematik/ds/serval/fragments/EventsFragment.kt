@@ -42,7 +42,7 @@ class EventsFragment : BaseFragment() {
             )
         }
         eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
-        eventViewModel.allEvents.observe(this, Observer(eventAdapter::setList))
+        eventViewModel.events.observe(this, Observer(eventAdapter::setList))
     }
 
     override fun onCreateView(
