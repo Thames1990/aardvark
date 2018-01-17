@@ -59,8 +59,6 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
                 }
             }
         }
-        textGetter = {
-            string(LocationRequestPriority(it).titleRes)
-        }
+        textGetter = { string(LocationRequestPriority(it).titleRes) }
     }
 }
