@@ -36,13 +36,13 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
     faqParseNewLine = false
 }) {
 
+    private var lastClick: Long = -1L
+    private var clickCount: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         setCurrentScreen()
     }
-
-    private var lastClick = -1L
-    private var clickCount = 0
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark = Library().apply {
@@ -57,20 +57,23 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                 licenseWebsite = getString(R.string.license_website)
             }
         }
-        adapter.add(LibraryIItem(aardvark)).add(AboutLinks())
-        adapter.withOnClickListener { _, _, item, _ ->
-            if (item is LibraryIItem) {
-                val now = System.currentTimeMillis()
-                // Only register clicks within a timespan of 500 milliseconds
-                if (now - lastClick > 500) clickCount = 0 else clickCount++
-                lastClick = now
-                // Enable debug settings if the user clicked 7 times in a short timespan
-                if (clickCount == 7 && !Prefs.debugSettings) {
-                    Prefs.debugSettings = true
-                    aardvarkSnackbar(R.string.debug_enabled)
+        adapter.apply {
+            add(LibraryIItem(aardvark))
+            add(AboutLinks())
+            withOnClickListener { _, _, item, _ ->
+                if (item is LibraryIItem) {
+                    val now = System.currentTimeMillis()
+                    // Only register clicks within a timespan of 500 milliseconds
+                    if (now - lastClick > 500) clickCount = 0 else clickCount++
+                    lastClick = now
+                    // Enable debug settings if the user clicked 7 times in a short timespan
+                    if (clickCount == 7 && !Prefs.debugSettings) {
+                        Prefs.debugSettings = true
+                        aardvarkSnackbar(R.string.debug_enabled)
+                    }
                 }
+                false
             }
-            false
         }
     }
 
@@ -117,18 +120,19 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
 
                 // Avoid problems with constraint chains
                 if (images.size >= 2) {
-                    val set = ConstraintSet()
-                    set.clone(container)
-                    set.createHorizontalChain(
-                        ConstraintSet.PARENT_ID,
-                        ConstraintSet.LEFT,
-                        ConstraintSet.PARENT_ID,
-                        ConstraintSet.RIGHT,
-                        images.map { it.id }.toIntArray(),
-                        null,
-                        ConstraintSet.CHAIN_SPREAD_INSIDE
-                    )
-                    set.applyTo(container)
+                    ConstraintSet().apply {
+                        clone(container)
+                        createHorizontalChain(
+                            ConstraintSet.PARENT_ID,
+                            ConstraintSet.LEFT,
+                            ConstraintSet.PARENT_ID,
+                            ConstraintSet.RIGHT,
+                            images.map { it.id }.toIntArray(),
+                            null,
+                            ConstraintSet.CHAIN_SPREAD_INSIDE
+                        )
+                        applyTo(container)
+                    }
                 }
             }
         }
