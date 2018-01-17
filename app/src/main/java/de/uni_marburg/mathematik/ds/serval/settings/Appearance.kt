@@ -41,9 +41,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
                 }
             }
         }
-        textGetter = {
-            string(Theme(it).titleRes)
-        }
+        textGetter = { string(Theme(it).titleRes) }
     }
 
     fun KPrefColorPicker.KPrefColorContract.dependsOnCustom() {
@@ -131,8 +129,6 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
         Prefs.tintNavBar = it
         aardvarkNavigationBar()
         setAardvarkResult(MainActivity.REQUEST_NAV)
-    }) {
-        descRes = R.string.tint_nav_desc
-    }
+    }) { descRes = R.string.tint_nav_desc }
 
 }
