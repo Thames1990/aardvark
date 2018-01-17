@@ -53,8 +53,7 @@ class BadgedIcon(
         set(value) {
             if (badgeTextView.text == value) return
             badgeTextView.text = value
-            if (value != null && value != "0") badgeTextView.visible()
-            else badgeTextView.gone()
+            badgeTextView.visibleIf(value != null && value != "0")
         }
 
     fun setAllALpha(alpha: Float) {
