@@ -1,25 +1,33 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
+import android.Manifest
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.arch.paging.PagedListAdapter
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.Guideline
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.recyclerview.extensions.DiffCallback
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import ca.allanwang.kau.animators.KauAnimator
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
-import de.uni_marburg.mathematik.ds.serval.model.event.EventAdapter
+import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
-import de.uni_marburg.mathematik.ds.serval.utils.withDividerDecoration
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 
 class EventsFragment : BaseFragment() {
@@ -94,4 +102,97 @@ class EventsFragment : BaseFragment() {
             }
         }
     }
+}
+
+class EventAdapter(
+    private val listener: (Event) -> Unit
+) : PagedListAdapter<Event, EventHolder>(diffCallback) {
+
+    override fun onBindViewHolder(holder: EventHolder, position: Int) =
+        holder.bindTo(getItem(position), listener)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder =
+        EventHolder(parent)
+
+    companion object {
+        private val diffCallback = object : DiffCallback<Event>() {
+            override fun areContentsTheSame(oldEvent: Event, newEvent: Event): Boolean =
+                oldEvent == newEvent
+
+            override fun areItemsTheSame(oldEvent: Event, newEvent: Event): Boolean =
+                oldEvent.id == newEvent.id
+
+        }
+    }
+}
+
+class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+    LayoutInflater.from(parent.context).inflate(R.layout.event_row, parent, false)
+) {
+
+    private val timeView = itemView.findViewById<TextView>(R.id.time)
+    private val measurementsView = itemView.findViewById<LinearLayout>(R.id.measurement_types)
+    private val locationIconView = itemView.findViewById<ImageView>(R.id.location_icon)
+    private val guideline = itemView.findViewById<Guideline>(R.id.guideline)
+    private val locationView = itemView.findViewById<TextView>(R.id.location)
+
+    private var event: Event? = null
+
+    fun bindTo(event: Event?, listener: (Event) -> Unit) {
+        if (event != null) {
+            this.event = event.apply {
+                displayTime()
+                displayLocation()
+                displayMeasurementTypes()
+            }
+
+            itemView.setBackgroundColor(Prefs.backgroundColor)
+            itemView.setOnClickListener { listener(event) }
+        }
+    }
+
+    private fun Event.displayTime() {
+        val timeDifference = Calendar.getInstance().timeInMillis - time
+        timeView.apply {
+            text = timeDifference.timeToString(itemView.context)
+            setTextColor(Prefs.textColor)
+        }
+    }
+
+    private fun Event.displayLocation() {
+        val context = itemView.context
+
+        val hasLocationPermission = context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        if (hasLocationPermission) {
+            locationIconView.setIcon(
+                icon = GoogleMaterial.Icon.gmd_location_on,
+                color = Prefs.textColor
+            )
+            locationView.apply {
+                text = location.distanceTo(location).distanceToString(context)
+                setTextColor(Prefs.textColor)
+            }
+        } else {
+            locationIconView.gone()
+            locationView.gone()
+            val params = guideline.layoutParams as ConstraintLayout.LayoutParams
+            params.guideEnd = 0
+            guideline.layoutParams = params
+        }
+    }
+
+    private fun Event.displayMeasurementTypes() {
+        measurementsView.removeAllViews()
+        measurements.toHashSet().forEach { measurement ->
+            measurementsView.addView(ImageView(itemView.context).apply {
+                setImageResource(measurement.type.iconRes)
+                setColorFilter(Prefs.textColor, PorterDuff.Mode.SRC_IN)
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+            })
+        }
+    }
+
 }
