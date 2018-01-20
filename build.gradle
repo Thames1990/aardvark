@@ -5,11 +5,12 @@ buildscript {
         community_material_typeface_version = '2.0.46.1@aar'
         constraint_layout_version = '1.1.0-beta4'
         crashlytics_version = '2.8.0'
+        dexcount_version = '0.8.2'
         espresso_version = '3.0.1'
-        fabric_gradle_tools_version='1.25.0'
+        fabric_gradle_tools_version = '1.25.0'
         google_play_services_version = '11.8.0'
-        google_play_services_tools_version='3.1.1'
-        gradle_version='3.0.1'
+        google_play_services_tools_version = '3.1.1'
+        gradle_version = '3.0.1'
         junit_version = '4.12'
         kau_version = '3.6.1'
         kerval_version = '0.0.8-1'
@@ -33,6 +34,7 @@ buildscript {
         classpath "com.google.gms:google-services:$google_play_services_tools_version"
         classpath "io.fabric.tools:gradle:$fabric_gradle_tools_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$dexcount_version"
     }
 }
 
