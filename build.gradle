@@ -21,6 +21,7 @@ buildscript {
         paging_version = '1.0.0-alpha4-1'
         reprint_version = '3.2.1@aar'
         test_runner_version = '1.0.1'
+        weather_icons_typeface_version = '2.0.10.4@aar'
     }
 
     repositories {
