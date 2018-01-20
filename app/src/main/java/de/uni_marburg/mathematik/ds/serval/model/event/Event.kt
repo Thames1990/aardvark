@@ -3,10 +3,12 @@ package de.uni_marburg.mathematik.ds.serval.model.event
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.location.Location
-import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
+import com.mikepenz.iconics.typeface.IIcon
+import com.mikepenz.weather_icons_typeface_library.WeatherIcons
 import com.squareup.moshi.Json
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
@@ -46,35 +48,34 @@ data class GeohashLocation(val latitude: Double, val longitude: Double, val geoh
 
 data class Measurement(val type: MeasurementType, val value: Int)
 
-// TODO Replace icon drawable with IIcon from Weather Icons
 enum class MeasurementType(
     @StringRes val titleRes: Int,
     @StringRes val formatRes: Int,
-    @DrawableRes val iconRes: Int
+    val iicon: IIcon
 ) {
     @Json(name = "precipitation")
     PRECIPITATION(
         titleRes = R.string.measurement_precipitation,
         formatRes = R.string.measurement_value_precipitation,
-        iconRes = R.drawable.precipitation
+        iicon = WeatherIcons.Icon.wic_rain
     ),
 
     @Json(name = "radiation")
     RADIATION(
         titleRes = R.string.measurement_radiation,
         formatRes = R.string.measurement_value_precipitation,
-        iconRes = R.drawable.radiation
+        iicon = CommunityMaterial.Icon.cmd_atom
     ),
     @Json(name = "temperature")
     TEMPERATURE(
         titleRes = R.string.measurement_temperature,
         formatRes = R.string.measurement_value_precipitation,
-        iconRes = R.drawable.temperature
+        iicon = WeatherIcons.Icon.wic_thermometer
     ),
     @Json(name = "wind")
     WIND(
         titleRes = R.string.measurement_wind,
         formatRes = R.string.measurement_value_precipitation,
-        iconRes = R.drawable.wind
+        iicon = WeatherIcons.Icon.wic_strong_wind
     )
 }

@@ -5,10 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import ca.allanwang.kau.iitems.CardIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
-import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.setIcon
 import ca.allanwang.kau.utils.string
-import ca.allanwang.kau.utils.tint
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -73,7 +71,8 @@ class DetailActivity : ElasticRecyclerActivity() {
             adapter.add(CardIItem {
                 titleRes = measurement.type.titleRes
                 desc = String.format(string(measurement.type.formatRes), measurement.value)
-                image = drawable(measurement.type.iconRes).tint(Prefs.iconColor)
+                imageIIcon = measurement.type.iicon
+                imageIIconColor = Prefs.iconColor
             })
         }
 

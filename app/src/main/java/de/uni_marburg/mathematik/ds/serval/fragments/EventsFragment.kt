@@ -4,7 +4,6 @@ import android.Manifest
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedListAdapter
-import android.graphics.PorterDuff
 import android.location.Location
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
@@ -208,16 +207,14 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     }
 
     private fun Event.displayMeasurementTypes() {
-        measurementsView.removeAllViews()
-        measurements.toHashSet().forEach { measurement ->
-            measurementsView.addView(ImageView(itemView.context).apply {
-                setImageResource(measurement.type.iconRes)
-                setColorFilter(Prefs.textColor, PorterDuff.Mode.SRC_IN)
-                layoutParams = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            })
+        measurementsView.apply {
+            removeAllViews()
+            measurements.toHashSet().forEach { measurement ->
+                val icon = ImageView(itemView.context).apply {
+                    setIcon(icon = measurement.type.iicon, color = Prefs.textColor)
+                }
+                addView(icon)
+            }
         }
     }
 
