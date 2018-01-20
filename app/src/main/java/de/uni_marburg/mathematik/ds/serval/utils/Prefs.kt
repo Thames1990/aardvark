@@ -69,7 +69,7 @@ object Prefs : KPref() {
     var locationRequestFastestInterval: Int by kpref("LOCATION_REQUEST_FASTEST_INTERVAL", 5)
     var locationRequestPriority: Int by kpref(
         "LOCATION_REQUEST_PRIORITY",
-        LocationRequestPriority.ACCURATE.ordinal,
+        0,
         postSetter = { _: Int -> locationRequestPriorityLoader.invalidate() }
     )
     val mainActivityLayout: MainActivityLayout

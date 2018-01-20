@@ -9,25 +9,25 @@ enum class LocationRequestPriority(
     @StringRes val titleRes: Int,
     @StringRes val descTextRes: Int
 ) {
-    PASSIVE(
-        priority = LocationRequest.PRIORITY_NO_POWER,
-        titleRes = R.string.location_request_priority_passive,
-        descTextRes = R.string.location_request_priority_passive_description
-    ),
-    CITY_ACCURACY(
-        priority = LocationRequest.PRIORITY_LOW_POWER,
-        titleRes = R.string.location_request_priority_city_accuracy,
-        descTextRes = R.string.location_request_priority_city_accuracy_description
+    ACCURATE(
+        priority = LocationRequest.PRIORITY_HIGH_ACCURACY,
+        titleRes = R.string.location_request_priority_accurate,
+        descTextRes = R.string.location_request_priority_accurate_description
     ),
     BLOCK_ACCURACY(
         priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY,
         titleRes = R.string.location_request_priority_block_accuracy,
         descTextRes = R.string.location_request_priority_block_accuracy_description
     ),
-    ACCURATE(
-        priority = LocationRequest.PRIORITY_HIGH_ACCURACY,
-        titleRes = R.string.location_request_priority_accurate,
-        descTextRes = R.string.location_request_priority_accurate_description
+    CITY_ACCURACY(
+        priority = LocationRequest.PRIORITY_LOW_POWER,
+        titleRes = R.string.location_request_priority_city_accuracy,
+        descTextRes = R.string.location_request_priority_city_accuracy_description
+    ),
+    PASSIVE(
+        priority = LocationRequest.PRIORITY_NO_POWER,
+        titleRes = R.string.location_request_priority_passive,
+        descTextRes = R.string.location_request_priority_passive_description
     );
 
     companion object {
