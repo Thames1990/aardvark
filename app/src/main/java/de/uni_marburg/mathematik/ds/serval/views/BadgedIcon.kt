@@ -56,7 +56,7 @@ class BadgedIcon(
             badgeTextView.visibleIf(value != null && value != "0")
         }
 
-    fun setAllALpha(alpha: Float) {
+    fun setAllAlpha(alpha: Float) {
         badgeImage.drawable.alpha = alpha.toInt()
     }
 }

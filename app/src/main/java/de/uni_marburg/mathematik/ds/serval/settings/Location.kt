@@ -8,9 +8,6 @@ import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
-/**
- * Created by thames1990 on 07.01.18.
- */
 fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
 
     header(R.string.location)
