@@ -1,6 +1,5 @@
 buildscript {
     ext {
-        android_maps_utils_version = '0.5'
         architecture_components_version = '1.0.0'
         community_material_typeface_version = '2.0.46.1@aar'
         constraint_layout_version = '1.1.0-beta4'
@@ -8,6 +7,7 @@ buildscript {
         dexcount_version = '0.8.2'
         espresso_version = '3.0.1'
         fabric_gradle_tools_version = '1.25.0'
+        google_maps_clustering_version = '0.1.2-beta'
         google_play_services_version = '11.8.0'
         google_play_services_tools_version = '3.1.1'
         gradle_version = '3.0.1'

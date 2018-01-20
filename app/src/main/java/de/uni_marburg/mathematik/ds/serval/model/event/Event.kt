@@ -5,13 +5,13 @@ import android.arch.persistence.room.PrimaryKey
 import android.location.Location
 import android.support.annotation.StringRes
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.clustering.ClusterItem
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.iconics.typeface.IIcon
 import com.mikepenz.weather_icons_typeface_library.WeatherIcons
 import com.squareup.moshi.Json
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import net.sharewire.googlemapsclustering.ClusterItem
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,6 +30,13 @@ data class Event(
             longitude = geohashLocation.longitude
         }
 
+    val position: LatLng
+        get() = LatLng(latitude, longitude)
+
+    override fun getLatitude(): Double = location.latitude
+
+    override fun getLongitude(): Double = location.longitude
+
     override fun getTitle(): String = javaClass.simpleName
 
     override fun getSnippet(): String {
@@ -40,8 +47,6 @@ data class Event(
         )
         return format.format(time)
     }
-
-    override fun getPosition(): LatLng = with(location) { LatLng(latitude, longitude) }
 }
 
 data class GeohashLocation(val latitude: Double, val longitude: Double, val geohash: String)

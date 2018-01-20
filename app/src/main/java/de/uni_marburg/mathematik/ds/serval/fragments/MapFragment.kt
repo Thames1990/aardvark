@@ -16,7 +16,6 @@ import com.google.android.gms.maps.GoogleMap.*
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions.loadRawResourceStyle
-import com.google.maps.android.clustering.ClusterManager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
@@ -24,6 +23,8 @@ import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import net.sharewire.googlemapsclustering.Cluster
+import net.sharewire.googlemapsclustering.ClusterManager
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
@@ -88,7 +89,6 @@ class MapFragment : BaseFragment() {
     }
 
     private fun GoogleMap.style() {
-        setMinZoomPreference(MAP_MIN_ZOOM)
         when (Prefs.theme) {
             Theme.DARK.ordinal -> setMapStyle(loadRawResourceStyle(context, R.raw.map_style_dark))
             Theme.AMOLED.ordinal -> setMapStyle(
@@ -101,34 +101,34 @@ class MapFragment : BaseFragment() {
     }
 
     private fun GoogleMap.setupClusterManager() {
-        val clusterManager = ClusterManager<Event>(context, this)
-        clusterManager.apply {
-            setAnimation(Prefs.animate)
-            setOnCameraIdleListener(this)
-            setOnClusterClickListener { cluster ->
-                val builder = LatLngBounds.builder()
-                cluster.items.forEach { event ->
-                    builder.include(event.position)
-                    val bounds = builder.build()
-                    cameraUpdate(bounds, Prefs.animate)
+        val clusterManger = ClusterManager<Event>(context!!, this)
+        clusterManger.apply {
+            setCallbacks(object : ClusterManager.Callbacks<Event> {
+                override fun onClusterClick(cluster: Cluster<Event>): Boolean {
+                    val builder = LatLngBounds.builder()
+                    cluster.items.forEach { event ->
+                        builder.include(event.position)
+                        val bounds = builder.build()
+                        cameraUpdate(bounds, Prefs.animate)
+                    }
+                    return true
                 }
-                true
-            }
-            setOnClusterItemInfoWindowClickListener { event ->
-                context!!.startActivity<DetailActivity>(
-                    DetailActivity.EVENT_ID to event.id,
-                    DetailActivity.SHOW_MAP to false
-                )
-            }
-            setOnInfoWindowClickListener(this)
-            setOnMarkerClickListener(this)
+
+                override fun onClusterItemClick(clusterItem: Event): Boolean {
+                    context!!.startActivity<DetailActivity>(
+                        DetailActivity.EVENT_ID to clusterItem.id,
+                        DetailActivity.SHOW_MAP to false
+                    )
+                    return true
+                }
+            })
 
             doAsync {
                 val events: List<Event> = eventViewModel.dao.getAll()
-                addItems(events)
-                uiThread { cluster() }
+                uiThread { setItems(events) }
             }
         }
+        setOnCameraIdleListener(clusterManger)
     }
 
     private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
@@ -156,7 +156,6 @@ class MapFragment : BaseFragment() {
     }
 
     companion object {
-        const val MAP_MIN_ZOOM = 5f
         const val MAP_PADDING = 150
     }
 

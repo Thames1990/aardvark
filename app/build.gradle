@@ -63,10 +63,6 @@ android {
 }
 
 dependencies {
-
-    // Android Maps Utils
-    implementation "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
-
     // Architecture Components
     implementation "android.arch.lifecycle:extensions:$architecture_components_version"
     kapt "android.arch.lifecycle:compiler:$architecture_components_version"
@@ -79,6 +75,9 @@ dependencies {
 
     // Firebase
     implementation "com.google.firebase:firebase-core:$google_play_services_version"
+
+    // Google Maps Clustering
+    implementation "net.sharewire:google-maps-clustering:$google_maps_clustering_version"
 
     // Google Play Services
     implementation "com.google.android.gms:play-services-location:$google_play_services_version"
