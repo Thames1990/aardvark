@@ -85,7 +85,7 @@ class EventsFragment : BaseFragment() {
         inflater.inflate(R.menu.menu_events, menu)
         activity?.setMenuIcons(
             menu = menu,
-            color = Prefs.iconColor,
+            color = Prefs.iconColor.colorToForeground(0.6f),
             iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
         )
     }
