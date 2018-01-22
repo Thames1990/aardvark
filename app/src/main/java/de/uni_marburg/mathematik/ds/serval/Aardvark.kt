@@ -48,13 +48,13 @@ class Aardvark : Application() {
 
     private fun setupAnalytics() {
         // Only use analytics on release versions and if the user accepted
-        if (!BuildConfig.DEBUG || !Prefs.analytics) {
+        if (!BuildConfig.DEBUG && !Prefs.analytics) {
             Fabric.with(this, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(Prefs.aardvarkId)
         }
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG || Prefs.analytics)
+        firebaseAnalytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG && Prefs.analytics)
     }
 
     private fun setupLeakCanary() {
