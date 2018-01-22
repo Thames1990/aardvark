@@ -31,8 +31,7 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
     checkbox(R.string.secure_app, { Prefs.secure_app }, {
         Prefs.secure_app = it
         setSecureFlag()
-        Aardvark.requireAuthentication()
-        shouldRestartMain()
+        shouldRestartApplication()
     }) { descRes = R.string.secure_app_desc }
 
     checkbox(R.string.preference_use_analytics, { Prefs.analytics }, { useAnalytics ->

@@ -19,15 +19,10 @@ class Aardvark : Application() {
     companion object {
         lateinit var firebaseAnalytics: FirebaseAnalytics
         lateinit var refWatcher: RefWatcher
-        lateinit var lifecycle: Lifecycle
-        // TODO Find a way to remove this memory leak
-        lateinit var authenticationListener: AuthenticationListener
-
-        fun requireAuthentication(authenticate: Boolean = Prefs.secure_app) {
-            if (authenticate) lifecycle.addObserver(authenticationListener)
-            else lifecycle.removeObserver(authenticationListener)
-        }
     }
+
+    lateinit var authenticationListener: AuthenticationListener
+    lateinit var lifecycle: Lifecycle
 
     override fun onCreate() {
         super.onCreate()
@@ -67,5 +62,10 @@ class Aardvark : Application() {
             true -> LeakCanary.install(this)
             false -> RefWatcher.DISABLED
         }
+    }
+
+    private fun requireAuthentication(authenticate: Boolean = Prefs.secure_app) {
+        if (authenticate) lifecycle.addObserver(authenticationListener)
+        else lifecycle.removeObserver(authenticationListener)
     }
 }

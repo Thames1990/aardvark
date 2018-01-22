@@ -66,6 +66,10 @@ class SettingsActivity : KPrefActivity() {
         setAardvarkResult(MainActivity.REQUEST_RESTART)
     }
 
+    fun shouldRestartApplication() {
+        setAardvarkResult(MainActivity.REQUEST_APPLICATION_RESTART)
+    }
+
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
