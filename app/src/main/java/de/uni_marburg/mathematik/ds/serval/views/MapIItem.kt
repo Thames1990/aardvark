@@ -8,7 +8,6 @@ import ca.allanwang.kau.iitems.KauIItem
 import ca.allanwang.kau.utils.bindView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -28,7 +27,7 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
                         isMapToolbarEnabled = false
                         isClickable = false
                     }
-                    val position = LatLng(event.location.latitude, event.location.longitude)
+                    val position = event.position
                     addMarker(MarkerOptions().position(position))
                     val cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM)
                     moveCamera(cameraUpdate)
