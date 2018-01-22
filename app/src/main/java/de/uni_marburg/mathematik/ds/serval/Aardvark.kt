@@ -20,6 +20,7 @@ class Aardvark : Application() {
         lateinit var firebaseAnalytics: FirebaseAnalytics
         lateinit var refWatcher: RefWatcher
         lateinit var lifecycle: Lifecycle
+        // TODO Find a way to remove this memory leak
         lateinit var authenticationListener: AuthenticationListener
 
         fun requireAuthentication(authenticate: Boolean = Prefs.secure_app) {
