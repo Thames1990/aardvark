@@ -11,7 +11,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import java.util.concurrent.TimeUnit
 
@@ -38,11 +37,11 @@ class LocationLiveData(private val context: Context) : LiveData<Location>() {
         super.onActive()
         val hasLocationPermission = context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
         if (hasLocationPermission) {
-            with(locationRequest) {
+            locationRequest.apply {
                 interval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestInterval.toLong())
                 fastestInterval =
                         TimeUnit.SECONDS.toMillis(Prefs.locationRequestFastestInterval.toLong())
-                priority = LocationRequestPriority(Prefs.locationRequestPriority).priority
+                priority = Prefs.priority
             }
             client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
         }

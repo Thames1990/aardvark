@@ -74,7 +74,7 @@ object Prefs : KPref() {
     )
     val mainActivityLayout: MainActivityLayout
         get() = MainActivityLayout(mainActivityLayoutType)
-    var mainActivityLayoutType: Int by kpref("MAIN_ACTIVITY_LAYOUT_TYPE", 0)
+    var mainActivityLayoutType: Int by kpref("MAIN_ACTIVITY_LAYOUT_TYPE", 1)
     var theme: Int by kpref("THEME", 0, postSetter = { _: Int -> themeLoader.invalidate() })
     var tintNavBar: Boolean by kpref("TINT_NAV_BAR", true)
     var secure_app: Boolean by kpref("USE_SECURE_FLAG", false)
