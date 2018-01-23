@@ -117,9 +117,11 @@ class ActivityThemeUtils {
             statusBarColor = Prefs.headerColor.darken(0.1f).withAlpha(255)
             if (Prefs.tintNavBar) navigationBarColor = Prefs.headerColor
             if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.backgroundColor))
-            toolbar?.setBackgroundColor(Prefs.headerColor)
-            toolbar?.setTitleTextColor(Prefs.iconColor)
-            toolbar?.overflowIcon?.setTint(Prefs.iconColor)
+            toolbar?.apply {
+                setBackgroundColor(Prefs.headerColor)
+                setTitleTextColor(Prefs.iconColor)
+                overflowIcon?.setTint(Prefs.iconColor)
+            }
             texts.forEach { it.setTextColor(Prefs.textColor) }
             headers.forEach { it.setBackgroundColor(Prefs.headerColor) }
             backgrounds.forEach { it.setBackgroundColor(Prefs.backgroundColor) }

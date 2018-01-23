@@ -24,8 +24,9 @@ abstract class EventDatabase : RoomDatabase() {
                     EventDatabase::class.java,
                     BuildConfig.APPLICATION_ID
                 ).addCallback(object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) =
-                        ioThread { get(context).eventDao().insert(EventRepository.fetch()) }
+                    override fun onCreate(db: SupportSQLiteDatabase) = ioThread {
+                        get(context).eventDao().insert(EventRepository.fetch())
+                    }
                 }).build()
             }
             return instance!!
