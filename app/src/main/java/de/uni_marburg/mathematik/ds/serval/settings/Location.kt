@@ -37,8 +37,8 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         R.string.location_request_priority,
-        { Prefs.locationRequestPriority },
-        { Prefs.locationRequestPriority = it }
+        { Prefs.locationRequestPriorityType },
+        { Prefs.locationRequestPriorityType = it }
     ) {
         onClick = {
             itemView.context.materialDialogThemed {

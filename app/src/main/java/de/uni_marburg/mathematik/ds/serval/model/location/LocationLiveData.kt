@@ -37,11 +37,12 @@ class LocationLiveData(private val context: Context) : LiveData<Location>() {
         super.onActive()
         val hasLocationPermission = context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
         if (hasLocationPermission) {
+            val locationRequestPriority = Prefs.locationRequestPriority
             locationRequest.apply {
                 interval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestInterval.toLong())
                 fastestInterval =
                         TimeUnit.SECONDS.toMillis(Prefs.locationRequestFastestInterval.toLong())
-                priority = Prefs.priority
+                priority = locationRequestPriority.priority
             }
             client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
         }

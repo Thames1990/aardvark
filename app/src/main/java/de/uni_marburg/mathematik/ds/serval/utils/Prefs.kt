@@ -37,13 +37,11 @@ object Prefs : KPref() {
     val textColor: Int
         get() = t.textColor
 
-    private val locationRequestPriorityLoader = lazyResettable {
-        LocationRequestPriority.values[locationRequestPriority]
-    }
-    private val l: LocationRequestPriority by locationRequestPriorityLoader
+    val locationRequestPriority: LocationRequestPriority
+        get() = LocationRequestPriority(locationRequestPriorityType)
 
-    val priority: Int
-        get() = l.priority
+    val mainActivityLayout: MainActivityLayout
+        get() = MainActivityLayout(mainActivityLayoutType)
 
     var animate: Boolean by kpref("ANIMATE", true)
     var analytics: Boolean by kpref("USE_ANALYTICS", true)
@@ -67,13 +65,7 @@ object Prefs : KPref() {
     var lastLaunch: Long by kpref("LAST_LAUNCH", -1L)
     var locationRequestInterval: Int by kpref("LOCATION_REQUEST_INTERVAL", 10)
     var locationRequestFastestInterval: Int by kpref("LOCATION_REQUEST_FASTEST_INTERVAL", 5)
-    var locationRequestPriority: Int by kpref(
-        "LOCATION_REQUEST_PRIORITY",
-        0,
-        postSetter = { _: Int -> locationRequestPriorityLoader.invalidate() }
-    )
-    val mainActivityLayout: MainActivityLayout
-        get() = MainActivityLayout(mainActivityLayoutType)
+    var locationRequestPriorityType: Int by kpref("LOCATION_REQUEST_PRIORITY", 0)
     var mainActivityLayoutType: Int by kpref("MAIN_ACTIVITY_LAYOUT_TYPE", 1)
     var theme: Int by kpref("THEME", 0, postSetter = { _: Int -> themeLoader.invalidate() })
     var tintNavBar: Boolean by kpref("TINT_NAV_BAR", true)
