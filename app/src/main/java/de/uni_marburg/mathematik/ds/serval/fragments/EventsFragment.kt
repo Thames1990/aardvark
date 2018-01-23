@@ -27,7 +27,6 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import java.util.*
 
@@ -47,10 +46,12 @@ class EventsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         eventAdapter = EventAdapter { event ->
-            context!!.startActivity<DetailActivity>(
-                DetailActivity.EVENT_ID to event.id,
-                DetailActivity.SHOW_MAP to true
-            )
+            context!!.startActivity(DetailActivity::class.java, bundleBuilder = {
+                withSceneTransitionAnimation(context!!)
+            }) {
+                putExtra(DetailActivity.EVENT_ID, event.id)
+                putExtra(DetailActivity.SHOW_MAP, true)
+            }
         }
         eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
         eventViewModel.events.observe(this, Observer(eventAdapter::setList))

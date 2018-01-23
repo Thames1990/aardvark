@@ -9,6 +9,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.setMenuIcons
+import ca.allanwang.kau.utils.startActivity
+import ca.allanwang.kau.utils.withSceneTransitionAnimation
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -26,7 +28,6 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
@@ -114,11 +115,13 @@ class MapFragment : BaseFragment() {
                     return true
                 }
 
-                override fun onClusterItemClick(clusterItem: Event): Boolean {
-                    context!!.startActivity<DetailActivity>(
-                        DetailActivity.EVENT_ID to clusterItem.id,
-                        DetailActivity.SHOW_MAP to false
-                    )
+                override fun onClusterItemClick(event: Event): Boolean {
+                    context!!.startActivity(DetailActivity::class.java, bundleBuilder = {
+                        withSceneTransitionAnimation(context!!)
+                    }) {
+                        putExtra(DetailActivity.EVENT_ID, event.id)
+                        putExtra(DetailActivity.SHOW_MAP, true)
+                    }
                     return true
                 }
             })
