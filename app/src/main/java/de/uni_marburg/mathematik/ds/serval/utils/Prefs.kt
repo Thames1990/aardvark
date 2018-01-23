@@ -65,7 +65,7 @@ object Prefs : KPref() {
     var kervalPort: Int by kpref("KERVAL_PORT", 80)
     var kervalUser: String by kpref("KERVAL_USER", "pum")
     var lastLaunch: Long by kpref("LAST_LAUNCH", -1L)
-    var locationRequestInterval: Int by kpref("LOCATION_REQUEST_INTERVAL", 60)
+    var locationRequestInterval: Int by kpref("LOCATION_REQUEST_INTERVAL", 10)
     var locationRequestFastestInterval: Int by kpref("LOCATION_REQUEST_FASTEST_INTERVAL", 5)
     var locationRequestPriority: Int by kpref(
         "LOCATION_REQUEST_PRIORITY",
