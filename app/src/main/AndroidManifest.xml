@@ -19,6 +19,7 @@
         android:theme="@style/AardvarkTheme.Splash">
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.StartActivity"
+            android:label="@string/aardvark_name"
             android:noHistory="true"
             android:theme="@style/AardvarkTheme.Splash">
             <intent-filter>
