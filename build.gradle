@@ -5,7 +5,7 @@ buildscript {
         classpath deps.android_gradle_plugin
         classpath deps.dexcount_gradle_plugin
         classpath deps.fabric_gradle_plugin
-        classpath deps.google_play_services_tools_plugin
+        classpath deps.google_play_services.plugin
         classpath deps.kotlin.plugin
     }
 }

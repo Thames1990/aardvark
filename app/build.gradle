@@ -86,14 +86,16 @@ dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.crashlytics
     implementation deps.firebase
-    implementation deps.google_maps_clustering
-    implementation deps.google_play_services_location
-    implementation deps.google_play_services_maps
     implementation deps.community_material_typeface
     implementation deps.weather_icons_typeface
     implementation files("libs/kerval-0.0.8-1.jar")
     implementation deps.okhttp
     implementation deps.reprint
+
+    // Google Play Services
+    implementation deps.google_play_services.clustering
+    implementation deps.google_play_services.location
+    implementation deps.google_play_services.maps
 
     // Kau
     implementation deps.kau.kau_about
