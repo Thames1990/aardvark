@@ -91,11 +91,13 @@ dependencies {
     implementation deps.google_play_services_maps
     implementation deps.community_material_typeface
     implementation deps.weather_icons_typeface
-    implementation deps.kau_about
-    implementation deps.kpref_activity
     implementation files("libs/kerval-0.0.8-1.jar")
     implementation deps.okhttp
     implementation deps.reprint
+
+    // Kau
+    implementation deps.kau.kau_about
+    implementation deps.kau.kpref_activity
 
     // Moshi
     implementation deps.moshi.java
