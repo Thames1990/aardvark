@@ -5,8 +5,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.bindView
+import ca.allanwang.kau.utils.setIcon
+import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import org.jetbrains.anko.displayMetrics
 
 class DashboardFragment : BaseFragment() {
 
@@ -20,7 +23,11 @@ class DashboardFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         title.setTextColor(Prefs.textColor)
-        image.setColorFilter(Prefs.textColor)
+        image.setIcon(
+            icon = GoogleMaterial.Icon.gmd_sentiment_very_satisfied,
+            color = Prefs.textColor,
+            sizeDp = context!!.displayMetrics.densityDpi
+        )
         description.setTextColor(Prefs.textColor)
     }
 }
