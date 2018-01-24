@@ -64,26 +64,20 @@ android {
 }
 
 dependencies {
-    // Test
-    androidTestImplementation(deps.espresso.core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
     // Support Libraries
     implementation deps.support.app_compat
     implementation deps.support.design
     implementation deps.support.recyclerview
 
     // App Toolkit
-    implementation deps.kotlin.stdlib
+    implementation files("libs/kerval-0.0.8-1.jar")
+    implementation deps.constraint_layout
     implementation deps.crashlytics
     implementation deps.firebase
-    implementation files("libs/kerval-0.0.8-1.jar")
     implementation deps.okhttp
     implementation deps.reprint
 
     // Architecture Components
-    implementation deps.lifecycle.runtime
     implementation deps.lifecycle.extensions
     implementation deps.room.runtime
     implementation deps.paging
@@ -114,12 +108,6 @@ dependencies {
     // Moshi
     implementation deps.moshi.java
     implementation deps.moshi.kotlin
-
-    // Android Testing Support Library's runner and rules
-    androidTestImplementation deps.atsl.runner
-    androidTestImplementation deps.atsl.rules
-    androidTestImplementation deps.room.testing
-    androidTestImplementation deps.arch_core.testing
 }
 
 apply plugin: 'com.google.gms.google-services'
