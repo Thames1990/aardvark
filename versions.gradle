@@ -87,6 +87,11 @@ google_play_services.plugin = "com.google.gms:google-services:$versions.google_p
 google_play_services.clustering = "net.sharewire:google-maps-clustering:$versions.google_maps_clustering"
 deps.google_play_services = google_play_services
 
+def ioconics = [:]
+ioconics.weather_icons_typeface = "com.mikepenz:weather-icons-typeface:$versions.weather_icons_typeface"
+ioconics.community_material_typeface = "com.mikepenz:community-material-typeface:$versions.community_material_typeface"
+deps.ioconics = ioconics
+
 deps.paging = "android.arch.paging:runtime:$versions.paging"
 deps.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
 deps.junit = "junit:junit:$versions.junit"
@@ -99,8 +104,6 @@ deps.fabric_gradle_plugin = "io.fabric.tools:gradle:$versions.fabric_gradle_plug
 deps.dexcount_gradle_plugin = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$versions.dexcount"
 deps.crashlytics = "com.crashlytics.sdk.android:crashlytics:$versions.crashlytics"
 deps.firebase = "com.google.firebase:firebase-core:$versions.google_play_services"
-deps.weather_icons_typeface = "com.mikepenz:weather-icons-typeface:$versions.weather_icons_typeface"
-deps.community_material_typeface = "com.mikepenz:community-material-typeface:$versions.community_material_typeface"
 ext.deps = deps
 
 def build_versions = [:]

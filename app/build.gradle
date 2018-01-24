@@ -86,11 +86,13 @@ dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.crashlytics
     implementation deps.firebase
-    implementation deps.community_material_typeface
-    implementation deps.weather_icons_typeface
     implementation files("libs/kerval-0.0.8-1.jar")
     implementation deps.okhttp
     implementation deps.reprint
+
+    // Ioconics
+    implementation deps.ioconics.community_material_typeface
+    implementation deps.ioconics.weather_icons_typeface
 
     // Google Play Services
     implementation deps.google_play_services.clustering
