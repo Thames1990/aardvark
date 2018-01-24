@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
-    android:focusable="true">
+    tools:context=".activities.MainActivity">
 
     <TextView
         android:id="@+id/title"
@@ -13,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_horizontal_fragment_title"
         android:layout_marginRight="@dimen/margin_horizontal_fragment_title"
-        android:layout_marginTop="@dimen/margin_top_fragment_title"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="@string/placeholder_title"
         android:textColor="@android:color/white"
