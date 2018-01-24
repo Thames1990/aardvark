@@ -57,25 +57,23 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
-        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
-        locationViewModel.location.observe(this, Observer { location ->
-            if (location != null) lastLocation = location
-        })
-
         setContentView(Prefs.mainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
-
         setAardvarkColors {
             toolbar(toolbar)
             themeWindow = false
             header(appBar)
         }
-
         tabs.setup()
 
         checkForNewVersion()
+
+        eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
         eventViewModel.events.observe(this, Observer { tabs.reloadTabs() })
+        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
+        locationViewModel.location.observe(this, Observer { location ->
+            if (location != null) lastLocation = location
+        })
     }
 
     @SuppressLint("NewApi")
