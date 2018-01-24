@@ -21,8 +21,8 @@ class Aardvark : Application() {
         lateinit var refWatcher: RefWatcher
     }
 
-    lateinit var authenticationListener: AuthenticationListener
-    lateinit var lifecycle: Lifecycle
+    private lateinit var authenticationListener: AuthenticationListener
+    private lateinit var lifecycle: Lifecycle
 
     override fun onCreate() {
         super.onCreate()
@@ -32,9 +32,9 @@ class Aardvark : Application() {
     }
 
     private fun initialize() {
-        Prefs.initialize(this, BuildConfig.APPLICATION_ID)
+        Prefs.initialize(this.applicationContext, BuildConfig.APPLICATION_ID)
 
-        Reprint.initialize(this)
+        Reprint.initialize(this.applicationContext)
         authenticationListener = AuthenticationListener(this)
         lifecycle = ProcessLifecycleOwner.get().lifecycle
         requireAuthentication()
@@ -47,14 +47,15 @@ class Aardvark : Application() {
     }
 
     private fun setupAnalytics() {
-        // Only use analytics on release versions and if the user accepted
-        if (!BuildConfig.DEBUG && !Prefs.analytics) {
-            Fabric.with(this, Crashlytics(), Answers())
+        val analyticsEnabled = !BuildConfig.DEBUG && Prefs.analytics
+
+        if (analyticsEnabled) {
+            Fabric.with(this.applicationContext, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(Prefs.aardvarkId)
         }
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG && Prefs.analytics)
+        firebaseAnalytics.setAnalyticsCollectionEnabled(analyticsEnabled)
     }
 
     private fun setupLeakCanary() {
