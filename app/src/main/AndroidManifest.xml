@@ -12,6 +12,7 @@
     <application
         android:name=".Aardvark"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/aardvark_name"
         android:roundIcon="@mipmap/ic_launcher_round"
