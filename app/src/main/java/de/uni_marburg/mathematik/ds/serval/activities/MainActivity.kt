@@ -7,6 +7,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
@@ -22,6 +23,7 @@ import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
+import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import org.jetbrains.anko.doAsync
@@ -31,6 +33,7 @@ class MainActivity : BaseActivity() {
 
     private lateinit var eventBadgedIcon: BadgedIcon
     private lateinit var eventViewModel: EventViewModel
+    private lateinit var locationViewModel: LocationViewModel
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
     private val tabs: TabLayout by bindView(R.id.tabs)
@@ -47,12 +50,18 @@ class MainActivity : BaseActivity() {
         const val REQUEST_RESTART = 1 shl 2
         const val REQUEST_APPLICATION_RESTART = 1 shl 3
         const val REQUEST_NAV = 1 shl 4
+
+        lateinit var lastLocation: Location
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
+        locationViewModel.location.observe(this, Observer { location ->
+            if (location != null) lastLocation = location
+        })
 
         setContentView(Prefs.mainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)

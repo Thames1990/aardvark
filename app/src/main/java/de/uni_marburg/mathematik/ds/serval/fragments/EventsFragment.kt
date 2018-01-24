@@ -4,7 +4,6 @@ import android.Manifest
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedListAdapter
-import android.location.Location
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
@@ -19,12 +18,11 @@ import android.widget.TextView
 import ca.allanwang.kau.animators.KauAnimator
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
+import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
-import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -35,7 +33,6 @@ class EventsFragment : BaseFragment() {
 
     private lateinit var eventAdapter: EventAdapter
     private lateinit var eventViewModel: EventViewModel
-    private lateinit var locationViewModel: LocationViewModel
 
     private val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
     private val swipeRefreshLayout by bindView<SwipeRefreshLayout>(R.id.swipe_refresh)
@@ -55,15 +52,6 @@ class EventsFragment : BaseFragment() {
         }
         eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
         eventViewModel.events.observe(this, Observer(eventAdapter::setList))
-        locationViewModel = ViewModelProviders.of(activity!!).get(LocationViewModel::class.java)
-        locationViewModel.locationLiveData.observe(this, Observer { location ->
-            if (location != null) {
-                eventAdapter.lastLocation.apply {
-                    latitude = location.latitude
-                    longitude = location.longitude
-                }
-            }
-        })
     }
 
     override fun onCreateView(
@@ -121,10 +109,8 @@ class EventAdapter(
     private val listener: (Event) -> Unit
 ) : PagedListAdapter<Event, EventHolder>(diffCallback) {
 
-    val lastLocation = Location(BuildConfig.APPLICATION_ID)
-
     override fun onBindViewHolder(holder: EventHolder, position: Int) =
-        holder.bindTo(getItem(position), lastLocation, listener)
+        holder.bindTo(getItem(position), listener)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder =
         EventHolder(parent)
@@ -153,13 +139,7 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
     private var event: Event? = null
 
-    private val lastLocation: Location = Location(BuildConfig.APPLICATION_ID)
-
-    fun bindTo(
-        event: Event?,
-        lastLocation: Location,
-        listener: (Event) -> Unit
-    ) {
+    fun bindTo(event: Event?, listener: (Event) -> Unit) {
         if (event != null) {
             this.event = event.apply {
                 displayTime()
@@ -169,11 +149,6 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
             itemView.setBackgroundColor(Prefs.backgroundColor)
             itemView.setOnClickListener { listener(event) }
-        }
-
-        this.lastLocation.apply {
-            latitude = lastLocation.latitude
-            longitude = lastLocation.longitude
         }
     }
 
@@ -195,7 +170,7 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                 color = Prefs.textColor
             )
             locationView.apply {
-                text = location.distanceTo(lastLocation).distanceToString(context)
+                text = location.distanceTo(MainActivity.lastLocation).distanceToString(context)
                 setTextColor(Prefs.textColor)
             }
         } else {

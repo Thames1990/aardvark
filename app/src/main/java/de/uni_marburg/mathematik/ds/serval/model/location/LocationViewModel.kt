@@ -5,5 +5,5 @@ import android.arch.lifecycle.AndroidViewModel
 
 class LocationViewModel(application: Application) : AndroidViewModel(application) {
 
-    val locationLiveData = LocationLiveData(application.applicationContext)
+    val location = LocationLiveData(application.applicationContext)
 }
