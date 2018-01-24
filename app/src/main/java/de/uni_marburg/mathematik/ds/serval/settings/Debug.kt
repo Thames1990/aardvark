@@ -15,7 +15,7 @@ import java.net.InetAddress
 
 /** Created by thames1990 on 09.12.17. */
 fun SettingsActivity.getDebugPrefs(): KPrefAdapterBuilder.() -> Unit = {
-    plainText(R.string.debug_disclaimer_info) { descRes = R.string.debug_disclaimer_info }
+    plainText(R.string.debug_disclaimer_info)
     checkbox(R.string.preference_enable_wifi_adb, { Prefs.useWifiADB }, {
         Prefs.useWifiADB = it
         when (it) {
