@@ -37,7 +37,7 @@ class Aardvark : Application() {
         Reprint.initialize(this.applicationContext)
         authenticationListener = AuthenticationListener(this)
         lifecycle = ProcessLifecycleOwner.get().lifecycle
-        requireAuthentication()
+        setupAuthentication()
 
         val now = System.currentTimeMillis()
         Prefs.lastLaunch = now
@@ -54,8 +54,9 @@ class Aardvark : Application() {
             Crashlytics.setUserIdentifier(Prefs.aardvarkId)
         }
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.setAnalyticsCollectionEnabled(analyticsEnabled)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this).apply {
+            setAnalyticsCollectionEnabled(analyticsEnabled)
+        }
     }
 
     private fun setupLeakCanary() {
@@ -65,7 +66,7 @@ class Aardvark : Application() {
         }
     }
 
-    private fun requireAuthentication(authenticate: Boolean = Prefs.secure_app) {
+    private fun setupAuthentication(authenticate: Boolean = Prefs.secure_app) {
         if (authenticate) lifecycle.addObserver(authenticationListener)
         else lifecycle.removeObserver(authenticationListener)
     }
