@@ -98,8 +98,8 @@ dependencies {
     implementation deps.reprint
 
     // Moshi
-    implementation deps.moshi
-    implementation deps.moshi_kotlin
+    implementation deps.moshi.java
+    implementation deps.moshi.kotlin
 
     // LeakCanary
     debugImplementation deps.leak_canary

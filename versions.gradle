@@ -70,14 +70,17 @@ kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 kotlin.reflect = "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
 deps.kotlin = kotlin
 
+def moshi = [:]
+moshi.java = "com.squareup.moshi:moshi:$versions.moshi"
+moshi.kotlin = "com.squareup.moshi:moshi-kotlin:$versions.moshi"
+deps.moshi = moshi
+
 deps.paging = "android.arch.paging:runtime:$versions.paging"
 deps.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
 deps.junit = "junit:junit:$versions.junit"
 deps.kau_about = "ca.allanwang.kau:about:$versions.kau"
 deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 deps.reprint = "com.github.ajalt.reprint:core:$versions.reprint"
-deps.moshi = "com.squareup.moshi:moshi:$versions.moshi"
-deps.moshi_kotlin = "com.squareup.moshi:moshi-kotlin:$versions.moshi"
 deps.leak_canary = "com.squareup.leakcanary:leakcanary-android:$versions.leak_canary"
 deps.leak_canary_release = "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leak_canary"
 deps.kpref_activity = "ca.allanwang.kau:kpref-activity:$versions.kau"
