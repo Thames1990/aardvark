@@ -22,6 +22,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.model.event.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
@@ -74,9 +75,31 @@ class EventsFragment : BaseFragment() {
         inflater.inflate(R.menu.menu_events, menu)
         activity?.setMenuIcons(
             menu = menu,
-            color = Prefs.iconColor.colorToForeground(0.6f),
+            color = Prefs.iconColor,
             iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
         )
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.sort_distance_ascending -> eventViewModel.sort(EventComparator.DISTANCE)
+            R.id.sort_distance_descending -> eventViewModel.sort(
+                eventComparator = EventComparator.DISTANCE,
+                reversed = true
+            )
+            R.id.sort_measurements_ascending -> eventViewModel.sort(EventComparator.MEASUREMENTS)
+            R.id.sort_measurements_descending -> eventViewModel.sort(
+                eventComparator = EventComparator.MEASUREMENTS,
+                reversed = true
+            )
+            R.id.sort_time_ascending -> eventViewModel.sort(EventComparator.TIME)
+            R.id.sort_time_descending -> eventViewModel.sort(
+                eventComparator = EventComparator.TIME,
+                reversed = true
+            )
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
     }
 
     private fun setupRecyclerView() {
