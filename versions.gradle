@@ -24,6 +24,57 @@ versions.reprint = "3.2.1@aar"
 versions.support = "27.0.2"
 versions.weather_icons_typeface = "2.0.10.4@aar"
 
+def arch_core = [:]
+arch_core.testing = "android.arch.core:core-testing:$versions.arch"
+deps.arch_core = arch_core
+
+def atsl = [:]
+atsl.runner = "com.android.support.test:runner:$versions.atsl_runner"
+atsl.rules = "com.android.support.test:rules:$versions.atsl_runner"
+deps.atsl = atsl
+
+def espresso = [:]
+espresso.core = "com.android.support.test.espresso:espresso-core:$versions.espresso"
+espresso.contrib = "com.android.support.test.espresso:espresso-contrib:$versions.espresso"
+espresso.intents = "com.android.support.test.espresso:espresso-intents:$versions.espresso"
+deps.espresso = espresso
+
+def google_play_services = [:]
+google_play_services.location = "com.google.android.gms:play-services-location:$versions.google_play_services"
+google_play_services.maps = "com.google.android.gms:play-services-maps:$versions.google_play_services"
+google_play_services.plugin = "com.google.gms:google-services:$versions.google_play_services_tools"
+google_play_services.clustering = "net.sharewire:google-maps-clustering:$versions.google_maps_clustering"
+deps.google_play_services = google_play_services
+
+def ioconics = [:]
+ioconics.weather_icons_typeface = "com.mikepenz:weather-icons-typeface:$versions.weather_icons_typeface"
+ioconics.community_material_typeface = "com.mikepenz:community-material-typeface:$versions.community_material_typeface"
+deps.ioconics = ioconics
+
+def kau = [:]
+kau.kau_about = "ca.allanwang.kau:about:$versions.kau"
+kau.kpref_activity = "ca.allanwang.kau:kpref-activity:$versions.kau"
+deps.kau = kau
+
+def kotlin = [:]
+kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
+kotlin.test = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
+kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+kotlin.reflect = "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
+deps.kotlin = kotlin
+
+def lifecycle = [:]
+lifecycle.runtime = "android.arch.lifecycle:runtime:$versions.arch"
+lifecycle.extensions = "android.arch.lifecycle:extensions:$versions.arch"
+lifecycle.java8 = "android.arch.lifecycle:common-java8:$versions.arch"
+lifecycle.compiler = "android.arch.lifecycle:compiler:$versions.arch"
+deps.lifecycle = lifecycle
+
+def moshi = [:]
+moshi.java = "com.squareup.moshi:moshi:$versions.moshi"
+moshi.kotlin = "com.squareup.moshi:moshi-kotlin:$versions.moshi"
+deps.moshi = moshi
+
 def support = [:]
 support.annotations = "com.android.support:support-annotations:$versions.support"
 support.app_compat = "com.android.support:appcompat-v7:$versions.support"
@@ -41,69 +92,18 @@ room.rxjava2 = "android.arch.persistence.room:rxjava2:$versions.arch"
 room.testing = "android.arch.persistence.room:testing:$versions.arch"
 deps.room = room
 
-def lifecycle = [:]
-lifecycle.runtime = "android.arch.lifecycle:runtime:$versions.arch"
-lifecycle.extensions = "android.arch.lifecycle:extensions:$versions.arch"
-lifecycle.java8 = "android.arch.lifecycle:common-java8:$versions.arch"
-lifecycle.compiler = "android.arch.lifecycle:compiler:$versions.arch"
-deps.lifecycle = lifecycle
-
-def arch_core = [:]
-arch_core.testing = "android.arch.core:core-testing:$versions.arch"
-deps.arch_core = arch_core
-
-def espresso = [:]
-espresso.core = "com.android.support.test.espresso:espresso-core:$versions.espresso"
-espresso.contrib = "com.android.support.test.espresso:espresso-contrib:$versions.espresso"
-espresso.intents = "com.android.support.test.espresso:espresso-intents:$versions.espresso"
-deps.espresso = espresso
-
-def atsl = [:]
-atsl.runner = "com.android.support.test:runner:$versions.atsl_runner"
-atsl.rules = "com.android.support.test:rules:$versions.atsl_runner"
-deps.atsl = atsl
-
-def kotlin = [:]
-kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
-kotlin.test = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
-kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
-kotlin.reflect = "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
-deps.kotlin = kotlin
-
-def moshi = [:]
-moshi.java = "com.squareup.moshi:moshi:$versions.moshi"
-moshi.kotlin = "com.squareup.moshi:moshi-kotlin:$versions.moshi"
-deps.moshi = moshi
-
-def kau = [:]
-kau.kau_about = "ca.allanwang.kau:about:$versions.kau"
-kau.kpref_activity = "ca.allanwang.kau:kpref-activity:$versions.kau"
-deps.kau = kau
-
-def google_play_services = [:]
-google_play_services.location = "com.google.android.gms:play-services-location:$versions.google_play_services"
-google_play_services.maps = "com.google.android.gms:play-services-maps:$versions.google_play_services"
-google_play_services.plugin = "com.google.gms:google-services:$versions.google_play_services_tools"
-google_play_services.clustering = "net.sharewire:google-maps-clustering:$versions.google_maps_clustering"
-deps.google_play_services = google_play_services
-
-def ioconics = [:]
-ioconics.weather_icons_typeface = "com.mikepenz:weather-icons-typeface:$versions.weather_icons_typeface"
-ioconics.community_material_typeface = "com.mikepenz:community-material-typeface:$versions.community_material_typeface"
-deps.ioconics = ioconics
-
-deps.paging = "android.arch.paging:runtime:$versions.paging"
+deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
 deps.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
+deps.crashlytics = "com.crashlytics.sdk.android:crashlytics:$versions.crashlytics"
+deps.dexcount_gradle_plugin = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$versions.dexcount"
+deps.fabric_gradle_plugin = "io.fabric.tools:gradle:$versions.fabric_gradle_plugin"
+deps.firebase = "com.google.firebase:firebase-core:$versions.google_play_services"
 deps.junit = "junit:junit:$versions.junit"
-deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
-deps.reprint = "com.github.ajalt.reprint:core:$versions.reprint"
 deps.leak_canary = "com.squareup.leakcanary:leakcanary-android:$versions.leak_canary"
 deps.leak_canary_release = "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leak_canary"
-deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
-deps.fabric_gradle_plugin = "io.fabric.tools:gradle:$versions.fabric_gradle_plugin"
-deps.dexcount_gradle_plugin = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$versions.dexcount"
-deps.crashlytics = "com.crashlytics.sdk.android:crashlytics:$versions.crashlytics"
-deps.firebase = "com.google.firebase:firebase-core:$versions.google_play_services"
+deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
+deps.paging = "android.arch.paging:runtime:$versions.paging"
+deps.reprint = "com.github.ajalt.reprint:core:$versions.reprint"
 ext.deps = deps
 
 def build_versions = [:]
