@@ -161,6 +161,7 @@
     <string name="replay_intro">Replay Introduction</string>
 
     <string name="requires_custom_theme">Requires custom theme</string>
+    <string name="requires_location_permission">Requires location permission</string>
 
     <string name="secure_app">Secure privacy</string>
     <string name="secure_app_desc">Prohibit screenshots and interception of screen status and require fingerprint authentication</string>
