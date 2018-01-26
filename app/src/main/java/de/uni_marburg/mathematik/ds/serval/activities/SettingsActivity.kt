@@ -35,6 +35,10 @@ class SettingsActivity : KPrefActivity() {
             descRes = R.string.appearance_description
             iicon = GoogleMaterial.Icon.gmd_palette
         }
+        subItems(R.string.location, getLocationPrefs()) {
+            descRes = R.string.location_description
+            iicon = GoogleMaterial.Icon.gmd_my_location
+        }
         subItems(R.string.serval, getServalPrefs()) {
             descRes = R.string.serval_description
             iicon = GoogleMaterial.Icon.gmd_network_wifi
@@ -54,10 +58,6 @@ class SettingsActivity : KPrefActivity() {
             subItems(R.string.debug, getDebugPrefs()) {
                 descRes = R.string.debug_description
                 iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
-            }
-            subItems(R.string.location, getLocationPrefs()) {
-                descRes = R.string.location_description
-                iicon = GoogleMaterial.Icon.gmd_my_location
             }
         }
     }

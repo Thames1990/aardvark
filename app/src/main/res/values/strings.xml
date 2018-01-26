@@ -98,12 +98,11 @@
     <string name="license_website" translatable="false">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
 
     <string name="location">Location</string>
-    <string name="location_dependency_warning">Caution! Currently the depency between the active and passive location request isn\'t implemented correctly.\nTherefore you could increase the passive interval to a value above the active interval, which should be avoided at all cost.\nYou are using this feature at your own risk!</string>
     <string name="location_description">Control your location settings</string>
-    <string name="location_request_fastest_interval">Active location request interval</string>
-    <string name="location_request_fastest_interval_description">Define the interval in minutes between active location updates</string>
-    <string name="location_request_interval">Passive location request interval</string>
-    <string name="location_request_interval_description">Define the interval in minutes between passive location updates</string>
+    <string name="location_request_fastest_interval">Passive location request interval</string>
+    <string name="location_request_fastest_interval_description">Define the interval in minutes between passive location updates. This determines how often other apps can inform Aardvark of your current location.</string>
+    <string name="location_request_interval">Active location request interval</string>
+    <string name="location_request_interval_description">Define the interval in minutes between active location updates. This determines how often Aardvark can request your current location.</string>
     <string name="location_request_priority">Location request priority</string>
     <string name="location_request_priority_accurate">Accurate</string>
     <string name="location_request_priority_accurate_description">Use this setting to request the most precise location possible. With this setting, the location services are more likely to use GPS to determine the location.</string>

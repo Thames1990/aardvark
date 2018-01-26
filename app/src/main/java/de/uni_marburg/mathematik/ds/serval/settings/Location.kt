@@ -9,33 +9,6 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
 fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
-
-    header(R.string.location)
-    plainText(R.string.location_dependency_warning)
-
-    // TODO Fix min/max dependency
-
-    // Location request priority interval
-    seekbar(
-        title = R.string.location_request_interval,
-        getter = Prefs::locationRequestInterval,
-        setter = { Prefs.locationRequestInterval = it }
-    ) {
-        descRes = R.string.location_request_interval_description
-        min = Prefs.locationRequestFastestInterval
-    }
-
-    // Location request priority fastest interval
-    seekbar(
-        title = R.string.location_request_fastest_interval,
-        getter = Prefs::locationRequestFastestInterval,
-        setter = { Prefs.locationRequestFastestInterval = it }
-    ) {
-        descRes = R.string.location_request_fastest_interval_description
-        min = 1
-        max = Prefs.locationRequestInterval
-    }
-
     // Location request priority
     text(
         title = R.string.location_request_priority,
@@ -60,4 +33,18 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
         }
         textGetter = { string(LocationRequestPriority(it).titleRes) }
     }
+
+    // Location request priority interval
+    seekbar(
+        title = R.string.location_request_interval,
+        getter = Prefs::locationRequestInterval,
+        setter = { Prefs.locationRequestInterval = it }
+    ) { descRes = R.string.location_request_interval_description }
+
+    // Location request priority fastest interval
+    seekbar(
+        title = R.string.location_request_fastest_interval,
+        getter = Prefs::locationRequestFastestInterval,
+        setter = { Prefs.locationRequestFastestInterval = it }
+    ) { descRes = R.string.location_request_fastest_interval_description }
 }
