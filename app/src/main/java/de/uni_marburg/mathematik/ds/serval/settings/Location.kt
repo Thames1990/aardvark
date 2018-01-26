@@ -1,6 +1,9 @@
 package de.uni_marburg.mathematik.ds.serval.settings
 
 import android.Manifest
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.activity.items.KPrefSeekbar
 import ca.allanwang.kau.kpref.activity.items.KPrefText
@@ -14,6 +17,23 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
 fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
+
+    fun openPermissionSettings() {
+        val permissionIntent = Intent().apply {
+            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.fromParts("package", packageName, null)
+        }
+        startActivity(permissionIntent)
+        // TODO Wait for users decision and restart application if location permission was granted
+    }
+
+    if (!hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+        plainText(R.string.requires_location_permission) {
+            descRes = R.string.grant_location_permission
+            onClick = { openPermissionSettings() }
+        }
+    }
+
     fun KPrefText.KPrefTextContract<Int>.dependsOnLocationPermission() {
         enabler = { hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) }
         onDisabledClick = { snackbar(R.string.requires_location_permission) }
