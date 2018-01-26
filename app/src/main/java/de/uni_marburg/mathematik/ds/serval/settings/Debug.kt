@@ -16,17 +16,19 @@ import java.net.InetAddress
 /** Created by thames1990 on 09.12.17. */
 fun SettingsActivity.getDebugPrefs(): KPrefAdapterBuilder.() -> Unit = {
     plainText(R.string.debug_disclaimer_info)
-    checkbox(R.string.preference_enable_wifi_adb, { Prefs.useWifiADB }, {
-        Prefs.useWifiADB = it
-        when (it) {
-            true -> enableWifiAdb()
-            false -> disableWifiAdb()
+    checkbox(
+        title = R.string.preference_enable_wifi_adb,
+        getter = Prefs::useWifiADB,
+        setter = { enableWifiADB ->
+            Prefs.useWifiADB = enableWifiADB
+            if (enableWifiADB) enableWifiAdb()
+            else disableWifiAdb()
+            reloadByTitle(R.string.preference_share_wifi_adb_command)
         }
-        reloadByTitle(R.string.preference_share_wifi_adb_command)
-    })
+    )
     plainText(R.string.preference_share_wifi_adb_command) {
         descRes = R.string.preference_share_adb_command_description
-        enabler = { Prefs.useWifiADB }
+        enabler = Prefs::useWifiADB
         onDisabledClick = { toast(getString(R.string.preference_enable_wifi_adb_hint)) }
         onClick = { shareWifiAdbCommand() }
     }

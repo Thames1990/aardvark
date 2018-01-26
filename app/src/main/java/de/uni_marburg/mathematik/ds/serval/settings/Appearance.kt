@@ -16,14 +16,15 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
 
     header(R.string.theme_customization)
 
-    text(R.string.theme, { Prefs.theme }, { Prefs.theme = it }) {
+    text(
+        title = R.string.theme,
+        getter = Prefs::theme,
+        setter = { Prefs.theme = it }
+    ) {
         onClick = {
             materialDialogThemed {
                 title(R.string.theme)
-                items(Theme.values()
-                    .map { it.titleRes }
-                    .map { string(it) }
-                )
+                items(Theme.values().map { string(it.titleRes) })
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                     if (item.pref != which) {
                         item.pref = which
@@ -45,55 +46,80 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
     }
 
     fun KPrefColorPicker.KPrefColorContract.dependsOnCustom() {
-        enabler = { Prefs.isCustomTheme }
+        enabler = Prefs::isCustomTheme
         onDisabledClick = { snackbar(R.string.requires_custom_theme) }
         allowCustom = true
     }
 
-    colorPicker(R.string.color_text, { Prefs.customTextColor }, {
-        Prefs.customTextColor = it
-        reload()
-        shouldRestartMain()
-    }) {
+    colorPicker(
+        title = R.string.color_text,
+        getter = Prefs::customTextColor,
+        setter = { customTextColor ->
+            Prefs.customTextColor = customTextColor
+            reload()
+            shouldRestartMain()
+        }
+    ) {
         dependsOnCustom()
         allowCustomAlpha = false
     }
 
-    colorPicker(R.string.color_accent, { Prefs.customAccentColor }, {
-        Prefs.customAccentColor = it
-        reload()
-        shouldRestartMain()
-    }) {
+    colorPicker(
+        title = R.string.color_accent,
+        getter = Prefs::customAccentColor,
+        setter = { customAccentColor ->
+            Prefs.customAccentColor = customAccentColor
+            reload()
+            shouldRestartMain()
+        }
+    ) {
         dependsOnCustom()
         allowCustomAlpha = false
     }
 
-    colorPicker(R.string.color_background, { Prefs.customBackgroundColor }, {
-        Prefs.customBackgroundColor = it
-        bgCanvas.ripple(it, duration = 500L)
-        setAardvarkTheme()
-        shouldRestartMain()
-    }) {
+    colorPicker(
+        title = R.string.color_background,
+        getter = Prefs::customBackgroundColor,
+        setter = { customBackgroundColor ->
+            Prefs.customBackgroundColor = customBackgroundColor
+            bgCanvas.ripple(color = customBackgroundColor, duration = 500L)
+            setAardvarkTheme()
+            shouldRestartMain()
+        }
+    ) {
         dependsOnCustom()
         allowCustomAlpha = true
     }
 
-    colorPicker(R.string.color_header, { Prefs.customHeaderColor }, {
-        Prefs.customHeaderColor = it
-        aardvarkNavigationBar()
-        toolbarCanvas.ripple(it, RippleCanvas.MIDDLE, RippleCanvas.END, duration = 500L)
-        reload()
-        shouldRestartMain()
-    }) {
+    colorPicker(
+        title = R.string.color_header,
+        getter = Prefs::customHeaderColor,
+        setter = { customHeaderColor ->
+            Prefs.customHeaderColor = customHeaderColor
+            aardvarkNavigationBar()
+            toolbarCanvas.ripple(
+                color = customHeaderColor,
+                startX = RippleCanvas.MIDDLE,
+                startY = RippleCanvas.END,
+                duration = 500L
+            )
+            reload()
+            shouldRestartMain()
+        }
+    ) {
         dependsOnCustom()
         allowCustomAlpha = true
     }
 
-    colorPicker(R.string.color_icon, { Prefs.customIconColor }, {
-        Prefs.customIconColor = it
-        invalidateOptionsMenu()
-        shouldRestartMain()
-    }) {
+    colorPicker(
+        title = R.string.color_icon,
+        getter = Prefs::customIconColor,
+        setter = { customIconColor ->
+            Prefs.customIconColor = customIconColor
+            invalidateOptionsMenu()
+            shouldRestartMain()
+        }
+    ) {
         dependsOnCustom()
         allowCustomAlpha = false
     }
@@ -101,9 +127,9 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
     header(R.string.global_customization)
 
     text(
-        R.string.main_activity_layout,
-        { Prefs.mainActivityLayoutType },
-        { Prefs.mainActivityLayoutType = it }
+        title = R.string.main_activity_layout,
+        getter = Prefs::mainActivityLayoutType,
+        setter = { Prefs.mainActivityLayoutType = it }
     ) {
         textGetter = { string(Prefs.mainActivityLayout.titleRes) }
         onClick = {
@@ -125,10 +151,14 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
         }
     }
 
-    checkbox(R.string.tint_nav, { Prefs.tintNavBar }, {
-        Prefs.tintNavBar = it
-        aardvarkNavigationBar()
-        setAardvarkResult(MainActivity.REQUEST_NAV)
-    }) { descRes = R.string.tint_nav_desc }
+    checkbox(
+        title = R.string.tint_nav,
+        getter = Prefs::tintNavBar,
+        setter = { tintNavBar ->
+            Prefs.tintNavBar = tintNavBar
+            aardvarkNavigationBar()
+            setAardvarkResult(MainActivity.REQUEST_NAV)
+        }
+    ) { descRes = R.string.tint_nav_desc }
 
 }
