@@ -16,38 +16,38 @@ enum class Theme(
 
     LIGHT(
         titleRes = R.string.aardvark_light,
-        textColorGetter = { 0xde000000.toInt() },
-        accentColorGetter = { AARDVARK_GREEN },
-        backgroundColorGetter = { 0xfffafafa.toInt() },
-        headerColorGetter = { AARDVARK_GREEN },
-        iconColorGetter = { Color.WHITE }
+        textColorGetter = Color::BLACK,
+        accentColorGetter = ::FRUIT_SALAD,
+        backgroundColorGetter = ::ALABASTER,
+        headerColorGetter = ::FRUIT_SALAD,
+        iconColorGetter = Color::WHITE
     ),
 
     DARK(
         titleRes = R.string.aardvark_dark,
         textColorGetter = { Color.WHITE },
-        accentColorGetter = { AARDVARK_GREEN_LIGHT },
-        backgroundColorGetter = { 0xff303030.toInt() },
-        headerColorGetter = { 0xff2e4b86.toInt() },
-        iconColorGetter = { Color.WHITE }
+        accentColorGetter = ::PASTEL_GREEN,
+        backgroundColorGetter = ::MINE_SHAFT,
+        headerColorGetter = ::CHAMBRAY,
+        iconColorGetter = Color::WHITE
     ),
 
     AMOLED(
         titleRes = R.string.aardvark_amoled,
-        textColorGetter = { Color.WHITE },
-        accentColorGetter = { AARDVARK_GREEN_LIGHT },
-        backgroundColorGetter = { Color.BLACK },
-        headerColorGetter = { Color.BLACK },
-        iconColorGetter = { Color.WHITE }
+        textColorGetter = Color::WHITE,
+        accentColorGetter = ::PASTEL_GREEN,
+        backgroundColorGetter = Color::BLACK,
+        headerColorGetter = Color::BLACK,
+        iconColorGetter = Color::WHITE
     ),
 
     CUSTOM(
         titleRes = R.string.aardvark_custom,
-        textColorGetter = { Prefs.customTextColor },
-        accentColorGetter = { Prefs.customAccentColor },
-        backgroundColorGetter = { Prefs.customBackgroundColor },
-        headerColorGetter = { Prefs.customHeaderColor },
-        iconColorGetter = { Prefs.customIconColor }
+        textColorGetter = Prefs::customTextColor,
+        accentColorGetter = Prefs::customAccentColor,
+        backgroundColorGetter = Prefs::customBackgroundColor,
+        headerColorGetter = Prefs::customHeaderColor,
+        iconColorGetter = Prefs::customIconColor
     );
 
     val textColor: Int
@@ -69,7 +69,10 @@ enum class Theme(
         val values = values() //save one instance
         operator fun invoke(index: Int) = values[index]
 
-        const val AARDVARK_GREEN = 0xff4CAF50.toInt()
-        const val AARDVARK_GREEN_LIGHT = 0xff80E27E.toInt()
+        const val FRUIT_SALAD = 0xff4CAF50.toInt()
+        const val PASTEL_GREEN = 0xff80E27E.toInt()
+        const val MINE_SHAFT = 0xff303030.toInt()
+        const val CHAMBRAY = 0xff2e4b86.toInt()
+        const val ALABASTER = 0xfffafafa.toInt()
     }
 }
