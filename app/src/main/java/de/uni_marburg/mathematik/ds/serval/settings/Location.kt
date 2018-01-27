@@ -39,8 +39,6 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
         onDisabledClick = { snackbar(R.string.requires_location_permission) }
     }
 
-    // TODO Currently the seekbar isn't disabled, when the contract enabler is false
-    // See: https://github.com/AllanWang/KAU/issues/133
     fun KPrefSeekbar.KPrefSeekbarContract.dependsOnLocationPermission() {
         enabler = { hasPermission(Manifest.permission.ACCESS_FINE_LOCATION) }
         onDisabledClick = { snackbar(R.string.requires_location_permission) }
