@@ -22,8 +22,8 @@ class SettingsActivity : KPrefActivity() {
     private var resultFlag = Activity.RESULT_CANCELED
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = { Prefs.accentColor }
-        textColor = { Prefs.textColor }
+        accentColor = Prefs::accentColor
+        textColor = Prefs::textColor
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
@@ -47,7 +47,7 @@ class SettingsActivity : KPrefActivity() {
         plainText(R.string.aardvark_about) {
             descRes = R.string.aardvark_about_description
             iicon = GoogleMaterial.Icon.gmd_info
-            onClick = { startActivityForResult(AboutActivity::class.java, 9) }
+            onClick = { startActivityForResult(AboutActivity::class.java, requestCode = 9) }
         }
         plainText(R.string.replay_intro) {
             iicon = GoogleMaterial.Icon.gmd_replay

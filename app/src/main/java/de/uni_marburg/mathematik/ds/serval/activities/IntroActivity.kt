@@ -135,17 +135,17 @@ class IntroActivity : BaseActivity() {
         next.imageTintList = ColorStateList.valueOf(Prefs.textColor)
         indicator.setColour(Prefs.textColor)
         indicator.invalidate()
-        fragments.forEach { it.themeFragment() }
+        fragments.forEach { fragment -> fragment.themeFragment() }
     }
 
     fun finish(x: Float, y: Float) {
-        val green = Theme.AARDVARK_GREEN
+        val aardvarkGreen = Theme.FRUIT_SALAD
         window.setFlags(
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         )
         ripple.ripple(
-            color = green,
+            color = aardvarkGreen,
             startX = x,
             startY = y,
             duration = 600
@@ -165,11 +165,11 @@ class IntroActivity : BaseActivity() {
             val image = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
             if (image != null) {
                 ValueAnimator.ofFloat(0f, 1f).apply {
-                    addUpdateListener {
+                    addUpdateListener { animator ->
                         image.setTint(
                             Prefs.textColor.blendWith(
                                 color = Color.WHITE,
-                                ratio = it.animatedValue as Float
+                                ratio = animator.animatedValue as Float
                             )
                         )
                     }
@@ -178,12 +178,12 @@ class IntroActivity : BaseActivity() {
                 }
             }
         }
-        if (Prefs.headerColor != green) {
+        if (Prefs.headerColor != aardvarkGreen) {
             ValueAnimator.ofFloat(0f, 1f).apply {
-                addUpdateListener {
+                addUpdateListener { animator ->
                     val color = Prefs.headerColor.blendWith(
-                        color = green,
-                        ratio = it.animatedValue as Float
+                        color = aardvarkGreen,
+                        ratio = animator.animatedValue as Float
                     )
                     statusBarColor = color
                     navigationBarColor = color

@@ -66,13 +66,16 @@ enum class Theme(
         get() = iconColorGetter()
 
     companion object {
-        val values = values() //save one instance
+        val values = values()
         operator fun invoke(index: Int) = values[index]
 
-        const val FRUIT_SALAD = 0xff4CAF50.toInt()
-        const val PASTEL_GREEN = 0xff80E27E.toInt()
-        const val MINE_SHAFT = 0xff303030.toInt()
-        const val CHAMBRAY = 0xff2e4b86.toInt()
         const val ALABASTER = 0xfffafafa.toInt()
+        const val CHAMBRAY = 0xff2e4b86.toInt()
+        const val FRUIT_SALAD = 0xff4CAF50.toInt()
+        const val MINE_SHAFT = 0xff303030.toInt()
+        const val PASTEL_GREEN = 0xff80E27E.toInt()
+        const val PORCELAIN = 0xffeceff1.toInt()
+        const val LOCHMARA = 0xff0288d1.toInt()
+        const val BAHAMA_BLUE = 0xff01579b.toInt()
     }
 }

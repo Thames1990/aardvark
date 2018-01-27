@@ -13,9 +13,7 @@ enum class Support(@StringRes val titleRes: Int) {
     THEME(R.string.theme_issue),
     FEATURE(R.string.feature_request);
 
-    fun sendEmail(context: Context) {
-        with(context) {
-            sendAardvarkEmail("${string(R.string.aardvark_name)}: ${string(titleRes)}") {}
-        }
+    fun sendEmail(context: Context) = with(context) {
+        sendAardvarkEmail(subject = "${string(R.string.aardvark_name)}: ${string(titleRes)}") {}
     }
 }

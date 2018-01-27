@@ -100,17 +100,11 @@ class ActivityThemeUtils {
         this.toolbar = toolbar
     }
 
-    fun text(vararg views: TextView) {
-        texts.addAll(views)
-    }
+    fun text(vararg views: TextView) = texts.addAll(views)
 
-    fun header(vararg views: View) {
-        headers.addAll(views)
-    }
+    fun header(vararg views: View) = headers.addAll(views)
 
-    fun background(vararg views: View) {
-        backgrounds.addAll(views)
-    }
+    fun background(vararg views: View) = backgrounds.addAll(views)
 
     fun theme(activity: Activity) {
         with(activity) {
@@ -122,9 +116,9 @@ class ActivityThemeUtils {
                 setTitleTextColor(Prefs.iconColor)
                 overflowIcon?.setTint(Prefs.iconColor)
             }
-            texts.forEach { it.setTextColor(Prefs.textColor) }
-            headers.forEach { it.setBackgroundColor(Prefs.headerColor) }
-            backgrounds.forEach { it.setBackgroundColor(Prefs.backgroundColor) }
+            texts.forEach { textView -> textView.setTextColor(Prefs.textColor) }
+            headers.forEach { view -> view.setBackgroundColor(Prefs.headerColor) }
+            backgrounds.forEach { view -> view.setBackgroundColor(Prefs.backgroundColor) }
         }
     }
 

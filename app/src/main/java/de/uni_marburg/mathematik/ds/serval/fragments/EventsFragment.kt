@@ -44,11 +44,13 @@ class EventsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         eventAdapter = EventAdapter { event ->
-            context!!.startActivity(DetailActivity::class.java, bundleBuilder = {
-                withSceneTransitionAnimation(context!!)
-            }) {
-                putExtra(DetailActivity.EVENT_ID, event.id)
-                putExtra(DetailActivity.SHOW_MAP, true)
+            context?.let { context ->
+                context.startActivity(DetailActivity::class.java, bundleBuilder = {
+                    withSceneTransitionAnimation(context)
+                }) {
+                    putExtra(DetailActivity.EVENT_ID, event.id)
+                    putExtra(DetailActivity.SHOW_MAP, true)
+                }
             }
         }
         eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)

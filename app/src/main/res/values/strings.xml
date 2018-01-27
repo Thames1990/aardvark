@@ -60,6 +60,8 @@
     <string name="distance_in_kilometer">%1$.2f km</string>
     <string name="distance_in_meter">%1$.0f m</string>
 
+    <string name="editing_tabs_coming_soon">Editing tabs coming soon™</string>
+
     <string name="event_count">Event count</string>
     <string name="event_count_description">Define how many events should be loaded</string>
     <string name="event_loading_time">Loading events took %1$d ms</string>
@@ -159,6 +161,8 @@
     <string name="preference_theme">Theme</string>
     <string name="preference_use_analytics">Use analytics</string>
     <string name="preference_username_description">Serval API username</string>
+
+    <string name="random_aardvark_id">Random Aardvark ID</string>
 
     <string name="replay_intro">Replay Introduction</string>
 

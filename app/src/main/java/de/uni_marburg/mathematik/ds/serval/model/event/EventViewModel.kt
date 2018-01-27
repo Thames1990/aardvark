@@ -9,7 +9,7 @@ import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 
 class EventViewModel(application: Application) : AndroidViewModel(application) {
 
-    val dao: EventDao by lazy {
+    private val dao: EventDao by lazy {
         EventDatabase.get(application).eventDao()
     }
 
@@ -45,6 +45,10 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
         dao.insert(sortedEvents)
     }
+
+    fun count(): Int = dao.count()
+
+    fun getAll() = dao.getAll()
 
     fun reload() = ioThread {
         dao.deleteAll()

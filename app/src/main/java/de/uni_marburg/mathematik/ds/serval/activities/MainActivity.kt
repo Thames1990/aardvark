@@ -197,7 +197,7 @@ class MainActivity : BaseActivity() {
                         title = string(aardvarkItem.titleRes)
                         iicon = aardvarkItem.iicon
                         doAsync {
-                            val eventCount: Int = eventViewModel.dao.count()
+                            val eventCount: Int = eventViewModel.count()
                             uiThread { badgeText = eventCount.toString() }
                         }
                     }
@@ -212,7 +212,7 @@ class MainActivity : BaseActivity() {
 
     private fun TabLayout.reloadTabs() {
         doAsync {
-            val eventCount: Int = eventViewModel.dao.count()
+            val eventCount: Int = eventViewModel.count()
             uiThread { eventBadgedIcon.badgeText = eventCount.toString() }
         }
     }

@@ -29,5 +29,5 @@ inline fun Context.sendAardvarkEmail(
     crossinline builder: EmailBuilder.() -> Unit
 ) = sendEmail(string(R.string.developer_email), subject) {
     builder()
-    addItem("Random Aardvark ID", Prefs.aardvarkId)
+    addItem(string(R.string.random_aardvark_id), Prefs.aardvarkId)
 }

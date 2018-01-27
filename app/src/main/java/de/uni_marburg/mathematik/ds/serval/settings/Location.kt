@@ -73,8 +73,10 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
     // Location request priority interval
     seekbar(
         title = R.string.location_request_interval,
-        getter = Prefs::locationRequestInterval,
-        setter = { Prefs.locationRequestInterval = it }
+        getter = { Prefs.locationRequestInterval.toInt() },
+        setter = { locationRequestInterval ->
+            Prefs.locationRequestInterval = locationRequestInterval.toLong()
+        }
     ) {
         dependsOnLocationPermission()
         descRes = R.string.location_request_interval_description
@@ -83,8 +85,10 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
     // Location request priority fastest interval
     seekbar(
         title = R.string.location_request_fastest_interval,
-        getter = Prefs::locationRequestFastestInterval,
-        setter = { Prefs.locationRequestFastestInterval = it }
+        getter = { Prefs.locationRequestFastestInterval.toInt() },
+        setter = { locationRequestFastestInterval ->
+            Prefs.locationRequestFastestInterval = locationRequestFastestInterval.toLong()
+        }
     ) {
         dependsOnLocationPermission()
         descRes = R.string.location_request_fastest_interval_description

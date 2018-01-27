@@ -32,6 +32,7 @@ import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
 
+    // TODO Use viewmodel to set cluster manager items
     private lateinit var eventViewModel: EventViewModel
     private lateinit var googleMap: GoogleMap
     private lateinit var map: SupportMapFragment
@@ -49,10 +50,10 @@ class MapFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
-        map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 
-        map.getMapAsync { googleMap ->
-            this.googleMap = googleMap.apply {
+        map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        map.getMapAsync { map ->
+            googleMap = map.apply {
                 val hasLocationPermission =
                     context!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 isMyLocationEnabled = hasLocationPermission
@@ -91,52 +92,55 @@ class MapFragment : BaseFragment() {
 
     private fun GoogleMap.style() {
         when (Prefs.theme) {
-            Theme.DARK.ordinal -> setMapStyle(loadRawResourceStyle(context, R.raw.map_style_dark))
-            Theme.AMOLED.ordinal -> setMapStyle(
+            Theme.DARK -> setMapStyle(loadRawResourceStyle(context, R.raw.map_style_dark))
+            Theme.AMOLED -> setMapStyle(
                 loadRawResourceStyle(
                     context,
                     R.raw.map_style_night
                 )
             )
+            Theme.LIGHT -> Unit
+            Theme.CUSTOM -> Unit
         }
     }
 
     private fun GoogleMap.setupClusterManager() {
-        val clusterManger = ClusterManager<Event>(context!!, this)
-        clusterManger.apply {
-            setCallbacks(object : ClusterManager.Callbacks<Event> {
-                override fun onClusterClick(cluster: Cluster<Event>): Boolean {
-                    val builder = LatLngBounds.builder()
-                    cluster.items.forEach { event ->
-                        builder.include(event.position)
-                        val bounds = builder.build()
-                        cameraUpdate(bounds, Prefs.animate)
+        context?.let { context ->
+            val clusterManger = ClusterManager<Event>(context, this).apply {
+                setCallbacks(object : ClusterManager.Callbacks<Event> {
+                    override fun onClusterClick(cluster: Cluster<Event>): Boolean {
+                        val builder = LatLngBounds.builder()
+                        cluster.items.forEach { event ->
+                            builder.include(event.position)
+                            val bounds = builder.build()
+                            cameraUpdate(bounds, Prefs.animate)
+                        }
+                        return true
                     }
-                    return true
-                }
 
-                override fun onClusterItemClick(event: Event): Boolean {
-                    context!!.startActivity(DetailActivity::class.java, bundleBuilder = {
-                        withSceneTransitionAnimation(context!!)
-                    }) {
-                        putExtra(DetailActivity.EVENT_ID, event.id)
-                        putExtra(DetailActivity.SHOW_MAP, true)
+                    override fun onClusterItemClick(event: Event): Boolean {
+                        context.startActivity(DetailActivity::class.java, bundleBuilder = {
+                            withSceneTransitionAnimation(context)
+                        }) {
+                            putExtra(DetailActivity.EVENT_ID, event.id)
+                            putExtra(DetailActivity.SHOW_MAP, true)
+                        }
+                        return true
                     }
-                    return true
-                }
-            })
+                })
 
-            doAsync {
-                val events: List<Event> = eventViewModel.dao.getAll()
-                uiThread { setItems(events) }
+                doAsync {
+                    val events: List<Event> = eventViewModel.getAll()
+                    uiThread { setItems(events) }
+                }
             }
+            setOnCameraIdleListener(clusterManger)
         }
-        setOnCameraIdleListener(clusterManger)
     }
 
     private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
         doAsync {
-            val events: List<Event> = eventViewModel.dao.getAll()
+            val events: List<Event> = eventViewModel.getAll()
             uiThread { googleMap ->
                 if (events.isNotEmpty()) {
                     val builder = LatLngBounds.builder()

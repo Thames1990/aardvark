@@ -15,14 +15,14 @@ enum class MainActivityLayout(
     TOP_BAR(
         titleRes = R.string.top_bar,
         layoutRes = R.layout.activity_main,
-        backgroundColorGetter = { Prefs.headerColor },
-        iconColorGetter = { Prefs.iconColor }
+        backgroundColorGetter = Prefs::headerColor,
+        iconColorGetter = Prefs::iconColor
     ),
     BOTTOM_BAR(
         titleRes = R.string.bottom_bar,
         layoutRes = R.layout.activity_main_bottom_tabs,
-        backgroundColorGetter = { Prefs.backgroundColor },
-        iconColorGetter = { Prefs.textColor }
+        backgroundColorGetter = Prefs::backgroundColor,
+        iconColorGetter = Prefs::textColor
     );
 
     val backgroundColor

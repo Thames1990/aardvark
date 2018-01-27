@@ -11,6 +11,7 @@ import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import kotlin.math.absoluteValue
 
 /** Created by thames1990 on 03.12.17. */
@@ -65,15 +66,15 @@ abstract class BaseImageIntroFragment(
 }
 
 class IntroFragmentTabTouch : BaseImageIntroFragment(
-    R.string.intro_easy_navigation,
-    R.drawable.intro_phone_tab,
-    R.string.intro_easy_navigation_desc
+    titleRes = R.string.intro_easy_navigation,
+    imageRes = R.drawable.intro_phone_tab,
+    descRes = R.string.intro_easy_navigation_desc
 ) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         icon.visible().setIcon(icon = GoogleMaterial.Icon.gmd_edit, sizeDp = 24)
-        icon.setOnClickListener { activity?.toast("Editing tabs incoming") }
+        icon.setOnClickListener { it.aardvarkSnackbar(R.string.editing_tabs_coming_soon) }
     }
 
     override fun themeFragmentImpl() {

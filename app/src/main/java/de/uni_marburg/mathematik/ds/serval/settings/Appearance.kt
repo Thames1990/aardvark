@@ -17,8 +17,8 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.theme,
-        getter = Prefs::theme,
-        setter = { Prefs.theme = it }
+        getter = Prefs::themeType,
+        setter = { Prefs.themeType = it }
     ) {
         onClick = {
             materialDialogThemed {
