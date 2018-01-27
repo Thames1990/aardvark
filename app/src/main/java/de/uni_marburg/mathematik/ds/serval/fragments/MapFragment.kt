@@ -1,13 +1,11 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.setMenuIcons
 import ca.allanwang.kau.utils.startActivity
 import ca.allanwang.kau.utils.withSceneTransitionAnimation
@@ -25,6 +23,7 @@ import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
 import org.jetbrains.anko.doAsync
@@ -54,9 +53,7 @@ class MapFragment : BaseFragment() {
         map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         map.getMapAsync { map ->
             googleMap = map.apply {
-                val hasLocationPermission =
-                    context!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                isMyLocationEnabled = hasLocationPermission
+                isMyLocationEnabled = context!!.hasLocationPermission
                 style()
                 setupClusterManager()
                 zoomToAllMarkers(animate = false)

@@ -1,9 +1,11 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
+import android.Manifest
 import android.content.Context
 import android.support.annotation.StringRes
 import ca.allanwang.kau.email.EmailBuilder
 import ca.allanwang.kau.email.sendEmail
+import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.isFinishing
 import ca.allanwang.kau.utils.string
 import ca.allanwang.kau.xml.showChangelog
@@ -31,3 +33,6 @@ inline fun Context.sendAardvarkEmail(
     builder()
     addItem(string(R.string.random_aardvark_id), Prefs.aardvarkId)
 }
+
+val Context.hasLocationPermission: Boolean
+    get() = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)

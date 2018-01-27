@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
-import android.Manifest
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedListAdapter
@@ -81,9 +80,8 @@ class EventsFragment : BaseFragment() {
             iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
         )
 
-        val hasLocationPermission =
-            context!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-        menu.findItem(R.id.action_filter_events_distance).isVisible = hasLocationPermission
+        menu.findItem(R.id.action_filter_events_distance).isVisible =
+                context!!.hasLocationPermission
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -192,8 +190,7 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private fun Event.displayLocation() {
         val context = itemView.context
 
-        val hasLocationPermission = context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-        if (hasLocationPermission) {
+        if (context.hasLocationPermission) {
             locationIconView.setIcon(
                 icon = GoogleMaterial.Icon.gmd_location_on,
                 color = Prefs.textColor
