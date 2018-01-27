@@ -80,6 +80,10 @@ class EventsFragment : BaseFragment() {
             color = Prefs.iconColor,
             iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
         )
+
+        val hasLocationPermission =
+            context!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        menu.findItem(R.id.action_filter_events_distance).isVisible = hasLocationPermission
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
