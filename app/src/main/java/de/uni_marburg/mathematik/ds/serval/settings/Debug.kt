@@ -7,7 +7,7 @@ import ca.allanwang.kau.utils.shareText
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import org.jetbrains.anko.toast
+import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import java.io.DataOutputStream
 import java.lang.Runtime.getRuntime
 import java.math.BigInteger
@@ -29,7 +29,7 @@ fun SettingsActivity.getDebugPrefs(): KPrefAdapterBuilder.() -> Unit = {
     plainText(R.string.preference_share_wifi_adb_command) {
         descRes = R.string.preference_share_adb_command_description
         enabler = Prefs::useWifiADB
-        onDisabledClick = { toast(getString(R.string.preference_enable_wifi_adb_hint)) }
+        onDisabledClick = { aardvarkSnackbar(getString(R.string.preference_enable_wifi_adb_hint)) }
         onClick = { shareWifiAdbCommand() }
     }
 }

@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.settings
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.activity.items.KPrefColorPicker
 import ca.allanwang.kau.ui.views.RippleCanvas
-import ca.allanwang.kau.utils.snackbar
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
@@ -47,7 +46,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefColorPicker.KPrefColorContract.dependsOnCustom() {
         enabler = Prefs::isCustomTheme
-        onDisabledClick = { snackbar(R.string.requires_custom_theme) }
+        onDisabledClick = { aardvarkSnackbar(R.string.requires_custom_theme) }
         allowCustom = true
     }
 
