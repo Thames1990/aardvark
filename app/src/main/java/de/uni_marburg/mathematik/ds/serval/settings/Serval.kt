@@ -54,7 +54,7 @@ fun SettingsActivity.getServalPrefs(): KPrefAdapterBuilder.() -> Unit = {
     ) {
         descRes = R.string.event_count_description
         min = 1
-        max = 10000
+        max = Prefs.EVENT_COUNT
         shouldRestartMain()
     }
 }

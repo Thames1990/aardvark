@@ -12,6 +12,8 @@ import de.uni_marburg.mathematik.ds.serval.enums.Theme
 
 object Prefs : KPref() {
 
+    const val EVENT_COUNT = 10000
+
     val aardvarkId: String
         get() = "$installDate-$identifier"
 
@@ -52,7 +54,7 @@ object Prefs : KPref() {
     var customHeaderColor: Int by kpref("COLOR_HEADER", Theme.BAHAMA_BLUE)
     var customIconColor: Int by kpref("COLOR_ICONS", Theme.PORCELAIN)
     var debugSettings: Boolean by kpref("DEBUG_SETTINGS", BuildConfig.DEBUG)
-    var eventCount: Int by kpref("EVENT_COUNT", 10000)
+    var eventCount: Int by kpref("EVENT_COUNT", EVENT_COUNT)
     var exitConfirmation: Boolean by kpref("CONFIRM_EXIT", true)
     var identifier: Int by kpref("IDENTIFIER", -1)
     var installDate: Long by kpref("INSTALL_DATE", -1L)

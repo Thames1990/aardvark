@@ -23,7 +23,7 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
         onClick = {
             materialDialogThemed {
                 title(R.string.theme)
-                items(Theme.values().map { string(it.titleRes) })
+                items(Theme.values().map { theme -> string(theme.titleRes) })
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                     if (item.pref != which) {
                         item.pref = which

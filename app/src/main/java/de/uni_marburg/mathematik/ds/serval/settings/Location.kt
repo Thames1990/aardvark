@@ -53,7 +53,9 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
             materialDialogThemed {
                 title(R.string.location_request_priority)
                 items(LocationRequestPriority.values()
-                    .map { "${string(it.titleRes)}\n${string(it.descTextRes)}" }
+                    .map { priority ->
+                        "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
+                    }
                 )
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                     if (item.pref != which) {
@@ -72,9 +74,7 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
     seekbar(
         title = R.string.location_request_interval,
         getter = { Prefs.locationRequestInterval.toInt() },
-        setter = { locationRequestInterval ->
-            Prefs.locationRequestInterval = locationRequestInterval.toLong()
-        }
+        setter = { Prefs.locationRequestInterval = it.toLong() }
     ) {
         dependsOnLocationPermission()
         descRes = R.string.location_request_interval_description
@@ -84,9 +84,7 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
     seekbar(
         title = R.string.location_request_fastest_interval,
         getter = { Prefs.locationRequestFastestInterval.toInt() },
-        setter = { locationRequestFastestInterval ->
-            Prefs.locationRequestFastestInterval = locationRequestFastestInterval.toLong()
-        }
+        setter = { Prefs.locationRequestFastestInterval = it.toLong() }
     ) {
         dependsOnLocationPermission()
         descRes = R.string.location_request_fastest_interval_description
