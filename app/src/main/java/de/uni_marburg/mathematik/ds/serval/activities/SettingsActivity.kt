@@ -52,11 +52,11 @@ class SettingsActivity : KPrefActivity() {
         plainText(R.string.aardvark_about) {
             descRes = R.string.aardvark_about_description
             iicon = GoogleMaterial.Icon.gmd_info
-            onClick = { startActivityForResult(AboutActivity::class.java, requestCode = 9) }
+            onClick = { startActivityForResult<AboutActivity>(requestCode = 9) }
         }
         plainText(R.string.replay_intro) {
             iicon = GoogleMaterial.Icon.gmd_replay
-            onClick = { startActivity(IntroActivity::class.java) }
+            onClick = { startActivity<IntroActivity>() }
         }
         if (Prefs.debugSettings) {
             header(R.string.experimental)

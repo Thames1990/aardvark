@@ -77,7 +77,7 @@ class IntroActivity : BaseActivity() {
 
     override fun finish() {
         Prefs.isFirstLaunch = false
-        startActivity(MainActivity::class.java)
+        startActivity<MainActivity>()
         super.finish()
     }
 

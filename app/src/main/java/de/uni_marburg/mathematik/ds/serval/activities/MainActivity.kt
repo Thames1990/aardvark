@@ -83,7 +83,7 @@ class MainActivity : BaseActivity() {
             ACTIVITY_SETTINGS -> {
                 if (resultCode and REQUEST_RESTART > 0) {
                     // Fix until i figure out how to properly use restart
-                    startActivity(MainActivity::class.java)
+                    startActivity<MainActivity>()
                     overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
                     finish()
                     overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
@@ -151,17 +151,18 @@ class MainActivity : BaseActivity() {
     @SuppressLint("RestrictedApi")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_settings -> startActivityForResult(
-                clazz = SettingsActivity::class.java,
-                requestCode = ACTIVITY_SETTINGS,
-                bundleBuilder = {
-                    withCustomAnimation(
-                        context = this@MainActivity,
-                        enterResId = R.anim.kau_slide_in_right,
-                        exitResId = R.anim.kau_fade_out
-                    )
-                }
-            )
+            R.id.action_settings -> {
+                startActivityForResult<SettingsActivity>(
+                    requestCode = ACTIVITY_SETTINGS,
+                    bundleBuilder = {
+                        withCustomAnimation(
+                            context = this@MainActivity,
+                            enterResId = R.anim.kau_slide_in_right,
+                            exitResId = R.anim.kau_fade_out
+                        )
+                    }
+                )
+            }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
