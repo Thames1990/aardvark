@@ -12,14 +12,21 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import ca.allanwang.kau.utils.*
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
+import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
@@ -32,19 +39,15 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var eventBadgedIcon: BadgedIcon
+    private lateinit var aardvarkAdapter: AardvarkAdapter
+    private lateinit var bottomNavigation: AHBottomNavigation
     private lateinit var eventViewModel: EventViewModel
     private lateinit var locationViewModel: LocationViewModel
+    private lateinit var tabs: TabLayout
+    private lateinit var viewPager: AHBottomNavigationViewPager
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
-    private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
-
-    private val fragments = listOf(
-        DashboardFragment(),
-        EventsFragment(),
-        MapFragment()
-    )
 
     companion object {
         const val ACTIVITY_SETTINGS = 1 shl 1
@@ -65,12 +68,27 @@ class MainActivity : BaseActivity() {
             themeWindow = false
             header(appBar)
         }
-        tabs.setup()
+
+        aardvarkAdapter = AardvarkAdapter(context = this, fm = supportFragmentManager)
+        viewPager = findViewById(R.id.view_pager)
+        viewPager.apply {
+            adapter = aardvarkAdapter
+            offscreenPageLimit = aardvarkAdapter.count
+        }
+        when (Prefs.mainActivityLayout) {
+            MainActivityLayout.TOP_BAR -> setupTabs()
+            MainActivityLayout.BOTTOM_BAR -> setupBottomNavigation()
+        }
 
         checkForNewVersion()
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
-        eventViewModel.events.observe(this, Observer { tabs.reloadTabs() })
+        eventViewModel.events.observe(this, Observer {
+            when (Prefs.mainActivityLayout) {
+                MainActivityLayout.TOP_BAR -> Unit
+                MainActivityLayout.BOTTOM_BAR -> bottomNavigation.reloadTabs()
+            }
+        })
         locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
         locationViewModel.location.observe(this, Observer { location ->
             if (location != null) lastLocation = location
@@ -169,53 +187,66 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun TabLayout.setup() {
-        addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                addFragmentSafely(
-                    fragment = fragments[tab.position],
-                    tag = tab.position.toString(),
-                    containerViewId = R.id.content_main
-                )
-                appBar.setExpanded(true, Prefs.animate)
-            }
+    private fun setupTabs() {
+        tabs = findViewById(R.id.tabs)
+        tabs.apply {
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    viewPager.setCurrentItem(tab.position, Prefs.animate)
+                    appBar.setExpanded(true, Prefs.animate)
+                }
 
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                val fragment = fragments[tab.position]
-                supportFragmentManager.beginTransaction().hide(fragment).commit()
-            }
+                override fun onTabUnselected(tab: TabLayout.Tab) = Unit
+                override fun onTabReselected(tab: TabLayout.Tab) = eventViewModel.reload()
+            })
+            setBackgroundColor(Prefs.mainActivityLayout.backgroundColor)
 
-            override fun onTabReselected(tab: TabLayout.Tab) = eventViewModel.reload()
-        })
-        setBackgroundColor(Prefs.mainActivityLayout.backgroundColor)
-        loadTabs()
-    }
-
-    private fun TabLayout.loadTabs() {
-        AardvarkItem.values().map { aardvarkItem ->
-            when (aardvarkItem) {
-                AardvarkItem.EVENTS -> {
-                    eventBadgedIcon = BadgedIcon(context).apply {
-                        title = string(aardvarkItem.titleRes)
+            AardvarkItem.values().map { aardvarkItem ->
+                val badgedIcon = when (aardvarkItem) {
+                    AardvarkItem.EVENTS -> BadgedIcon(context).apply {
                         iicon = aardvarkItem.iicon
                         doAsync {
                             val eventCount: Int = eventViewModel.count()
                             uiThread { badgeText = eventCount.toString() }
                         }
                     }
-                    addTab(newTab().setCustomView(eventBadgedIcon))
+                    else -> BadgedIcon(context).apply { iicon = aardvarkItem.iicon }
                 }
-                else -> addTab(newTab().setCustomView(BadgedIcon(context).apply {
-                    iicon = aardvarkItem.iicon
-                }))
+                addTab(newTab().setCustomView(badgedIcon))
             }
         }
     }
 
-    private fun TabLayout.reloadTabs() {
+    private fun setupBottomNavigation() {
+        bottomNavigation = findViewById(R.id.bottom_navigation)
+        bottomNavigation.apply {
+            AardvarkItem.values().map { aardvarkItem ->
+                addItem(
+                    AHBottomNavigationItem(
+                        string(aardvarkItem.titleRes),
+                        aardvarkItem.iicon.toDrawable(context)
+                    )
+                )
+            }
+
+            accentColor = Prefs.accentColor
+            defaultBackgroundColor = Prefs.backgroundColor
+            inactiveColor = Prefs.backgroundColor.colorToForeground(0.2f)
+
+            setItemDisableColor(Prefs.iconColor.darken(0.8f))
+            setNotificationBackgroundColor(Prefs.accentColor)
+            setOnTabSelectedListener { position, wasReselected ->
+                if (wasReselected) eventViewModel.reload()
+                else viewPager.setCurrentItem(position, Prefs.animate)
+                true
+            }
+        }
+    }
+
+    private fun AHBottomNavigation.reloadTabs() {
         doAsync {
             val eventCount: Int = eventViewModel.count()
-            uiThread { eventBadgedIcon.badgeText = eventCount.toString() }
+            uiThread { setNotification(eventCount.toString(), 1) }
         }
     }
 
@@ -236,4 +267,18 @@ class MainActivity : BaseActivity() {
             }
         }
     }
+}
+
+class AardvarkAdapter(val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+
+    private val fragments = listOf(
+        DashboardFragment(),
+        EventsFragment(),
+        MapFragment()
+    )
+
+    override fun getItem(position: Int): Fragment = fragments[position]
+
+    override fun getCount(): Int = fragments.size
+
 }
