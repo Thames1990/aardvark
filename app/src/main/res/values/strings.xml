@@ -86,7 +86,7 @@
 
     <string name="global_customization">Global Customization</string>
 
-    <string name="grant_location_permission">Grant location permission to use and customize location features</string>
+    <string name="grant_location_permission">Grant location permission to use and customize location features.\nAfter you granted permission, exit settings and Aardvark will restart itself, affecting changes.</string>
 
     <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
 

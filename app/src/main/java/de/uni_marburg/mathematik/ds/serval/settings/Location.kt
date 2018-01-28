@@ -23,7 +23,6 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
             data = Uri.fromParts("package", packageName, null)
         }
         startActivity(permissionIntent)
-        // TODO Wait for users decision and restart application if location permission was granted
     }
 
     if (!hasLocationPermission) {

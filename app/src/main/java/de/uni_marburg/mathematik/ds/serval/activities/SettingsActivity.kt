@@ -21,9 +21,14 @@ class SettingsActivity : KPrefActivity() {
 
     private var resultFlag = Activity.RESULT_CANCELED
 
-    override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = Prefs::accentColor
-        textColor = Prefs::textColor
+    @SuppressLint("MissingSuperCall")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setCurrentScreen()
+        setSecureFlag()
+        setAardvarkTheme()
+        animate = Prefs.animate
+        themeExterior(animate = false)
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
@@ -62,37 +67,9 @@ class SettingsActivity : KPrefActivity() {
         }
     }
 
-    fun shouldRestartMain() {
-        setAardvarkResult(MainActivity.REQUEST_RESTART)
-    }
-
-    fun shouldRestartApplication() {
-        setAardvarkResult(MainActivity.REQUEST_APPLICATION_RESTART)
-    }
-
-    @SuppressLint("MissingSuperCall")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setCurrentScreen()
-        setSecureFlag()
-        setAardvarkTheme()
-        animate = Prefs.animate
-        themeExterior(animate = false)
-    }
-
-    fun themeExterior(animate: Boolean = Prefs.animate) {
-        if (animate) {
-            bgCanvas.fade(color = Prefs.backgroundColor)
-            toolbarCanvas.ripple(
-                color = Prefs.headerColor,
-                startX = RippleCanvas.MIDDLE,
-                startY = RippleCanvas.END
-            )
-        } else {
-            bgCanvas.set(color = Prefs.backgroundColor)
-            toolbarCanvas.set(color = Prefs.headerColor)
-        }
-        aardvarkNavigationBar()
+    override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
+        accentColor = Prefs::accentColor
+        textColor = Prefs::textColor
     }
 
     override fun onBackPressed() {
@@ -129,6 +106,25 @@ class SettingsActivity : KPrefActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    fun shouldRestartMain() = setAardvarkResult(MainActivity.REQUEST_RESTART)
+
+    fun shouldRestartApplication() = setAardvarkResult(MainActivity.REQUEST_APPLICATION_RESTART)
+
+    fun themeExterior(animate: Boolean = Prefs.animate) {
+        if (animate) {
+            bgCanvas.fade(color = Prefs.backgroundColor)
+            toolbarCanvas.ripple(
+                color = Prefs.headerColor,
+                startX = RippleCanvas.MIDDLE,
+                startY = RippleCanvas.END
+            )
+        } else {
+            bgCanvas.set(color = Prefs.backgroundColor)
+            toolbarCanvas.set(color = Prefs.headerColor)
+        }
+        aardvarkNavigationBar()
     }
 
     fun setAardvarkResult(flag: Int) {
