@@ -141,15 +141,17 @@ class MapFragment : BaseFragment() {
     private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
         doAsync {
             val events: List<Event> = eventViewModel.getAll()
-            uiThread { googleMap ->
-                if (events.isNotEmpty()) {
-                    val builder = LatLngBounds.builder()
-                    doAsync {
-                        events.forEach { event -> builder.include(event.position) }
-                        uiThread {
-                            val bounds: LatLngBounds = builder.build()
-                            googleMap.setLatLngBoundsForCameraTarget(bounds)
-                            googleMap.cameraUpdate(bounds, animate)
+            if (events.isNotEmpty()) {
+                uiThread { googleMap ->
+                    if (events.isNotEmpty()) {
+                        val builder = LatLngBounds.builder()
+                        doAsync {
+                            events.forEach { event -> builder.include(event.position) }
+                            uiThread {
+                                val bounds: LatLngBounds = builder.build()
+                                googleMap.setLatLngBoundsForCameraTarget(bounds)
+                                googleMap.cameraUpdate(bounds, animate)
+                            }
                         }
                     }
                 }
