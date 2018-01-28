@@ -120,7 +120,7 @@ class MapFragment : BaseFragment() {
                             withSceneTransitionAnimation(context)
                         }) {
                             putExtra(DetailActivity.EVENT_ID, event.id)
-                            putExtra(DetailActivity.SHOW_MAP, true)
+                            putExtra(DetailActivity.SHOW_MAP, false)
                         }
                         return true
                     }
