@@ -45,7 +45,7 @@ class EventsFragment : BaseFragment() {
         eventAdapter = EventAdapter { event ->
             context?.let { context ->
                 context.startActivity(DetailActivity::class.java, bundleBuilder = {
-                    withSceneTransitionAnimation(context)
+                    if (Prefs.animate) withSceneTransitionAnimation(context)
                 }) {
                     putExtra(DetailActivity.EVENT_ID, event.id)
                     putExtra(DetailActivity.SHOW_MAP, true)
