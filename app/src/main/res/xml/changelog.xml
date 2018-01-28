@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.0"/>
+    <item text="Save events in Room database" />
+    <item text="Animate changes to events" />
+    <item text="Reload events when a currently selected tab is reselected" />
+    <item text="Remove navigation drawer" />
+    <item text="Tidy up intro" />
+    <item text="Properly theme event details" />
+    <item text="Reimplement location tracking" />
+    <item text="Update icons" />
+    <item text="Improve event marker clustering performance" />
+    <item text="Bottom bar is the new default" />
+    <item text="Improve location permission handling" />
+    <item text="Implement full backup" />
+    <item text="Add option to enable permissions in settings" />
+    <item text="Replace all toasts with a snackbar" />
+    <item text="Update dependencies" />
+
     <version title="0.7.0"/>
     <item text="Complete overhaul" />
     <item text="Fully themeable design" />
