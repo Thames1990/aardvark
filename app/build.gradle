@@ -71,6 +71,7 @@ dependencies {
 
     // App Toolkit
     implementation files("libs/kerval-0.0.8-1.jar")
+    implementation deps.bottom_navigation
     implementation deps.constraint_layout
     implementation deps.crashlytics
     implementation deps.firebase
