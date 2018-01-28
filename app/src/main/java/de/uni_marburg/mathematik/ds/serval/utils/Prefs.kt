@@ -14,9 +14,6 @@ object Prefs : KPref() {
 
     const val EVENT_COUNT = 10000
 
-    val aardvarkId: String
-        get() = "$installDate-$identifier"
-
     private val themeLoader = lazyResettable { Theme.values[themeType] }
     val theme: Theme by themeLoader
 
@@ -56,7 +53,6 @@ object Prefs : KPref() {
     var debugSettings: Boolean by kpref("DEBUG_SETTINGS", BuildConfig.DEBUG)
     var eventCount: Int by kpref("EVENT_COUNT", EVENT_COUNT)
     var exitConfirmation: Boolean by kpref("CONFIRM_EXIT", true)
-    var identifier: Int by kpref("IDENTIFIER", -1)
     var installDate: Long by kpref("INSTALL_DATE", -1L)
     var isFirstLaunch: Boolean by kpref("IS_FIRST_LAUNCH", true)
     var isLoggedIn: Boolean by kpref("IS_LOGGED_IN", false)

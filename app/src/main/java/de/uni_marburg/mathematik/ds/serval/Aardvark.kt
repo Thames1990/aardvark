@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval
 import android.app.Application
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ProcessLifecycleOwner
+import android.provider.Settings
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.github.ajalt.reprint.core.Reprint
@@ -12,7 +13,6 @@ import com.squareup.leakcanary.RefWatcher
 import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import io.fabric.sdk.android.Fabric
-import java.util.*
 
 class Aardvark : Application() {
 
@@ -43,7 +43,6 @@ class Aardvark : Application() {
         Prefs.lastLaunch = now
 
         if (Prefs.installDate == -1L) Prefs.installDate = now
-        if (Prefs.identifier == -1) Prefs.identifier = Random().nextInt(Int.MAX_VALUE)
     }
 
     private fun setupAnalytics() {
@@ -51,7 +50,7 @@ class Aardvark : Application() {
 
         if (analyticsEnabled) {
             Fabric.with(this.applicationContext, Crashlytics(), Answers())
-            Crashlytics.setUserIdentifier(Prefs.aardvarkId)
+            Crashlytics.setUserIdentifier(Settings.Secure.ANDROID_ID)
         }
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this).apply {

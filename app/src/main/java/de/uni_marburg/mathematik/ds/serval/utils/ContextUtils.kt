@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.Manifest
 import android.content.Context
+import android.provider.Settings
 import android.support.annotation.StringRes
 import ca.allanwang.kau.email.EmailBuilder
 import ca.allanwang.kau.email.sendEmail
@@ -31,7 +32,7 @@ inline fun Context.sendAardvarkEmail(
     crossinline builder: EmailBuilder.() -> Unit
 ) = sendEmail(string(R.string.developer_email), subject) {
     builder()
-    addItem(string(R.string.random_aardvark_id), Prefs.aardvarkId)
+    addItem(string(R.string.aardvark_id), Settings.Secure.ANDROID_ID)
 }
 
 val Context.hasLocationPermission: Boolean

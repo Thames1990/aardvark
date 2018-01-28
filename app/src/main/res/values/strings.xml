@@ -6,6 +6,7 @@
     <string name="aardvark_custom">Custom</string>
     <string name="aardvark_dark">Dark</string>
     <string name="aardvark_description">Aardvark is</string>
+    <string name="aardvark_id">Aardvark ID</string>
     <string name="aardvark_light">Light</string>
     <string name="aardvark_name" translatable="false">Aardvark</string>
 
@@ -161,8 +162,6 @@
     <string name="preference_theme">Theme</string>
     <string name="preference_use_analytics">Use analytics</string>
     <string name="preference_username_description">Serval API username</string>
-
-    <string name="random_aardvark_id">Random Aardvark ID</string>
 
     <string name="replay_intro">Replay Introduction</string>
 

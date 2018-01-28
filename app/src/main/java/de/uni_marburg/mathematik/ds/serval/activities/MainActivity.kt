@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
+import android.provider.Settings
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.Toolbar
@@ -229,7 +230,7 @@ class MainActivity : BaseActivity() {
                         "Version code" to BuildConfig.VERSION_CODE,
                         "Version name" to BuildConfig.VERSION_NAME,
                         "Build type" to BuildConfig.BUILD_TYPE,
-                        "Aardvark id" to Prefs.aardvarkId
+                        "Aardvark id" to Settings.Secure.ANDROID_ID
                     )
                 )
             }
