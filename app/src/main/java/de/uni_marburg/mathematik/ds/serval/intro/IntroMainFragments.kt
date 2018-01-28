@@ -30,9 +30,9 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
     private val viewArray: Array<Array<out View>> by lazyResettableRegistered { viewArray() }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? = inflater.inflate(layoutRes, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,12 +49,12 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
     private fun translate(offset: Float, views: Array<Array<out View>>) {
         val maxTranslation = offset * screenWidth
         val increment = maxTranslation / views.size
-        views.forEachIndexed { i, group ->
-            group.forEach {
-                it.translationX =
-                        if (offset > 0) -maxTranslation + i * increment
-                        else -(i + 1) * increment
-                it.alpha = 1 - offset.absoluteValue
+        views.forEachIndexed { index, group ->
+            group.forEach { view ->
+                view.translationX =
+                        if (offset > 0) -maxTranslation + index * increment
+                        else -(index + 1) * increment
+                view.alpha = 1 - offset.absoluteValue
             }
         }
     }
@@ -66,9 +66,9 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
     protected val desc: TextView by bindViewResettable(R.id.intro_desc)
 
     protected fun defaultViewArray(): Array<Array<out View>> = arrayOf(
-            arrayOf(title),
-            arrayOf(image),
-            arrayOf(desc)
+        arrayOf(title),
+        arrayOf(image),
+        arrayOf(desc)
     )
 
     protected open fun themeFragmentImpl() {

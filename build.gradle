@@ -1,47 +1,17 @@
 buildscript {
-    ext {
-        android_maps_utils_version = '0.5'
-        architecture_components_version = '1.0.0'
-        community_material_typeface_version = '2.0.46.1@aar'
-        constraint_layout_version = '1.1.0-beta4'
-        crashlytics_version = '2.8.0'
-        espresso_version = '3.0.1'
-        fabric_gradle_tools_version='1.25.0'
-        google_play_services_version = '11.8.0'
-        google_play_services_tools_version='3.1.1'
-        gradle_version='3.0.1'
-        junit_version = '4.12'
-        kau_version = '3.6.1'
-        kerval_version = '0.0.8-1'
-        kotlin_version = '1.2.10'
-        leak_canary_version = '1.5.4'
-        material_drawer_version = '1.2.2'
-        moshi_version = '1.5.0'
-        okhttp_version = '3.9.1'
-        reprint_version = '3.2.1@aar'
-        test_runner_version = '1.0.1'
-    }
-
-    repositories {
-        google()
-        jcenter()
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
+    apply from: 'versions.gradle'
+    addRepos(repositories)
     dependencies {
-        classpath "com.android.tools.build:gradle:$gradle_version"
-        classpath "com.google.gms:google-services:$google_play_services_tools_version"
-        classpath "io.fabric.tools:gradle:$fabric_gradle_tools_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath deps.android_gradle_plugin
+        classpath deps.dexcount_gradle_plugin
+        classpath deps.fabric_gradle_plugin
+        classpath deps.google_play_services.plugin
+        classpath deps.kotlin.plugin
     }
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://jitpack.io" }
-    }
+    addRepos(repositories)
 }
 
 task clean(type: Delete) {

@@ -1,53 +1,59 @@
 package de.uni_marburg.mathematik.ds.serval.settings
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
+import ca.allanwang.kau.kpref.activity.items.KPrefSeekbar
+import ca.allanwang.kau.kpref.activity.items.KPrefText
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
+import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
-/**
- * Created by thames1990 on 07.01.18.
- */
 fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
 
-    header(R.string.location)
-
-    plainText(R.string.location_dependency_warning)
-
-    // TODO Fix min/max dependency
-
-    seekbar(
-            R.string.location_request_interval,
-            { Prefs.locationRequestInterval },
-            { Prefs.locationRequestInterval = it }
-    ) {
-        descRes = R.string.location_request_interval_description
-        min = Prefs.locationRequestFastestInterval
+    fun openPermissionSettings() {
+        val permissionIntent = Intent().apply {
+            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.fromParts("package", packageName, null)
+        }
+        startActivity(permissionIntent)
     }
 
-    seekbar(
-            R.string.location_request_fastest_interval,
-            { Prefs.locationRequestFastestInterval },
-            { Prefs.locationRequestFastestInterval = it }
-    ) {
-        descRes = R.string.location_request_fastest_interval_description
-        min = 1
-        max = Prefs.locationRequestInterval
+    if (!hasLocationPermission) {
+        plainText(R.string.requires_location_permission) {
+            descRes = R.string.grant_location_permission
+            onClick = { openPermissionSettings() }
+        }
     }
 
+    fun KPrefText.KPrefTextContract<Int>.dependsOnLocationPermission() {
+        enabler = { hasLocationPermission }
+        onDisabledClick = { aardvarkSnackbar(R.string.requires_location_permission) }
+    }
+
+    fun KPrefSeekbar.KPrefSeekbarContract.dependsOnLocationPermission() {
+        enabler = { hasLocationPermission }
+        onDisabledClick = { aardvarkSnackbar(R.string.requires_location_permission) }
+    }
+
+    // Location request priority
     text(
-            R.string.location_request_priority,
-            { Prefs.locationRequestPriority },
-            { Prefs.locationRequestPriority = it }
+        title = R.string.location_request_priority,
+        getter = Prefs::locationRequestPriorityType,
+        setter = { Prefs.locationRequestPriorityType = it }
     ) {
+        dependsOnLocationPermission()
         onClick = {
-            itemView.context.materialDialogThemed {
+            materialDialogThemed {
                 title(R.string.location_request_priority)
                 items(LocationRequestPriority.values()
-                        .map { "${string(it.textRes)}\n${string(it.descTextRes)}" }
+                    .map { "${string(it.titleRes)}\n${string(it.descTextRes)}" }
                 )
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                     if (item.pref != which) {
@@ -59,8 +65,30 @@ fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
                 }
             }
         }
-        textGetter = {
-            string(LocationRequestPriority(it).textRes)
+        textGetter = { string(LocationRequestPriority(it).titleRes) }
+    }
+
+    // Location request priority interval
+    seekbar(
+        title = R.string.location_request_interval,
+        getter = { Prefs.locationRequestInterval.toInt() },
+        setter = { locationRequestInterval ->
+            Prefs.locationRequestInterval = locationRequestInterval.toLong()
         }
+    ) {
+        dependsOnLocationPermission()
+        descRes = R.string.location_request_interval_description
+    }
+
+    // Location request priority fastest interval
+    seekbar(
+        title = R.string.location_request_fastest_interval,
+        getter = { Prefs.locationRequestFastestInterval.toInt() },
+        setter = { locationRequestFastestInterval ->
+            Prefs.locationRequestFastestInterval = locationRequestFastestInterval.toLong()
+        }
+    ) {
+        dependsOnLocationPermission()
+        descRes = R.string.location_request_fastest_interval_description
     }
 }

@@ -17,15 +17,15 @@ object EventRepository {
     /** Authenticates with the Serval API and offers connection to the Rhizome database. */
     private val client: ServalClient by lazy {
         ServalClient(
-                Prefs.kervalBaseUrl,
-                Prefs.kervalPort,
-                Prefs.kervalUser,
-                Prefs.kervalPassword
+            Prefs.kervalBaseUrl,
+            Prefs.kervalPort,
+            Prefs.kervalUser,
+            Prefs.kervalPassword
         )
     }
 
     /** JSON converter */
-    private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+    val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
     /** Json converter adapter for [events][Event] */
     private val eventAdapter: JsonAdapter<Event> = moshi.adapter(Event::class.java)

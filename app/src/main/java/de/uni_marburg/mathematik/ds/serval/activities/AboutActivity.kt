@@ -1,7 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.v7.widget.RecyclerView
@@ -16,10 +16,8 @@ import ca.allanwang.kau.adapters.ThemableIItemDelegate
 import ca.allanwang.kau.utils.*
 import com.mikepenz.aboutlibraries.entity.Library
 import com.mikepenz.aboutlibraries.entity.License
-import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.items.AbstractItem
-import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AboutItem
@@ -38,18 +36,17 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
     faqParseNewLine = false
 }) {
 
-    @SuppressLint("MissingSuperCall")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var lastClick: Long = -1L
+    private var clickCount: Int = 0
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
         setCurrentScreen()
     }
 
-    private var lastClick = -1L
-    private var clickCount = 0
-
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark = Library().apply {
-            author = string(R.string.dev_name)
+            author = string(R.string.developer_name)
             isOpenSource = true
             libraryDescription = string(R.string.aardvark_description)
             libraryName = string(R.string.aardvark_name)
@@ -60,26 +57,29 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                 licenseWebsite = getString(R.string.license_website)
             }
         }
-        adapter.add(LibraryIItem(aardvark)).add(AboutLinks())
-        adapter.withOnClickListener { _, _, item, _ ->
-            if (item is LibraryIItem) {
-                val now = System.currentTimeMillis()
-                // Only register clicks within a timespan of 500 milliseconds
-                if (now - lastClick > 500) clickCount = 0 else clickCount++
-                lastClick = now
-                // Enable debug settings if the user clicked 7 times in a short timespan
-                if (clickCount == 7 && !Prefs.debugSettings) {
-                    Prefs.debugSettings = true
-                    aardvarkSnackbar(R.string.debug_enabled)
+        adapter.apply {
+            add(LibraryIItem(aardvark))
+            add(AboutLinks())
+            withOnClickListener { _, _, item, _ ->
+                if (item is LibraryIItem) {
+                    val now = System.currentTimeMillis()
+                    // Only register clicks within a timespan of 500 milliseconds
+                    if (now - lastClick > 500) clickCount = 0 else clickCount++
+                    lastClick = now
+                    // Enable debug settings if the user clicked 7 times in a short timespan
+                    if (clickCount == 7 && !Prefs.debugSettings) {
+                        Prefs.debugSettings = true
+                        aardvarkSnackbar(R.string.debug_enabled)
+                    }
                 }
+                false
             }
-            false
         }
     }
 
     class AboutLinks :
-            AbstractItem<AboutLinks, AboutLinks.ViewHolder>(),
-            ThemableIItem by ThemableIItemDelegate() {
+        AbstractItem<AboutLinks, AboutLinks.ViewHolder>(),
+        ThemableIItem by ThemableIItemDelegate() {
 
         override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
 
@@ -110,19 +110,19 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                         layoutParams = ViewGroup.LayoutParams(size, size)
                         scaleType = ImageView.ScaleType.CENTER
                         background = context.resolveDrawable(
-                                android.R.attr.selectableItemBackgroundBorderless
+                            android.R.attr.selectableItemBackgroundBorderless
                         )
                         setIcon(icon = aboutItem.iicon, color = Prefs.iconColor)
-                        setOnClickListener { context.startLink(aboutItem.linkResId) }
+                        setOnClickListener { context.startLink(aboutItem.linkRes) }
                         container.addView(this)
                     }
                 }
 
                 // Avoid problems with constraint chains
                 if (images.size >= 2) {
-                    val set = ConstraintSet()
-                    set.clone(container)
-                    set.createHorizontalChain(
+                    ConstraintSet().apply {
+                        clone(container)
+                        createHorizontalChain(
                             ConstraintSet.PARENT_ID,
                             ConstraintSet.LEFT,
                             ConstraintSet.PARENT_ID,
@@ -130,8 +130,9 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                             images.map { it.id }.toIntArray(),
                             null,
                             ConstraintSet.CHAIN_SPREAD_INSIDE
-                    )
-                    set.applyTo(container)
+                        )
+                        applyTo(container)
+                    }
                 }
             }
         }

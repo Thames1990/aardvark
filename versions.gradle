@@ -1,0 +1,100 @@
+ext.deps = [:]
+def versions = [:]
+versions.android_gradle_plugin = "3.0.1"
+versions.lifecycle = "1.1.0"
+versions.community_material_typeface = "2.0.46.1@aar"
+versions.constraint_layout = "1.0.2"
+versions.crashlytics = "2.8.0"
+versions.dexcount = "0.8.2"
+versions.espresso = "3.0.1"
+versions.fabric_gradle_plugin = "1.25.0"
+versions.google_maps_clustering = "0.1.2-beta"
+versions.google_play_services = "11.8.0"
+versions.google_play_services_tools = "3.1.1"
+versions.junit = "4.12"
+versions.kau = "91e4b0c"
+versions.kotlin = "1.2.21"
+versions.leak_canary = "1.5.4"
+versions.moshi = "1.5.0"
+versions.okhttp = "3.9.1"
+versions.paging = "1.0.0-alpha5"
+versions.reprint = "3.2.1@aar"
+versions.room = "1.1.0-alpha1"
+versions.support = "27.0.2"
+versions.weather_icons_typeface = "2.0.10.4@aar"
+
+def google_play_services = [:]
+google_play_services.location = "com.google.android.gms:play-services-location:$versions.google_play_services"
+google_play_services.maps = "com.google.android.gms:play-services-maps:$versions.google_play_services"
+google_play_services.plugin = "com.google.gms:google-services:$versions.google_play_services_tools"
+google_play_services.clustering = "net.sharewire:google-maps-clustering:$versions.google_maps_clustering"
+deps.google_play_services = google_play_services
+
+def ioconics = [:]
+ioconics.weather_icons_typeface = "com.mikepenz:weather-icons-typeface:$versions.weather_icons_typeface"
+ioconics.community_material_typeface = "com.mikepenz:community-material-typeface:$versions.community_material_typeface"
+deps.ioconics = ioconics
+
+def kau = [:]
+kau.kau_about = "ca.allanwang.kau:about:$versions.kau"
+kau.kpref_activity = "ca.allanwang.kau:kpref-activity:$versions.kau"
+deps.kau = kau
+
+def kotlin = [:]
+kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
+kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+kotlin.reflect = "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
+deps.kotlin = kotlin
+
+def lifecycle = [:]
+lifecycle.extensions = "android.arch.lifecycle:extensions:$versions.lifecycle"
+lifecycle.compiler = "android.arch.lifecycle:compiler:$versions.lifecycle"
+deps.lifecycle = lifecycle
+
+def moshi = [:]
+moshi.java = "com.squareup.moshi:moshi:$versions.moshi"
+moshi.kotlin = "com.squareup.moshi:moshi-kotlin:$versions.moshi"
+deps.moshi = moshi
+
+def support = [:]
+support.annotations = "com.android.support:support-annotations:$versions.support"
+support.app_compat = "com.android.support:appcompat-v7:$versions.support"
+support.recyclerview = "com.android.support:recyclerview-v7:$versions.support"
+support.cardview = "com.android.support:cardview-v7:$versions.support"
+support.design = "com.android.support:design:$versions.support"
+support.v4 = "com.android.support:support-v4:$versions.support"
+support.core_utils = "com.android.support:support-core-utils:$versions.support"
+deps.support = support
+
+def room = [:]
+room.runtime = "android.arch.persistence.room:runtime:$versions.room"
+room.compiler = "android.arch.persistence.room:compiler:$versions.room"
+deps.room = room
+
+deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+deps.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
+deps.crashlytics = "com.crashlytics.sdk.android:crashlytics:$versions.crashlytics"
+deps.dexcount_gradle_plugin = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$versions.dexcount"
+deps.fabric_gradle_plugin = "io.fabric.tools:gradle:$versions.fabric_gradle_plugin"
+deps.firebase = "com.google.firebase:firebase-core:$versions.google_play_services"
+deps.leak_canary = "com.squareup.leakcanary:leakcanary-android:$versions.leak_canary"
+deps.leak_canary_release = "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leak_canary"
+deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
+deps.paging = "android.arch.paging:runtime:$versions.paging"
+deps.reprint = "com.github.ajalt.reprint:core:$versions.reprint"
+ext.deps = deps
+
+def build_versions = [:]
+build_versions.min_sdk = 21
+build_versions.target_sdk = 27
+build_versions.build_tools = "27.0.3"
+ext.build_versions = build_versions
+
+static def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+    handler.maven { url "https://jitpack.io" }
+    handler.maven { url 'https://maven.fabric.io/public' }
+}
+
+ext.addRepos = this.&addRepos

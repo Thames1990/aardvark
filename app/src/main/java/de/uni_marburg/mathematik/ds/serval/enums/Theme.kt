@@ -6,48 +6,48 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
 enum class Theme(
-        @StringRes val textRes: Int,
-        private val textColorGetter: () -> Int,
-        private val accentColorGetter: () -> Int,
-        private val backgroundColorGetter: () -> Int,
-        private val headerColorGetter: () -> Int,
-        private val iconColorGetter: () -> Int
+    @StringRes val titleRes: Int,
+    private val textColorGetter: () -> Int,
+    private val accentColorGetter: () -> Int,
+    private val backgroundColorGetter: () -> Int,
+    private val headerColorGetter: () -> Int,
+    private val iconColorGetter: () -> Int
 ) {
 
     LIGHT(
-            R.string.kau_light,
-            { 0xde000000.toInt() },
-            { AARDVARK_GREEN },
-            { 0xfffafafa.toInt() },
-            { AARDVARK_GREEN },
-            { Color.WHITE }
+        titleRes = R.string.aardvark_light,
+        textColorGetter = Color::BLACK,
+        accentColorGetter = ::FRUIT_SALAD,
+        backgroundColorGetter = ::ALABASTER,
+        headerColorGetter = ::FRUIT_SALAD,
+        iconColorGetter = Color::WHITE
     ),
 
     DARK(
-            R.string.kau_dark,
-            { Color.WHITE },
-            { AARDVARK_GREEN_LIGHT },
-            { 0xff303030.toInt() },
-            { 0xff2e4b86.toInt() },
-            { Color.WHITE }
+        titleRes = R.string.aardvark_dark,
+        textColorGetter = { Color.WHITE },
+        accentColorGetter = ::PASTEL_GREEN,
+        backgroundColorGetter = ::MINE_SHAFT,
+        headerColorGetter = ::CHAMBRAY,
+        iconColorGetter = Color::WHITE
     ),
 
     AMOLED(
-            R.string.kau_amoled,
-            { Color.WHITE },
-            { AARDVARK_GREEN_LIGHT },
-            { Color.BLACK },
-            { Color.BLACK },
-            { Color.WHITE }
+        titleRes = R.string.aardvark_amoled,
+        textColorGetter = Color::WHITE,
+        accentColorGetter = ::PASTEL_GREEN,
+        backgroundColorGetter = Color::BLACK,
+        headerColorGetter = Color::BLACK,
+        iconColorGetter = Color::WHITE
     ),
 
     CUSTOM(
-            R.string.kau_custom,
-            { Prefs.customTextColor },
-            { Prefs.customAccentColor },
-            { Prefs.customBackgroundColor },
-            { Prefs.customHeaderColor },
-            { Prefs.customIconColor }
+        titleRes = R.string.aardvark_custom,
+        textColorGetter = Prefs::customTextColor,
+        accentColorGetter = Prefs::customAccentColor,
+        backgroundColorGetter = Prefs::customBackgroundColor,
+        headerColorGetter = Prefs::customHeaderColor,
+        iconColorGetter = Prefs::customIconColor
     );
 
     val textColor: Int
@@ -66,10 +66,16 @@ enum class Theme(
         get() = iconColorGetter()
 
     companion object {
-        val values = values() //save one instance
+        val values = values()
         operator fun invoke(index: Int) = values[index]
 
-        const val AARDVARK_GREEN = 0xff4CAF50.toInt()
-        const val AARDVARK_GREEN_LIGHT = 0xff80E27E.toInt()
+        const val ALABASTER = 0xfffafafa.toInt()
+        const val CHAMBRAY = 0xff2e4b86.toInt()
+        const val FRUIT_SALAD = 0xff4CAF50.toInt()
+        const val MINE_SHAFT = 0xff303030.toInt()
+        const val PASTEL_GREEN = 0xff80E27E.toInt()
+        const val PORCELAIN = 0xffeceff1.toInt()
+        const val LOCHMARA = 0xff0288d1.toInt()
+        const val BAHAMA_BLUE = 0xff01579b.toInt()
     }
 }

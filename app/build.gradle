@@ -4,12 +4,13 @@ plugins {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
 
     androidGitVersion {
         prefix 'v'
@@ -17,16 +18,13 @@ android {
 
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
-        minSdkVersion 21
-        targetSdkVersion 27
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
         versionName androidGitVersion.name()
         versionCode androidGitVersion.code()
-
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
         setProperty('archivesBaseName', "aardvark-$versionName")
-
-        androidExtensions { experimental = true }
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 
@@ -66,54 +64,50 @@ android {
 }
 
 dependencies {
+    // Support Libraries
+    implementation deps.support.app_compat
+    implementation deps.support.design
+    implementation deps.support.recyclerview
 
-    // Android Maps Utils
-    implementation "com.google.maps.android:android-maps-utils:$android_maps_utils_version"
+    // App Toolkit
+    implementation files("libs/kerval-0.0.8-1.jar")
+    implementation deps.constraint_layout
+    implementation deps.crashlytics
+    implementation deps.firebase
+    implementation deps.okhttp
+    implementation deps.reprint
 
     // Architecture Components
-    implementation "android.arch.lifecycle:extensions:$architecture_components_version"
-
-    // Crashlytics
-    implementation "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
-
-    // Firebase
-    implementation "com.google.firebase:firebase-core:$google_play_services_version"
+    implementation deps.lifecycle.extensions
+    implementation deps.room.runtime
+    implementation deps.paging
+    kapt deps.lifecycle.compiler
+    kapt deps.room.compiler
 
     // Google Play Services
-    implementation "com.google.android.gms:play-services-location:$google_play_services_version"
-    implementation "com.google.android.gms:play-services-maps:$google_play_services_version"
+    implementation deps.google_play_services.clustering
+    implementation deps.google_play_services.location
+    implementation deps.google_play_services.maps
 
-    // Ionicons
-    implementation "com.mikepenz:community-material-typeface:$community_material_typeface_version"
+    // Ioconics
+    implementation deps.ioconics.community_material_typeface
+    implementation deps.ioconics.weather_icons_typeface
 
-    // KAU
-    implementation "ca.allanwang.kau:about:$kau_version"
-    implementation "ca.allanwang.kau:kpref-activity:$kau_version"
+    // Kau
+    implementation deps.kau.kau_about
+    implementation deps.kau.kpref_activity
 
-    // Kerval
-    implementation files("libs/kerval-${kerval_version}.jar")
+    // Kotlin
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.reflect
 
     // LeakCanary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
-
-    // MaterialDrawer
-    implementation "co.zsmb:materialdrawer-kt:$material_drawer_version"
+    debugImplementation deps.leak_canary
+    releaseImplementation deps.leak_canary_release
 
     // Moshi
-    implementation "com.squareup.moshi:moshi:$moshi_version"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
-
-    // OkHttp
-    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-
-    // Reprint
-    implementation "com.github.ajalt.reprint:core:$reprint_version"
-
-    // Testing
-    testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "com.android.support.test:runner:$test_runner_version"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
+    implementation deps.moshi.java
+    implementation deps.moshi.kotlin
 }
 
 apply plugin: 'com.google.gms.google-services'

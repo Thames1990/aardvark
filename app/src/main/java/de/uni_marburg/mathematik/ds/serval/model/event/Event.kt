@@ -1,117 +1,86 @@
 package de.uni_marburg.mathematik.ds.serval.model.event
 
-import android.annotation.SuppressLint
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.location.Location
-import android.os.Parcelable
+import android.support.annotation.StringRes
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.clustering.ClusterItem
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
+import com.mikepenz.iconics.typeface.IIcon
+import com.mikepenz.weather_icons_typeface_library.WeatherIcons
 import com.squareup.moshi.Json
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import kotlinx.android.parcel.Parcelize
+import net.sharewire.googlemapsclustering.ClusterItem
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * An event is an action or occurence of measurements recognized by sensors.
- *
- * @param time Occurence time of the event
- * @param geohashLocation Location of the event with latitude, longitude and geohash
- * @param measurements Measurements recorded by the event
- */
-@SuppressLint("ParcelCreator")
-@Parcelize
+@Entity(tableName = "events")
 data class Event(
-        val time: Long,
-        @Json(name = "location") private val geohashLocation: GeohashLocation,
-        val measurements: List<Measurement>
-) : ClusterItem, Parcelable {
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val time: Long,
+    @Json(name = "location") val geohashLocation: GeohashLocation,
+    val measurements: List<Measurement>
+) : ClusterItem {
 
-    /** Generates a [location][Location] from the [geohash location][geohashLocation]. **/
     val location: Location
         get() = Location(BuildConfig.APPLICATION_ID).apply {
             latitude = geohashLocation.latitude
             longitude = geohashLocation.longitude
         }
 
-    /** Title of the event used for map info windows **/
-    override fun getTitle(): String = this::class.java.simpleName
+    val position: LatLng
+        get() = LatLng(latitude, longitude)
 
-    /** Snippet of the event used for map info windows **/
+    override fun getLatitude(): Double = location.latitude
+
+    override fun getLongitude(): Double = location.longitude
+
+    override fun getTitle(): String = javaClass.simpleName
+
     override fun getSnippet(): String {
         val format = SimpleDateFormat.getDateTimeInstance(
-                DateFormat.LONG,
-                DateFormat.SHORT,
-                Locale.getDefault()
+            DateFormat.LONG,
+            DateFormat.SHORT,
+            Locale.getDefault()
         )
         return format.format(time)
     }
-
-    /** Snippet of the event used for map markers **/
-    override fun getPosition(): LatLng = with(location) { LatLng(latitude, longitude) }
 }
 
-/**
- * Location of an [event][Event] with geohash.
- *
- * @param latitude Latitude of an event
- * @param longitude Longitude of an event
- * @param geohash Geohash of the position of an event
- */
-@SuppressLint("ParcelCreator")
-@Parcelize
-data class GeohashLocation(
-        val latitude: Double,
-        val longitude: Double,
-        private val geohash: String
-) : Parcelable
+data class GeohashLocation(val latitude: Double, val longitude: Double, val geohash: String)
 
-/**
- * Measurement recognized by sensors
- *
- * @param type Type of the measurement
- * @param value Value of the measurement
- */
-@SuppressLint("ParcelCreator")
-@Parcelize
-data class Measurement(val type: MeasurementType, val value: Int) : Parcelable
+data class Measurement(val type: MeasurementType, val value: Int)
 
-/**
- * Measurement type of a [measurement][Measurement]
- *
- * @param textRes Localized name of the measrurement type
- * @param formatRes Localized format of the measurement type
- * @param iconRes Image resource of the measurement type
- */
-// TODO Replace icon drawable with IIcon from Weather Icons
-enum class MeasurementType(val textRes: Int, val formatRes: Int, val iconRes: Int) {
-    /** Signals that rainfall or snowfall was measured */
+enum class MeasurementType(
+    @StringRes val titleRes: Int,
+    @StringRes val formatRes: Int,
+    val iicon: IIcon
+) {
     @Json(name = "precipitation")
     PRECIPITATION(
-            textRes = R.string.precipitation,
-            formatRes = R.string.measurement_value_precipitation,
-            iconRes = R.drawable.precipitation
+        titleRes = R.string.measurement_precipitation,
+        formatRes = R.string.measurement_value_precipitation,
+        iicon = WeatherIcons.Icon.wic_rain
     ),
-    /** Signals that radiation was measured */
+
     @Json(name = "radiation")
     RADIATION(
-            textRes = R.string.radiation,
-            formatRes = R.string.measurement_value_precipitation,
-            iconRes = R.drawable.radiation
+        titleRes = R.string.measurement_radiation,
+        formatRes = R.string.measurement_value_precipitation,
+        iicon = CommunityMaterial.Icon.cmd_atom
     ),
-    /** Signals that temperature was measured */
     @Json(name = "temperature")
     TEMPERATURE(
-            textRes = R.string.temperature,
-            formatRes = R.string.measurement_value_precipitation,
-            iconRes = R.drawable.temperature
+        titleRes = R.string.measurement_temperature,
+        formatRes = R.string.measurement_value_precipitation,
+        iicon = WeatherIcons.Icon.wic_thermometer
     ),
-    /** Signals that wind was measured */
     @Json(name = "wind")
     WIND(
-            textRes = R.string.wind,
-            formatRes = R.string.measurement_value_precipitation,
-            iconRes = R.drawable.wind
+        titleRes = R.string.measurement_wind,
+        formatRes = R.string.measurement_value_precipitation,
+        iicon = WeatherIcons.Icon.wic_strong_wind
     )
 }

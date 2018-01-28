@@ -21,11 +21,11 @@ fun Activity.aardvarkNavigationBar() {
     navigationBarColor = if (Prefs.tintNavBar) Prefs.headerColor else Color.BLACK
 }
 
-fun Activity.aardvarkSnackbar(@StringRes textRes: Int, builder: Snackbar.() -> Unit = {})
-        = aardvarkSnackbar(string(textRes), builder)
+fun Activity.aardvarkSnackbar(@StringRes textRes: Int, builder: Snackbar.() -> Unit = {}) =
+    aardvarkSnackbar(string(textRes), builder)
 
-fun Activity.aardvarkSnackbar(text: String, builder: Snackbar.() -> Unit = {})
-        = snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
+fun Activity.aardvarkSnackbar(text: String, builder: Snackbar.() -> Unit = {}) =
+    snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
 
 fun Activity.setAardvarkColors(builder: ActivityThemeUtils.() -> Unit) {
     val themer = ActivityThemeUtils()
@@ -38,11 +38,8 @@ fun Activity.setAardvarkTheme() {
     else setTheme(R.style.AardvarkTheme_Light)
 }
 
-fun Activity.setCurrentScreen() = Aardvark.firebaseAnalytics.setCurrentScreen(
-        this,
-        this::class.java.simpleName,
-        null
-)
+fun Activity.setCurrentScreen() =
+    Aardvark.firebaseAnalytics.setCurrentScreen(this, javaClass.simpleName, null)
 
 fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
     val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
@@ -51,14 +48,14 @@ fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
 }
 
 fun AppCompatActivity.replaceFragmentSafely(
-        fragment: Fragment,
-        tag: String,
-        allowStateLoss: Boolean = false,
-        @IdRes containerViewId: Int,
-        @AnimRes enterAnimation: Int = 0,
-        @AnimRes exitAnimation: Int = 0,
-        @AnimRes popEnterAnimation: Int = 0,
-        @AnimRes popExitAnimation: Int = 0
+    fragment: Fragment,
+    tag: String,
+    allowStateLoss: Boolean = false,
+    @IdRes containerViewId: Int,
+    @AnimRes enterAnimation: Int = 0,
+    @AnimRes exitAnimation: Int = 0,
+    @AnimRes popEnterAnimation: Int = 0,
+    @AnimRes popExitAnimation: Int = 0
 ) {
     val ft = supportFragmentManager.beginTransaction()
     ft.setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
@@ -68,14 +65,14 @@ fun AppCompatActivity.replaceFragmentSafely(
 }
 
 fun AppCompatActivity.addFragmentSafely(
-        fragment: Fragment,
-        tag: String,
-        allowStateLoss: Boolean = false,
-        @IdRes containerViewId: Int,
-        @AnimRes enterAnimation: Int = 0,
-        @AnimRes exitAnimation: Int = 0,
-        @AnimRes popEnterAnimation: Int = 0,
-        @AnimRes popExitAnimation: Int = 0
+    fragment: Fragment,
+    tag: String,
+    allowStateLoss: Boolean = false,
+    @IdRes containerViewId: Int,
+    @AnimRes enterAnimation: Int = 0,
+    @AnimRes exitAnimation: Int = 0,
+    @AnimRes popEnterAnimation: Int = 0,
+    @AnimRes popExitAnimation: Int = 0
 ) {
     val ft = supportFragmentManager.beginTransaction()
     ft.setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
@@ -84,13 +81,11 @@ fun AppCompatActivity.addFragmentSafely(
     else if (allowStateLoss) ft.commitAllowingStateLoss()
 }
 
-fun AppCompatActivity.existsFragmentByTag(tag: String): Boolean {
-    return supportFragmentManager.findFragmentByTag(tag) != null
-}
+fun AppCompatActivity.existsFragmentByTag(tag: String): Boolean =
+    supportFragmentManager.findFragmentByTag(tag) != null
 
-fun AppCompatActivity.findFragmentByTag(tag: String): Fragment? {
-    return supportFragmentManager.findFragmentByTag(tag)
-}
+fun AppCompatActivity.findFragmentByTag(tag: String): Fragment? =
+    supportFragmentManager.findFragmentByTag(tag)
 
 class ActivityThemeUtils {
 
@@ -105,29 +100,25 @@ class ActivityThemeUtils {
         this.toolbar = toolbar
     }
 
-    fun text(vararg views: TextView) {
-        texts.addAll(views)
-    }
+    fun text(vararg views: TextView) = texts.addAll(views)
 
-    fun header(vararg views: View) {
-        headers.addAll(views)
-    }
+    fun header(vararg views: View) = headers.addAll(views)
 
-    fun background(vararg views: View) {
-        backgrounds.addAll(views)
-    }
+    fun background(vararg views: View) = backgrounds.addAll(views)
 
     fun theme(activity: Activity) {
         with(activity) {
             statusBarColor = Prefs.headerColor.darken(0.1f).withAlpha(255)
             if (Prefs.tintNavBar) navigationBarColor = Prefs.headerColor
             if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.backgroundColor))
-            toolbar?.setBackgroundColor(Prefs.headerColor)
-            toolbar?.setTitleTextColor(Prefs.iconColor)
-            toolbar?.overflowIcon?.setTint(Prefs.iconColor)
-            texts.forEach { it.setTextColor(Prefs.textColor) }
-            headers.forEach { it.setBackgroundColor(Prefs.headerColor) }
-            backgrounds.forEach { it.setBackgroundColor(Prefs.backgroundColor) }
+            toolbar?.apply {
+                setBackgroundColor(Prefs.headerColor)
+                setTitleTextColor(Prefs.iconColor)
+                overflowIcon?.setTint(Prefs.iconColor)
+            }
+            texts.forEach { textView -> textView.setTextColor(Prefs.textColor) }
+            headers.forEach { view -> view.setBackgroundColor(Prefs.headerColor) }
+            backgrounds.forEach { view -> view.setBackgroundColor(Prefs.backgroundColor) }
         }
     }
 

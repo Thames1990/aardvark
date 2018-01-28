@@ -7,7 +7,7 @@ import ca.allanwang.kau.utils.shareText
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import org.jetbrains.anko.toast
+import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import java.io.DataOutputStream
 import java.lang.Runtime.getRuntime
 import java.math.BigInteger
@@ -15,21 +15,21 @@ import java.net.InetAddress
 
 /** Created by thames1990 on 09.12.17. */
 fun SettingsActivity.getDebugPrefs(): KPrefAdapterBuilder.() -> Unit = {
-    plainText(R.string.experimental_disclaimer) {
-        descRes = R.string.debug_disclaimer_info
-    }
-    checkbox(R.string.preference_enable_wifi_adb, { Prefs.useWifiADB }, {
-        Prefs.useWifiADB = it
-        when (it) {
-            true -> enableWifiAdb()
-            false -> disableWifiAdb()
+    plainText(R.string.debug_disclaimer_info)
+    checkbox(
+        title = R.string.preference_enable_wifi_adb,
+        getter = Prefs::useWifiADB,
+        setter = { enableWifiADB ->
+            Prefs.useWifiADB = enableWifiADB
+            if (enableWifiADB) enableWifiAdb()
+            else disableWifiAdb()
+            reloadByTitle(R.string.preference_share_wifi_adb_command)
         }
-        reloadByTitle(R.string.preference_share_wifi_adb_command)
-    })
+    )
     plainText(R.string.preference_share_wifi_adb_command) {
         descRes = R.string.preference_share_adb_command_description
-        enabler = { Prefs.useWifiADB }
-        onDisabledClick = { toast(getString(R.string.preference_enable_wifi_adb_hint)) }
+        enabler = Prefs::useWifiADB
+        onDisabledClick = { aardvarkSnackbar(getString(R.string.preference_enable_wifi_adb_hint)) }
         onClick = { shareWifiAdbCommand() }
     }
 }
@@ -37,7 +37,7 @@ fun SettingsActivity.getDebugPrefs(): KPrefAdapterBuilder.() -> Unit = {
 /** Enables WifiADB and lets the user send ADB connection information. */
 private fun enableWifiAdb() {
     with(getRuntime().exec("su")) {
-        with(DataOutputStream(outputStream)) {
+        DataOutputStream(outputStream).apply {
             writeBytes("setprop service.adb.tcp.port 5555\\nstop adbd\\nstart adbd\\nexit")
             flush()
             close()
@@ -52,7 +52,7 @@ private fun enableWifiAdb() {
  */
 private fun disableWifiAdb() {
     with(getRuntime().exec("su")) {
-        with(DataOutputStream(outputStream)) {
+        DataOutputStream(outputStream).apply {
             writeBytes("setprop service.adb.tcp.port -1\\nstop adbd\\nstart adbd\\nexit")
             flush()
             close()
@@ -63,11 +63,11 @@ private fun disableWifiAdb() {
 
 /** Share information to connect to the device via WifiADB. */
 private fun SettingsActivity.shareWifiAdbCommand() =
-        with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
-            val ipAdress: ByteArray = BigInteger
-                    .valueOf(connectionInfo.ipAddress.toLong())
-                    .toByteArray()
-                    .reversedArray()
-            val hostAdress = InetAddress.getByAddress(ipAdress).hostAddress
-            shareText("adb connect $hostAdress")
-        }
+    with(applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager) {
+        val ipAdress: ByteArray = BigInteger
+            .valueOf(connectionInfo.ipAddress.toLong())
+            .toByteArray()
+            .reversedArray()
+        val hostAdress = InetAddress.getByAddress(ipAdress).hostAddress
+        shareText("adb connect $hostAdress")
+    }

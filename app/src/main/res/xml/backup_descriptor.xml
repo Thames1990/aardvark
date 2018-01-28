@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <include
+        domain="sharedpref"
+        path="de.uni_marburg.mathematik.ds.serval.xml" />
+    <include
+        domain="database"
+        path="android.arch.persistence.room" />
+</full-backup-content>

@@ -21,17 +21,17 @@ class SettingsActivity : KPrefActivity() {
 
     private var resultFlag = Activity.RESULT_CANCELED
 
-    override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = { Prefs.accentColor }
-        textColor = { Prefs.textColor }
+    @SuppressLint("MissingSuperCall")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setCurrentScreen()
+        setSecureFlag()
+        setAardvarkTheme()
+        animate = Prefs.animate
+        themeExterior(animate = false)
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
-        if (Prefs.debugSettings) subItems(R.string.debug, getDebugPrefs()) {
-            descRes = R.string.debug_description
-            iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
-        }
-
         subItems(R.string.behaviour, getBehaviourPrefs()) {
             descRes = R.string.behaviour_description
             iicon = GoogleMaterial.Icon.gmd_settings
@@ -40,52 +40,36 @@ class SettingsActivity : KPrefActivity() {
             descRes = R.string.appearance_description
             iicon = GoogleMaterial.Icon.gmd_palette
         }
-        if (Prefs.debugSettings) {
-            subItems(R.string.location, getLocationPrefs()) {
-                descRes = R.string.location_description
-                iicon = GoogleMaterial.Icon.gmd_my_location
-            }
+        subItems(R.string.location, getLocationPrefs()) {
+            descRes = R.string.location_description
+            iicon = GoogleMaterial.Icon.gmd_my_location
         }
         subItems(R.string.serval, getServalPrefs()) {
             descRes = R.string.serval_description
             iicon = GoogleMaterial.Icon.gmd_network_wifi
         }
 
-        plainText(R.string.about_aardvark) {
-            descRes = R.string.about_aardvark_description
+        plainText(R.string.aardvark_about) {
+            descRes = R.string.aardvark_about_description
             iicon = GoogleMaterial.Icon.gmd_info
-            onClick = { startActivityForResult(AboutActivity::class.java, 9) }
+            onClick = { startActivityForResult(AboutActivity::class.java, requestCode = 9) }
         }
         plainText(R.string.replay_intro) {
             iicon = GoogleMaterial.Icon.gmd_replay
             onClick = { startActivity(IntroActivity::class.java) }
         }
+        if (Prefs.debugSettings) {
+            header(R.string.experimental)
+            subItems(R.string.debug, getDebugPrefs()) {
+                descRes = R.string.debug_description
+                iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
+            }
+        }
     }
 
-    fun shouldRestartMain() {
-        setAardvarkResult(MainActivity.REQUEST_RESTART)
-    }
-
-    @SuppressLint("MissingSuperCall")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        setAardvarkTheme()
-        super.onCreate(savedInstanceState)
-        setSecureFlag()
-        setCurrentScreen()
-        animate = Prefs.animate
-        themeExterior(false)
-    }
-
-    fun themeExterior(animate: Boolean = true) {
-        if (animate) bgCanvas.fade(color = Prefs.backgroundColor)
-        else bgCanvas.set(Prefs.backgroundColor)
-        if (animate) toolbarCanvas.ripple(
-                color = Prefs.headerColor,
-                startX = RippleCanvas.MIDDLE,
-                startY = RippleCanvas.END
-        )
-        else toolbarCanvas.set(color = Prefs.headerColor)
-        aardvarkNavigationBar()
+    override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
+        accentColor = Prefs::accentColor
+        textColor = Prefs::textColor
     }
 
     override fun onBackPressed() {
@@ -99,12 +83,12 @@ class SettingsActivity : KPrefActivity() {
         menuInflater.inflate(R.menu.menu_settings, menu)
         toolbar.tint(color = Prefs.iconColor)
         setMenuIcons(
-                menu = menu,
-                color = Prefs.iconColor,
-                iicons = *arrayOf(
-                        R.id.action_email to GoogleMaterial.Icon.gmd_email,
-                        R.id.action_changelog to GoogleMaterial.Icon.gmd_info
-                )
+            menu = menu,
+            color = Prefs.iconColor,
+            iicons = *arrayOf(
+                R.id.action_email to GoogleMaterial.Icon.gmd_email,
+                R.id.action_changelog to GoogleMaterial.Icon.gmd_info
+            )
         )
         return true
     }
@@ -113,7 +97,7 @@ class SettingsActivity : KPrefActivity() {
         when (item.itemId) {
             R.id.action_email -> materialDialogThemed {
                 title(R.string.subject)
-                items(Support.values().map { string(it.title) })
+                items(Support.values().map { string(it.titleRes) })
                 itemsCallback { _, _, which, _ ->
                     Support.values()[which].sendEmail(context)
                 }
@@ -122,6 +106,25 @@ class SettingsActivity : KPrefActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    fun shouldRestartMain() = setAardvarkResult(MainActivity.REQUEST_RESTART)
+
+    fun shouldRestartApplication() = setAardvarkResult(MainActivity.REQUEST_APPLICATION_RESTART)
+
+    fun themeExterior(animate: Boolean = Prefs.animate) {
+        if (animate) {
+            bgCanvas.fade(color = Prefs.backgroundColor)
+            toolbarCanvas.ripple(
+                color = Prefs.headerColor,
+                startX = RippleCanvas.MIDDLE,
+                startY = RippleCanvas.END
+            )
+        } else {
+            bgCanvas.set(color = Prefs.backgroundColor)
+            toolbarCanvas.set(color = Prefs.headerColor)
+        }
+        aardvarkNavigationBar()
     }
 
     fun setAardvarkResult(flag: Int) {

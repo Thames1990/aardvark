@@ -7,27 +7,51 @@ import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
-/** Created by thames1990 on 09.12.17. */
 fun SettingsActivity.getServalPrefs(): KPrefAdapterBuilder.() -> Unit = {
-    text(R.string.username, { Prefs.kervalUser }, { Prefs.kervalUser = it }) {
+    // Serval API username
+    text(
+        title = R.string.username,
+        getter = Prefs::kervalUser,
+        setter = { Prefs.kervalUser = it }
+    ) {
         descRes = R.string.preference_username_description
         onClick = {
-            itemView.context.materialDialogThemed {
+            materialDialogThemed {
                 title(string(R.string.username))
-                input(string(R.string.username), item.pref, { _, input -> item.pref = input.toString() })
+                input(
+                    string(R.string.username),
+                    item.pref,
+                    { _, input -> item.pref = input.toString() }
+                )
             }
         }
     }
-    text(R.string.password, { Prefs.kervalPassword }, { Prefs.kervalPassword = it }) {
+
+    // Serval API password
+    text(
+        title = R.string.password,
+        getter = Prefs::kervalPassword,
+        setter = { Prefs.kervalPassword = it }
+    ) {
         descRes = R.string.preference_password_description
         onClick = {
-            itemView.context.materialDialogThemed {
+            materialDialogThemed {
                 title(string(R.string.password))
-                input(string(R.string.password), item.pref, { _, input -> item.pref = input.toString() })
+                input(
+                    string(R.string.password),
+                    item.pref,
+                    { _, input -> item.pref = input.toString() }
+                )
             }
         }
     }
-    seekbar(R.string.event_count, { Prefs.eventCount }, { Prefs.eventCount = it }) {
+
+    // Events to fetch from Serval API
+    seekbar(
+        title = R.string.event_count,
+        getter = Prefs::eventCount,
+        setter = { Prefs.eventCount = it }
+    ) {
         descRes = R.string.event_count_description
         min = 1
         max = 10000

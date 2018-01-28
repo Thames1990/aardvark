@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <color name="aardvark_green">#4CAF50</color>
-    <color name="aardvark_splash_background">@color/aardvark_green</color>
-    <color name="aardvark_notification_accent">@color/aardvark_green</color>
-
     <color name="color_primary">#4CAF50</color>
     <color name="color_primary_dark">#087F23</color>
 </resources>

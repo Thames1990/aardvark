@@ -15,44 +15,42 @@ object Prefs : KPref() {
     val aardvarkId: String
         get() = "$installDate-$identifier"
 
-    private val themeLoader = lazyResettable { Theme.values[theme] }
-    private val t: Theme by themeLoader
+    private val themeLoader = lazyResettable { Theme.values[themeType] }
+    val theme: Theme by themeLoader
 
     val accentColor: Int
-        get() = t.accentColor
+        get() = theme.accentColor
     val accentColorForWhite: Int
         get() = when {
             accentColor.isColorVisibleOn(Color.WHITE) -> accentColor
             textColor.isColorVisibleOn(Color.WHITE) -> textColor
-            else -> Theme.AARDVARK_GREEN
+            else -> Theme.FRUIT_SALAD
         }
     val backgroundColor: Int
-        get() = t.bgColor
+        get() = theme.bgColor
     val headerColor: Int
-        get() = t.headerColor
+        get() = theme.headerColor
     val iconColor: Int
-        get() = t.iconColor
+        get() = theme.iconColor
     val isCustomTheme: Boolean
-        get() = t == Theme.CUSTOM
+        get() = theme == Theme.CUSTOM
     val textColor: Int
-        get() = t.textColor
+        get() = theme.textColor
 
-    private val locationRequestPriorityLoader = lazyResettable {
-        LocationRequestPriority.values[locationRequestPriority]
-    }
-    private val l: LocationRequestPriority by locationRequestPriorityLoader
+    val locationRequestPriority: LocationRequestPriority
+        get() = LocationRequestPriority(locationRequestPriorityType)
 
-    val priority: Int
-        get() = l.priority
+    val mainActivityLayout: MainActivityLayout
+        get() = MainActivityLayout(mainActivityLayoutType)
 
     var animate: Boolean by kpref("ANIMATE", true)
     var analytics: Boolean by kpref("USE_ANALYTICS", true)
     var changelog: Boolean by kpref("SHOW_CHANGELOG", true)
-    var customTextColor: Int by kpref("COLOR_TEXT", 0xffeceff1.toInt())
-    var customAccentColor: Int by kpref("COLOR_ACCENT", 0xff0288d1.toInt())
-    var customBackgroundColor: Int by kpref("COLOR_BACKGROUND", 0xff212121.toInt())
-    var customHeaderColor: Int by kpref("COLOR_HEADER", 0xff01579b.toInt())
-    var customIconColor: Int by kpref("COLOR_ICONS", 0xffeceff1.toInt())
+    var customTextColor: Int by kpref("COLOR_TEXT", Theme.PORCELAIN)
+    var customAccentColor: Int by kpref("COLOR_ACCENT", Theme.LOCHMARA)
+    var customBackgroundColor: Int by kpref("COLOR_BACKGROUND", Theme.MINE_SHAFT)
+    var customHeaderColor: Int by kpref("COLOR_HEADER", Theme.BAHAMA_BLUE)
+    var customIconColor: Int by kpref("COLOR_ICONS", Theme.PORCELAIN)
     var debugSettings: Boolean by kpref("DEBUG_SETTINGS", BuildConfig.DEBUG)
     var eventCount: Int by kpref("EVENT_COUNT", 10000)
     var exitConfirmation: Boolean by kpref("CONFIRM_EXIT", true)
@@ -65,17 +63,11 @@ object Prefs : KPref() {
     var kervalPort: Int by kpref("KERVAL_PORT", 80)
     var kervalUser: String by kpref("KERVAL_USER", "pum")
     var lastLaunch: Long by kpref("LAST_LAUNCH", -1L)
-    var locationRequestInterval: Int by kpref("LOCATION_REQUEST_INTERVAL", 60)
-    var locationRequestFastestInterval: Int by kpref("LOCATION_REQUEST_FASTEST_INTERVAL", 5)
-    var locationRequestPriority: Int by kpref(
-            "LOCATION_REQUEST_PRIORITY",
-            LocationRequestPriority.ACCURATE.ordinal,
-            postSetter = { _: Int -> locationRequestPriorityLoader.invalidate() }
-    )
-    val mainActivityLayout: MainActivityLayout
-        get() = MainActivityLayout(mainActivityLayoutType)
-    var mainActivityLayoutType: Int by kpref("MAIN_ACTIVITY_LAYOUT_TYPE", 0)
-    var theme: Int by kpref("THEME", 0, postSetter = { _: Int -> themeLoader.invalidate() })
+    var locationRequestInterval: Long by kpref("LOCATION_REQUEST_INTERVAL", 60L)
+    var locationRequestFastestInterval: Long by kpref("LOCATION_REQUEST_FASTEST_INTERVAL", 10L)
+    var locationRequestPriorityType: Int by kpref("LOCATION_REQUEST_PRIORITY", 0)
+    var mainActivityLayoutType: Int by kpref("MAIN_ACTIVITY_LAYOUT_TYPE", 1)
+    var themeType: Int by kpref("THEME", 0, postSetter = { _: Int -> themeLoader.invalidate() })
     var tintNavBar: Boolean by kpref("TINT_NAV_BAR", true)
     var secure_app: Boolean by kpref("USE_SECURE_FLAG", false)
     var useWifiADB: Boolean by kpref("USE_WIFI_ADB", false)

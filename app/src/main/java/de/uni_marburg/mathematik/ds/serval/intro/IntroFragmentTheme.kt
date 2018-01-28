@@ -20,14 +20,14 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
         get() = listOf(light, dark, amoled)
 
     override fun viewArray(): Array<Array<out View>> =
-            arrayOf(arrayOf(title), themeList.toTypedArray())
+        arrayOf(arrayOf(title), themeList.toTypedArray())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         light.setThemeClick(Theme.LIGHT)
         dark.setThemeClick(Theme.DARK)
         amoled.setThemeClick(Theme.AMOLED)
-        val currentTheme = Prefs.theme
+        val currentTheme = Prefs.themeType
         if (currentTheme in 0..2) {
             themeList.forEachIndexed { index, v ->
                 v.scaleXY = if (index == currentTheme) 1.6f else 0.8f
@@ -37,12 +37,12 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
 
     private fun View.setThemeClick(theme: Theme) {
         setOnClickListener { v ->
-            Prefs.theme = theme.ordinal
+            Prefs.themeType = theme.ordinal
             (activity as IntroActivity).apply {
                 ripple.ripple(
-                        color = Prefs.backgroundColor,
-                        startX = v.x + v.pivotX,
-                        startY = v.y + v.pivotY
+                    color = Prefs.backgroundColor,
+                    startX = v.x + v.pivotX,
+                    startY = v.y + v.pivotY
                 )
                 theme()
             }

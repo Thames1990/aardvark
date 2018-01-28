@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
@@ -18,11 +17,11 @@
 
                     <item
                         android:id="@+id/sort_distance_ascending"
-                        android:title="@string/action_sort_events_ascending"/>
+                        android:title="@string/action_sort_events_ascending" />
 
                     <item
                         android:id="@+id/sort_distance_descending"
-                        android:title="@string/action_sort_events_descending"/>
+                        android:title="@string/action_sort_events_descending" />
 
                 </menu>
 
@@ -36,11 +35,11 @@
 
                     <item
                         android:id="@+id/sort_measurements_ascending"
-                        android:title="@string/action_sort_events_ascending"/>
+                        android:title="@string/action_sort_events_ascending" />
 
                     <item
                         android:id="@+id/sort_measurements_descending"
-                        android:title="@string/action_sort_events_descending"/>
+                        android:title="@string/action_sort_events_descending" />
 
                 </menu>
 
@@ -54,11 +53,11 @@
 
                     <item
                         android:id="@+id/sort_time_ascending"
-                        android:title="@string/action_sort_events_ascending"/>
+                        android:title="@string/action_sort_events_ascending" />
 
                     <item
                         android:id="@+id/sort_time_descending"
-                        android:title="@string/action_sort_events_descending"/>
+                        android:title="@string/action_sort_events_descending" />
 
                 </menu>
 

@@ -10,9 +10,9 @@ import ca.allanwang.kau.utils.tint
 import de.uni_marburg.mathematik.ds.serval.R
 
 fun RecyclerView.withDividerDecoration(
-        context: Context,
-        orientation: Int,
-        @ColorInt color: Int = Prefs.iconColor
+    context: Context,
+    orientation: Int,
+    @ColorInt color: Int = Prefs.iconColor
 ) {
     val divider = DividerItemDecoration(context, orientation)
     val resource = context.drawable(R.drawable.line_divider)

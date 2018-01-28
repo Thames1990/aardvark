@@ -19,14 +19,10 @@ class Aardvark : Application() {
     companion object {
         lateinit var firebaseAnalytics: FirebaseAnalytics
         lateinit var refWatcher: RefWatcher
-        lateinit var lifecycle: Lifecycle
-        lateinit var authenticationListener: AuthenticationListener
-
-        fun requireAuthentication(authenticate: Boolean = Prefs.secure_app) {
-            if (authenticate) lifecycle.addObserver(authenticationListener)
-            else lifecycle.removeObserver(authenticationListener)
-        }
     }
+
+    private lateinit var authenticationListener: AuthenticationListener
+    private lateinit var lifecycle: Lifecycle
 
     override fun onCreate() {
         super.onCreate()
@@ -36,12 +32,12 @@ class Aardvark : Application() {
     }
 
     private fun initialize() {
-        Prefs.initialize(this, BuildConfig.APPLICATION_ID)
+        Prefs.initialize(this.applicationContext, BuildConfig.APPLICATION_ID)
 
-        Reprint.initialize(this)
+        Reprint.initialize(this.applicationContext)
         authenticationListener = AuthenticationListener(this)
         lifecycle = ProcessLifecycleOwner.get().lifecycle
-        requireAuthentication()
+        setupAuthentication()
 
         val now = System.currentTimeMillis()
         Prefs.lastLaunch = now
@@ -51,20 +47,27 @@ class Aardvark : Application() {
     }
 
     private fun setupAnalytics() {
-        // Only use analytics on release versions and if the user accepted
-        if (!BuildConfig.DEBUG || !Prefs.analytics) {
-            Fabric.with(this, Crashlytics(), Answers())
+        val analyticsEnabled = !BuildConfig.DEBUG && Prefs.analytics
+
+        if (analyticsEnabled) {
+            Fabric.with(this.applicationContext, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(Prefs.aardvarkId)
         }
 
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.setAnalyticsCollectionEnabled(!BuildConfig.DEBUG || Prefs.analytics)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this).apply {
+            setAnalyticsCollectionEnabled(analyticsEnabled)
+        }
     }
 
     private fun setupLeakCanary() {
         refWatcher = when (BuildConfig.DEBUG) {
-            true  -> LeakCanary.install(this)
+            true -> LeakCanary.install(this)
             false -> RefWatcher.DISABLED
         }
+    }
+
+    private fun setupAuthentication(authenticate: Boolean = Prefs.secure_app) {
+        if (authenticate) lifecycle.addObserver(authenticationListener)
+        else lifecycle.removeObserver(authenticationListener)
     }
 }

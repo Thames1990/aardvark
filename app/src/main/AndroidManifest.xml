@@ -12,6 +12,7 @@
     <application
         android:name=".Aardvark"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/aardvark_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -19,6 +20,7 @@
         android:theme="@style/AardvarkTheme.Splash">
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.StartActivity"
+            android:label="@string/aardvark_name"
             android:noHistory="true"
             android:theme="@style/AardvarkTheme.Splash">
             <intent-filter>
