@@ -15,9 +15,9 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
     checkbox(
         title = R.string.fancy_animations,
         getter = Prefs::animate,
-        setter = {
-            Prefs.animate = it
-            animate = it
+        setter = { useAnimations ->
+            Prefs.animate = useAnimations
+            animate = useAnimations
             shouldRestartMain()
         }
     ) { descRes = R.string.fancy_animations_description }
@@ -37,8 +37,8 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
     checkbox(
         title = R.string.secure_app,
         getter = Prefs::secure_app,
-        setter = {
-            Prefs.secure_app = it
+        setter = { secure_app ->
+            Prefs.secure_app = secure_app
             setSecureFlag()
             shouldRestartApplication()
         }
@@ -61,5 +61,7 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
                     aardvarkSnackbar(R.string.preference_reset_analytics_confirmation)
                 }
             }
-        }) { descRes = R.string.analytics_description }
+            shouldRestartApplication()
+        }
+    ) { descRes = R.string.analytics_description }
 }
