@@ -50,7 +50,7 @@ class MainActivity : BaseActivity() {
         const val REQUEST_APPLICATION_RESTART = 1 shl 3
         const val REQUEST_NAV = 1 shl 4
 
-        lateinit var lastLocation: Location
+        var lastLocation = Location(BuildConfig.APPLICATION_ID)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
