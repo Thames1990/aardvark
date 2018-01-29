@@ -47,46 +47,6 @@ fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
     else window.clearFlags(secureFlag)
 }
 
-fun AppCompatActivity.replaceFragmentSafely(
-    fragment: Fragment,
-    tag: String,
-    allowStateLoss: Boolean = false,
-    @IdRes containerViewId: Int,
-    @AnimRes enterAnimation: Int = 0,
-    @AnimRes exitAnimation: Int = 0,
-    @AnimRes popEnterAnimation: Int = 0,
-    @AnimRes popExitAnimation: Int = 0
-) {
-    val ft = supportFragmentManager.beginTransaction()
-    ft.setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
-    ft.replace(containerViewId, fragment, tag)
-    if (!supportFragmentManager.isStateSaved) ft.commit()
-    else if (allowStateLoss) ft.commitAllowingStateLoss()
-}
-
-fun AppCompatActivity.addFragmentSafely(
-    fragment: Fragment,
-    tag: String,
-    allowStateLoss: Boolean = false,
-    @IdRes containerViewId: Int,
-    @AnimRes enterAnimation: Int = 0,
-    @AnimRes exitAnimation: Int = 0,
-    @AnimRes popEnterAnimation: Int = 0,
-    @AnimRes popExitAnimation: Int = 0
-) {
-    val ft = supportFragmentManager.beginTransaction()
-    ft.setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation)
-    if (!existsFragmentByTag(tag)) ft.add(containerViewId, fragment, tag) else ft.show(fragment)
-    if (!supportFragmentManager.isStateSaved) ft.commit()
-    else if (allowStateLoss) ft.commitAllowingStateLoss()
-}
-
-fun AppCompatActivity.existsFragmentByTag(tag: String): Boolean =
-    supportFragmentManager.findFragmentByTag(tag) != null
-
-fun AppCompatActivity.findFragmentByTag(tag: String): Fragment? =
-    supportFragmentManager.findFragmentByTag(tag)
-
 class ActivityThemeUtils {
 
     var themeWindow = true

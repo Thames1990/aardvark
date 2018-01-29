@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.model.MapStyleOptions.loadRawResourceStyle
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
+import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
@@ -59,6 +61,11 @@ class MapFragment : BaseFragment() {
                 zoomToAllMarkers(animate = false)
             }
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        googleMap.zoomToAllMarkers()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -160,6 +167,10 @@ class MapFragment : BaseFragment() {
     }
 
     private fun GoogleMap.cameraUpdate(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
+        // Fix for overlapping bottom navigation
+        if (Prefs.mainActivityLayout == MainActivityLayout.BOTTOM_BAR) {
+            googleMap.setPadding(0, 0, 0, 200)
+        }
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) animateCamera(cameraUpdate) else moveCamera(cameraUpdate)
     }

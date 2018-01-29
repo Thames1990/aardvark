@@ -57,7 +57,6 @@ fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
                 onPositive { _, _ ->
                     Aardvark.firebaseAnalytics.resetAnalyticsData()
                     Prefs.installDate = -1L
-                    Prefs.identifier = -1
                     aardvarkSnackbar(R.string.preference_reset_analytics_confirmation)
                 }
             }

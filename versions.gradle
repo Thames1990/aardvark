@@ -1,7 +1,7 @@
 ext.deps = [:]
 def versions = [:]
 versions.android_gradle_plugin = "3.0.1"
-versions.lifecycle = "1.1.0"
+versions.bottom_navigation = "2.2.0"
 versions.community_material_typeface = "2.0.46.1@aar"
 versions.constraint_layout = "1.0.2"
 versions.crashlytics = "2.8.0"
@@ -15,6 +15,7 @@ versions.junit = "4.12"
 versions.kau = "91e4b0c"
 versions.kotlin = "1.2.21"
 versions.leak_canary = "1.5.4"
+versions.lifecycle = "1.1.0"
 versions.moshi = "1.5.0"
 versions.okhttp = "3.9.1"
 versions.paging = "1.0.0-alpha5"
@@ -72,6 +73,7 @@ room.compiler = "android.arch.persistence.room:compiler:$versions.room"
 deps.room = room
 
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+deps.bottom_navigation = "com.aurelhubert:ahbottomnavigation:$versions.bottom_navigation"
 deps.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
 deps.crashlytics = "com.crashlytics.sdk.android:crashlytics:$versions.crashlytics"
 deps.dexcount_gradle_plugin = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$versions.dexcount"
