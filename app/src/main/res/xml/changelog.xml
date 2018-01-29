@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.1"/>
+    <item text="Improve navigations tabs" />
+
     <version title="0.8.0"/>
     <item text="Save events in Room database" />
     <item text="Animate changes to events" />
