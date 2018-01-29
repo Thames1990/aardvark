@@ -20,7 +20,7 @@ enum class MainActivityLayout(
     ),
     BOTTOM_BAR(
         titleRes = R.string.bottom_bar,
-        layoutRes = R.layout.activity_main_bottom_tabs,
+        layoutRes = R.layout.activity_main_bottom_navigation,
         backgroundColorGetter = Prefs::backgroundColor,
         iconColorGetter = Prefs::textColor
     );

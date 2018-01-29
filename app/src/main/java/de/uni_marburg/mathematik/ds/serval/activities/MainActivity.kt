@@ -11,10 +11,10 @@ import android.location.Location
 import android.os.Bundle
 import android.provider.Settings
 import android.support.design.widget.AppBarLayout
-import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -26,28 +26,23 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
-import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
-import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var aardvarkAdapter: AardvarkAdapter
-    private lateinit var bottomNavigation: AHBottomNavigation
     private lateinit var eventViewModel: EventViewModel
-    private lateinit var locationViewModel: LocationViewModel
-    private lateinit var tabs: TabLayout
-    private lateinit var viewPager: AHBottomNavigationViewPager
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
+    private val bottomNavigation: AHBottomNavigation by bindView(R.id.bottom_navigation)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
+    private val viewPager: AHBottomNavigationViewPager by bindView(R.id.container)
 
     companion object {
         const val ACTIVITY_SETTINGS = 1 shl 1
@@ -69,30 +64,36 @@ class MainActivity : BaseActivity() {
             header(appBar)
         }
 
-        aardvarkAdapter = AardvarkAdapter(context = this, fm = supportFragmentManager)
-        viewPager = findViewById(R.id.view_pager)
+        val aardvarkAdapter = AardvarkAdapter(context = this, fm = supportFragmentManager)
         viewPager.apply {
             adapter = aardvarkAdapter
             offscreenPageLimit = aardvarkAdapter.count
-        }
-        when (Prefs.mainActivityLayout) {
-            MainActivityLayout.TOP_BAR -> setupTabs()
-            MainActivityLayout.BOTTOM_BAR -> setupBottomNavigation()
-        }
 
-        checkForNewVersion()
+            setPagingEnabled(true)
+            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrollStateChanged(state: Int) = Unit
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) = Unit
+
+                override fun onPageSelected(position: Int) {
+                    bottomNavigation.currentItem = position
+                }
+
+            })
+        }
+        bottomNavigation.setup()
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
-        eventViewModel.events.observe(this, Observer {
-            when (Prefs.mainActivityLayout) {
-                MainActivityLayout.TOP_BAR -> Unit
-                MainActivityLayout.BOTTOM_BAR -> bottomNavigation.reloadTabs()
-            }
-        })
-        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
-        locationViewModel.location.observe(this, Observer { location ->
-            if (location != null) lastLocation = location
-        })
+        eventViewModel.events.observe(this, Observer { bottomNavigation.reloadTabs() })
+        ViewModelProviders.of(this).get(LocationViewModel::class.java).location.observe(
+            this,
+            Observer { location -> if (location != null) lastLocation = location }
+        )
+
+        checkForNewVersion()
     }
 
     @SuppressLint("NewApi")
@@ -187,59 +188,29 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun setupTabs() {
-        tabs = findViewById(R.id.tabs)
-        tabs.apply {
-            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab) {
-                    viewPager.setCurrentItem(tab.position, Prefs.animate)
-                    appBar.setExpanded(true, Prefs.animate)
-                }
-
-                override fun onTabUnselected(tab: TabLayout.Tab) = Unit
-                override fun onTabReselected(tab: TabLayout.Tab) = eventViewModel.reload()
-            })
-            setBackgroundColor(Prefs.mainActivityLayout.backgroundColor)
-
-            AardvarkItem.values().map { aardvarkItem ->
-                val badgedIcon = when (aardvarkItem) {
-                    AardvarkItem.EVENTS -> BadgedIcon(context).apply {
-                        iicon = aardvarkItem.iicon
-                        doAsync {
-                            val eventCount: Int = eventViewModel.count()
-                            uiThread { badgeText = eventCount.toString() }
-                        }
-                    }
-                    else -> BadgedIcon(context).apply { iicon = aardvarkItem.iicon }
-                }
-                addTab(newTab().setCustomView(badgedIcon))
-            }
-        }
-    }
-
-    private fun setupBottomNavigation() {
-        bottomNavigation = findViewById(R.id.bottom_navigation)
-        bottomNavigation.apply {
-            AardvarkItem.values().map { aardvarkItem ->
-                addItem(
-                    AHBottomNavigationItem(
-                        string(aardvarkItem.titleRes),
-                        aardvarkItem.iicon.toDrawable(context)
-                    )
+    private fun AHBottomNavigation.setup() {
+        AardvarkItem.values().map { aardvarkItem ->
+            addItem(
+                AHBottomNavigationItem(
+                    string(aardvarkItem.titleRes),
+                    aardvarkItem.iicon.toDrawable(context)
                 )
-            }
+            )
+        }
 
-            accentColor = Prefs.accentColor
-            defaultBackgroundColor = Prefs.backgroundColor
-            inactiveColor = Prefs.backgroundColor.colorToForeground(0.2f)
+        accentColor = Prefs.accentColor
+        defaultBackgroundColor = Prefs.backgroundColor
+        inactiveColor = Prefs.backgroundColor.colorToForeground(0.2f)
 
-            setItemDisableColor(Prefs.iconColor.darken(0.8f))
-            setNotificationBackgroundColor(Prefs.accentColor)
-            setOnTabSelectedListener { position, wasReselected ->
-                if (wasReselected) eventViewModel.reload()
-                else viewPager.setCurrentItem(position, Prefs.animate)
-                true
+        setItemDisableColor(Prefs.iconColor.darken(0.8f))
+        setNotificationBackgroundColor(Prefs.accentColor)
+        setOnTabSelectedListener { position, wasReselected ->
+            if (wasReselected) eventViewModel.reload()
+            else {
+                viewPager.setCurrentItem(position, Prefs.animate)
+                appBar.setExpanded(true, Prefs.animate)
             }
+            true
         }
     }
 
