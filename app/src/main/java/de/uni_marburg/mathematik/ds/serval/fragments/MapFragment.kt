@@ -95,17 +95,16 @@ class MapFragment : BaseFragment() {
     }
 
     private fun GoogleMap.style() {
-        when (Prefs.theme) {
-            Theme.DARK -> setMapStyle(loadRawResourceStyle(context, R.raw.map_style_dark))
-            Theme.AMOLED -> setMapStyle(
-                loadRawResourceStyle(
-                    context,
-                    R.raw.map_style_night
-                )
+        setMapStyle(
+            loadRawResourceStyle(
+                context, when (Prefs.theme) {
+                    Theme.AMOLED -> R.raw.map_style_night
+                    Theme.LIGHT -> R.raw.map_style_standard
+                    Theme.DARK -> R.raw.map_style_dark
+                    Theme.CUSTOM -> Prefs.mapsStyle.style
+                }
             )
-            Theme.LIGHT -> Unit
-            Theme.CUSTOM -> Unit
-        }
+        )
     }
 
     private fun GoogleMap.setupClusterManager() {

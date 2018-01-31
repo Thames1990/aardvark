@@ -2,12 +2,14 @@ package de.uni_marburg.mathematik.ds.serval.settings
 
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.activity.items.KPrefColorPicker
+import ca.allanwang.kau.kpref.activity.items.KPrefText
 import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
+import de.uni_marburg.mathematik.ds.serval.enums.MapsStyle
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
@@ -121,6 +123,41 @@ fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
     ) {
         dependsOnCustom()
         allowCustomAlpha = false
+    }
+
+    fun KPrefText.KPrefTextContract<Int>.dependsOnCustom() {
+        enabler = Prefs::isCustomTheme
+        onDisabledClick = { aardvarkSnackbar(R.string.requires_custom_theme) }
+    }
+
+    text(
+        title = R.string.maps_style,
+        getter = Prefs::mapsStyleType,
+        setter = { Prefs.mapsStyleType = it }
+    ) {
+        dependsOnCustom()
+        onClick = {
+            materialDialogThemed {
+                title(R.string.maps_style)
+                items(MapsStyle.values().map { mapsStyle -> string(mapsStyle.titleRes) })
+                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                    if (item.pref != which) {
+                        item.pref = which
+                        shouldRestartMain()
+                        reload()
+                        setAardvarkTheme()
+                        themeExterior()
+                        invalidateOptionsMenu()
+                        aardvarkAnswersCustom(
+                            name = "Maps style",
+                            events = *arrayOf("Count" to MapsStyle(which).name)
+                        )
+                    }
+                    true
+                }
+            }
+        }
+        textGetter = { string(MapsStyle(it).titleRes) }
     }
 
     header(R.string.global_customization)

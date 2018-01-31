@@ -8,11 +8,15 @@ import ca.allanwang.kau.utils.isColorVisibleOn
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
+import de.uni_marburg.mathematik.ds.serval.enums.MapsStyle
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 
 object Prefs : KPref() {
 
     const val EVENT_COUNT = 10000
+
+    private val mapsStyleLoader = lazyResettable { MapsStyle.values[mapsStyleType] }
+    val mapsStyle: MapsStyle by mapsStyleLoader
 
     private val themeLoader = lazyResettable { Theme.values[themeType] }
     val theme: Theme by themeLoader
@@ -53,6 +57,10 @@ object Prefs : KPref() {
     var debugSettings: Boolean by kpref("DEBUG_SETTINGS", BuildConfig.DEBUG)
     var eventCount: Int by kpref("EVENT_COUNT", EVENT_COUNT)
     var exitConfirmation: Boolean by kpref("CONFIRM_EXIT", true)
+    var mapsStyleType: Int by kpref(
+        "MAPS_STYLE_TYPE",
+        0,
+        postSetter = { _: Int -> mapsStyleLoader.invalidate() })
     var installDate: Long by kpref("INSTALL_DATE", -1L)
     var isFirstLaunch: Boolean by kpref("IS_FIRST_LAUNCH", true)
     var isLoggedIn: Boolean by kpref("IS_LOGGED_IN", false)

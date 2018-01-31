@@ -124,6 +124,13 @@
 
     <string name="map">Map</string>
 
+    <string name="maps_style_aubergine">Aubergine</string>
+    <string name="maps_style_dark">Dark</string>
+    <string name="maps_style_night">Night</string>
+    <string name="maps_style_retro">Retro</string>
+    <string name="maps_style_silver">Silver</string>
+    <string name="maps_style_standard">Standard</string>
+
     <plurals name="measurement_count">
         <item quantity="one">%1$d measurement</item>
         <item quantity="other">%1$d measurements</item>
@@ -218,4 +225,5 @@
 
     <string name="username">Username</string>
     <string name="username_must_not_be_empty">You need to enter a username</string>
+    <string name="maps_style">Maps style</string>
 </resources>
