@@ -32,19 +32,31 @@ class SettingsActivity : KPrefActivity() {
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
-        subItems(R.string.behaviour, getBehaviourPrefs()) {
+        subItems(
+            title = R.string.behaviour,
+            itemBuilder = getBehaviourPrefs()
+        ) {
             descRes = R.string.behaviour_description
             iicon = GoogleMaterial.Icon.gmd_settings
         }
-        subItems(R.string.appearance, getAppearancePrefs()) {
+        subItems(
+            title = R.string.appearance,
+            itemBuilder = getAppearancePrefs()
+        ) {
             descRes = R.string.appearance_description
             iicon = GoogleMaterial.Icon.gmd_palette
         }
-        subItems(R.string.location, getLocationPrefs()) {
+        subItems(
+            title = R.string.location,
+            itemBuilder = getLocationPrefs()
+        ) {
             descRes = R.string.location_description
             iicon = GoogleMaterial.Icon.gmd_my_location
         }
-        subItems(R.string.serval, getServalPrefs()) {
+        subItems(
+            title = R.string.serval,
+            itemBuilder = getServalPrefs()
+        ) {
             descRes = R.string.serval_description
             iicon = GoogleMaterial.Icon.gmd_network_wifi
         }
@@ -52,7 +64,7 @@ class SettingsActivity : KPrefActivity() {
         plainText(R.string.aardvark_about) {
             descRes = R.string.aardvark_about_description
             iicon = GoogleMaterial.Icon.gmd_info
-            onClick = { startActivityForResult<AboutActivity>(requestCode = 9) }
+            onClick = { startActivity<AboutActivity>() }
         }
         plainText(R.string.replay_intro) {
             iicon = GoogleMaterial.Icon.gmd_replay
@@ -60,7 +72,10 @@ class SettingsActivity : KPrefActivity() {
         }
         if (Prefs.debugSettings) {
             header(R.string.experimental)
-            subItems(R.string.debug, getDebugPrefs()) {
+            subItems(
+                title = R.string.debug,
+                itemBuilder = getDebugPrefs()
+            ) {
                 descRes = R.string.debug_description
                 iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
             }
@@ -98,9 +113,7 @@ class SettingsActivity : KPrefActivity() {
             R.id.action_email -> materialDialogThemed {
                 title(R.string.subject)
                 items(Support.values().map { string(it.titleRes) })
-                itemsCallback { _, _, which, _ ->
-                    Support.values()[which].sendEmail(context)
-                }
+                itemsCallback { _, _, which, _ -> Support.values()[which].sendEmail(context) }
             }
             R.id.action_changelog -> aardvarkChangelog()
             else -> return super.onOptionsItemSelected(item)
