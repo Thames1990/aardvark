@@ -25,10 +25,10 @@ enum class MainActivityLayout(
         iconColorGetter = Prefs::textColor
     );
 
-    val backgroundColor
+    val backgroundColor: Int
         get() = backgroundColorGetter()
 
-    val iconColor
+    val iconColor: Int
         get() = iconColorGetter()
 
     companion object {
