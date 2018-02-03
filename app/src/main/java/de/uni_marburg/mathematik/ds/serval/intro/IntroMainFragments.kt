@@ -121,8 +121,8 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            container.setOnSingleTapListener { _, event ->
-                (activity as IntroActivity).finish(event.x, event.y)
+            container.setOnSingleTapListener { _, motionEvent ->
+                (activity as IntroActivity).finish(x = motionEvent.x, y = motionEvent.y)
             }
         }
     }
