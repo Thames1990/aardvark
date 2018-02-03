@@ -50,9 +50,8 @@ abstract class BaseImageIntroFragment(
         screen.tint(Prefs.backgroundColor)
     }
 
-    fun themeImageComponent(color: Int, vararg ids: Int) {
+    fun themeImageComponent(color: Int, vararg ids: Int) =
         ids.forEach { imageDrawable.findDrawableByLayerId(it).tint(color) }
-    }
 
     override fun onPageScrolledImpl(positionOffset: Float) {
         super.onPageScrolledImpl(positionOffset)
