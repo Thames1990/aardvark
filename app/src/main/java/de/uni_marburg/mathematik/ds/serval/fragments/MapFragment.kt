@@ -145,18 +145,12 @@ class MapFragment : BaseFragment() {
         doAsync {
             val events: List<Event> = eventViewModel.getAll()
             if (events.isNotEmpty()) {
-                uiThread { googleMap ->
-                    if (events.isNotEmpty()) {
-                        val builder = LatLngBounds.builder()
-                        doAsync {
-                            events.forEach { event -> builder.include(event.position) }
-                            uiThread {
-                                val bounds: LatLngBounds = builder.build()
-                                googleMap.setLatLngBoundsForCameraTarget(bounds)
-                                googleMap.cameraUpdate(bounds, animate)
-                            }
-                        }
-                    }
+                val builder = LatLngBounds.builder()
+                events.forEach { event -> builder.include(event.position) }
+                uiThread {
+                    val bounds: LatLngBounds = builder.build()
+                    googleMap.setLatLngBoundsForCameraTarget(bounds)
+                    googleMap.cameraUpdate(bounds, animate)
                 }
             }
         }
