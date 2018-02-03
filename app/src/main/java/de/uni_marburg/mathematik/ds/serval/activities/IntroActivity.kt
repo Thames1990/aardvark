@@ -55,7 +55,7 @@ class IntroActivity : BaseActivity() {
         next.apply {
             setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.iconColor)
             setOnClickListener {
-                if (barHasNext) viewpager.setCurrentItem(viewpager.currentItem + 1, true)
+                if (barHasNext) viewpager.setCurrentItem(viewpager.currentItem + 1, Prefs.animate)
                 else finish(
                     x = next.x + next.pivotX,
                     y = next.y + next.pivotY
@@ -69,7 +69,7 @@ class IntroActivity : BaseActivity() {
 
     override fun backConsumer(): Boolean {
         with(viewpager) {
-            if (currentItem > 0) setCurrentItem(currentItem - 1, true)
+            if (currentItem > 0) setCurrentItem(currentItem - 1, Prefs.animate)
             else finishAffinity()
         }
         return true
