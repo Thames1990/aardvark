@@ -69,7 +69,7 @@ class MainActivity : BaseActivity() {
             adapter = aardvarkAdapter
             offscreenPageLimit = aardvarkAdapter.count
 
-            setPagingEnabled(true)
+            setPagingEnabled(Prefs.usePaging)
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) = Unit
                 override fun onPageScrolled(

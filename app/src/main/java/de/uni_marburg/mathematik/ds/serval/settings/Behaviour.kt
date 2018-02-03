@@ -13,6 +13,15 @@ import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
+        title = R.string.paging,
+        getter = Prefs::usePaging,
+        setter = { usePaging ->
+            Prefs.usePaging = usePaging
+            shouldRestartMain()
+        }
+    ) { descRes = R.string.paging_description }
+
+    checkbox(
         title = R.string.fancy_animations,
         getter = Prefs::animate,
         setter = { useAnimations ->

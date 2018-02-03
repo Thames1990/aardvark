@@ -76,6 +76,7 @@ object Prefs : KPref() {
     var themeType: Int by kpref("THEME", 0, postSetter = { _: Int -> themeLoader.invalidate() })
     var tintNavBar: Boolean by kpref("TINT_NAV_BAR", true)
     var secure_app: Boolean by kpref("USE_SECURE_FLAG", false)
+    var usePaging: Boolean by kpref("USE_PAGING", false)
     var useWifiADB: Boolean by kpref("USE_WIFI_ADB", false)
     var versionCode: Int by kpref("VERSION", -1)
 }

@@ -124,6 +124,7 @@
 
     <string name="map">Map</string>
 
+    <string name="maps_style">Maps style</string>
     <string name="maps_style_aubergine">Aubergine</string>
     <string name="maps_style_dark">Dark</string>
     <string name="maps_style_night">Night</string>
@@ -147,6 +148,9 @@
     <string name="measurements">Measurements</string>
 
     <string name="network_disconnected">No network connectivity</string>
+
+    <string name="paging">Paging</string>
+    <string name="paging_description">Enable scrolling between pages</string>
 
     <string name="password">Password</string>
     <string name="password_must_not_be_empty">You need to enter a password</string>
@@ -225,5 +229,4 @@
 
     <string name="username">Username</string>
     <string name="username_must_not_be_empty">You need to enter a username</string>
-    <string name="maps_style">Maps style</string>
 </resources>
