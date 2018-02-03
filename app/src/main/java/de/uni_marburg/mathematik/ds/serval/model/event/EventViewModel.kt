@@ -36,7 +36,8 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     fun reload() = ioThread {
         dao.deleteAll()
-        dao.insert(EventRepository.fetch())
+        val events: List<Event> = EventRepository.fetch()
+        dao.insert(events)
     }
 
     companion object {

@@ -126,10 +126,7 @@ class MapFragment : BaseFragment() {
                             bundleBuilder = {
                                 if (Prefs.animate) withSceneTransitionAnimation(context)
                             },
-                            intentBuilder = {
-                                putExtra(DetailActivity.EVENT_ID, event.id)
-                                putExtra(DetailActivity.SHOW_MAP, false)
-                            }
+                            intentBuilder = { putExtra(DetailActivity.EVENT_ID, event.id) }
                         )
                         return true
                     }
