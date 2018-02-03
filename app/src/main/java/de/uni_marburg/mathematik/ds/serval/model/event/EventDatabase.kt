@@ -66,6 +66,4 @@ class EventConverters {
 
 private val ioExecutor = Executors.newSingleThreadExecutor()
 
-fun ioThread(f: () -> Unit) {
-    ioExecutor.execute(f)
-}
+fun ioThread(f: () -> Unit) = ioExecutor.execute(f)
