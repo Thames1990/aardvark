@@ -148,10 +148,9 @@ class IntroActivity : BaseActivity() {
             color = aardvarkGreen,
             startX = x,
             startY = y,
-            duration = 600
-        ) {
-            postDelayed(delay = 1000) { finish() }
-        }
+            duration = 600,
+            callback = { postDelayed(delay = 1000) { finish() } }
+        )
         arrayOf(
             skip,
             indicator,
