@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <version title="0.8.1"/>
+    <version title="0.8.1" />
     <item text="Improve navigations tabs" />
 
-    <version title="0.8.0"/>
+    <version title="0.8.0" />
     <item text="Save events in Room database" />
     <item text="Animate changes to events" />
     <item text="Reload events when a currently selected tab is reselected" />
@@ -20,7 +20,7 @@
     <item text="Replace all toasts with a snackbar" />
     <item text="Update dependencies" />
 
-    <version title="0.7.0"/>
+    <version title="0.7.0" />
     <item text="Complete overhaul" />
     <item text="Fully themeable design" />
     <item text="Add badged icons to tabs. This allows info about the number of events, close events and so on." />
