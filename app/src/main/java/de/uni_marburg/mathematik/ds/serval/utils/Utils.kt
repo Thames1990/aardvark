@@ -19,7 +19,7 @@ fun aardvarkAnswers(action: Answers.() -> Unit) {
 }
 
 fun aardvarkAnswersCustom(name: String, vararg events: Pair<String, Any>) {
-    aardvarkAnswers {
+    if (!BuildConfig.DEBUG && Prefs.analytics) aardvarkAnswers {
         logCustom(CustomEvent("Aardvark $name").apply {
             events.forEach { (key, value) ->
                 if (value is Number) putCustomAttribute(key, value)

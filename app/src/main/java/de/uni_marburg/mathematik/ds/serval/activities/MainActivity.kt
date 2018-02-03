@@ -224,18 +224,16 @@ class MainActivity : BaseActivity() {
     private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
-            if (!BuildConfig.DEBUG) {
-                aardvarkChangelog()
-                aardvarkAnswersCustom(
-                    name = "Version",
-                    events = *arrayOf(
-                        "Version code" to BuildConfig.VERSION_CODE,
-                        "Version name" to BuildConfig.VERSION_NAME,
-                        "Build type" to BuildConfig.BUILD_TYPE,
-                        "Aardvark id" to Settings.Secure.ANDROID_ID
-                    )
+            if (!BuildConfig.DEBUG) aardvarkChangelog()
+            aardvarkAnswersCustom(
+                name = "Version",
+                events = *arrayOf(
+                    "Version code" to BuildConfig.VERSION_CODE,
+                    "Version name" to BuildConfig.VERSION_NAME,
+                    "Build type" to BuildConfig.BUILD_TYPE,
+                    "Aardvark id" to Settings.Secure.ANDROID_ID
                 )
-            }
+            )
         }
     }
 }
