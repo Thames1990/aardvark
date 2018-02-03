@@ -5,33 +5,33 @@ import com.google.android.gms.location.LocationRequest
 import de.uni_marburg.mathematik.ds.serval.R
 
 enum class LocationRequestPriority(
-    val priority: Int,
     @StringRes val titleRes: Int,
-    @StringRes val descTextRes: Int
+    @StringRes val descTextRes: Int,
+    val priority: Int
 ) {
     ACCURATE(
-        priority = LocationRequest.PRIORITY_HIGH_ACCURACY,
         titleRes = R.string.location_request_priority_accurate,
-        descTextRes = R.string.location_request_priority_accurate_description
+        descTextRes = R.string.location_request_priority_accurate_description,
+        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     ),
     BLOCK_ACCURACY(
-        priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY,
         titleRes = R.string.location_request_priority_block_accuracy,
-        descTextRes = R.string.location_request_priority_block_accuracy_description
+        descTextRes = R.string.location_request_priority_block_accuracy_description,
+        priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
     ),
     CITY_ACCURACY(
-        priority = LocationRequest.PRIORITY_LOW_POWER,
         titleRes = R.string.location_request_priority_city_accuracy,
-        descTextRes = R.string.location_request_priority_city_accuracy_description
+        descTextRes = R.string.location_request_priority_city_accuracy_description,
+        priority = LocationRequest.PRIORITY_LOW_POWER
     ),
     PASSIVE(
-        priority = LocationRequest.PRIORITY_NO_POWER,
         titleRes = R.string.location_request_priority_passive,
-        descTextRes = R.string.location_request_priority_passive_description
+        descTextRes = R.string.location_request_priority_passive_description,
+        priority = LocationRequest.PRIORITY_NO_POWER
     );
 
     companion object {
-        val values = values() // save one instance
+        val values = values()
         operator fun invoke(index: Int) = values[index]
     }
 }
