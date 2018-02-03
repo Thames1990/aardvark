@@ -59,10 +59,7 @@ class Aardvark : Application() {
     }
 
     private fun setupLeakCanary() {
-        refWatcher = when (BuildConfig.DEBUG) {
-            true -> LeakCanary.install(this)
-            false -> RefWatcher.DISABLED
-        }
+        refWatcher = if (BuildConfig.DEBUG) LeakCanary.install(this) else RefWatcher.DISABLED
     }
 
     private fun setupAuthentication(authenticate: Boolean = Prefs.secure_app) {
