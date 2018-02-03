@@ -87,19 +87,19 @@ class EventsFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.sort_distance_ascending -> eventViewModel.sort(EventComparator.DISTANCE)
+            R.id.sort_distance_ascending -> eventViewModel.sort(EventComparator.Distance)
             R.id.sort_distance_descending -> eventViewModel.sort(
-                eventComparator = EventComparator.DISTANCE,
+                eventComparator = EventComparator.Distance,
                 reversed = true
             )
-            R.id.sort_measurements_ascending -> eventViewModel.sort(EventComparator.MEASUREMENTS)
+            R.id.sort_measurements_ascending -> eventViewModel.sort(EventComparator.Measurements)
             R.id.sort_measurements_descending -> eventViewModel.sort(
-                eventComparator = EventComparator.MEASUREMENTS,
+                eventComparator = EventComparator.Measurements,
                 reversed = true
             )
-            R.id.sort_time_ascending -> eventViewModel.sort(EventComparator.TIME)
+            R.id.sort_time_ascending -> eventViewModel.sort(EventComparator.Time)
             R.id.sort_time_descending -> eventViewModel.sort(
-                eventComparator = EventComparator.TIME,
+                eventComparator = EventComparator.Time,
                 reversed = true
             )
             else -> return super.onOptionsItemSelected(item)

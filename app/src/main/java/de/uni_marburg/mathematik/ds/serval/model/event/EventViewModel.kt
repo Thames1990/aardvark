@@ -24,25 +24,9 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun sort(eventComparator: EventComparator, reversed: Boolean = false) = ioThread {
-        // TODO Figure out why sorting isn't working with events loaded from the DAO
         val events: List<Event> = EventRepository.fetch()
         dao.deleteAll()
-
-        val sortedEvents: List<Event> = when (eventComparator) {
-            EventComparator.DISTANCE -> events.sortedBy { event ->
-                if (reversed) -event.location.distanceTo(MainActivity.lastLocation)
-                else event.location.distanceTo(MainActivity.lastLocation)
-            }
-            EventComparator.MEASUREMENTS -> events.sortedBy { event ->
-                if (reversed) -event.measurements.size
-                else event.measurements.size
-            }
-            EventComparator.TIME -> events.sortedBy { event ->
-                if (reversed) -event.time
-                else event.time
-            }
-        }
-
+        val sortedEvents: List<Event> = eventComparator.sort(events, reversed)
         dao.insert(sortedEvents)
     }
 
@@ -61,6 +45,31 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     }
 }
 
-enum class EventComparator {
-    DISTANCE, MEASUREMENTS, TIME
+sealed class EventComparator {
+
+    object Distance : EventComparator() {
+        override fun sort(events: List<Event>, reversed: Boolean): List<Event> =
+            events.sortedBy { event ->
+                if (reversed) -event.location.distanceTo(MainActivity.lastLocation)
+                else event.location.distanceTo(MainActivity.lastLocation)
+            }
+    }
+
+    object Measurements : EventComparator() {
+        override fun sort(events: List<Event>, reversed: Boolean): List<Event> =
+            events.sortedBy { event ->
+                if (reversed) -event.measurements.size
+                else event.measurements.size
+            }
+    }
+
+    object Time : EventComparator() {
+        override fun sort(events: List<Event>, reversed: Boolean): List<Event> =
+            events.sortedBy { event ->
+                if (reversed) -event.time
+                else event.time
+            }
+    }
+
+    abstract fun sort(events: List<Event>, reversed: Boolean): List<Event>
 }
