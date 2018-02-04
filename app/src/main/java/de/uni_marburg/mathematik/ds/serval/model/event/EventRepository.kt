@@ -5,7 +5,7 @@ import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import kerval.ServalClient
-import kerval.rhizome.Bundle
+import java.io.BufferedReader
 
 /**
  * Entry point to Kerval API.
@@ -33,18 +33,25 @@ object EventRepository {
     /** Fetches [a number of][count] [events][Event] from the [Serval client][client]. */
     fun fetch(count: Int = Prefs.eventCount): List<Event> {
         val events = mutableListOf<Event>()
+
         with(client.rhizome) {
-            getBundleList().forEach { bundle: Bundle ->
-                bundle.bundleId?.let { bid ->
-                    getRaw(bid).byteInputStream().bufferedReader().forEachLine { line ->
-                        // This check is only necessary because the JSON contains duplicate newlines
-                        if (line.isNotEmpty()) eventAdapter.fromJson(line)?.let { event ->
-                            events.add(event)
+            bundleList.forEach { bundle ->
+                val bundleId: String? = bundle.bundleId
+
+                if (bundleId != null) {
+                    val raw: String = getRaw(bundleId)
+                    val rawReader: BufferedReader = raw.byteInputStream().bufferedReader()
+
+                    rawReader.forEachLine { line ->
+                        if (line.isNotEmpty()) {
+                            val event: Event? = eventAdapter.fromJson(line)
+                            if (event != null) events.add(event)
                         }
                     }
                 }
             }
         }
+
         return events.take(count)
     }
 
