@@ -53,6 +53,10 @@ android {
     }
 
     buildTypes {
+        buildTypes.each {
+            it.buildConfigField "String", "KERVAL_VERSION", "\"$versions.kerval\""
+        }
+
         debug {
             ext.enableCrashlytics = false
         }
@@ -70,7 +74,7 @@ dependencies {
     implementation deps.support.recyclerview
 
     // App Toolkit
-    implementation files("libs/kerval-0.0.9-1.jar")
+    implementation files("libs/kerval-${versions.kerval}.jar")
     implementation deps.bottom_navigation
     implementation deps.constraint_layout
     implementation deps.crashlytics

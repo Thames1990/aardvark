@@ -54,8 +54,9 @@
     <string name="debug_disclaimer_info">Please only use these settings if you are absolutely sure, what you are doing!</string>
     <string name="debug_enabled">Debug settings activated</string>
 
-    <string name="developer_email" translatable="false">ThomasMohr1990@gmail.com</string>
-    <string name="developer_name" translatable="false">Thomas Mohr</string>
+    <string name="developer_email_aardvark" translatable="false">ThomasMohr1990@gmail.com</string>
+    <string name="developer_name_aardvark" translatable="false">Thomas Mohr</string>
+    <string name="developer_name_kerval" translatable="false">Markus Sommer</string>
 
     <string name="distance">Distance</string>
     <string name="distance_in_kilometer">%1$.2f km</string>
@@ -98,6 +99,8 @@
     <string name="intro_slide_to_continue">Slide to continue</string>
     <string name="intro_tap_to_exit">Tap anywhere to exit</string>
     <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
+
+    <string name="kerval_name">Kerval</string>
 
     <string name="license_name">MIT License</string>
     <string name="license_website" translatable="false">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>

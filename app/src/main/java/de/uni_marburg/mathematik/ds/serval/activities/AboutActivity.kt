@@ -14,6 +14,7 @@ import ca.allanwang.kau.adapters.FastItemThemedAdapter
 import ca.allanwang.kau.adapters.ThemableIItem
 import ca.allanwang.kau.adapters.ThemableIItemDelegate
 import ca.allanwang.kau.utils.*
+import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
 import com.mikepenz.aboutlibraries.entity.License
 import com.mikepenz.fastadapter.IItem
@@ -46,7 +47,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark = Library().apply {
-            author = string(R.string.developer_name)
+            author = string(R.string.developer_name_aardvark)
             isOpenSource = true
             libraryDescription = string(R.string.aardvark_description)
             libraryName = string(R.string.aardvark_name)
@@ -57,6 +58,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                 licenseWebsite = getString(R.string.license_website)
             }
         }
+
         adapter.apply {
             add(LibraryIItem(aardvark))
             add(AboutLinks())
@@ -75,6 +77,22 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                 false
             }
         }
+    }
+
+    override fun getLibraries(libs: Libs): List<Library> {
+        val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
+        val kerval = Library().apply {
+            author = string(R.string.developer_name_kerval)
+            isOpenSource = true
+            libraryName = string(R.string.kerval_name)
+            libraryVersion = BuildConfig.KERVAL_VERSION
+            license = License().apply {
+                licenseName = getString(R.string.license_name)
+                licenseWebsite = getString(R.string.license_website)
+            }
+        }
+        libraries.add(kerval)
+        return libraries.sortedBy { it.libraryName }
     }
 
     class AboutLinks :

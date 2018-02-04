@@ -13,6 +13,7 @@ versions.google_play_services = "11.8.0"
 versions.google_play_services_tools = "3.1.1"
 versions.junit = "4.12"
 versions.kau = "91e4b0c"
+versions.kerval = "0.0.9-1"
 versions.kotlin = "1.2.21"
 versions.leak_canary = "1.5.4"
 versions.lifecycle = "1.1.0"
@@ -23,6 +24,7 @@ versions.reprint = "3.2.1@aar"
 versions.room = "1.1.0-alpha1"
 versions.support = "27.0.2"
 versions.weather_icons_typeface = "2.0.10.4@aar"
+ext.versions = versions
 
 def google_play_services = [:]
 google_play_services.location = "com.google.android.gms:play-services-location:$versions.google_play_services"

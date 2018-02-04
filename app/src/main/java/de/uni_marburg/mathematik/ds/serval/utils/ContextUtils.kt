@@ -30,7 +30,7 @@ inline fun Context.sendAardvarkEmail(
 inline fun Context.sendAardvarkEmail(
     subject: String,
     crossinline builder: EmailBuilder.() -> Unit
-) = sendEmail(string(R.string.developer_email), subject) {
+) = sendEmail(string(R.string.developer_email_aardvark), subject) {
     builder()
     addItem(string(R.string.aardvark_id), Settings.Secure.ANDROID_ID)
 }
