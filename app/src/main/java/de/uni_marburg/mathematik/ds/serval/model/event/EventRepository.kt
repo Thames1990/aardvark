@@ -15,14 +15,12 @@ import java.io.BufferedReader
 object EventRepository {
 
     /** Authenticates with the Serval API and offers connection to the Rhizome database. */
-    private val client: ServalClient by lazy {
-        ServalClient(
-            Prefs.kervalBaseUrl,
-            Prefs.kervalPort,
-            Prefs.kervalUser,
-            Prefs.kervalPassword
-        )
-    }
+    private val client = ServalClient(
+        Prefs.kervalBaseUrl,
+        Prefs.kervalPort,
+        Prefs.kervalUser,
+        Prefs.kervalPassword
+    )
 
     /** JSON converter */
     val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
