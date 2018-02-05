@@ -68,49 +68,34 @@ android {
 }
 
 dependencies {
-    // Support Libraries
-    implementation deps.support.app_compat
-    implementation deps.support.design
-    implementation deps.support.recyclerview
-
     // App Toolkit
     implementation files("libs/kerval-${versions.kerval}.jar")
     implementation deps.bottom_navigation
-    implementation deps.constraint_layout
     implementation deps.crashlytics
     implementation deps.firebase
-    implementation deps.okhttp
     implementation deps.reprint
-    implementation deps.rxjava
-
     // Architecture Components
     implementation deps.lifecycle.extensions
     implementation deps.room.runtime
     implementation deps.paging
     kapt deps.lifecycle.compiler
     kapt deps.room.compiler
-
     // Google Play Services
     implementation deps.google_play_services.clustering
     implementation deps.google_play_services.location
     implementation deps.google_play_services.maps
-
     // Ioconics
     implementation deps.ioconics.community_material_typeface
     implementation deps.ioconics.weather_icons_typeface
-
     // Kau
     implementation deps.kau.kau_about
     implementation deps.kau.kpref_activity
-
     // Kotlin
     implementation deps.kotlin.stdlib
     implementation deps.kotlin.reflect
-
     // LeakCanary
     debugImplementation deps.leak_canary
     releaseImplementation deps.leak_canary_release
-
     // Moshi
     implementation deps.moshi.java
     implementation deps.moshi.kotlin

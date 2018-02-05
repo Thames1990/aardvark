@@ -3,17 +3,14 @@ def versions = [:]
 versions.android_gradle_plugin = "3.0.1"
 versions.bottom_navigation = "2.2.0"
 versions.community_material_typeface = "2.0.46.1@aar"
-versions.constraint_layout = "1.0.2"
 versions.crashlytics = "2.8.0"
 versions.dexcount = "0.8.2"
-versions.espresso = "3.0.1"
 versions.fabric_gradle_plugin = "1.25.0"
 versions.google_maps_clustering = "0.1.2-beta"
 versions.google_play_services = "11.8.0"
 versions.google_play_services_tools = "3.1.1"
-versions.junit = "4.12"
 versions.kau = "91e4b0c"
-versions.kerval = "0.1.0"
+versions.kerval = "0.1.1-all"
 versions.kotlin = "1.2.21"
 versions.leak_canary = "1.5.4"
 versions.lifecycle = "1.1.0"
@@ -22,8 +19,6 @@ versions.okhttp = "3.9.1"
 versions.paging = "1.0.0-alpha5"
 versions.reprint = "3.2.1@aar"
 versions.room = "1.1.0-alpha1"
-versions.rxjava = '2.1.9'
-versions.support = "27.0.2"
 versions.weather_icons_typeface = "2.0.10.4@aar"
 ext.versions = versions
 
@@ -60,13 +55,6 @@ moshi.java = "com.squareup.moshi:moshi:$versions.moshi"
 moshi.kotlin = "com.squareup.moshi:moshi-kotlin:$versions.moshi"
 deps.moshi = moshi
 
-def support = [:]
-support.app_compat = "com.android.support:appcompat-v7:$versions.support"
-support.cardview = "com.android.support:cardview-v7:$versions.support"
-support.design = "com.android.support:design:$versions.support"
-support.recyclerview = "com.android.support:recyclerview-v7:$versions.support"
-deps.support = support
-
 def room = [:]
 room.runtime = "android.arch.persistence.room:runtime:$versions.room"
 room.compiler = "android.arch.persistence.room:compiler:$versions.room"
@@ -74,7 +62,6 @@ deps.room = room
 
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
 deps.bottom_navigation = "com.aurelhubert:ahbottomnavigation:$versions.bottom_navigation"
-deps.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
 deps.crashlytics = "com.crashlytics.sdk.android:crashlytics:$versions.crashlytics"
 deps.dexcount_gradle_plugin = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$versions.dexcount"
 deps.fabric_gradle_plugin = "io.fabric.tools:gradle:$versions.fabric_gradle_plugin"
@@ -84,7 +71,6 @@ deps.leak_canary_release = "com.squareup.leakcanary:leakcanary-android-no-op:$ve
 deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 deps.paging = "android.arch.paging:runtime:$versions.paging"
 deps.reprint = "com.github.ajalt.reprint:core:$versions.reprint"
-deps.rxjava = "io.reactivex.rxjava2:rxjava:$versions.rxjava"
 ext.deps = deps
 
 def build_versions = [:]
