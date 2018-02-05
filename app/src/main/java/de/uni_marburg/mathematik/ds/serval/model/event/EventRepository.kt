@@ -16,10 +16,10 @@ object EventRepository {
 
     /** Authenticates with the Serval API and offers connection to the Rhizome database. */
     private val client = ServalClient(
-        Prefs.kervalBaseUrl,
-        Prefs.kervalPort,
-        Prefs.kervalUser,
-        Prefs.kervalPassword
+        host = Prefs.kervalBaseUrl,
+        port = Prefs.kervalPort,
+        user = Prefs.kervalUser,
+        password = Prefs.kervalPassword
     )
 
     /** JSON converter */
