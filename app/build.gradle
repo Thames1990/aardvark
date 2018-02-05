@@ -81,6 +81,7 @@ dependencies {
     implementation deps.firebase
     implementation deps.okhttp
     implementation deps.reprint
+    implementation deps.rxjava
 
     // Architecture Components
     implementation deps.lifecycle.extensions
