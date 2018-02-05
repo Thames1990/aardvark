@@ -29,9 +29,12 @@ import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
+import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
+import io.reactivex.schedulers.Schedulers
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -41,6 +44,7 @@ class MainActivity : BaseActivity() {
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
     private val bottomNavigation: AHBottomNavigation by bindView(R.id.bottom_navigation)
+    private val progressBar: MaterialProgressBar by bindView(R.id.progressBar)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
     private val viewPager: AHBottomNavigationViewPager by bindView(R.id.container)
 
@@ -92,6 +96,14 @@ class MainActivity : BaseActivity() {
             this,
             Observer { location -> if (location != null) lastLocation = location }
         )
+
+        EventRepository.progressObservable
+            .observeOn(Schedulers.computation())
+            .subscribe { progressEvent ->
+                if (progressEvent.percentIsAvailable) {
+                    progressBar.progress = progressEvent.progress
+                }
+            }
 
         checkForNewVersion()
     }

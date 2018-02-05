@@ -4,7 +4,9 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import io.reactivex.Observable
 import kerval.ServalClient
+import kerval.connection.ProgressEvent
 import java.io.BufferedReader
 
 /**
@@ -19,8 +21,12 @@ object EventRepository {
         host = Prefs.kervalBaseUrl,
         port = Prefs.kervalPort,
         user = Prefs.kervalUser,
-        password = Prefs.kervalPassword
+        password = Prefs.kervalPassword,
+        withProgressListener = true
     )
+
+    val progressObservable: Observable<ProgressEvent> =
+        client.connection.progressEventBus.observable()
 
     /** JSON converter */
     val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
