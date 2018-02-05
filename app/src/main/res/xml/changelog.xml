@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.2" />
+    <item text="Add custom map styles" />
+    <item text="Add setting to toggle viewpager slide navigation" />
+
     <version title="0.8.1" />
     <item text="Improve navigations tabs" />
 
