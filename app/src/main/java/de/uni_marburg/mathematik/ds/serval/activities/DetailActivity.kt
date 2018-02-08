@@ -22,8 +22,6 @@ import java.util.*
 /** Displays all details of an [event][Event]. */
 class DetailActivity : ElasticRecyclerActivity() {
 
-    private val adapter = FastItemAdapter<IItem<*, *>>()
-
     private lateinit var event: Event
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
@@ -44,39 +42,41 @@ class DetailActivity : ElasticRecyclerActivity() {
             uiThread {
                 title = event.title
                 recycler.adapter = setupAdapter()
-                fab.apply {
-                    setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
-                    setOnClickListener { showInGoogleMaps() }
-                    show()
-                }
-                setOutsideTapListener { finishAfterTransition() }
             }
         }
+
+        fab.apply {
+            setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
+            setOnClickListener { showInGoogleMaps() }
+            show()
+        }
+        setOutsideTapListener { finishAfterTransition() }
 
         return true
     }
 
     private fun setupAdapter(): FastItemAdapter<IItem<*, *>> {
         val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
-        if (showMap) adapter.add(MapIItem(event))
 
-        adapter.add(CardIItem {
-            val timeDifference = Calendar.getInstance().timeInMillis - event.time
-            titleRes = R.string.time
-            desc = "${event.snippet}\n${timeDifference.timeToString(this@DetailActivity)}"
-            imageIIcon = GoogleMaterial.Icon.gmd_access_time
-        })
+        return FastItemAdapter<IItem<*, *>>().apply {
+            if (showMap) add(MapIItem(event))
 
-        event.measurements.map { measurement ->
-            adapter.add(CardIItem {
-                titleRes = measurement.type.titleRes
-                desc = String.format(string(measurement.type.formatRes), measurement.value)
-                imageIIcon = measurement.type.iicon
-                imageIIconColor = Prefs.iconColor
+            add(CardIItem {
+                val timeDifference = Calendar.getInstance().timeInMillis - event.time
+                titleRes = R.string.time
+                desc = "${event.snippet}\n${timeDifference.timeToString(this@DetailActivity)}"
+                imageIIcon = GoogleMaterial.Icon.gmd_access_time
             })
-        }
 
-        return adapter
+            event.measurements.map { measurement ->
+                add(CardIItem {
+                    titleRes = measurement.type.titleRes
+                    desc = String.format(string(measurement.type.formatRes), measurement.value)
+                    imageIIcon = measurement.type.iicon
+                    imageIIconColor = Prefs.iconColor
+                })
+            }
+        }
     }
 
     private fun showInGoogleMaps() {
