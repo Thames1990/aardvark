@@ -77,6 +77,7 @@ dependencies {
     implementation deps.bottom_navigation
     implementation deps.crashlytics
     implementation deps.firebase
+    implementation deps.google_maps_clustering
     implementation deps.reprint
     // Architecture Components
     implementation deps.lifecycle.extensions
@@ -85,7 +86,6 @@ dependencies {
     kapt deps.lifecycle.compiler
     kapt deps.room.compiler
     // Google Play Services
-    implementation deps.google_play_services.clustering
     implementation deps.google_play_services.location
     implementation deps.google_play_services.maps
     // Ioconics
