@@ -5,6 +5,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import ca.allanwang.kau.about.kauLaunchAbout
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
 import ca.allanwang.kau.kpref.activity.KPrefActivity
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
@@ -64,7 +65,7 @@ class SettingsActivity : KPrefActivity() {
         plainText(R.string.aardvark_about) {
             descRes = R.string.aardvark_about_description
             iicon = GoogleMaterial.Icon.gmd_info
-            onClick = { startActivity<AboutActivity>() }
+            onClick = { kauLaunchAbout<AboutActivity>() }
         }
         plainText(R.string.replay_intro) {
             iicon = GoogleMaterial.Icon.gmd_replay
