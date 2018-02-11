@@ -18,6 +18,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import androidx.content.systemService
 import ca.allanwang.kau.utils.*
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
@@ -131,7 +132,7 @@ class MainActivity : BaseActivity() {
                         intent,
                         PendingIntent.FLAG_CANCEL_CURRENT
                     )
-                    val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    val alarm = systemService<AlarmManager>()
                     if (buildIsMarshmallowAndUp)
                         alarm.setExactAndAllowWhileIdle(
                             AlarmManager.RTC,

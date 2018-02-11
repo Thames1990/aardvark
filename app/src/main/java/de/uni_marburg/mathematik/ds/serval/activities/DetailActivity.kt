@@ -1,8 +1,8 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import androidx.net.toUri
 import ca.allanwang.kau.iitems.CardIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
 import ca.allanwang.kau.utils.setIcon
@@ -80,18 +80,18 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     private fun showInGoogleMaps() {
-        val navigationIntent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(
-                String.format(
-                    string(R.string.intent_uri_show_in_google_maps),
-                    // Forces decimal points
-                    String.format(Locale.ENGLISH, "%.5f", event.location.latitude),
-                    String.format(Locale.ENGLISH, "%.5f", event.location.longitude),
-                    event.title
-                )
-            )
+        val action: String = Intent.ACTION_VIEW
+
+        val uriFormat: String = string(R.string.intent_uri_show_in_google_maps)
+        val uriValues = arrayOf(
+            // English localization forces dot delimeter
+            String.format(Locale.ENGLISH, "%.5f", event.location.latitude),
+            String.format(Locale.ENGLISH, "%.5f", event.location.longitude),
+            event.title
         )
+        val uri = String.format(uriFormat, *uriValues).toUri()
+
+        val navigationIntent = Intent(action, uri)
         navigationIntent.`package` = "com.google.android.apps.maps"
         startActivity(navigationIntent)
     }

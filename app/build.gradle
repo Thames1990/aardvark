@@ -78,6 +78,7 @@ dependencies {
     implementation deps.crashlytics
     implementation deps.firebase
     implementation deps.google_maps_clustering
+    implementation deps.ktx
     implementation deps.reprint
     // Architecture Components
     implementation deps.lifecycle.extensions
