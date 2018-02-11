@@ -2,10 +2,8 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.FingerprintActivity">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/title"
@@ -16,7 +14,6 @@
         android:layout_marginTop="@dimen/margin_top_fragment_title"
         android:gravity="center"
         android:text="@string/fingerprint_required"
-        android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_fragment_title"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -47,7 +44,6 @@
         android:gravity="center"
         android:maxEms="18"
         android:text="@string/fingerprint_required_description"
-        android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_fragment_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
