@@ -42,19 +42,22 @@ class EventsFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val activity = currentActivity
+        val context = currentContext
+
         eventAdapter = EventAdapter { event ->
-            context?.let { context ->
-                context.startActivity<DetailActivity>(
-                    bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(context) },
-                    intentBuilder = {
-                        putExtra(DetailActivity.EVENT_ID, event.id)
-                        putExtra(DetailActivity.SHOW_MAP, true)
-                    }
-                )
-            }
+            context.startActivity<DetailActivity>(
+                bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(context) },
+                intentBuilder = {
+                    putExtra(DetailActivity.EVENT_ID, event.id)
+                    putExtra(DetailActivity.SHOW_MAP, true)
+                }
+            )
         }
-        eventViewModel = ViewModelProviders.of(activity!!).get(EventViewModel::class.java)
-        eventViewModel.events.observe(this, Observer(eventAdapter::setList))
+
+        eventViewModel = ViewModelProviders.of(activity).get(EventViewModel::class.java)
+        eventViewModel.events.observe(activity, Observer(eventAdapter::setList))
     }
 
     override fun onCreateView(
@@ -75,14 +78,14 @@ class EventsFragment : BaseFragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_events, menu)
-        activity?.setMenuIcons(
+        currentActivity.setMenuIcons(
             menu = menu,
             color = Prefs.iconColor,
             iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
         )
 
         menu.findItem(R.id.action_filter_events_distance).isVisible =
-                context!!.hasLocationPermission
+                currentContext.hasLocationPermission
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
