@@ -48,15 +48,14 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark = Library().apply {
             author = string(R.string.developer_name_aardvark)
-            isOpenSource = true
             libraryDescription = string(R.string.aardvark_description)
             libraryName = string(R.string.aardvark_name)
             libraryVersion = BuildConfig.VERSION_NAME
-            libraryWebsite = string(R.string.github_url)
             license = License().apply {
                 licenseName = getString(R.string.license_name)
                 licenseWebsite = getString(R.string.license_website)
             }
+            repositoryLink = string(R.string.repository_link_aardvark)
         }
 
         adapter.apply {
@@ -83,13 +82,13 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
         val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
         val kerval = Library().apply {
             author = string(R.string.developer_name_kerval)
-            isOpenSource = true
             libraryName = string(R.string.kerval_name)
             libraryVersion = BuildConfig.KERVAL_VERSION
             license = License().apply {
                 licenseName = getString(R.string.license_name)
                 licenseWebsite = getString(R.string.license_website)
             }
+            repositoryLink = string(R.string.repository_link_kerval)
         }
         libraries.add(kerval)
         return libraries.sortedBy { it.libraryName }

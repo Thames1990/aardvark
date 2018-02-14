@@ -84,8 +84,6 @@
     <string name="fingerprint_required">Access your secured environment</string>
     <string name="fingerprint_required_description">Place your finger on the reader</string>
 
-    <string name="github_url" translatable="false">https://github.com/Thames1990/aardvark</string>
-
     <string name="global_customization">Global Customization</string>
 
     <string name="grant_location_permission">Grant location permission to use and customize location features.\nAfter you granted permission, exit settings and Aardvark will restart itself, affecting changes.</string>
@@ -178,6 +176,9 @@
     <string name="preference_username_description">Serval API username</string>
 
     <string name="replay_intro">Replay Introduction</string>
+
+    <string name="repository_link_aardvark" translatable="false">https://github.com/Thames1990/aardvark</string>
+    <string name="repository_link_kerval" translatable="false">https://github.com/CryptoCopter/kerval</string>
 
     <string name="requires_custom_theme">Requires custom theme</string>
     <string name="requires_location_permission">Requires location permission</string>
