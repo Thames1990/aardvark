@@ -33,7 +33,6 @@ import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
 
-    // TODO Use viewmodel to set cluster manager items
     private lateinit var eventViewModel: EventViewModel
     private lateinit var googleMap: GoogleMap
     private lateinit var map: SupportMapFragment
@@ -55,7 +54,7 @@ class MapFragment : BaseFragment() {
         map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         map.getMapAsync { map ->
             googleMap = map.apply {
-                isMyLocationEnabled = context!!.hasLocationPermission
+                isMyLocationEnabled = context?.hasLocationPermission ?: false
                 style()
                 setupClusterManager()
                 zoomToAllMarkers(animate = false)
