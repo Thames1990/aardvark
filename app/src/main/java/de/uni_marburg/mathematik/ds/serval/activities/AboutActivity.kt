@@ -52,8 +52,8 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
             libraryName = string(R.string.aardvark_name)
             libraryVersion = BuildConfig.VERSION_NAME
             license = License().apply {
-                licenseName = getString(R.string.license_name)
-                licenseWebsite = getString(R.string.license_website)
+                licenseName = string(R.string.mit_license)
+                licenseWebsite = string(R.string.license_website_aardvark)
             }
             repositoryLink = string(R.string.repository_link_aardvark)
         }
@@ -85,8 +85,8 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
             libraryName = string(R.string.kerval_name)
             libraryVersion = BuildConfig.KERVAL_VERSION
             license = License().apply {
-                licenseName = getString(R.string.license_name)
-                licenseWebsite = getString(R.string.license_website)
+                licenseName = string(R.string.mit_license)
+                licenseWebsite = string(R.string.license_website_kerval)
             }
             repositoryLink = string(R.string.repository_link_kerval)
         }

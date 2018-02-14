@@ -100,8 +100,8 @@
 
     <string name="kerval_name">Kerval</string>
 
-    <string name="license_name">MIT License</string>
-    <string name="license_website" translatable="false">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
+    <string name="license_website_aardvark" translatable="false">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
+    <string name="license_website_kerval">https://github.com/CryptoCopter/kerval/blob/master/LICENSE</string>
 
     <string name="location">Location</string>
     <string name="location_description">Control your location settings</string>
@@ -147,6 +147,8 @@
     <string name="measurement_wind">Wind</string>
 
     <string name="measurements">Measurements</string>
+
+    <string name="mit_license">MIT License</string>
 
     <string name="network_disconnected">No network connectivity</string>
 
