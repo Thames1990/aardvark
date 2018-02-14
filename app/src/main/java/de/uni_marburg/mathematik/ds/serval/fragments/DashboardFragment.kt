@@ -9,6 +9,7 @@ import ca.allanwang.kau.utils.setIcon
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.currentContext
 import org.jetbrains.anko.displayMetrics
 
 class DashboardFragment : BaseFragment() {
@@ -26,7 +27,7 @@ class DashboardFragment : BaseFragment() {
         image.setIcon(
             icon = GoogleMaterial.Icon.gmd_sentiment_very_satisfied,
             color = Prefs.textColor,
-            sizeDp = context!!.displayMetrics.densityDpi
+            sizeDp = currentContext.displayMetrics.densityDpi
         )
         description.setTextColor(Prefs.textColor)
     }
