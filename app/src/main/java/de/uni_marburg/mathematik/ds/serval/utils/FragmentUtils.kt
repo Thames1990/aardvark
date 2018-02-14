@@ -8,4 +8,4 @@ val Fragment.currentActivity: FragmentActivity
     get() = activity ?: throw IllegalStateException("Activity must not be null")
 
 val Fragment.currentContext: Context
-    get() = context ?: throw IllegalStateException("Context ,must not be null")
+    get() = context ?: throw IllegalStateException("Context must not be null")
