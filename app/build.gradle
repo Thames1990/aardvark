@@ -3,10 +3,11 @@ plugins {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'io.fabric'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
-apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion build_versions.target_sdk
@@ -76,7 +77,6 @@ dependencies {
     implementation files("libs/kerval-${versions.kerval}.jar")
     implementation deps.bottom_navigation
     implementation deps.crashlytics
-    implementation deps.firebase
     implementation deps.google_maps_clustering
     implementation deps.ktx
     implementation deps.reprint
@@ -86,6 +86,9 @@ dependencies {
     implementation deps.paging
     kapt deps.lifecycle.compiler
     kapt deps.room.compiler
+    // Firebase
+    implementation deps.firebase.core
+    implementation deps.firebase.perf
     // Google Play Services
     implementation deps.google_play_services.location
     implementation deps.google_play_services.maps
