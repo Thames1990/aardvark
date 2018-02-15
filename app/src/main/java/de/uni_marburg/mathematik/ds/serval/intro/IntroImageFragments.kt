@@ -14,7 +14,6 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import kotlin.math.absoluteValue
 
-/** Created by thames1990 on 03.12.17. */
 abstract class BaseImageIntroFragment(
     @StringRes private val titleRes: Int,
     @DrawableRes private val imageRes: Int,
@@ -51,16 +50,17 @@ abstract class BaseImageIntroFragment(
     }
 
     fun themeImageComponent(color: Int, vararg ids: Int) =
-        ids.forEach { imageDrawable.findDrawableByLayerId(it).tint(color) }
+        ids.forEach { id -> imageDrawable.findDrawableByLayerId(id).tint(color) }
 
     override fun onPageScrolledImpl(positionOffset: Float) {
         super.onPageScrolledImpl(positionOffset)
         val alpha = ((1 - positionOffset.absoluteValue) * 255).toInt()
+        // TODO This is only desired, if there are more than one intro image fragments
         // Apply alpha to all layers except phone base
-        (0 until imageDrawable.numberOfLayers).forEach {
-            val d = imageDrawable.getDrawable(it)
-            if (d != phone) d.alpha = alpha
-        }
+        (0 until imageDrawable.numberOfLayers)
+            .map { index -> imageDrawable.getDrawable(index) }
+            .filter { drawable -> drawable != phone }
+            .forEach { drawable -> drawable.alpha = alpha }
     }
 }
 
