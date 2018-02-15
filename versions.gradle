@@ -45,6 +45,7 @@ deps.firebase = firebase
 def kau = [:]
 kau.kau_about = "ca.allanwang.kau:about:$versions.kau"
 kau.kpref_activity = "ca.allanwang.kau:kpref-activity:$versions.kau"
+kau.plugin = "ca.allanwang:kau:$versions.kau"
 deps.kau = kau
 
 def kotlin = [:]

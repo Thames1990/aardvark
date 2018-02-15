@@ -1,3 +1,5 @@
+apply plugin: 'ca.allanwang.kau'
+
 buildscript {
     apply from: 'versions.gradle'
     addRepos(repositories)
@@ -8,6 +10,7 @@ buildscript {
         classpath deps.fabric_gradle_plugin
         classpath deps.firebase.plugins
         classpath deps.google_play_services.plugin
+        classpath deps.kau.plugin
         classpath deps.kotlin.plugin
     }
 }
@@ -18,4 +21,8 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task generateChangelogMd {
+    kauChangelog.generate("$project.rootDir/app/src/main/res/xml/changelog.xml")
 }
