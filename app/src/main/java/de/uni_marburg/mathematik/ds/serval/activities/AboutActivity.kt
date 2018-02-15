@@ -21,6 +21,7 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.items.AbstractItem
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.AardvarkLibrary
 import de.uni_marburg.mathematik.ds.serval.enums.AboutItem
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
@@ -80,18 +81,22 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
 
     override fun getLibraries(libs: Libs): List<Library> {
         val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
-        val kerval = Library().apply {
-            author = string(R.string.developer_name_kerval)
-            libraryName = string(R.string.kerval_name)
-            libraryVersion = BuildConfig.KERVAL_VERSION
-            license = License().apply {
-                licenseName = string(R.string.mit_license)
-                licenseWebsite = string(R.string.license_website_kerval)
-            }
-            repositoryLink = string(R.string.repository_link_kerval)
+        AardvarkLibrary.values().map { library ->
+            libraries.add(Library().apply {
+                author = string(library.authorRes)
+                libraryDescription = if (library.libraryDescriptionRes != null) {
+                    string(library.libraryDescriptionRes)
+                } else ""
+                libraryName = string(library.libraryNameRes)
+                libraryVersion = library.libraryVersion
+                license = License().apply {
+                    licenseName = string(library.licenseNameRes)
+                    licenseWebsite = string(library.licenseWebsiteRes)
+                }
+                repositoryLink = string(library.repositoryLinkRes)
+            })
         }
-        libraries.add(kerval)
-        return libraries.sortedBy { it.libraryName }
+        return libraries.sortedBy { library -> library.libraryName }
     }
 
     class AboutLinks :
