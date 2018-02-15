@@ -23,7 +23,6 @@ android {
         targetSdkVersion build_versions.target_sdk
         versionName androidGitVersion.name()
         versionCode androidGitVersion.code()
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
         setProperty('archivesBaseName', "aardvark-$versionName")
         multiDexEnabled true
