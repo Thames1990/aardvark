@@ -11,9 +11,10 @@ import ca.allanwang.kau.kpref.activity.KPrefActivity
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.utils.*
-import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.ExperimentalPreferenceSubItem
+import de.uni_marburg.mathematik.ds.serval.enums.PreferenceSubItem
 import de.uni_marburg.mathematik.ds.serval.enums.Support
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
@@ -35,33 +36,20 @@ class SettingsActivity : KPrefActivity() {
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
-        subItems(
-            title = R.string.behaviour,
-            itemBuilder = getBehaviourPrefs()
-        ) {
-            descRes = R.string.behaviour_description
-            iicon = GoogleMaterial.Icon.gmd_settings
-        }
-        subItems(
-            title = R.string.appearance,
-            itemBuilder = getAppearancePrefs()
-        ) {
-            descRes = R.string.appearance_description
-            iicon = GoogleMaterial.Icon.gmd_palette
-        }
-        subItems(
-            title = R.string.location,
-            itemBuilder = getLocationPrefs()
-        ) {
-            descRes = R.string.location_description
-            iicon = GoogleMaterial.Icon.gmd_my_location
-        }
-        subItems(
-            title = R.string.serval,
-            itemBuilder = getServalPrefs()
-        ) {
-            descRes = R.string.serval_description
-            iicon = GoogleMaterial.Icon.gmd_network_wifi
+        PreferenceSubItem.values().map { preferenceSubItem ->
+            subItems(
+                title = preferenceSubItem.titleRes,
+                itemBuilder = when (preferenceSubItem) {
+                    PreferenceSubItem.BEHAVIOUR -> behaviourItemBuilder()
+                    PreferenceSubItem.APPEARANCE -> appearanceItemBuilder()
+                    PreferenceSubItem.LOCATION -> locationItemBuilder()
+                    PreferenceSubItem.SERVAL -> servalItemBuilder()
+                },
+                builder = {
+                    descRes = preferenceSubItem.descRes
+                    iicon = preferenceSubItem.iicon
+                }
+            )
         }
 
         plainText(R.string.aardvark_about) {
@@ -73,14 +61,21 @@ class SettingsActivity : KPrefActivity() {
             iicon = GoogleMaterial.Icon.gmd_replay
             onClick = { startActivity<IntroActivity>() }
         }
+
         if (Prefs.debugSettings) {
             header(R.string.experimental)
-            subItems(
-                title = R.string.debug,
-                itemBuilder = getDebugPrefs()
-            ) {
-                descRes = R.string.debug_description
-                iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
+
+            ExperimentalPreferenceSubItem.values().map { experimentalPreferenceSubItem ->
+                subItems(
+                    title = experimentalPreferenceSubItem.titleRes,
+                    itemBuilder = when (experimentalPreferenceSubItem) {
+                        ExperimentalPreferenceSubItem.DEBUG -> debugItemBuilder()
+                    },
+                    builder = {
+                        descRes = experimentalPreferenceSubItem.descRes
+                        iicon = experimentalPreferenceSubItem.iicon
+                    }
+                )
             }
         }
     }

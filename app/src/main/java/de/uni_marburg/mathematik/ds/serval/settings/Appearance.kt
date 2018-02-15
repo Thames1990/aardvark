@@ -13,7 +13,7 @@ import de.uni_marburg.mathematik.ds.serval.enums.MapsStyle
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
-fun SettingsActivity.getAppearancePrefs(): KPrefAdapterBuilder.() -> Unit = {
+fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     header(R.string.theme_customization)
 

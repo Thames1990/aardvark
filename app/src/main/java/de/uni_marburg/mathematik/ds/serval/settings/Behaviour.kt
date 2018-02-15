@@ -10,7 +10,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 
-fun SettingsActivity.getBehaviourPrefs(): KPrefAdapterBuilder.() -> Unit = {
+fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.paging,

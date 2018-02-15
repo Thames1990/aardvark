@@ -7,7 +7,7 @@ import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
-fun SettingsActivity.getServalPrefs(): KPrefAdapterBuilder.() -> Unit = {
+fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     // Serval API username
     text(
         title = R.string.username,

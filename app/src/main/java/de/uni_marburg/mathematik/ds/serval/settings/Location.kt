@@ -15,7 +15,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
-fun SettingsActivity.getLocationPrefs(): KPrefAdapterBuilder.() -> Unit = {
+fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun openPermissionSettings() {
         val permissionIntent = Intent().apply {
