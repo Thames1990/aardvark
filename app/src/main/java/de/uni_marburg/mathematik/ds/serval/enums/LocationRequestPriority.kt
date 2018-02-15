@@ -14,16 +14,19 @@ enum class LocationRequestPriority(
         descTextRes = R.string.location_request_priority_accurate_description,
         priorityGetter = LocationRequest::PRIORITY_HIGH_ACCURACY
     ),
+
     BLOCK_ACCURACY(
         titleRes = R.string.location_request_priority_block_accuracy,
         descTextRes = R.string.location_request_priority_block_accuracy_description,
         priorityGetter = LocationRequest::PRIORITY_BALANCED_POWER_ACCURACY
     ),
+
     CITY_ACCURACY(
         titleRes = R.string.location_request_priority_city_accuracy,
         descTextRes = R.string.location_request_priority_city_accuracy_description,
         priorityGetter = LocationRequest::PRIORITY_LOW_POWER
     ),
+
     PASSIVE(
         titleRes = R.string.location_request_priority_passive,
         descTextRes = R.string.location_request_priority_passive_description,
