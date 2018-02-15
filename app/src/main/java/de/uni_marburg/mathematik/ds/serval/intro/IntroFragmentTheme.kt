@@ -29,6 +29,7 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
         amoled.setThemeClick(Theme.AMOLED)
 
         val currentTheme = Prefs.themeType
+        // Check if theme is in the theme list. Currently this doesn't check for the proper theme.
         if (IntRange(0, themeList.size).contains(currentTheme)) {
             themeList.forEachIndexed { index, v ->
                 v.scaleXY = if (index == currentTheme) 1.6f else 0.8f
