@@ -78,6 +78,7 @@ class EventsFragment : BaseFragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_events, menu)
+
         currentActivity.setMenuIcons(
             menu = menu,
             color = Prefs.iconColor,
@@ -114,7 +115,7 @@ class EventsFragment : BaseFragment() {
         recyclerView.apply {
             itemAnimator = KauAnimator()
             withLinearAdapter(eventAdapter)
-            withDividerDecoration(context, DividerItemDecoration.VERTICAL)
+            withDividerDecoration(context, orientation = DividerItemDecoration.VERTICAL)
             setBackgroundColor(Prefs.backgroundColor)
         }
     }
