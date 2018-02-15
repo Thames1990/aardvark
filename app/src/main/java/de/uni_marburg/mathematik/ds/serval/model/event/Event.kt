@@ -71,12 +71,14 @@ enum class MeasurementType(
         formatRes = R.string.measurement_value_precipitation,
         iicon = CommunityMaterial.Icon.cmd_atom
     ),
+
     @Json(name = "temperature")
     TEMPERATURE(
         titleRes = R.string.measurement_temperature,
         formatRes = R.string.measurement_value_precipitation,
         iicon = WeatherIcons.Icon.wic_thermometer
     ),
+
     @Json(name = "wind")
     WIND(
         titleRes = R.string.measurement_wind,
