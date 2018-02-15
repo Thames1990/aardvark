@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -39,8 +38,6 @@ class FingerprintActivity : BaseActivity() {
         Reprint.authenticate(object : AuthenticationListener {
             override fun onSuccess(moduleTag: Int) = finish()
 
-            @Suppress("DEPRECATION")
-            @SuppressLint("NewApi")
             override fun onFailure(
                 failureReason: AuthenticationFailureReason?,
                 fatal: Boolean,
