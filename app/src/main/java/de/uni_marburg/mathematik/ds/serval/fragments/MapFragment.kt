@@ -51,9 +51,8 @@ class MapFragment : BaseFragment() {
     @SuppressLint("MissingPermission")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val activity = currentActivity
 
-        eventViewModel = ViewModelProviders.of(activity).get(EventViewModel::class.java)
+        eventViewModel = ViewModelProviders.of(currentActivity).get(EventViewModel::class.java)
 
         map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         map.getMapAsync { map ->
@@ -68,6 +67,7 @@ class MapFragment : BaseFragment() {
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
+        // Relocate camera to include all event markers on device orientation changes
         googleMap.zoomToAllMarkers()
     }
 
@@ -127,9 +127,7 @@ class MapFragment : BaseFragment() {
 
                 override fun onClusterItemClick(event: Event): Boolean {
                     context.startActivity<DetailActivity>(
-                        bundleBuilder = {
-                            if (Prefs.animate) withSceneTransitionAnimation(context)
-                        },
+                        bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(context) },
                         intentBuilder = { putExtra(DetailActivity.EVENT_ID, event.id) }
                     )
                     return true
@@ -149,13 +147,14 @@ class MapFragment : BaseFragment() {
     private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
         doAsync {
             val events: List<Event> = eventViewModel.getAll()
+            // Check is necessary, because the cluster manager doesn't check for empty items
             if (events.isNotEmpty()) {
                 val builder = LatLngBounds.builder()
                 events.forEach { event -> builder.include(event.position) }
                 uiThread {
                     val bounds: LatLngBounds = builder.build()
-                    googleMap.setLatLngBoundsForCameraTarget(bounds)
-                    googleMap.cameraUpdate(bounds, animate)
+                    setLatLngBoundsForCameraTarget(bounds)
+                    cameraUpdate(bounds, animate)
                 }
             }
         }
