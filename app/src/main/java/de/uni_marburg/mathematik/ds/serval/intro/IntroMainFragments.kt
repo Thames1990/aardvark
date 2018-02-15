@@ -19,7 +19,6 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import org.jetbrains.anko.childrenSequence
 import kotlin.math.absoluteValue
 
-/** Created by thames1990 on 03.12.17. */
 abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
 
     private val screenWidth
@@ -49,6 +48,7 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
     private fun translate(offset: Float, views: Array<Array<out View>>) {
         val maxTranslation = offset * screenWidth
         val increment = maxTranslation / views.size
+
         views.forEachIndexed { index, group ->
             group.forEach { view ->
                 view.translationX =
@@ -71,8 +71,8 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
         arrayOf(desc)
     )
 
-    protected open fun themeFragmentImpl() {
-        view?.childrenSequence()?.forEach { (it as? TextView)?.setTextColor(Prefs.textColor) }
+    protected open fun themeFragmentImpl() = view?.childrenSequence()?.forEach { view ->
+        (view as? TextView)?.setTextColor(Prefs.textColor)
     }
 
     protected abstract fun viewArray(): Array<Array<out View>>
