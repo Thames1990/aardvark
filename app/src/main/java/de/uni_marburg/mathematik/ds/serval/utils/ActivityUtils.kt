@@ -23,11 +23,15 @@ fun Activity.aardvarkNavigationBar() {
     navigationBarColor = if (Prefs.tintNavBar) Prefs.headerColor else Color.BLACK
 }
 
-fun Activity.aardvarkSnackbar(@StringRes textRes: Int, builder: Snackbar.() -> Unit = {}) =
-    aardvarkSnackbar(string(textRes), builder)
+inline fun Activity.aardvarkSnackbar(
+    @StringRes textRes: Int,
+    crossinline builder: Snackbar.() -> Unit = {}
+) = aardvarkSnackbar(string(textRes), builder)
 
-fun Activity.aardvarkSnackbar(text: String, builder: Snackbar.() -> Unit = {}) =
-    snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
+inline fun Activity.aardvarkSnackbar(
+    text: String,
+    crossinline builder: Snackbar.() -> Unit = {}
+) = snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
 
 /**
  * Restarts an activity from itself with a fade animation
@@ -64,7 +68,7 @@ inline fun Activity.restartApplication() {
     System.exit(0)
 }
 
-fun Activity.setAardvarkColors(builder: ActivityThemeUtils.() -> Unit) {
+inline fun Activity.setAardvarkColors(builder: ActivityThemeUtils.() -> Unit) {
     val themer = ActivityThemeUtils()
     themer.builder()
     themer.theme(this)
