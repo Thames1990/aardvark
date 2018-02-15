@@ -4,7 +4,6 @@ import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 
-// TODO Use in AboutActivity
 enum class AardvarkLibrary(
     @StringRes val authorRes: Int,
     @StringRes val libraryDescriptionRes: Int? = null,
@@ -22,10 +21,5 @@ enum class AardvarkLibrary(
         licenseNameRes = R.string.mit_license,
         licenseWebsiteRes = R.string.license_website_kerval,
         repositoryLinkRes = R.string.repository_link_kerval
-    );
-
-    companion object {
-        val values = values()
-        operator fun invoke(index: Int) = values[index]
-    }
+    )
 }
