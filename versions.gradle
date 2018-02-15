@@ -1,5 +1,6 @@
 ext.deps = [:]
 def versions = [:]
+versions.android_git_version = "0.4.3"
 versions.android_gradle_plugin = "3.0.1"
 versions.ah_bottom_navigation = "2.2.0"
 versions.community_material_typeface = "2.0.46.1@aar"
@@ -67,6 +68,7 @@ room.runtime = "android.arch.persistence.room:runtime:$versions.room"
 room.compiler = "android.arch.persistence.room:compiler:$versions.room"
 deps.room = room
 
+deps.android_git_version = "gradle.plugin.com.gladed.gradle.androidgitversion:gradle-android-git-version:$versions.android_git_version"
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
 deps.ah_bottom_navigation = "com.aurelhubert:ahbottomnavigation:$versions.ah_bottom_navigation"
 deps.crashlytics = "com.crashlytics.sdk.android:crashlytics:$versions.crashlytics"
@@ -93,6 +95,7 @@ static def addRepos(RepositoryHandler handler) {
     handler.jcenter()
     handler.maven { url "https://jitpack.io" }
     handler.maven { url 'https://maven.fabric.io/public' }
+    handler.maven { url "https://plugins.gradle.org/m2/" }
 }
 
 ext.addRepos = this.&addRepos
