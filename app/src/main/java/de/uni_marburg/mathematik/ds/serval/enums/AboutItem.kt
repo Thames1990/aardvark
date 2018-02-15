@@ -6,5 +6,9 @@ import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
 
 enum class AboutItem(@StringRes val linkRes: Int, val iicon: IIcon) {
-    GITHUB(R.string.repository_link_aardvark, CommunityMaterial.Icon.cmd_github_circle)
+
+    GITHUB(
+        linkRes = R.string.repository_link_aardvark,
+        iicon = CommunityMaterial.Icon.cmd_github_circle
+    )
 }
