@@ -98,9 +98,7 @@ class MainActivity : BaseActivity() {
         EventRepository.progressObservable
             .observeOn(Schedulers.computation())
             .subscribe { progressEvent ->
-                if (progressEvent.percentIsAvailable) {
-                    progressBar.progress = progressEvent.progress
-                }
+                if (progressEvent.percentIsAvailable) progressBar.progress = progressEvent.progress
             }
 
         checkForNewVersion()
@@ -146,7 +144,6 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_settings -> {
@@ -168,12 +165,11 @@ class MainActivity : BaseActivity() {
 
     private fun AHBottomNavigation.setup() {
         AardvarkItem.values().map { aardvarkItem ->
-            addItem(
-                AHBottomNavigationItem(
-                    string(aardvarkItem.titleRes),
-                    aardvarkItem.iicon.toDrawable(context)
-                )
+            val bottomNavigationItem = AHBottomNavigationItem(
+                string(aardvarkItem.titleRes),
+                aardvarkItem.iicon.toDrawable(context)
             )
+            addItem(bottomNavigationItem)
         }
 
         accentColor = Prefs.accentColor
