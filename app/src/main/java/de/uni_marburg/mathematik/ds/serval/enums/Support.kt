@@ -8,10 +8,14 @@ import de.uni_marburg.mathematik.ds.serval.utils.sendAardvarkEmail
 
 /** Created by thames1990 on 09.12.17. */
 enum class Support(@StringRes val titleRes: Int) {
-    FEEDBACK(R.string.feedback),
-    BUG(R.string.bug_report),
-    THEME(R.string.theme_issue),
-    FEATURE(R.string.feature_request);
+
+    FEEDBACK(titleRes = R.string.feedback),
+
+    BUG(titleRes = R.string.bug_report),
+
+    THEME(titleRes = R.string.theme_issue),
+
+    FEATURE(titleRes = R.string.feature_request);
 
     fun sendEmail(context: Context) = with(context) {
         sendAardvarkEmail(subject = "${string(R.string.aardvark_name)}: ${string(titleRes)}") {}
