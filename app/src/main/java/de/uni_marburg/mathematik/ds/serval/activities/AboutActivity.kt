@@ -107,7 +107,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
         override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
             super.bindView(holder, payloads)
             holder.apply {
-                bindIconColor(*images.toTypedArray())
+                bindIconColor(*items.toTypedArray())
                 bindBackgroundColor(container)
             }
         }
@@ -115,13 +115,13 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
         class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
             val container: ConstraintLayout by bindView(R.id.about_icons_container)
-            val images: List<ImageView>
+            val items: List<ImageView>
 
             init {
                 val context = itemView.context
                 val size = context.dimenPixelSize(R.dimen.kau_avatar_bounds)
 
-                images = AboutItem.values().mapIndexed { index, aboutItem ->
+                items = AboutItem.values().mapIndexed { index, aboutItem ->
                     ImageView(context).apply {
                         id = index
                         layoutParams = ViewGroup.LayoutParams(size, size)
@@ -136,7 +136,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                 }
 
                 // Avoid problems with constraint chains
-                if (images.size >= 2) {
+                if (items.size >= 2) {
                     ConstraintSet().apply {
                         clone(container)
                         createHorizontalChain(
@@ -144,7 +144,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                             ConstraintSet.LEFT,
                             ConstraintSet.PARENT_ID,
                             ConstraintSet.RIGHT,
-                            images.map { it.id }.toIntArray(),
+                            items.map { it.id }.toIntArray(),
                             null,
                             ConstraintSet.CHAIN_SPREAD_INSIDE
                         )

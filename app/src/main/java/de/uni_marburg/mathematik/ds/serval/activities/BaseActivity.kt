@@ -6,9 +6,14 @@ import de.uni_marburg.mathematik.ds.serval.utils.setAardvarkTheme
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 
-/** Created by thames1990 on 04.12.17. */
 abstract class BaseActivity : KauBaseActivity() {
 
+    /**
+     * Defines consuming back button presses.
+     *
+     * If this evaluates to *true*, no further action will be taken, once the back button is
+     * pressed. Otherwise the default Android implementation is executed.
+     */
     protected open fun backConsumer(): Boolean = false
 
     override fun onBackPressed() {

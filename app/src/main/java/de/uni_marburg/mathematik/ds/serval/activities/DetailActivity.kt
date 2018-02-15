@@ -25,13 +25,12 @@ class DetailActivity : ElasticRecyclerActivity() {
     private lateinit var event: Event
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
-        setSecureFlag()
         setCurrentScreen()
-
+        setSecureFlag()
         setAardvarkColors {
+            header(appBar)
             toolbar(toolbar)
             themeWindow = false
-            header(appBar)
         }
 
         doAsync {
