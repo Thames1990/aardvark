@@ -1,8 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -18,7 +16,6 @@ import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import androidx.content.systemService
 import ca.allanwang.kau.utils.*
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
@@ -115,41 +112,8 @@ class MainActivity : BaseActivity() {
         when (requestCode) {
             ACTIVITY_SETTINGS -> {
                 // TODO Use ActivityUtils restart() and restartApplication() once Kau updates
-                if (resultCode and REQUEST_RESTART > 0) {
-                    // Fix until i figure out how to properly use restart
-                    startActivity<MainActivity>()
-                    overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
-                    finish()
-                    overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
-                }
-                if (resultCode and REQUEST_APPLICATION_RESTART > 0) {
-                    val intent = packageManager.getLaunchIntentForPackage(packageName)
-                    intent.addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    )
-                    val pending = PendingIntent.getActivity(
-                        this,
-                        666,
-                        intent,
-                        PendingIntent.FLAG_CANCEL_CURRENT
-                    )
-                    val alarm = systemService<AlarmManager>()
-                    if (buildIsMarshmallowAndUp)
-                        alarm.setExactAndAllowWhileIdle(
-                            AlarmManager.RTC,
-                            System.currentTimeMillis() + 100,
-                            pending
-                        )
-                    else
-                        alarm.setExact(
-                            AlarmManager.RTC,
-                            System.currentTimeMillis() + 100,
-                            pending
-                        )
-                    finish()
-                    System.exit(0)
-                    return
-                }
+                if (resultCode and REQUEST_RESTART > 0) restartActivity()
+                if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) aardvarkNavigationBar()
             }
         }
