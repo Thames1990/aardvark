@@ -6,7 +6,6 @@ import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.sendAardvarkEmail
 
-/** Created by thames1990 on 09.12.17. */
 enum class Support(@StringRes val titleRes: Int) {
 
     FEEDBACK(titleRes = R.string.feedback),
