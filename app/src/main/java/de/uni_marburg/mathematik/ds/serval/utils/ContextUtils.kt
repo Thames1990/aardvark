@@ -20,7 +20,11 @@ import de.uni_marburg.mathematik.ds.serval.R
 inline val Context.hasLocationPermission: Boolean
     get() = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
 
-fun Context.aardvarkChangelog() = showChangelog(R.xml.changelog, Prefs.textColor) { theme() }
+fun Context.aardvarkChangelog() = showChangelog(
+    xmlRes = R.xml.changelog,
+    textColor = Prefs.textColor,
+    customize = { theme() }
+)
 
 inline fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Unit): MaterialDialog {
     val builder = MaterialDialog.Builder(this).theme()
@@ -32,15 +36,19 @@ inline fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Uni
 inline fun Context.sendAardvarkEmail(
     @StringRes subjectId: Int,
     crossinline builder: EmailBuilder.() -> Unit
-) = sendAardvarkEmail(string(subjectId), builder)
+) = sendAardvarkEmail(subject = string(subjectId), builder = builder)
 
 inline fun Context.sendAardvarkEmail(
     subject: String,
     crossinline builder: EmailBuilder.() -> Unit
-) = sendEmail(string(R.string.developer_email_aardvark), subject) {
-    builder()
-    addItem(string(R.string.aardvark_id), Settings.Secure.ANDROID_ID)
-}
+) = sendEmail(
+    email = string(R.string.developer_email_aardvark),
+    subject = subject,
+    builder = {
+        builder()
+        addItem(string(R.string.aardvark_id), Settings.Secure.ANDROID_ID)
+    }
+)
 
 /**
  * Vibrates once for the specified period of [milliseconds] at the specified [amplitude],

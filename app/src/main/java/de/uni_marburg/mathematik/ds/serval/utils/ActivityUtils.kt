@@ -26,12 +26,12 @@ fun Activity.aardvarkNavigationBar() {
 inline fun Activity.aardvarkSnackbar(
     @StringRes textRes: Int,
     crossinline builder: Snackbar.() -> Unit = {}
-) = aardvarkSnackbar(string(textRes), builder)
+) = aardvarkSnackbar(text = string(textRes), builder = builder)
 
 inline fun Activity.aardvarkSnackbar(
     text: String,
     crossinline builder: Snackbar.() -> Unit = {}
-) = snackbar(text, Snackbar.LENGTH_LONG, aardvarkSnackbar(builder))
+) = snackbar(text, duration = Snackbar.LENGTH_LONG, builder = aardvarkSnackbar(builder))
 
 /**
  * Restarts an activity from itself with a fade animation
@@ -74,10 +74,9 @@ inline fun Activity.setAardvarkColors(builder: ActivityThemeUtils.() -> Unit) {
     themer.theme(this)
 }
 
-fun Activity.setAardvarkTheme() {
+fun Activity.setAardvarkTheme() =
     if (Prefs.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
-}
 
 fun Activity.setCurrentScreen() =
     Aardvark.firebaseAnalytics.setCurrentScreen(this, javaClass.simpleName, null)

@@ -14,7 +14,7 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import java.util.concurrent.TimeUnit
 
-fun aardvarkAnswers(action: Answers.() -> Unit) {
+inline fun aardvarkAnswers(action: Answers.() -> Unit) {
     if (BuildConfig.DEBUG || !Prefs.analytics) return
     Answers.getInstance().action()
 }
