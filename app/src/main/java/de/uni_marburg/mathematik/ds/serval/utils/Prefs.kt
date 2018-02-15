@@ -15,10 +15,10 @@ object Prefs : KPref() {
 
     const val EVENT_COUNT = 10000
 
-    private val mapsStyleLoader = lazyResettable { MapsStyle.values[mapsStyleType] }
+    private val mapsStyleLoader = lazyResettable { MapsStyle.values()[mapsStyleType] }
     val mapsStyle: MapsStyle by mapsStyleLoader
 
-    private val themeLoader = lazyResettable { Theme.values[themeType] }
+    private val themeLoader = lazyResettable { Theme.values()[themeType] }
     val theme: Theme by themeLoader
 
     val accentColor: Int

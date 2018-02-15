@@ -66,8 +66,7 @@ enum class Theme(
         get() = iconColorGetter()
 
     companion object {
-        val values = values()
-        operator fun invoke(index: Int) = values[index]
+        operator fun invoke(index: Int) = values()[index]
 
         const val ALABASTER = 0xfffafafa.toInt()
         const val CHAMBRAY = 0xff2e4b86.toInt()

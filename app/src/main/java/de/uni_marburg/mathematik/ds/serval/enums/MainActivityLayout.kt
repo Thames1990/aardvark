@@ -35,7 +35,6 @@ enum class MainActivityLayout(
         get() = iconColorGetter()
 
     companion object {
-        val values = values()
-        operator fun invoke(index: Int) = values[index]
+        operator fun invoke(index: Int) = values()[index]
     }
 }

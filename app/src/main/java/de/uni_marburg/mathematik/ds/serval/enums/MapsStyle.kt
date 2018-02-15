@@ -37,7 +37,6 @@ enum class MapsStyle(@StringRes val titleRes: Int, @RawRes val style: Int) {
     );
 
     companion object {
-        val values = MapsStyle.values()
-        operator fun invoke(index: Int) = values[index]
+        operator fun invoke(index: Int) = values()[index]
     }
 }
