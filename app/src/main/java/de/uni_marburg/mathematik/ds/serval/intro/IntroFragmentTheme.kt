@@ -9,7 +9,6 @@ import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
-/** Created by thames1990 on 05.12.17. */
 class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
 
     private val light: View by bindViewResettable(R.id.intro_theme_light)
@@ -24,13 +23,13 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         light.setThemeClick(Theme.LIGHT)
         dark.setThemeClick(Theme.DARK)
         amoled.setThemeClick(Theme.AMOLED)
+
         val currentTheme = Prefs.themeType
-        // TODO Find a better way to check correct theme
-        // Currently this has to be updated if the theme list is updated
-        if (currentTheme in 0..2) {
+        if (IntRange(0, themeList.size).contains(currentTheme)) {
             themeList.forEachIndexed { index, v ->
                 v.scaleXY = if (index == currentTheme) 1.6f else 0.8f
             }
