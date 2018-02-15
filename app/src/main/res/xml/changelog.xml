@@ -38,18 +38,18 @@
     <item text="Fix location icon misalignment with different distances" />
     <item text="Probably a lot more i forgot since i started this refactor about two months ago." />
 
-    <version title="v0.6.7" />
+    <version title="0.6.7" />
     <item text="Add preference for secure flag (prohibits screenshots)" />
     <item text="Add credential check for predefined user and password" />
     <item text="Update libraries" />
 
-    <version title="v0.6.6" />
+    <version title="0.6.6" />
     <item text="Re-add DiffUtil (WIP)" />
     <item text="Add time to detail view" />
     <item text="Disable click functionality on detail view map" />
     <item text="Add fast scroller" />
 
-    <version title="v0.6.5" />
+    <version title="0.6.5" />
     <item text="Secure app from screenshots and other interception techniques" />
     <item text="Overhaul event detail view" />
     <item text="Fix landscape bottom navigation background color" />
@@ -60,19 +60,19 @@
     <item text="Update dependencies" />
     <item text="Update SDK version to 27" />
 
-    <version title="v0.6.4" />
+    <version title="0.6.4" />
     <item text="Changelog overhaul" />
     <item text="Minor bug fixes" />
 
-    <version title="v0.6.3" />
+    <version title="0.6.3" />
     <item text="Fix event sorting" />
     <item text="Fix fingerprint unlock after device sleep" />
 
-    <version title="v0.6.2" />
+    <version title="0.6.2" />
     <item text="Update login flow" />
     <item text="Properly handle fingerprint authentication after app resume" />
 
-    <version title="v0.6.1" />
+    <version title="0.6.1" />
     <item text="Update login flow" />
     <item text="Add fingerprint authentication after login" />
     <item text="Add more german translations" />
@@ -83,41 +83,41 @@
     <item text="Fix clicking through dashboard" />
     <item text="Fix event sorting" />
 
-    <version title="v0.6.0" />
+    <version title="0.6.0" />
     <item text="Utilize Kerval API to load events from Serval" />
     <item text="Overhaul settings" />
     <item text="Add german translations" />
     <item text="Improve intro with splash screen (on event loading)" />
 
-    <version title="v0.5.1" />
+    <version title="0.5.1" />
     <item text="Performance improvements" />
     <item text="Fix menu visiblity" />
 
-    <version title="v0.5.0" />
+    <version title="0.5.0" />
     <item text="Add the ability to load events via swipe to refresh in events overview" />
     <item text="Add new intro" />
     <item text="Performance improvements" />
 
-    <version title="v0.4.12" />
+    <version title="0.4.12" />
     <item text="Serval project is now Aardvark" />
     <item text="Add new icons" />
 
-    <version title="v0.4.11" />
+    <version title="0.4.11" />
     <item text="Minor bugfixes" />
 
-    <version title="v0.4.10" />
+    <version title="0.4.10" />
     <item text="Minor bugfixes" />
 
-    <version title="v0.4.9" />
+    <version title="0.4.9" />
     <item text="Improve map performance for event details" />
     <item text="Optimize map padding on event cluster click" />
     <item text="Clicking the fab in event details now searches the event in Google Maps instead of directly navigating to it" />
     <item text="Use placeholder layout for dashboard until the design is completed" />
 
-    <version title="v0.4.8" />
+    <version title="0.4.8" />
     <item text="Unify event detail layout" />
 
-    <version title="v0.4.7" />
+    <version title="0.4.7" />
     <item text="Improve settings" />
     <item text="Improve changelog display" />
     <item text="Add events sorting options (measurements, shuffle)" />
@@ -126,38 +126,38 @@
     <item text="Update app icon" />
     <item text="Remove fastscroller for events overview" />
 
-    <version title="v0.4.6" />
+    <version title="0.4.6" />
     <item text="Add list of measurements in event details" />
 
-    <version title="v0.4.5" />
+    <version title="0.4.5" />
     <item text="Add map style selection" />
 
-    <version title="v0.4.4" />
+    <version title="0.4.4" />
     <item text="Add event clustering in map" />
 
-    <version title="v0.4.3" />
+    <version title="0.4.3" />
     <item text="Optimize event information layout for landscape orientation" />
 
-    <version title="v0.4.2" />
+    <version title="0.4.2" />
     <item text="Fix device rotation issues" />
 
-    <version title="v0.4.1" />
+    <version title="0.4.1" />
     <item text="Add event sorting by distance, time or measurement type count" />
     <item text="Improve map performance" />
     <item text="Fix event time for events older than a week" />
 
-    <version title="v0.4.0" />
+    <version title="0.4.0" />
     <item text="Events are now loaded asynchronously" />
     <item text="Properly respect location permission" />
     <item text="Fix device rotation issues" />
 
-    <version title="v0.3.0" />
+    <version title="0.3.0" />
     <item text="Event loading changes" />
 
-    <version title="v0.2.0" />
+    <version title="0.2.0" />
     <item text="Add analytics" />
 
-    <version title="v0.1.0" />
+    <version title="0.1.0" />
     <item text="Complete overhaul of maps" />
     <item text="Add placeholder fragment" />
     <item text="Add ability to delete events by swiping" />
@@ -165,38 +165,38 @@
     <item text="Change secondary color to a more vivid and warm blue" />
     <item text="Fix clipping of views under bottom navigation" />
 
-    <version title="v0.0.7" />
+    <version title="0.0.7" />
     <item text="Measurements can now have two additional types (wind, precipitation)" />
     <item text="Change color scheme" />
     <item text="Fix measurement icon display" />
     <item text="Add fastscroller to events view" />
     <item text="Complete overhaul of intro" />
 
-    <version title="v0.0.6" />
+    <version title="0.0.6" />
     <item text="Complete UI overhaul" />
     <item text="Dashboard isn't implemented yet" />
     <item text="Events shows the last occurred events" />
     <item text="Map shows last occurred events in close proximity" />
     <item text="Add icon for events" />
 
-    <version title="v0.0.5" />
+    <version title="0.0.5" />
     <item text="Add icon for temperature measurement type" />
     <item text="Show icon corresponding to events measurement type with most measurements" />
     <item text="Disable toolbar on map" />
 
-    <version title="v0.0.4" />
+    <version title="0.0.4" />
     <item text="Add changelog on version update" />
     <item text="Disable all gestures on map" />
 
-    <version title="v0.0.3" />
+    <version title="0.0.3" />
     <item text="Add the ability to navigate to event locations" />
     <item text="Change fab icon to navigation icon in event details" />
 
-    <version title="v0.0.2" />
+    <version title="0.0.2" />
     <item text="Add Google Play Services Maps" />
     <item text="Add map to event information" />
     <item text="Remove ACCESS_COARSE_LOCATION permission" />
 
-    <version title="v0.0.1" />
+    <version title="0.0.1" />
     <item text="Initial release" />
 </resources>
