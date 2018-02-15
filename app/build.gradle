@@ -75,7 +75,7 @@ android {
 dependencies {
     // App Toolkit
     implementation files("libs/kerval-${versions.kerval}.jar")
-    implementation deps.bottom_navigation
+    implementation deps.ah_bottom_navigation
     implementation(deps.crashlytics) { transitive = true}
     implementation deps.google_maps_clustering
     implementation deps.ktx
