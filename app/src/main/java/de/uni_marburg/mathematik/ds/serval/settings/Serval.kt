@@ -12,49 +12,52 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     text(
         title = R.string.username,
         getter = Prefs::kervalUser,
-        setter = { Prefs.kervalUser = it }
-    ) {
-        descRes = R.string.preference_username_description
-        onClick = {
-            materialDialogThemed {
-                title(string(R.string.username))
-                input(
-                    string(R.string.username),
-                    item.pref,
-                    { _, input -> item.pref = input.toString() }
-                )
+        setter = { Prefs.kervalUser = it },
+        builder = {
+            descRes = R.string.preference_username_description
+            onClick = {
+                materialDialogThemed {
+                    title(string(R.string.username))
+                    input(
+                        string(R.string.username),
+                        item.pref,
+                        { _, input -> item.pref = input.toString() }
+                    )
+                }
             }
         }
-    }
+    )
 
     // Serval API password
     text(
         title = R.string.password,
         getter = Prefs::kervalPassword,
-        setter = { Prefs.kervalPassword = it }
-    ) {
-        descRes = R.string.preference_password_description
-        onClick = {
-            materialDialogThemed {
-                title(string(R.string.password))
-                input(
-                    string(R.string.password),
-                    item.pref,
-                    { _, input -> item.pref = input.toString() }
-                )
+        setter = { Prefs.kervalPassword = it },
+        builder = {
+            descRes = R.string.preference_password_description
+            onClick = {
+                materialDialogThemed {
+                    title(string(R.string.password))
+                    input(
+                        string(R.string.password),
+                        item.pref,
+                        { _, input -> item.pref = input.toString() }
+                    )
+                }
             }
         }
-    }
+    )
 
     // Events to fetch from Serval API
     seekbar(
         title = R.string.event_count,
         getter = Prefs::eventCount,
-        setter = { Prefs.eventCount = it }
-    ) {
-        descRes = R.string.event_count_description
-        min = 1
-        max = Prefs.EVENT_COUNT
-        shouldRestartMain()
-    }
+        setter = { Prefs.eventCount = it },
+        builder = {
+            descRes = R.string.event_count_description
+            min = 1
+            max = Prefs.EVENT_COUNT
+            shouldRestartMain()
+        }
+    )
 }
