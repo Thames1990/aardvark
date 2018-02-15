@@ -18,8 +18,9 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         setter = { usePaging ->
             Prefs.usePaging = usePaging
             shouldRestartMain()
-        }
-    ) { descRes = R.string.paging_description }
+        },
+        builder = { descRes = R.string.paging_description }
+    )
 
     checkbox(
         title = R.string.fancy_animations,
@@ -28,14 +29,16 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             Prefs.animate = useAnimations
             animate = useAnimations
             shouldRestartMain()
-        }
-    ) { descRes = R.string.fancy_animations_description }
+        },
+        builder = { descRes = R.string.fancy_animations_description }
+    )
 
     checkbox(
         title = R.string.changelog,
         getter = Prefs::changelog,
-        setter = { Prefs.changelog = it }
-    ) { descRes = R.string.changelog_description }
+        setter = { Prefs.changelog = it },
+        builder = { descRes = R.string.changelog_description }
+    )
 
     checkbox(
         title = R.string.preference_confirm_exit,
@@ -50,8 +53,9 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             Prefs.secure_app = secure_app
             setSecureFlag()
             shouldRestartApplication()
-        }
-    ) { descRes = R.string.secure_app_desc }
+        },
+        builder = { descRes = R.string.secure_app_desc }
+    )
 
     checkbox(
         title = R.string.preference_use_analytics,
@@ -70,6 +74,7 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                 }
             }
             shouldRestartApplication()
-        }
-    ) { descRes = R.string.analytics_description }
+        },
+        builder = { descRes = R.string.analytics_description }
+    )
 }
