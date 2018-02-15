@@ -26,6 +26,8 @@ enum class MainActivityLayout(
         iconColorGetter = Prefs::textColor
     );
 
+    // TODO Correctly use background and icon color
+
     val backgroundColor: Int
         get() = backgroundColorGetter()
 
