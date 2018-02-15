@@ -38,10 +38,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 .get(this@DetailActivity)
                 .eventDao()
                 .getById(intent.extras.getLong(EVENT_ID))
-            uiThread {
-                title = event.title
-                recycler.adapter = setupAdapter()
-            }
+            uiThread { setupAdapter() }
         }
 
         fab.apply {
@@ -54,26 +51,30 @@ class DetailActivity : ElasticRecyclerActivity() {
         return true
     }
 
-    private fun setupAdapter(): FastItemAdapter<IItem<*, *>> {
+    private fun setupAdapter() {
         val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
 
-        return FastItemAdapter<IItem<*, *>>().apply {
+        title = event.title
+
+        recycler.adapter = FastItemAdapter<IItem<*, *>>().apply {
             if (showMap) add(MapIItem(event))
 
-            add(CardIItem {
-                val timeDifference = Calendar.getInstance().timeInMillis - event.time
+            val eventCardItem = CardIItem {
                 titleRes = R.string.time
+                val timeDifference = Calendar.getInstance().timeInMillis - event.time
                 desc = "${event.snippet}\n${timeDifference.timeToString(this@DetailActivity)}"
                 imageIIcon = GoogleMaterial.Icon.gmd_access_time
-            })
+            }
+            add(eventCardItem)
 
             event.measurements.map { measurement ->
-                add(CardIItem {
+                val measurementCardItem = CardIItem {
                     titleRes = measurement.type.titleRes
                     desc = String.format(string(measurement.type.formatRes), measurement.value)
                     imageIIcon = measurement.type.iicon
                     imageIIconColor = Prefs.iconColor
-                })
+                }
+                add(measurementCardItem)
             }
         }
     }
