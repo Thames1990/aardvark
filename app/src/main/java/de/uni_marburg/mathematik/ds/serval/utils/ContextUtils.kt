@@ -1,9 +1,13 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.provider.Settings
 import android.support.annotation.StringRes
+import androidx.content.systemService
 import ca.allanwang.kau.email.EmailBuilder
 import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.utils.hasPermission
@@ -37,3 +41,19 @@ inline fun Context.sendAardvarkEmail(
 
 val Context.hasLocationPermission: Boolean
     get() = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+
+/**
+ * Vibrates once for the specified period of [milliseconds] at the specified [amplitude],
+ * and then stop, if a vibrator is present on the device.
+ */
+@Suppress("DEPRECATION")
+@SuppressLint("NewApi")
+fun Context.vibrate(milliseconds: Long = 500, amplitude: Int = VibrationEffect.DEFAULT_AMPLITUDE) {
+    val vibrator = systemService<Vibrator>()
+    if (vibrator.hasVibrator()) {
+        if (buildIsOreoAndUp) {
+            val vibrationEffect = VibrationEffect.createOneShot(milliseconds, amplitude)
+            vibrator.vibrate(vibrationEffect)
+        } else vibrator.vibrate(milliseconds)
+    }
+}
