@@ -13,15 +13,16 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 
 class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
-    R.layout.iitem_map, ::ViewHolder
+    layoutRes = R.layout.iitem_map,
+    viewHolder = ::ViewHolder
 ), ThemableIItem by ThemableIItemDelegate() {
 
     override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
         super.bindView(holder, payloads)
         holder.map.apply {
             onCreate(null)
-            getMapAsync { googleMap ->
-                googleMap.apply {
+            getMapAsync { map ->
+                map.apply {
                     uiSettings.apply {
                         setAllGesturesEnabled(false)
                         isMapToolbarEnabled = false
