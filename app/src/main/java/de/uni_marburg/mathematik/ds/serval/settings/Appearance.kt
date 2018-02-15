@@ -20,31 +20,32 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     text(
         title = R.string.theme,
         getter = Prefs::themeType,
-        setter = { Prefs.themeType = it }
-    ) {
-        onClick = {
-            materialDialogThemed {
-                title(R.string.theme)
-                items(Theme.values().map { theme -> string(theme.titleRes) })
-                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                    if (item.pref != which) {
-                        item.pref = which
-                        shouldRestartMain()
-                        reload()
-                        setAardvarkTheme()
-                        themeExterior()
-                        invalidateOptionsMenu()
-                        aardvarkAnswersCustom(
-                            name = "Theme",
-                            events = *arrayOf("Count" to Theme(which).name)
-                        )
+        setter = { Prefs.themeType = it },
+        builder = {
+            onClick = {
+                materialDialogThemed {
+                    title(R.string.theme)
+                    items(Theme.values().map { theme -> string(theme.titleRes) })
+                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                        if (item.pref != which) {
+                            item.pref = which
+                            shouldRestartMain()
+                            reload()
+                            setAardvarkTheme()
+                            themeExterior()
+                            invalidateOptionsMenu()
+                            aardvarkAnswersCustom(
+                                name = "Theme",
+                                events = *arrayOf("Count" to Theme(which).name)
+                            )
+                        }
+                        true
                     }
-                    true
                 }
             }
+            textGetter = { string(Theme(it).titleRes) }
         }
-        textGetter = { string(Theme(it).titleRes) }
-    }
+    )
 
     fun KPrefColorPicker.KPrefColorContract.dependsOnCustom() {
         enabler = Prefs::isCustomTheme
@@ -59,11 +60,12 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             Prefs.customTextColor = customTextColor
             reload()
             shouldRestartMain()
+        },
+        builder = {
+            dependsOnCustom()
+            allowCustomAlpha = false
         }
-    ) {
-        dependsOnCustom()
-        allowCustomAlpha = false
-    }
+    )
 
     colorPicker(
         title = R.string.color_accent,
@@ -72,11 +74,12 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             Prefs.customAccentColor = customAccentColor
             reload()
             shouldRestartMain()
+        },
+        builder = {
+            dependsOnCustom()
+            allowCustomAlpha = false
         }
-    ) {
-        dependsOnCustom()
-        allowCustomAlpha = false
-    }
+    )
 
     colorPicker(
         title = R.string.color_background,
@@ -86,11 +89,12 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             bgCanvas.ripple(color = customBackgroundColor, duration = 500L)
             setAardvarkTheme()
             shouldRestartMain()
+        },
+        builder = {
+            dependsOnCustom()
+            allowCustomAlpha = true
         }
-    ) {
-        dependsOnCustom()
-        allowCustomAlpha = true
-    }
+    )
 
     colorPicker(
         title = R.string.color_header,
@@ -106,11 +110,12 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             )
             reload()
             shouldRestartMain()
+        },
+        builder = {
+            dependsOnCustom()
+            allowCustomAlpha = true
         }
-    ) {
-        dependsOnCustom()
-        allowCustomAlpha = true
-    }
+    )
 
     colorPicker(
         title = R.string.color_icon,
@@ -119,11 +124,12 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             Prefs.customIconColor = customIconColor
             invalidateOptionsMenu()
             shouldRestartMain()
+        },
+        builder = {
+            dependsOnCustom()
+            allowCustomAlpha = false
         }
-    ) {
-        dependsOnCustom()
-        allowCustomAlpha = false
-    }
+    )
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnCustom() {
         enabler = Prefs::isCustomTheme
@@ -133,61 +139,63 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     text(
         title = R.string.maps_style,
         getter = Prefs::mapsStyleType,
-        setter = { Prefs.mapsStyleType = it }
-    ) {
-        dependsOnCustom()
-        onClick = {
-            materialDialogThemed {
-                title(R.string.maps_style)
-                items(MapsStyle.values().map { mapsStyle -> string(mapsStyle.titleRes) })
-                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                    if (item.pref != which) {
-                        item.pref = which
-                        shouldRestartMain()
-                        reload()
-                        setAardvarkTheme()
-                        themeExterior()
-                        invalidateOptionsMenu()
-                        aardvarkAnswersCustom(
-                            name = "Maps style",
-                            events = *arrayOf("Count" to MapsStyle(which).name)
-                        )
+        setter = { Prefs.mapsStyleType = it },
+        builder = {
+            dependsOnCustom()
+            onClick = {
+                materialDialogThemed {
+                    title(R.string.maps_style)
+                    items(MapsStyle.values().map { mapsStyle -> string(mapsStyle.titleRes) })
+                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                        if (item.pref != which) {
+                            item.pref = which
+                            shouldRestartMain()
+                            reload()
+                            setAardvarkTheme()
+                            themeExterior()
+                            invalidateOptionsMenu()
+                            aardvarkAnswersCustom(
+                                name = "Maps style",
+                                events = *arrayOf("Count" to MapsStyle(which).name)
+                            )
+                        }
+                        true
                     }
-                    true
                 }
             }
+            textGetter = { string(MapsStyle(it).titleRes) }
         }
-        textGetter = { string(MapsStyle(it).titleRes) }
-    }
+    )
 
     header(R.string.global_customization)
 
     text(
         title = R.string.main_activity_layout,
         getter = Prefs::mainActivityLayoutType,
-        setter = { Prefs.mainActivityLayoutType = it }
-    ) {
-        textGetter = { string(Prefs.mainActivityLayout.titleRes) }
-        onClick = {
-            materialDialogThemed {
-                title(R.string.set_main_activity_layout)
-                items(MainActivityLayout.values().map { mainActivityLayout ->
-                    string(mainActivityLayout.titleRes)
-                })
-                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                    if (item.pref != which) {
-                        item.pref = which
-                        shouldRestartMain()
-                        aardvarkAnswersCustom(
-                            name = "Main Layout",
-                            events = *arrayOf("Type" to MainActivityLayout(which).name)
-                        )
+        setter = { Prefs.mainActivityLayoutType = it },
+        builder = {
+            textGetter = { string(Prefs.mainActivityLayout.titleRes) }
+            onClick = {
+                materialDialogThemed {
+                    title(R.string.set_main_activity_layout)
+                    items(MainActivityLayout.values().map { mainActivityLayout ->
+                        string(mainActivityLayout.titleRes)
+                    })
+                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                        if (item.pref != which) {
+                            item.pref = which
+                            shouldRestartMain()
+                            aardvarkAnswersCustom(
+                                name = "Main Layout",
+                                events = *arrayOf("Type" to MainActivityLayout(which).name)
+                            )
+                        }
+                        true
                     }
-                    true
                 }
             }
         }
-    }
+    )
 
     checkbox(
         title = R.string.tint_nav,
@@ -196,7 +204,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             Prefs.tintNavBar = tintNavBar
             aardvarkNavigationBar()
             setAardvarkResult(MainActivity.REQUEST_NAV)
-        }
-    ) { descRes = R.string.tint_nav_desc }
+        },
+        builder = { descRes = R.string.tint_nav_desc }
+    )
 
 }
