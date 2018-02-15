@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.support.design.internal.SnackbarContentLayout
 import android.support.design.widget.Snackbar
 import android.widget.FrameLayout
@@ -86,3 +87,6 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     neutralColor(Prefs.textColor)
     return this
 }
+
+inline val buildIsOreoAndUp: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
