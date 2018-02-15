@@ -47,47 +47,51 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     text(
         title = R.string.location_request_priority,
         getter = Prefs::locationRequestPriorityType,
-        setter = { Prefs.locationRequestPriorityType = it }
-    ) {
-        dependsOnLocationPermission()
-        onClick = {
-            materialDialogThemed {
-                title(R.string.location_request_priority)
-                items(LocationRequestPriority.values()
-                    .map { priority ->
-                        "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
+        setter = { Prefs.locationRequestPriorityType = it },
+        builder = {
+            dependsOnLocationPermission()
+            onClick = {
+                materialDialogThemed {
+                    title(R.string.location_request_priority)
+                    items(
+                        LocationRequestPriority.values()
+                            .map { priority ->
+                                "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
+                            }
+                    )
+                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                        if (item.pref != which) {
+                            item.pref = which
+                            shouldRestartMain()
+                            reload()
+                        }
+                        true
                     }
-                )
-                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                    if (item.pref != which) {
-                        item.pref = which
-                        shouldRestartMain()
-                        reload()
-                    }
-                    true
                 }
             }
+            textGetter = { string(LocationRequestPriority(it).titleRes) }
         }
-        textGetter = { string(LocationRequestPriority(it).titleRes) }
-    }
+    )
 
     // Location request priority interval
     seekbar(
         title = R.string.location_request_interval,
         getter = { Prefs.locationRequestInterval.toInt() },
-        setter = { Prefs.locationRequestInterval = it.toLong() }
-    ) {
-        dependsOnLocationPermission()
-        descRes = R.string.location_request_interval_description
-    }
+        setter = { Prefs.locationRequestInterval = it.toLong() },
+        builder = {
+            dependsOnLocationPermission()
+            descRes = R.string.location_request_interval_description
+        }
+    )
 
     // Location request priority fastest interval
     seekbar(
         title = R.string.location_request_fastest_interval,
         getter = { Prefs.locationRequestFastestInterval.toInt() },
-        setter = { Prefs.locationRequestFastestInterval = it.toLong() }
-    ) {
-        dependsOnLocationPermission()
-        descRes = R.string.location_request_fastest_interval_description
-    }
+        setter = { Prefs.locationRequestFastestInterval = it.toLong() },
+        builder = {
+            dependsOnLocationPermission()
+            descRes = R.string.location_request_fastest_interval_description
+        }
+    )
 }
