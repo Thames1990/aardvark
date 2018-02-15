@@ -17,6 +17,9 @@ import ca.allanwang.kau.xml.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
 import de.uni_marburg.mathematik.ds.serval.R
 
+inline val Context.hasLocationPermission: Boolean
+    get() = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+
 fun Context.aardvarkChangelog() = showChangelog(R.xml.changelog, Prefs.textColor) { theme() }
 
 inline fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Unit): MaterialDialog {
@@ -38,9 +41,6 @@ inline fun Context.sendAardvarkEmail(
     builder()
     addItem(string(R.string.aardvark_id), Settings.Secure.ANDROID_ID)
 }
-
-val Context.hasLocationPermission: Boolean
-    get() = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
 
 /**
  * Vibrates once for the specified period of [milliseconds] at the specified [amplitude],
