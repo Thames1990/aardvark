@@ -77,5 +77,7 @@ enum class Theme(
         const val PORCELAIN = 0xffeceff1.toInt()
         const val LOCHMARA = 0xff0288d1.toInt()
         const val BAHAMA_BLUE = 0xff01579b.toInt()
+
+        const val AARDVARK_GREEN = FRUIT_SALAD
     }
 }

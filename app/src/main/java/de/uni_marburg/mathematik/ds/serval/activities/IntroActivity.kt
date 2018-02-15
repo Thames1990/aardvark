@@ -49,8 +49,10 @@ class IntroActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
+
         adapter = IntroPageAdapter(supportFragmentManager, fragments)
         viewpager.init()
+        viewpager.adapter = adapter
         indicator.setViewPager(viewpager)
         next.apply {
             setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.iconColor)
@@ -63,7 +65,8 @@ class IntroActivity : BaseActivity() {
             }
         }
         skip.setOnClickListener { finish() }
-        ripple.set(Prefs.backgroundColor)
+        ripple.set(color = Prefs.backgroundColor)
+
         theme()
     }
 
@@ -83,17 +86,24 @@ class IntroActivity : BaseActivity() {
 
     private fun ViewPager.init() {
         setPageTransformer(true) { page, position ->
+            var pageAlpha = 1f
+            var pageTranslationX = 0f
+
             // Only apply to adjacent pages
             if ((position < 0 && position > -1) || (position > 0 && position < 1)) {
                 val pageWidth = page.width
                 val translateValue = position * -pageWidth
-                page.translationX = if (translateValue > -pageWidth) translateValue else 0f
-                page.alpha = if (position < 0) 1 + position else 1f
-            } else {
-                page.alpha = 1f
-                page.translationX = 0f
+
+                pageAlpha = if (position < 0) 1 + position else 1f
+                pageTranslationX = if (translateValue > -pageWidth) translateValue else 0f
+            }
+
+            page.apply {
+                alpha = pageAlpha
+                translationX = pageTranslationX
             }
         }
+
         addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) = Unit
 
@@ -125,7 +135,6 @@ class IntroActivity : BaseActivity() {
             }
 
         })
-        adapter = this@IntroActivity.adapter
     }
 
     fun theme() {
@@ -133,33 +142,35 @@ class IntroActivity : BaseActivity() {
         navigationBarColor = Prefs.headerColor
         skip.setTextColor(Prefs.textColor)
         next.imageTintList = ColorStateList.valueOf(Prefs.textColor)
-        indicator.setColour(Prefs.textColor)
-        indicator.invalidate()
+        indicator.apply {
+            setColour(Prefs.textColor)
+            invalidate()
+        }
         fragments.forEach { fragment -> fragment.themeFragment() }
     }
 
     fun finish(x: Float, y: Float) {
-        val aardvarkGreen = Theme.FRUIT_SALAD
         window.setFlags(
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         )
+
         ripple.ripple(
-            color = aardvarkGreen,
+            color = Theme.AARDVARK_GREEN,
             startX = x,
             startY = y,
             duration = 600,
             callback = { postDelayed(delay = 1000) { finish() } }
         )
+
         arrayOf(
             skip,
             indicator,
             next,
             fragments.last().view?.find(R.id.intro_title)!!,
             fragments.last().view?.find(R.id.intro_desc)!!
-        ).forEach { view ->
-            view.animate()?.alpha(0f)?.setDuration(600)?.start()
-        }
+        ).forEach { view -> view.animate()?.alpha(0f)?.setDuration(600)?.start() }
+
         if (Prefs.textColor != Color.WHITE) {
             val image = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
             if (image != null) {
@@ -177,11 +188,12 @@ class IntroActivity : BaseActivity() {
                 }
             }
         }
-        if (Prefs.headerColor != aardvarkGreen) {
+
+        if (Prefs.headerColor != Theme.AARDVARK_GREEN) {
             ValueAnimator.ofFloat(0f, 1f).apply {
                 addUpdateListener { animator ->
                     val color = Prefs.headerColor.blendWith(
-                        color = aardvarkGreen,
+                        color = Theme.AARDVARK_GREEN,
                         ratio = animator.animatedValue as Float
                     )
                     statusBarColor = color
