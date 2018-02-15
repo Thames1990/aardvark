@@ -114,6 +114,7 @@ class MainActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             ACTIVITY_SETTINGS -> {
+                // TODO Use ActivityUtils restart() and restartApplication() once Kau updates
                 if (resultCode and REQUEST_RESTART > 0) {
                     // Fix until i figure out how to properly use restart
                     startActivity<MainActivity>()
