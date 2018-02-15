@@ -74,7 +74,7 @@ object Prefs : KPref() {
     var locationRequestPriorityType: Int by kpref("LOCATION_REQUEST_PRIORITY", 0)
     var mainActivityLayoutType: Int by kpref("MAIN_ACTIVITY_LAYOUT_TYPE", 1)
     var themeType: Int by kpref("THEME", 0, postSetter = { _: Int -> themeLoader.invalidate() })
-    var tintNavBar: Boolean by kpref("TINT_NAV_BAR", true)
+    var tintNavBar: Boolean by kpref("TINT_NAV_BAR", false)
     var secure_app: Boolean by kpref("USE_SECURE_FLAG", false)
     var usePaging: Boolean by kpref("USE_PAGING", false)
     var useWifiADB: Boolean by kpref("USE_WIFI_ADB", false)
