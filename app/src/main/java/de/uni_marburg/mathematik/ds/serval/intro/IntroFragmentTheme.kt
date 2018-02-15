@@ -48,7 +48,9 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
                 )
                 theme()
             }
-            themeList.forEach { it.animate().scaleXY(if (it == this) 1.6f else 0.8f).start() }
+            themeList.forEach { view ->
+                view.animate().scaleXY(if (view == this) 1.6f else 0.8f).start()
+            }
         }
     }
 }
