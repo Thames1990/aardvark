@@ -23,7 +23,6 @@ android {
 
         setProperty('archivesBaseName', "aardvark-$versionName")
         multiDexEnabled true
-        vectorDrawables.useSupportLibrary = true
 
         try {
             manifestPlaceholders = [KEY_FABRIC: KEY_FABRIC, KEY_GOOGLE_MAPS: KEY_GOOGLE_MAPS]
