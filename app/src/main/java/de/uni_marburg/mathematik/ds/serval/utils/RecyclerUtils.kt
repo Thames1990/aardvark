@@ -9,6 +9,9 @@ import ca.allanwang.kau.utils.drawable
 import ca.allanwang.kau.utils.tint
 import de.uni_marburg.mathematik.ds.serval.R
 
+/**
+ * Adds line dividers between items.
+ */
 fun RecyclerView.withDividerDecoration(
     context: Context,
     orientation: Int,
