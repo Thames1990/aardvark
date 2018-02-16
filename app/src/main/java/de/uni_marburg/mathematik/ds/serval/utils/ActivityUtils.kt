@@ -19,6 +19,10 @@ import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 
+/**
+ * Color the navigation bar with the specified [color][Prefs.headerColor], if the user activated
+ * [the setting][Prefs.tintNavBar]; [black][Color.BLACK] otherwise.
+ */
 fun Activity.themeNavigationBar() {
     navigationBarColor = if (Prefs.tintNavBar) Prefs.headerColor else Color.BLACK
 }
@@ -40,8 +44,10 @@ inline fun Activity.snackbarThemed(
 ) = snackbar(text, duration = Snackbar.LENGTH_LONG, builder = snackbarThemed(builder))
 
 /**
- * Restarts an activity from itself with a fade animation
- * Keeps its existing extra bundles and has a intentBuilder to accept other parameters
+ * Restarts an activity from itself with a fade animation.
+ *
+ * Keeps its existing extra bundles and has a [intent builder][intentBuilder] to accept other
+ * parameters.
  */
 inline fun Activity.restartActivity(intentBuilder: Intent.() -> Unit = {}) {
     val i = Intent(this, this::class.java)
@@ -55,9 +61,8 @@ inline fun Activity.restartActivity(intentBuilder: Intent.() -> Unit = {}) {
     overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
 }
 
-
 /**
- * Force restart an entire application
+ * Force restart the entire application.
  */
 @Suppress("NOTHING_TO_INLINE")
 @RequiresApi(Build.VERSION_CODES.M)
@@ -74,12 +79,19 @@ inline fun Activity.restartApplication() {
     System.exit(0)
 }
 
+/**
+ * Set all colors with the given [builder].
+ */
 inline fun Activity.setAardvarkColors(builder: ActivityThemeUtils.() -> Unit) {
     val themer = ActivityThemeUtils()
     themer.builder()
     themer.theme(this)
 }
 
+/**
+ * Set a light or dark theme based on the darkness of
+ * [the user specified background color][Prefs.backgroundColor].
+ */
 fun Activity.setAardvarkTheme() =
     if (Prefs.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
