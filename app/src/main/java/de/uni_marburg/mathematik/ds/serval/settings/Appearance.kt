@@ -49,7 +49,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefColorPicker.KPrefColorContract.dependsOnCustom() {
         enabler = Prefs::isCustomTheme
-        onDisabledClick = { aardvarkSnackbar(R.string.requires_custom_theme) }
+        onDisabledClick = { snackbarThemed(R.string.requires_custom_theme) }
         allowCustom = true
     }
 
@@ -101,7 +101,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         getter = Prefs::customHeaderColor,
         setter = { customHeaderColor ->
             Prefs.customHeaderColor = customHeaderColor
-            aardvarkNavigationBar()
+            themeNavigationBar()
             toolbarCanvas.ripple(
                 color = customHeaderColor,
                 startX = RippleCanvas.MIDDLE,
@@ -133,7 +133,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnCustom() {
         enabler = Prefs::isCustomTheme
-        onDisabledClick = { aardvarkSnackbar(R.string.requires_custom_theme) }
+        onDisabledClick = { snackbarThemed(R.string.requires_custom_theme) }
     }
 
     text(
@@ -202,7 +202,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         getter = Prefs::tintNavBar,
         setter = { tintNavBar ->
             Prefs.tintNavBar = tintNavBar
-            aardvarkNavigationBar()
+            themeNavigationBar()
             setAardvarkResult(MainActivity.REQUEST_NAV)
         },
         builder = { descRes = R.string.tint_nav_desc }

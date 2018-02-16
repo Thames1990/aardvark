@@ -19,19 +19,25 @@ import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 
-fun Activity.aardvarkNavigationBar() {
+fun Activity.themeNavigationBar() {
     navigationBarColor = if (Prefs.tintNavBar) Prefs.headerColor else Color.BLACK
 }
 
-inline fun Activity.aardvarkSnackbar(
+/**
+ * Show themed snackbar with [a text resource][textRes] and a given [builder].
+ */
+inline fun Activity.snackbarThemed(
     @StringRes textRes: Int,
     crossinline builder: Snackbar.() -> Unit = {}
-) = aardvarkSnackbar(text = string(textRes), builder = builder)
+) = snackbarThemed(text = string(textRes), builder = builder)
 
-inline fun Activity.aardvarkSnackbar(
+/**
+ * Show themed snackbar with the given [text] and [builder].
+ */
+inline fun Activity.snackbarThemed(
     text: String,
     crossinline builder: Snackbar.() -> Unit = {}
-) = snackbar(text, duration = Snackbar.LENGTH_LONG, builder = aardvarkSnackbar(builder))
+) = snackbar(text, duration = Snackbar.LENGTH_LONG, builder = snackbarThemed(builder))
 
 /**
  * Restarts an activity from itself with a fade animation

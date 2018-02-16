@@ -135,7 +135,7 @@ class SettingsActivity : KPrefActivity() {
             bgCanvas.set(color = Prefs.backgroundColor)
             toolbarCanvas.set(color = Prefs.headerColor)
         }
-        aardvarkNavigationBar()
+        themeNavigationBar()
     }
 
     fun setAardvarkResult(flag: Int) {

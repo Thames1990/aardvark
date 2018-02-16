@@ -112,7 +112,7 @@ class MainActivity : BaseActivity() {
                 // TODO Use ActivityUtils restart() and restartApplication() once Kau updates
                 if (resultCode and REQUEST_RESTART > 0) restartActivity()
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
-                if (resultCode and REQUEST_NAV > 0) aardvarkNavigationBar()
+                if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
             }
         }
     }

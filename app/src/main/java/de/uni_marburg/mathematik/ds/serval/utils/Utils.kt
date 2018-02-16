@@ -30,8 +30,11 @@ fun aardvarkAnswersCustom(name: String, vararg events: Pair<String, Any>) {
     }
 }
 
+/**
+ * Create themed snackbar.
+ */
 @SuppressLint("RestrictedApi")
-inline fun aardvarkSnackbar(crossinline builder: Snackbar.() -> Unit): Snackbar.() -> Unit = {
+inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.() -> Unit = {
     builder()
     // Hacky workaround, but it has proper checks and shouldn't crash
     ((view as? FrameLayout)?.getChildAt(0) as? SnackbarContentLayout)?.apply {

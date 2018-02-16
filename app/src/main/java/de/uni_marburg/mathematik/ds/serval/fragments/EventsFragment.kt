@@ -130,7 +130,7 @@ class EventsFragment : BaseFragment() {
                     }
                 } else {
                     isRefreshing = false
-                    aardvarkSnackbar(context.string(R.string.network_disconnected))
+                    snackbarThemed(context.string(R.string.network_disconnected))
                 }
             }
         }

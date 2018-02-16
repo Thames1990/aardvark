@@ -24,8 +24,8 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkLibrary
 import de.uni_marburg.mathematik.ds.serval.enums.AboutItem
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
+import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 class AboutActivity : AboutActivityBase(R.string::class.java, {
     textColor = Prefs.textColor
@@ -71,7 +71,7 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
                     // Enable debug settings if the user clicked 7 times in a short timespan
                     if (clickCount == 7 && !Prefs.debugSettings) {
                         Prefs.debugSettings = true
-                        aardvarkSnackbar(R.string.debug_enabled)
+                        snackbarThemed(R.string.debug_enabled)
                     }
                 }
                 false

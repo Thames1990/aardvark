@@ -11,9 +11,9 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.aardvarkSnackbar
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
+import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
@@ -35,12 +35,12 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnLocationPermission() {
         enabler = { hasLocationPermission }
-        onDisabledClick = { aardvarkSnackbar(R.string.requires_location_permission) }
+        onDisabledClick = { snackbarThemed(R.string.requires_location_permission) }
     }
 
     fun KPrefSeekbar.KPrefSeekbarContract.dependsOnLocationPermission() {
         enabler = { hasLocationPermission }
-        onDisabledClick = { aardvarkSnackbar(R.string.requires_location_permission) }
+        onDisabledClick = { snackbarThemed(R.string.requires_location_permission) }
     }
 
     // Location request priority
