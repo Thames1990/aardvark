@@ -13,7 +13,10 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventDatabase
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.setAardvarkColors
+import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
+import de.uni_marburg.mathematik.ds.serval.utils.timeToString
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -25,7 +28,6 @@ class DetailActivity : ElasticRecyclerActivity() {
     private lateinit var event: Event
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
-        setCurrentScreen()
         setSecureFlag()
         setAardvarkColors {
             header(appBar)

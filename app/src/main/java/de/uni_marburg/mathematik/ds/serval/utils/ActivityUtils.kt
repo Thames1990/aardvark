@@ -16,7 +16,6 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.content.systemService
 import ca.allanwang.kau.utils.*
-import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 
 /**
@@ -95,9 +94,6 @@ inline fun Activity.setAardvarkColors(builder: ActivityThemeUtils.() -> Unit) {
 fun Activity.setAardvarkTheme() =
     if (Prefs.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
-
-fun Activity.setCurrentScreen() =
-    Aardvark.firebaseAnalytics.setCurrentScreen(this, javaClass.simpleName, null)
 
 fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
     val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE

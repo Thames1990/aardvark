@@ -1,7 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.v7.widget.RecyclerView
@@ -24,7 +22,6 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkLibrary
 import de.uni_marburg.mathematik.ds.serval.enums.AboutItem
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 class AboutActivity : AboutActivityBase(R.string::class.java, {
@@ -40,11 +37,6 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
 
     private var lastClick: Long = -1L
     private var clickCount: Int = 0
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setCurrentScreen()
-    }
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark = Library().apply {

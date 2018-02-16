@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.activities
 import android.os.Bundle
 import ca.allanwang.kau.internal.KauBaseActivity
 import de.uni_marburg.mathematik.ds.serval.utils.setAardvarkTheme
-import de.uni_marburg.mathematik.ds.serval.utils.setCurrentScreen
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 
 abstract class BaseActivity : KauBaseActivity() {
@@ -23,7 +22,6 @@ abstract class BaseActivity : KauBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setCurrentScreen()
         setSecureFlag()
         setAardvarkTheme()
     }

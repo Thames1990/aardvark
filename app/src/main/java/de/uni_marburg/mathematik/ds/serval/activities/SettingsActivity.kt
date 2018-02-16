@@ -27,7 +27,6 @@ class SettingsActivity : KPrefActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setCurrentScreen()
         setSecureFlag()
         setAardvarkTheme()
 

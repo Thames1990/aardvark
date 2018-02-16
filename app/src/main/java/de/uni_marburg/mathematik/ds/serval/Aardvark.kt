@@ -7,7 +7,6 @@ import android.provider.Settings
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.github.ajalt.reprint.core.Reprint
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
@@ -17,7 +16,6 @@ import io.fabric.sdk.android.Fabric
 class Aardvark : Application() {
 
     companion object {
-        lateinit var firebaseAnalytics: FirebaseAnalytics
         lateinit var refWatcher: RefWatcher
     }
 
@@ -51,10 +49,6 @@ class Aardvark : Application() {
         if (analyticsEnabled) {
             Fabric.with(this.applicationContext, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(Settings.Secure.ANDROID_ID)
-        }
-
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this).apply {
-            setAnalyticsCollectionEnabled(analyticsEnabled)
         }
     }
 
