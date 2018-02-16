@@ -7,10 +7,14 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Intent
 import de.uni_marburg.mathematik.ds.serval.activities.FingerprintActivity
 
-/** Created by thames1990 on 03.12.17. */
 class AuthenticationListener(private val application: Application) : LifecycleObserver {
+
+    /**
+     * Requires fingerprint authentication and therefore opens
+     * [the fingerprint authentication activity][FingerprintActivity].
+     */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun authenticate() {
+    fun requireFingerprintAuthentication() {
         val fingerprintIntent = Intent(application, FingerprintActivity::class.java)
         fingerprintIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         application.startActivity(fingerprintIntent)
