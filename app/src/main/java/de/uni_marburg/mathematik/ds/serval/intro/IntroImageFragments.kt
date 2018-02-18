@@ -109,14 +109,14 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
                 fillAfter = true
             }
 
-            currentRotationDegrees -= 180.0f
-
             val rotateAnimationSet = AnimationSet(true).apply {
                 interpolator = DecelerateInterpolator()
                 fillAfter = true
                 isFillEnabled = true
                 addAnimation(rotateAnimation)
             }
+
+            currentRotationDegrees -= 180.0f
 
             // Flip
             image.setImageBitmap(image.drawable.toBitmap().mirrored())
@@ -126,11 +126,15 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
                 rotation = currentRotationDegrees
             }
 
+            // Set main activity layout type
             Prefs.mainActivityLayoutType =
                     if (currentRotationDegrees.rem(360.0f) == 0.0f)
                         MainActivityLayout.TOP_BAR.ordinal
                     else
                         MainActivityLayout.BOTTOM_BAR.ordinal
+
+            // Update text to indicate current main activity layout type
+            title.setTextWithFade(Prefs.mainActivityLayout.titleRes)
         }
     }
 
