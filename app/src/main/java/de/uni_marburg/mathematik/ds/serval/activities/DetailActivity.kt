@@ -21,6 +21,7 @@ import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /** Displays all details of an [event][Event]. */
 class DetailActivity : ElasticRecyclerActivity() {
@@ -63,8 +64,11 @@ class DetailActivity : ElasticRecyclerActivity() {
 
             val eventCardItem = CardIItem {
                 titleRes = R.string.time
-                val timeDifference = Calendar.getInstance().timeInMillis - event.time
-                desc = "${event.snippet}\n${timeDifference.timeToString(this@DetailActivity)}"
+                val eventTime = TimeUnit.SECONDS.toMillis(event.time)
+                val now = Calendar.getInstance().timeInMillis
+                val timeDifference = now - eventTime
+                val time: String = timeDifference.timeToString(this@DetailActivity)
+                desc = "${event.snippet}\n$time"
                 imageIIcon = GoogleMaterial.Icon.gmd_access_time
             }
             add(eventCardItem)

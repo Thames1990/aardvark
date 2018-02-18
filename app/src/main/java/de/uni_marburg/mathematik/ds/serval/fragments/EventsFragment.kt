@@ -27,6 +27,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class EventsFragment : BaseFragment() {
@@ -91,22 +92,22 @@ class EventsFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.sort_distance_ascending -> eventViewModel.sort(EventComparator.Distance)
-            R.id.sort_distance_descending -> eventViewModel.sort(
+            R.id.sort_distance_ascending      -> eventViewModel.sort(EventComparator.Distance)
+            R.id.sort_distance_descending     -> eventViewModel.sort(
                 eventComparator = EventComparator.Distance,
                 reversed = true
             )
-            R.id.sort_measurements_ascending -> eventViewModel.sort(EventComparator.Measurements)
+            R.id.sort_measurements_ascending  -> eventViewModel.sort(EventComparator.Measurements)
             R.id.sort_measurements_descending -> eventViewModel.sort(
                 eventComparator = EventComparator.Measurements,
                 reversed = true
             )
-            R.id.sort_time_ascending -> eventViewModel.sort(EventComparator.Time)
-            R.id.sort_time_descending -> eventViewModel.sort(
+            R.id.sort_time_ascending          -> eventViewModel.sort(EventComparator.Time)
+            R.id.sort_time_descending         -> eventViewModel.sort(
                 eventComparator = EventComparator.Time,
                 reversed = true
             )
-            else -> return super.onOptionsItemSelected(item)
+            else                              -> return super.onOptionsItemSelected(item)
         }
         return true
     }
@@ -185,7 +186,9 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     }
 
     private fun Event.displayTime() {
-        val timeDifference = Calendar.getInstance().timeInMillis - time
+        val eventTime = TimeUnit.SECONDS.toMillis(time)
+        val now = Calendar.getInstance().timeInMillis
+        val timeDifference = now - eventTime
         timeView.apply {
             text = timeDifference.timeToString(itemView.context)
             setTextColor(Prefs.textColor)

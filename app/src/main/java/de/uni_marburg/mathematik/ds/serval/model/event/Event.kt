@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 data class Data(
-    val time: Int,
+    val time: Long,
     val location: Location,
     val measurements: List<Measurement>
 )
@@ -28,7 +28,7 @@ data class Event(
     val data: Data
 ) : ClusterItem {
 
-    inline val time: Int
+    inline val time: Long
         get() = data.time
 
     inline val location: Location
@@ -46,7 +46,7 @@ data class Event(
             DateFormat.SHORT,
             Locale.getDefault()
         )
-        return format.format(data.time)
+        return format.format(time)
     }
 
     override fun getLongitude(): Double = data.location.longitude
