@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
+import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageButton
@@ -35,8 +36,6 @@ class IntroActivity : BaseActivity() {
     private val skip: Button by bindView(R.id.intro_skip)
     private val viewpager: ViewPager by bindView(R.id.intro_viewpager)
 
-    private lateinit var adapter: IntroPageAdapter
-
     private var barHasNext = true
 
     private val fragments = listOf(
@@ -50,9 +49,10 @@ class IntroActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
-        adapter = IntroPageAdapter(supportFragmentManager, fragments)
-        viewpager.init()
-        viewpager.adapter = adapter
+        viewpager.apply {
+            init()
+            adapter = IntroPageAdapter(supportFragmentManager, fragments)
+        }
         indicator.setViewPager(viewpager)
         next.apply {
             setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.iconColor)
@@ -163,13 +163,19 @@ class IntroActivity : BaseActivity() {
             callback = { postDelayed(delay = 1000) { finish() } }
         )
 
+        @Suppress("RemoveExplicitTypeArguments")
         arrayOf(
             skip,
             indicator,
             next,
-            fragments.last().view?.find(R.id.intro_title)!!,
-            fragments.last().view?.find(R.id.intro_desc)!!
-        ).forEach { view -> view.animate()?.alpha(0f)?.setDuration(600)?.start() }
+            fragments.last().view?.find<View>(R.id.intro_title),
+            fragments.last().view?.find<View>(R.id.intro_desc)
+        ).forEach { view ->
+            view?.animate()
+                ?.alpha(0f)
+                ?.setDuration(600)
+                ?.start()
+        }
 
         if (Prefs.textColor != Color.WHITE) {
             val image = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
