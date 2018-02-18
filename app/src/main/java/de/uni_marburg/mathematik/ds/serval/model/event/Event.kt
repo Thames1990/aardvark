@@ -16,40 +16,46 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+data class Data(
+    val time: Int,
+    val location: Location,
+    val measurements: List<Measurement>
+)
+
 @Entity(tableName = "events")
 data class Event(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val time: Long,
-    @Json(name = "location") val geohashLocation: GeohashLocation,
-    val measurements: List<Measurement>
+    @PrimaryKey val id: String,
+    val data: Data
 ) : ClusterItem {
 
-    val location: Location
-        get() = Location(BuildConfig.APPLICATION_ID).apply {
-            latitude = geohashLocation.latitude
-            longitude = geohashLocation.longitude
-        }
+    inline val time: Int
+        get() = data.time
 
-    val position: LatLng
-        get() = LatLng(latitude, longitude)
+    inline val location: Location
+        get() = data.location
 
-    override fun getLatitude(): Double = location.latitude
+    inline val position: LatLng
+        get() = LatLng(location.latitude, location.longitude)
 
-    override fun getLongitude(): Double = location.longitude
+    inline val measurements: List<Measurement>
+        get() = data.measurements
 
-    override fun getTitle(): String = javaClass.simpleName
-
-    override fun getSnippet(): String {
+    override fun getSnippet(): String? {
         val format = SimpleDateFormat.getDateTimeInstance(
             DateFormat.LONG,
             DateFormat.SHORT,
             Locale.getDefault()
         )
-        return format.format(time)
+        return format.format(data.time)
     }
-}
 
-data class GeohashLocation(val latitude: Double, val longitude: Double, val geohash: String)
+    override fun getLongitude(): Double = data.location.longitude
+
+    override fun getLatitude(): Double = data.location.latitude
+
+    override fun getTitle(): String? = javaClass.simpleName
+
+}
 
 data class Measurement(val type: MeasurementType, val value: Int)
 

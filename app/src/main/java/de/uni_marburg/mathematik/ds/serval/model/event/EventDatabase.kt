@@ -3,12 +3,14 @@ package de.uni_marburg.mathematik.ds.serval.model.event
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.*
 import android.content.Context
+import android.location.Location
 import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import java.util.concurrent.Executors
 
-@Database(entities = [Event::class], version = 1, exportSchema = false)
+@Database(entities = [Event::class], version = 2, exportSchema = false)
 @TypeConverters(EventConverters::class)
 abstract class EventDatabase : RoomDatabase() {
 
@@ -38,12 +40,20 @@ abstract class EventDatabase : RoomDatabase() {
 
 class EventConverters {
 
-    private val listType = Types.newParameterizedType(List::class.java, Measurement::class.java)
-    private val measurementsAdapter: JsonAdapter<List<Measurement>> =
-        EventRepository.moshi.adapter(listType)
+    private val moshi: Moshi = EventRepository.moshi
 
-    private val geohashLocationAdapter: JsonAdapter<GeohashLocation> =
-        EventRepository.moshi.adapter(GeohashLocation::class.java)
+    private val dataAdapter: JsonAdapter<Data> = moshi.adapter(Data::class.java)
+
+    private val type = Types.newParameterizedType(List::class.java, Measurement::class.java)
+    private val measurementsAdapter: JsonAdapter<List<Measurement>> = moshi.adapter(type)
+
+    private val locationAdapter: JsonAdapter<Location> = moshi.adapter(Location::class.java)
+
+    @TypeConverter
+    fun fromDataJson(json: String): Data? = dataAdapter.fromJson(json)
+
+    @TypeConverter
+    fun fromData(data: Data): String = dataAdapter.toJson(data)
 
     @TypeConverter
     fun fromMeasurementJson(json: String): List<Measurement> =
@@ -53,16 +63,10 @@ class EventConverters {
     fun fromMeasurementList(list: List<Measurement>): String = measurementsAdapter.toJson(list)
 
     @TypeConverter
-    fun fromGeohashLocationJson(json: String): GeohashLocation =
-        geohashLocationAdapter.fromJson(json) ?: GeohashLocation(
-            latitude = 0.0,
-            longitude = 0.0,
-            geohash = ""
-        )
+    fun fromGeohashJson(json: String): Location = locationAdapter.fromJson(json) ?: Location("")
 
     @TypeConverter
-    fun fromGeohashLocationObject(geohashLocation: GeohashLocation): String =
-        geohashLocationAdapter.toJson(geohashLocation)
+    fun fromLocation(location: Location): String = locationAdapter.toJson(location)
 }
 
 private val ioExecutor = Executors.newSingleThreadExecutor()
