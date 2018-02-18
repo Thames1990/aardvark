@@ -96,10 +96,10 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
         image.rotation = currentRotationDegrees
 
         icon.setOnClickListener {
-            // TODO Figure out why first rotation is wrong
+            // TODO Figure out why rotation from 180.0 to 0.0 is wrong
             val rotateAnimation = RotateAnimation(
-                icon.rotation,
-                icon.rotation - 180.0f,
+                currentRotationDegrees,
+                currentRotationDegrees - 180.0f,
                 RotateAnimation.RELATIVE_TO_SELF,
                 0.5f,
                 RotateAnimation.RELATIVE_TO_SELF,
