@@ -21,7 +21,7 @@ versions.moshi = "1.5.0"
 versions.okhttp = "3.9.1"
 versions.paging = "1.0.0-alpha5"
 versions.reprint = "3.2.1@aar"
-versions.room = "1.1.0-alpha1"
+versions.room = "1.1.0-alpha2"
 versions.weather_icons_typeface = "2.0.10.4@aar"
 ext.versions = versions
 

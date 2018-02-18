@@ -5,6 +5,7 @@ import android.arch.persistence.room.*
 import android.content.Context
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Types
+import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import java.util.concurrent.Executors
 
 @Database(entities = [Event::class], version = 1, exportSchema = false)
