@@ -1,17 +1,22 @@
 package de.uni_marburg.mathematik.ds.serval.intro
 
+import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.view.View
+import android.view.animation.AnimationSet
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.RotateAnimation
 import android.widget.ImageView
+import androidx.view.toBitmap
 import ca.allanwang.kau.utils.*
-import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import kotlin.math.absoluteValue
 
 abstract class BaseImageIntroFragment(
@@ -70,10 +75,64 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
     descRes = R.string.intro_easy_navigation_desc
 ) {
 
+    private val animationDuration = 1500L
+
+    private var currentRotationDegrees = when (Prefs.mainActivityLayout) {
+        MainActivityLayout.TOP_BAR -> 0.0f
+        MainActivityLayout.BOTTOM_BAR -> 180.0f
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        icon.visible().setIcon(icon = GoogleMaterial.Icon.gmd_edit, sizeDp = 24)
-        icon.setOnClickListener { it.snackbarThemed(R.string.editing_tabs_coming_soon) }
+
+        icon.apply {
+            visible()
+            setIcon(
+                icon = CommunityMaterial.Icon.cmd_arrow_down,
+                sizeDp = 24,
+                color = Prefs.textColor
+            )
+            rotation = currentRotationDegrees
+        }
+        image.rotation = currentRotationDegrees
+
+        icon.setOnClickListener {
+            // TODO Figure out why first rotation is wrong
+            val rotateAnimation = RotateAnimation(
+                icon.rotation,
+                icon.rotation - 180.0f,
+                RotateAnimation.RELATIVE_TO_SELF,
+                0.5f,
+                RotateAnimation.RELATIVE_TO_SELF,
+                0.5f
+            ).apply {
+                duration = animationDuration
+                fillAfter = true
+            }
+
+            currentRotationDegrees -= 180.0f
+
+            val rotateAnimationSet = AnimationSet(true).apply {
+                interpolator = DecelerateInterpolator()
+                fillAfter = true
+                isFillEnabled = true
+                addAnimation(rotateAnimation)
+            }
+
+            // Flip
+            image.setImageBitmap(image.toBitmap().mirrored())
+            // Rotate
+            image.startAnimation(rotateAnimationSet)
+            icon.fadeScaleTransition(duration = animationDuration) {
+                rotation = currentRotationDegrees
+            }
+
+            Prefs.mainActivityLayoutType =
+                    if (currentRotationDegrees.rem(360.0f) == 0.0f)
+                        MainActivityLayout.TOP_BAR.ordinal
+                    else
+                        MainActivityLayout.BOTTOM_BAR.ordinal
+        }
     }
 
     override fun themeFragmentImpl() {
@@ -95,5 +154,44 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
             color = Prefs.textColor.withAlpha(80),
             ids = *intArrayOf(R.id.intro_phone_icon_ripple)
         )
+    }
+
+    /**
+     * Mirror bitmap.
+     *
+     * TODO Figure out why this shrinkens the final bitmap.
+     */
+    private fun Bitmap.mirrored(): Bitmap {
+        val matrix = Matrix().apply {
+            preScale(-1.0f, 1.0f)
+        }
+
+        val reflection = Bitmap.createBitmap(
+            this,
+            0,
+            0,
+            width,
+            height,
+            matrix,
+            false
+        )
+
+        val canvas = Canvas(reflection).apply {
+            drawBitmap(reflection, 0.0f, 0.0f, null)
+        }
+
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
+        }
+
+        canvas.drawRect(
+            0.0f,
+            0.0f,
+            width.toFloat(),
+            height.toFloat(),
+            paint
+        )
+
+        return reflection
     }
 }
