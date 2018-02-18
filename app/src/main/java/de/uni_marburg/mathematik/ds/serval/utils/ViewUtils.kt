@@ -5,6 +5,9 @@ import android.support.design.widget.Snackbar
 import android.view.View
 import ca.allanwang.kau.utils.snackbar
 
+/**
+ * Show themed snackbar with [a text resource][textRes] and a given [builder].
+ */
 inline fun View.snackbarThemed(
     @StringRes textRes: Int,
     crossinline builder: Snackbar.() -> Unit = {}
@@ -14,6 +17,9 @@ inline fun View.snackbarThemed(
     builder = snackbarThemed(builder)
 )
 
+/**
+ * Show themed snackbar with the given [text] and [builder].
+ */
 inline fun View.snackbarThemed(
     text: String,
     crossinline builder: Snackbar.() -> Unit = {}
