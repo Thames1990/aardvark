@@ -14,11 +14,17 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import java.util.concurrent.TimeUnit
 
+/**
+ * Create Fabric Answers instance.
+ */
 inline fun aardvarkAnswers(action: Answers.() -> Unit) {
     if (BuildConfig.DEBUG || !Prefs.analytics) return
     Answers.getInstance().action()
 }
 
+/**
+ * Log custom events to Fabric Answers.
+ */
 fun aardvarkAnswersCustom(name: String, vararg events: Pair<String, Any>) {
     if (!BuildConfig.DEBUG && Prefs.analytics) aardvarkAnswers {
         logCustom(CustomEvent("Aardvark $name").apply {
@@ -47,12 +53,16 @@ inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.()
     }
 }
 
-/** Converts distance in meters **/
+/**
+ * Converts distance in meters in formatted string with meters/kilometers.
+ */
 fun Float.distanceToString(context: Context): String =
     if (this < 1000) String.format(context.string(R.string.distance_in_meter), this)
     else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
 
-/** Converts UNIX time to human readable information in relation to the current time **/
+/**
+ * Converts UNIX time to human readable information in relation to the current time.
+ */
 fun Long.timeToString(context: Context): String {
     val id: Int
     val quantity: Long
@@ -79,6 +89,9 @@ fun Long.timeToString(context: Context): String {
     return context.plural(id, quantity)
 }
 
+/**
+ * Theme material dialog.
+ */
 fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     val dimmerTextColor = Prefs.textColor.adjustAlpha(0.8f)
     titleColor(Prefs.textColor)
@@ -88,6 +101,7 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     positiveColor(Prefs.textColor)
     negativeColor(Prefs.textColor)
     neutralColor(Prefs.textColor)
+    buildIsLollipopAndUp
     return this
 }
 
