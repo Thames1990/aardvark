@@ -11,7 +11,6 @@ import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
-import androidx.view.toBitmap
 import ca.allanwang.kau.utils.*
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
@@ -120,7 +119,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
             }
 
             // Flip
-            image.setImageBitmap(image.toBitmap().mirrored())
+            image.setImageBitmap(image.drawable.toBitmap().mirrored())
             // Rotate
             image.startAnimation(rotateAnimationSet)
             icon.fadeScaleTransition(duration = animationDuration) {
@@ -158,8 +157,6 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
 
     /**
      * Mirror bitmap.
-     *
-     * TODO Figure out why this shrinkens the final bitmap.
      */
     private fun Bitmap.mirrored(): Bitmap {
         val matrix = Matrix().apply {
