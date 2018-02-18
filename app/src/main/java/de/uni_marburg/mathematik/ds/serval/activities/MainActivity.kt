@@ -39,6 +39,7 @@ import org.jetbrains.anko.uiThread
 class MainActivity : BaseActivity() {
 
     private lateinit var eventViewModel: EventViewModel
+    private lateinit var locationViewModel: LocationViewModel
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
     private val bottomNavigation: AHBottomNavigation by bindView(R.id.bottom_navigation)
@@ -90,16 +91,21 @@ class MainActivity : BaseActivity() {
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
         eventViewModel.events.observe(this, Observer { bottomNavigation.reloadTabs() })
-        ViewModelProviders.of(this).get(LocationViewModel::class.java).location.observe(
-            this,
-            Observer { location -> if (location != null) lastLocation = location }
-        )
 
-        EventRepository.progressObservable
-            .observeOn(Schedulers.computation())
-            .subscribe { progressEvent ->
-                if (progressEvent.percentIsAvailable) progressBar.progress = progressEvent.progress
-            }
+        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
+        locationViewModel.location.observe(this, Observer { location ->
+            if (location != null) lastLocation = location
+        })
+
+        if (Prefs.useProgressBar) {
+            progressBar.visible()
+            EventRepository.progressObservable
+                .observeOn(Schedulers.computation())
+                .subscribe { progressEvent ->
+                    if (progressEvent.percentIsAvailable)
+                        progressBar.progress = progressEvent.progress
+                }
+        }
 
         checkForNewVersion()
     }

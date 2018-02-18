@@ -7,6 +7,7 @@ import ca.allanwang.kau.utils.shareText
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs.useProgressBar
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import java.io.DataOutputStream
 import java.lang.Runtime.getRuntime
@@ -28,12 +29,27 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     )
 
-    plainText(R.string.preference_share_wifi_adb_command) {
-        descRes = R.string.preference_share_adb_command_description
-        enabler = Prefs::useWifiADB
-        onDisabledClick = { snackbarThemed(getString(R.string.preference_enable_wifi_adb_hint)) }
-        onClick = { shareWifiAdbCommand() }
-    }
+    plainText(
+        title = R.string.preference_share_wifi_adb_command,
+        builder = {
+            descRes = R.string.preference_share_adb_command_description
+            enabler = Prefs::useWifiADB
+            onDisabledClick = {
+                snackbarThemed(getString(R.string.preference_enable_wifi_adb_hint))
+            }
+            onClick = { shareWifiAdbCommand() }
+        }
+    )
+
+    checkbox(
+        title = R.string.preference_progress_bar,
+        getter = Prefs::useProgressBar,
+        setter = { Prefs.useProgressBar = it },
+        builder = {
+            descRes = R.string.preference_progress_bar_description
+            shouldRestartMain()
+        }
+    )
 }
 
 /** Enables WifiADB and lets the user send ADB connection information. */

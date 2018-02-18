@@ -166,6 +166,8 @@
     <string name="preference_enable_wifi_adb">Enable WiFi ADB</string>
     <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>
     <string name="preference_password_description">Serval API password</string>
+    <string name="preference_progress_bar">Show event download progress</string>
+    <string name="preference_progress_bar_description">Event download progress is shown in toolbar</string>
     <string name="preference_reset_analytics">Reset analytics</string>
     <string name="preference_reset_analytics_confirmation">Your analytics collection was removed</string>
     <string name="preference_reset_analytics_description">Do you want to delete all collected analytics data?</string>

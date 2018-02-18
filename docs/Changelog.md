@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.3
+* Add progress bar for current event download status
+
 ## 0.8.2
 * Add custom map styles
 * Add setting to toggle viewpager slide navigation
