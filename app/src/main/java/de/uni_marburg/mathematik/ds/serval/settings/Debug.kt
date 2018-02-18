@@ -50,6 +50,16 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             shouldRestartMain()
         }
     )
+
+    checkbox(
+        title = R.string.preference_vibration,
+        getter = Prefs::useVibration,
+        setter = { Prefs.useVibration = it },
+        builder = {
+            descRes = R.string.preference_vibration_description
+            shouldRestartApplication()
+        }
+    )
 }
 
 /** Enables WifiADB and lets the user send ADB connection information. */

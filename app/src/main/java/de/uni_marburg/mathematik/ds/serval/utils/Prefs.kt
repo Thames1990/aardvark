@@ -78,6 +78,7 @@ object Prefs : KPref() {
     var secure_app: Boolean by kpref("USE_SECURE_FLAG", false)
     var usePaging: Boolean by kpref("USE_PAGING", false)
     var useProgressBar: Boolean by kpref("USE_PROGRESS_BAR", false)
+    var useVibration: Boolean by kpref("USE_VIBRATION", false)
     var useWifiADB: Boolean by kpref("USE_WIFI_ADB", false)
     var versionCode: Int by kpref("VERSION", -1)
 }

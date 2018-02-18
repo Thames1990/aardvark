@@ -46,7 +46,7 @@ class FingerprintActivity : BaseActivity() {
                 errorCode: Int
             ) {
                 description.text = errorMessage
-                vibrate()
+                if (Prefs.useVibration) vibrate()
             }
         })
     }
