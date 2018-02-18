@@ -1,7 +1,10 @@
 # Changelog
 
 ## 0.8.3
-* Add progress bar for current event download status
+* Minor bug fixes and performance improvements
+* Add performance analytics
+* Add main activity layout toggle in intro
+* Update dependencies
 
 ## 0.8.2
 * Add custom map styles
