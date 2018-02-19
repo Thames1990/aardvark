@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.model.event
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.*
 import android.content.Context
+import ca.allanwang.kau.utils.isNetworkAvailable
 import com.squareup.moshi.JsonAdapter
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import java.util.concurrent.Executors
@@ -25,7 +26,12 @@ abstract class EventDatabase : RoomDatabase() {
                     BuildConfig.APPLICATION_ID
                 ).addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) = ioThread {
-                        get(context).eventDao().insert(EventRepository.fetch())
+                        if (context.isNetworkAvailable) {
+                            val events: List<Event> = EventRepository.fetch()
+                            val eventDatabase: EventDatabase = get(context)
+                            val dao: EventDao = eventDatabase.eventDao()
+                            dao.insert(events)
+                        }
                     }
                 }).build()
             }

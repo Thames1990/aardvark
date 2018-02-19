@@ -185,8 +185,10 @@ class MainActivity : BaseActivity() {
         setItemDisableColor(Prefs.iconColor.darken(0.8f))
         setNotificationBackgroundColor(Prefs.accentColor)
         setOnTabSelectedListener { position, wasReselected ->
-            if (wasReselected) eventViewModel.reload()
-            else {
+            if (wasReselected) {
+                if (isNetworkAvailable) eventViewModel.reload()
+                else snackbarThemed(string(R.string.network_disconnected))
+            } else {
                 viewPager.setCurrentItem(position, Prefs.animate)
                 appBar.setExpanded(true, Prefs.animate)
             }
