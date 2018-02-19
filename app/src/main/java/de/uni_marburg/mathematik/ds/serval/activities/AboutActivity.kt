@@ -22,20 +22,40 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkLibrary
 import de.uni_marburg.mathematik.ds.serval.enums.AboutItem
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
-class AboutActivity : AboutActivityBase(R.string::class.java, {
-    textColor = Prefs.textColor
-    accentColor = Prefs.accentColor
-    backgroundColor = Prefs.backgroundColor.withMinAlpha(200)
-    cutoutForeground = Prefs.accentColor
-    cutoutDrawableRes = R.drawable.aardvark
-    faqPageTitleRes = R.string.faq_title
-    faqXmlRes = R.xml.aardvark_faq
-    faqParseNewLine = false
-}) {
+/**
+ * Shows details about the application, used open-source libraries and frequently asked questions.
+ */
+class AboutActivity : AboutActivityBase(
+    rClass = R.string::class.java,
+    configBuilder = {
+        textColor = Prefs.textColor
+        accentColor = Prefs.accentColor
+        backgroundColor = Prefs.backgroundColor.withMinAlpha(200)
+        cutoutForeground = Prefs.accentColor
+        cutoutDrawableRes = R.drawable.aardvark
+        faqPageTitleRes = R.string.faq_title
+        faqXmlRes = R.xml.aardvark_faq
+        faqParseNewLine = false
+    }
+) {
 
+    /**
+     * Saves the last time, the Aardvark library item was clicked.
+     */
     private var lastClick: Long = -1L
+
+    /**
+     * The timespan the Aardvark library item can be clicked to activate debug settings.
+     */
+    private val debugClickTimeSpan: Long = 500L
+
+    /**
+     * Saves the click count on the Aardvark library item in
+     * [a timespan of milliseconds][debugClickTimeSpan].
+     */
     private var clickCount: Int = 0
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
@@ -56,9 +76,9 @@ class AboutActivity : AboutActivityBase(R.string::class.java, {
             add(AboutLinks())
             withOnClickListener { _, _, item, _ ->
                 if (item is LibraryIItem) {
-                    val now = System.currentTimeMillis()
+                    val now = currentTimeInMillis
                     // Only register clicks within a timespan of 500 milliseconds
-                    if (now - lastClick > 500) clickCount = 0 else clickCount++
+                    if (now - lastClick > debugClickTimeSpan) clickCount = 0 else clickCount++
                     lastClick = now
                     // Enable debug settings if the user clicked 7 times in a short timespan
                     if (clickCount == 7 && !Prefs.debugSettings) {

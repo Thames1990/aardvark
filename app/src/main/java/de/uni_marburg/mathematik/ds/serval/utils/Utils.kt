@@ -116,3 +116,10 @@ inline val currentTimeInSeconds: Long
         return if (buildIsOreoAndUp) Instant.now().epochSecond
         else Calendar.getInstance().get(Calendar.SECOND).toLong()
     }
+
+inline val currentTimeInMillis: Long
+    @SuppressLint("NewApi")
+    get() {
+        return if (buildIsOreoAndUp) Instant.now().toEpochMilli()
+        else Calendar.getInstance().timeInMillis
+    }
