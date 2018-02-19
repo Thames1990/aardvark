@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.provider.Settings
 import android.support.annotation.StringRes
 import androidx.content.systemService
 import ca.allanwang.kau.email.EmailBuilder
@@ -15,6 +14,7 @@ import ca.allanwang.kau.utils.isFinishing
 import ca.allanwang.kau.utils.string
 import ca.allanwang.kau.xml.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 
 inline val Context.hasLocationPermission: Boolean
@@ -46,7 +46,7 @@ inline fun Context.sendAardvarkEmail(
     subject = subject,
     builder = {
         builder()
-        addItem(string(R.string.aardvark_id), Settings.Secure.ANDROID_ID)
+        addItem(string(R.string.aardvark_id), Aardvark.aardvarkId)
     }
 )
 

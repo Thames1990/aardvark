@@ -3,10 +3,10 @@ package de.uni_marburg.mathematik.ds.serval
 import android.app.Application
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ProcessLifecycleOwner
-import android.provider.Settings
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.github.ajalt.reprint.core.Reprint
+import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
@@ -16,6 +16,7 @@ import io.fabric.sdk.android.Fabric
 class Aardvark : Application() {
 
     companion object {
+        lateinit var aardvarkId: String
         lateinit var refWatcher: RefWatcher
     }
 
@@ -30,6 +31,8 @@ class Aardvark : Application() {
     }
 
     private fun initialize() {
+        aardvarkId = FirebaseInstanceId.getInstance().id
+
         Prefs.initialize(this.applicationContext, BuildConfig.APPLICATION_ID)
 
         Reprint.initialize(this.applicationContext)
@@ -48,7 +51,7 @@ class Aardvark : Application() {
 
         if (analyticsEnabled) {
             Fabric.with(this.applicationContext, Crashlytics(), Answers())
-            Crashlytics.setUserIdentifier(Settings.Secure.ANDROID_ID)
+            Crashlytics.setUserIdentifier(Aardvark.aardvarkId)
         }
     }
 

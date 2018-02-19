@@ -11,6 +11,7 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.Support
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventDatabase
 import de.uni_marburg.mathematik.ds.serval.utils.*
@@ -19,7 +20,9 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
 
-/** Displays all details of an [event][Event]. */
+/**
+ * Displays all details of an [event][Event].
+ */
 class DetailActivity : ElasticRecyclerActivity() {
 
     private lateinit var event: Event
@@ -40,7 +43,7 @@ class DetailActivity : ElasticRecyclerActivity() {
             uiThread { setupAdapter() }
         }
 
-        fab.apply {
+        if (::event.isInitialized) fab.apply {
             setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
             setOnClickListener { showInGoogleMaps() }
             show()
@@ -51,32 +54,48 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     private fun setupAdapter() {
+        val adapter = FastItemAdapter<IItem<*, *>>()
+        val context = this
         val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
 
-        title = event.title
+        if (::event.isInitialized) {
+            title = event.title
 
-        recycler.adapter = FastItemAdapter<IItem<*, *>>().apply {
-            if (showMap) add(MapIItem(event))
+            adapter.apply {
+                if (showMap) add(MapIItem(event))
 
-            val eventCardItem = CardIItem {
-                titleRes = R.string.time
-                val timeDifference = currentTimeInSeconds - event.time
-                val timeDifferenceString: String = timeDifference.timeToString(this@DetailActivity)
-                desc = "${event.snippet}\n$timeDifferenceString"
-                imageIIcon = GoogleMaterial.Icon.gmd_access_time
-            }
-            add(eventCardItem)
-
-            event.measurements.map { measurement ->
-                val measurementCardItem = CardIItem {
-                    titleRes = measurement.type.titleRes
-                    desc = String.format(string(measurement.type.formatRes), measurement.value)
-                    imageIIcon = measurement.type.iicon
-                    imageIIconColor = Prefs.iconColor
+                val eventCardItem = CardIItem {
+                    titleRes = R.string.time
+                    val timeDifference = currentTimeInSeconds - event.time
+                    val timeDifferenceString: String = timeDifference.timeToString(context)
+                    desc = "${event.snippet}\n$timeDifferenceString"
+                    imageIIcon = GoogleMaterial.Icon.gmd_access_time
                 }
-                add(measurementCardItem)
+                add(eventCardItem)
+
+                event.measurements.map { measurement ->
+                    val measurementCardItem = CardIItem {
+                        titleRes = measurement.type.titleRes
+                        desc = String.format(string(measurement.type.formatRes), measurement.value)
+                        imageIIcon = measurement.type.iicon
+                        imageIIconColor = Prefs.iconColor
+                    }
+                    add(measurementCardItem)
+                }
+            }
+        } else {
+            title = string(R.string.event_missing)
+            adapter.apply {
+                val missingEventCard = CardIItem {
+                    descRes = R.string.event_missing_description
+                    buttonRes = R.string.report_bug
+                    buttonClick = { Support.BUG.sendEmail(context) }
+                }
+                add(missingEventCard)
             }
         }
+
+        recycler.adapter = adapter
     }
 
     private fun showInGoogleMaps() {

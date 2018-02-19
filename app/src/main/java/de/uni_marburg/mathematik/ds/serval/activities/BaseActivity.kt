@@ -1,10 +1,17 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import ca.allanwang.kau.internal.KauBaseActivity
 import de.uni_marburg.mathematik.ds.serval.utils.setAardvarkTheme
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 
+/**
+ * Base activity for any activity that would have extended [AppCompatActivity].
+ *
+ * Ensures that some singleton methods are called.
+ * This is simply a convenience class.
+ */
 abstract class BaseActivity : KauBaseActivity() {
 
     /**

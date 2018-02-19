@@ -67,6 +67,8 @@
     <string name="event_count">Event count</string>
     <string name="event_count_description">Define how many events should be loaded</string>
     <string name="event_loading_time">Loading events took %1$d ms</string>
+    <string name="event_missing">Event is missing</string>
+    <string name="event_missing_description">This event couldn\'t be loaded from the database. If this happens more than once, please contact the developer with a bug report.</string>
 
     <string name="events">Events</string>
 
@@ -182,6 +184,8 @@
     <string name="preference_vibration_description">Vibrate on failed fingerprint unlock</string>
 
     <string name="replay_intro">Replay Introduction</string>
+
+    <string name="report_bug">Report bug</string>
 
     <string name="repository_link_aardvark" translatable="false">https://github.com/Thames1990/aardvark</string>
     <string name="repository_link_kerval" translatable="false">https://github.com/CryptoCopter/kerval</string>

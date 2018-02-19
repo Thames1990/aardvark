@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
-import android.provider.Settings
 import android.support.design.widget.AppBarLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -21,6 +20,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
@@ -211,7 +211,7 @@ class MainActivity : BaseActivity() {
                     "Version code" to BuildConfig.VERSION_CODE,
                     "Version name" to BuildConfig.VERSION_NAME,
                     "Build type" to BuildConfig.BUILD_TYPE,
-                    "Aardvark id" to Settings.Secure.ANDROID_ID
+                    "Aardvark id" to Aardvark.aardvarkId
                 )
             )
         }
