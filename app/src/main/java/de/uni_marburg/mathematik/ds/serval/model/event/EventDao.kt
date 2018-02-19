@@ -27,7 +27,7 @@ interface EventDao {
     @Insert
     fun insert(vararg events: Event)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(events: List<Event>)
 
     @Query("DELETE FROM events")
