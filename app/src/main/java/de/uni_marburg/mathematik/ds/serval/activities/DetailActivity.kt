@@ -54,7 +54,6 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private fun setupAdapter() {
         val adapter = FastItemAdapter<IItem<*, *>>()
-        val context = this
         val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
 
         if (::event.isInitialized) {
@@ -66,7 +65,8 @@ class DetailActivity : ElasticRecyclerActivity() {
                 val eventCardItem = CardIItem {
                     titleRes = R.string.time
                     val timeDifference = currentTimeInSeconds - event.time
-                    val timeDifferenceString: String = timeDifference.timeToString(context)
+                    val timeDifferenceString: String =
+                        timeDifference.timeToString(this@DetailActivity)
                     desc = "${event.snippet}\n$timeDifferenceString"
                     imageIIcon = GoogleMaterial.Icon.gmd_access_time
                 }
@@ -88,7 +88,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 val missingEventCard = CardIItem {
                     descRes = R.string.event_missing_description
                     buttonRes = R.string.report_bug
-                    buttonClick = { Support.BUG.sendEmail(context) }
+                    buttonClick = { Support.BUG.sendEmail(this@DetailActivity) }
                 }
                 add(missingEventCard)
             }

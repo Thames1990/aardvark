@@ -42,19 +42,19 @@ class AboutActivity : AboutActivityBase(
     }
 ) {
 
+    companion object {
+        const val DEBUG_CLICK_TIMESPAN = 500L
+        const val DEBUG_CLICK_COUNT = 7
+    }
+
     /**
      * Saves the last time, the Aardvark library item was clicked.
      */
     private var lastClick: Long = -1L
 
     /**
-     * The timespan the Aardvark library item can be clicked to activate debug settings.
-     */
-    private val debugClickTimeSpan: Long = 500L
-
-    /**
      * Saves the click count on the Aardvark library item in
-     * [a timespan of milliseconds][debugClickTimeSpan].
+     * [a timespan of milliseconds][DEBUG_CLICK_TIMESPAN].
      */
     private var clickCount: Int = 0
 
@@ -77,11 +77,9 @@ class AboutActivity : AboutActivityBase(
             withOnClickListener { _, _, item, _ ->
                 if (item is LibraryIItem) {
                     val now = currentTimeInMillis
-                    // Only register clicks within a timespan of 500 milliseconds
-                    if (now - lastClick > debugClickTimeSpan) clickCount = 0 else clickCount++
+                    if (now - lastClick > DEBUG_CLICK_TIMESPAN) clickCount = 0 else clickCount++
                     lastClick = now
-                    // Enable debug settings if the user clicked 7 times in a short timespan
-                    if (clickCount == 7 && !Prefs.debugSettings) {
+                    if (clickCount == DEBUG_CLICK_COUNT && !Prefs.debugSettings) {
                         Prefs.debugSettings = true
                         snackbarThemed(R.string.debug_enabled)
                     }
