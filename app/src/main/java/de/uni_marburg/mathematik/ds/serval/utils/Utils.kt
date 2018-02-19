@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.support.design.internal.SnackbarContentLayout
 import android.support.design.widget.Snackbar
 import android.widget.FrameLayout
@@ -106,9 +105,6 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     buildIsLollipopAndUp
     return this
 }
-
-inline val buildIsOreoAndUp: Boolean
-    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
 inline val currentTimeInSeconds: Long
     @SuppressLint("NewApi")

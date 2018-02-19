@@ -64,6 +64,8 @@
 
     <string name="editing_tabs_coming_soon">Editing tabs coming soon™</string>
 
+    <string name="enable">Enable</string>
+
     <string name="event_count">Event count</string>
     <string name="event_count_description">Define how many events should be loaded</string>
     <string name="event_loading_time">Loading events took %1$d ms</string>
@@ -88,7 +90,12 @@
 
     <string name="global_customization">Global Customization</string>
 
+    <string name="google_maps_not_enabled">Google Maps is not enabled</string>
+    <string name="google_maps_not_installed">Google Maps is not installed</string>
+
     <string name="grant_location_permission">Grant location permission to use and customize location features.\nAfter you granted permission, exit settings and Aardvark will restart itself, affecting changes.</string>
+
+    <string name="install">Install</string>
 
     <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
 

@@ -5,8 +5,7 @@ import android.os.Bundle
 import androidx.net.toUri
 import ca.allanwang.kau.iitems.CardIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
-import ca.allanwang.kau.utils.setIcon
-import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.*
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -99,20 +98,29 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     private fun showInGoogleMaps() {
-        val action: String = Intent.ACTION_VIEW
+        if (isAppInstalled(GOOGLE_MAPS)) {
+            if (isAppEnabled(GOOGLE_MAPS)) {
+                val action: String = Intent.ACTION_VIEW
 
-        val uriFormat: String = string(R.string.intent_uri_show_in_google_maps)
-        val uriValues = arrayOf(
-            // English localization forces dot delimeter
-            String.format(Locale.ENGLISH, "%.5f", event.location.latitude),
-            String.format(Locale.ENGLISH, "%.5f", event.location.longitude),
-            event.title
+                val uriFormat: String = string(R.string.intent_uri_show_in_google_maps)
+                val uriValues = arrayOf(
+                    // English localization forces dot delimeter
+                    String.format(Locale.ENGLISH, "%.5f", event.location.latitude),
+                    String.format(Locale.ENGLISH, "%.5f", event.location.longitude),
+                    event.title
+                )
+                val uri = String.format(uriFormat, *uriValues).toUri()
+
+                val navigationIntent = Intent(action, uri).apply { `package` = GOOGLE_MAPS }
+                startActivity(navigationIntent)
+            } else snackbarThemed(
+                textRes = R.string.google_maps_not_enabled,
+                builder = { setAction(R.string.enable, { showAppInfo(GOOGLE_MAPS) }) }
+            )
+        } else snackbarThemed(
+            textRes = R.string.google_maps_not_installed,
+            builder = { setAction(R.string.install, { startPlayStoreLink(GOOGLE_MAPS) }) }
         )
-        val uri = String.format(uriFormat, *uriValues).toUri()
-
-        val navigationIntent = Intent(action, uri)
-        navigationIntent.`package` = "com.google.android.apps.maps"
-        startActivity(navigationIntent)
     }
 
     companion object {
