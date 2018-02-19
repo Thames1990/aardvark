@@ -13,7 +13,7 @@ interface EventDao {
     fun count(): Int
 
     @Query("SELECT * FROM events WHERE id = :id")
-    fun getById(id: Long): Event
+    fun getById(id: String): Event
 
     @Query("SELECT * FROM events")
     fun getAll(): List<Event>

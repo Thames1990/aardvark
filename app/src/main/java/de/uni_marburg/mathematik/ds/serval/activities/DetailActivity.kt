@@ -40,7 +40,7 @@ class DetailActivity : ElasticRecyclerActivity() {
             event = EventDatabase
                 .get(this@DetailActivity)
                 .eventDao()
-                .getById(intent.extras.getLong(EVENT_ID))
+                .getById(intent.extras.getString(EVENT_ID))
             uiThread { setupAdapter() }
         }
 
