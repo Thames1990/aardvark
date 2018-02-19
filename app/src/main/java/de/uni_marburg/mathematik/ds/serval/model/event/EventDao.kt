@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.model.event
 import android.arch.paging.DataSource
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
+import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 
 @Dao
@@ -12,7 +13,7 @@ interface EventDao {
     fun count(): Int
 
     @Query("SELECT * FROM events WHERE id = :id")
-    fun getById(id: Long): Event
+    fun getById(id: String): Event
 
     @Query("SELECT * FROM events")
     fun getAll(): List<Event>
@@ -26,7 +27,7 @@ interface EventDao {
     @Insert
     fun insert(vararg events: Event)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(events: List<Event>)
 
     @Query("DELETE FROM events")

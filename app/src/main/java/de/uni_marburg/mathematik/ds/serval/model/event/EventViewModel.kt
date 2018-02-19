@@ -25,7 +25,6 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     fun sort(eventComparator: EventComparator, reversed: Boolean = false) = ioThread {
         val events: List<Event> = EventRepository.fetch()
-        dao.deleteAll()
         val sortedEvents: List<Event> = eventComparator.sort(events, reversed)
         dao.insert(sortedEvents)
     }
@@ -35,7 +34,6 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     fun getAll() = dao.getAll()
 
     fun reload() = ioThread {
-        dao.deleteAll()
         val events: List<Event> = EventRepository.fetch()
         dao.insert(events)
     }
@@ -67,8 +65,8 @@ sealed class EventComparator {
     object Time : EventComparator() {
         override fun sort(events: List<Event>, reversed: Boolean): List<Event> =
             events.sortedBy { event ->
-                if (reversed) -event.time
-                else event.time
+                if (reversed) event.time
+                else -event.time
             }
     }
 

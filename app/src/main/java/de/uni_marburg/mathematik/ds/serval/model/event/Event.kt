@@ -15,39 +15,52 @@ import net.sharewire.googlemapsclustering.ClusterItem
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @Entity(tableName = "events")
 data class Event(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val time: Long,
-    @Json(name = "location") val geohashLocation: GeohashLocation,
-    val measurements: List<Measurement>
+    @PrimaryKey val id: String,
+    val data: Data
 ) : ClusterItem {
 
-    val location: Location
+    inline val time: Long
+        get() = data.time
+
+    inline val location: Location
         get() = Location(BuildConfig.APPLICATION_ID).apply {
-            latitude = geohashLocation.latitude
-            longitude = geohashLocation.longitude
+            latitude = data.geohashLocation.latitude
+            longitude = data.geohashLocation.longitude
         }
 
-    val position: LatLng
-        get() = LatLng(latitude, longitude)
+    inline val position: LatLng
+        get() = LatLng(location.latitude, location.longitude)
 
-    override fun getLatitude(): Double = location.latitude
+    inline val measurements: List<Measurement>
+        get() = data.measurements
 
-    override fun getLongitude(): Double = location.longitude
-
-    override fun getTitle(): String = javaClass.simpleName
-
-    override fun getSnippet(): String {
+    override fun getSnippet(): String? {
         val format = SimpleDateFormat.getDateTimeInstance(
             DateFormat.LONG,
             DateFormat.SHORT,
             Locale.getDefault()
         )
-        return format.format(time)
+        return format.format(TimeUnit.SECONDS.toMillis(time))
     }
+
+    override fun getLongitude(): Double = data.geohashLocation.longitude
+
+    override fun getLatitude(): Double = data.geohashLocation.latitude
+
+    override fun getTitle(): String? = javaClass.simpleName
+
 }
+
+data class Data(
+    val time: Long,
+    @Json(name = "location") val geohashLocation: GeohashLocation,
+    val measurements: List<Measurement>
+)
+
 
 data class GeohashLocation(val latitude: Double, val longitude: Double, val geohash: String)
 

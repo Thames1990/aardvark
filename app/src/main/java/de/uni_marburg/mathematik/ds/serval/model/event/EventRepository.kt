@@ -47,10 +47,8 @@ object EventRepository {
                     val rawReader: BufferedReader = raw.byteInputStream().bufferedReader()
 
                     rawReader.forEachLine { line ->
-                        if (line.isNotEmpty()) {
-                            val event: Event? = eventAdapter.fromJson(line)
-                            if (event != null) events.add(event)
-                        }
+                        val event: Event? = eventAdapter.fromJson(line)
+                        if (event != null) events.add(event)
                     }
                 }
             }

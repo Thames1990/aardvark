@@ -12,6 +12,8 @@ import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import java.time.Instant
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -68,21 +70,21 @@ fun Long.timeToString(context: Context): String {
     val quantity: Long
 
     when {
-        TimeUnit.MILLISECONDS.toSeconds(this) < 60 -> {
+        this < 60 -> {
             id = R.plurals.kau_x_seconds
-            quantity = TimeUnit.MILLISECONDS.toSeconds(this)
+            quantity = this
         }
-        TimeUnit.MILLISECONDS.toMinutes(this) < 60 -> {
+        TimeUnit.SECONDS.toMinutes(this) < 60 -> {
             id = R.plurals.kau_x_minutes
-            quantity = TimeUnit.MILLISECONDS.toMinutes(this)
+            quantity = TimeUnit.SECONDS.toMinutes(this)
         }
-        TimeUnit.MILLISECONDS.toHours(this) < 24 -> {
+        TimeUnit.SECONDS.toHours(this) < 24 -> {
             id = R.plurals.kau_x_hours
-            quantity = TimeUnit.MILLISECONDS.toHours(this)
+            quantity = TimeUnit.SECONDS.toHours(this)
         }
         else -> {
             id = R.plurals.kau_x_days
-            quantity = TimeUnit.MILLISECONDS.toDays(this)
+            quantity = TimeUnit.SECONDS.toDays(this)
         }
     }
 
@@ -107,3 +109,10 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
 
 inline val buildIsOreoAndUp: Boolean
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+
+inline val currentTimeInSeconds: Long
+    @SuppressLint("NewApi")
+    get() {
+        return if (buildIsOreoAndUp) Instant.now().epochSecond
+        else Calendar.getInstance().get(Calendar.SECOND).toLong()
+    }

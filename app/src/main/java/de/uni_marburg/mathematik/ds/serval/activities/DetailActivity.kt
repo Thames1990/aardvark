@@ -13,10 +13,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventDatabase
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.setAardvarkColors
-import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
-import de.uni_marburg.mathematik.ds.serval.utils.timeToString
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -39,7 +36,7 @@ class DetailActivity : ElasticRecyclerActivity() {
             event = EventDatabase
                 .get(this@DetailActivity)
                 .eventDao()
-                .getById(intent.extras.getLong(EVENT_ID))
+                .getById(intent.extras.getString(EVENT_ID))
             uiThread { setupAdapter() }
         }
 
@@ -63,8 +60,9 @@ class DetailActivity : ElasticRecyclerActivity() {
 
             val eventCardItem = CardIItem {
                 titleRes = R.string.time
-                val timeDifference = Calendar.getInstance().timeInMillis - event.time
-                desc = "${event.snippet}\n${timeDifference.timeToString(this@DetailActivity)}"
+                val timeDifference = currentTimeInSeconds - event.time
+                val timeDifferenceString: String = timeDifference.timeToString(this@DetailActivity)
+                desc = "${event.snippet}\n$timeDifferenceString"
                 imageIIcon = GoogleMaterial.Icon.gmd_access_time
             }
             add(eventCardItem)
