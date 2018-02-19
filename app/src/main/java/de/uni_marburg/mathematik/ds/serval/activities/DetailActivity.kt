@@ -13,15 +13,11 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventDatabase
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.setAardvarkColors
-import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
-import de.uni_marburg.mathematik.ds.serval.utils.timeToString
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 /** Displays all details of an [event][Event]. */
 class DetailActivity : ElasticRecyclerActivity() {
@@ -64,9 +60,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
             val eventCardItem = CardIItem {
                 titleRes = R.string.time
-                val eventTime: Long = TimeUnit.SECONDS.toMillis(event.time)
-                val now: Long = Calendar.getInstance().timeInMillis
-                val timeDifference: Long = now - eventTime
+                val timeDifference = currentTimeInSeconds - event.time
                 val timeDifferenceString: String = timeDifference.timeToString(this@DetailActivity)
                 desc = "${event.snippet}\n$timeDifferenceString"
                 imageIIcon = GoogleMaterial.Icon.gmd_access_time

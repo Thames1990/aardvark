@@ -15,6 +15,7 @@ import net.sharewire.googlemapsclustering.ClusterItem
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @Entity(tableName = "events")
 data class Event(
@@ -43,7 +44,7 @@ data class Event(
             DateFormat.SHORT,
             Locale.getDefault()
         )
-        return format.format(time)
+        return format.format(TimeUnit.SECONDS.toMillis(time))
     }
 
     override fun getLongitude(): Double = data.geohashLocation.longitude

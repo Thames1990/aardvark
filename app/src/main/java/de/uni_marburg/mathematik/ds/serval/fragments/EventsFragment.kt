@@ -26,8 +26,6 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class EventsFragment : BaseFragment() {
@@ -186,9 +184,7 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     }
 
     private fun Event.displayTime() {
-        val eventTime = TimeUnit.SECONDS.toMillis(time)
-        val now = Calendar.getInstance().timeInMillis
-        val timeDifference = now - eventTime
+        val timeDifference = currentTimeInSeconds - time
         timeView.apply {
             text = timeDifference.timeToString(itemView.context)
             setTextColor(Prefs.textColor)
