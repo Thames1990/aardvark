@@ -16,12 +16,6 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class Data(
-    val time: Long,
-    val location: Location,
-    val measurements: List<Measurement>
-)
-
 @Entity(tableName = "events")
 data class Event(
     @PrimaryKey val id: String,
@@ -32,7 +26,10 @@ data class Event(
         get() = data.time
 
     inline val location: Location
-        get() = data.location
+        get() = Location(BuildConfig.APPLICATION_ID).apply {
+            latitude = data.geohashLocation.latitude
+            longitude = data.geohashLocation.longitude
+        }
 
     inline val position: LatLng
         get() = LatLng(location.latitude, location.longitude)
@@ -49,13 +46,22 @@ data class Event(
         return format.format(time)
     }
 
-    override fun getLongitude(): Double = data.location.longitude
+    override fun getLongitude(): Double = data.geohashLocation.longitude
 
-    override fun getLatitude(): Double = data.location.latitude
+    override fun getLatitude(): Double = data.geohashLocation.latitude
 
     override fun getTitle(): String? = javaClass.simpleName
 
 }
+
+data class Data(
+    val time: Long,
+    @Json(name = "location") val geohashLocation: GeohashLocation,
+    val measurements: List<Measurement>
+)
+
+
+data class GeohashLocation(val latitude: Double, val longitude: Double, val geohash: String)
 
 data class Measurement(val type: MeasurementType, val value: Int)
 

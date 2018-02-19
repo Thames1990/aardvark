@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.model.event
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.*
 import android.content.Context
-import android.location.Location
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -47,7 +46,8 @@ class EventConverters {
     private val type = Types.newParameterizedType(List::class.java, Measurement::class.java)
     private val measurementsAdapter: JsonAdapter<List<Measurement>> = moshi.adapter(type)
 
-    private val locationAdapter: JsonAdapter<Location> = moshi.adapter(Location::class.java)
+    private val geohashLocationAdapter: JsonAdapter<GeohashLocation> =
+        moshi.adapter(GeohashLocation::class.java)
 
     @TypeConverter
     fun fromDataJson(json: String): Data? = dataAdapter.fromJson(json)
@@ -63,10 +63,16 @@ class EventConverters {
     fun fromMeasurementList(list: List<Measurement>): String = measurementsAdapter.toJson(list)
 
     @TypeConverter
-    fun fromGeohashJson(json: String): Location = locationAdapter.fromJson(json) ?: Location("")
+    fun fromGeohashLocationJson(json: String): GeohashLocation =
+        geohashLocationAdapter.fromJson(json) ?: GeohashLocation(
+            latitude = 0.0,
+            longitude = 0.0,
+            geohash = ""
+        )
 
     @TypeConverter
-    fun fromLocation(location: Location): String = locationAdapter.toJson(location)
+    fun fromGeohashLocation(geohashLocation: GeohashLocation): String =
+        geohashLocationAdapter.toJson(geohashLocation)
 }
 
 private val ioExecutor = Executors.newSingleThreadExecutor()
