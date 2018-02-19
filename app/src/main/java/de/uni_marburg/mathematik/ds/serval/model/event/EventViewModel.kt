@@ -65,8 +65,8 @@ sealed class EventComparator {
     object Time : EventComparator() {
         override fun sort(events: List<Event>, reversed: Boolean): List<Event> =
             events.sortedBy { event ->
-                if (reversed) -event.time
-                else event.time
+                if (reversed) event.time
+                else -event.time
             }
     }
 
