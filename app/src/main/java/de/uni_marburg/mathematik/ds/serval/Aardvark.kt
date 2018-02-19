@@ -6,6 +6,7 @@ import android.arch.lifecycle.ProcessLifecycleOwner
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.github.ajalt.reprint.core.Reprint
+import com.google.firebase.FirebaseApp
 import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
@@ -31,11 +32,12 @@ class Aardvark : Application() {
     }
 
     private fun initialize() {
+        FirebaseApp.initializeApp(applicationContext)
         aardvarkId = FirebaseInstanceId.getInstance().id
 
-        Prefs.initialize(this.applicationContext, BuildConfig.APPLICATION_ID)
+        Prefs.initialize(applicationContext, BuildConfig.APPLICATION_ID)
 
-        Reprint.initialize(this.applicationContext)
+        Reprint.initialize(applicationContext)
         authenticationListener = AuthenticationListener(this)
         lifecycle = ProcessLifecycleOwner.get().lifecycle
         setupAuthentication()
@@ -50,7 +52,7 @@ class Aardvark : Application() {
         val analyticsEnabled = !BuildConfig.DEBUG && Prefs.analytics
 
         if (analyticsEnabled) {
-            Fabric.with(this.applicationContext, Crashlytics(), Answers())
+            Fabric.with(applicationContext, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(Aardvark.aardvarkId)
         }
     }
