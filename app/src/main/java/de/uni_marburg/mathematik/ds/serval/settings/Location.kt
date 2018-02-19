@@ -1,11 +1,9 @@
 package de.uni_marburg.mathematik.ds.serval.settings
 
-import android.content.Intent
-import android.net.Uri
-import android.provider.Settings
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.activity.items.KPrefSeekbar
 import ca.allanwang.kau.kpref.activity.items.KPrefText
+import ca.allanwang.kau.utils.showAppInfo
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
@@ -18,11 +16,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun openPermissionSettings() {
-        val permissionIntent = Intent().apply {
-            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            data = Uri.fromParts("package", packageName, null)
-        }
-        startActivity(permissionIntent)
+        showAppInfo(packageName)
         shouldRestartMain()
     }
 
