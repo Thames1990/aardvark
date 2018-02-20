@@ -31,20 +31,20 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 class AboutActivity : AboutActivityBase(
     rClass = R.string::class.java,
     configBuilder = {
-        textColor = Prefs.textColor
         accentColor = Prefs.accentColor
         backgroundColor = Prefs.backgroundColor.withMinAlpha(200)
-        cutoutForeground = Prefs.accentColor
         cutoutDrawableRes = R.drawable.aardvark
+        cutoutForeground = Prefs.accentColor
         faqPageTitleRes = R.string.faq_title
-        faqXmlRes = R.xml.aardvark_faq
         faqParseNewLine = false
+        faqXmlRes = R.xml.aardvark_faq
+        textColor = Prefs.textColor
     }
 ) {
 
     companion object {
-        const val DEBUG_CLICK_TIMESPAN = 500L
-        const val DEBUG_CLICK_COUNT = 7
+        private const val DEBUG_CLICK_COUNT = 7
+        private const val DEBUG_CLICK_TIMESPAN = 500L
     }
 
     /**
