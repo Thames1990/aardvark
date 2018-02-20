@@ -55,6 +55,9 @@ class AboutActivity : AboutActivityBase(
     /**
      * Saves the click count on the Aardvark library item in
      * [a timespan of milliseconds][DEBUG_CLICK_TIMESPAN].
+     *
+     * If this reaches [a specified count][DEBUG_CLICK_COUNT], the debug settings are getting
+     * activated and revealed.
      */
     private var clickCount: Int = 0
 
