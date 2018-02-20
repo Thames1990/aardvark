@@ -8,6 +8,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs.useProgressBar
+import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import java.io.DataOutputStream
 import java.lang.Runtime.getRuntime
@@ -16,6 +17,7 @@ import java.net.InetAddress
 
 /** Created by thames1990 on 09.12.17. */
 fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
+
     plainText(R.string.debug_disclaimer_info)
 
     checkbox(
@@ -39,6 +41,27 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             }
             onClick = { shareWifiAdbCommand() }
         }
+    )
+
+    checkbox(
+        title = R.string.paging,
+        getter = Prefs::usePaging,
+        setter = { usePaging ->
+            Prefs.usePaging = usePaging
+            shouldRestartMain()
+        },
+        builder = { descRes = R.string.paging_description }
+    )
+
+    checkbox(
+        title = R.string.secure_app,
+        getter = Prefs::secure_app,
+        setter = { secure_app ->
+            Prefs.secure_app = secure_app
+            setSecureFlag()
+            shouldRestartApplication()
+        },
+        builder = { descRes = R.string.secure_app_desc }
     )
 
     checkbox(

@@ -7,20 +7,9 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
-import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
-
-    checkbox(
-        title = R.string.paging,
-        getter = Prefs::usePaging,
-        setter = { usePaging ->
-            Prefs.usePaging = usePaging
-            shouldRestartMain()
-        },
-        builder = { descRes = R.string.paging_description }
-    )
 
     checkbox(
         title = R.string.fancy_animations,
@@ -44,17 +33,6 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         title = R.string.preference_confirm_exit,
         getter = Prefs::exitConfirmation,
         setter = { Prefs.exitConfirmation = it }
-    )
-
-    checkbox(
-        title = R.string.secure_app,
-        getter = Prefs::secure_app,
-        setter = { secure_app ->
-            Prefs.secure_app = secure_app
-            setSecureFlag()
-            shouldRestartApplication()
-        },
-        builder = { descRes = R.string.secure_app_desc }
     )
 
     checkbox(
