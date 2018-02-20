@@ -6,6 +6,15 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
 
+/**
+ * Preference sub items.
+ *
+ * Those structure the settings into logical or meaningful parts.
+ *
+ * @property titleRes Resource ID of the title
+ * @property descRes Resource ID of the description
+ * @property iicon Icon shown on the left side
+ */
 enum class PreferenceSubItem(
     @StringRes val titleRes: Int,
     @StringRes val descRes: Int,

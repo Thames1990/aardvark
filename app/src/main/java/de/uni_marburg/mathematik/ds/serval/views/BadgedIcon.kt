@@ -18,8 +18,8 @@ class BadgedIcon @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    val badgeTextView: TextView by bindView(R.id.badge_text)
-    val badgeImage: ImageView by bindView(R.id.badge_image)
+    private val badgeTextView: TextView by bindView(R.id.badge_text)
+    private val badgeImage: ImageView by bindView(R.id.badge_image)
 
     init {
         View.inflate(context, R.layout.view_badged_icon, this)

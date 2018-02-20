@@ -5,6 +5,16 @@ import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
+/**
+ * Defines a layout theme.
+ *
+ * @property titleRes Resource ID of the title
+ * @property textColor Color used for text
+ * @property accentColor Color used to call attention to key elements
+ * @property backgroundColor Color used for backgrounds
+ * @property headerColor Color used for the toolbar
+ * @property iconColor Color used for icons
+ */
 enum class Theme(
     @StringRes val titleRes: Int,
     private val textColorGetter: () -> Int,
@@ -50,13 +60,10 @@ enum class Theme(
         iconColorGetter = Prefs::customIconColor
     );
 
-    val textColor: Int
-        get() = textColorGetter()
-
     val accentColor: Int
         get() = accentColorGetter()
 
-    val bgColor: Int
+    val backgroundColor: Int
         get() = backgroundColorGetter()
 
     val headerColor: Int
@@ -64,6 +71,9 @@ enum class Theme(
 
     val iconColor: Int
         get() = iconColorGetter()
+
+    val textColor: Int
+        get() = textColorGetter()
 
     companion object {
         operator fun invoke(index: Int) = values()[index]

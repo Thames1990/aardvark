@@ -10,7 +10,7 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.Support
+import de.uni_marburg.mathematik.ds.serval.enums.SupportTopic
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventDatabase
 import de.uni_marburg.mathematik.ds.serval.utils.*
@@ -39,6 +39,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 .get(this@DetailActivity)
                 .eventDao()
                 .getById(intent.extras.getString(EVENT_ID))
+
             uiThread {
                 setupAdapter()
                 fab.apply {
@@ -88,7 +89,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 val missingEventCard = CardIItem {
                     descRes = R.string.event_missing_description
                     buttonRes = R.string.report_bug
-                    buttonClick = { Support.BUG.sendEmail(this@DetailActivity) }
+                    buttonClick = { SupportTopic.BUG.sendEmail(this@DetailActivity) }
                 }
                 add(missingEventCard)
             }

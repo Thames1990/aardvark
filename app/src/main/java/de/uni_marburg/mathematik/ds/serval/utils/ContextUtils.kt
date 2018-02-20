@@ -33,12 +33,12 @@ inline fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Uni
     return builder.show()
 }
 
-inline fun Context.sendAardvarkEmail(
+inline fun Context.sendSupportEmail(
     @StringRes subjectId: Int,
     crossinline builder: EmailBuilder.() -> Unit
-) = sendAardvarkEmail(subject = string(subjectId), builder = builder)
+) = sendSupportEmail(subject = string(subjectId), builder = builder)
 
-inline fun Context.sendAardvarkEmail(
+inline fun Context.sendSupportEmail(
     subject: String,
     crossinline builder: EmailBuilder.() -> Unit
 ) = sendEmail(

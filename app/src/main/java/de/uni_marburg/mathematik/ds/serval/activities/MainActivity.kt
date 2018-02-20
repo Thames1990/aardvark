@@ -17,7 +17,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.AardvarkItem
+import de.uni_marburg.mathematik.ds.serval.enums.TabItem
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
@@ -75,7 +75,7 @@ class MainActivity : BaseActivity() {
             if (location != null) lastLocation = location
         })
 
-        if (Prefs.useProgressBar) {
+        if (Prefs.showDownloadProgress) {
             progressBar.visible()
             EventRepository.progressObservable
                 .observeOn(Schedulers.computation())
@@ -169,7 +169,7 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        AardvarkItem.values().map {
+        TabItem.values().map {
             val badgedIcon = BadgedIcon(this@MainActivity).apply { iicon = it.iicon }
             val tab: TabLayout.Tab = newTab().setCustomView(badgedIcon)
             addTab(tab)

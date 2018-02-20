@@ -15,7 +15,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.DebugPreferenceSubItem
 import de.uni_marburg.mathematik.ds.serval.enums.PreferenceSubItem
-import de.uni_marburg.mathematik.ds.serval.enums.Support
+import de.uni_marburg.mathematik.ds.serval.enums.SupportTopic
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
@@ -109,8 +109,8 @@ class SettingsActivity : KPrefActivity() {
         when (item.itemId) {
             R.id.action_email -> materialDialogThemed {
                 title(R.string.subject)
-                items(Support.values().map { string(it.titleRes) })
-                itemsCallback { _, _, which, _ -> Support.values()[which].sendEmail(context) }
+                items(SupportTopic.values().map { string(it.titleRes) })
+                itemsCallback { _, _, which, _ -> SupportTopic.values()[which].sendEmail(context) }
             }
             R.id.action_changelog -> showChangelog()
             else -> return super.onOptionsItemSelected(item)

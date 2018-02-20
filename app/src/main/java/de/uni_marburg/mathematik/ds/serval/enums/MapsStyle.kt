@@ -4,6 +4,12 @@ import android.support.annotation.RawRes
 import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
 
+/**
+ * Defines the style of the map.
+ *
+ * @property titleRes Resource ID of the title
+ * @property style Resource ID to the JSON file describing the style
+ */
 enum class MapsStyle(@StringRes val titleRes: Int, @RawRes val style: Int) {
 
     STANDARD(

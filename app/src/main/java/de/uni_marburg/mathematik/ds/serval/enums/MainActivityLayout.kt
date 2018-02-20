@@ -5,6 +5,12 @@ import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 
+/**
+ * Defines the layout of the main activity.
+ *
+ * @property titleRes Resource ID of the title
+ * @property layoutRes Resource ID of the layout
+ */
 enum class MainActivityLayout(
     @StringRes val titleRes: Int,
     @LayoutRes val layoutRes: Int,

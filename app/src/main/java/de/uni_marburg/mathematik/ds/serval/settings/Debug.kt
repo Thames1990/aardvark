@@ -65,8 +65,8 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_progress_bar,
-        getter = Prefs::useProgressBar,
-        setter = { Prefs.useProgressBar = it },
+        getter = Prefs::showDownloadProgress,
+        setter = { Prefs.showDownloadProgress = it },
         builder = {
             descRes = R.string.preference_progress_bar_description
             shouldRestartMain()

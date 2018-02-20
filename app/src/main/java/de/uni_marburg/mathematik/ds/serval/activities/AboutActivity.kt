@@ -19,7 +19,7 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.items.AbstractItem
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.AardvarkLibrary
+import de.uni_marburg.mathematik.ds.serval.enums.OpenSourceLibrary
 import de.uni_marburg.mathematik.ds.serval.enums.AboutLinkItem
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
@@ -94,7 +94,7 @@ class AboutActivity : AboutActivityBase(
 
     override fun getLibraries(libs: Libs): List<Library> {
         val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
-        AardvarkLibrary.values().map { library ->
+        OpenSourceLibrary.values().map { library ->
             libraries.add(Library().apply {
                 author = string(library.authorRes)
                 libraryDescription = if (library.libraryDescriptionRes != null) {

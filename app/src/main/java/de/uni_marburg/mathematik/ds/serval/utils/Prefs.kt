@@ -22,7 +22,7 @@ object Prefs : KPref() {
     val accentColor: Int
         get() = theme.accentColor
     val backgroundColor: Int
-        get() = theme.bgColor
+        get() = theme.backgroundColor
     val headerColor: Int
         get() = theme.headerColor
     val iconColor: Int
@@ -78,7 +78,7 @@ object Prefs : KPref() {
     )
     var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
     var secure_app: Boolean by kpref(key = "USE_SECURE_FLAG", fallback = false)
-    var useProgressBar: Boolean by kpref(key = "USE_PROGRESS_BAR", fallback = false)
+    var showDownloadProgress: Boolean by kpref(key = "USE_PROGRESS_BAR", fallback = false)
     var useVibration: Boolean by kpref(key = "USE_VIBRATION", fallback = false)
     var useWifiADB: Boolean by kpref(key = "USE_WIFI_ADB", fallback = false)
     var versionCode: Int by kpref(key = "VERSION", fallback = -1)
