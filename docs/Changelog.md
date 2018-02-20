@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.4
+* Adapt to new data structure
+* Replace bottom navigation with top and bottom tab layout
+* Improve header theme design
+* Improve event sorting performance
+* Minor fixes and performance improvements
+
 ## 0.8.3
 * Minor bug fixes and performance improvements
 * Add performance analytics
