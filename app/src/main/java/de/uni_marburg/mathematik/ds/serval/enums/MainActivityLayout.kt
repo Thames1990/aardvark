@@ -21,12 +21,10 @@ enum class MainActivityLayout(
 
     BOTTOM_BAR(
         titleRes = R.string.bottom_bar,
-        layoutRes = R.layout.activity_main_bottom_navigation,
+        layoutRes = R.layout.activity_main_bottom_tabs,
         backgroundColorGetter = Prefs::backgroundColor,
         iconColorGetter = Prefs::textColor
     );
-
-    // TODO Correctly use background and icon color
 
     val backgroundColor: Int
         get() = backgroundColorGetter()

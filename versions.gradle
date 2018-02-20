@@ -2,7 +2,6 @@ ext.deps = [:]
 def versions = [:]
 versions.android_git_version = "0.4.3"
 versions.android_gradle_plugin = "3.0.1"
-versions.ah_bottom_navigation = "2.2.0"
 versions.community_material_typeface = "2.0.46.1@aar"
 versions.crashlytics = "2.9.0@aar"
 versions.dexcount = "0.8.2"
@@ -71,7 +70,6 @@ deps.room = room
 
 deps.android_git_version = "gradle.plugin.com.gladed.gradle.androidgitversion:gradle-android-git-version:$versions.android_git_version"
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
-deps.ah_bottom_navigation = "com.aurelhubert:ahbottomnavigation:$versions.ah_bottom_navigation"
 deps.crashlytics = "com.crashlytics.sdk.android:crashlytics:$versions.crashlytics"
 deps.dexcount_gradle_plugin = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$versions.dexcount"
 deps.fabric_gradle_plugin = "io.fabric.tools:gradle:$versions.fabric_gradle_plugin"
