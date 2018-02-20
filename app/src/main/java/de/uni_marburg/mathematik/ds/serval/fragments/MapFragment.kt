@@ -68,7 +68,7 @@ class MapFragment : BaseFragment() {
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
         // Relocate camera to include all event markers on device orientation changes
-        googleMap.zoomToAllMarkers()
+        if (::googleMap.isInitialized) googleMap.zoomToAllMarkers()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
