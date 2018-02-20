@@ -39,14 +39,16 @@ class DetailActivity : ElasticRecyclerActivity() {
                 .get(this@DetailActivity)
                 .eventDao()
                 .getById(intent.extras.getString(EVENT_ID))
-            uiThread { setupAdapter() }
+            uiThread {
+                setupAdapter()
+                fab.apply {
+                    setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
+                    setOnClickListener { showInGoogleMaps() }
+                    show()
+                }
+            }
         }
 
-        if (::event.isInitialized) fab.apply {
-            setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
-            setOnClickListener { showInGoogleMaps() }
-            show()
-        }
         setOutsideTapListener { finishAfterTransition() }
 
         return true
