@@ -19,8 +19,8 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.items.AbstractItem
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.OpenSourceLibrary
 import de.uni_marburg.mathematik.ds.serval.enums.AboutLinkItem
+import de.uni_marburg.mathematik.ds.serval.enums.OpenSourceLibrary
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
@@ -95,19 +95,7 @@ class AboutActivity : AboutActivityBase(
     override fun getLibraries(libs: Libs): List<Library> {
         val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
         OpenSourceLibrary.values().map { library ->
-            libraries.add(Library().apply {
-                author = string(library.authorRes)
-                libraryDescription = if (library.libraryDescriptionRes != null) {
-                    string(library.libraryDescriptionRes)
-                } else ""
-                libraryName = string(library.libraryNameRes)
-                libraryVersion = library.libraryVersion
-                license = License().apply {
-                    licenseName = string(library.licenseNameRes)
-                    licenseWebsite = string(library.licenseWebsiteRes)
-                }
-                repositoryLink = string(library.repositoryLinkRes)
-            })
+            libraries.add(library.getLibrary(this))
         }
         return libraries.sortedBy { library -> library.libraryName }
     }

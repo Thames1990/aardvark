@@ -1,6 +1,10 @@
 package de.uni_marburg.mathematik.ds.serval.enums
 
+import android.content.Context
 import android.support.annotation.StringRes
+import ca.allanwang.kau.utils.string
+import com.mikepenz.aboutlibraries.entity.Library
+import com.mikepenz.aboutlibraries.entity.License
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 
@@ -32,5 +36,20 @@ enum class OpenSourceLibrary(
         licenseNameRes = R.string.mit_license,
         licenseWebsiteRes = R.string.license_website_kerval,
         repositoryLinkRes = R.string.repository_link_kerval
-    )
+    );
+
+    fun getLibrary(context: Context): Library = with(context) {
+        return Library().apply {
+            author = string(authorRes)
+            libraryDescription =
+                    if (libraryDescriptionRes != null) string(libraryDescriptionRes) else ""
+            libraryName = string(libraryNameRes)
+            libraryVersion = this@OpenSourceLibrary.libraryVersion
+            license = License().apply {
+                licenseName = string(licenseNameRes)
+                licenseWebsite = string(licenseWebsiteRes)
+            }
+            repositoryLink = string(repositoryLinkRes)
+        }
+    }
 }
