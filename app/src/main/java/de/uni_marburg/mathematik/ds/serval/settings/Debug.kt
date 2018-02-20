@@ -7,7 +7,6 @@ import ca.allanwang.kau.utils.shareText
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs.useProgressBar
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import java.io.DataOutputStream
@@ -45,9 +44,9 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.paging,
-        getter = Prefs::usePaging,
+        getter = Prefs::viewpagerSwipe,
         setter = { usePaging ->
-            Prefs.usePaging = usePaging
+            Prefs.viewpagerSwipe = usePaging
             shouldRestartMain()
         },
         builder = { descRes = R.string.paging_description }
