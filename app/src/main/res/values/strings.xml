@@ -217,26 +217,6 @@
     <string name="theme_issue">Theme Issue</string>
 
     <string name="time">Time</string>
-    <plurals name="time_days_ago">
-        <item quantity="one">%1$d day ago</item>
-        <item quantity="other">%1$d days ago</item>
-    </plurals>
-    <plurals name="time_hours_ago">
-        <item quantity="one">%1$d hour ago</item>
-        <item quantity="other">%1$d hours ago</item>
-    </plurals>
-    <plurals name="time_minutes_ago">
-        <item quantity="one">%1$d minute ago</item>
-        <item quantity="other">%1$d minutes ago</item>
-    </plurals>
-    <plurals name="time_months_ago">
-        <item quantity="one">%1$d month ago</item>
-        <item quantity="other">%1$d months ago</item>
-    </plurals>
-    <plurals name="time_years_ago">
-        <item quantity="one">%1$d year ago</item>
-        <item quantity="other">%1$d years ago</item>
-    </plurals>
 
     <string name="tint_nav">Tint nav bar</string>
     <string name="tint_nav_desc">Navigation bar will be the same color as the header</string>

@@ -64,10 +64,8 @@ class DetailActivity : ElasticRecyclerActivity() {
 
                 val eventCardItem = CardIItem {
                     titleRes = R.string.time
-                    val timeDifference = currentTimeInSeconds - event.time
-                    val timeDifferenceString: String =
-                        timeDifference.timeToString(this@DetailActivity)
-                    desc = "${event.snippet}\n$timeDifferenceString"
+                    val passedTime: String = event.passedTime.timeToString(this@DetailActivity)
+                    desc = "${event.snippet}\n$passedTime"
                     imageIIcon = GoogleMaterial.Icon.gmd_access_time
                 }
                 add(eventCardItem)

@@ -11,6 +11,7 @@ import com.mikepenz.weather_icons_typeface_library.WeatherIcons
 import com.squareup.moshi.Json
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInSeconds
 import net.sharewire.googlemapsclustering.ClusterItem
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -37,6 +38,12 @@ data class Event(
 
     inline val measurements: List<Measurement>
         get() = data.measurements
+
+    /**
+     * Time passed since the event occured
+     */
+    inline val passedTime: Long
+        get() = currentTimeInSeconds - time
 
     override fun getSnippet(): String? {
         val format = SimpleDateFormat.getDateTimeInstance(

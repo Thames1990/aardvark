@@ -184,9 +184,8 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     }
 
     private fun Event.displayTime() {
-        val timeDifference = currentTimeInSeconds - time
         timeView.apply {
-            text = timeDifference.timeToString(itemView.context)
+            text = passedTime.timeToString(itemView.context)
             setTextColor(Prefs.textColor)
         }
     }
