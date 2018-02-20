@@ -20,7 +20,7 @@ import com.mikepenz.fastadapter.items.AbstractItem
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AardvarkLibrary
-import de.uni_marburg.mathematik.ds.serval.enums.AboutItem
+import de.uni_marburg.mathematik.ds.serval.enums.AboutLinkItem
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
@@ -136,7 +136,7 @@ class AboutActivity : AboutActivityBase(
                 val context = itemView.context
                 val size = context.dimenPixelSize(R.dimen.kau_avatar_bounds)
 
-                items = AboutItem.values().mapIndexed { index, aboutItem ->
+                items = AboutLinkItem.values().mapIndexed { index, aboutItem ->
                     ImageView(context).apply {
                         id = index
                         layoutParams = ViewGroup.LayoutParams(size, size)

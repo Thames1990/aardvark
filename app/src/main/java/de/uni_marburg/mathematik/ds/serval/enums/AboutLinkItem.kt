@@ -5,7 +5,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
 
-enum class AboutItem(@StringRes val linkRes: Int, val iicon: IIcon) {
+enum class AboutLinkItem(@StringRes val linkRes: Int, val iicon: IIcon) {
 
     GITHUB(
         linkRes = R.string.repository_link_aardvark,
