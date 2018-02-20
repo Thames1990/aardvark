@@ -89,22 +89,28 @@ class EventsFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.sort_distance_ascending      -> eventViewModel.sort(EventComparator.Distance)
-            R.id.sort_distance_descending     -> eventViewModel.sort(
+            R.id.sort_distance_ascending -> eventViewModel.sort(
+                eventComparator = EventComparator.Distance
+            )
+            R.id.sort_distance_descending -> eventViewModel.sort(
                 eventComparator = EventComparator.Distance,
                 reversed = true
             )
-            R.id.sort_measurements_ascending  -> eventViewModel.sort(EventComparator.Measurements)
+            R.id.sort_measurements_ascending -> eventViewModel.sort(
+                eventComparator = EventComparator.Measurements
+            )
             R.id.sort_measurements_descending -> eventViewModel.sort(
                 eventComparator = EventComparator.Measurements,
                 reversed = true
             )
-            R.id.sort_time_ascending          -> eventViewModel.sort(EventComparator.Time)
-            R.id.sort_time_descending         -> eventViewModel.sort(
+            R.id.sort_time_ascending -> eventViewModel.sort(
+                eventComparator = EventComparator.Time
+            )
+            R.id.sort_time_descending -> eventViewModel.sort(
                 eventComparator = EventComparator.Time,
                 reversed = true
             )
-            else                              -> return super.onOptionsItemSelected(item)
+            else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
@@ -160,11 +166,11 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.event_row, parent, false)
 ) {
 
-    private val timeView = itemView.findViewById<TextView>(R.id.time)
-    private val measurementsView = itemView.findViewById<LinearLayout>(R.id.measurement_types)
-    private val locationIconView = itemView.findViewById<ImageView>(R.id.location_icon)
-    private val guideline = itemView.findViewById<Guideline>(R.id.guideline)
-    private val locationView = itemView.findViewById<TextView>(R.id.location)
+    private val timeView: TextView by bindView(R.id.time)
+    private val measurementsView: LinearLayout by bindView(R.id.measurement_types)
+    private val locationIconView: ImageView by bindView(R.id.location_icon)
+    private val guideline: Guideline by bindView(R.id.guideline)
+    private val locationView: TextView by bindView(R.id.location)
 
     private var event: Event? = null
 
@@ -176,7 +182,6 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                 displayMeasurementTypes()
             }
 
-            itemView.setBackgroundColor(Prefs.backgroundColor)
             itemView.setOnClickListener { listener(event) }
         }
     }
