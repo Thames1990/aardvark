@@ -114,7 +114,6 @@ class EventsFragment : BaseFragment() {
             itemAnimator = KauAnimator()
             withLinearAdapter(eventAdapter)
             withMarginDecoration(16, KAU_BOTTOM)
-            setBackgroundColor(Prefs.backgroundColor)
         }
     }
 
