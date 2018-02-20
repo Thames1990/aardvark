@@ -136,7 +136,7 @@ class AboutActivity : AboutActivityBase(
                 val context = itemView.context
                 val size = context.dimenPixelSize(R.dimen.kau_avatar_bounds)
 
-                items = AboutLinkItem.values().mapIndexed { index, aboutItem ->
+                items = AboutLinkItem.values().mapIndexed { index, aboutLinkItem ->
                     ImageView(context).apply {
                         id = index
                         layoutParams = ViewGroup.LayoutParams(size, size)
@@ -144,8 +144,8 @@ class AboutActivity : AboutActivityBase(
                         background = context.resolveDrawable(
                             android.R.attr.selectableItemBackgroundBorderless
                         )
-                        setIcon(icon = aboutItem.iicon, color = Prefs.iconColor)
-                        setOnClickListener { context.startLink(aboutItem.linkRes) }
+                        setIcon(icon = aboutLinkItem.iicon, color = Prefs.iconColor)
+                        setOnClickListener { context.startLink(aboutLinkItem.linkRes) }
                         container.addView(this)
                     }
                 }
