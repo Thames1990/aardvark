@@ -37,7 +37,7 @@ enum class PreferenceSubItem(
     );
 }
 
-enum class ExperimentalPreferenceSubItem(
+enum class DebugPreferenceSubItem(
     @StringRes val titleRes: Int,
     @StringRes val descRes: Int,
     val iicon: IIcon

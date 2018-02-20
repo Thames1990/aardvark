@@ -13,7 +13,7 @@ import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.ExperimentalPreferenceSubItem
+import de.uni_marburg.mathematik.ds.serval.enums.DebugPreferenceSubItem
 import de.uni_marburg.mathematik.ds.serval.enums.PreferenceSubItem
 import de.uni_marburg.mathematik.ds.serval.enums.Support
 import de.uni_marburg.mathematik.ds.serval.settings.*
@@ -64,11 +64,11 @@ class SettingsActivity : KPrefActivity() {
         if (Prefs.debugSettings) {
             header(R.string.experimental)
 
-            ExperimentalPreferenceSubItem.values().map { experimentalPreferenceSubItem ->
+            DebugPreferenceSubItem.values().map { experimentalPreferenceSubItem ->
                 subItems(
                     title = experimentalPreferenceSubItem.titleRes,
                     itemBuilder = when (experimentalPreferenceSubItem) {
-                        ExperimentalPreferenceSubItem.DEBUG -> debugItemBuilder()
+                        DebugPreferenceSubItem.DEBUG -> debugItemBuilder()
                     },
                     builder = {
                         descRes = experimentalPreferenceSubItem.descRes
