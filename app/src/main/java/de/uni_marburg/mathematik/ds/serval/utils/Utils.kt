@@ -102,7 +102,6 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     positiveColor(Prefs.textColor)
     negativeColor(Prefs.textColor)
     neutralColor(Prefs.textColor)
-    buildIsLollipopAndUp
     return this
 }
 

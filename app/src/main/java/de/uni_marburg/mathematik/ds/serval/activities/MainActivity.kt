@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -102,15 +101,15 @@ class MainActivity : BaseActivity() {
             EventRepository.progressObservable
                 .observeOn(Schedulers.computation())
                 .subscribe { progressEvent ->
-                    if (progressEvent.percentIsAvailable)
+                    if (progressEvent.percentIsAvailable) {
                         progressBar.progress = progressEvent.progress
+                    }
                 }
         }
 
         checkForNewVersion()
     }
 
-    @SuppressLint("NewApi")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -206,7 +205,8 @@ class MainActivity : BaseActivity() {
     private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
-            if (!BuildConfig.DEBUG) aardvarkChangelog()
+            showChangelog()
+            if (!BuildConfig.DEBUG) showChangelog()
             aardvarkAnswersCustom(
                 name = "Version",
                 events = *arrayOf(

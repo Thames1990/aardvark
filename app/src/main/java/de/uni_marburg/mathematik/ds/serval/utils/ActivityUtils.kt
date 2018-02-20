@@ -1,13 +1,12 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
-import android.support.annotation.RequiresApi
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.Toolbar
@@ -63,17 +62,28 @@ inline fun Activity.restartActivity(intentBuilder: Intent.() -> Unit = {}) {
 /**
  * Force restart the entire application.
  */
+@SuppressLint("NewApi")
 @Suppress("NOTHING_TO_INLINE")
-@RequiresApi(Build.VERSION_CODES.M)
 inline fun Activity.restartApplication() {
     val intent = packageManager.getLaunchIntentForPackage(packageName)
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-    val pending = PendingIntent.getActivity(this, 666, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+    val pending = PendingIntent.getActivity(
+        this,
+        666,
+        intent,
+        PendingIntent.FLAG_CANCEL_CURRENT
+    )
     val alarm = systemService<AlarmManager>()
-    if (buildIsMarshmallowAndUp)
-        alarm.setExactAndAllowWhileIdle(AlarmManager.RTC, System.currentTimeMillis() + 100, pending)
-    else
-        alarm.setExact(AlarmManager.RTC, System.currentTimeMillis() + 100, pending)
+    if (buildIsMarshmallowAndUp) alarm.setExactAndAllowWhileIdle(
+        AlarmManager.RTC,
+        System.currentTimeMillis() + 100,
+        pending
+    )
+    else alarm.setExact(
+        AlarmManager.RTC,
+        System.currentTimeMillis() + 100,
+        pending
+    )
     finish()
     System.exit(0)
 }

@@ -20,7 +20,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 inline val Context.hasLocationPermission: Boolean
     get() = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
 
-fun Context.aardvarkChangelog() = showChangelog(
+fun Context.showChangelog() = showChangelog(
     xmlRes = R.xml.changelog,
     textColor = Prefs.textColor,
     customize = { theme() }

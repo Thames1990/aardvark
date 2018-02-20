@@ -112,7 +112,7 @@ class SettingsActivity : KPrefActivity() {
                 items(Support.values().map { string(it.titleRes) })
                 itemsCallback { _, _, which, _ -> Support.values()[which].sendEmail(context) }
             }
-            R.id.action_changelog -> aardvarkChangelog()
+            R.id.action_changelog -> showChangelog()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
