@@ -33,7 +33,7 @@ class FingerprintActivity : BaseActivity() {
         fingerprint.setIcon(
             icon = GoogleMaterial.Icon.gmd_fingerprint,
             color = Prefs.textColor,
-            sizeDp = applicationContext.displayMetrics.densityDpi
+            sizeDp = displayMetrics.densityDpi
         )
         Reprint.authenticate(object : AuthenticationListener {
             override fun onSuccess(moduleTag: Int) = finish()
