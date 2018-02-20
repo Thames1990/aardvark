@@ -31,7 +31,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                             item.pref = which
                             shouldRestartMain()
                             reload()
-                            setAardvarkTheme()
+                            setTheme()
                             themeExterior()
                             invalidateOptionsMenu()
                             aardvarkAnswersCustom(
@@ -87,7 +87,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         setter = { customBackgroundColor ->
             Prefs.customBackgroundColor = customBackgroundColor
             bgCanvas.ripple(color = customBackgroundColor, duration = 500L)
-            setAardvarkTheme()
+            setTheme()
             shouldRestartMain()
         },
         builder = {
@@ -151,7 +151,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                             item.pref = which
                             shouldRestartMain()
                             reload()
-                            setAardvarkTheme()
+                            setTheme()
                             themeExterior()
                             invalidateOptionsMenu()
                             aardvarkAnswersCustom(

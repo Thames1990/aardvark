@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
 
         setContentView(Prefs.mainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
-        setAardvarkColors {
+        setColors {
             toolbar(toolbar)
             themeWindow = false
             header(appBar)

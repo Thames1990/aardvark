@@ -11,7 +11,7 @@ import com.github.ajalt.reprint.core.Reprint
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.setAardvarkColors
+import de.uni_marburg.mathematik.ds.serval.utils.setColors
 import de.uni_marburg.mathematik.ds.serval.utils.vibrate
 import org.jetbrains.anko.displayMetrics
 
@@ -29,7 +29,7 @@ class FingerprintActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fingerprint)
-        setAardvarkColors { text(title, description) }
+        setColors { text(title, description) }
         fingerprint.setIcon(
             icon = GoogleMaterial.Icon.gmd_fingerprint,
             color = Prefs.textColor,

@@ -3,8 +3,8 @@ package de.uni_marburg.mathematik.ds.serval.activities
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import ca.allanwang.kau.internal.KauBaseActivity
-import de.uni_marburg.mathematik.ds.serval.utils.setAardvarkTheme
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
+import de.uni_marburg.mathematik.ds.serval.utils.setTheme
 
 /**
  * Base activity for any activity that would have extended [AppCompatActivity].
@@ -30,6 +30,6 @@ abstract class BaseActivity : KauBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSecureFlag()
-        setAardvarkTheme()
+        setTheme()
     }
 }

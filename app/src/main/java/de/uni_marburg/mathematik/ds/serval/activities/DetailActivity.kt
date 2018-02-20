@@ -28,7 +28,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         setSecureFlag()
-        setAardvarkColors {
+        setColors {
             header(appBar)
             toolbar(toolbar)
             themeWindow = false

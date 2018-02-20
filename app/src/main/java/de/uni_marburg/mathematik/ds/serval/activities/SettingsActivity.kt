@@ -28,7 +28,7 @@ class SettingsActivity : KPrefActivity() {
         super.onCreate(savedInstanceState)
 
         setSecureFlag()
-        setAardvarkTheme()
+        setTheme()
 
         animate = Prefs.animate
         themeExterior(animate = false)

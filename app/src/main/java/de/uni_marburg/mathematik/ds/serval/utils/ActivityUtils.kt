@@ -81,7 +81,7 @@ inline fun Activity.restartApplication() {
 /**
  * Set all colors with the given [builder].
  */
-inline fun Activity.setAardvarkColors(builder: ActivityThemeUtils.() -> Unit) {
+inline fun Activity.setColors(builder: ActivityThemeUtils.() -> Unit) {
     val themer = ActivityThemeUtils()
     themer.builder()
     themer.theme(this)
@@ -91,7 +91,7 @@ inline fun Activity.setAardvarkColors(builder: ActivityThemeUtils.() -> Unit) {
  * Set a light or dark theme based on the darkness of
  * [the user specified background color][Prefs.backgroundColor].
  */
-fun Activity.setAardvarkTheme() =
+fun Activity.setTheme() =
     if (Prefs.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
 
