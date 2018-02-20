@@ -15,6 +15,9 @@ import de.uni_marburg.mathematik.ds.serval.utils.setColors
 import de.uni_marburg.mathematik.ds.serval.utils.vibrate
 import org.jetbrains.anko.displayMetrics
 
+/**
+ * Show a fingerprint authentication overlay.
+ */
 class FingerprintActivity : BaseActivity() {
 
     private val description: TextView by bindView(R.id.description)
@@ -29,12 +32,14 @@ class FingerprintActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fingerprint)
+
         setColors { text(title, description) }
         fingerprint.setIcon(
             icon = GoogleMaterial.Icon.gmd_fingerprint,
             color = Prefs.textColor,
             sizeDp = displayMetrics.densityDpi
         )
+
         Reprint.authenticate(object : AuthenticationListener {
             override fun onSuccess(moduleTag: Int) = finish()
 
