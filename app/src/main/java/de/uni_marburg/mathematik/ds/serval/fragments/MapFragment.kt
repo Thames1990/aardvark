@@ -34,7 +34,7 @@ import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
 
-    private lateinit var clusterManger: ClusterManager<Event>
+    private lateinit var clusterManager: ClusterManager<Event>
     private lateinit var eventViewModel: EventViewModel
     private lateinit var googleMap: GoogleMap
     private lateinit var map: SupportMapFragment
@@ -51,6 +51,7 @@ class MapFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        // TODO Set cluster manager items with view model
         eventViewModel = ViewModelProviders.of(currentActivity).get(EventViewModel::class.java)
 
         map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -112,7 +113,7 @@ class MapFragment : BaseFragment() {
     private fun GoogleMap.setupClusterManager() {
         val context = currentContext
 
-        clusterManger = ClusterManager<Event>(context, this).apply {
+        clusterManager = ClusterManager<Event>(context, this).apply {
             setCallbacks(object : ClusterManager.Callbacks<Event> {
                 override fun onClusterClick(cluster: Cluster<Event>): Boolean {
                     val builder = LatLngBounds.builder()
@@ -140,7 +141,7 @@ class MapFragment : BaseFragment() {
             }
         }
 
-        setOnCameraIdleListener(clusterManger)
+        setOnCameraIdleListener(clusterManager)
     }
 
     private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
