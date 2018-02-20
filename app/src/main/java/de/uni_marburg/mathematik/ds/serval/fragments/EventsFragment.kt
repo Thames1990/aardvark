@@ -8,7 +8,6 @@ import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.recyclerview.extensions.DiffCallback
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
@@ -114,7 +113,7 @@ class EventsFragment : BaseFragment() {
         recyclerView.apply {
             itemAnimator = KauAnimator()
             withLinearAdapter(eventAdapter)
-            withDividerDecoration(context, orientation = DividerItemDecoration.VERTICAL)
+            withMarginDecoration(16, KAU_BOTTOM)
             setBackgroundColor(Prefs.backgroundColor)
         }
     }
