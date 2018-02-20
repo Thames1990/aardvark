@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.4" />
+    <item text="Adapt to new data structure" />
+    <item text="Replace bottom navigation with top and bottom tab layout" />
+    <item text="Improve header theme design" />
+    <item text="Improve event sorting performance" />
+    <item text="Minor fixes and performance improvements" />
+
     <version title="0.8.3" />
     <item text="Minor bug fixes and performance improvements" />
     <item text="Add performance analytics" />
