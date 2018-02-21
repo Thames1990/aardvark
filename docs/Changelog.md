@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.5
+* Add location permission prompt in intro
+* Fix double changelog on first start
+* Change event row design to cards
+
 ## 0.8.4
 * Adapt to new data structure
 * Replace bottom navigation with top and bottom tab layout

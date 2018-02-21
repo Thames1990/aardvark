@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.5" />
+    <item text="Add location permission prompt in intro" />
+    <item text="Fix double changelog on first start" />
+    <item text="Change event row design to cards" />
+
     <version title="0.8.4" />
     <item text="Adapt to new data structure" />
     <item text="Replace bottom navigation with top and bottom tab layout" />
