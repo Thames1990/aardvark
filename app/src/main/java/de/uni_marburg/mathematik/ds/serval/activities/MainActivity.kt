@@ -70,10 +70,12 @@ class MainActivity : BaseActivity() {
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
         eventViewModel.events.observe(this, Observer { tabs.reload() })
 
-        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
-        locationViewModel.location.observe(this, Observer { location ->
-            if (location != null) lastLocation = location
-        })
+        if (hasLocationPermission) {
+            locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
+            locationViewModel.location.observe(this, Observer { location ->
+                if (location != null) lastLocation = location
+            })
+        }
 
         if (Prefs.showDownloadProgress) {
             progressBar.visible()

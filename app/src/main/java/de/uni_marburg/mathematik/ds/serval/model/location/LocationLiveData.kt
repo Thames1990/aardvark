@@ -10,19 +10,26 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import java.util.concurrent.TimeUnit
 
-/** Tracks changes of the location of the current device */
-class LocationLiveData(private val context: Context) : LiveData<Location>() {
+/**
+ * Tracks changes of the location of the current device
+ */
+class LocationLiveData(context: Context) : LiveData<Location>() {
 
-    /** Location provider client */
+    /**
+     * Location provider client
+     */
     private val client: FusedLocationProviderClient by lazy { FusedLocationProviderClient(context) }
 
-    /** Requests location updates */
+    /**
+     * Requests location updates
+     */
     private val locationRequest: LocationRequest by lazy { LocationRequest() }
 
-    /** Updates the last location of the device, if the position has changed */
+    /**
+     * Updates the last location of the device, if the position has changed
+     */
     private val locationCallback: LocationCallback by lazy {
         object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -34,15 +41,13 @@ class LocationLiveData(private val context: Context) : LiveData<Location>() {
     @SuppressLint("MissingPermission")
     override fun onActive() {
         super.onActive()
-        if (context.hasLocationPermission) {
-            val locationRequestPriority = Prefs.locationRequestPriority
-            locationRequest.apply {
-                interval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestInterval)
-                fastestInterval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestFastestInterval)
-                priority = locationRequestPriority.priority
-            }
-            client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+        val locationRequestPriority = Prefs.locationRequestPriority
+        locationRequest.apply {
+            interval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestInterval)
+            fastestInterval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestFastestInterval)
+            priority = locationRequestPriority.priority
         }
+        client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
     }
 
     override fun onInactive() {

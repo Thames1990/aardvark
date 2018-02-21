@@ -12,11 +12,13 @@ import java.io.BufferedReader
 /**
  * Entry point to Kerval API.
  *
- * Loads [events][Event] over HTTP and reads the from pseudo-JSON formatted input.
+ * Loads [events][Event] over HTTP and reads them from pseudo-JSON formatted input.
  */
 object EventRepository {
 
-    /** Authenticates with the Serval API and offers connection to the Rhizome database. */
+    /**
+     * Authenticates with the Serval API and offers connection to the Rhizome database.
+     */
     private val client = ServalClient(
         host = Prefs.kervalBaseUrl,
         port = Prefs.kervalPort,
@@ -28,13 +30,19 @@ object EventRepository {
     val progressObservable: Observable<ProgressEvent> =
         client.connection.progressEventBus.observable()
 
-    /** JSON converter */
+    /**
+     * JSON converter
+     */
     val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-    /** Json converter adapter for [events][Event] */
+    /**
+     * Json converter adapter for [events][Event]
+     */
     private val eventAdapter: JsonAdapter<Event> = moshi.adapter(Event::class.java)
 
-    /** Fetches [a number of][count] [events][Event] from the [Serval client][client]. */
+    /**
+     * Fetches [a number of][count] [events][Event] from the [Serval client][client].
+     */
     fun fetch(count: Int = Prefs.eventCount): List<Event> {
         val events = mutableListOf<Event>()
 
