@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.model.event
 
 import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import io.reactivex.Observable
@@ -33,7 +32,7 @@ object EventRepository {
     /**
      * JSON converter
      */
-    val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+    val moshi: Moshi = Moshi.Builder().build()
 
     /**
      * Json converter adapter for [events][Event]

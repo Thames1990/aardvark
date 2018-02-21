@@ -89,7 +89,7 @@ data class Event(
  */
 data class Data(
     val time: Long,
-    @Json(name = "location") val geohashLocation: GeohashLocation,
+    @field:Json(name = "location") val geohashLocation: GeohashLocation,
     val measurements: List<Measurement>
 )
 
