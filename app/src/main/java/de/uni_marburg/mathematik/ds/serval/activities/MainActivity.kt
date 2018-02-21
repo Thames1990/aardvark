@@ -190,7 +190,6 @@ class MainActivity : BaseActivity() {
     private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
-            showChangelog()
             if (!BuildConfig.DEBUG) showChangelog()
             aardvarkAnswersCustom(
                 name = "Version",
