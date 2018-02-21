@@ -72,7 +72,6 @@ dependencies {
     implementation files("libs/kerval-${versions.kerval}.jar")
     implementation(deps.crashlytics) { transitive = true }
     implementation deps.google_maps_clustering
-    implementation deps.ktx
     implementation(deps.moshi) { exclude group: 'com.squareup.okio', module: 'okio' }
     implementation deps.reprint
     // Architecture Components

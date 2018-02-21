@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -13,7 +14,6 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
-import androidx.content.systemService
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 
@@ -73,7 +73,7 @@ inline fun Activity.restartApplication() {
         intent,
         PendingIntent.FLAG_CANCEL_CURRENT
     )
-    val alarm = systemService<AlarmManager>()
+    val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
     if (buildIsMarshmallowAndUp) alarm.setExactAndAllowWhileIdle(
         AlarmManager.RTC,
         System.currentTimeMillis() + 100,

@@ -1,8 +1,8 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.net.toUri
 import ca.allanwang.kau.iitems.CardIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
 import ca.allanwang.kau.utils.*
@@ -110,7 +110,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                     String.format(Locale.ENGLISH, "%.5f", event.location.longitude),
                     event.title
                 )
-                val uri = String.format(uriFormat, *uriValues).toUri()
+                val uri = Uri.parse(String.format(uriFormat, *uriValues))
 
                 val navigationIntent = Intent(action, uri).apply { `package` = GOOGLE_MAPS }
                 startActivity(navigationIntent)

@@ -1,7 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.settings
 
+import android.content.Context
 import android.net.wifi.WifiManager
-import androidx.content.systemService
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.utils.shareText
 import de.uni_marburg.mathematik.ds.serval.R
@@ -113,7 +113,7 @@ private fun disableWifiAdb() {
 
 /** Share information to connect to the device via WifiADB. */
 private fun SettingsActivity.shareWifiAdbCommand() {
-    val wifiManager = systemService<WifiManager>()
+    val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
     val ipAdress: Int = wifiManager.connectionInfo.ipAddress
     val inetAdress = BigInteger
         .valueOf(ipAdress.toLong())

@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.support.annotation.StringRes
-import androidx.content.systemService
 import ca.allanwang.kau.email.EmailBuilder
 import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
@@ -69,7 +68,7 @@ inline fun Context.sendSupportEmail(
 @Suppress("DEPRECATION")
 @SuppressLint("NewApi")
 fun Context.vibrate(milliseconds: Long = 500, amplitude: Int = VibrationEffect.DEFAULT_AMPLITUDE) {
-    val vibrator = systemService<Vibrator>()
+    val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     if (vibrator.hasVibrator()) {
         if (buildIsOreoAndUp) {
             val vibrationEffect = VibrationEffect.createOneShot(milliseconds, amplitude)
