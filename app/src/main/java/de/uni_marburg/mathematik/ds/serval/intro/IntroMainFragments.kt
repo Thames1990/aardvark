@@ -12,16 +12,10 @@ import android.widget.TextView
 import ca.allanwang.kau.kotlin.LazyResettableRegistry
 import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
 import ca.allanwang.kau.permissions.kauRequestPermissions
-import ca.allanwang.kau.utils.Kotterknife
-import ca.allanwang.kau.utils.bindViewResettable
-import ca.allanwang.kau.utils.setOnSingleTapListener
-import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.currentActivity
-import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.childrenSequence
 import kotlin.math.absoluteValue
 
@@ -116,6 +110,7 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
     class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
 
         val container: ConstraintLayout by bindViewResettable(R.id.intro_end_container)
+        val description: TextView by bindView(R.id.intro_desc)
 
         override fun viewArray(): Array<Array<out View>> = defaultViewArray()
 
@@ -127,6 +122,12 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
+            with(currentContext) {
+                description.text =
+                        if (hasLocationPermission) string(R.string.intro_tap_to_exit)
+                        else string(R.string.grant_location_permission)
+            }
+
             container.setOnSingleTapListener { _, motionEvent ->
                 with(currentActivity) {
                     if (hasLocationPermission) {
@@ -134,6 +135,7 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
                     } else {
                         kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
                             if (!granted) snackbarThemed(string(R.string.requires_location_permission))
+                            else description.setTextWithFade(R.string.intro_tap_to_exit)
                         }
                     }
                 }

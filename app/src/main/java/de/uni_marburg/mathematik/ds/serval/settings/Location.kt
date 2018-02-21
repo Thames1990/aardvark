@@ -22,7 +22,7 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     if (!hasLocationPermission) {
         plainText(R.string.requires_location_permission) {
-            descRes = R.string.grant_location_permission
+            descRes = R.string.grant_location_permission_settings
             onClick = { openPermissionSettings() }
         }
     }
