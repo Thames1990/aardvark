@@ -20,12 +20,18 @@ import de.uni_marburg.mathematik.ds.serval.R
 inline val Context.hasLocationPermission: Boolean
     get() = hasPermission(PERMISSION_ACCESS_FINE_LOCATION)
 
+/**
+ * Show the changelog.
+ */
 fun Context.showChangelog() = showChangelog(
     xmlRes = R.xml.changelog,
     textColor = Prefs.textColor,
     customize = { theme() }
 )
 
+/**
+ * Show a themed dialog.
+ */
 inline fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Unit): MaterialDialog {
     val builder = MaterialDialog.Builder(this).theme()
     builder.action()
@@ -33,11 +39,17 @@ inline fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Uni
     return builder.show()
 }
 
+/**
+ * Send a support email.
+ */
 inline fun Context.sendSupportEmail(
     @StringRes subjectId: Int,
     crossinline builder: EmailBuilder.() -> Unit
 ) = sendSupportEmail(subject = string(subjectId), builder = builder)
 
+/**
+ * Send a support email.
+ */
 inline fun Context.sendSupportEmail(
     subject: String,
     crossinline builder: EmailBuilder.() -> Unit
