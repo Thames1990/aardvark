@@ -28,6 +28,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.AardvarkViewPager
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import io.reactivex.schedulers.Schedulers
+import kerval.connection.ProgressEvent
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -82,8 +83,10 @@ class MainActivity : BaseActivity() {
             EventRepository.progressObservable
                 .observeOn(Schedulers.computation())
                 .subscribe { progressEvent ->
-                    if (progressEvent.percentIsAvailable) {
-                        progressBar.progress = progressEvent.progress
+                    val progress: Byte = progressEvent.progress
+                    if (progress != ProgressEvent.PROGRESS_FAILURE) {
+                        // TODO Save progress as Int again...
+                        progressBar.progress = progress.toInt()
                     }
                 }
         }
