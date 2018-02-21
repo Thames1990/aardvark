@@ -59,7 +59,6 @@ abstract class BaseImageIntroFragment(
     override fun onPageScrolledImpl(positionOffset: Float) {
         super.onPageScrolledImpl(positionOffset)
         val alpha = ((1 - positionOffset.absoluteValue) * 255).toInt()
-        // TODO This is only desired, if there are more than one intro image fragments
         // Apply alpha to all layers except phone base
         (0 until imageDrawable.numberOfLayers)
             .map { index -> imageDrawable.getDrawable(index) }
@@ -76,7 +75,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
 
     private val animationDuration = 1500L
 
-    private var currentRotationDegrees = when (Prefs.mainActivityLayout) {
+    private var currentRotation: Float = when (Prefs.mainActivityLayout) {
         MainActivityLayout.TOP_BAR -> 0.0f
         MainActivityLayout.BOTTOM_BAR -> 180.0f
     }
@@ -91,15 +90,15 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
                 sizeDp = 24,
                 color = Prefs.textColor
             )
-            rotation = currentRotationDegrees
+            rotation = currentRotation
         }
-        image.rotation = currentRotationDegrees
+        image.rotation = currentRotation
 
         icon.setOnClickListener {
             // TODO Figure out why rotation from 180.0 to 0.0 is wrong
             val rotateAnimation = RotateAnimation(
-                currentRotationDegrees,
-                currentRotationDegrees - 180.0f,
+                currentRotation,
+                currentRotation - 180.0f,
                 RotateAnimation.RELATIVE_TO_SELF,
                 0.5f,
                 RotateAnimation.RELATIVE_TO_SELF,
@@ -116,19 +115,19 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
                 addAnimation(rotateAnimation)
             }
 
-            currentRotationDegrees -= 180.0f
+            currentRotation -= 180.0f
 
             // Flip
             image.setImageBitmap(image.drawable.toBitmap().mirrored())
             // Rotate
             image.startAnimation(rotateAnimationSet)
             icon.fadeScaleTransition(duration = animationDuration) {
-                rotation = currentRotationDegrees
+                rotation = currentRotation
             }
 
             // Set main activity layout type
             Prefs.mainActivityLayoutType =
-                    if (currentRotationDegrees.rem(360.0f) == 0.0f)
+                    if (currentRotation.rem(360.0f) == 0.0f)
                         MainActivityLayout.TOP_BAR.ordinal
                     else
                         MainActivityLayout.BOTTOM_BAR.ordinal
