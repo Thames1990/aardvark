@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import ca.allanwang.kau.iitems.CardIItem
@@ -43,6 +44,7 @@ class DetailActivity : ElasticRecyclerActivity() {
             uiThread {
                 setupAdapter()
                 fab.apply {
+                    backgroundTintList = ColorStateList.valueOf(Prefs.accentColor)
                     setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
                     setOnClickListener { showInGoogleMaps() }
                     show()
