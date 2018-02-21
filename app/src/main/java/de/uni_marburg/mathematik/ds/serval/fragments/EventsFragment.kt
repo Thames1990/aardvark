@@ -119,7 +119,6 @@ class EventsFragment : BaseFragment() {
         recyclerView.apply {
             itemAnimator = KauAnimator()
             withLinearAdapter(eventAdapter)
-            withDividerItemDecoration()
         }
     }
 
