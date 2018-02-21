@@ -10,12 +10,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.kotlin.LazyResettableRegistry
+import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
+import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.Kotterknife
 import ca.allanwang.kau.utils.bindViewResettable
 import ca.allanwang.kau.utils.setOnSingleTapListener
+import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.currentActivity
+import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
+import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.childrenSequence
 import kotlin.math.absoluteValue
 
@@ -120,8 +126,17 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
+
             container.setOnSingleTapListener { _, motionEvent ->
-                (activity as IntroActivity).finish(x = motionEvent.x, y = motionEvent.y)
+                with(currentActivity) {
+                    if (hasLocationPermission) {
+                        (this as IntroActivity).finish(x = motionEvent.x, y = motionEvent.y)
+                    } else {
+                        kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
+                            if (!granted) snackbarThemed(string(R.string.requires_location_permission))
+                        }
+                    }
+                }
             }
         }
     }

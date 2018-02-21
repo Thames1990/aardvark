@@ -25,6 +25,8 @@ import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragment
 import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTabTouch
 import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTheme
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
+import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.find
 
 class IntroActivity : BaseActivity() {
@@ -57,11 +59,14 @@ class IntroActivity : BaseActivity() {
         next.apply {
             setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.iconColor)
             setOnClickListener {
-                if (barHasNext) viewpager.setCurrentItem(viewpager.currentItem + 1, Prefs.animate)
-                else finish(
-                    x = next.x + next.pivotX,
-                    y = next.y + next.pivotY
-                )
+                when {
+                    barHasNext -> viewpager.setCurrentItem(viewpager.currentItem + 1, Prefs.animate)
+                    hasLocationPermission -> finish(
+                        x = next.x + next.pivotX,
+                        y = next.y + next.pivotY
+                    )
+                    else -> snackbarThemed(R.string.requires_location_permission)
+                }
             }
         }
         skip.setOnClickListener { finish() }

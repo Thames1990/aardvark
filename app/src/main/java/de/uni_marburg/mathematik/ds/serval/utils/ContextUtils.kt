@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.VibrationEffect
@@ -9,6 +8,7 @@ import android.support.annotation.StringRes
 import androidx.content.systemService
 import ca.allanwang.kau.email.EmailBuilder
 import ca.allanwang.kau.email.sendEmail
+import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
 import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.isFinishing
 import ca.allanwang.kau.utils.string
@@ -18,7 +18,7 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 
 inline val Context.hasLocationPermission: Boolean
-    get() = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+    get() = hasPermission(PERMISSION_ACCESS_FINE_LOCATION)
 
 fun Context.showChangelog() = showChangelog(
     xmlRes = R.xml.changelog,
