@@ -55,7 +55,7 @@ class DashboardFragment : BaseFragment() {
                 DetectedActivity.ON_FOOT -> string(R.string.activity_on_foot)
                 DetectedActivity.STILL -> string(R.string.activity_still)
                 DetectedActivity.TILTING -> string(R.string.activity_tilting)
-                else -> string(R.string.activityUnknown)
+                else -> string(R.string.activity_unknown)
             }
         }
 
