@@ -55,6 +55,8 @@ class DashboardFragment : BaseFragment() {
                 DetectedActivity.ON_FOOT -> string(R.string.activity_on_foot)
                 DetectedActivity.STILL -> string(R.string.activity_still)
                 DetectedActivity.TILTING -> string(R.string.activity_tilting)
+                DetectedActivity.WALKING -> string(R.string.activity_walking)
+                DetectedActivity.RUNNING -> string(R.string.activity_running)
                 else -> string(R.string.activity_unknown)
             }
         }
@@ -66,6 +68,8 @@ class DashboardFragment : BaseFragment() {
             DetectedActivity.ON_FOOT -> CommunityMaterial.Icon.cmd_walk
             DetectedActivity.STILL -> CommunityMaterial.Icon.cmd_home
             DetectedActivity.TILTING -> CommunityMaterial.Icon.cmd_rotate_3d
+            DetectedActivity.WALKING -> CommunityMaterial.Icon.cmd_walk
+            DetectedActivity.RUNNING -> CommunityMaterial.Icon.cmd_run
             else -> CommunityMaterial.Icon.cmd_help
         }
 
