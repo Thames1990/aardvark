@@ -8,7 +8,9 @@ import ca.allanwang.kau.utils.bindView
 import ca.allanwang.kau.utils.setIcon
 import ca.allanwang.kau.utils.string
 import com.google.android.gms.location.DetectedActivity
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentContext
@@ -36,6 +38,11 @@ class DashboardFragment : BaseFragment() {
         description.setTextColor(Prefs.textColor)
 
         SmartLocation.with(currentContext).activity().start { detectedActivity ->
+            image.setIcon(
+                icon = detectedActivity.iicon,
+                color = Prefs.textColor,
+                sizeDp = currentContext.displayMetrics.densityDpi
+            )
             description.text = detectedActivity.typeString
         }
     }
@@ -51,4 +58,15 @@ class DashboardFragment : BaseFragment() {
                 else -> string(R.string.activityUnknown)
             }
         }
+
+    private inline val DetectedActivity.iicon: IIcon
+        get() = when (type) {
+            DetectedActivity.IN_VEHICLE -> CommunityMaterial.Icon.cmd_car
+            DetectedActivity.ON_BICYCLE -> CommunityMaterial.Icon.cmd_bike
+            DetectedActivity.ON_FOOT -> CommunityMaterial.Icon.cmd_walk
+            DetectedActivity.STILL -> CommunityMaterial.Icon.cmd_home
+            DetectedActivity.TILTING -> CommunityMaterial.Icon.cmd_rotate_3d
+            else -> CommunityMaterial.Icon.cmd_help
+        }
+
 }
