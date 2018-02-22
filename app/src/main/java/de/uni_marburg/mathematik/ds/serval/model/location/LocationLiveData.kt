@@ -41,11 +41,10 @@ class LocationLiveData(context: Context) : LiveData<Location>() {
     @SuppressLint("MissingPermission")
     override fun onActive() {
         super.onActive()
-        val locationRequestPriority = Prefs.locationRequestPriority
         locationRequest.apply {
             interval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestInterval)
             fastestInterval = TimeUnit.SECONDS.toMillis(Prefs.locationRequestFastestInterval)
-            priority = locationRequestPriority.priority
+            priority = Prefs.locationRequestPriority.priority
         }
         client.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
     }
