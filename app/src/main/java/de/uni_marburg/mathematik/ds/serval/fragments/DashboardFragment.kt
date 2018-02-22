@@ -43,22 +43,26 @@ class DashboardFragment : BaseFragment() {
                 color = Prefs.textColor,
                 sizeDp = currentContext.displayMetrics.densityDpi
             )
-            description.text = detectedActivity.typeString
+            description.text = detectedActivity.currentActivity
         }
     }
 
-    private inline val DetectedActivity.typeString: String
-        get() = with(currentContext) {
-            when (type) {
-                DetectedActivity.IN_VEHICLE -> string(R.string.activity_in_vehicle)
-                DetectedActivity.ON_BICYCLE -> string(R.string.activity_on_bicycle)
-                DetectedActivity.ON_FOOT -> string(R.string.activity_on_foot)
-                DetectedActivity.STILL -> string(R.string.activity_still)
-                DetectedActivity.TILTING -> string(R.string.activity_tilting)
-                DetectedActivity.WALKING -> string(R.string.activity_walking)
-                DetectedActivity.RUNNING -> string(R.string.activity_running)
-                else -> string(R.string.activity_unknown)
+    private inline val DetectedActivity.currentActivity: String
+        get() {
+            val formatId = R.string.activity_description
+            val valueId = when (type) {
+                DetectedActivity.IN_VEHICLE -> R.string.activity_in_vehicle
+                DetectedActivity.ON_BICYCLE -> R.string.activity_on_bicycle
+                DetectedActivity.ON_FOOT -> R.string.activity_on_foot
+                DetectedActivity.STILL -> R.string.activity_still
+                DetectedActivity.TILTING -> R.string.activity_tilting
+                DetectedActivity.WALKING -> R.string.activity_walking
+                DetectedActivity.RUNNING -> R.string.activity_running
+                else -> R.string.activity_unknown
             }
+            val format = currentContext.string(formatId)
+            val value = currentContext.string(valueId)
+            return String.format(format = format, args = *arrayOf(value))
         }
 
     private inline val DetectedActivity.iicon: IIcon

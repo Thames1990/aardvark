@@ -25,12 +25,15 @@
     <string name="action_sort_events_time">Time</string>
     <string name="action_zoom_to_all_markers">Zoom to all markers</string>
 
-    <string name="activity_in_vehicle">In Vehicle</string>
-    <string name="activity_on_bicycle">On Bicycle</string>
-    <string name="activity_on_foot">On Foot</string>
-    <string name="activity_still">Still</string>
-    <string name="activity_tilting">Tilting</string>
-    <string name="activity_unknown">Unknown</string>
+    <string name="activity_description">You are %1$s</string>
+    <string name="activity_in_vehicle">in a vehicle</string>
+    <string name="activity_on_bicycle">on a bicycle</string>
+    <string name="activity_on_foot">on foot</string>
+    <string name="activity_running">running</string>
+    <string name="activity_still">standing still</string>
+    <string name="activity_tilting">tilting?!</string>
+    <string name="activity_unknown">… WTF are you doing?</string>
+    <string name="activity_walking">walking</string>
 
     <string name="analytics_description">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
 
@@ -238,6 +241,4 @@
 
     <string name="username">Username</string>
     <string name="username_must_not_be_empty">You need to enter a username</string>
-    <string name="activity_walking">Walking</string>
-    <string name="activity_running">Running</string>
 </resources>
