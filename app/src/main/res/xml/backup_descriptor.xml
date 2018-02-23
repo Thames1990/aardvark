@@ -5,5 +5,5 @@
         path="de.uni_marburg.mathematik.ds.serval.xml" />
     <include
         domain="database"
-        path="android.arch.persistence.room" />
+        path="de.uni_marburg.mathematik.ds.serval" />
 </full-backup-content>
