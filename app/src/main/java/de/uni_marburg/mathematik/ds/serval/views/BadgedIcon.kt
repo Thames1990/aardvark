@@ -47,10 +47,6 @@ class BadgedIcon @JvmOverloads constructor(
             )
         }
 
-    fun setAllAlpha(alpha: Float) {
-        badgeImage.drawable.alpha = alpha.toInt()
-    }
-
     var badgeText: String?
         get() = badgeTextView.text.toString()
         set(value) {
