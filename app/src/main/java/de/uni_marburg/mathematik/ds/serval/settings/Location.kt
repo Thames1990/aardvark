@@ -28,12 +28,12 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     }
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnLocationPermission() {
-        enabler = { hasLocationPermission }
+        enabler = ::hasLocationPermission
         onDisabledClick = { snackbarThemed(R.string.preference_requires_location_permission) }
     }
 
     fun KPrefSeekbar.KPrefSeekbarContract.dependsOnLocationPermission() {
-        enabler = { hasLocationPermission }
+        enabler = ::hasLocationPermission
         onDisabledClick = { snackbarThemed(R.string.preference_requires_location_permission) }
     }
 
@@ -47,12 +47,9 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             onClick = {
                 materialDialogThemed {
                     title(R.string.location_request_priority)
-                    items(
-                        LocationRequestPriority.values()
-                            .map { priority ->
-                                "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
-                            }
-                    )
+                    items(LocationRequestPriority.values().map { priority ->
+                        "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
+                    })
                     itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                         if (item.pref != which) {
                             item.pref = which
