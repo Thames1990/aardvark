@@ -21,9 +21,9 @@ import de.uni_marburg.mathematik.ds.serval.enums.TabItem
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
+import de.uni_marburg.mathematik.ds.serval.model.LocationLiveData
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
-import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.AardvarkViewPager
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
@@ -36,7 +36,6 @@ import org.jetbrains.anko.uiThread
 class MainActivity : BaseActivity() {
 
     private lateinit var eventViewModel: EventViewModel
-    private lateinit var locationViewModel: LocationViewModel
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
     private val progressBar: MaterialProgressBar by bindView(R.id.progressBar)
@@ -72,8 +71,7 @@ class MainActivity : BaseActivity() {
         eventViewModel.events.observe(this, Observer { tabs.reload() })
 
         if (hasLocationPermission) {
-            locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
-            locationViewModel.location.observe(this, Observer { location ->
+            LocationLiveData(this).observe(this, Observer { location ->
                 if (location != null) lastLocation = location
             })
         }
