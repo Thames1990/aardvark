@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import ca.allanwang.kau.utils.bindView
-import ca.allanwang.kau.utils.setIcon
-import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.*
 import com.google.android.gms.location.DetectedActivity
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -37,12 +35,23 @@ class DashboardFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         activityRecognitionControl.start { detectedActivity ->
-            image.setIcon(
-                icon = detectedActivity.iicon,
-                color = Prefs.textColor,
-                sizeDp = currentContext.displayMetrics.densityDpi
-            )
-            description.text = detectedActivity.currentActivity
+            if (Prefs.animate) {
+                image.fadeScaleTransition {
+                    image.setIcon(
+                        icon = detectedActivity.iicon,
+                        color = Prefs.textColor,
+                        sizeDp = currentContext.displayMetrics.densityDpi
+                    )
+                }
+                description.setTextWithFade(detectedActivity.currentActivity)
+            } else {
+                image.setIcon(
+                    icon = detectedActivity.iicon,
+                    color = Prefs.textColor,
+                    sizeDp = currentContext.displayMetrics.densityDpi
+                )
+                description.text = detectedActivity.currentActivity
+            }
         }
     }
 
