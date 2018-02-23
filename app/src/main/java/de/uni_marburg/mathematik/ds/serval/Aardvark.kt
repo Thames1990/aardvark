@@ -43,7 +43,6 @@ class Aardvark : Application() {
         lifecycle = ProcessLifecycleOwner.get().lifecycle
         setupAuthentication()
 
-        Prefs.lastLaunch = currentTimeInMillis
         if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
     }
 

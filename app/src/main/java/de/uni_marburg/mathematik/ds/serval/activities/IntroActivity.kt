@@ -25,6 +25,7 @@ import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragment
 import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTabTouch
 import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTheme
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.find
@@ -84,6 +85,7 @@ class IntroActivity : BaseActivity() {
     }
 
     override fun finish() {
+        Prefs.lastLaunch = currentTimeInMillis
         startActivity<MainActivity>()
         super.finish()
     }
