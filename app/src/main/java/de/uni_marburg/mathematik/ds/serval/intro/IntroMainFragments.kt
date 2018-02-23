@@ -131,7 +131,8 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
             container.setOnSingleTapListener { _, motionEvent ->
                 with(currentActivity) {
                     if (hasLocationPermission) {
-                        (this as IntroActivity).finish(x = motionEvent.x, y = motionEvent.y)
+                        val introActivity = this as IntroActivity
+                        introActivity.finish(x = motionEvent.x, y = motionEvent.y)
                     } else {
                         kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
                             if (!granted) snackbarThemed(string(R.string.preference_requires_location_permission))

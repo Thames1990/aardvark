@@ -151,35 +151,16 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
      * Mirror bitmap.
      */
     private fun Bitmap.mirrored(): Bitmap {
-        val matrix = Matrix().apply {
-            preScale(-1.0f, 1.0f)
-        }
-
-        val reflection = Bitmap.createBitmap(
-            this,
-            0,
-            0,
-            width,
-            height,
-            matrix,
-            false
-        )
-
+        val matrix = Matrix().apply { preScale(-1.0f, 1.0f) }
+        val reflection = Bitmap.createBitmap(this, 0, 0, width, height, matrix, false)
         val canvas = Canvas(reflection).apply {
             drawBitmap(reflection, 0.0f, 0.0f, null)
         }
-
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
         }
 
-        canvas.drawRect(
-            0.0f,
-            0.0f,
-            width.toFloat(),
-            height.toFloat(),
-            paint
-        )
+        canvas.drawRect(0.0f, 0.0f, width.toFloat(), height.toFloat(), paint)
 
         return reflection
     }

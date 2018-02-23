@@ -40,7 +40,8 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
     private fun View.setThemeClick(theme: Theme) {
         setOnClickListener { view ->
             Prefs.themeType = theme.ordinal
-            (activity as IntroActivity).apply {
+            val introActivity = activity as IntroActivity
+            with(introActivity) {
                 ripple.ripple(
                     color = Prefs.backgroundColor,
                     startX = view.x + view.pivotX,

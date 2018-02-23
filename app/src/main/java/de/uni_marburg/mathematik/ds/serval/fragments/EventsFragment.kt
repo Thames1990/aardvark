@@ -186,7 +186,7 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     }
 
     private fun Event.displayTime() {
-        timeView.apply {
+        with(timeView) {
             text = passedTime.timeToString(itemView.context)
             setTextColor(Prefs.textColor)
         }
@@ -200,7 +200,7 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                 icon = GoogleMaterial.Icon.gmd_location_on,
                 color = Prefs.textColor
             )
-            locationView.apply {
+            with(locationView) {
                 text = location.distanceTo(MainActivity.lastLocation).distanceToString(context)
                 setTextColor(Prefs.textColor)
             }
