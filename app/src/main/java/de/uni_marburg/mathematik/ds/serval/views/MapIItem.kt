@@ -8,6 +8,7 @@ import ca.allanwang.kau.iitems.KauIItem
 import ca.allanwang.kau.utils.bindView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
@@ -19,17 +20,20 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
 
     override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
         super.bindView(holder, payloads)
-        holder.map.apply {
+        with(holder.map) {
             onCreate(null)
-            getMapAsync { map ->
-                map.apply {
-                    uiSettings.apply {
-                        setAllGesturesEnabled(false)
-                        isMapToolbarEnabled = false
+            getMapAsync { googleMap ->
+                with(googleMap) {
+                    with(uiSettings) {
                         isClickable = false
+                        isMapToolbarEnabled = false
+                        setAllGesturesEnabled(false)
                     }
-                    val position = event.position
-                    addMarker(MarkerOptions().position(position))
+
+                    val position: LatLng = event.position
+                    val marker: MarkerOptions = MarkerOptions().position(position)
+                    addMarker(marker)
+
                     val cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM)
                     moveCamera(cameraUpdate)
                 }
