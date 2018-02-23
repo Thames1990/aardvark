@@ -18,6 +18,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventDatabase
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
+import de.uni_marburg.mathematik.ds.serval.views.SmallHeaderIitem
 import io.nlopez.smartlocation.SmartLocation
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -70,6 +71,19 @@ class DetailActivity : ElasticRecyclerActivity() {
         if (::event.isInitialized) {
             title = event.title
 
+            val measurementCardItems = mutableListOf<CardIItem>()
+            event.measurements.forEach { measurement ->
+                val format = string(measurement.type.formatRes)
+                val measurementDescription = String.format(format, measurement.value)
+                val measurementCardItem = CardIItem {
+                    titleRes = measurement.type.titleRes
+                    desc = measurementDescription
+                    imageIIcon = measurement.type.iicon
+                    imageIIconColor = Prefs.iconColor
+                }
+                measurementCardItems.add(measurementCardItem)
+            }
+
             val eventCardItem = CardIItem {
                 titleRes = R.string.time
                 val passedTime: String = event.passedTime.timeToString(this@DetailActivity)
@@ -93,23 +107,12 @@ class DetailActivity : ElasticRecyclerActivity() {
                 }
             }
 
-            val measurementCardItems = mutableListOf<CardIItem>()
-            event.measurements.forEach { measurement ->
-                val format = string(measurement.type.formatRes)
-                val measurementDescription = String.format(format, measurement.value)
-                val measurementCardItem = CardIItem {
-                    titleRes = measurement.type.titleRes
-                    desc = measurementDescription
-                    imageIIcon = measurement.type.iicon
-                    imageIIconColor = Prefs.iconColor
-                }
-                measurementCardItems.add(measurementCardItem)
-            }
-
             with(adapter) {
                 if (showMap) add(MapIItem(event))
-                add(eventCardItem)
+                add(SmallHeaderIitem(textRes = R.string.measurements))
                 measurementCardItems.forEach { measurementCardItem -> add(measurementCardItem) }
+                add(SmallHeaderIitem(textRes = R.string.details))
+                add(eventCardItem)
             }
         } else {
             title = string(R.string.event_missing)

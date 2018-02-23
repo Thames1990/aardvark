@@ -66,6 +66,8 @@
     <string name="debug_disclaimer_info">Please only use these settings if you are absolutely sure, what you are doing!</string>
     <string name="debug_enabled">Debug settings activated</string>
 
+    <string name="details">Details</string>
+
     <string name="developer_email_aardvark" translatable="false">ThomasMohr1990@gmail.com</string>
     <string name="developer_name_aardvark" translatable="false">Thomas Mohr</string>
     <string name="developer_name_kerval" translatable="false">Markus Sommer</string>
