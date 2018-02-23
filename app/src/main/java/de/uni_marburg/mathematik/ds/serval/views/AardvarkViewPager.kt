@@ -12,20 +12,11 @@ class AardvarkViewPager @JvmOverloads constructor(
     attrs: AttributeSet? = null
 ) : ViewPager(context, attrs) {
 
-    var enableSwipe = true
-
     override fun onInterceptTouchEvent(motionEvent: MotionEvent?) =
-        try {
-            Prefs.viewpagerSwipe && enableSwipe && super.onInterceptTouchEvent(motionEvent)
-        } catch (e: IllegalArgumentException) {
-            false
-        }
+        Prefs.viewpagerSwipe && super.onInterceptTouchEvent(motionEvent)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(motionEvent: MotionEvent?): Boolean =
-        try {
-            Prefs.viewpagerSwipe && enableSwipe && super.onTouchEvent(motionEvent)
-        } catch (e: IllegalArgumentException) {
-            false
-        }
+        Prefs.viewpagerSwipe && super.onTouchEvent(motionEvent)
+
 }
