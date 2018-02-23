@@ -196,12 +196,8 @@
     <string name="tab_item_map">Map</string>
 
     <string name="theme">Theme</string>
-    <string name="theme_amoled">AMOLED</string>
-    <string name="theme_custom">Custom</string>
     <string name="theme_customization">Theme Customization</string>
-    <string name="theme_dark">Dark</string>
     <string name="theme_issue">Theme Issue</string>
-    <string name="theme_light">Light</string>
 
     <string name="time">Time</string>
 
