@@ -35,6 +35,8 @@
     <string name="activity_unknown">… WTF are you doing?</string>
     <string name="activity_walking">walking</string>
 
+    <string name="address">Address</string>
+
     <string name="analytics_description">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
 
     <string name="appearance">Appearance</string>
