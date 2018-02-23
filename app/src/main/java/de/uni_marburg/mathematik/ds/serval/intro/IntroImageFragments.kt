@@ -10,9 +10,10 @@ import android.view.View
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
-import android.widget.ImageView
-import ca.allanwang.kau.utils.*
-import com.mikepenz.community_material_typeface_library.CommunityMaterial
+import ca.allanwang.kau.utils.setTextWithFade
+import ca.allanwang.kau.utils.tint
+import ca.allanwang.kau.utils.toBitmap
+import ca.allanwang.kau.utils.withAlpha
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
@@ -33,8 +34,6 @@ abstract class BaseImageIntroFragment(
     private val screen: Drawable by lazyResettableRegistered {
         imageDrawable.findDrawableByLayerId(R.id.intro_phone_screen)
     }
-
-    val icon: ImageView by bindViewResettable(R.id.intro_button)
 
     override fun viewArray(): Array<Array<out View>> = arrayOf(arrayOf(title), arrayOf(desc))
 
@@ -83,57 +82,47 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        icon.apply {
-            visible()
-            setIcon(
-                icon = CommunityMaterial.Icon.cmd_arrow_down,
-                sizeDp = 24,
-                color = Prefs.textColor
-            )
+        with(image) {
             rotation = currentRotation
-        }
-        image.rotation = currentRotation
 
-        icon.setOnClickListener {
-            // TODO Figure out why rotation from 180.0 to 0.0 is wrong
-            val rotateAnimation = RotateAnimation(
-                currentRotation,
-                currentRotation - 180.0f,
-                RotateAnimation.RELATIVE_TO_SELF,
-                0.5f,
-                RotateAnimation.RELATIVE_TO_SELF,
-                0.5f
-            ).apply {
-                duration = animationDuration
-                fillAfter = true
+            setOnClickListener {
+                // TODO Figure out why rotation from 180.0 to 0.0 is wrong
+                val rotateAnimation = RotateAnimation(
+                    currentRotation,
+                    currentRotation - 180.0f,
+                    RotateAnimation.RELATIVE_TO_SELF,
+                    0.5f,
+                    RotateAnimation.RELATIVE_TO_SELF,
+                    0.5f
+                ).apply {
+                    duration = animationDuration
+                    fillAfter = true
+                }
+
+                val rotateAnimationSet = AnimationSet(true).apply {
+                    interpolator = DecelerateInterpolator()
+                    fillAfter = true
+                    isFillEnabled = true
+                    addAnimation(rotateAnimation)
+                }
+
+                currentRotation -= 180.0f
+
+                // Flip
+                image.setImageBitmap(image.drawable.toBitmap().mirrored())
+                // Rotate
+                image.startAnimation(rotateAnimationSet)
+
+                // Set main activity layout type
+                Prefs.mainActivityLayoutType =
+                        if (currentRotation.rem(360.0f) == 0.0f)
+                            MainActivityLayout.TOP_BAR.ordinal
+                        else
+                            MainActivityLayout.BOTTOM_BAR.ordinal
+
+                // Update text to indicate current main activity layout type
+                title.setTextWithFade(Prefs.mainActivityLayout.titleRes)
             }
-
-            val rotateAnimationSet = AnimationSet(true).apply {
-                interpolator = DecelerateInterpolator()
-                fillAfter = true
-                isFillEnabled = true
-                addAnimation(rotateAnimation)
-            }
-
-            currentRotation -= 180.0f
-
-            // Flip
-            image.setImageBitmap(image.drawable.toBitmap().mirrored())
-            // Rotate
-            image.startAnimation(rotateAnimationSet)
-            icon.fadeScaleTransition(duration = animationDuration) {
-                rotation = currentRotation
-            }
-
-            // Set main activity layout type
-            Prefs.mainActivityLayoutType =
-                    if (currentRotation.rem(360.0f) == 0.0f)
-                        MainActivityLayout.TOP_BAR.ordinal
-                    else
-                        MainActivityLayout.BOTTOM_BAR.ordinal
-
-            // Update text to indicate current main activity layout type
-            title.setTextWithFade(Prefs.mainActivityLayout.titleRes)
         }
     }
 
