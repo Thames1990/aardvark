@@ -23,6 +23,8 @@ class DashboardFragment : BaseFragment() {
 
     private lateinit var activityRecognitionControl: SmartLocation.ActivityRecognitionControl
 
+    private var detectedActivity: DetectedActivity? = null
+
     private val title: TextView by bindView(R.id.title)
     private val image: ImageView by bindView(R.id.image)
     private val description: TextView by bindView(R.id.description)
@@ -34,23 +36,26 @@ class DashboardFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        activityRecognitionControl.start { detectedActivity ->
-            if (Prefs.animate) {
-                image.fadeScaleTransition {
+        activityRecognitionControl.start { activity ->
+            if (detectedActivity != activity) {
+                detectedActivity = activity
+                if (Prefs.animate) {
+                    image.fadeScaleTransition {
+                        image.setIcon(
+                            icon = activity.iicon,
+                            color = Prefs.textColor,
+                            sizeDp = currentContext.displayMetrics.densityDpi
+                        )
+                    }
+                    description.setTextWithFade(activity.currentActivity)
+                } else {
                     image.setIcon(
-                        icon = detectedActivity.iicon,
+                        icon = activity.iicon,
                         color = Prefs.textColor,
                         sizeDp = currentContext.displayMetrics.densityDpi
                     )
+                    description.text = activity.currentActivity
                 }
-                description.setTextWithFade(detectedActivity.currentActivity)
-            } else {
-                image.setIcon(
-                    icon = detectedActivity.iicon,
-                    color = Prefs.textColor,
-                    sizeDp = currentContext.displayMetrics.densityDpi
-                )
-                description.text = detectedActivity.currentActivity
             }
         }
     }
