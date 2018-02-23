@@ -31,6 +31,7 @@ enum class OpenSourceLibrary(
 
     KERVAL(
         authorRes = R.string.developer_name_kerval,
+        libraryDescriptionRes = R.string.kerval_desc,
         libraryNameRes = R.string.kerval_name,
         libraryVersion = BuildConfig.KERVAL_VERSION,
         licenseNameRes = R.string.mit_license,

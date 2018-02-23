@@ -78,6 +78,7 @@
     <string name="intro_tap_to_exit">Tap anywhere to exit</string>
     <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
 
+    <string name="kerval_desc">Kotlin client for serval-dna REST-interface</string>
     <string name="kerval_name">Kerval</string>
     <string name="kerval_password">Password</string>
     <string name="kerval_password_must_not_be_empty">You need to enter a password</string>
