@@ -23,7 +23,7 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     )
 
     checkbox(
-        title = R.string.preference_changelog,
+        title = R.string.kau_changelog,
         getter = Prefs::changelog,
         setter = { Prefs.changelog = it },
         builder = { descRes = R.string.preference_changelog_desc }

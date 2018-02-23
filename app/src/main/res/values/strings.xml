@@ -143,7 +143,6 @@
     <string name="preference_behaviour">Behaviour</string>
     <string name="preference_behaviour_desc">Define how the app interacts in certain settings</string>
     <string name="preference_bug_report">Bug Report</string>
-    <string name="preference_changelog">Changelog</string>
     <string name="preference_changelog_desc">Show changelogs after updates</string>
     <string name="preference_confirm_exit">Confirm exit</string>
     <string name="preference_debug">Debug</string>
