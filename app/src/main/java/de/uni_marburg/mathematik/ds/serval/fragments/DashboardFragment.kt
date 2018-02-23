@@ -23,9 +23,33 @@ class DashboardFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_dashboard
 
+    private lateinit var activityRecognitionControl: SmartLocation.ActivityRecognitionControl
+
     private val title: TextView by bindView(R.id.title)
     private val image: ImageView by bindView(R.id.image)
     private val description: TextView by bindView(R.id.description)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activityRecognitionControl = SmartLocation.with(currentContext).activity()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activityRecognitionControl.start { detectedActivity ->
+            image.setIcon(
+                icon = detectedActivity.iicon,
+                color = Prefs.textColor,
+                sizeDp = currentContext.displayMetrics.densityDpi
+            )
+            description.text = detectedActivity.currentActivity
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activityRecognitionControl.stop()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,15 +60,6 @@ class DashboardFragment : BaseFragment() {
             sizeDp = currentContext.displayMetrics.densityDpi
         )
         description.setTextColor(Prefs.textColor)
-
-        SmartLocation.with(currentContext).activity().start { detectedActivity ->
-            image.setIcon(
-                icon = detectedActivity.iicon,
-                color = Prefs.textColor,
-                sizeDp = currentContext.displayMetrics.densityDpi
-            )
-            description.text = detectedActivity.currentActivity
-        }
     }
 
     private inline val DetectedActivity.currentActivity: String
