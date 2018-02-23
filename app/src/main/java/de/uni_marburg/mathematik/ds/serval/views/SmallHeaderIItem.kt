@@ -11,9 +11,9 @@ import ca.allanwang.kau.utils.bindView
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 
-class SmallHeaderIitem(
+class SmallHeaderIItem(
     text: String? = null, var textRes: Int = -1
-) : KauIItem<SmallHeaderIitem, SmallHeaderIitem.ViewHolder>(
+) : KauIItem<SmallHeaderIItem, SmallHeaderIItem.ViewHolder>(
     layoutRes = R.layout.iitem_header,
     viewHolder = ::ViewHolder
 ), ThemableIItem by ThemableIItemDelegate() {

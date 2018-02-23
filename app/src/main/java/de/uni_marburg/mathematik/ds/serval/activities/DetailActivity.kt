@@ -18,7 +18,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventDatabase
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
-import de.uni_marburg.mathematik.ds.serval.views.SmallHeaderIitem
+import de.uni_marburg.mathematik.ds.serval.views.SmallHeaderIItem
 import io.nlopez.smartlocation.SmartLocation
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -115,7 +115,7 @@ class DetailActivity : ElasticRecyclerActivity() {
             with(adapter) {
                 if (showMap) add(MapIItem(event))
                 add(
-                    SmallHeaderIitem(
+                    SmallHeaderIItem(
                         text = plural(
                             R.plurals.measurement,
                             quantity = event.measurements.count()
@@ -123,7 +123,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                     )
                 )
                 measurementCardItems.forEach { measurementCardItem -> add(measurementCardItem) }
-                add(SmallHeaderIitem(textRes = R.string.details))
+                add(SmallHeaderIItem(textRes = R.string.details))
                 add(eventCardItem)
             }
         } else {
