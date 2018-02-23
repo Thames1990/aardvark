@@ -37,7 +37,7 @@ class AboutActivity : AboutActivityBase(
         cutoutForeground = Prefs.accentColor
         faqPageTitleRes = R.string.faq_title
         faqParseNewLine = false
-        faqXmlRes = R.xml.aardvark_faq
+        faqXmlRes = R.xml.faq
         textColor = Prefs.textColor
     }
 ) {
@@ -82,7 +82,7 @@ class AboutActivity : AboutActivityBase(
                     val now = currentTimeInMillis
                     if (now - lastClick > DEBUG_CLICK_TIMESPAN) clickCount = 0 else clickCount++
                     lastClick = now
-                    if (clickCount == DEBUG_CLICK_COUNT && !Prefs.debugSettings) {
+                    if (!Prefs.debugSettings && clickCount == DEBUG_CLICK_COUNT) {
                         Prefs.debugSettings = true
                         snackbarThemed(R.string.preference_debug_enabled)
                     }
@@ -94,9 +94,7 @@ class AboutActivity : AboutActivityBase(
 
     override fun getLibraries(libs: Libs): List<Library> {
         val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
-        OpenSourceLibrary.values().map { library ->
-            libraries.add(library.getLibrary(this))
-        }
+        OpenSourceLibrary.values().map { library -> libraries.add(library.getLibrary(this)) }
         return libraries.sortedBy { library -> library.libraryName }
     }
 
