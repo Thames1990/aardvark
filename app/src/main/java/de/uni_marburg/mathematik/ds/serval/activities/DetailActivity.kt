@@ -64,6 +64,11 @@ class DetailActivity : ElasticRecyclerActivity() {
         return true
     }
 
+    override fun onPause() {
+        super.onPause()
+        geocodingControl.stop()
+    }
+
     private fun setupAdapter() {
         val adapter = FastItemAdapter<IItem<*, *>>()
         val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
