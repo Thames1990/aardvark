@@ -55,7 +55,6 @@ object Prefs : KPref() {
         postSetter = { _: Int -> mapsStyleLoader.invalidate() }
     )
     var installDate: Long by kpref(key = "INSTALL_DATE", fallback = -1L)
-    var isFirstLaunch: Boolean by kpref(key = "IS_FIRST_LAUNCH", fallback = true)
     var kervalBaseUrl: String by kpref(key = "KERVAL_BASE_URL", fallback = "serval.splork.de")
     var kervalPassword: String by kpref(key = "KERVAL_PASSWORD", fallback = "pum123")
     var kervalPort: Int by kpref(key = "KERVAL_PORT", fallback = 80)
