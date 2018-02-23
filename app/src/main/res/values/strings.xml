@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
     <string name="aardvark_about">About Aardvark</string>
-    <string name="aardvark_about_description">Version, Credits, and FAQs</string>
-    <string name="aardvark_amoled">AMOLED</string>
-    <string name="aardvark_custom">Custom</string>
-    <string name="aardvark_dark">Dark</string>
-    <string name="aardvark_description">The developer was too lazy to include a description.</string>
+    <string name="aardvark_about_desc">Version, Credits, and FAQs</string>
+    <string name="aardvark_desc">The developer was too lazy to include a description.</string>
     <string name="aardvark_id">Aardvark ID</string>
-    <string name="aardvark_light">Light</string>
     <string name="aardvark_name" translatable="false">Aardvark</string>
 
-    <string name="action_change_map_type">Map type</string>
-    <string name="action_change_map_type_hybrid">Hybrid</string>
-    <string name="action_change_map_type_none">None</string>
-    <string name="action_change_map_type_normal">Normal</string>
-    <string name="action_change_map_type_satellite">Satellite</string>
-    <string name="action_change_map_type_terrain">Terrain</string>
+    <string name="action_map_type">Map type</string>
+    <string name="action_map_type_hybrid">Hybrid</string>
+    <string name="action_map_type_none">None</string>
+    <string name="action_map_type_normal">Normal</string>
+    <string name="action_map_type_satellite">Satellite</string>
+    <string name="action_map_type_terrain">Terrain</string>
     <string name="action_settings">Settings</string>
     <string name="action_sort_events">Sort events</string>
     <string name="action_sort_events_ascending">Ascending</string>
     <string name="action_sort_events_descending">Descending</string>
-    <string name="action_sort_events_distance">@string/distance</string>
-    <string name="action_sort_events_measurements">@string/measurements</string>
+    <string name="action_sort_events_distance">Distance</string>
+    <string name="action_sort_events_measurements">Measurements</string>
     <string name="action_sort_events_time">Time</string>
     <string name="action_zoom_to_all_markers">Zoom to all markers</string>
 
-    <string name="activity_description">You are %1$s</string>
+    <string name="activity_desc">You are %1$s</string>
     <string name="activity_in_vehicle">in a vehicle</string>
     <string name="activity_on_bicycle">on a bicycle</string>
     <string name="activity_on_foot">on foot</string>
@@ -35,36 +31,12 @@
     <string name="activity_unknown">… WTF are you doing?</string>
     <string name="activity_walking">walking</string>
 
-    <string name="address">Address</string>
-
-    <string name="analytics_description">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
-
-    <string name="appearance">Appearance</string>
-    <string name="appearance_description">Theme, Items to display, etc</string>
-
-    <string name="behaviour">Behaviour</string>
-    <string name="behaviour_description">Define how the app interacts in certain settings</string>
-
-    <string name="bottom_bar">Bottom bar</string>
-
-    <string name="bug_report">Bug Report</string>
-
-    <string name="changelog">Changelog</string>
-    <string name="changelog_description">Show changelogs after updates</string>
-
     <string name="color_accent">Accent color</string>
     <string name="color_background">Background color</string>
     <string name="color_header">Header color</string>
     <string name="color_icon">Icon color</string>
     <string name="color_primary">Primary color</string>
     <string name="color_text">Text color</string>
-
-    <string name="dashboard">Dashboard</string>
-
-    <string name="debug">Debug</string>
-    <string name="debug_description">Useful features for developers</string>
-    <string name="debug_disclaimer_info">Please only use these settings if you are absolutely sure, what you are doing!</string>
-    <string name="debug_enabled">Debug settings activated</string>
 
     <string name="details">Details</string>
 
@@ -76,22 +48,10 @@
     <string name="distance_in_kilometer">%1$.2f km</string>
     <string name="distance_in_meter">%1$.0f m</string>
 
-    <string name="editing_tabs_coming_soon">Editing tabs coming soon™</string>
+    <string name="email_subject">Subject</string>
 
-    <string name="enable">Enable</string>
-
-    <string name="event_count">Event count</string>
-    <string name="event_count_description">Define how many events should be loaded</string>
-    <string name="event_loading_time">Loading events took %1$d ms</string>
     <string name="event_missing">Event is missing</string>
-    <string name="event_missing_description">This event couldn\'t be loaded from the database. If this happens more than once, please contact the developer with a bug report.</string>
-
-    <string name="events">Events</string>
-
-    <string name="experimental">Experimental</string>
-
-    <string name="fancy_animations">Fancy Animations</string>
-    <string name="fancy_animations_description">Use ripples and animate transitions</string>
+    <string name="event_missing_desc">This event couldn\'t be loaded from the database. If this happens more than once, please contact the developer with a bug report.</string>
 
     <string name="faq_title">Frequently asked questions</string>
 
@@ -100,9 +60,7 @@
     <string name="feedback">Feedback</string>
 
     <string name="fingerprint_required">Access your secured environment</string>
-    <string name="fingerprint_required_description">Place your finger on the reader</string>
-
-    <string name="global_customization">Global Customization</string>
+    <string name="fingerprint_required_desc">Place your finger on the reader</string>
 
     <string name="google_maps_not_enabled">Google Maps is not enabled</string>
     <string name="google_maps_not_installed">Google Maps is not installed</string>
@@ -110,44 +68,42 @@
     <string name="grant_location_permission">Tap anywhere to grant location permission</string>
     <string name="grant_location_permission_settings">Grant location permission to use and customize location features.\nAfter you granted permission, exit settings and Aardvark will restart itself, affecting changes.</string>
 
-    <string name="install">Install</string>
-
     <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
 
     <string name="intro_easy_navigation">Easy Navigation</string>
-    <string name="intro_easy_navigation_desc">Click tabs to navigate to their view.\nClick the tab again to reload the events.</string>
+    <string name="intro_easy_navigation_desc">Click tabs to navigate, click them again to reload events.</string>
     <string name="intro_end">Let\'s begin</string>
     <string name="intro_select_theme">Select a theme</string>
+    <string name="intro_skip">Skip</string>
     <string name="intro_slide_to_continue">Slide to continue</string>
     <string name="intro_tap_to_exit">Tap anywhere to exit</string>
     <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
 
     <string name="kerval_name">Kerval</string>
+    <string name="kerval_password">Password</string>
+    <string name="kerval_password_must_not_be_empty">You need to enter a password</string>
+    <string name="kerval_username">Username</string>
+    <string name="kerval_username_must_not_be_empty">You need to enter a username</string>
 
     <string name="license_website_aardvark" translatable="false">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
     <string name="license_website_kerval">https://github.com/CryptoCopter/kerval/blob/master/LICENSE</string>
 
     <string name="location">Location</string>
-    <string name="location_description">Control your location settings</string>
+    <string name="location_address">Address</string>
+    <string name="location_desc">Control your location settings</string>
     <string name="location_request_fastest_interval">Passive location request interval</string>
-    <string name="location_request_fastest_interval_description">Define the interval in minutes between passive location updates. This determines how often other apps can inform Aardvark of your current location.</string>
+    <string name="location_request_fastest_interval_desc">Define the interval in minutes between passive location updates. This determines how often other apps can inform Aardvark of your current location.</string>
     <string name="location_request_interval">Active location request interval</string>
-    <string name="location_request_interval_description">Define the interval in minutes between active location updates. This determines how often Aardvark can request your current location.</string>
+    <string name="location_request_interval_desc">Define the interval in minutes between active location updates. This determines how often Aardvark can request your current location.</string>
     <string name="location_request_priority">Location request priority</string>
     <string name="location_request_priority_accurate">Accurate</string>
-    <string name="location_request_priority_accurate_description">Use this setting to request the most precise location possible. With this setting, the location services are more likely to use GPS to determine the location.</string>
+    <string name="location_request_priority_accurate_desc">Use this setting to request the most precise location possible. With this setting, the location services are more likely to use GPS to determine the location.</string>
     <string name="location_request_priority_block_accuracy">Block accuracy</string>
-    <string name="location_request_priority_block_accuracy_description">Use this setting to request location precision to within a city block, which is an accuracy of approximately 100 meters. This is considered a coarse level of accuracy, and is likely to consume less power. With this setting, the location services are likely to use WiFi and cell tower positioning. Note, however, that the choice of location provider depends on many other factors, such as which sources are available.</string>
+    <string name="location_request_priority_block_accuracy_desc">Use this setting to request location precision to within a city block, which is an accuracy of approximately 100 meters. This is considered a coarse level of accuracy, and is likely to consume less power. With this setting, the location services are likely to use WiFi and cell tower positioning. Note, however, that the choice of location provider depends on many other factors, such as which sources are available.</string>
     <string name="location_request_priority_city_accuracy">City accuracy</string>
-    <string name="location_request_priority_city_accuracy_description">Use this setting to request city-level precision, which is an accuracy of approximately 10 kilometers. This is considered a coarse level of accuracy, and is likely to consume less power.</string>
+    <string name="location_request_priority_city_accuracy_desc">Use this setting to request city-level precision, which is an accuracy of approximately 10 kilometers. This is considered a coarse level of accuracy, and is likely to consume less power.</string>
     <string name="location_request_priority_passive">Passive</string>
-    <string name="location_request_priority_passive_description">Use this setting if you need negligible impact on power consumption, but want to receive location updates when available. With this setting, your app does not trigger any location updates, but receives locations triggered by other apps.</string>
-
-    <string name="login_required">You must be logged in</string>
-
-    <string name="main_activity_layout">Main Activity Layout</string>
-
-    <string name="map">Map</string>
+    <string name="location_request_priority_passive_desc">Use this setting if you need negligible impact on power consumption, but want to receive location updates when available. With this setting, your app does not trigger any location updates, but receives locations triggered by other apps.</string>
 
     <string name="maps_style">Maps style</string>
     <string name="maps_style_aubergine">Aubergine</string>
@@ -157,7 +113,7 @@
     <string name="maps_style_silver">Silver</string>
     <string name="maps_style_standard">Standard</string>
 
-    <plurals name="measurement_count">
+    <plurals name="measurement">
         <item quantity="one">%1$d measurement</item>
         <item quantity="other">%1$d measurements</item>
     </plurals>
@@ -170,79 +126,88 @@
     <string name="measurement_value_wind">%1$d km/h</string>
     <string name="measurement_wind">Wind</string>
 
-    <string name="measurements">Measurements</string>
-
     <string name="mit_license">MIT License</string>
 
     <string name="network_disconnected">No network connectivity</string>
 
-    <string name="paging">Paging</string>
-    <string name="paging_description">Enable scrolling between pages</string>
-
-    <string name="password">Password</string>
-    <string name="password_must_not_be_empty">You need to enter a password</string>
-
-    <string name="placeholder_description">The developer was too lazy to include a layout!</string>
+    <string name="placeholder_desc">The developer was too lazy to include a layout!</string>
     <string name="placeholder_title">DAMN</string>
 
+    <string name="preference_analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
+    <string name="preference_animations">Animations</string>
+    <string name="preference_animations_desc">Use ripples and animate transitions</string>
+    <string name="preference_appearance">Appearance</string>
+    <string name="preference_appearance_desc">Theme, Items to display, etc</string>
+    <string name="preference_bar_bottom">Bottom bar</string>
+    <string name="preference_bar_top">Top bar</string>
+    <string name="preference_behaviour">Behaviour</string>
+    <string name="preference_behaviour_desc">Define how the app interacts in certain settings</string>
+    <string name="preference_bug_report">Bug Report</string>
     <string name="preference_changelog">Changelog</string>
+    <string name="preference_changelog_desc">Show changelogs after updates</string>
     <string name="preference_confirm_exit">Confirm exit</string>
+    <string name="preference_debug">Debug</string>
+    <string name="preference_debug_desc">Useful features for developers</string>
+    <string name="preference_debug_disclaimer_info">Please only use these settings if you are absolutely sure, what you are doing!</string>
+    <string name="preference_debug_enabled">Debug settings activated</string>
     <string name="preference_enable_wifi_adb">Enable WiFi ADB</string>
     <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>
-    <string name="preference_password_description">Serval API password</string>
+    <string name="preference_event_count">Event count</string>
+    <string name="preference_event_count_desc">Define how many events should be loaded</string>
+    <string name="preference_experimental">Experimental</string>
+    <string name="preference_global_customization">Global Customization</string>
+    <string name="preference_main_activity_layout">Main Activity Layout</string>
+    <string name="preference_paging">Paging</string>
+    <string name="preference_paging_desc">Enable scrolling between pages</string>
+    <string name="preference_password_desc">Serval API password</string>
     <string name="preference_progress_bar">Show event download progress</string>
-    <string name="preference_progress_bar_description">Event download progress is shown in toolbar</string>
+    <string name="preference_progress_bar_desc">Event download progress is shown in toolbar</string>
+    <string name="preference_replay_intro">Replay Introduction</string>
+    <string name="preference_report_bug">Report bug</string>
+    <string name="preference_requires_custom_theme">Requires custom theme</string>
+    <string name="preference_requires_location_permission">Requires location permission</string>
     <string name="preference_reset_analytics">Reset analytics</string>
     <string name="preference_reset_analytics_confirmation">Your analytics collection was removed</string>
-    <string name="preference_reset_analytics_description">Do you want to delete all collected analytics data?</string>
+    <string name="preference_reset_analytics_desc">Do you want to delete all collected analytics data?</string>
+    <string name="preference_secure_app">Secure privacy</string>
+    <string name="preference_secure_app_desc">Prohibit screenshots and interception of screen status and require fingerprint authentication</string>
     <string name="preference_send_feedback">Send feedback</string>
-    <string name="preference_send_feedback_description">Got any queries? We are happy to help!</string>
-    <string name="preference_share_adb_command_description">Use this command on your computer</string>
+    <string name="preference_send_feedback_desc">Got any queries? We are happy to help!</string>
+    <string name="preference_serval">Serval</string>
+    <string name="preference_serval_desc">Serval login information</string>
+    <string name="preference_set_main_activity_layout">Set Main Activity Layout</string>
+    <string name="preference_share_adb_command_desc">Use this command on your computer</string>
     <string name="preference_share_wifi_adb_command">Share ADB command</string>
     <string name="preference_theme">Theme</string>
+    <string name="preference_tint_nav">Tint nav bar</string>
+    <string name="preference_tint_nav_desc">Navigation bar will be the same color as the header</string>
     <string name="preference_use_analytics">Use analytics</string>
-    <string name="preference_username_description">Serval API username</string>
+    <string name="preference_username_desc">Serval API username</string>
     <string name="preference_vibration">Use vibrations</string>
-    <string name="preference_vibration_description">Vibrate on failed fingerprint unlock</string>
-
-    <string name="replay_intro">Replay Introduction</string>
-
-    <string name="report_bug">Report bug</string>
+    <string name="preference_vibration_desc">Vibrate on failed fingerprint unlock</string>
 
     <string name="repository_link_aardvark" translatable="false">https://github.com/Thames1990/aardvark</string>
     <string name="repository_link_kerval" translatable="false">https://github.com/CryptoCopter/kerval</string>
 
-    <string name="requires_custom_theme">Requires custom theme</string>
-    <string name="requires_location_permission">Requires location permission</string>
+    <string name="snackbar_action_enable">Enable</string>
+    <string name="snackbar_action_install">Install</string>
 
-    <string name="secure_app">Secure privacy</string>
-    <string name="secure_app_desc">Prohibit screenshots and interception of screen status and require fingerprint authentication</string>
-
-    <string name="serval">Serval</string>
-    <string name="serval_description">Serval login information</string>
-
-    <string name="set_main_activity_layout">Set Main Activity Layout</string>
-
-    <string name="skip">Skip</string>
-
-    <string name="subject">Subject</string>
+    <string name="tab_item_dashboard">Dashboard</string>
+    <string name="tab_item_events">Events</string>
+    <string name="tab_item_map">Map</string>
 
     <string name="theme">Theme</string>
+    <string name="theme_amoled">AMOLED</string>
+    <string name="theme_custom">Custom</string>
     <string name="theme_customization">Theme Customization</string>
+    <string name="theme_dark">Dark</string>
     <string name="theme_issue">Theme Issue</string>
+    <string name="theme_light">Light</string>
 
     <string name="time">Time</string>
-
-    <string name="tint_nav">Tint nav bar</string>
-    <string name="tint_nav_desc">Navigation bar will be the same color as the header</string>
 
     <string name="tools_distance" translatable="false">392 m</string>
     <string name="tools_measurement_type" translatable="false">Radiation</string>
     <string name="tools_measurement_value" translatable="false">2 μSv/h</string>
     <string name="tools_time" translatable="false">24 min</string>
-
-    <string name="top_bar">Top bar</string>
-
-    <string name="username">Username</string>
-    <string name="username_must_not_be_empty">You need to enter a username</string>
 </resources>

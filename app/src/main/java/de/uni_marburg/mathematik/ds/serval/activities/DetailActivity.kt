@@ -104,7 +104,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                         .replace(oldValue = "unnamed road, ", newValue = "", ignoreCase = true)
                         .replace(oldValue = ", ", newValue = "\n")
                     val addressCard = CardIItem {
-                        titleRes = R.string.address
+                        titleRes = R.string.location_address
                         desc = addressLines
                         imageIIcon = CommunityMaterial.Icon.cmd_map_marker
                     }
@@ -114,7 +114,14 @@ class DetailActivity : ElasticRecyclerActivity() {
 
             with(adapter) {
                 if (showMap) add(MapIItem(event))
-                add(SmallHeaderIitem(textRes = R.string.measurements))
+                add(
+                    SmallHeaderIitem(
+                        text = plural(
+                            R.plurals.measurement,
+                            quantity = event.measurements.count()
+                        )
+                    )
+                )
                 measurementCardItems.forEach { measurementCardItem -> add(measurementCardItem) }
                 add(SmallHeaderIitem(textRes = R.string.details))
                 add(eventCardItem)
@@ -122,8 +129,8 @@ class DetailActivity : ElasticRecyclerActivity() {
         } else {
             title = string(R.string.event_missing)
             val missingEventCard = CardIItem {
-                descRes = R.string.event_missing_description
-                buttonRes = R.string.report_bug
+                descRes = R.string.event_missing_desc
+                buttonRes = R.string.preference_report_bug
                 buttonClick = { SupportTopic.BUG.sendEmail(this@DetailActivity) }
             }
             adapter.add(missingEventCard)
@@ -150,11 +157,19 @@ class DetailActivity : ElasticRecyclerActivity() {
                 startActivity(navigationIntent)
             } else snackbarThemed(
                 textRes = R.string.google_maps_not_enabled,
-                builder = { setAction(R.string.enable, { showAppInfo(GOOGLE_MAPS) }) }
+                builder = {
+                    setAction(
+                        R.string.snackbar_action_enable,
+                        { showAppInfo(GOOGLE_MAPS) })
+                }
             )
         } else snackbarThemed(
             textRes = R.string.google_maps_not_installed,
-            builder = { setAction(R.string.install, { startPlayStoreLink(GOOGLE_MAPS) }) }
+            builder = {
+                setAction(
+                    R.string.snackbar_action_install,
+                    { startPlayStoreLink(GOOGLE_MAPS) })
+            }
         )
     }
 

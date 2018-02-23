@@ -134,7 +134,7 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
                         (this as IntroActivity).finish(x = motionEvent.x, y = motionEvent.y)
                     } else {
                         kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
-                            if (!granted) snackbarThemed(string(R.string.requires_location_permission))
+                            if (!granted) snackbarThemed(string(R.string.preference_requires_location_permission))
                             else description.setTextWithFade(R.string.intro_tap_to_exit)
                         }
                     }

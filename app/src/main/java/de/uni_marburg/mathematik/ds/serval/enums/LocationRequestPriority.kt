@@ -22,7 +22,7 @@ enum class LocationRequestPriority(
      */
     ACCURATE(
         titleRes = R.string.location_request_priority_accurate,
-        descTextRes = R.string.location_request_priority_accurate_description,
+        descTextRes = R.string.location_request_priority_accurate_desc,
         priorityGetter = LocationRequest::PRIORITY_HIGH_ACCURACY
     ),
 
@@ -35,7 +35,7 @@ enum class LocationRequestPriority(
      */
     BLOCK_ACCURACY(
         titleRes = R.string.location_request_priority_block_accuracy,
-        descTextRes = R.string.location_request_priority_block_accuracy_description,
+        descTextRes = R.string.location_request_priority_block_accuracy_desc,
         priorityGetter = LocationRequest::PRIORITY_BALANCED_POWER_ACCURACY
     ),
 
@@ -46,7 +46,7 @@ enum class LocationRequestPriority(
      */
     CITY_ACCURACY(
         titleRes = R.string.location_request_priority_city_accuracy,
-        descTextRes = R.string.location_request_priority_city_accuracy_description,
+        descTextRes = R.string.location_request_priority_city_accuracy_desc,
         priorityGetter = LocationRequest::PRIORITY_LOW_POWER
     ),
 
@@ -57,7 +57,7 @@ enum class LocationRequestPriority(
      */
     PASSIVE(
         titleRes = R.string.location_request_priority_passive,
-        descTextRes = R.string.location_request_priority_passive_description,
+        descTextRes = R.string.location_request_priority_passive_desc,
         priorityGetter = LocationRequest::PRIORITY_NO_POWER
     );
 

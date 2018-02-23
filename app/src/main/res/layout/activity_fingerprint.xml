@@ -43,7 +43,7 @@
         android:layout_marginRight="@dimen/margin_horizontal_fragment_description"
         android:gravity="center"
         android:maxEms="18"
-        android:text="@string/fingerprint_required_description"
+        android:text="@string/fingerprint_required_desc"
         android:textSize="@dimen/text_size_fragment_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

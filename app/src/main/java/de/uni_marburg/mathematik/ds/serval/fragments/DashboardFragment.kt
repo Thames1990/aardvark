@@ -78,7 +78,7 @@ class DashboardFragment : BaseFragment() {
 
     private inline val DetectedActivity.currentActivity: String
         get() {
-            val formatId = R.string.activity_description
+            val formatId = R.string.activity_desc
             val valueId = when (type) {
                 DetectedActivity.IN_VEHICLE -> R.string.activity_in_vehicle
                 DetectedActivity.ON_BICYCLE -> R.string.activity_on_bicycle

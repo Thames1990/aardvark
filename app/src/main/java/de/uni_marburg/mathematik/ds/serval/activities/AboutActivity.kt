@@ -64,7 +64,7 @@ class AboutActivity : AboutActivityBase(
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark = Library().apply {
             author = string(R.string.developer_name_aardvark)
-            libraryDescription = string(R.string.aardvark_description)
+            libraryDescription = string(R.string.aardvark_desc)
             libraryName = string(R.string.aardvark_name)
             libraryVersion = BuildConfig.VERSION_NAME
             license = License().apply {
@@ -84,7 +84,7 @@ class AboutActivity : AboutActivityBase(
                     lastClick = now
                     if (clickCount == DEBUG_CLICK_COUNT && !Prefs.debugSettings) {
                         Prefs.debugSettings = true
-                        snackbarThemed(R.string.debug_enabled)
+                        snackbarThemed(R.string.preference_debug_enabled)
                     }
                 }
                 false

@@ -14,17 +14,17 @@ import de.uni_marburg.mathematik.ds.serval.R
 enum class TabItem(@StringRes val titleRes: Int, val iicon: IIcon) {
 
     DASHBOARD(
-        titleRes = R.string.dashboard,
+        titleRes = R.string.tab_item_dashboard,
         iicon = GoogleMaterial.Icon.gmd_dashboard
     ),
 
     EVENTS(
-        titleRes = R.string.events,
+        titleRes = R.string.tab_item_events,
         iicon = GoogleMaterial.Icon.gmd_info_outline
     ),
 
     MAP(
-        titleRes = R.string.map,
+        titleRes = R.string.tab_item_map,
         iicon = GoogleMaterial.Icon.gmd_map
     )
 

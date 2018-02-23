@@ -25,7 +25,7 @@ enum class Theme(
 ) {
 
     LIGHT(
-        titleRes = R.string.aardvark_light,
+        titleRes = R.string.theme_light,
         textColorGetter = Color::BLACK,
         accentColorGetter = ::FRUIT_SALAD,
         backgroundColorGetter = ::ALABASTER,
@@ -34,7 +34,7 @@ enum class Theme(
     ),
 
     DARK(
-        titleRes = R.string.aardvark_dark,
+        titleRes = R.string.theme_dark,
         textColorGetter = { Color.WHITE },
         accentColorGetter = ::PASTEL_GREEN,
         backgroundColorGetter = ::MINE_SHAFT,
@@ -43,7 +43,7 @@ enum class Theme(
     ),
 
     AMOLED(
-        titleRes = R.string.aardvark_amoled,
+        titleRes = R.string.theme_amoled,
         textColorGetter = Color::WHITE,
         accentColorGetter = ::PASTEL_GREEN,
         backgroundColorGetter = Color::BLACK,
@@ -52,7 +52,7 @@ enum class Theme(
     ),
 
     CUSTOM(
-        titleRes = R.string.aardvark_custom,
+        titleRes = R.string.theme_custom,
         textColorGetter = Prefs::customTextColor,
         accentColorGetter = Prefs::customAccentColor,
         backgroundColorGetter = Prefs::customBackgroundColor,

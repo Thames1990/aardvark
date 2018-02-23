@@ -22,26 +22,26 @@ enum class PreferenceSubItem(
 ) {
 
     BEHAVIOUR(
-        titleRes = R.string.behaviour,
-        descRes = R.string.behaviour_description,
+        titleRes = R.string.preference_behaviour,
+        descRes = R.string.preference_behaviour_desc,
         iicon = GoogleMaterial.Icon.gmd_settings
     ),
 
     APPEARANCE(
-        titleRes = R.string.appearance,
-        descRes = R.string.appearance_description,
+        titleRes = R.string.preference_appearance,
+        descRes = R.string.preference_appearance_desc,
         iicon = GoogleMaterial.Icon.gmd_palette
     ),
 
     LOCATION(
         titleRes = R.string.location,
-        descRes = R.string.location_description,
+        descRes = R.string.location_desc,
         iicon = GoogleMaterial.Icon.gmd_my_location
     ),
 
     SERVAL(
-        titleRes = R.string.serval,
-        descRes = R.string.serval_description,
+        titleRes = R.string.preference_serval,
+        descRes = R.string.preference_serval_desc,
         iicon = GoogleMaterial.Icon.gmd_network_wifi
     );
 }
@@ -53,8 +53,8 @@ enum class DebugPreferenceSubItem(
 ) {
 
     DEBUG(
-        titleRes = R.string.debug,
-        descRes = R.string.debug_description,
+        titleRes = R.string.preference_debug,
+        descRes = R.string.preference_debug_desc,
         iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
     )
 }

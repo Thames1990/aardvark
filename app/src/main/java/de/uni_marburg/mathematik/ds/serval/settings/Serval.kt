@@ -10,16 +10,16 @@ import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     // Serval API username
     text(
-        title = R.string.username,
+        title = R.string.kerval_username,
         getter = Prefs::kervalUser,
         setter = { Prefs.kervalUser = it },
         builder = {
-            descRes = R.string.preference_username_description
+            descRes = R.string.preference_username_desc
             onClick = {
                 materialDialogThemed {
-                    title(string(R.string.username))
+                    title(string(R.string.kerval_username))
                     input(
-                        string(R.string.username),
+                        string(R.string.kerval_username),
                         item.pref,
                         { _, input -> item.pref = input.toString() }
                     )
@@ -30,16 +30,16 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     // Serval API password
     text(
-        title = R.string.password,
+        title = R.string.kerval_password,
         getter = Prefs::kervalPassword,
         setter = { Prefs.kervalPassword = it },
         builder = {
-            descRes = R.string.preference_password_description
+            descRes = R.string.preference_password_desc
             onClick = {
                 materialDialogThemed {
-                    title(string(R.string.password))
+                    title(string(R.string.kerval_password))
                     input(
-                        string(R.string.password),
+                        string(R.string.kerval_password),
                         item.pref,
                         { _, input -> item.pref = input.toString() }
                     )
@@ -50,11 +50,11 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     // Events to fetch from Serval API
     seekbar(
-        title = R.string.event_count,
+        title = R.string.preference_event_count,
         getter = Prefs::eventCount,
         setter = { Prefs.eventCount = it },
         builder = {
-            descRes = R.string.event_count_description
+            descRes = R.string.preference_event_count_desc
             min = 1
             max = Prefs.EVENT_COUNT
             shouldRestartMain()

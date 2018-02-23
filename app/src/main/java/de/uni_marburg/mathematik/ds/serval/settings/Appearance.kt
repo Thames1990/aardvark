@@ -49,7 +49,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefColorPicker.KPrefColorContract.dependsOnCustom() {
         enabler = Prefs::isCustomTheme
-        onDisabledClick = { snackbarThemed(R.string.requires_custom_theme) }
+        onDisabledClick = { snackbarThemed(R.string.preference_requires_custom_theme) }
         allowCustom = true
     }
 
@@ -133,7 +133,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnCustom() {
         enabler = Prefs::isCustomTheme
-        onDisabledClick = { snackbarThemed(R.string.requires_custom_theme) }
+        onDisabledClick = { snackbarThemed(R.string.preference_requires_custom_theme) }
     }
 
     text(
@@ -167,17 +167,17 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     )
 
-    header(R.string.global_customization)
+    header(R.string.preference_global_customization)
 
     text(
-        title = R.string.main_activity_layout,
+        title = R.string.preference_main_activity_layout,
         getter = Prefs::mainActivityLayoutType,
         setter = { Prefs.mainActivityLayoutType = it },
         builder = {
             textGetter = { string(Prefs.mainActivityLayout.titleRes) }
             onClick = {
                 materialDialogThemed {
-                    title(R.string.set_main_activity_layout)
+                    title(R.string.preference_set_main_activity_layout)
                     items(MainActivityLayout.values().map { mainActivityLayout ->
                         string(mainActivityLayout.titleRes)
                     })
@@ -198,14 +198,14 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     )
 
     checkbox(
-        title = R.string.tint_nav,
+        title = R.string.preference_tint_nav,
         getter = Prefs::tintNavBar,
         setter = { tintNavBar ->
             Prefs.tintNavBar = tintNavBar
             themeNavigationBar()
             setAardvarkResult(MainActivity.REQUEST_NAV)
         },
-        builder = { descRes = R.string.tint_nav_desc }
+        builder = { descRes = R.string.preference_tint_nav_desc }
     )
 
 }
