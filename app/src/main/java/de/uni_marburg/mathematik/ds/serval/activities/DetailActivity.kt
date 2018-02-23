@@ -49,7 +49,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 .getById(intent.extras.getString(EVENT_ID))
 
             uiThread {
-                setupAdapter()
+                FastItemAdapter<IItem<*, *>>().setupAdapter()
                 fab.apply {
                     backgroundTintList = ColorStateList.valueOf(Prefs.accentColor)
                     setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
@@ -69,76 +69,107 @@ class DetailActivity : ElasticRecyclerActivity() {
         geocodingControl.stop()
     }
 
-    private fun setupAdapter() {
-        val adapter = FastItemAdapter<IItem<*, *>>()
-        val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
-
-        if (::event.isInitialized) {
+    private fun FastItemAdapter<IItem<*, *>>.setupAdapter() {
+        val isEventInitialized: Boolean = ::event.isInitialized
+        if (isEventInitialized) {
             title = event.title
-
-            val measurementCardItems = mutableListOf<CardIItem>()
-            event.measurements.forEach { measurement ->
-                val format = string(measurement.type.formatRes)
-                val measurementDescription = String.format(format, measurement.value)
-                val measurementCardItem = CardIItem {
-                    titleRes = measurement.type.titleRes
-                    desc = measurementDescription
-                    imageIIcon = measurement.type.iicon
-                    imageIIconColor = Prefs.iconColor
-                }
-                measurementCardItems.add(measurementCardItem)
-            }
-
-            val eventCardItem = CardIItem {
-                titleRes = R.string.time
-                val passedTime: String = event.passedTime.timeToString(this@DetailActivity)
-                desc = "${event.snippet}\n$passedTime"
-                imageIIcon = GoogleMaterial.Icon.gmd_access_time
-            }
-
-            geocodingControl.reverse(event.location) { _, results ->
-                if (results.isNotEmpty()) {
-                    val address: Address = results[0]
-                    val addressLine: String = address.getAddressLine(0)
-                    val addressLines: String = addressLine
-                        .replace(oldValue = "unnamed road, ", newValue = "", ignoreCase = true)
-                        .replace(oldValue = ", ", newValue = "\n")
-                    val addressCard = CardIItem {
-                        titleRes = R.string.location_address
-                        desc = addressLines
-                        imageIIcon = CommunityMaterial.Icon.cmd_map_marker
-                    }
-                    adapter.add(addressCard)
-                }
-            }
-
-            with(adapter) {
-                if (showMap) add(MapIItem(event))
-                add(
-                    SmallHeaderIItem(
-                        text = plural(
-                            R.plurals.measurement,
-                            quantity = event.measurements.count()
-                        )
-                    )
-                )
-                measurementCardItems.forEach { measurementCardItem -> add(measurementCardItem) }
-                add(SmallHeaderIItem(textRes = R.string.details))
-                add(eventCardItem)
-            }
+            addGeneralCards()
+            addAddressCard()
         } else {
             title = string(R.string.event_missing)
-            val missingEventCard = CardIItem {
-                descRes = R.string.event_missing_desc
-                buttonRes = R.string.preference_report_bug
-                buttonClick = { SupportTopic.BUG.sendEmail(this@DetailActivity) }
-            }
-            adapter.add(missingEventCard)
+            addErrorCard()
         }
 
-        recycler.adapter = adapter
+        recycler.adapter = this
     }
 
+    /**
+     * Add general [event] detail cards.
+     */
+    private fun FastItemAdapter<IItem<*, *>>.addGeneralCards() {
+        val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
+        if (showMap) add(MapIItem(event))
+
+        addMeasurementsCards()
+        addDetailsCards()
+    }
+
+    /**
+     * Add a card for each measurement of the [event].
+     */
+    private fun FastItemAdapter<IItem<*, *>>.addMeasurementsCards() {
+        val measurementCardItems = mutableListOf<CardIItem>()
+        event.measurements.forEach { measurement ->
+            val format = string(measurement.type.formatRes)
+            val measurementDescription = String.format(format, measurement.value)
+            val measurementCardItem = CardIItem {
+                titleRes = measurement.type.titleRes
+                desc = measurementDescription
+                imageIIcon = measurement.type.iicon
+                imageIIconColor = Prefs.iconColor
+            }
+            measurementCardItems.add(measurementCardItem)
+        }
+
+        val id = R.plurals.measurement
+        val quantity = event.measurements.count()
+        val measurementsHeader = SmallHeaderIItem(text = plural(id, quantity))
+        add(measurementsHeader)
+        measurementCardItems.forEach { measurementCardItem -> add(measurementCardItem) }
+    }
+
+    /**
+     * Add [event] details cards.
+     */
+    private fun FastItemAdapter<IItem<*, *>>.addDetailsCards() {
+        val eventCardItem = CardIItem {
+            titleRes = R.string.time
+            val passedTime: String = event.passedTime.timeToString(this@DetailActivity)
+            desc = "${event.snippet}\n$passedTime"
+            imageIIcon = GoogleMaterial.Icon.gmd_access_time
+        }
+
+        val detailsHeader = SmallHeaderIItem(textRes = R.string.details)
+        add(detailsHeader)
+        add(eventCardItem)
+    }
+
+    /**
+     * Add [event] address card.
+     */
+    private fun FastItemAdapter<IItem<*, *>>.addAddressCard() {
+        geocodingControl.reverse(event.location) { _, results ->
+            if (results.isNotEmpty()) {
+                val address: Address = results[0]
+                val addressLine: String = address.getAddressLine(0)
+                val addressLines: String = addressLine
+                    .replace(oldValue = "unnamed road, ", newValue = "", ignoreCase = true)
+                    .replace(oldValue = ", ", newValue = "\n")
+                val addressCard = CardIItem {
+                    titleRes = R.string.location_address
+                    desc = addressLines
+                    imageIIcon = CommunityMaterial.Icon.cmd_map_marker
+                }
+                add(addressCard)
+            }
+        }
+    }
+
+    /**
+     * Add error card, when the [event] wasn't initialzed.
+     */
+    private fun FastItemAdapter<IItem<*, *>>.addErrorCard() {
+        val missingEventCard = CardIItem {
+            descRes = R.string.event_missing_desc
+            buttonRes = R.string.preference_report_bug
+            buttonClick = { SupportTopic.BUG.sendEmail(this@DetailActivity) }
+        }
+        add(missingEventCard)
+    }
+
+    /**
+     * Show the [event's][event] location in Google Maps.
+     */
     private fun showInGoogleMaps() {
         if (isAppInstalled(GOOGLE_MAPS)) {
             if (isAppEnabled(GOOGLE_MAPS)) {
