@@ -157,8 +157,8 @@
     <string name="preference_paging">Paging</string>
     <string name="preference_paging_desc">Enable scrolling between pages</string>
     <string name="preference_password_desc">Serval API password</string>
-    <string name="preference_progress_bar">Show event download progress</string>
-    <string name="preference_progress_bar_desc">Event download progress is shown in toolbar</string>
+    <string name="preference_progress_bar">Download progress</string>
+    <string name="preference_progress_bar_desc">Show event download progress in toolbar</string>
     <string name="preference_replay_intro">Replay Introduction</string>
     <string name="preference_report_bug">Report bug</string>
     <string name="preference_requires_custom_theme">Requires custom theme</string>
