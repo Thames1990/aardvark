@@ -12,7 +12,6 @@
     <string name="action_map_type_normal">Normal</string>
     <string name="action_map_type_satellite">Satellite</string>
     <string name="action_map_type_terrain">Terrain</string>
-    <string name="action_settings">Settings</string>
     <string name="action_sort_events">Sort events</string>
     <string name="action_sort_events_ascending">Ascending</string>
     <string name="action_sort_events_descending">Descending</string>
@@ -142,7 +141,6 @@
     <string name="preference_bar_top">Top bar</string>
     <string name="preference_behaviour">Behaviour</string>
     <string name="preference_behaviour_desc">Define how the app interacts in certain settings</string>
-    <string name="preference_bug_report">Bug Report</string>
     <string name="preference_changelog_desc">Show changelogs after updates</string>
     <string name="preference_confirm_exit">Confirm exit</string>
     <string name="preference_debug">Debug</string>
