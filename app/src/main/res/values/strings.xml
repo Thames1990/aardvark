@@ -167,7 +167,7 @@
     <string name="preference_reset_analytics_confirmation">Your analytics collection was removed</string>
     <string name="preference_reset_analytics_desc">Do you want to delete all collected analytics data?</string>
     <string name="preference_secure_app">Secure privacy</string>
-    <string name="preference_secure_app_desc">Prohibit screenshots and interception of screen status and require fingerprint authentication</string>
+    <string name="preference_secure_app_desc">Prohibit screenshots, interception of screen status and require fingerprint authentication</string>
     <string name="preference_send_feedback">Send feedback</string>
     <string name="preference_send_feedback_desc">Got any queries? We are happy to help!</string>
     <string name="preference_serval">Serval</string>
