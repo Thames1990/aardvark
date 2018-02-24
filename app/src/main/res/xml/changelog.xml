@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.6" />
+    <item text="Add fab to move to top of events list" />
+    <item text="Add activity recognition" />
+    <item text="Add reverse geocoding" />
+    <item text="Improve location detection" />
+    <item text="Bar layout can now be changed by clicking the whole screen in intro" />
+    <item text="Reloading events removes all old events" />
+    <item text="Update dependencies" />
+
     <version title="0.8.5" />
     <item text="Add location permission prompt in intro" />
     <item text="Fix double changelog on first start" />

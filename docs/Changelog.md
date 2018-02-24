@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.6
+* Add fab to move to top of events list
+* Add activity recognition
+* Add reverse geocoding
+* Improve location detection
+* Bar layout can now be changed by clicking the whole screen in intro
+* Reloading events removes all old events
+* Update dependencies
+
 ## 0.8.5
 * Add location permission prompt in intro
 * Fix double changelog on first start
