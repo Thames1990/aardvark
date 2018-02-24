@@ -10,3 +10,4 @@
 gradle.properties
 google-services.json
 *.apk
+output.json
