@@ -36,11 +36,11 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
+    val appBar: AppBarLayout by bindView(R.id.appbar)
     val fab: FloatingActionButton by bindView(R.id.fab)
 
     private lateinit var eventViewModel: EventViewModel
 
-    val appBar: AppBarLayout by bindView(R.id.appbar)
     private val progressBar: MaterialProgressBar by bindView(R.id.progressBar)
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -71,7 +71,7 @@ class MainActivity : BaseActivity() {
         tabs.setup()
 
         with(fab) {
-            backgroundTintList = ColorStateList.valueOf(Prefs.backgroundColor)
+            backgroundTintList = ColorStateList.valueOf(Prefs.headerColor)
             setIcon(icon = GoogleMaterial.Icon.gmd_arrow_upward, color = Prefs.iconColor)
         }
 
