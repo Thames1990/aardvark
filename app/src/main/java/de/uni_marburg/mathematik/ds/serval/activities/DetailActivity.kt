@@ -71,6 +71,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     private fun FastItemAdapter<IItem<*, *>>.setupAdapter() {
+        CardIItem.bindClickEvents(this)
         if (::event.isInitialized) {
             title = event.title
             addGeneralCards()
