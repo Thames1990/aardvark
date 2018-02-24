@@ -3,9 +3,11 @@ package de.uni_marburg.mathematik.ds.serval.activities
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
+import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
@@ -34,9 +36,11 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
+    val fab: FloatingActionButton by bindView(R.id.fab)
+
     private lateinit var eventViewModel: EventViewModel
 
-    private val appBar: AppBarLayout by bindView(R.id.appbar)
+    val appBar: AppBarLayout by bindView(R.id.appbar)
     private val progressBar: MaterialProgressBar by bindView(R.id.progressBar)
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -65,6 +69,11 @@ class MainActivity : BaseActivity() {
 
         viewPager.setup()
         tabs.setup()
+
+        with(fab) {
+            backgroundTintList = ColorStateList.valueOf(Prefs.backgroundColor)
+            setIcon(icon = GoogleMaterial.Icon.gmd_arrow_upward, color = Prefs.iconColor)
+        }
 
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
         eventViewModel.events.observe(this, Observer { tabs.reload() })
@@ -160,6 +169,13 @@ class MainActivity : BaseActivity() {
 
         addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
             override fun onTabSelected(tab: TabLayout.Tab) {
+                if (Prefs.animate) {
+                    fab.fadeScaleTransition {
+                        visibleIf(tab.position == 1)
+                    }
+                } else {
+                    fab.visibleIf(tab.position == 1)
+                }
                 viewPager.setCurrentItem(tab.position, Prefs.animate)
                 appBar.setExpanded(true, Prefs.animate)
             }
