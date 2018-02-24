@@ -25,6 +25,7 @@ import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragment
 import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTabTouch
 import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTheme
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.find
@@ -51,12 +52,12 @@ class IntroActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
-        viewpager.apply {
+        with(viewpager) {
             init()
             adapter = IntroPageAdapter(supportFragmentManager, fragments)
         }
         indicator.setViewPager(viewpager)
-        next.apply {
+        with(next) {
             setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.iconColor)
             setOnClickListener {
                 when {
@@ -65,7 +66,7 @@ class IntroActivity : BaseActivity() {
                         x = next.x + next.pivotX,
                         y = next.y + next.pivotY
                     )
-                    else -> snackbarThemed(R.string.requires_location_permission)
+                    else -> snackbarThemed(R.string.preference_requires_location_permission)
                 }
             }
         }
@@ -84,7 +85,7 @@ class IntroActivity : BaseActivity() {
     }
 
     override fun finish() {
-        Prefs.isFirstLaunch = false
+        Prefs.lastLaunch = currentTimeInMillis
         startActivity<MainActivity>()
         super.finish()
     }
@@ -103,7 +104,7 @@ class IntroActivity : BaseActivity() {
                 pageTranslationX = if (translateValue > -pageWidth) translateValue else 0f
             }
 
-            page.apply {
+            with(page) {
                 alpha = pageAlpha
                 translationX = pageTranslationX
             }
@@ -147,7 +148,7 @@ class IntroActivity : BaseActivity() {
         navigationBarColor = Prefs.headerColor
         skip.setTextColor(Prefs.textColor)
         next.imageTintList = ColorStateList.valueOf(Prefs.textColor)
-        indicator.apply {
+        with(indicator) {
             setColour(Prefs.textColor)
             invalidate()
         }
@@ -155,10 +156,8 @@ class IntroActivity : BaseActivity() {
     }
 
     fun finish(x: Float, y: Float) {
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-        )
+        val flagNotTouchable: Int = WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        window.setFlags(flagNotTouchable, flagNotTouchable)
 
         ripple.ripple(
             color = Theme.AARDVARK_GREEN,

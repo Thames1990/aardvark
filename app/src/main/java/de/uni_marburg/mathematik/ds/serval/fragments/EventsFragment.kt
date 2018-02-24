@@ -6,6 +6,7 @@ import android.arch.paging.PagedListAdapter
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
+import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.recyclerview.extensions.DiffCallback
 import android.support.v7.widget.RecyclerView
@@ -71,20 +72,21 @@ class EventsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         setupRecyclerView()
         setupRefresh()
+        setupFab()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_events, menu)
 
-        currentActivity.setMenuIcons(
-            menu = menu,
-            color = Prefs.iconColor,
-            iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
-        )
-
-        menu.findItem(R.id.action_filter_events_distance).isVisible =
-                currentContext.hasLocationPermission
+        with(currentContext) {
+            setMenuIcons(
+                menu = menu,
+                color = Prefs.iconColor,
+                iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
+            )
+            menu.findItem(R.id.action_filter_events_distance).isVisible = hasLocationPermission
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -137,6 +139,21 @@ class EventsFragment : BaseFragment() {
             }
         }
     }
+
+    private fun setupFab() {
+        val mainActivity = activity as MainActivity
+        val fab = mainActivity.fab
+        with(fab) {
+            hideOnDownwardsScroll(recyclerView)
+            setOnClickListener {
+                if (Prefs.animate) recyclerView.smoothScrollToPosition(0)
+                else recyclerView.scrollToPosition(0)
+
+                val appBar: AppBarLayout = mainActivity.appBar
+                appBar.setExpanded(true, Prefs.animate)
+            }
+        }
+    }
 }
 
 class EventAdapter(
@@ -186,8 +203,8 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     }
 
     private fun Event.displayTime() {
-        timeView.apply {
-            text = passedTime.timeToString(itemView.context)
+        with(timeView) {
+            text = passedTime.formatPassedTime(itemView.context)
             setTextColor(Prefs.textColor)
         }
     }
@@ -200,8 +217,9 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                 icon = GoogleMaterial.Icon.gmd_location_on,
                 color = Prefs.textColor
             )
-            locationView.apply {
-                text = location.distanceTo(MainActivity.lastLocation).distanceToString(context)
+            with(locationView) {
+                val distance: Float = location.distanceTo(MainActivity.lastLocation)
+                text = distance.formatDistance(context)
                 setTextColor(Prefs.textColor)
             }
         } else {

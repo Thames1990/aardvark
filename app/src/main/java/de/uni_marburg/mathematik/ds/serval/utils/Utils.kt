@@ -57,14 +57,14 @@ inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.()
 /**
  * Converts distance in meters in formatted string with meters/kilometers.
  */
-fun Float.distanceToString(context: Context): String =
+fun Float.formatDistance(context: Context): String =
     if (this < 1000) String.format(context.string(R.string.distance_in_meter), this)
     else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
 
 /**
  * Converts UNIX time to human readable information in relation to the current time.
  */
-fun Long.timeToString(context: Context): String {
+fun Long.formatPassedTime(context: Context): String {
     val id: Int
     val quantity: Long
 

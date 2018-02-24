@@ -48,13 +48,12 @@ inline fun Activity.snackbarThemed(
  * parameters.
  */
 inline fun Activity.restartActivity(intentBuilder: Intent.() -> Unit = {}) {
-    val i = Intent(this, this::class.java)
+    val intent = Intent(this, this::class.java)
     val oldExtras = intent.extras
-    if (oldExtras != null)
-        i.putExtras(oldExtras)
-    i.intentBuilder()
-    startActivity(i)
-    overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out) //No transitions
+    if (oldExtras != null) intent.putExtras(oldExtras)
+    intent.intentBuilder()
+    startActivity(intent)
+    overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
     finish()
     overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
 }
@@ -64,26 +63,20 @@ inline fun Activity.restartActivity(intentBuilder: Intent.() -> Unit = {}) {
  */
 @SuppressLint("NewApi")
 @Suppress("NOTHING_TO_INLINE")
-inline fun Activity.restartApplication() {
-    val intent = packageManager.getLaunchIntentForPackage(packageName)
-    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+inline fun Activity.restartApplication(requestCode: Int = 666) {
+    val intent = packageManager.getLaunchIntentForPackage(packageName).apply {
+        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
     val pending = PendingIntent.getActivity(
         this,
-        666,
+        requestCode,
         intent,
         PendingIntent.FLAG_CANCEL_CURRENT
     )
     val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    if (buildIsMarshmallowAndUp) alarm.setExactAndAllowWhileIdle(
-        AlarmManager.RTC,
-        System.currentTimeMillis() + 100,
-        pending
-    )
-    else alarm.setExact(
-        AlarmManager.RTC,
-        System.currentTimeMillis() + 100,
-        pending
-    )
+    val soon = currentTimeInMillis + 100
+    if (buildIsMarshmallowAndUp) alarm.setExactAndAllowWhileIdle(AlarmManager.RTC, soon, pending)
+    else alarm.setExact(AlarmManager.RTC, soon, pending)
     finish()
     System.exit(0)
 }

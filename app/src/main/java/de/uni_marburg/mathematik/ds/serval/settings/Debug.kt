@@ -17,7 +17,7 @@ import java.net.InetAddress
 /** Created by thames1990 on 09.12.17. */
 fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
-    plainText(R.string.debug_disclaimer_info)
+    plainText(R.string.preference_debug_disclaimer_info)
 
     checkbox(
         title = R.string.preference_enable_wifi_adb,
@@ -33,7 +33,7 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     plainText(
         title = R.string.preference_share_wifi_adb_command,
         builder = {
-            descRes = R.string.preference_share_adb_command_description
+            descRes = R.string.preference_share_adb_command_desc
             enabler = Prefs::useWifiADB
             onDisabledClick = {
                 snackbarThemed(getString(R.string.preference_enable_wifi_adb_hint))
@@ -43,24 +43,24 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     )
 
     checkbox(
-        title = R.string.paging,
+        title = R.string.preference_paging,
         getter = Prefs::viewpagerSwipe,
         setter = { usePaging ->
             Prefs.viewpagerSwipe = usePaging
             shouldRestartMain()
         },
-        builder = { descRes = R.string.paging_description }
+        builder = { descRes = R.string.preference_paging_desc }
     )
 
     checkbox(
-        title = R.string.secure_app,
+        title = R.string.preference_secure_app,
         getter = Prefs::secure_app,
         setter = { secure_app ->
             Prefs.secure_app = secure_app
             setSecureFlag()
             shouldRestartApplication()
         },
-        builder = { descRes = R.string.secure_app_desc }
+        builder = { descRes = R.string.preference_secure_app_desc }
     )
 
     checkbox(
@@ -68,7 +68,7 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         getter = Prefs::showDownloadProgress,
         setter = { Prefs.showDownloadProgress = it },
         builder = {
-            descRes = R.string.preference_progress_bar_description
+            descRes = R.string.preference_progress_bar_desc
             shouldRestartMain()
         }
     )
@@ -78,7 +78,7 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         getter = Prefs::useVibration,
         setter = { Prefs.useVibration = it },
         builder = {
-            descRes = R.string.preference_vibration_description
+            descRes = R.string.preference_vibration_desc
             shouldRestartApplication()
         }
     )

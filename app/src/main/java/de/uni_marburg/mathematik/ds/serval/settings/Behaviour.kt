@@ -12,21 +12,21 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
-        title = R.string.fancy_animations,
+        title = R.string.preference_animations,
         getter = Prefs::animate,
         setter = { useAnimations ->
             Prefs.animate = useAnimations
             animate = useAnimations
             shouldRestartMain()
         },
-        builder = { descRes = R.string.fancy_animations_description }
+        builder = { descRes = R.string.preference_animations_desc }
     )
 
     checkbox(
-        title = R.string.changelog,
+        title = R.string.kau_changelog,
         getter = Prefs::changelog,
         setter = { Prefs.changelog = it },
-        builder = { descRes = R.string.changelog_description }
+        builder = { descRes = R.string.preference_changelog_desc }
     )
 
     checkbox(
@@ -42,7 +42,7 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             Prefs.analytics = useAnalytics
             if (!useAnalytics) materialDialogThemed {
                 title(string(R.string.preference_reset_analytics))
-                content(string(R.string.preference_reset_analytics_description))
+                content(string(R.string.preference_reset_analytics_desc))
                 positiveText(string(R.string.kau_yes))
                 negativeText(string(R.string.kau_no))
                 onPositive { _, _ ->
@@ -55,6 +55,6 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             }
             shouldRestartApplication()
         },
-        builder = { descRes = R.string.analytics_description }
+        builder = { descRes = R.string.preference_analytics_desc }
     )
 }

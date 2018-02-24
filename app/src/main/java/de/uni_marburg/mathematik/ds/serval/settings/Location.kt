@@ -21,20 +21,20 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     }
 
     if (!hasLocationPermission) {
-        plainText(R.string.requires_location_permission) {
+        plainText(R.string.preference_requires_location_permission) {
             descRes = R.string.grant_location_permission_settings
             onClick = { openPermissionSettings() }
         }
     }
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnLocationPermission() {
-        enabler = { hasLocationPermission }
-        onDisabledClick = { snackbarThemed(R.string.requires_location_permission) }
+        enabler = ::hasLocationPermission
+        onDisabledClick = { snackbarThemed(R.string.preference_requires_location_permission) }
     }
 
     fun KPrefSeekbar.KPrefSeekbarContract.dependsOnLocationPermission() {
-        enabler = { hasLocationPermission }
-        onDisabledClick = { snackbarThemed(R.string.requires_location_permission) }
+        enabler = ::hasLocationPermission
+        onDisabledClick = { snackbarThemed(R.string.preference_requires_location_permission) }
     }
 
     // Location request priority
@@ -47,12 +47,9 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             onClick = {
                 materialDialogThemed {
                     title(R.string.location_request_priority)
-                    items(
-                        LocationRequestPriority.values()
-                            .map { priority ->
-                                "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
-                            }
-                    )
+                    items(LocationRequestPriority.values().map { priority ->
+                        "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
+                    })
                     itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                         if (item.pref != which) {
                             item.pref = which
@@ -74,7 +71,7 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         setter = { Prefs.locationRequestInterval = it.toLong() },
         builder = {
             dependsOnLocationPermission()
-            descRes = R.string.location_request_interval_description
+            descRes = R.string.location_request_interval_desc
         }
     )
 
@@ -85,7 +82,7 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         setter = { Prefs.locationRequestFastestInterval = it.toLong() },
         builder = {
             dependsOnLocationPermission()
-            descRes = R.string.location_request_fastest_interval_description
+            descRes = R.string.location_request_fastest_interval_desc
         }
     )
 }

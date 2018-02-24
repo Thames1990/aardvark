@@ -29,10 +29,13 @@ class BadgedIcon @JvmOverloads constructor(
         val badgeBackground = GradientDrawable(
             GradientDrawable.Orientation.BOTTOM_TOP,
             intArrayOf(badgeColor, badgeColor)
-        )
-        badgeBackground.cornerRadius = 13.dpToPx.toFloat()
-        badgeTextView.background = badgeBackground
-        badgeTextView.setTextColor(Prefs.mainActivityLayout.iconColor)
+        ).apply {
+            cornerRadius = 13.dpToPx.toFloat()
+        }
+        with(badgeTextView) {
+            background = badgeBackground
+            setTextColor(Prefs.mainActivityLayout.iconColor)
+        }
     }
 
     var iicon: IIcon? = null
@@ -46,10 +49,6 @@ class BadgedIcon @JvmOverloads constructor(
                 )
             )
         }
-
-    fun setAllAlpha(alpha: Float) {
-        badgeImage.drawable.alpha = alpha.toInt()
-    }
 
     var badgeText: String?
         get() = badgeTextView.text.toString()

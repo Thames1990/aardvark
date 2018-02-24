@@ -19,6 +19,7 @@ versions.moshi = "1.4.0"
 versions.paging = "1.0.0-alpha5"
 versions.reprint = "3.2.1@aar"
 versions.room = "1.1.0-alpha2"
+versions.smartlocation = "3.3.3"
 versions.weather_icons_typeface = "2.0.10.4@aar"
 ext.versions = versions
 
@@ -71,6 +72,7 @@ deps.leak_canary_release = "com.squareup.leakcanary:leakcanary-android-no-op:$ve
 deps.moshi = "com.squareup.moshi:moshi:$versions.moshi"
 deps.paging = "android.arch.paging:runtime:$versions.paging"
 deps.reprint = "com.github.ajalt.reprint:core:$versions.reprint"
+deps.smartlocation = "io.nlopez.smartlocation:library:$versions.smartlocation"
 ext.deps = deps
 
 def build_versions = [:]

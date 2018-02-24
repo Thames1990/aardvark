@@ -37,7 +37,7 @@ class AboutActivity : AboutActivityBase(
         cutoutForeground = Prefs.accentColor
         faqPageTitleRes = R.string.faq_title
         faqParseNewLine = false
-        faqXmlRes = R.xml.aardvark_faq
+        faqXmlRes = R.xml.faq
         textColor = Prefs.textColor
     }
 ) {
@@ -64,7 +64,7 @@ class AboutActivity : AboutActivityBase(
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark = Library().apply {
             author = string(R.string.developer_name_aardvark)
-            libraryDescription = string(R.string.aardvark_description)
+            libraryDescription = string(R.string.aardvark_desc)
             libraryName = string(R.string.aardvark_name)
             libraryVersion = BuildConfig.VERSION_NAME
             license = License().apply {
@@ -82,9 +82,9 @@ class AboutActivity : AboutActivityBase(
                     val now = currentTimeInMillis
                     if (now - lastClick > DEBUG_CLICK_TIMESPAN) clickCount = 0 else clickCount++
                     lastClick = now
-                    if (clickCount == DEBUG_CLICK_COUNT && !Prefs.debugSettings) {
+                    if (!Prefs.debugSettings && clickCount == DEBUG_CLICK_COUNT) {
                         Prefs.debugSettings = true
-                        snackbarThemed(R.string.debug_enabled)
+                        snackbarThemed(R.string.preference_debug_enabled)
                     }
                 }
                 false
@@ -94,9 +94,7 @@ class AboutActivity : AboutActivityBase(
 
     override fun getLibraries(libs: Libs): List<Library> {
         val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
-        OpenSourceLibrary.values().map { library ->
-            libraries.add(library.getLibrary(this))
-        }
+        OpenSourceLibrary.values().map { library -> libraries.add(library.getLibrary(this)) }
         return libraries.sortedBy { library -> library.libraryName }
     }
 

@@ -52,17 +52,17 @@ class SettingsActivity : KPrefActivity() {
         }
 
         plainText(R.string.aardvark_about) {
-            descRes = R.string.aardvark_about_description
+            descRes = R.string.aardvark_about_desc
             iicon = GoogleMaterial.Icon.gmd_info
             onClick = { kauLaunchAbout<AboutActivity>() }
         }
-        plainText(R.string.replay_intro) {
+        plainText(R.string.preference_replay_intro) {
             iicon = GoogleMaterial.Icon.gmd_replay
             onClick = { startActivity<IntroActivity>() }
         }
 
         if (Prefs.debugSettings) {
-            header(R.string.experimental)
+            header(R.string.preference_experimental)
 
             DebugPreferenceSubItem.values().map { experimentalPreferenceSubItem ->
                 subItems(
@@ -108,7 +108,7 @@ class SettingsActivity : KPrefActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_email -> materialDialogThemed {
-                title(R.string.subject)
+                title(R.string.email_subject)
                 items(SupportTopic.values().map { string(it.titleRes) })
                 itemsCallback { _, _, which, _ -> SupportTopic.values()[which].sendEmail(context) }
             }

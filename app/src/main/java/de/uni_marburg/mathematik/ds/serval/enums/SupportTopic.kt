@@ -15,7 +15,7 @@ enum class SupportTopic(@StringRes val titleRes: Int) {
 
     FEEDBACK(R.string.feedback),
 
-    BUG(R.string.bug_report),
+    BUG(R.string.kau_report_bug),
 
     THEME(R.string.theme_issue),
 

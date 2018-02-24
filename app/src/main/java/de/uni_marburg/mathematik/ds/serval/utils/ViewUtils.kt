@@ -8,9 +8,9 @@ import ca.allanwang.kau.utils.snackbar
 /**
  * Show themed snackbar with [a text resource][textRes] and a given [builder].
  */
-inline fun View.snackbarThemed(
+fun View.snackbarThemed(
     @StringRes textRes: Int,
-    crossinline builder: Snackbar.() -> Unit = {}
+    builder: Snackbar.() -> Unit = {}
 ) = snackbar(
     textId = textRes,
     duration = Snackbar.LENGTH_LONG,
@@ -20,9 +20,9 @@ inline fun View.snackbarThemed(
 /**
  * Show themed snackbar with the given [text] and [builder].
  */
-inline fun View.snackbarThemed(
+fun View.snackbarThemed(
     text: String,
-    crossinline builder: Snackbar.() -> Unit = {}
+    builder: Snackbar.() -> Unit = {}
 ) = snackbar(
     text,
     duration = Snackbar.LENGTH_LONG,

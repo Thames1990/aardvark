@@ -12,6 +12,7 @@ import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import io.fabric.sdk.android.Fabric
 
 class Aardvark : Application() {
@@ -42,10 +43,7 @@ class Aardvark : Application() {
         lifecycle = ProcessLifecycleOwner.get().lifecycle
         setupAuthentication()
 
-        val now = System.currentTimeMillis()
-        Prefs.lastLaunch = now
-
-        if (Prefs.installDate == -1L) Prefs.installDate = now
+        if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
     }
 
     private fun setupAnalytics() {
@@ -58,7 +56,9 @@ class Aardvark : Application() {
     }
 
     private fun setupLeakCanary() {
-        refWatcher = if (BuildConfig.DEBUG) LeakCanary.install(this) else RefWatcher.DISABLED
+        refWatcher =
+                if (BuildConfig.DEBUG) LeakCanary.install(this)
+                else RefWatcher.DISABLED
     }
 
     private fun setupAuthentication(authenticate: Boolean = Prefs.secure_app) =

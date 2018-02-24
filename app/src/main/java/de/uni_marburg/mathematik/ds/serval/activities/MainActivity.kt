@@ -3,9 +3,11 @@ package de.uni_marburg.mathematik.ds.serval.activities
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
+import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
@@ -21,13 +23,12 @@ import de.uni_marburg.mathematik.ds.serval.enums.TabItem
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
+import de.uni_marburg.mathematik.ds.serval.model.LocationLiveData
 import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
-import de.uni_marburg.mathematik.ds.serval.model.location.LocationViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.AardvarkViewPager
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
-import io.reactivex.schedulers.Schedulers
 import kerval.connection.ProgressEvent
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import org.jetbrains.anko.doAsync
@@ -35,10 +36,11 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var eventViewModel: EventViewModel
-    private lateinit var locationViewModel: LocationViewModel
+    val fab: FloatingActionButton by bindView(R.id.fab)
 
-    private val appBar: AppBarLayout by bindView(R.id.appbar)
+    private lateinit var eventViewModel: EventViewModel
+
+    val appBar: AppBarLayout by bindView(R.id.appbar)
     private val progressBar: MaterialProgressBar by bindView(R.id.progressBar)
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -68,12 +70,16 @@ class MainActivity : BaseActivity() {
         viewPager.setup()
         tabs.setup()
 
+        with(fab) {
+            backgroundTintList = ColorStateList.valueOf(Prefs.backgroundColor)
+            setIcon(icon = GoogleMaterial.Icon.gmd_arrow_upward, color = Prefs.iconColor)
+        }
+
         eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
         eventViewModel.events.observe(this, Observer { tabs.reload() })
 
         if (hasLocationPermission) {
-            locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
-            locationViewModel.location.observe(this, Observer { location ->
+            LocationLiveData(this).observe(this, Observer { location ->
                 if (location != null) lastLocation = location
             })
         }
@@ -81,7 +87,6 @@ class MainActivity : BaseActivity() {
         if (Prefs.showDownloadProgress) {
             progressBar.visible()
             EventRepository.progressObservable
-                .observeOn(Schedulers.computation())
                 .subscribe { progressEvent ->
                     val progress: Byte = progressEvent.progress
                     if (progress != ProgressEvent.PROGRESS_FAILURE) {
@@ -164,6 +169,13 @@ class MainActivity : BaseActivity() {
 
         addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
             override fun onTabSelected(tab: TabLayout.Tab) {
+                if (Prefs.animate) {
+                    fab.fadeScaleTransition {
+                        visibleIf(tab.position == 1)
+                    }
+                } else {
+                    fab.visibleIf(tab.position == 1)
+                }
                 viewPager.setCurrentItem(tab.position, Prefs.animate)
                 appBar.setExpanded(true, Prefs.animate)
             }
