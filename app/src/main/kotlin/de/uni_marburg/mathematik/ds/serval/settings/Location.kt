@@ -3,7 +3,9 @@ package de.uni_marburg.mathematik.ds.serval.settings
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.activity.items.KPrefSeekbar
 import ca.allanwang.kau.kpref.activity.items.KPrefText
-import ca.allanwang.kau.utils.showAppInfo
+import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
+import ca.allanwang.kau.permissions.kauRequestPermissions
+import ca.allanwang.kau.utils.restartApplication
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
@@ -15,15 +17,14 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
-    fun openPermissionSettings() {
-        showAppInfo(packageName)
-        shouldRestartMain()
-    }
-
     if (!hasLocationPermission) {
         plainText(R.string.preference_requires_location_permission) {
             descRes = R.string.grant_location_permission_settings
-            onClick = { openPermissionSettings() }
+            onClick = {
+                kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
+                    if (granted) restartApplication()
+                }
+            }
         }
     }
 
