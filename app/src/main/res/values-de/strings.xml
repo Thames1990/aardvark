@@ -114,6 +114,7 @@
     <string name="placeholder_desc">Der Entwickler war zu faul um ein Design zu erstellen!</string>
     <string name="placeholder_title">VERDAMMT</string>
 
+    <string name="preference_analytics">Nutze Datenerhebung</string>
     <string name="preference_analytics_desc">Aktiviere anonyme Datenerhebung um die Anwendung zu verbessern. Persönliche Informationen werden niemals geteilt.</string>
     <string name="preference_animations">Animationen</string>
     <string name="preference_animations_desc">Animiere Übergänge und bewundere hübsche Effekte</string>
@@ -159,7 +160,6 @@
     <string name="preference_theme">Design</string>
     <string name="preference_tint_nav">Navigationsleiste einfärben</string>
     <string name="preference_tint_nav_desc">Die Navigationsleiste wird die gleiche Farbe wie die Kopfzeile erhalten</string>
-    <string name="preference_use_analytics">Nutze Datenerhebung</string>
     <string name="preference_username_desc">Serval API Nutzername</string>
     <string name="preference_vibration">Benutze Vibrationen</string>
     <string name="preference_vibration_desc">Vibriere nach einer fehgeschlagenen Authentifizierung</string>

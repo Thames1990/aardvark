@@ -36,7 +36,7 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     )
 
     checkbox(
-        title = R.string.preference_use_analytics,
+        title = R.string.preference_analytics,
         getter = Prefs::analytics,
         setter = { useAnalytics ->
             Prefs.analytics = useAnalytics
