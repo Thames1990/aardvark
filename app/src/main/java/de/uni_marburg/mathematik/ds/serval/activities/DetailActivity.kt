@@ -49,8 +49,9 @@ class DetailActivity : ElasticRecyclerActivity() {
                 .getById(intent.extras.getString(EVENT_ID))
 
             uiThread {
-                FastItemAdapter<IItem<*, *>>().setupAdapter()
-                fab.apply {
+                val detailAdapter = FastItemAdapter<IItem<*, *>>()
+                recycler.adapter = detailAdapter.apply { setupAdapter() }
+                with(fab) {
                     backgroundTintList = ColorStateList.valueOf(Prefs.accentColor)
                     setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
                     setOnClickListener { showInGoogleMaps() }
@@ -70,8 +71,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     private fun FastItemAdapter<IItem<*, *>>.setupAdapter() {
-        val isEventInitialized: Boolean = ::event.isInitialized
-        if (isEventInitialized) {
+        if (::event.isInitialized) {
             title = event.title
             addGeneralCards()
             addAddressCard()
@@ -79,8 +79,6 @@ class DetailActivity : ElasticRecyclerActivity() {
             title = string(R.string.event_missing)
             addErrorCard()
         }
-
-        recycler.adapter = this
     }
 
     /**
