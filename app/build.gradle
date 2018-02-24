@@ -14,6 +14,9 @@ android {
         prefix 'v'
     }
 
+    def properties = file("../gradle.properties")
+    def hasProperties = properties.exists()
+
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
         minSdkVersion build_versions.min_sdk
@@ -24,27 +27,23 @@ android {
         setProperty('archivesBaseName', "aardvark-$versionName")
         multiDexEnabled true
 
-        try {
+        if (hasProperties) {
             manifestPlaceholders = [KEY_FABRIC: KEY_FABRIC, KEY_GOOGLE_MAPS: KEY_GOOGLE_MAPS]
-        } catch (ignored) {
-            throw new InvalidUserDataException(
-                    "You should define Fabric and Google Maps keys in gradle.properties."
-            )
+        } else {
+            throw new InvalidUserDataException("Define Fabric and Google Maps keys")
         }
     }
 
     signingConfigs {
-        release {
-            try {
+        if (hasProperties) {
+            release {
                 storeFile = file(STORE_FILE)
                 storePassword = STORE_PASSWORD
                 keyAlias = KEY_ALIAS
                 keyPassword = KEY_PASSWORD
-            } catch (ignored) {
-                throw new InvalidUserDataException(
-                        "You should define release signing secrets in gradle.properties."
-                )
             }
+        } else {
+            throw new InvalidUserDataException("Define release signing secrets")
         }
     }
 
@@ -58,12 +57,18 @@ android {
         }
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
+            if (hasProperties) signingConfig signingConfigs.release
         }
     }
 
     lintOptions {
         checkReleaseBuilds false
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
 }
 
