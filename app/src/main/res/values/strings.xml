@@ -26,7 +26,7 @@
     <string name="activity_on_foot">on foot</string>
     <string name="activity_running">running</string>
     <string name="activity_still">standing still</string>
-    <string name="activity_tilting">tilting?!</string>
+    <string name="activity_tilting">tilting</string>
     <string name="activity_unknown">… WTF are you doing?</string>
     <string name="activity_walking">walking</string>
 
@@ -34,7 +34,6 @@
     <string name="color_background">Background color</string>
     <string name="color_header">Header color</string>
     <string name="color_icon">Icon color</string>
-    <string name="color_primary">Primary color</string>
     <string name="color_text">Text color</string>
 
     <string name="details">Details</string>
@@ -44,8 +43,8 @@
     <string name="developer_name_kerval" translatable="false">Markus Sommer</string>
 
     <string name="distance">Distance</string>
-    <string name="distance_in_kilometer">%1$.2f km</string>
-    <string name="distance_in_meter">%1$.0f m</string>
+    <string name="distance_in_kilometer" translatable="false">%1$.2f km</string>
+    <string name="distance_in_meter" translatable="false">%1$.0f m</string>
 
     <string name="email_subject">Subject</string>
 
@@ -65,7 +64,7 @@
     <string name="google_maps_not_installed">Google Maps is not installed</string>
 
     <string name="grant_location_permission">Tap anywhere to grant location permission</string>
-    <string name="grant_location_permission_settings">Grant location permission to use and customize location features.\nAfter you granted permission, exit settings and Aardvark will restart itself, affecting changes.</string>
+    <string name="grant_location_permission_settings">Grant location permission to use and customize location features</string>
 
     <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
 
@@ -75,18 +74,18 @@
     <string name="intro_select_theme">Select a theme</string>
     <string name="intro_skip">Skip</string>
     <string name="intro_slide_to_continue">Slide to continue</string>
-    <string name="intro_tap_to_exit">Tap anywhere to exit</string>
+    <string name="intro_tap_to_exit">Tap anywhere to exit the intro</string>
     <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
 
     <string name="kerval_desc">Kotlin client for serval-dna REST-interface</string>
-    <string name="kerval_name">Kerval</string>
+    <string name="kerval_name" translatable="false">Kerval</string>
     <string name="kerval_password">Password</string>
     <string name="kerval_password_must_not_be_empty">You need to enter a password</string>
     <string name="kerval_username">Username</string>
     <string name="kerval_username_must_not_be_empty">You need to enter a username</string>
 
     <string name="license_website_aardvark" translatable="false">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
-    <string name="license_website_kerval">https://github.com/CryptoCopter/kerval/blob/master/LICENSE</string>
+    <string name="license_website_kerval" translatable="false">https://github.com/CryptoCopter/kerval/blob/master/LICENSE</string>
 
     <string name="location">Location</string>
     <string name="location_address">Address</string>
@@ -120,10 +119,10 @@
     <string name="measurement_precipitation">Precipitation</string>
     <string name="measurement_radiation">Radiation</string>
     <string name="measurement_temperature">Temperature</string>
-    <string name="measurement_value_precipitation">%1$d mm</string>
-    <string name="measurement_value_radiation">%1$d μSv/h</string>
-    <string name="measurement_value_temperature">%1$d °C</string>
-    <string name="measurement_value_wind">%1$d km/h</string>
+    <string name="measurement_value_precipitation" translatable="false">%1$d mm</string>
+    <string name="measurement_value_radiation" translatable="false">%1$d μSv/h</string>
+    <string name="measurement_value_temperature" translatable="false">%1$d °C</string>
+    <string name="measurement_value_wind" translatable="false">%1$d km/h</string>
     <string name="measurement_wind">Wind</string>
 
     <string name="mit_license">MIT License</string>
@@ -171,7 +170,7 @@
     <string name="preference_secure_app_desc">Prohibit screenshots, interception of screen status and require fingerprint authentication</string>
     <string name="preference_send_feedback">Send feedback</string>
     <string name="preference_send_feedback_desc">Got any queries? We are happy to help!</string>
-    <string name="preference_serval">Serval</string>
+    <string name="preference_serval" translatable="false">Serval</string>
     <string name="preference_serval_desc">Serval login information</string>
     <string name="preference_set_main_activity_layout">Set Main Activity Layout</string>
     <string name="preference_share_adb_command_desc">Use this command on your computer</string>
