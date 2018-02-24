@@ -187,7 +187,7 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
     private fun Event.displayTime() {
         with(timeView) {
-            text = passedTime.timeToString(itemView.context)
+            text = passedTime.formatPassedTime(itemView.context)
             setTextColor(Prefs.textColor)
         }
     }
@@ -201,7 +201,8 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
                 color = Prefs.textColor
             )
             with(locationView) {
-                text = location.distanceTo(MainActivity.lastLocation).distanceToString(context)
+                val distance: Float = location.distanceTo(MainActivity.lastLocation)
+                text = distance.formatDistance(context)
                 setTextColor(Prefs.textColor)
             }
         } else {
