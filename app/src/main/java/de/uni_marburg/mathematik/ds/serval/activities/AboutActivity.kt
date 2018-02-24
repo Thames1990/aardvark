@@ -11,18 +11,19 @@ import ca.allanwang.kau.about.LibraryIItem
 import ca.allanwang.kau.adapters.FastItemThemedAdapter
 import ca.allanwang.kau.adapters.ThemableIItem
 import ca.allanwang.kau.adapters.ThemableIItemDelegate
+import ca.allanwang.kau.adapters.withOnRepeatedClickListener
 import ca.allanwang.kau.utils.*
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
 import com.mikepenz.aboutlibraries.entity.License
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.items.AbstractItem
+import com.mikepenz.fastadapter.listeners.OnClickListener
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AboutLinkItem
 import de.uni_marburg.mathematik.ds.serval.enums.OpenSourceLibrary
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 /**
@@ -42,25 +43,6 @@ class AboutActivity : AboutActivityBase(
     }
 ) {
 
-    companion object {
-        private const val DEBUG_CLICK_COUNT = 7
-        private const val DEBUG_CLICK_TIMESPAN = 500L
-    }
-
-    /**
-     * Saves the last time, the Aardvark library item was clicked.
-     */
-    private var lastClick: Long = -1L
-
-    /**
-     * Saves the click count on the Aardvark library item in
-     * [a timespan of milliseconds][DEBUG_CLICK_TIMESPAN].
-     *
-     * If this reaches [a specified count][DEBUG_CLICK_COUNT], the debug settings are getting
-     * activated and revealed.
-     */
-    private var clickCount: Int = 0
-
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark = Library().apply {
             author = string(R.string.developer_name_aardvark)
@@ -77,18 +59,23 @@ class AboutActivity : AboutActivityBase(
         adapter.apply {
             add(LibraryIItem(aardvark))
             add(AboutLinks())
-            withOnClickListener { _, _, item, _ ->
-                if (item is LibraryIItem) {
-                    val now = currentTimeInMillis
-                    if (now - lastClick > DEBUG_CLICK_TIMESPAN) clickCount = 0 else clickCount++
-                    lastClick = now
-                    if (!Prefs.debugSettings && clickCount == DEBUG_CLICK_COUNT) {
+            withOnRepeatedClickListener(
+                count = 7,
+                duration = 500L,
+                event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
+                    if (item is LibraryIItem && !Prefs.debugSettings) {
                         Prefs.debugSettings = true
-                        snackbarThemed(R.string.preference_debug_enabled)
+                        snackbarThemed(R.string.preference_debug_enabled) {
+                            setAction(
+                                R.string.settings_reload,
+                                { startActivity<SettingsActivity>() }
+                            )
+                        }
+                        return@OnClickListener true
                     }
+                    return@OnClickListener false
                 }
-                false
-            }
+            )
         }
     }
 
