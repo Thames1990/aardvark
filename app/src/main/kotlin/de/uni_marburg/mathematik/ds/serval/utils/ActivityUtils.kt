@@ -1,11 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.annotation.StringRes
@@ -40,46 +35,6 @@ inline fun Activity.snackbarThemed(
     text: String,
     crossinline builder: Snackbar.() -> Unit = {}
 ) = snackbar(text, duration = Snackbar.LENGTH_LONG, builder = snackbarThemed(builder))
-
-/**
- * Restarts an activity from itself with a fade animation.
- *
- * Keeps its existing extra bundles and has a [intent builder][intentBuilder] to accept other
- * parameters.
- */
-inline fun Activity.restartActivity(intentBuilder: Intent.() -> Unit = {}) {
-    val intent = Intent(this, this::class.java)
-    val oldExtras = intent.extras
-    if (oldExtras != null) intent.putExtras(oldExtras)
-    intent.intentBuilder()
-    startActivity(intent)
-    overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
-    finish()
-    overridePendingTransition(R.anim.kau_fade_in, R.anim.kau_fade_out)
-}
-
-/**
- * Force restart the entire application.
- */
-@SuppressLint("NewApi")
-@Suppress("NOTHING_TO_INLINE")
-inline fun Activity.restartApplication(requestCode: Int = 666) {
-    val intent = packageManager.getLaunchIntentForPackage(packageName).apply {
-        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-    }
-    val pending = PendingIntent.getActivity(
-        this,
-        requestCode,
-        intent,
-        PendingIntent.FLAG_CANCEL_CURRENT
-    )
-    val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    val soon = currentTimeInMillis + 100
-    if (buildIsMarshmallowAndUp) alarm.setExactAndAllowWhileIdle(AlarmManager.RTC, soon, pending)
-    else alarm.setExact(AlarmManager.RTC, soon, pending)
-    finish()
-    System.exit(0)
-}
 
 /**
  * Set all colors with the given [builder].

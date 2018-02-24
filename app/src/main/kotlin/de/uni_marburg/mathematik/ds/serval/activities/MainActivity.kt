@@ -103,8 +103,7 @@ class MainActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             ACTIVITY_SETTINGS -> {
-                // TODO Use ActivityUtils restart() and restartApplication() once Kau updates
-                if (resultCode and REQUEST_RESTART > 0) restartActivity()
+                if (resultCode and REQUEST_RESTART > 0) restart()
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
             }
