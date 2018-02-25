@@ -168,12 +168,12 @@ class MainActivity : BaseActivity() {
 
         addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                if (Prefs.animate) {
-                    fab.fadeScaleTransition {
-                        visibleIf(tab.position == 1)
-                    }
+                if (tab.position == 1) {
+                    if (Prefs.animate) fab.fadeIn()
+                    else fab.gone()
                 } else {
-                    fab.visibleIf(tab.position == 1)
+                    if (Prefs.animate) fab.fadeOut()
+                    else fab.visible()
                 }
                 viewPager.setCurrentItem(tab.position, Prefs.animate)
                 appBar.setExpanded(true, Prefs.animate)
