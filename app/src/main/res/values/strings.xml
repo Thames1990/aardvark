@@ -42,6 +42,13 @@
     <string name="developer_name_aardvark" translatable="false">Thomas Mohr</string>
     <string name="developer_name_kerval" translatable="false">Markus Sommer</string>
 
+    <string name="dialog_fingerprint_cancel">Cancel</string>
+    <string name="dialog_fingerprint_recognized">Fingerprint recognized</string>
+    <string name="dialog_fingerprint_subtitle">Confirm fingerprint to continue</string>
+    <string name="dialog_fingerprint_title">Sign in</string>
+    <string name="dialog_fingerprint_touch_sensor">Touch sensor</string>
+    <string name="dialog_fingerprint_use_password">Use Password</string>
+
     <string name="distance">Distance</string>
     <string name="distance_in_kilometer" translatable="false">%1$.2f km</string>
     <string name="distance_in_meter" translatable="false">%1$.0f m</string>
@@ -205,9 +212,4 @@
     <string name="tools_measurement_type" translatable="false">Radiation</string>
     <string name="tools_measurement_value" translatable="false">2 μSv/h</string>
     <string name="tools_time" translatable="false">24 min</string>
-    <string name="dialog_fingerprint_title">Sign in</string>
-    <string name="dialog_fingerprint_subtitle">Confirm fingerprint to continue</string>
-    <string name="dialog_fingerprint_touch_sensor">Touch sensor</string>
-    <string name="dialog_fingerprint_use_password">Use Password</string>
-    <string name="dialog_fingerprint_cancel">Cancel</string>
 </resources>

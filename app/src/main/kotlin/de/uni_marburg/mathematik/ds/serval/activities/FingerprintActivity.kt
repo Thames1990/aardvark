@@ -85,7 +85,7 @@ class FingerprintActivity : AppCompatActivity() {
                     )
                 }
                 description.setTextWithFade(
-                    text = "Fingerprint recognized",
+                    text = string(R.string.dialog_fingerprint_recognized),
                     duration = 500L,
                     onFinish = {
                         fingerprintDialog.dismiss()
