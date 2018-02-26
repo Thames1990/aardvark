@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.model.event
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
-import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
@@ -17,18 +16,13 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     private val dao: EventDao = EventDatabase.get(application).eventDao()
 
-    private val dataSourceFactory: DataSource.Factory<Int, Event> = dao.getAllPaged()
-
-    private val configBuilder: PagedList.Config.Builder = PagedList.Config.Builder()
-        .setPageSize(PAGE_SIZE)
-        .setEnablePlaceholders(ENABLE_PLACEHOLDERS)
-
-    private val config = configBuilder.build()
-
-    private val livePagedListBuilder: LivePagedListBuilder<Int, Event> =
-        LivePagedListBuilder(dataSourceFactory, config)
-
-    val events: LiveData<PagedList<Event>> = livePagedListBuilder.build()
+    val events: LiveData<PagedList<Event>> = LivePagedListBuilder(
+        dao.getAllPaged(),
+        PagedList.Config.Builder()
+            .setPageSize(PAGE_SIZE)
+            .setEnablePlaceholders(ENABLE_PLACEHOLDERS)
+            .build()
+    ).build()
 
     fun count(): Int = dao.count()
 
