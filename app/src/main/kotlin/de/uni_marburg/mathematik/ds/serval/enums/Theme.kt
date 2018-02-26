@@ -35,7 +35,7 @@ enum class Theme(
 
     DARK(
         titleRes = R.string.kau_dark,
-        textColorGetter = { Color.WHITE },
+        textColorGetter = Color::WHITE,
         accentColorGetter = ::PASTEL_GREEN,
         backgroundColorGetter = ::MINE_SHAFT,
         headerColorGetter = ::CHAMBRAY,

@@ -80,7 +80,7 @@ class MainActivity : BaseActivity() {
 
         if (hasLocationPermission) {
             LocationLiveData(this).observe(this, Observer { location ->
-                if (location != null) lastLocation = location
+                location?.let { lastLocation = it }
             })
         }
 
