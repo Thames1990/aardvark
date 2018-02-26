@@ -160,20 +160,27 @@ class EventAdapter(
     private val listener: (Event) -> Unit
 ) : PagedListAdapter<Event, EventHolder>(diffCallback) {
 
-    override fun onBindViewHolder(holder: EventHolder, position: Int) =
-        holder.bindTo(getItem(position), listener)
+    override fun onBindViewHolder(
+        holder: EventHolder,
+        position: Int
+    ) = holder.bindTo(getItem(position), listener)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder =
-        EventHolder(parent)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): EventHolder = EventHolder(parent)
 
     companion object {
         private val diffCallback = object : DiffCallback<Event>() {
-            override fun areContentsTheSame(oldEvent: Event, newEvent: Event): Boolean =
-                oldEvent == newEvent
+            override fun areContentsTheSame(
+                oldEvent: Event,
+                newEvent: Event
+            ): Boolean = oldEvent == newEvent
 
-            override fun areItemsTheSame(oldEvent: Event, newEvent: Event): Boolean =
-                oldEvent.id == newEvent.id
-
+            override fun areItemsTheSame(
+                oldEvent: Event,
+                newEvent: Event
+            ): Boolean = oldEvent.id == newEvent.id
         }
     }
 }
