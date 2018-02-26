@@ -42,12 +42,9 @@ class EventsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val activity = currentActivity
-        val context = currentContext
-
         eventAdapter = EventAdapter { event ->
-            context.startActivity<DetailActivity>(
-                bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(context) },
+            currentContext.startActivity<DetailActivity>(
+                bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(currentContext) },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)
                     putExtra(DetailActivity.SHOW_MAP, true)
@@ -55,8 +52,8 @@ class EventsFragment : BaseFragment() {
             )
         }
 
-        eventViewModel = ViewModelProviders.of(activity).get(EventViewModel::class.java)
-        eventViewModel.events.observe(activity, Observer(eventAdapter::setList))
+        eventViewModel = ViewModelProviders.of(currentActivity).get(EventViewModel::class.java)
+        eventViewModel.events.observe(currentActivity, Observer(eventAdapter::setList))
     }
 
     override fun onCreateView(
@@ -154,7 +151,7 @@ class EventsFragment : BaseFragment() {
     }
 }
 
-class EventAdapter(
+private class EventAdapter(
     private val listener: (Event) -> Unit
 ) : PagedListAdapter<Event, EventHolder>(diffCallback) {
 
@@ -183,7 +180,7 @@ class EventAdapter(
     }
 }
 
-class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+private class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.event_row, parent, false)
 ) {
 
@@ -196,12 +193,12 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private var event: Event? = null
 
     fun bindTo(event: Event?, listener: (Event) -> Unit) {
-        if (event != null) {
-            this.event = event.apply {
-                displayTime()
-                displayLocation()
-                displayMeasurementTypes()
-            }
+        this.event = event
+
+        event?.let {
+            it.displayTime()
+            it.displayMeasurementTypes()
+            it.displayLocation()
 
             itemView.setOnClickListener { listener(event) }
         }
