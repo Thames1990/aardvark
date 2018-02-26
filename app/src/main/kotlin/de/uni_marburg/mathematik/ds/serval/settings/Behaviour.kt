@@ -24,15 +24,15 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.kau_changelog,
-        getter = Prefs::changelog,
-        setter = { Prefs.changelog = it },
+        getter = Prefs::showChangelog,
+        setter = { Prefs.showChangelog = it },
         builder = { descRes = R.string.preference_changelog_desc }
     )
 
     checkbox(
         title = R.string.preference_confirm_exit,
-        getter = Prefs::exitConfirmation,
-        setter = { Prefs.exitConfirmation = it }
+        getter = Prefs::confirmExit,
+        setter = { Prefs.confirmExit = it }
     )
 
     checkbox(

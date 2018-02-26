@@ -20,7 +20,7 @@ inline val Context.hasLocationPermission: Boolean
     get() = hasPermission(PERMISSION_ACCESS_FINE_LOCATION)
 
 /**
- * Show the changelog.
+ * Show the showChangelog.
  */
 fun Context.showChangelog() = showChangelog(
     xmlRes = R.xml.changelog,

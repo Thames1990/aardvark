@@ -19,8 +19,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.theme,
-        getter = Prefs::themeType,
-        setter = { Prefs.themeType = it },
+        getter = Prefs::themeIndex,
+        setter = { Prefs.themeIndex = it },
         builder = {
             onClick = {
                 materialDialogThemed {
@@ -138,8 +138,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.maps_style,
-        getter = Prefs::mapsStyleType,
-        setter = { Prefs.mapsStyleType = it },
+        getter = Prefs::mapsStyleIndex,
+        setter = { Prefs.mapsStyleIndex = it },
         builder = {
             dependsOnCustom()
             onClick = {
@@ -171,8 +171,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_main_activity_layout,
-        getter = Prefs::mainActivityLayoutType,
-        setter = { Prefs.mainActivityLayoutType = it },
+        getter = Prefs::mainActivityLayoutIndex,
+        setter = { Prefs.mainActivityLayoutIndex = it },
         builder = {
             textGetter = { string(Prefs.mainActivityLayout.titleRes) }
             onClick = {

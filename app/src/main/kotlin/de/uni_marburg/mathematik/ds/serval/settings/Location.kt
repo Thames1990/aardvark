@@ -9,7 +9,7 @@ import ca.allanwang.kau.utils.restartApplication
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriority
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
@@ -38,17 +38,17 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         onDisabledClick = { snackbarThemed(R.string.preference_requires_location_permission) }
     }
 
-    // Location request priority
+    // Location request accuracy
     text(
         title = R.string.location_request_priority,
-        getter = Prefs::locationRequestPriorityType,
-        setter = { Prefs.locationRequestPriorityType = it },
+        getter = Prefs::locationRequesAccuracyIndex,
+        setter = { Prefs.locationRequesAccuracyIndex = it },
         builder = {
             dependsOnLocationPermission()
             onClick = {
                 materialDialogThemed {
                     title(R.string.location_request_priority)
-                    items(LocationRequestPriority.values().map { priority ->
+                    items(LocationRequestAccuracy.values().map { priority ->
                         "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
                     })
                     itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
@@ -61,29 +61,34 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                     }
                 }
             }
-            textGetter = { string(LocationRequestPriority(it).titleRes) }
+            textGetter = { string(LocationRequestAccuracy(it).titleRes) }
         }
     )
 
-    // Location request priority interval
+    // Location request distance
+    seekbar(
+        title = R.string.location_request_distance,
+        getter = Prefs::locationRequestDistance,
+        setter = { Prefs.locationRequestDistance = it },
+        builder = {
+            dependsOnLocationPermission()
+            descRes = R.string.location_request_distance_desc
+            min = Prefs.LOCATION_REQUEST_MIN_DISTANCE
+            max = Prefs.LOCATION_REQUEST_MAX_DISTANCE
+        }
+    )
+
+    // Location request interval
     seekbar(
         title = R.string.location_request_interval,
-        getter = { Prefs.locationRequestInterval.toInt() },
-        setter = { Prefs.locationRequestInterval = it.toLong() },
+        getter = Prefs::locationRequestInterval,
+        setter = { Prefs.locationRequestInterval = it },
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.location_request_interval_desc
+            min = Prefs.LOCATION_REQUEST_MIN_INTERVAL
+            max = Prefs.LOCATION_REQUEST_MAX_INTERVAL
         }
     )
 
-    // Location request priority fastest interval
-    seekbar(
-        title = R.string.location_request_fastest_interval,
-        getter = { Prefs.locationRequestFastestInterval.toInt() },
-        setter = { Prefs.locationRequestFastestInterval = it.toLong() },
-        builder = {
-            dependsOnLocationPermission()
-            descRes = R.string.location_request_fastest_interval_desc
-        }
-    )
 }

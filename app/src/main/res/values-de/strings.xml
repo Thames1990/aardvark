@@ -76,8 +76,6 @@
     <string name="location">Standort</string>
     <string name="location_address">Addresse</string>
     <string name="location_desc">Ändere Standort-Einstellungen</string>
-    <string name="location_request_fastest_interval">Interval der passiven Standortzugriffe</string>
-    <string name="location_request_fastest_interval_desc">Bestimme das Interval zwischen passiven Standortzugriffen in Minuten. Dies bestimmt, wie oft Aardvark den aktuellen Standort von anderen Anwendungen erhalten kann.</string>
     <string name="location_request_interval">Interval der aktiven Standortzugriffe</string>
     <string name="location_request_interval_desc">Bestimme das Interval zwischen aktiven Standortzugriffen in Minuten. Dies bestimmt, wie oft Aardvark den aktuellen Standort bestimmen kann.</string>
     <string name="location_request_priority">Standortzugriffspriorität</string>

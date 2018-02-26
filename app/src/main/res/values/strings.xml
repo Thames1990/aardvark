@@ -97,10 +97,10 @@
     <string name="location">Location</string>
     <string name="location_address">Address</string>
     <string name="location_desc">Control your location settings</string>
-    <string name="location_request_fastest_interval">Passive location request interval</string>
-    <string name="location_request_fastest_interval_desc">Define the interval in minutes between passive location updates. This determines how often other apps can inform Aardvark of your current location.</string>
-    <string name="location_request_interval">Active location request interval</string>
-    <string name="location_request_interval_desc">Define the interval in minutes between active location updates. This determines how often Aardvark can request your current location.</string>
+    <string name="location_request_distance">Location request distance</string>
+    <string name="location_request_distance_desc">Define how many meters you have to move to trigger a location update</string>
+    <string name="location_request_interval">Location request interval</string>
+    <string name="location_request_interval_desc">Define the interval in minutes between active location updates</string>
     <string name="location_request_priority">Location request priority</string>
     <string name="location_request_priority_accurate">Accurate</string>
     <string name="location_request_priority_accurate_desc">Use this setting to request the most precise location possible. With this setting, the location services are more likely to use GPS to determine the location.</string>

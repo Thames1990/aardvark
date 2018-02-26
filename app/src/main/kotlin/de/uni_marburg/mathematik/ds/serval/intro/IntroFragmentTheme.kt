@@ -28,7 +28,7 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
         dark.setThemeClick(Theme.DARK)
         amoled.setThemeClick(Theme.AMOLED)
 
-        val currentTheme = Prefs.themeType
+        val currentTheme = Prefs.themeIndex
         // Check if theme is in the theme list. Currently this doesn't check for the proper theme.
         if (IntRange(0, themeList.size).contains(currentTheme)) {
             themeList.forEachIndexed { index, v ->
@@ -39,7 +39,7 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
 
     private fun View.setThemeClick(theme: Theme) {
         setOnClickListener { view ->
-            Prefs.themeType = theme.ordinal
+            Prefs.themeIndex = theme.ordinal
             val introActivity = activity as IntroActivity
             with(introActivity) {
                 ripple.ripple(

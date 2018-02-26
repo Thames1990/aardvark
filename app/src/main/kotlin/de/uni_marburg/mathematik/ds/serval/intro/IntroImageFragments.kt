@@ -114,7 +114,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
                 image.startAnimation(rotateAnimationSet)
 
                 // Set main activity layout type
-                Prefs.mainActivityLayoutType =
+                Prefs.mainActivityLayoutIndex =
                         if (currentRotation.rem(360.0f) == 0.0f)
                             MainActivityLayout.TOP_BAR.ordinal
                         else
