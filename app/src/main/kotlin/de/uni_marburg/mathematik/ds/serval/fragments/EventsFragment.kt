@@ -234,7 +234,7 @@ class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private fun Event.displayMeasurementTypes() {
         measurementsView.apply {
             removeAllViews()
-            measurements.toHashSet().forEach { measurement ->
+            measurements.distinct().forEach { measurement ->
                 val icon = ImageView(itemView.context).apply {
                     setIcon(icon = measurement.type.iicon, color = Prefs.textColor)
                 }
