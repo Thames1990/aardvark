@@ -91,9 +91,8 @@ class MainActivity : BaseActivity() {
             progressBar.visible()
             EventRepository.progressObservable
                 .subscribe { progressEvent ->
-                    val progress: Byte = progressEvent.progress
-                    if (progress != ProgressEvent.PROGRESS_FAILURE) {
-                        // TODO Save progress as Int again...
+                    val progress: Long = progressEvent.progress
+                    if (progress != ProgressEvent.NO_CONTENT_AVAILABLE) {
                         progressBar.progress = progress.toInt()
                     }
                 }
