@@ -15,11 +15,9 @@ import ca.allanwang.kau.adapters.withOnRepeatedClickListener
 import ca.allanwang.kau.utils.*
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
-import com.mikepenz.aboutlibraries.entity.License
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.listeners.OnClickListener
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AboutLinkItem
 import de.uni_marburg.mathematik.ds.serval.enums.OpenSourceLibrary
@@ -44,21 +42,12 @@ class AboutActivity : AboutActivityBase(
 ) {
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
-        val aardvark = Library().apply {
-            author = string(R.string.developer_name_aardvark)
-            libraryDescription = string(R.string.aardvark_desc)
-            libraryName = string(R.string.aardvark_name)
-            libraryVersion = BuildConfig.VERSION_NAME
-            license = License().apply {
-                licenseName = string(R.string.mit_license)
-                licenseWebsite = string(R.string.license_website_aardvark)
-            }
-            repositoryLink = string(R.string.repository_link_aardvark)
-        }
+        val aardvark: Library = OpenSourceLibrary.AARDVARK.getLibrary(this)
 
         adapter.apply {
             add(LibraryIItem(aardvark))
             add(AboutLinks())
+
             withOnRepeatedClickListener(
                 count = 7,
                 duration = 500L,
@@ -81,7 +70,9 @@ class AboutActivity : AboutActivityBase(
 
     override fun getLibraries(libs: Libs): List<Library> {
         val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
-        OpenSourceLibrary.values().map { library -> libraries.add(library.getLibrary(this)) }
+        OpenSourceLibrary.values()
+            .filter { it != OpenSourceLibrary.AARDVARK }
+            .map { libraries.add(it.getLibrary(this)) }
         return libraries.sortedBy { library -> library.libraryName }
     }
 

@@ -29,6 +29,16 @@ enum class OpenSourceLibrary(
     @StringRes val repositoryLinkRes: Int
 ) {
 
+    AARDVARK(
+        authorRes = R.string.developer_name_aardvark,
+        libraryDescriptionRes = R.string.aardvark_desc,
+        libraryNameRes = R.string.aardvark_name,
+        libraryVersion = BuildConfig.VERSION_NAME,
+        licenseNameRes = R.string.mit_license,
+        licenseWebsiteRes = R.string.license_website_aardvark,
+        repositoryLinkRes = R.string.repository_link_aardvark
+    ),
+
     KERVAL(
         authorRes = R.string.developer_name_kerval,
         libraryDescriptionRes = R.string.kerval_desc,
