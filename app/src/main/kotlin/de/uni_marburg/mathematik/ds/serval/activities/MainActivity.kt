@@ -29,6 +29,7 @@ import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.AardvarkViewPager
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
+import io.nlopez.smartlocation.SmartLocation
 import kerval.connection.ProgressEvent
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import org.jetbrains.anko.doAsync
@@ -57,6 +58,8 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        SmartLocation.with(this).location().oneFix().start { lastLocation = it }
 
         setContentView(Prefs.mainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
