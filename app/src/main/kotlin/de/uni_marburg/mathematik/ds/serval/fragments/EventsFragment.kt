@@ -146,9 +146,7 @@ class EventsFragment : BaseFragment() {
         with(fab) {
             hideOnDownwardsScroll(recyclerView)
             setOnClickListener {
-                if (Prefs.animate) recyclerView.smoothScrollToPosition(0)
-                else recyclerView.scrollToPosition(0)
-
+                recyclerView.scrollToPosition(0)
                 val appBar: AppBarLayout = mainActivity.appBar
                 appBar.setExpanded(true, Prefs.animate)
             }
