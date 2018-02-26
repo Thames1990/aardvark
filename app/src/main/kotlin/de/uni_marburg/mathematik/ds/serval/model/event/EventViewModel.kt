@@ -33,8 +33,7 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getAll() = dao.getAll()
 
-    fun reload() = ioThread {
-        dao.deleteAll()
+    fun reload() {
         val events: List<Event> = EventRepository.fetch()
         dao.insert(events)
     }

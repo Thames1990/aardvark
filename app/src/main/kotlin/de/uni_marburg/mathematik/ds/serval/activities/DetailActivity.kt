@@ -190,7 +190,8 @@ class DetailActivity : ElasticRecyclerActivity() {
                 builder = {
                     setAction(
                         R.string.snackbar_action_enable,
-                        { showAppInfo(GOOGLE_MAPS) })
+                        { showAppInfo(GOOGLE_MAPS) }
+                    )
                 }
             )
         } else snackbarThemed(
@@ -198,7 +199,8 @@ class DetailActivity : ElasticRecyclerActivity() {
             builder = {
                 setAction(
                     R.string.snackbar_action_install,
-                    { startPlayStoreLink(GOOGLE_MAPS) })
+                    { startPlayStoreLink(GOOGLE_MAPS) }
+                )
             }
         )
     }

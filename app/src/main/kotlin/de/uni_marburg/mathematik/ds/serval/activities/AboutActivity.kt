@@ -48,6 +48,8 @@ class AboutActivity : AboutActivityBase(
             add(LibraryIItem(aardvark))
             add(AboutLinks())
 
+            // Activate debug settings, if the user clicked the Aardvark item multiple times in
+            // a short duration
             withOnRepeatedClickListener(
                 count = 7,
                 duration = 500L,
