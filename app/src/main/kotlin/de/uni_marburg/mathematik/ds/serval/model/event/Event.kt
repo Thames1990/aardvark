@@ -100,7 +100,7 @@ data class Data(
  * @property longitude Geographic coordinate that specifies the east-west position
  * @property geohash Geographic location encoding
  */
-data class GeohashLocation(val latitude: Double, val longitude: Double, val geohash: String)
+data class GeohashLocation(val latitude: Double, val longitude: Double, private val geohash: String)
 
 /**
  * A measurement taken by an [event][Event].
