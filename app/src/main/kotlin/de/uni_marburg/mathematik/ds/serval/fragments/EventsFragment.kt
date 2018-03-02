@@ -43,8 +43,8 @@ class EventsFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
 
         eventAdapter = EventAdapter { event ->
-            currentContext.startActivity<DetailActivity>(
-                bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(currentContext) },
+            requireContext().startActivity<DetailActivity>(
+                bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(requireContext()) },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)
                     putExtra(DetailActivity.SHOW_MAP, true)
@@ -52,8 +52,8 @@ class EventsFragment : BaseFragment() {
             )
         }
 
-        eventViewModel = ViewModelProviders.of(currentActivity).get(EventViewModel::class.java)
-        eventViewModel.events.observe(currentActivity, Observer(eventAdapter::submitList))
+        eventViewModel = ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
+        eventViewModel.events.observe(requireActivity(), Observer(eventAdapter::submitList))
     }
 
     override fun onCreateView(
@@ -76,7 +76,7 @@ class EventsFragment : BaseFragment() {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_events, menu)
 
-        with(currentContext) {
+        with(requireContext()) {
             setMenuIcons(
                 menu = menu,
                 color = Prefs.iconColor,

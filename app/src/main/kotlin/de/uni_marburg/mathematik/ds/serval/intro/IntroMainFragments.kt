@@ -15,7 +15,9 @@ import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
+import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.childrenSequence
 import kotlin.math.absoluteValue
 
@@ -121,14 +123,14 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
-            with(currentContext) {
+            with(requireContext()) {
                 description.text =
                         if (hasLocationPermission) string(R.string.intro_tap_to_exit)
                         else string(R.string.grant_location_permission)
             }
 
             container.setOnSingleTapListener { _, motionEvent ->
-                with(currentActivity) {
+                with(requireActivity()) {
                     if (hasLocationPermission) {
                         val introActivity = this as IntroActivity
                         introActivity.finish(x = motionEvent.x, y = motionEvent.y)

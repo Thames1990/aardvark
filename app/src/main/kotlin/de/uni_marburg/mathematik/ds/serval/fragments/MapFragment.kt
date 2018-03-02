@@ -24,8 +24,6 @@ import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.model.event.Event
 import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.currentActivity
-import de.uni_marburg.mathematik.ds.serval.utils.currentContext
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
@@ -52,12 +50,12 @@ class MapFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         // TODO Set cluster manager items with view model
-        eventViewModel = ViewModelProviders.of(currentActivity).get(EventViewModel::class.java)
+        eventViewModel = ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
 
         map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         map.getMapAsync { map ->
             googleMap = map.apply {
-                isMyLocationEnabled = currentContext.hasLocationPermission
+                isMyLocationEnabled = requireContext().hasLocationPermission
                 style()
                 setupClusterManager()
                 zoomToAllMarkers(animate = false)
@@ -74,7 +72,7 @@ class MapFragment : BaseFragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_map, menu)
-        currentActivity.setMenuIcons(
+        requireActivity().setMenuIcons(
             menu = menu,
             color = Prefs.iconColor,
             iicons = *arrayOf(
@@ -111,7 +109,7 @@ class MapFragment : BaseFragment() {
     }
 
     private fun GoogleMap.setupClusterManager() {
-        val context = currentContext
+        val context = requireContext()
 
         clusterManager = ClusterManager<Event>(context, this).apply {
             setCallbacks(object : ClusterManager.Callbacks<Event> {

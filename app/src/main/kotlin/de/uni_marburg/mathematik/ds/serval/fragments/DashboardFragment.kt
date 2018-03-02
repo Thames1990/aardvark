@@ -11,7 +11,6 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.currentContext
 import io.nlopez.smartlocation.SmartLocation
 import org.jetbrains.anko.displayMetrics
 
@@ -31,7 +30,7 @@ class DashboardFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityRecognitionControl = SmartLocation.with(currentContext).activity()
+        activityRecognitionControl = SmartLocation.with(requireContext()).activity()
     }
 
     override fun onResume() {
@@ -44,7 +43,7 @@ class DashboardFragment : BaseFragment() {
                         image.setIcon(
                             icon = activity.iicon,
                             color = Prefs.textColor,
-                            sizeDp = currentContext.displayMetrics.densityDpi
+                            sizeDp = requireContext().displayMetrics.densityDpi
                         )
                     }
                     description.setTextWithFade(activity.currentActivity)
@@ -52,7 +51,7 @@ class DashboardFragment : BaseFragment() {
                     image.setIcon(
                         icon = activity.iicon,
                         color = Prefs.textColor,
-                        sizeDp = currentContext.displayMetrics.densityDpi
+                        sizeDp = requireContext().displayMetrics.densityDpi
                     )
                     description.text = activity.currentActivity
                 }
@@ -71,7 +70,7 @@ class DashboardFragment : BaseFragment() {
         image.setIcon(
             icon = GoogleMaterial.Icon.gmd_sentiment_very_satisfied,
             color = Prefs.textColor,
-            sizeDp = currentContext.displayMetrics.densityDpi
+            sizeDp = requireContext().displayMetrics.densityDpi
         )
         description.setTextColor(Prefs.textColor)
     }
@@ -89,8 +88,8 @@ class DashboardFragment : BaseFragment() {
                 DetectedActivity.RUNNING -> R.string.activity_running
                 else -> R.string.activity_unknown
             }
-            val format = currentContext.string(formatId)
-            val value = currentContext.string(valueId)
+            val format = requireContext().string(formatId)
+            val value = requireContext().string(valueId)
             return String.format(format = format, args = *arrayOf(value))
         }
 
