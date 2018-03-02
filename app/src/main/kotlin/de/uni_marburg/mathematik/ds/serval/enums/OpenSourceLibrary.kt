@@ -12,18 +12,18 @@ import de.uni_marburg.mathematik.ds.serval.R
  * Open source libraries used in Aardvark.
  *
  * @property authorRes Resource ID of the author
- * @property libraryDescriptionRes Resource ID of the library description
- * @property libraryNameRes Resource ID of the library name
- * @property libraryVersion Version of the library
+ * @property descriptionRes Resource ID of the library description
+ * @property nameRes Resource ID of the library name
+ * @property version Version of the library
  * @property licenseNameRes Resource ID of the name of the libraries license
  * @property licenseWebsiteRes Resource ID of the website of the libraries license
  * @property repositoryLinkRes Resource ID of the repository link
  */
 enum class OpenSourceLibrary(
     @StringRes val authorRes: Int,
-    @StringRes val libraryDescriptionRes: Int? = null,
-    @StringRes val libraryNameRes: Int,
-    val libraryVersion: String,
+    @StringRes val descriptionRes: Int? = null,
+    @StringRes val nameRes: Int,
+    val version: String,
     @StringRes val licenseNameRes: Int,
     @StringRes val licenseWebsiteRes: Int,
     @StringRes val repositoryLinkRes: Int
@@ -31,9 +31,9 @@ enum class OpenSourceLibrary(
 
     AARDVARK(
         authorRes = R.string.developer_name_aardvark,
-        libraryDescriptionRes = R.string.aardvark_desc,
-        libraryNameRes = R.string.aardvark_name,
-        libraryVersion = BuildConfig.VERSION_NAME,
+        descriptionRes = R.string.aardvark_desc,
+        nameRes = R.string.aardvark_name,
+        version = BuildConfig.VERSION_NAME,
         licenseNameRes = R.string.mit_license,
         licenseWebsiteRes = R.string.license_website_aardvark,
         repositoryLinkRes = R.string.repository_link_aardvark
@@ -41,9 +41,9 @@ enum class OpenSourceLibrary(
 
     KERVAL(
         authorRes = R.string.developer_name_kerval,
-        libraryDescriptionRes = R.string.kerval_desc,
-        libraryNameRes = R.string.kerval_name,
-        libraryVersion = BuildConfig.KERVAL_VERSION,
+        descriptionRes = R.string.kerval_desc,
+        nameRes = R.string.kerval_name,
+        version = BuildConfig.KERVAL_VERSION,
         licenseNameRes = R.string.mit_license,
         licenseWebsiteRes = R.string.license_website_kerval,
         repositoryLinkRes = R.string.repository_link_kerval
@@ -52,10 +52,9 @@ enum class OpenSourceLibrary(
     fun getLibrary(context: Context): Library = with(context) {
         return Library().apply {
             author = string(authorRes)
-            libraryDescription =
-                    if (libraryDescriptionRes != null) string(libraryDescriptionRes) else ""
-            libraryName = string(libraryNameRes)
-            libraryVersion = this@OpenSourceLibrary.libraryVersion
+            libraryDescription = descriptionRes?.let { string(it) }
+            libraryName = string(nameRes)
+            libraryVersion = version
             license = License().apply {
                 licenseName = string(licenseNameRes)
                 licenseWebsite = string(licenseWebsiteRes)
