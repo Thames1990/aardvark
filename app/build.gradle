@@ -103,6 +103,14 @@ dependencies {
     // LeakCanary
     debugImplementation deps.leak_canary
     releaseImplementation deps.leak_canary_release
+    // Support Library
+    implementation deps.support_library.appcompat
+    implementation deps.support_library.cardview
+    implementation deps.support_library.constraintLayout
+    implementation deps.support_library.design
+    implementation deps.support_library.recyclerview
+    implementation deps.support_library.support
+    implementation deps.support_library.support_annotations
 }
 
 apply plugin: 'com.google.gms.google-services'

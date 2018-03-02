@@ -8,7 +8,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
 import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.recyclerview.extensions.DiffCallback
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
@@ -53,7 +53,7 @@ class EventsFragment : BaseFragment() {
         }
 
         eventViewModel = ViewModelProviders.of(currentActivity).get(EventViewModel::class.java)
-        eventViewModel.events.observe(currentActivity, Observer(eventAdapter::setList))
+        eventViewModel.events.observe(currentActivity, Observer(eventAdapter::submitList))
     }
 
     override fun onCreateView(
@@ -158,7 +158,7 @@ private class EventAdapter(
     override fun onBindViewHolder(
         holder: EventHolder,
         position: Int
-    ) = holder.bindTo(getItem(position), listener)
+    ) = holder.bindTo(currentList?.let { getItem(position) }, listener)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -166,7 +166,7 @@ private class EventAdapter(
     ): EventHolder = EventHolder(parent)
 
     companion object {
-        private val diffCallback = object : DiffCallback<Event>() {
+        private val diffCallback = object : DiffUtil.ItemCallback<Event>() {
             override fun areContentsTheSame(
                 oldEvent: Event,
                 newEvent: Event

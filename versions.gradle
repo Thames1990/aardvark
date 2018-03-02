@@ -16,12 +16,19 @@ versions.kotlin = "1.2.30"
 versions.leak_canary = "1.5.4"
 versions.lifecycle = "1.1.0"
 versions.moshi = "1.4.0"
-versions.paging = "1.0.0-alpha5"
+versions.paging = "1.0.0-alpha6"
 versions.reprint = "3.2.1@aar"
 versions.room = "1.1.0-alpha2"
 versions.smartlocation = "3.3.3"
+versions.support_library = "27.1.0"
 versions.weather_icons_typeface = "2.0.10.4@aar"
 ext.versions = versions
+
+def firebase = [:]
+firebase.core = "com.google.firebase:firebase-core:$versions.google_play_services"
+firebase.perf = "com.google.firebase:firebase-perf:$versions.google_play_services"
+firebase.plugins = "com.google.firebase:firebase-plugins:$versions.firebase_plugins"
+deps.firebase = firebase
 
 def google_play_services = [:]
 google_play_services.location = "com.google.android.gms:play-services-location:$versions.google_play_services"
@@ -33,12 +40,6 @@ def ioconics = [:]
 ioconics.weather_icons_typeface = "com.mikepenz:weather-icons-typeface:$versions.weather_icons_typeface"
 ioconics.community_material_typeface = "com.mikepenz:community-material-typeface:$versions.community_material_typeface"
 deps.ioconics = ioconics
-
-def firebase = [:]
-firebase.core = "com.google.firebase:firebase-core:$versions.google_play_services"
-firebase.perf = "com.google.firebase:firebase-perf:$versions.google_play_services"
-firebase.plugins = "com.google.firebase:firebase-plugins:$versions.firebase_plugins"
-deps.firebase = firebase
 
 def kau = [:]
 kau.kau_about = "ca.allanwang.kau:about:$versions.kau"
@@ -60,6 +61,16 @@ def room = [:]
 room.runtime = "android.arch.persistence.room:runtime:$versions.room"
 room.compiler = "android.arch.persistence.room:compiler:$versions.room"
 deps.room = room
+
+def support_library = [:]
+support_library.appcompat = "com.android.support:appcompat-v7:$versions.support_library"
+support_library.cardview = "com.android.support:cardview-v7:$versions.support_library"
+support_library.constraintLayout = "com.android.support.constraint:constraint-layout:1.0.2"
+support_library.design = "com.android.support:design:$versions.support_library"
+support_library.recyclerview = "com.android.support:recyclerview-v7:$versions.support_library"
+support_library.support = "com.android.support:support-v13:$versions.support_library"
+support_library.support_annotations = "com.android.support:support-annotations:$versions.support_library"
+deps.support_library = support_library
 
 deps.android_git_version = "gradle.plugin.com.gladed.gradle.androidgitversion:gradle-android-git-version:$versions.android_git_version"
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
