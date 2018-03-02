@@ -79,7 +79,6 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
 
     fun <T : Any> lazyResettableRegistered(initializer: () -> T) = lazyRegistry.lazy(initializer)
 
-
     fun themeFragment() {
         if (view != null) themeFragmentImpl()
     }

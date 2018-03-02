@@ -41,6 +41,7 @@ abstract class EventDatabase : RoomDatabase() {
 
 }
 
+@Suppress("unused")
 class EventConverters {
 
     private val dataAdapter: JsonAdapter<Data> = EventRepository.moshi.adapter(Data::class.java)

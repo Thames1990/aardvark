@@ -122,7 +122,7 @@ class EventsFragment : BaseFragment() {
     }
 
     private fun setupRefresh() {
-        swipeRefreshLayout.apply {
+        with(swipeRefreshLayout) {
             setOnRefreshListener {
                 if (context.isNetworkAvailable) {
                     doAsync {
