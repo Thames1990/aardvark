@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.model.event
+package de.uni_marburg.mathematik.ds.serval.model
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
@@ -37,7 +37,8 @@ object EventRepository {
     /**
      * Json converter adapter for [events][Event]
      */
-    private val eventAdapter: JsonAdapter<Event> = moshi.adapter(Event::class.java)
+    private val eventAdapter: JsonAdapter<Event> = moshi.adapter(
+        Event::class.java)
 
     /**
      * Fetches [a number of][count] [events][Event] from the [Serval client][client].

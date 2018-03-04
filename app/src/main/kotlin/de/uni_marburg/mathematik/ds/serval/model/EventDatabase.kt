@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.model.event
+package de.uni_marburg.mathematik.ds.serval.model
 
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.*
@@ -25,14 +25,20 @@ abstract class EventDatabase : RoomDatabase() {
                     EventDatabase::class.java,
                     BuildConfig.APPLICATION_ID
                 ).addCallback(object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) = ioThread {
-                        if (context.isNetworkAvailable) {
-                            val events: List<Event> = EventRepository.fetch()
-                            val eventDatabase: EventDatabase = get(context)
-                            val dao: EventDao = eventDatabase.eventDao()
-                            dao.insertOrUpdate(events)
+                    override fun onCreate(db: SupportSQLiteDatabase) =
+                        ioThread {
+                            if (context.isNetworkAvailable) {
+                                val events: List<Event> =
+                                    EventRepository.fetch()
+                                val eventDatabase: EventDatabase =
+                                    get(
+                                        context
+                                    )
+                                val dao: EventDao =
+                                    eventDatabase.eventDao()
+                                dao.insertOrUpdate(events)
+                            }
                         }
-                    }
                 }).build()
             }
             return instance!!
@@ -44,7 +50,8 @@ abstract class EventDatabase : RoomDatabase() {
 @Suppress("unused")
 class EventConverters {
 
-    private val dataAdapter: JsonAdapter<Data> = EventRepository.moshi.adapter(Data::class.java)
+    private val dataAdapter: JsonAdapter<Data> = EventRepository.moshi.adapter(
+        Data::class.java)
 
     @TypeConverter
     fun fromDataJson(json: String): Data? = dataAdapter.fromJson(json)

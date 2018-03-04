@@ -14,8 +14,8 @@ import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.SupportTopic
-import de.uni_marburg.mathematik.ds.serval.model.event.Event
-import de.uni_marburg.mathematik.ds.serval.model.event.EventDatabase
+import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.model.EventDatabase
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import de.uni_marburg.mathematik.ds.serval.views.SmallHeaderIItem

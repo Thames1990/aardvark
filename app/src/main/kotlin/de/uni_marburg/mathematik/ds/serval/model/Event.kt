@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.model.event
+package de.uni_marburg.mathematik.ds.serval.model
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey

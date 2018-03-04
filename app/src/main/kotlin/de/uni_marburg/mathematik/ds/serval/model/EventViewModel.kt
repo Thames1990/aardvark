@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.model.event
+package de.uni_marburg.mathematik.ds.serval.model
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
@@ -14,7 +14,9 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         private const val ENABLE_PLACEHOLDERS = true
     }
 
-    private val dao: EventDao = EventDatabase.get(application).eventDao()
+    private val dao: EventDao = EventDatabase.get(
+        application
+    ).eventDao()
 
     val events: LiveData<PagedList<Event>> = LivePagedListBuilder(
         dao.getAllPaged(),
@@ -29,15 +31,18 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     fun getAll() = dao.getAll()
 
     fun reload() {
-        val events: List<Event> = EventRepository.fetch()
+        val events: List<Event> =
+            EventRepository.fetch()
         dao.insertOrUpdate(events)
     }
 
-    fun sort(eventComparator: EventComparator, reversed: Boolean = false) = ioThread {
-        val events: List<Event> = dao.getAll()
-        val sortedEvents: List<Event> = eventComparator.sort(events, reversed)
-        dao.insertOrUpdate(sortedEvents)
-    }
+    fun sort(eventComparator: EventComparator, reversed: Boolean = false) =
+        ioThread {
+            val events: List<Event> = dao.getAll()
+            val sortedEvents: List<Event> =
+                eventComparator.sort(events, reversed)
+            dao.insertOrUpdate(sortedEvents)
+        }
 
 }
 

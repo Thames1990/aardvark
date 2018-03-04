@@ -11,7 +11,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.model.event.Event
+import de.uni_marburg.mathematik.ds.serval.model.Event
 
 class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
     layoutRes = R.layout.iitem_map,

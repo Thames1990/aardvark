@@ -1,7 +1,9 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.location.Location
@@ -23,13 +25,14 @@ import de.uni_marburg.mathematik.ds.serval.enums.TabItem
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
-import de.uni_marburg.mathematik.ds.serval.model.LocationLiveData
-import de.uni_marburg.mathematik.ds.serval.model.event.EventRepository
-import de.uni_marburg.mathematik.ds.serval.model.event.EventViewModel
+import de.uni_marburg.mathematik.ds.serval.model.EventRepository
+import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.AardvarkViewPager
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import io.nlopez.smartlocation.SmartLocation
+import io.nlopez.smartlocation.location.config.LocationParams
+import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider
 import kerval.connection.ProgressEvent
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import org.jetbrains.anko.doAsync
@@ -82,7 +85,7 @@ class MainActivity : BaseActivity() {
         eventViewModel.events.observe(this, Observer { tabs.reload() })
 
         if (hasLocationPermission) {
-            LocationLiveData(this).observe(this, Observer { location ->
+            LocationLiveData(context = this).observe(this, Observer { location ->
                 location?.let { lastLocation = it }
             })
         }
@@ -232,6 +235,33 @@ class MainActivity : BaseActivity() {
         override fun getItem(position: Int): Fragment = fragments[position]
 
         override fun getCount(): Int = fragments.size
+
+    }
+
+    /**
+     * Tracks changes of the location
+     */
+    private class LocationLiveData(context: Context) : LiveData<Location>() {
+
+        private val locationParams: LocationParams = LocationParams.Builder()
+            .setAccuracy(Prefs.locationRequestAccuracy.accuracy)
+            .setDistance(Prefs.locationRequestDistance.toFloat())
+            .setInterval(Prefs.locationRequestInterval.toLong())
+            .build()
+
+        private val locationControl = SmartLocation.with(context)
+            .location(LocationGooglePlayServicesWithFallbackProvider(context))
+            .config(locationParams)
+
+        override fun onActive() {
+            super.onActive()
+            locationControl.start { location -> value = location }
+        }
+
+        override fun onInactive() {
+            locationControl.stop()
+            super.onInactive()
+        }
 
     }
 }
