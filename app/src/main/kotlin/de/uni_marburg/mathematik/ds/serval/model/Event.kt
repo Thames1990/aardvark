@@ -141,7 +141,7 @@ enum class MeasurementType(
     @Json(name = "radiation")
     RADIATION(
         titleRes = R.string.measurement_radiation,
-        formatRes = R.string.measurement_value_precipitation,
+        formatRes = R.string.measurement_value_radiation,
         iicon = CommunityMaterial.Icon.cmd_atom
     ),
 
@@ -151,7 +151,7 @@ enum class MeasurementType(
     @Json(name = "temperature")
     TEMPERATURE(
         titleRes = R.string.measurement_temperature,
-        formatRes = R.string.measurement_value_precipitation,
+        formatRes = R.string.measurement_value_temperature,
         iicon = WeatherIcons.Icon.wic_thermometer
     ),
 
@@ -162,7 +162,7 @@ enum class MeasurementType(
     @Json(name = "wind")
     WIND(
         titleRes = R.string.measurement_wind,
-        formatRes = R.string.measurement_value_precipitation,
+        formatRes = R.string.measurement_value_wind,
         iicon = WeatherIcons.Icon.wic_strong_wind
     )
 }
