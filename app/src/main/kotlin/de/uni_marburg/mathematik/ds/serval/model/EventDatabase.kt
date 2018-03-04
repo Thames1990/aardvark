@@ -47,17 +47,16 @@ abstract class EventDatabase : RoomDatabase() {
 
 }
 
-@Suppress("unused")
-class EventConverters {
+private class EventConverters {
 
-    private val dataAdapter: JsonAdapter<Data> = EventRepository.moshi.adapter(
-        Data::class.java)
+    private val dataAdapter: JsonAdapter<Data> = EventRepository.moshi.adapter(Data::class.java)
 
     @TypeConverter
-    fun fromDataJson(json: String): Data? = dataAdapter.fromJson(json)
+    fun toData(json: String): Data? = dataAdapter.fromJson(json)
 
     @TypeConverter
     fun fromData(data: Data): String = dataAdapter.toJson(data)
+
 }
 
 private val ioExecutor = Executors.newSingleThreadExecutor()

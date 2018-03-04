@@ -144,4 +144,5 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
             }
         }
     }
+
 }

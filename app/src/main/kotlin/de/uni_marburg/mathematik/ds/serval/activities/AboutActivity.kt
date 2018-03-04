@@ -78,7 +78,7 @@ class AboutActivity : AboutActivityBase(
         return libraries.sortedBy { library -> library.libraryName }
     }
 
-    class AboutLinks :
+    private class AboutLinks :
         AbstractItem<AboutLinks, AboutLinks.ViewHolder>(),
         ThemableIItem by ThemableIItemDelegate() {
 
@@ -96,7 +96,7 @@ class AboutActivity : AboutActivityBase(
             }
         }
 
-        class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+        private class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
             val container: ConstraintLayout by bindView(R.id.about_icons_container)
             val items: List<ImageView>
@@ -138,4 +138,5 @@ class AboutActivity : AboutActivityBase(
             }
         }
     }
+
 }

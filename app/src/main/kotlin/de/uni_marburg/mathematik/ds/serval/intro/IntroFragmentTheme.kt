@@ -54,4 +54,5 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
             }
         }
     }
+
 }

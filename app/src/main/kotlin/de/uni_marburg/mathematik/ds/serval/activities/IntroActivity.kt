@@ -19,10 +19,10 @@ import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
+import de.uni_marburg.mathematik.ds.serval.intro.BaseImageIntroFragment.IntroFragmentTabTouch
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentEnd
 import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentWelcome
-import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTabTouch
 import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTheme
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
@@ -215,13 +215,14 @@ class IntroActivity : BaseActivity() {
         }
     }
 
-    class IntroPageAdapter(
+    private class IntroPageAdapter(
         fm: FragmentManager,
-        private val fragments: List<BaseIntroFragment>
+        val fragments: List<BaseIntroFragment>
     ) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment = fragments[position]
 
         override fun getCount(): Int = fragments.size
     }
+
 }

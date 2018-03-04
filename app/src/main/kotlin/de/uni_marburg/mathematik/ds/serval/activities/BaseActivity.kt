@@ -32,4 +32,5 @@ abstract class BaseActivity : KauBaseActivity() {
         setSecureFlag()
         setTheme()
     }
+
 }

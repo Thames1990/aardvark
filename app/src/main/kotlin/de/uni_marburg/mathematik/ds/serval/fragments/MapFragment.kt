@@ -37,6 +37,8 @@ class MapFragment : BaseFragment() {
     private lateinit var googleMap: GoogleMap
     private lateinit var map: SupportMapFragment
 
+    private val mapPadding = 150
+
     override val layout: Int
         get() = R.layout.fragment_map
 
@@ -159,12 +161,8 @@ class MapFragment : BaseFragment() {
     }
 
     private fun GoogleMap.cameraUpdate(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
-        val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
+        val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, mapPadding)
         if (animate) animateCamera(cameraUpdate) else moveCamera(cameraUpdate)
-    }
-
-    companion object {
-        const val MAP_PADDING = 150
     }
 
 }

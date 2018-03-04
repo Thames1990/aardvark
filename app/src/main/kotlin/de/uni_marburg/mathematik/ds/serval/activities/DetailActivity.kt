@@ -32,6 +32,11 @@ class DetailActivity : ElasticRecyclerActivity() {
     private lateinit var event: Event
     private lateinit var geocodingControl: SmartLocation.GeocodingControl
 
+    companion object {
+        const val EVENT_ID = "EVENT_ID"
+        const val SHOW_MAP = "SHOW_MAP"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         setSecureFlag()
         setColors {
@@ -66,8 +71,8 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     override fun onPause() {
-        super.onPause()
         geocodingControl.stop()
+        super.onPause()
     }
 
     private fun FastItemAdapter<IItem<*, *>>.setupAdapter() {
@@ -205,8 +210,4 @@ class DetailActivity : ElasticRecyclerActivity() {
         )
     }
 
-    companion object {
-        const val EVENT_ID = "EVENT_ID"
-        const val SHOW_MAP = "SHOW_MAP"
-    }
 }
