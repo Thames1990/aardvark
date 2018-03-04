@@ -24,7 +24,4 @@ abstract class EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertOrUpdate(events: List<Event>)
 
-    @Query("DELETE FROM events")
-    abstract fun deleteAll()
-
 }
