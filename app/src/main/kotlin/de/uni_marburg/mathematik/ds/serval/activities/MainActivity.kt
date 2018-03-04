@@ -188,7 +188,7 @@ class MainActivity : BaseActivity() {
 
             override fun onTabReselected(tab: TabLayout.Tab) {
                 if (isNetworkAvailable) doAsync { eventViewModel.reload() }
-                else snackbarThemed(string(R.string.network_disconnected))
+                else viewPager.snackbarThemed(string(R.string.network_disconnected))
             }
         })
 

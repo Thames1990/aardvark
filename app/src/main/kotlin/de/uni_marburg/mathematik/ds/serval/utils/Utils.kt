@@ -43,8 +43,9 @@ fun aardvarkAnswersCustom(name: String, vararg events: Pair<String, Any>) {
 @SuppressLint("RestrictedApi")
 inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.() -> Unit = {
     builder()
-    // Hacky workaround, but it has proper checks and shouldn't crash
-    ((view as? FrameLayout)?.getChildAt(0) as? SnackbarContentLayout)?.apply {
+    val snackbarBaseLayout = view as FrameLayout
+    val snackbarContentLayout = snackbarBaseLayout[0] as SnackbarContentLayout
+    snackbarContentLayout.apply {
         messageView.setTextColor(Prefs.textColor)
         actionView.setTextColor(Prefs.accentColor)
         //only set if previous text colors are set
