@@ -7,29 +7,24 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 
 @Dao
-interface EventDao {
+abstract class EventDao {
 
     @Query("SELECT COUNT(*) FROM events")
-    fun count(): Int
+    abstract fun count(): Int
 
     @Query("SELECT * FROM events WHERE id = :id")
-    fun getById(id: String): Event
+    abstract fun getById(id: String): Event
 
     @Query("SELECT * FROM events")
-    fun getAll(): List<Event>
+    abstract fun getAll(): List<Event>
 
     @Query("SELECT * FROM events")
-    fun getAllPaged(): DataSource.Factory<Int, Event>
-
-    @Insert
-    fun insert(event: Event)
-
-    @Insert
-    fun insert(vararg events: Event)
+    abstract fun getAllPaged(): DataSource.Factory<Int, Event>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(events: List<Event>)
+    abstract fun insertOrUpdate(events: List<Event>)
 
     @Query("DELETE FROM events")
-    fun deleteAll()
+    abstract fun deleteAll()
+
 }

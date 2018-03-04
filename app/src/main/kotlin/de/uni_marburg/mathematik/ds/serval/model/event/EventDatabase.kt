@@ -30,7 +30,7 @@ abstract class EventDatabase : RoomDatabase() {
                             val events: List<Event> = EventRepository.fetch()
                             val eventDatabase: EventDatabase = get(context)
                             val dao: EventDao = eventDatabase.eventDao()
-                            dao.insert(events)
+                            dao.insertOrUpdate(events)
                         }
                     }
                 }).build()
