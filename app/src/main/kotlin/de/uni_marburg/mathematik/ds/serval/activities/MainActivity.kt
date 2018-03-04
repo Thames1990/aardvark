@@ -62,8 +62,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        SmartLocation.with(this).location().oneFix().start { lastLocation = it }
-
         setContentView(Prefs.mainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
         setColors {
@@ -85,7 +83,17 @@ class MainActivity : BaseActivity() {
         eventViewModel.events.observe(this, Observer { tabs.reload() })
 
         if (hasLocationPermission) {
-            LocationLiveData(context = this).observe(this, Observer { location ->
+            val currentLocation = CurrentLocation(this)
+
+            // Get last location
+            val oneFix = currentLocation.locationControl.oneFix()
+            oneFix.start {
+                lastLocation = it
+                oneFix.stop()
+            }
+
+            // Get notified about location changes
+            currentLocation.observe(this, Observer<Location> { location ->
                 location?.let { lastLocation = it }
             })
         }
@@ -224,7 +232,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    inner class SectionsPagerAdapter : FragmentPagerAdapter(supportFragmentManager) {
+    private inner class SectionsPagerAdapter : FragmentPagerAdapter(supportFragmentManager) {
 
         private val fragments = listOf(
             DashboardFragment(),
@@ -238,10 +246,7 @@ class MainActivity : BaseActivity() {
 
     }
 
-    /**
-     * Tracks changes of the location
-     */
-    private class LocationLiveData(context: Context) : LiveData<Location>() {
+    private class CurrentLocation(context: Context) : LiveData<Location>() {
 
         private val locationParams: LocationParams = LocationParams.Builder()
             .setAccuracy(Prefs.locationRequestAccuracy.accuracy)
@@ -249,7 +254,7 @@ class MainActivity : BaseActivity() {
             .setInterval(Prefs.locationRequestInterval.toLong())
             .build()
 
-        private val locationControl = SmartLocation.with(context)
+        val locationControl: SmartLocation.LocationControl = SmartLocation.with(context)
             .location(LocationGooglePlayServicesWithFallbackProvider(context))
             .config(locationParams)
 
@@ -264,4 +269,5 @@ class MainActivity : BaseActivity() {
         }
 
     }
+
 }
