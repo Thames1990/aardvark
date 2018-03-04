@@ -32,17 +32,20 @@ import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
 
+    override val layout: Int
+        get() = R.layout.fragment_map
+
+    private val eventViewModel: EventViewModel by lazy {
+        ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
+    }
+
     private lateinit var clusterManager: ClusterManager<Event>
-    private lateinit var eventViewModel: EventViewModel
     private lateinit var googleMap: GoogleMap
     private lateinit var map: SupportMapFragment
 
     companion object {
         const val MAP_PADDING = 150
     }
-
-    override val layout: Int
-        get() = R.layout.fragment_map
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +55,6 @@ class MapFragment : BaseFragment() {
     @SuppressLint("MissingPermission")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        // TODO Set cluster manager items with view model
-        eventViewModel = ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
 
         map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         map.getMapAsync { map ->

@@ -10,7 +10,10 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -31,39 +34,35 @@ import org.jetbrains.anko.uiThread
 
 class EventsFragment : BaseFragment() {
 
-    private lateinit var eventAdapter: EventAdapter
-    private lateinit var eventViewModel: EventViewModel
+    override val layout: Int
+        get() = R.layout.fragment_events
 
     private val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
     private val swipeRefreshLayout by bindView<SwipeRefreshLayout>(R.id.swipe_refresh)
 
-    override val layout: Int
-        get() = R.layout.fragment_events
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        eventAdapter = EventAdapter { event ->
+    private val eventAdapter: EventAdapter by lazy {
+        EventAdapter { event ->
             requireContext().startActivity<DetailActivity>(
-                bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(requireContext()) },
+                bundleBuilder = {
+                    if (Prefs.animate) withSceneTransitionAnimation(requireContext())
+                },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)
                     putExtra(DetailActivity.SHOW_MAP, true)
                 }
             )
         }
-
-        eventViewModel = ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
-        eventViewModel.events.observe(requireActivity(), Observer(eventAdapter::submitList))
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private val eventViewModel: EventViewModel by lazy {
+        ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        return super.onCreateView(inflater, container, savedInstanceState)
+
+        eventViewModel.events.observe(requireActivity(), Observer(eventAdapter::submitList))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

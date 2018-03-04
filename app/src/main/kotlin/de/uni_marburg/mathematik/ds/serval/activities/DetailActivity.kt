@@ -30,7 +30,10 @@ import java.util.*
 class DetailActivity : ElasticRecyclerActivity() {
 
     private lateinit var event: Event
-    private lateinit var geocodingControl: SmartLocation.GeocodingControl
+
+    private val geocodingControl: SmartLocation.GeocodingControl by lazy {
+        SmartLocation.with(this).geocoding()
+    }
 
     companion object {
         const val EVENT_ID = "EVENT_ID"
@@ -44,8 +47,6 @@ class DetailActivity : ElasticRecyclerActivity() {
             toolbar(toolbar)
             themeWindow = false
         }
-
-        geocodingControl = SmartLocation.with(this).geocoding()
 
         doAsync {
             event = EventDatabase

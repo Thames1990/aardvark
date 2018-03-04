@@ -20,18 +20,15 @@ class DashboardFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_dashboard
 
-    private lateinit var activityRecognitionControl: SmartLocation.ActivityRecognitionControl
-
-    private var detectedActivity: DetectedActivity? = null
-
     private val title: TextView by bindView(R.id.title)
     private val image: ImageView by bindView(R.id.image)
     private val description: TextView by bindView(R.id.description)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activityRecognitionControl = SmartLocation.with(requireContext()).activity()
+    private val activityRecognitionControl: SmartLocation.ActivityRecognitionControl by lazy {
+        SmartLocation.with(requireContext()).activity()
     }
+
+    private var detectedActivity: DetectedActivity? = null
 
     override fun onResume() {
         super.onResume()
