@@ -14,9 +14,7 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         private const val ENABLE_PLACEHOLDERS = true
     }
 
-    private val dao: EventDao = EventDatabase.get(
-        application
-    ).eventDao()
+    private val dao: EventDao = EventDatabase.get(application).eventDao()
 
     val events: LiveData<PagedList<Event>> = LivePagedListBuilder(
         dao.getAllPaged(),
@@ -30,11 +28,7 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getAll() = dao.getAll()
 
-    fun reload() {
-        val events: List<Event> =
-            EventRepository.fetch()
-        dao.insertOrUpdate(events)
-    }
+    fun reload() = dao.insertOrUpdate(EventRepository.fetch())
 
     fun sortBy(eventComparator: EventComparator, reversed: Boolean = false): Boolean {
         val events: List<Event> = dao.getAll()
