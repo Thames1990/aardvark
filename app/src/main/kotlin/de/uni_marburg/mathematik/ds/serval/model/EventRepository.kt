@@ -37,8 +37,7 @@ object EventRepository {
     /**
      * Json converter adapter for [events][Event]
      */
-    private val eventAdapter: JsonAdapter<Event> = moshi.adapter(
-        Event::class.java)
+    private val eventAdapter: JsonAdapter<Event> = moshi.adapter(Event::class.java)
 
     /**
      * Fetches [a number of][count] [events][Event] from the [Serval client][client].

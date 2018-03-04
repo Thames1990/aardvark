@@ -19,7 +19,7 @@ import de.uni_marburg.mathematik.ds.serval.R
  * @property licenseWebsiteRes Resource ID of the website of the libraries license
  * @property repositoryLinkRes Resource ID of the repository link
  */
-enum class OpenSourceLibrary(
+enum class LibraryDefinition(
     @StringRes val authorRes: Int,
     @StringRes val descriptionRes: Int? = null,
     @StringRes val nameRes: Int,
@@ -62,4 +62,5 @@ enum class OpenSourceLibrary(
             repositoryLink = string(repositoryLinkRes)
         }
     }
+
 }

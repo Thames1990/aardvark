@@ -100,13 +100,12 @@ class MainActivity : BaseActivity() {
 
         if (Prefs.showDownloadProgress) {
             progressBar.visible()
-            EventRepository.progressObservable
-                .subscribe { progressEvent ->
-                    val progress: Long = progressEvent.progress
-                    if (progress != ProgressEvent.NO_CONTENT_AVAILABLE) {
-                        progressBar.progress = progress.toInt()
-                    }
+            EventRepository.progressObservable.subscribe { progressEvent ->
+                val progress: Long = progressEvent.progress
+                if (progress != ProgressEvent.NO_CONTENT_AVAILABLE) {
+                    progressBar.progress = progress.toInt()
                 }
+            }
         }
 
         checkForNewVersion()

@@ -202,10 +202,7 @@ class DetailActivity : ElasticRecyclerActivity() {
         } else snackbarThemed(
             textRes = R.string.google_maps_not_installed,
             builder = {
-                setAction(
-                    R.string.snackbar_action_install,
-                    { startPlayStoreLink(GOOGLE_MAPS) }
-                )
+                setAction(R.string.snackbar_action_install, { startPlayStoreLink(GOOGLE_MAPS) })
             }
         )
     }

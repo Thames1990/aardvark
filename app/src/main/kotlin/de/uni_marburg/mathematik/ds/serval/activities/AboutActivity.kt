@@ -20,7 +20,7 @@ import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.listeners.OnClickListener
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AboutLinkItem
-import de.uni_marburg.mathematik.ds.serval.enums.OpenSourceLibrary
+import de.uni_marburg.mathematik.ds.serval.enums.LibraryDefinition
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
@@ -42,9 +42,8 @@ class AboutActivity : AboutActivityBase(
 ) {
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
-        val aardvark: Library = OpenSourceLibrary.AARDVARK.getLibrary(this)
-
-        adapter.apply {
+        val aardvark: Library = LibraryDefinition.AARDVARK.getLibrary(context = this)
+        with(adapter) {
             add(LibraryIItem(aardvark))
             add(AboutLinks())
 
@@ -72,10 +71,10 @@ class AboutActivity : AboutActivityBase(
 
     override fun getLibraries(libs: Libs): List<Library> {
         val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
-        OpenSourceLibrary.values()
-            .filter { it != OpenSourceLibrary.AARDVARK }
-            .map { libraries.add(it.getLibrary(this)) }
-        return libraries.sortedBy { library -> library.libraryName }
+        LibraryDefinition.values()
+            .filter { it != LibraryDefinition.AARDVARK }
+            .forEach { libraries.add(it.getLibrary(context = this)) }
+        return libraries.sortedBy { it.libraryName }
     }
 
     private class AboutLinks :
