@@ -22,6 +22,7 @@ import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
+import de.uni_marburg.mathematik.ds.serval.model.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
@@ -80,38 +81,31 @@ class EventsFragment : BaseFragment() {
             setMenuIcons(
                 menu = menu,
                 color = Prefs.iconColor,
-                iicons = *arrayOf(R.id.action_filter_events to GoogleMaterial.Icon.gmd_filter_list)
+                iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_filter_list)
             )
-            menu.findItem(R.id.action_filter_events_distance).isVisible = hasLocationPermission
+            menu.findItem(R.id.action_sort_distance).isVisible = hasLocationPermission
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.sort_distance_ascending -> eventViewModel.sort(
-                eventComparator = EventComparator.Distance
-            )
-            R.id.sort_distance_descending -> eventViewModel.sort(
-                eventComparator = EventComparator.Distance,
-                reversed = true
-            )
-            R.id.sort_measurements_ascending -> eventViewModel.sort(
-                eventComparator = EventComparator.Measurements
-            )
-            R.id.sort_measurements_descending -> eventViewModel.sort(
-                eventComparator = EventComparator.Measurements,
-                reversed = true
-            )
-            R.id.sort_time_ascending -> eventViewModel.sort(
-                eventComparator = EventComparator.Time
-            )
-            R.id.sort_time_descending -> eventViewModel.sort(
-                eventComparator = EventComparator.Time,
-                reversed = true
-            )
+            R.id.action_sort_distance_asc -> sortBy(Distance)
+            R.id.action_sort_distance_desc -> sortBy(Distance, reversed = true)
+            R.id.action_sort_measurements_asc -> sortBy(Measurements)
+            R.id.action_sort_measurements_desc -> sortBy(Measurements, reversed = true)
+            R.id.action_sort_time_asc -> sortBy(Time)
+            R.id.action_sort_time_desc -> sortBy(Time, reversed = true)
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    private fun sortBy(eventComparator: EventComparator, reversed: Boolean = false) {
+        swipeRefreshLayout.isRefreshing = true
+        doAsync {
+            eventViewModel.sortBy(eventComparator, reversed)
+            uiThread { swipeRefreshLayout.isRefreshing = false }
+        }
     }
 
     private fun setupRecyclerView() {

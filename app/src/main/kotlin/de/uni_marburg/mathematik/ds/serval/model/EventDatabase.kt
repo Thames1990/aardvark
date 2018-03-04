@@ -5,7 +5,6 @@ import android.arch.persistence.room.*
 import android.content.Context
 import ca.allanwang.kau.utils.isNetworkAvailable
 import com.squareup.moshi.JsonAdapter
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import java.util.concurrent.Executors
 
 @Database(entities = [Event::class], version = 2, exportSchema = false)
@@ -23,22 +22,19 @@ abstract class EventDatabase : RoomDatabase() {
                 instance = Room.databaseBuilder(
                     context.applicationContext,
                     EventDatabase::class.java,
-                    BuildConfig.APPLICATION_ID
+                    "events.db"
                 ).addCallback(object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) =
-                        ioThread {
-                            if (context.isNetworkAvailable) {
-                                val events: List<Event> =
-                                    EventRepository.fetch()
-                                val eventDatabase: EventDatabase =
-                                    get(
-                                        context
-                                    )
-                                val dao: EventDao =
-                                    eventDatabase.eventDao()
-                                dao.insertOrUpdate(events)
-                            }
+                    private val ioExecutor = Executors.newSingleThreadExecutor()
+                    private fun ioThread(f: () -> Unit) = ioExecutor.execute(f)
+
+                    override fun onCreate(db: SupportSQLiteDatabase) = ioThread {
+                        if (context.isNetworkAvailable) {
+                            val events: List<Event> = EventRepository.fetch()
+                            val eventDatabase: EventDatabase = get(context)
+                            val dao: EventDao = eventDatabase.eventDao()
+                            dao.insertOrUpdate(events)
                         }
+                    }
                 }).build()
             }
             return instance!!
@@ -58,7 +54,3 @@ private class EventConverters {
     fun fromData(data: Data): String = dataAdapter.toJson(data)
 
 }
-
-private val ioExecutor = Executors.newSingleThreadExecutor()
-
-fun ioThread(f: () -> Unit) = ioExecutor.execute(f)
