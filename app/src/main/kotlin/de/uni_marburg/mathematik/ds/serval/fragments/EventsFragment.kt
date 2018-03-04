@@ -146,17 +146,7 @@ class EventsFragment : BaseFragment() {
 
     private class EventAdapter(
         private val listener: (Event) -> Unit
-    ) : PagedListAdapter<Event, EventHolder>(diffCallback) {
-
-        override fun onBindViewHolder(
-            holder: EventHolder,
-            position: Int
-        ) = holder.bindTo(currentList?.let { getItem(position) }, listener)
-
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ): EventHolder = EventHolder(parent)
+    ) : PagedListAdapter<Event, EventAdapter.EventHolder>(diffCallback) {
 
         companion object {
             private val diffCallback = object : DiffUtil.ItemCallback<Event>() {
@@ -171,71 +161,78 @@ class EventsFragment : BaseFragment() {
                 ): Boolean = oldEvent.id == newEvent.id
             }
         }
-    }
 
-    private class EventHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.event_row, parent, false)
-    ) {
-
-        private val timeView: TextView by bindView(R.id.time)
-        private val measurementsView: LinearLayout by bindView(R.id.measurement_types)
-        private val locationIconView: ImageView by bindView(R.id.location_icon)
-        private val guideline: Guideline by bindView(R.id.guideline)
-        private val locationView: TextView by bindView(R.id.location)
-
-        private var event: Event? = null
-
-        fun bindTo(event: Event?, listener: (Event) -> Unit) {
-            this.event = event
-
-            event?.let {
-                it.displayTime()
-                it.displayMeasurementTypes()
-                it.displayLocation()
-
-                itemView.setOnClickListener { listener(event) }
-            }
+        override fun onBindViewHolder(holder: EventHolder, position: Int) {
+            val event: Event? = currentList?.get(position)
+            if (event != null) holder.bindTo(event, listener)
         }
 
-        private fun Event.displayTime() {
-            with(timeView) {
-                text = passedTime.formatPassedTime(itemView.context)
-                setTextColor(Prefs.textColor)
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): EventHolder = EventHolder(parent)
+
+        private class EventHolder(
+            parent: ViewGroup
+        ) : RecyclerView.ViewHolder(parent.inflate(R.layout.event_row)) {
+
+            private val timeView: TextView by bindView(R.id.time)
+            private val measurementsView: LinearLayout by bindView(R.id.measurement_types)
+            private val locationIconView: ImageView by bindView(R.id.location_icon)
+            private val guideline: Guideline by bindView(R.id.guideline)
+            private val locationView: TextView by bindView(R.id.location)
+
+            fun bindTo(event: Event, listener: (Event) -> Unit) {
+                with(event) {
+                    displayTime()
+                    displayMeasurementTypes()
+                    displayLocation()
+
+                    itemView.setOnClickListener { listener(this) }
+                }
             }
-        }
 
-        private fun Event.displayLocation() {
-            val context = itemView.context
-
-            if (context.hasLocationPermission) {
-                locationIconView.setIcon(
-                    icon = GoogleMaterial.Icon.gmd_location_on,
-                    color = Prefs.textColor
-                )
-                with(locationView) {
-                    val distance: Float = location.distanceTo(MainActivity.lastLocation)
-                    text = distance.formatDistance(context)
+            private fun Event.displayTime() {
+                with(timeView) {
+                    text = passedTime.formatPassedTime(itemView.context)
                     setTextColor(Prefs.textColor)
                 }
-            } else {
-                locationIconView.gone()
-                locationView.gone()
-                val params = guideline.layoutParams as ConstraintLayout.LayoutParams
-                params.guideEnd = 0
-                guideline.layoutParams = params
             }
-        }
 
-        private fun Event.displayMeasurementTypes() {
-            measurementsView.apply {
-                removeAllViews()
-                measurements.distinct().forEach { measurement ->
-                    val icon = ImageView(itemView.context).apply {
-                        setIcon(icon = measurement.type.iicon, color = Prefs.textColor)
+            private fun Event.displayLocation() {
+                val context = itemView.context
+
+                if (context.hasLocationPermission) {
+                    locationIconView.setIcon(
+                        icon = GoogleMaterial.Icon.gmd_location_on,
+                        color = Prefs.textColor
+                    )
+                    with(locationView) {
+                        val distance: Float = location.distanceTo(MainActivity.lastLocation)
+                        text = distance.formatDistance(context)
+                        setTextColor(Prefs.textColor)
                     }
-                    addView(icon)
+                } else {
+                    locationIconView.gone()
+                    locationView.gone()
+                    val params = guideline.layoutParams as ConstraintLayout.LayoutParams
+                    params.guideEnd = 0
+                    guideline.layoutParams = params
                 }
             }
+
+            private fun Event.displayMeasurementTypes() {
+                measurementsView.apply {
+                    removeAllViews()
+                    measurements.distinct().forEach { measurement ->
+                        val icon = ImageView(itemView.context).apply {
+                            setIcon(icon = measurement.type.iicon, color = Prefs.textColor)
+                        }
+                        addView(icon)
+                    }
+                }
+            }
+
         }
 
     }
