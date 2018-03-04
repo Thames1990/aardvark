@@ -18,7 +18,9 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
     viewHolder = ::ViewHolder
 ), ThemableIItem by ThemableIItemDelegate() {
 
-    private val mapZoom = 15f
+    companion object {
+        const val MAP_ZOOM = 15f
+    }
 
     override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
         super.bindView(holder, payloads)
@@ -36,7 +38,7 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
                     val marker: MarkerOptions = MarkerOptions().position(position)
                     addMarker(marker)
 
-                    val cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, mapZoom)
+                    val cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM)
                     moveCamera(cameraUpdate)
                 }
             }
