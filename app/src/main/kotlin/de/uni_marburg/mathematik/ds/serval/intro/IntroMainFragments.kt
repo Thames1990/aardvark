@@ -98,51 +98,51 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
 
     protected open fun onPageSelectedImpl() = Unit
 
-    class IntroFragmentWelcome : BaseIntroFragment(R.layout.intro_welcome) {
+}
 
-        override fun viewArray(): Array<Array<out View>> = defaultViewArray()
+class IntroFragmentWelcome : BaseIntroFragment(R.layout.intro_welcome) {
 
-        override fun themeFragmentImpl() {
-            super.themeFragmentImpl()
-            image.imageTintList = ColorStateList.valueOf(Prefs.textColor)
-        }
+    override fun viewArray(): Array<Array<out View>> = defaultViewArray()
+
+    override fun themeFragmentImpl() {
+        super.themeFragmentImpl()
+        image.imageTintList = ColorStateList.valueOf(Prefs.textColor)
+    }
+}
+
+class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
+
+    val container: ConstraintLayout by bindViewResettable(R.id.intro_end_container)
+    val description: TextView by bindView(R.id.intro_desc)
+
+    override fun viewArray(): Array<Array<out View>> = defaultViewArray()
+
+    override fun themeFragmentImpl() {
+        super.themeFragmentImpl()
+        image.imageTintList = ColorStateList.valueOf(Prefs.textColor)
     }
 
-    class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val container: ConstraintLayout by bindViewResettable(R.id.intro_end_container)
-        val description: TextView by bindView(R.id.intro_desc)
-
-        override fun viewArray(): Array<Array<out View>> = defaultViewArray()
-
-        override fun themeFragmentImpl() {
-            super.themeFragmentImpl()
-            image.imageTintList = ColorStateList.valueOf(Prefs.textColor)
+        with(requireContext()) {
+            description.text =
+                    if (hasLocationPermission) string(R.string.intro_tap_to_exit)
+                    else string(R.string.grant_location_permission)
         }
 
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-
-            with(requireContext()) {
-                description.text =
-                        if (hasLocationPermission) string(R.string.intro_tap_to_exit)
-                        else string(R.string.grant_location_permission)
-            }
-
-            container.setOnSingleTapListener { _, motionEvent ->
-                with(requireActivity()) {
-                    if (hasLocationPermission) {
-                        val introActivity = this as IntroActivity
-                        introActivity.finish(x = motionEvent.x, y = motionEvent.y)
-                    } else {
-                        kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
-                            if (!granted) snackbarThemed(string(R.string.preference_requires_location_permission))
-                            else description.setTextWithFade(R.string.intro_tap_to_exit)
-                        }
+        container.setOnSingleTapListener { _, motionEvent ->
+            with(requireActivity()) {
+                if (hasLocationPermission) {
+                    val introActivity = this as IntroActivity
+                    introActivity.finish(x = motionEvent.x, y = motionEvent.y)
+                } else {
+                    kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
+                        if (!granted) snackbarThemed(string(R.string.preference_requires_location_permission))
+                        else description.setTextWithFade(R.string.intro_tap_to_exit)
                     }
                 }
             }
         }
     }
-
 }
