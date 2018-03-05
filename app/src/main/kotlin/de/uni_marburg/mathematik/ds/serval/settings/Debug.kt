@@ -20,6 +20,8 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     plainText(R.string.preference_debug_disclaimer_info)
 
+    header(R.string.preference_debug_wifi_adb)
+
     checkbox(
         title = R.string.preference_enable_wifi_adb,
         getter = Prefs::useWifiADB,
@@ -43,15 +45,7 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     )
 
-    checkbox(
-        title = R.string.preference_paging,
-        getter = Prefs::viewpagerSwipe,
-        setter = { usePaging ->
-            Prefs.viewpagerSwipe = usePaging
-            shouldRestartMain()
-        },
-        builder = { descRes = R.string.preference_paging_desc }
-    )
+    header(R.string.preference_debug_security)
 
     checkbox(
         title = R.string.preference_secure_app,
@@ -81,6 +75,8 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     )
 
+    header(R.string.preference_debug_miscellaneous)
+
     checkbox(
         title = R.string.preference_progress_bar,
         getter = Prefs::showDownloadProgress,
@@ -90,6 +86,17 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             shouldRestartMain()
         }
     )
+
+    checkbox(
+        title = R.string.preference_paging,
+        getter = Prefs::viewpagerSwipe,
+        setter = { usePaging ->
+            Prefs.viewpagerSwipe = usePaging
+            shouldRestartMain()
+        },
+        builder = { descRes = R.string.preference_paging_desc }
+    )
+
 }
 
 /** Enables WifiADB and lets the user send ADB connection information. */
@@ -122,11 +129,8 @@ private fun disableWifiAdb() {
 /** Share information to connect to the device via WifiADB. */
 private fun SettingsActivity.shareWifiAdbCommand() {
     val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-    val ipAdress: Int = wifiManager.connectionInfo.ipAddress
-    val inetAdress = BigInteger
-        .valueOf(ipAdress.toLong())
-        .toByteArray()
-        .reversedArray()
-    val hostAdress = InetAddress.getByAddress(inetAdress).hostAddress
-    shareText("adb connect $hostAdress")
+    val ipAddress: Int = wifiManager.connectionInfo.ipAddress
+    val addr: ByteArray = BigInteger.valueOf(ipAddress.toLong()).toByteArray().reversedArray()
+    val hostAddress: String = InetAddress.getByAddress(addr).hostAddress
+    shareText("adb connect $hostAddress")
 }

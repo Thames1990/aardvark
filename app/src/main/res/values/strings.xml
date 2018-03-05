@@ -155,6 +155,9 @@
     <string name="preference_debug_desc">Useful features for developers</string>
     <string name="preference_debug_disclaimer_info">Please only use these settings if you are absolutely sure, what you are doing!</string>
     <string name="preference_debug_enabled">Debug settings activated</string>
+    <string name="preference_debug_miscellaneous">Miscellaneous</string>
+    <string name="preference_debug_security">Security</string>
+    <string name="preference_debug_wifi_adb">WiFi ADB</string>
     <string name="preference_enable_wifi_adb">Enable WiFi ADB</string>
     <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>
     <string name="preference_event_count">Event count</string>
@@ -175,7 +178,7 @@
     <string name="preference_reset_analytics">Reset analytics</string>
     <string name="preference_reset_analytics_confirmation">Your analytics collection was removed</string>
     <string name="preference_reset_analytics_desc">Do you want to delete all collected analytics data?</string>
-    <string name="preference_secure_app">Secure privacy</string>
+    <string name="preference_secure_app">Fingerprint authentication</string>
     <string name="preference_secure_app_desc">Prohibit screenshots, interception of screen status and require fingerprint authentication</string>
     <string name="preference_send_feedback">Send feedback</string>
     <string name="preference_send_feedback_desc">Got any queries? We are happy to help!</string>
@@ -188,7 +191,7 @@
     <string name="preference_tint_nav">Tint nav bar</string>
     <string name="preference_tint_nav_desc">Navigation bar will be the same color as the header</string>
     <string name="preference_username_desc">Serval API username</string>
-    <string name="preference_vibration">Use vibrations</string>
+    <string name="preference_vibration">Vibrations</string>
     <string name="preference_vibration_desc">Vibrate on failed fingerprint unlock</string>
 
     <string name="repository_link_aardvark" translatable="false">https://github.com/Thames1990/aardvark</string>
