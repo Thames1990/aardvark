@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Create Fabric Answers instance.
  */
-inline fun aardvarkAnswers(action: Answers.() -> Unit) {
+inline fun answers(action: Answers.() -> Unit) {
     if (BuildConfig.DEBUG || !Prefs.analytics) return
     Answers.getInstance().action()
 }
@@ -26,8 +26,8 @@ inline fun aardvarkAnswers(action: Answers.() -> Unit) {
 /**
  * Log custom events to Fabric Answers.
  */
-fun aardvarkAnswersCustom(name: String, vararg events: Pair<String, Any>) {
-    if (!BuildConfig.DEBUG && Prefs.analytics) aardvarkAnswers {
+fun answersCustom(name: String, vararg events: Pair<String, Any>) {
+    if (!BuildConfig.DEBUG && Prefs.analytics) answers {
         logCustom(CustomEvent("Aardvark $name").apply {
             events.forEach { (key, value) ->
                 if (value is Number) putCustomAttribute(key, value)

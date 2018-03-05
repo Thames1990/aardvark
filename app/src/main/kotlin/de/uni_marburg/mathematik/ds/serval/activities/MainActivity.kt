@@ -28,8 +28,8 @@ import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
-import de.uni_marburg.mathematik.ds.serval.views.AardvarkViewPager
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
+import de.uni_marburg.mathematik.ds.serval.views.SwipeToggleViewPager
 import io.nlopez.smartlocation.SmartLocation
 import io.nlopez.smartlocation.location.config.LocationParams
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider
@@ -46,7 +46,7 @@ class MainActivity : BaseActivity() {
     private val progressBar: MaterialProgressBar by bindView(R.id.progressBar)
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
-    private val viewPager: AardvarkViewPager by bindView(R.id.container)
+    private val viewPager: SwipeToggleViewPager by bindView(R.id.container)
 
     private val eventViewModel: EventViewModel by lazy {
         ViewModelProviders.of(this).get(EventViewModel::class.java)
@@ -169,7 +169,7 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun AardvarkViewPager.setup() {
+    private fun SwipeToggleViewPager.setup() {
         val sectionsPagerAdapter = SectionsPagerAdapter()
         adapter = sectionsPagerAdapter
         offscreenPageLimit = sectionsPagerAdapter.count
@@ -214,7 +214,7 @@ class MainActivity : BaseActivity() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
             if (!BuildConfig.DEBUG && Prefs.showChangelog) showChangelog()
-            aardvarkAnswersCustom(
+            answersCustom(
                 name = "Version",
                 events = *arrayOf(
                     "Version code" to BuildConfig.VERSION_CODE,

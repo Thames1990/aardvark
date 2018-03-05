@@ -51,7 +51,7 @@ class Aardvark : Application() {
 
         if (analyticsEnabled) {
             Fabric.with(applicationContext, Crashlytics(), Answers())
-            Crashlytics.setUserIdentifier(Aardvark.aardvarkId)
+            Crashlytics.setUserIdentifier(aardvarkId)
         }
     }
 
