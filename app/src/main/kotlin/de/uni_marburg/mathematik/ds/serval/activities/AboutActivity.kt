@@ -79,9 +79,7 @@ class AboutActivity : AboutActivityBase(
         // Auto detect libraries
         val libraries: List<Library> = super.getLibraries(libs)
         // Manually add libraries
-        val extendedLibraries: Set<Library> = libraries union LibraryDefinition.values()
-            .filter { it != LibraryDefinition.AARDVARK }
-            .map { it.getLibrary(context = this) }
+        val extendedLibraries = libraries union LibraryDefinition.getAllLibraries(context = this)
         return extendedLibraries.sortedBy { it.libraryName }
     }
 

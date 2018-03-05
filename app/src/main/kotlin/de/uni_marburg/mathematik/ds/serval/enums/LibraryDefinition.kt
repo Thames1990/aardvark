@@ -63,4 +63,24 @@ enum class LibraryDefinition(
         }
     }
 
+    companion object {
+        fun getAllLibraries(context: Context): List<Library> = with(context) {
+            values()
+                .filter { it != AARDVARK }
+                .map { libraryDefinition ->
+                    Library().apply {
+                        author = string(libraryDefinition.authorRes)
+                        libraryDescription = libraryDefinition.descriptionRes?.let { string(it) }
+                        libraryName = string(libraryDefinition.nameRes)
+                        libraryVersion = libraryDefinition.version
+                        license = License().apply {
+                            licenseName = string(libraryDefinition.licenseNameRes)
+                            licenseWebsite = string(libraryDefinition.licenseWebsiteRes)
+                        }
+                        repositoryLink = string(libraryDefinition.repositoryLinkRes)
+                    }
+                }
+        }
+    }
+
 }
