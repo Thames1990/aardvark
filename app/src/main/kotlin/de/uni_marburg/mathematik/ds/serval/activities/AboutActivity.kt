@@ -60,6 +60,7 @@ class AboutActivity : AboutActivityBase(
                         snackbarThemed(
                             textRes = R.string.preference_debug_enabled,
                             builder = {
+                                // Add option to reload settings to activate debug settings
                                 setAction(
                                     R.string.settings_reload,
                                     { startActivity<SettingsActivity>() }
@@ -75,11 +76,13 @@ class AboutActivity : AboutActivityBase(
     }
 
     override fun getLibraries(libs: Libs): List<Library> {
-        val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
-        LibraryDefinition.values()
+        // Auto detect libraries
+        val libraries: List<Library> = super.getLibraries(libs)
+        // Manually add libraries
+        val extendedLibraries: Set<Library> = libraries union LibraryDefinition.values()
             .filter { it != LibraryDefinition.AARDVARK }
-            .forEach { libraries.add(it.getLibrary(context = this)) }
-        return libraries.sortedBy { it.libraryName }
+            .map { it.getLibrary(context = this) }
+        return extendedLibraries.sortedBy { it.libraryName }
     }
 
     private class AboutLinks :
@@ -94,7 +97,7 @@ class AboutActivity : AboutActivityBase(
 
         override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
             super.bindView(holder, payloads)
-            holder.apply {
+            with(holder) {
                 bindIconColor(*items.toTypedArray())
                 bindBackgroundColor(container)
             }
