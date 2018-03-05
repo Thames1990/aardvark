@@ -39,7 +39,7 @@ object Prefs : KPref() {
         get() = theme.textColor
 
     val locationRequestAccuracy: LocationRequestAccuracy
-        get() = LocationRequestAccuracy(locationRequesAccuracyIndex)
+        get() = LocationRequestAccuracy(locationRequestAccuracyIndex)
 
     val mainActivityLayout: MainActivityLayout
         get() = MainActivityLayout(mainActivityLayoutIndex)
@@ -61,7 +61,13 @@ object Prefs : KPref() {
     var mapsStyleIndex: Int by kpref(
         key = "MAPS_STYLE_INDEX",
         fallback = 0,
-        postSetter = { _: Int -> mapsStyleLoader.invalidate() }
+        postSetter = { value: Int ->
+            mapsStyleLoader.invalidate()
+            answersCustom(
+                name = "Maps style",
+                events = *arrayOf("Count" to MapsStyle(value).name)
+            )
+        }
     )
     var installDate: Long by kpref(key = "INSTALL_DATE", fallback = -1L)
     var kervalBaseUrl: String by kpref(key = "KERVAL_BASE_URL", fallback = "serval.splork.de")
@@ -71,18 +77,27 @@ object Prefs : KPref() {
     var lastLaunch: Long by kpref(key = "LAST_LAUNCH", fallback = -1L)
     var locationRequestInterval: Int by kpref(key = "LOCATION_REQUEST_INTERVAL", fallback = 2500)
     var locationRequestDistance: Int by kpref("LOCATION_REQUEST_DISTANCE", fallback = 150)
-    var locationRequesAccuracyIndex: Int by kpref(
+    var locationRequestAccuracyIndex: Int by kpref(
         key = "LOCATION_REQUEST_ACCURACY_INDEX",
-        fallback = 0
+        fallback = LocationRequestAccuracy.HIGH.ordinal
     )
     var mainActivityLayoutIndex: Int by kpref(
         key = "MAIN_ACTIVITY_LAYOUT_INDEX",
-        fallback = MainActivityLayout.TOP_BAR.ordinal
+        fallback = MainActivityLayout.TOP_BAR.ordinal,
+        postSetter = { value: Int ->
+            answersCustom(
+                name = "Main Layout",
+                events = *arrayOf("Type" to MainActivityLayout(value).name)
+            )
+        }
     )
     var themeIndex: Int by kpref(
         key = "THEME_INDEX",
-        fallback = 0,
-        postSetter = { _: Int -> themeLoader.invalidate() }
+        fallback = Theme.LIGHT.ordinal,
+        postSetter = { value: Int ->
+            themeLoader.invalidate()
+            answersCustom(name = "Theme", events = *arrayOf("Count" to Theme(value).name))
+        }
     )
     var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
     var secure_app: Boolean by kpref(key = "SECURE_APP", fallback = false)

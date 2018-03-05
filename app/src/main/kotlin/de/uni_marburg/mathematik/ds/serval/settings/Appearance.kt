@@ -34,10 +34,6 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                             setTheme()
                             themeExterior()
                             invalidateOptionsMenu()
-                            answersCustom(
-                                name = "Theme",
-                                events = *arrayOf("Count" to Theme(which).name)
-                            )
                         }
                         true
                     }
@@ -154,10 +150,6 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                             setTheme()
                             themeExterior()
                             invalidateOptionsMenu()
-                            answersCustom(
-                                name = "Maps style",
-                                events = *arrayOf("Count" to MapsStyle(which).name)
-                            )
                         }
                         true
                     }
@@ -185,10 +177,6 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                         if (item.pref != which) {
                             item.pref = which
                             shouldRestartMain()
-                            answersCustom(
-                                name = "Main Layout",
-                                events = *arrayOf("Type" to MainActivityLayout(which).name)
-                            )
                         }
                         true
                     }

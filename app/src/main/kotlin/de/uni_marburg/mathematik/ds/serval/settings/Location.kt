@@ -41,8 +41,8 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     // Location request accuracy
     text(
         title = R.string.location_request_priority,
-        getter = Prefs::locationRequesAccuracyIndex,
-        setter = { Prefs.locationRequesAccuracyIndex = it },
+        getter = Prefs::locationRequestAccuracyIndex,
+        setter = { Prefs.locationRequestAccuracyIndex = it },
         builder = {
             dependsOnLocationPermission()
             onClick = {
