@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.settings
 import android.content.Context
 import android.net.wifi.WifiManager
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
+import ca.allanwang.kau.kpref.activity.items.KPrefItemBase
 import ca.allanwang.kau.utils.shareText
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
@@ -63,6 +64,22 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         builder = { descRes = R.string.preference_secure_app_desc }
     )
 
+    fun KPrefItemBase.BaseContract<Boolean>.dependsOnSecurePrivacy() {
+        enabler = Prefs::secure_app
+        onDisabledClick = { snackbarThemed(R.string.preference_requires_secure_privacy) }
+    }
+
+    checkbox(
+        title = R.string.preference_vibration,
+        getter = Prefs::useVibration,
+        setter = { Prefs.useVibration = it },
+        builder = {
+            dependsOnSecurePrivacy()
+            descRes = R.string.preference_vibration_desc
+            shouldRestartApplication()
+        }
+    )
+
     checkbox(
         title = R.string.preference_progress_bar,
         getter = Prefs::showDownloadProgress,
@@ -70,16 +87,6 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         builder = {
             descRes = R.string.preference_progress_bar_desc
             shouldRestartMain()
-        }
-    )
-
-    checkbox(
-        title = R.string.preference_vibration,
-        getter = Prefs::useVibration,
-        setter = { Prefs.useVibration = it },
-        builder = {
-            descRes = R.string.preference_vibration_desc
-            shouldRestartApplication()
         }
     )
 }

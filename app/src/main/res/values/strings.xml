@@ -171,6 +171,7 @@
     <string name="preference_report_bug">Report bug</string>
     <string name="preference_requires_custom_theme">Requires custom theme</string>
     <string name="preference_requires_location_permission">Requires location permission</string>
+    <string name="preference_requires_secure_privacy">Requires secure privacy</string>
     <string name="preference_reset_analytics">Reset analytics</string>
     <string name="preference_reset_analytics_confirmation">Your analytics collection was removed</string>
     <string name="preference_reset_analytics_desc">Do you want to delete all collected analytics data?</string>
