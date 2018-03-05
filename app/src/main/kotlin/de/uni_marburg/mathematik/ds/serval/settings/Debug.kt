@@ -60,6 +60,7 @@ fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             Prefs.secure_app = secure_app
             setSecureFlag()
             shouldRestartApplication()
+            reload()
         },
         builder = { descRes = R.string.preference_secure_app_desc }
     )
