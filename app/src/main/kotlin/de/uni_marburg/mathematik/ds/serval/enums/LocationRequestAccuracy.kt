@@ -64,5 +64,11 @@ enum class LocationRequestAccuracy(
 
     companion object {
         operator fun invoke(index: Int) = values()[index]
+
+        const val LOCATION_REQUEST_MIN_DISTANCE = 0
+        const val LOCATION_REQUEST_MAX_DISTANCE = 500
+
+        const val LOCATION_REQUEST_MIN_INTERVAL = 500
+        const val LOCATION_REQUEST_MAX_INTERVAL = 5000
     }
 }

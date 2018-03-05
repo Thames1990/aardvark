@@ -10,6 +10,10 @@ import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy.Companion.LOCATION_REQUEST_MAX_DISTANCE
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy.Companion.LOCATION_REQUEST_MAX_INTERVAL
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy.Companion.LOCATION_REQUEST_MIN_DISTANCE
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy.Companion.LOCATION_REQUEST_MIN_INTERVAL
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
@@ -73,8 +77,8 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.location_request_distance_desc
-            min = Prefs.LOCATION_REQUEST_MIN_DISTANCE
-            max = Prefs.LOCATION_REQUEST_MAX_DISTANCE
+            min = LOCATION_REQUEST_MIN_DISTANCE
+            max = LOCATION_REQUEST_MAX_DISTANCE
         }
     )
 
@@ -86,8 +90,8 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.location_request_interval_desc
-            min = Prefs.LOCATION_REQUEST_MIN_INTERVAL
-            max = Prefs.LOCATION_REQUEST_MAX_INTERVAL
+            min = LOCATION_REQUEST_MIN_INTERVAL
+            max = LOCATION_REQUEST_MAX_INTERVAL
         }
     )
 

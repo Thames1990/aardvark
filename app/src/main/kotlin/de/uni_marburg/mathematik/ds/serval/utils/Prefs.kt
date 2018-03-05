@@ -13,12 +13,6 @@ object Prefs : KPref() {
 
     const val EVENT_COUNT = 10000
 
-    const val LOCATION_REQUEST_MIN_DISTANCE = 0
-    const val LOCATION_REQUEST_MAX_DISTANCE = 500
-
-    const val LOCATION_REQUEST_MIN_INTERVAL = 500
-    const val LOCATION_REQUEST_MAX_INTERVAL = 5000
-
     private val mapsStyleLoader = lazyResettable { MapsStyle.values()[mapsStyleIndex] }
     val mapsStyle: MapsStyle by mapsStyleLoader
 
