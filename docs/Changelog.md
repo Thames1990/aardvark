@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.7
+* Add visual loading indicator when sorting events
+* Improve performance
+* Improve location tracking
+* Improve animations
+* Improve settings arrangement and design
+* Improve location permission management
+* Improve fingerprint authentication UI (experimental)
+* Fix measurement units
+
 ## 0.8.6
 * Add fab to move to top of events list
 * Add activity recognition
