@@ -112,7 +112,7 @@ class EventsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        recyclerView.apply {
+        with(recyclerView) {
             withLinearAdapter(eventAdapter)
             if (Prefs.animate) {
                 itemAnimator = KauAnimator(
@@ -121,6 +121,7 @@ class EventsFragment : BaseFragment() {
                 ).apply {
                     addDuration = 300
                     interpolator = AnimHolder.decelerateInterpolator(context)
+
                 }
             }
         }
