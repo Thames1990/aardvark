@@ -26,8 +26,7 @@ object EventRepository {
         withProgressListener = true
     )
 
-    val progressObservable: Observable<ProgressEvent> =
-        client.connection.progressEventBus.observable()
+    val progressObservable: Observable<ProgressEvent>? = client.progressObservable
 
     /**
      * JSON converter
