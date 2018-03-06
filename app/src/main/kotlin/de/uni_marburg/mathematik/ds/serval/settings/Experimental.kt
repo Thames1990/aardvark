@@ -15,10 +15,12 @@ import java.lang.Runtime.getRuntime
 import java.math.BigInteger
 import java.net.InetAddress
 
-/** Created by thames1990 on 09.12.17. */
-fun SettingsActivity.debugItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
+fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
-    plainText(R.string.preference_debug_disclaimer_info)
+    plainText(
+        title = R.string.preference_debug_disclaimer,
+        builder = { descRes = R.string.preference_debug_disclaimer_desc }
+    )
 
     header(R.string.preference_debug_wifi_adb)
 

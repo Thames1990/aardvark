@@ -49,7 +49,7 @@ object Prefs : KPref() {
     )
     var customHeaderColor: Int by kpref(key = "CUSTOM_COLOR_HEADER", fallback = Theme.BAHAMA_BLUE)
     var customIconColor: Int by kpref(key = "CUSTOM_COLOR_ICONS", fallback = Theme.PORCELAIN)
-    var debugSettings: Boolean by kpref(key = "DEBUG_SETTINGS", fallback = BuildConfig.DEBUG)
+    var experimentalSettings: Boolean by kpref(key = "EXPERIMENTAL_SETTINGS", fallback = BuildConfig.DEBUG)
     var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
     var mapsStyleIndex: Int by kpref(

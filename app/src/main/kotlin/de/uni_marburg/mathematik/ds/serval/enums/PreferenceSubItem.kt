@@ -14,11 +14,14 @@ import de.uni_marburg.mathematik.ds.serval.R
  * @property titleRes Resource ID of the title
  * @property descRes Resource ID of the description
  * @property iicon Icon shown on the left side
+ * @property experimental Experimental preference sub items are only visible when experimental
+ * settings are activated
  */
 enum class PreferenceSubItem(
     @StringRes val titleRes: Int,
     @StringRes val descRes: Int,
-    val iicon: IIcon
+    val iicon: IIcon,
+    val experimental: Boolean = false
 ) {
 
     APPEARANCE(
@@ -30,7 +33,7 @@ enum class PreferenceSubItem(
     BEHAVIOUR(
         titleRes = R.string.preference_behaviour,
         descRes = R.string.preference_behaviour_desc,
-        iicon = GoogleMaterial.Icon.gmd_settings
+        iicon = GoogleMaterial.Icon.gmd_trending_up
     ),
 
     LOCATION(
@@ -43,18 +46,13 @@ enum class PreferenceSubItem(
         titleRes = R.string.preference_serval,
         descRes = R.string.preference_serval_desc,
         iicon = GoogleMaterial.Icon.gmd_network_wifi
+    ),
+
+    EXPERIMENTAL(
+        titleRes = R.string.preference_experimental,
+        descRes = R.string.preference_experimental_desc,
+        iicon = CommunityMaterial.Icon.cmd_flask_outline,
+        experimental = true
     );
-}
 
-enum class DebugPreferenceSubItem(
-    @StringRes val titleRes: Int,
-    @StringRes val descRes: Int,
-    val iicon: IIcon
-) {
-
-    DEBUG(
-        titleRes = R.string.preference_debug,
-        descRes = R.string.preference_debug_desc,
-        iicon = CommunityMaterial.Icon.cmd_android_debug_bridge
-    )
 }

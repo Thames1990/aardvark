@@ -152,9 +152,8 @@
     <string name="preference_changelog_desc">Show changelogs after updates</string>
     <string name="preference_confirm_exit">Confirm exit</string>
     <string name="preference_confirm_exit_desc">Show confirmation dialog before exiting the app</string>
-    <string name="preference_debug">Debug</string>
-    <string name="preference_debug_desc">Useful features for developers</string>
-    <string name="preference_debug_disclaimer_info">Please only use these settings if you are absolutely sure, what you are doing!</string>
+    <string name="preference_debug_disclaimer">Disclaimer</string>
+    <string name="preference_debug_disclaimer_desc">Experimental features may be unstable and may never make it to production. Use at your own risk, send feedback, and feel free to disable them if they don\'t work well.</string>
     <string name="preference_debug_enabled">Debug settings activated</string>
     <string name="preference_debug_miscellaneous">Miscellaneous</string>
     <string name="preference_debug_security">Security</string>
@@ -164,6 +163,7 @@
     <string name="preference_event_count">Event count</string>
     <string name="preference_event_count_desc">Define how many events should be loaded</string>
     <string name="preference_experimental">Experimental</string>
+    <string name="preference_experimental_desc">Enable early access to potentially unstable features</string>
     <string name="preference_global_customization">Global Customization</string>
     <string name="preference_main_activity_layout">Main Activity Layout</string>
     <string name="preference_paging">Viewpager Swipe</string>
