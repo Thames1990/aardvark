@@ -213,8 +213,6 @@
 
     <string name="time">Time</string>
 
-    <string name="tools_distance" translatable="false">392 m</string>
     <string name="tools_measurement_type" translatable="false">Radiation</string>
     <string name="tools_measurement_value" translatable="false">2 μSv/h</string>
-    <string name="tools_time" translatable="false">24 min</string>
 </resources>
