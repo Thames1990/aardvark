@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.7" />
+    <item text="Add visual loading indicator when sorting events" />
+    <item text="Improve performance" />
+    <item text="Improve location tracking" />
+    <item text="Improve animations" />
+    <item text="Improve settings arrangement and design" />
+    <item text="Improve location permission management" />
+    <item text="Improve fingerprint authentication UI (experimental)" />
+    <item text="Fix measurement units" />
+
     <version title="0.8.6" />
     <item text="Add fab to move to top of events list" />
     <item text="Add activity recognition" />
