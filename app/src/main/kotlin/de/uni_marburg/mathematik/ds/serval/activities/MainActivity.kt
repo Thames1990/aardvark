@@ -172,7 +172,7 @@ class MainActivity : BaseActivity() {
     private fun SwipeToggleViewPager.setup() {
         val sectionsPagerAdapter = SectionsPagerAdapter()
         adapter = sectionsPagerAdapter
-        offscreenPageLimit = sectionsPagerAdapter.count
+        offscreenPageLimit = sectionsPagerAdapter.count - 1
         addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
     }
 
