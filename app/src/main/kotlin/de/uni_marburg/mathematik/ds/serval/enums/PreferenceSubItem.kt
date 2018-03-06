@@ -21,16 +21,16 @@ enum class PreferenceSubItem(
     val iicon: IIcon
 ) {
 
-    BEHAVIOUR(
-        titleRes = R.string.preference_behaviour,
-        descRes = R.string.preference_behaviour_desc,
-        iicon = GoogleMaterial.Icon.gmd_settings
-    ),
-
     APPEARANCE(
         titleRes = R.string.preference_appearance,
         descRes = R.string.preference_appearance_desc,
         iicon = GoogleMaterial.Icon.gmd_palette
+    ),
+
+    BEHAVIOUR(
+        titleRes = R.string.preference_behaviour,
+        descRes = R.string.preference_behaviour_desc,
+        iicon = GoogleMaterial.Icon.gmd_settings
     ),
 
     LOCATION(
