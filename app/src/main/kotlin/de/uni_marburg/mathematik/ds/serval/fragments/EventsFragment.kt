@@ -18,7 +18,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import ca.allanwang.kau.animators.FadeScaleAnimatorAdd
 import ca.allanwang.kau.animators.KauAnimator
+import ca.allanwang.kau.animators.NoAnimatorChange
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
@@ -111,8 +113,16 @@ class EventsFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         recyclerView.apply {
-            itemAnimator = KauAnimator()
             withLinearAdapter(eventAdapter)
+            if (Prefs.animate) {
+                itemAnimator = KauAnimator(
+                    addAnimator = FadeScaleAnimatorAdd(scaleFactor = 0.7f, itemDelayFactor = 0.2f),
+                    changeAnimator = NoAnimatorChange()
+                ).apply {
+                    addDuration = 300
+                    interpolator = AnimHolder.decelerateInterpolator(context)
+                }
+            }
         }
     }
 
