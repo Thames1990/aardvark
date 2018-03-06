@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.fragments
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedListAdapter
+import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
@@ -41,10 +42,11 @@ class EventsFragment : BaseFragment() {
     private val swipeRefreshLayout by bindView<SwipeRefreshLayout>(R.id.swipe_refresh)
 
     private val eventAdapter: EventAdapter by lazy {
+        val context: Context = requireContext()
         EventAdapter { event ->
-            requireContext().startActivity<DetailActivity>(
+            context.startActivity<DetailActivity>(
                 bundleBuilder = {
-                    if (Prefs.animate) withSceneTransitionAnimation(requireContext())
+                    if (Prefs.animate) withSceneTransitionAnimation(context)
                 },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)

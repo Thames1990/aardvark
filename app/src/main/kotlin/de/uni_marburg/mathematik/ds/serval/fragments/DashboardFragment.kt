@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -32,6 +33,7 @@ class DashboardFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        val context: Context = requireContext()
         activityRecognitionControl.start { activity ->
             if (detectedActivity != activity) {
                 detectedActivity = activity
@@ -40,7 +42,7 @@ class DashboardFragment : BaseFragment() {
                         image.setIcon(
                             icon = activity.iicon,
                             color = Prefs.textColor,
-                            sizeDp = requireContext().displayMetrics.densityDpi
+                            sizeDp = context.displayMetrics.densityDpi
                         )
                     }
                     description.setTextWithFade(activity.currentActivity)
@@ -48,7 +50,7 @@ class DashboardFragment : BaseFragment() {
                     image.setIcon(
                         icon = activity.iicon,
                         color = Prefs.textColor,
-                        sizeDp = requireContext().displayMetrics.densityDpi
+                        sizeDp = context.displayMetrics.densityDpi
                     )
                     description.text = activity.currentActivity
                 }
@@ -74,6 +76,7 @@ class DashboardFragment : BaseFragment() {
 
     private inline val DetectedActivity.currentActivity: String
         get() {
+            val context: Context = requireContext()
             val formatId = R.string.activity_desc
             val valueId = when (type) {
                 DetectedActivity.IN_VEHICLE -> R.string.activity_in_vehicle
@@ -85,8 +88,8 @@ class DashboardFragment : BaseFragment() {
                 DetectedActivity.RUNNING -> R.string.activity_running
                 else -> R.string.activity_unknown
             }
-            val format = requireContext().string(formatId)
-            val value = requireContext().string(valueId)
+            val format = context.string(formatId)
+            val value = context.string(valueId)
             return String.format(format = format, args = *arrayOf(value))
         }
 
