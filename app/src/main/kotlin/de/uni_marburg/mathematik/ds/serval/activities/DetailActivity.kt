@@ -12,6 +12,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.SupportTopic
 import de.uni_marburg.mathematik.ds.serval.model.Event
@@ -121,7 +122,7 @@ class DetailActivity : ElasticRecyclerActivity() {
      */
     private fun FastItemAdapter<IItem<*, *>>.addDetailsCards() {
         val detailsHeader = SmallHeaderIItem(textRes = R.string.details)
-        val eventCardItem = CardIItem {
+        val timeCard = CardIItem {
             titleRes = R.string.time
             val passedTime: String = event.passedTime.formatPassedTime(this@DetailActivity)
             desc = "${event.snippet}\n$passedTime"
@@ -129,7 +130,15 @@ class DetailActivity : ElasticRecyclerActivity() {
         }
 
         add(detailsHeader)
-        add(eventCardItem)
+        if (BuildConfig.DEBUG) {
+            val idCard = CardIItem {
+                titleRes = R.string.event_id
+                desc = event.id
+                imageIIcon = CommunityMaterial.Icon.cmd_account_card_details
+            }
+            add(idCard)
+        }
+        add(timeCard)
     }
 
     /**
