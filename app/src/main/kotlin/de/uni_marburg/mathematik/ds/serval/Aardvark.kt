@@ -56,6 +56,7 @@ class Aardvark : Application() {
     }
 
     private fun setupLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) return
         refWatcher =
                 if (BuildConfig.DEBUG) LeakCanary.install(this)
                 else RefWatcher.DISABLED

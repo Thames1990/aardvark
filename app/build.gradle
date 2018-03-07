@@ -101,8 +101,8 @@ dependencies {
     // Kotlin
     implementation deps.kotlin.stdlib
     // LeakCanary
-    debugImplementation deps.leak_canary
-    releaseImplementation deps.leak_canary_release
+    debugImplementation deps.leak_canary.core
+    releaseImplementation deps.leak_canary.release
     // Support Library
     implementation deps.support_library.appcompat
     implementation deps.support_library.cardview
