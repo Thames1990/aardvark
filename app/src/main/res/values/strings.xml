@@ -206,4 +206,5 @@
 
     <string name="theme">Theme</string>
     <string name="theme_customization">Theme Customization</string>
+    <string name="fab_scroll_to_top">Scroll to top</string>
 </resources>
