@@ -31,6 +31,37 @@ class DashboardFragment : BaseFragment() {
 
     private var detectedActivity: DetectedActivity? = null
 
+    private inline val DetectedActivity.currentActivity: String
+        get() {
+            val formatId = R.string.activity_desc
+            val valueId = when (type) {
+                DetectedActivity.IN_VEHICLE -> R.string.activity_in_vehicle
+                DetectedActivity.ON_BICYCLE -> R.string.activity_on_bicycle
+                DetectedActivity.ON_FOOT -> R.string.activity_on_foot
+                DetectedActivity.STILL -> R.string.activity_still
+                DetectedActivity.TILTING -> R.string.activity_tilting
+                DetectedActivity.WALKING -> R.string.activity_walking
+                DetectedActivity.RUNNING -> R.string.activity_running
+                else -> R.string.activity_unknown
+            }
+            val context: Context = requireContext()
+            val format = context.string(formatId)
+            val value = context.string(valueId)
+            return String.format(format = format, args = *arrayOf(value))
+        }
+
+    private inline val DetectedActivity.iicon: IIcon
+        get() = when (type) {
+            DetectedActivity.IN_VEHICLE -> CommunityMaterial.Icon.cmd_car
+            DetectedActivity.ON_BICYCLE -> CommunityMaterial.Icon.cmd_bike
+            DetectedActivity.ON_FOOT -> CommunityMaterial.Icon.cmd_walk
+            DetectedActivity.STILL -> CommunityMaterial.Icon.cmd_home
+            DetectedActivity.TILTING -> CommunityMaterial.Icon.cmd_rotate_3d
+            DetectedActivity.WALKING -> CommunityMaterial.Icon.cmd_walk
+            DetectedActivity.RUNNING -> CommunityMaterial.Icon.cmd_run
+            else -> CommunityMaterial.Icon.cmd_help
+        }
+
     override fun onResume() {
         super.onResume()
         val context: Context = requireContext()
@@ -73,36 +104,5 @@ class DashboardFragment : BaseFragment() {
         )
         description.setTextColor(Prefs.textColor)
     }
-
-    private inline val DetectedActivity.currentActivity: String
-        get() {
-            val context: Context = requireContext()
-            val formatId = R.string.activity_desc
-            val valueId = when (type) {
-                DetectedActivity.IN_VEHICLE -> R.string.activity_in_vehicle
-                DetectedActivity.ON_BICYCLE -> R.string.activity_on_bicycle
-                DetectedActivity.ON_FOOT -> R.string.activity_on_foot
-                DetectedActivity.STILL -> R.string.activity_still
-                DetectedActivity.TILTING -> R.string.activity_tilting
-                DetectedActivity.WALKING -> R.string.activity_walking
-                DetectedActivity.RUNNING -> R.string.activity_running
-                else -> R.string.activity_unknown
-            }
-            val format = context.string(formatId)
-            val value = context.string(valueId)
-            return String.format(format = format, args = *arrayOf(value))
-        }
-
-    private inline val DetectedActivity.iicon: IIcon
-        get() = when (type) {
-            DetectedActivity.IN_VEHICLE -> CommunityMaterial.Icon.cmd_car
-            DetectedActivity.ON_BICYCLE -> CommunityMaterial.Icon.cmd_bike
-            DetectedActivity.ON_FOOT -> CommunityMaterial.Icon.cmd_walk
-            DetectedActivity.STILL -> CommunityMaterial.Icon.cmd_home
-            DetectedActivity.TILTING -> CommunityMaterial.Icon.cmd_rotate_3d
-            DetectedActivity.WALKING -> CommunityMaterial.Icon.cmd_walk
-            DetectedActivity.RUNNING -> CommunityMaterial.Icon.cmd_run
-            else -> CommunityMaterial.Icon.cmd_help
-        }
 
 }

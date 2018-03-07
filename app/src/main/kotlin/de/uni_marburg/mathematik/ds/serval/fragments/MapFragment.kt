@@ -43,10 +43,6 @@ class MapFragment : BaseFragment() {
     private lateinit var googleMap: GoogleMap
     private lateinit var map: SupportMapFragment
 
-    companion object {
-        const val MAP_PADDING = 150
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -165,6 +161,10 @@ class MapFragment : BaseFragment() {
     private fun GoogleMap.cameraUpdate(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) animateCamera(cameraUpdate) else moveCamera(cameraUpdate)
+    }
+
+    companion object {
+        const val MAP_PADDING = 150
     }
 
 }

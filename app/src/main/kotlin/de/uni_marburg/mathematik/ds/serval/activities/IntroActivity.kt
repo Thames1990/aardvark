@@ -72,10 +72,11 @@ class IntroActivity : BaseActivity() {
     }
 
     override fun backConsumer(): Boolean {
-        with(viewpager) {
-            if (currentItem > 0) setCurrentItem(currentItem - 1, Prefs.animate)
-            else finishAffinity()
-        }
+        if (viewpager.currentItem > 0) viewpager.setCurrentItem(
+            viewpager.currentItem - 1,
+            Prefs.animate
+        )
+        else finishAffinity()
         return true
     }
 
@@ -146,7 +147,7 @@ class IntroActivity : BaseActivity() {
             setColour(Prefs.textColor)
             invalidate()
         }
-        fragments.forEach { fragment -> fragment.themeFragment() }
+        fragments.forEach { it.themeFragment() }
     }
 
     fun finish(x: Float, y: Float) {

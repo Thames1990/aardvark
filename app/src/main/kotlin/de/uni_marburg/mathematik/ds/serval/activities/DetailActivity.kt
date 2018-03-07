@@ -31,14 +31,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private lateinit var event: Event
 
-    private val geocodingControl: SmartLocation.GeocodingControl by lazy {
-        SmartLocation.with(this).geocoding()
-    }
-
-    companion object {
-        const val EVENT_ID = "EVENT_ID"
-        const val SHOW_MAP = "SHOW_MAP"
-    }
+    private val geocodingControl by lazy { SmartLocation.with(this).geocoding() }
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         setSecureFlag()
@@ -55,8 +48,18 @@ class DetailActivity : ElasticRecyclerActivity() {
                 .getById(intent.extras.getString(EVENT_ID))
 
             uiThread {
-                val detailAdapter = FastItemAdapter<IItem<*, *>>()
-                recycler.adapter = detailAdapter.apply { setupAdapter() }
+                recycler.adapter = FastItemAdapter<IItem<*, *>>().apply {
+                    CardIItem.bindClickEvents(this)
+
+                    if (::event.isInitialized) {
+                        title = event.title
+                        addGeneralCards()
+                        addAddressCard()
+                    } else {
+                        title = string(R.string.event_missing)
+                        addErrorCard()
+                    }
+                }
                 with(fab) {
                     backgroundTintList = ColorStateList.valueOf(Prefs.accentColor)
                     setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
@@ -76,18 +79,6 @@ class DetailActivity : ElasticRecyclerActivity() {
         super.onPause()
     }
 
-    private fun FastItemAdapter<IItem<*, *>>.setupAdapter() {
-        CardIItem.bindClickEvents(this)
-        if (::event.isInitialized) {
-            title = event.title
-            addGeneralCards()
-            addAddressCard()
-        } else {
-            title = string(R.string.event_missing)
-            addErrorCard()
-        }
-    }
-
     /**
      * Add general [event] detail cards.
      */
@@ -104,6 +95,7 @@ class DetailActivity : ElasticRecyclerActivity() {
      */
     private fun FastItemAdapter<IItem<*, *>>.addMeasurementsCards() {
         val measurementCardItems = mutableListOf<CardIItem>()
+
         event.measurements.forEach { measurement ->
             val format = string(measurement.type.formatRes)
             val measurementDescription = String.format(format, measurement.value)
@@ -119,14 +111,16 @@ class DetailActivity : ElasticRecyclerActivity() {
         val id = R.plurals.measurement
         val quantity = event.measurements.count()
         val measurementsHeader = SmallHeaderIItem(text = plural(id, quantity))
+
         add(measurementsHeader)
-        measurementCardItems.forEach { measurementCardItem -> add(measurementCardItem) }
+        measurementCardItems.forEach { add(it) }
     }
 
     /**
      * Add [event] details cards.
      */
     private fun FastItemAdapter<IItem<*, *>>.addDetailsCards() {
+        val detailsHeader = SmallHeaderIItem(textRes = R.string.details)
         val eventCardItem = CardIItem {
             titleRes = R.string.time
             val passedTime: String = event.passedTime.formatPassedTime(this@DetailActivity)
@@ -134,7 +128,6 @@ class DetailActivity : ElasticRecyclerActivity() {
             imageIIcon = GoogleMaterial.Icon.gmd_access_time
         }
 
-        val detailsHeader = SmallHeaderIItem(textRes = R.string.details)
         add(detailsHeader)
         add(eventCardItem)
     }
@@ -161,7 +154,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     /**
-     * Add error card, when the [event] wasn't initialzed.
+     * Add error card, when the [event] wasn't initialized.
      */
     private fun FastItemAdapter<IItem<*, *>>.addErrorCard() {
         val missingEventCard = CardIItem {
@@ -182,7 +175,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
                 val uriFormat: String = string(R.string.intent_uri_show_in_google_maps)
                 val uriValues = arrayOf(
-                    // English localization forces dot delimeter
+                    // English localization forces dot delimiter
                     String.format(Locale.ENGLISH, "%.5f", event.location.latitude),
                     String.format(Locale.ENGLISH, "%.5f", event.location.longitude),
                     event.title
@@ -206,6 +199,11 @@ class DetailActivity : ElasticRecyclerActivity() {
                 setAction(R.string.snackbar_action_install, { startPlayStoreLink(GOOGLE_MAPS) })
             }
         )
+    }
+
+    companion object {
+        const val EVENT_ID = "EVENT_ID"
+        const val SHOW_MAP = "SHOW_MAP"
     }
 
 }

@@ -170,6 +170,12 @@ class MainActivity : BaseActivity() {
     }
 
     private fun TabLayout.setup() {
+        TabItem.values().map {
+            val badgedIcon = BadgedIcon(context).apply { iicon = it.iicon }
+            val tab: TabLayout.Tab = newTab().setCustomView(badgedIcon)
+            addTab(tab)
+        }
+
         setBackgroundColor(Prefs.mainActivityLayout.backgroundColor)
 
         addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
@@ -212,12 +218,6 @@ class MainActivity : BaseActivity() {
                 } else viewPager.snackbarThemed(string(R.string.network_disconnected))
             }
         })
-
-        TabItem.values().map {
-            val badgedIcon = BadgedIcon(this@MainActivity).apply { iicon = it.iicon }
-            val tab: TabLayout.Tab = newTab().setCustomView(badgedIcon)
-            addTab(tab)
-        }
     }
 
     private fun TabLayout.reload() {

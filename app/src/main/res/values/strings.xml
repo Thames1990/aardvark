@@ -58,6 +58,8 @@
     <string name="event_missing">Event is missing</string>
     <string name="event_missing_desc">This event couldn\'t be loaded from the database. If this happens more than once, please contact the developer with a bug report.</string>
 
+    <string name="events_loaded">Loaded %1$d events</string>
+
     <string name="faq_title">Frequently asked questions</string>
 
     <string name="feature_request">Feature Request</string>

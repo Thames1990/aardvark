@@ -19,7 +19,7 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.listeners.OnClickListener
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.AboutLinkItem
+import de.uni_marburg.mathematik.ds.serval.enums.AboutLink
 import de.uni_marburg.mathematik.ds.serval.enums.LibraryDefinition
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
@@ -110,7 +110,7 @@ class AboutActivity : AboutActivityBase(
                 val context = itemView.context
                 val size = context.dimenPixelSize(R.dimen.kau_avatar_bounds)
 
-                items = AboutLinkItem.values().mapIndexed { index, aboutLinkItem ->
+                items = AboutLink.values().mapIndexed { index, aboutLink ->
                     ImageView(context).apply {
                         id = index
                         layoutParams = ViewGroup.LayoutParams(size, size)
@@ -118,8 +118,8 @@ class AboutActivity : AboutActivityBase(
                         background = context.resolveDrawable(
                             android.R.attr.selectableItemBackgroundBorderless
                         )
-                        setIcon(icon = aboutLinkItem.iicon, color = Prefs.iconColor)
-                        setOnClickListener { context.startLink(aboutLinkItem.linkRes) }
+                        setIcon(icon = aboutLink.iicon, color = Prefs.iconColor)
+                        setOnClickListener { context.startLink(aboutLink.linkRes) }
                         container.addView(this)
                     }
                 }
