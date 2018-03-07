@@ -13,4 +13,5 @@
     app:fabSize="normal"
     app:layout_anchor="@id/container"
     app:layout_anchorGravity="bottom|right|end"
-    tools:keep="@layout/view_main_fab" />
+    tools:keep="@layout/view_main_fab"
+    tools:showIn="@layout/activity_main" />
