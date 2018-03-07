@@ -94,7 +94,7 @@ class SettingsActivity : KPrefActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_email -> materialDialogThemed {
-                title(R.string.email_subject)
+                title(R.string.support_email_subject)
                 items(SupportTopic.values().map { string(it.titleRes) })
                 itemsCallback { _, _, which, _ -> SupportTopic.values()[which].sendEmail(context) }
             }

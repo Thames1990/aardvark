@@ -34,7 +34,7 @@ enum class LibraryDefinition(
         descriptionRes = R.string.aardvark_desc,
         nameRes = R.string.aardvark_name,
         version = BuildConfig.VERSION_NAME,
-        licenseNameRes = R.string.mit_license,
+        licenseNameRes = R.string.license_mit,
         licenseWebsiteRes = R.string.license_website_aardvark,
         repositoryLinkRes = R.string.repository_link_aardvark
     ),
@@ -44,7 +44,7 @@ enum class LibraryDefinition(
         descriptionRes = R.string.kerval_desc,
         nameRes = R.string.kerval_name,
         version = BuildConfig.KERVAL_VERSION,
-        licenseNameRes = R.string.mit_license,
+        licenseNameRes = R.string.license_mit,
         licenseWebsiteRes = R.string.license_website_kerval,
         repositoryLinkRes = R.string.repository_link_kerval
     );

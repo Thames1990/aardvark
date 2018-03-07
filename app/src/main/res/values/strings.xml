@@ -36,8 +36,6 @@
     <string name="color_icon">Icon color</string>
     <string name="color_text">Text color</string>
 
-    <string name="details">Details</string>
-
     <string name="developer_email_aardvark" translatable="false">ThomasMohr1990@gmail.com</string>
     <string name="developer_name_aardvark" translatable="false">Thomas Mohr</string>
     <string name="developer_name_kerval" translatable="false">Markus Sommer</string>
@@ -53,19 +51,11 @@
     <string name="distance_in_kilometer" translatable="false">%1$.2f km</string>
     <string name="distance_in_meter" translatable="false">%1$.0f m</string>
 
-    <string name="email_subject">Subject</string>
-
+    <string name="event_details">Details</string>
     <string name="event_id">ID</string>
     <string name="event_missing">Event is missing</string>
     <string name="event_missing_desc">This event couldn\'t be loaded from the database. If this happens more than once, please contact the developer with a bug report.</string>
-
-    <string name="events_loaded">Loaded %1$d events</string>
-
-    <string name="faq_title">Frequently asked questions</string>
-
-    <string name="feature_request">Feature Request</string>
-
-    <string name="feedback">Feedback</string>
+    <string name="event_time">Time</string>
 
     <string name="fingerprint_required">Access your secured environment</string>
     <string name="fingerprint_required_desc">Place your finger on the reader</string>
@@ -94,6 +84,7 @@
     <string name="kerval_username">Username</string>
     <string name="kerval_username_must_not_be_empty">You need to enter a username</string>
 
+    <string name="license_mit">MIT License</string>
     <string name="license_website_aardvark" translatable="false">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
     <string name="license_website_kerval" translatable="false">https://github.com/CryptoCopter/kerval/blob/master/LICENSE</string>
 
@@ -135,9 +126,8 @@
     <string name="measurement_value_wind" translatable="false">%1$d km/h</string>
     <string name="measurement_wind">Wind</string>
 
-    <string name="mit_license">MIT License</string>
-
     <string name="network_disconnected">No network connectivity</string>
+    <string name="network_events_loaded">Loaded %1$d events</string>
 
     <string name="placeholder_desc">The developer was too lazy to include a layout!</string>
     <string name="placeholder_title">DAMN</string>
@@ -174,6 +164,7 @@
     <string name="preference_password_desc">Serval API password</string>
     <string name="preference_progress_bar">Download progress</string>
     <string name="preference_progress_bar_desc">Show event download progress in toolbar</string>
+    <string name="preference_reload">Reload settings</string>
     <string name="preference_replay_intro">Replay Introduction</string>
     <string name="preference_report_bug">Report bug</string>
     <string name="preference_requires_custom_theme">Requires custom theme</string>
@@ -201,10 +192,13 @@
     <string name="repository_link_aardvark" translatable="false">https://github.com/Thames1990/aardvark</string>
     <string name="repository_link_kerval" translatable="false">https://github.com/CryptoCopter/kerval</string>
 
-    <string name="settings_reload">Reload settings</string>
-
     <string name="snackbar_action_enable">Enable</string>
     <string name="snackbar_action_install">Install</string>
+
+    <string name="support_email_subject">Subject</string>
+    <string name="support_feature_request">Feature Request</string>
+    <string name="support_feedback">Feedback</string>
+    <string name="support_theme_issue">Theme Issue</string>
 
     <string name="tab_item_dashboard">Dashboard</string>
     <string name="tab_item_events">Events</string>
@@ -212,9 +206,6 @@
 
     <string name="theme">Theme</string>
     <string name="theme_customization">Theme Customization</string>
-    <string name="theme_issue">Theme Issue</string>
-
-    <string name="time">Time</string>
 
     <string name="tools_measurement_type" translatable="false">Radiation</string>
     <string name="tools_measurement_value" translatable="false">2 μSv/h</string>

@@ -34,7 +34,6 @@ class AboutActivity : AboutActivityBase(
         backgroundColor = Prefs.backgroundColor.withMinAlpha(200)
         cutoutDrawableRes = R.drawable.aardvark
         cutoutForeground = Prefs.accentColor
-        faqPageTitleRes = R.string.faq_title
         faqParseNewLine = false
         faqXmlRes = R.xml.faq
         textColor = Prefs.textColor
@@ -62,7 +61,7 @@ class AboutActivity : AboutActivityBase(
                             builder = {
                                 // Add option to reload settings to activate debug settings
                                 setAction(
-                                    R.string.settings_reload,
+                                    R.string.preference_reload,
                                     { startActivity<SettingsActivity>() }
                                 )
                             }

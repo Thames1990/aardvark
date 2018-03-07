@@ -121,9 +121,9 @@ class DetailActivity : ElasticRecyclerActivity() {
      * Add [event] details cards.
      */
     private fun FastItemAdapter<IItem<*, *>>.addDetailsCards() {
-        val detailsHeader = SmallHeaderIItem(textRes = R.string.details)
+        val detailsHeader = SmallHeaderIItem(textRes = R.string.event_details)
         val timeCard = CardIItem {
-            titleRes = R.string.time
+            titleRes = R.string.event_time
             val passedTime: String = event.passedTime.formatPassedTime(this@DetailActivity)
             desc = "${event.snippet}\n$passedTime"
             imageIIcon = GoogleMaterial.Icon.gmd_access_time
