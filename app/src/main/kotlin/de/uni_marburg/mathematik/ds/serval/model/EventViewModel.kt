@@ -9,18 +9,12 @@ import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 
 class EventViewModel(application: Application) : AndroidViewModel(application) {
 
-    companion object {
-        private const val PAGE_SIZE = 100
-        private const val ENABLE_PLACEHOLDERS = true
-    }
-
     private val dao: EventDao = EventDatabase.get(application).eventDao()
 
     val events: LiveData<PagedList<Event>> = LivePagedListBuilder(
         dao.getAllPaged(),
         PagedList.Config.Builder()
             .setPageSize(PAGE_SIZE)
-            .setEnablePlaceholders(ENABLE_PLACEHOLDERS)
             .build()
     ).build()
 
@@ -35,6 +29,10 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         val sortedEvents: List<Event> = eventComparator.sort(events, reversed)
         dao.insertOrUpdate(sortedEvents)
         return true
+    }
+
+    companion object {
+        private const val PAGE_SIZE = 100
     }
 
 }
