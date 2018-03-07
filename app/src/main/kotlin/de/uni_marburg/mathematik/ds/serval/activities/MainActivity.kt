@@ -16,6 +16,8 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.Aardvark
@@ -52,15 +54,6 @@ class MainActivity : BaseActivity() {
         ViewModelProviders.of(this).get(EventViewModel::class.java)
     }
 
-    companion object {
-        const val ACTIVITY_SETTINGS = 1 shl 1
-        const val REQUEST_RESTART = 1 shl 2
-        const val REQUEST_APPLICATION_RESTART = 1 shl 3
-        const val REQUEST_NAV = 1 shl 4
-
-        var lastLocation = Location(BuildConfig.APPLICATION_ID)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -88,8 +81,8 @@ class MainActivity : BaseActivity() {
 
             // Get last location
             val oneFix = currentLocation.locationControl.oneFix()
-            oneFix.start {
-                lastLocation = it
+            oneFix.start { location ->
+                lastLocation = location
                 oneFix.stop()
             }
 
@@ -187,8 +180,36 @@ class MainActivity : BaseActivity() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
-                if (isNetworkAvailable) doAsync { eventViewModel.reload() }
-                else viewPager.snackbarThemed(string(R.string.network_disconnected))
+                if (isNetworkAvailable) {
+                    val rotateAnimation = RotateAnimation(
+                        0f,
+                        360f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    ).apply {
+                        duration = 1500L
+                        interpolator = AnimHolder.decelerateInterpolator(context)
+                        repeatCount = Animation.INFINITE
+                    }
+
+                    val badgedIcon = tab.customView!! as BadgedIcon
+                    val icon = badgedIcon.iicon
+                    with(badgedIcon) {
+                        startAnimation(rotateAnimation)
+                        iicon = GoogleMaterial.Icon.gmd_autorenew
+                        badgeText = null
+                    }
+
+                    doAsync {
+                        eventViewModel.reload()
+                        uiThread {
+                            rotateAnimation.repeatCount = 0
+                            badgedIcon.iicon = icon
+                        }
+                    }
+                } else viewPager.snackbarThemed(string(R.string.network_disconnected))
             }
         })
 
@@ -262,6 +283,15 @@ class MainActivity : BaseActivity() {
             super.onInactive()
         }
 
+    }
+
+    companion object {
+        const val ACTIVITY_SETTINGS = 1 shl 1
+        const val REQUEST_RESTART = 1 shl 2
+        const val REQUEST_APPLICATION_RESTART = 1 shl 3
+        const val REQUEST_NAV = 1 shl 4
+
+        var lastLocation = Location(BuildConfig.APPLICATION_ID)
     }
 
 }
