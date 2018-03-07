@@ -55,7 +55,7 @@
 
     <string name="email_subject">Subject</string>
 
-    <string name="event_id">Event ID</string>
+    <string name="event_id">ID</string>
     <string name="event_missing">Event is missing</string>
     <string name="event_missing_desc">This event couldn\'t be loaded from the database. If this happens more than once, please contact the developer with a bug report.</string>
 
