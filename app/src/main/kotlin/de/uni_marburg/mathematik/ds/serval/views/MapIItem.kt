@@ -15,7 +15,8 @@ import de.uni_marburg.mathematik.ds.serval.model.Event
 
 class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
     layoutRes = R.layout.iitem_map,
-    viewHolder = ::ViewHolder
+    viewHolder = ::ViewHolder,
+    type = R.id.item_map
 ), ThemableIItem by ThemableIItemDelegate() {
 
     companion object {

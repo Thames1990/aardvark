@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="item_about_links" type="id" />
+    <item name="item_map" type="id" />
+    <item name="item_small_header" type="id" />
 
     <item name="intro_phone" type="id" />
     <item name="intro_phone_screen" type="id" />

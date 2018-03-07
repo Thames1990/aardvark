@@ -12,10 +12,12 @@ import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 
 class SmallHeaderIItem(
-    text: String? = null, var textRes: Int = -1
+    text: String? = null,
+    var textRes: Int = -1
 ) : KauIItem<SmallHeaderIItem, SmallHeaderIItem.ViewHolder>(
     layoutRes = R.layout.iitem_header,
-    viewHolder = ::ViewHolder
+    viewHolder = ::ViewHolder,
+    type = R.id.item_small_header
 ), ThemableIItem by ThemableIItemDelegate() {
 
     var text: String = text ?: "Header Placeholder"
