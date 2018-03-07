@@ -5,5 +5,5 @@
         path="de.uni_marburg.mathematik.ds.serval.xml" />
     <include
         domain="database"
-        path="de.uni_marburg.mathematik.ds.serval" />
+        path="events.db" />
 </full-backup-content>
