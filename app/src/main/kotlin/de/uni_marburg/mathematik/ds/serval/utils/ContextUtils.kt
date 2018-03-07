@@ -8,6 +8,7 @@ import android.support.annotation.StringRes
 import ca.allanwang.kau.email.EmailBuilder
 import ca.allanwang.kau.email.sendEmail
 import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
+import ca.allanwang.kau.permissions.PERMISSION_WRITE_EXTERNAL_STORAGE
 import ca.allanwang.kau.utils.hasPermission
 import ca.allanwang.kau.utils.isFinishing
 import ca.allanwang.kau.utils.string
@@ -18,6 +19,9 @@ import de.uni_marburg.mathematik.ds.serval.R
 
 inline val Context.hasLocationPermission: Boolean
     get() = hasPermission(PERMISSION_ACCESS_FINE_LOCATION)
+
+inline val Context.hasWriteExternalStoragePermission: Boolean
+    get() = hasPermission(PERMISSION_WRITE_EXTERNAL_STORAGE)
 
 /**
  * Show the showChangelog.

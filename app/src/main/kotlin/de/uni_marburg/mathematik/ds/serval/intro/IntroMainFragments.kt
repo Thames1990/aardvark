@@ -11,12 +11,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.kotlin.LazyResettableRegistry
 import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
+import ca.allanwang.kau.permissions.PERMISSION_WRITE_EXTERNAL_STORAGE
 import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
+import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
+import de.uni_marburg.mathematik.ds.serval.utils.hasWriteExternalStoragePermission
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.childrenSequence
 import kotlin.math.absoluteValue
@@ -133,13 +136,34 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
 
         container.setOnSingleTapListener { _, motionEvent ->
             with(requireActivity()) {
-                if (hasLocationPermission) {
-                    val introActivity = this as IntroActivity
-                    introActivity.finish(x = motionEvent.x, y = motionEvent.y)
+                if (BuildConfig.DEBUG) {
+                    if (hasLocationPermission && hasWriteExternalStoragePermission) {
+                        val introActivity = this as IntroActivity
+                        introActivity.finish(x = motionEvent.x, y = motionEvent.y)
+                    } else {
+                        kauRequestPermissions(
+                            permissions = *arrayOf(
+                                PERMISSION_ACCESS_FINE_LOCATION,
+                                PERMISSION_WRITE_EXTERNAL_STORAGE
+                            ),
+                            callback = { granted, deniedPerm ->
+                                if (!granted) deniedPerm?.let { snackbarThemed(it) }
+                                else description.setTextWithFade(R.string.intro_tap_to_exit)
+                            }
+                        )
+                    }
                 } else {
-                    kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
-                        if (!granted) snackbarThemed(string(R.string.preference_requires_location_permission))
-                        else description.setTextWithFade(R.string.intro_tap_to_exit)
+                    if (hasLocationPermission) {
+                        val introActivity = this as IntroActivity
+                        introActivity.finish(x = motionEvent.x, y = motionEvent.y)
+                    } else {
+                        kauRequestPermissions(
+                            permissions = *arrayOf(PERMISSION_ACCESS_FINE_LOCATION),
+                            callback = { granted, deniedPerm ->
+                                if (!granted) deniedPerm?.let { snackbarThemed(it) }
+                                else description.setTextWithFade(R.string.intro_tap_to_exit)
+                            }
+                        )
                     }
                 }
             }
