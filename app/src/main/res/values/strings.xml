@@ -206,7 +206,4 @@
 
     <string name="theme">Theme</string>
     <string name="theme_customization">Theme Customization</string>
-
-    <string name="tools_measurement_type" translatable="false">Radiation</string>
-    <string name="tools_measurement_value" translatable="false">2 μSv/h</string>
 </resources>
