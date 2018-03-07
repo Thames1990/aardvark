@@ -11,12 +11,9 @@ import com.mikepenz.weather_icons_typeface_library.WeatherIcons
 import com.squareup.moshi.Json
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInSeconds
 import net.sharewire.googlemapsclustering.ClusterItem
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 /**
  * An event is something which happens or takes place. An event is brief, possibly extremely brief.
@@ -53,6 +50,8 @@ data class Event(
 
     /**
      * Measurements captured by this event
+     *
+     *
      */
     inline val measurements: List<Measurement>
         get() = data.measurements
@@ -63,14 +62,7 @@ data class Event(
     inline val passedSeconds: Long
         get() = currentTimeInSeconds - time
 
-    override fun getSnippet(): String? {
-        val format = SimpleDateFormat.getDateTimeInstance(
-            DateFormat.LONG,
-            DateFormat.SHORT,
-            Locale.getDefault()
-        )
-        return format.format(TimeUnit.SECONDS.toMillis(time))
-    }
+    override fun getSnippet(): String? = Prefs.dateTimeFormat.formatTime(time)
 
     override fun getLongitude(): Double = data.geohashLocation.longitude
 

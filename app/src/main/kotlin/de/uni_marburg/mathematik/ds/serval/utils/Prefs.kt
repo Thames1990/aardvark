@@ -4,10 +4,7 @@ import ca.allanwang.kau.kotlin.lazyResettable
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy
-import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
-import de.uni_marburg.mathematik.ds.serval.enums.MapsStyle
-import de.uni_marburg.mathematik.ds.serval.enums.Theme
+import de.uni_marburg.mathematik.ds.serval.enums.*
 
 object Prefs : KPref() {
 
@@ -32,6 +29,9 @@ object Prefs : KPref() {
     val textColor: Int
         get() = theme.textColor
 
+    val dateTimeFormat: DateTimeFormat
+        get() = DateTimeFormat(dateTimeFormatIndex)
+
     val locationRequestAccuracy: LocationRequestAccuracy
         get() = LocationRequestAccuracy(locationRequestAccuracyIndex)
 
@@ -49,7 +49,20 @@ object Prefs : KPref() {
     )
     var customHeaderColor: Int by kpref(key = "CUSTOM_COLOR_HEADER", fallback = Theme.BAHAMA_BLUE)
     var customIconColor: Int by kpref(key = "CUSTOM_COLOR_ICONS", fallback = Theme.PORCELAIN)
-    var experimentalSettings: Boolean by kpref(key = "EXPERIMENTAL_SETTINGS", fallback = BuildConfig.DEBUG)
+    var dateTimeFormatIndex: Int by kpref(
+        key = "DATE_TIME_FORMAT_INDEX",
+        fallback = DateTimeFormat.MEDIUM_DATE_MEDIUM_TIME.ordinal,
+        postSetter = { value: Int ->
+            answersCustom(
+                name = "Date time format",
+                events = *arrayOf("Date time format" to DateTimeFormat(value).name)
+            )
+        }
+    )
+    var experimentalSettings: Boolean by kpref(
+        key = "EXPERIMENTAL_SETTINGS",
+        fallback = BuildConfig.DEBUG
+    )
     var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
     var mapsStyleIndex: Int by kpref(
