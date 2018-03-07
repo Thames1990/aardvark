@@ -206,7 +206,7 @@ class EventsFragment : BaseFragment() {
 
             private fun Event.displayTime() {
                 with(timeView) {
-                    text = passedTime.formatPassedTime(itemView.context)
+                    text = passedSeconds.formatPassedSeconds(itemView.context)
                     setTextColor(Prefs.textColor)
                 }
             }

@@ -65,7 +65,7 @@ fun Float.formatDistance(context: Context): String =
 /**
  * Converts UNIX time to human readable information in relation to the current time.
  */
-fun Long.formatPassedTime(context: Context): String {
+fun Long.formatPassedSeconds(context: Context): String {
     val id: Int
     val quantity: Long
 
