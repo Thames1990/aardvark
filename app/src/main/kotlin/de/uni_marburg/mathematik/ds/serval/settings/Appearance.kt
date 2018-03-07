@@ -8,6 +8,7 @@ import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
+import de.uni_marburg.mathematik.ds.serval.enums.DateTimeFormat
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.enums.MapsStyle
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
@@ -181,6 +182,35 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                         true
                     }
                 }
+            }
+        }
+    )
+
+    text(
+        title = R.string.preference_date_time_format,
+        getter = Prefs::dateTimeFormatIndex,
+        setter = { Prefs.dateTimeFormatIndex = it },
+        builder = {
+            onClick = {
+                materialDialogThemed {
+                    title(R.string.preference_date_time_format)
+                    items(DateTimeFormat.values().map { it.previewText })
+                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                        if (item.pref != which) {
+                            item.pref = which
+                            reload()
+                        }
+                        true
+                    }
+                }
+            }
+            textGetter = {
+                // TODO Find a better way to break date and time, also considering translations...
+                DateTimeFormat(it).name
+                    .toLowerCase()
+                    .split(delimiters = *arrayOf("_"))
+                    .joinToString(separator = " ", transform = { it.trim().capitalize() })
+                    .replace(oldValue = "Date ", newValue = "Date\n")
             }
         }
     )

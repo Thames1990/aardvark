@@ -145,6 +145,7 @@
     <string name="preference_changelog_desc">Show changelogs after updates</string>
     <string name="preference_confirm_exit">Confirm exit</string>
     <string name="preference_confirm_exit_desc">Show confirmation dialog before exiting the app</string>
+    <string name="preference_date_time_format">Date/Time format</string>
     <string name="preference_debug_disclaimer">Disclaimer</string>
     <string name="preference_debug_disclaimer_desc">Experimental features may be unstable and may never make it to production. Use at your own risk, send feedback, and feel free to disable them if they don\'t work well.</string>
     <string name="preference_debug_enabled">Debug settings activated</string>
@@ -206,5 +207,6 @@
 
     <string name="theme">Theme</string>
     <string name="theme_customization">Theme Customization</string>
-    <string name="fab_scroll_to_top">Scroll to top</string>
+
+    <string name="tooltip_fab_scroll_to_top">Scroll to top</string>
 </resources>
