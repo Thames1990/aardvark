@@ -15,25 +15,27 @@ import java.time.Instant
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+inline val analyticsEnabled: Boolean
+    get() = !BuildConfig.DEBUG && Prefs.analytics
+
 /**
  * Create Fabric Answers instance.
  */
-inline fun answers(action: Answers.() -> Unit) {
-    if (BuildConfig.DEBUG || !Prefs.analytics) return
-    Answers.getInstance().action()
-}
+inline fun answers(action: Answers.() -> Unit) = Answers.getInstance().action()
 
 /**
  * Log custom events to Fabric Answers.
  */
 fun answersCustom(name: String, vararg events: Pair<String, Any>) {
-    if (!BuildConfig.DEBUG && Prefs.analytics) answers {
-        logCustom(CustomEvent("Aardvark $name").apply {
-            events.forEach { (key, value) ->
-                if (value is Number) putCustomAttribute(key, value)
-                else putCustomAttribute(key, value.toString())
-            }
-        })
+    if (analyticsEnabled) {
+        answers {
+            logCustom(CustomEvent(name).apply {
+                events.forEach { (key: String, value: Any) ->
+                    if (value is Number) putCustomAttribute(key, value)
+                    else putCustomAttribute(key, value.toString())
+                }
+            })
+        }
     }
 }
 

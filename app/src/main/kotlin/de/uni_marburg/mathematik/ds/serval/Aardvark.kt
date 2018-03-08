@@ -13,6 +13,7 @@ import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.analyticsEnabled
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import io.fabric.sdk.android.Fabric
 
@@ -48,8 +49,6 @@ class Aardvark : Application() {
     }
 
     private fun setupAnalytics() {
-        val analyticsEnabled = !BuildConfig.DEBUG && Prefs.analytics
-
         FirebaseAnalytics
             .getInstance(applicationContext)
             .setAnalyticsCollectionEnabled(analyticsEnabled)
