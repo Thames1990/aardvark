@@ -5,6 +5,7 @@ import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.enums.*
+import kotlin.math.roundToInt
 
 object Prefs : KPref() {
 
@@ -91,8 +92,20 @@ object Prefs : KPref() {
     var kervalPort: Int by kpref(key = "KERVAL_PORT", fallback = 80)
     var kervalUser: String by kpref("KERVAL_USER", "pum")
     var lastLaunch: Long by kpref(key = "LAST_LAUNCH", fallback = -1L)
-    var locationRequestInterval: Int by kpref(key = "LOCATION_REQUEST_INTERVAL", fallback = 2500)
-    var locationRequestDistance: Int by kpref("LOCATION_REQUEST_DISTANCE", fallback = 150)
+    var locationRequestInterval: Int by kpref(
+        key = "LOCATION_REQUEST_INTERVAL",
+        fallback = arrayOf(
+            LocationRequestAccuracy.LOCATION_REQUEST_MIN_INTERVAL,
+            LocationRequestAccuracy.LOCATION_REQUEST_MAX_INTERVAL
+        ).average().roundToInt()
+    )
+    var locationRequestDistance: Int by kpref(
+        "LOCATION_REQUEST_DISTANCE",
+        fallback = arrayOf(
+            LocationRequestAccuracy.LOCATION_REQUEST_MIN_DISTANCE,
+            LocationRequestAccuracy.LOCATION_REQUEST_MAX_DISTANCE
+        ).average().roundToInt()
+    )
     var locationRequestAccuracyIndex: Int by kpref(
         key = "LOCATION_REQUEST_ACCURACY_INDEX",
         fallback = LocationRequestAccuracy.HIGH.ordinal
