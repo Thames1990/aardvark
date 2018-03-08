@@ -13,7 +13,6 @@ import ca.allanwang.kau.utils.withSceneTransitionAnimation
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.*
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions.loadRawResourceStyle
@@ -84,10 +83,9 @@ class MapFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = with(googleMap) {
         when (item.itemId) {
-            R.id.action_change_map_type_hybrid -> mapType = MAP_TYPE_HYBRID
-            R.id.action_change_map_type_normal -> mapType = MAP_TYPE_NORMAL
-            R.id.action_change_map_type_satellite -> mapType = MAP_TYPE_SATELLITE
-            R.id.action_change_map_type_terrain -> mapType = MAP_TYPE_TERRAIN
+            R.id.action_change_map_type_normal -> mapType = GoogleMap.MAP_TYPE_NORMAL
+            R.id.action_change_map_type_satellite -> mapType = GoogleMap.MAP_TYPE_SATELLITE
+            R.id.action_change_map_type_terrain -> mapType = GoogleMap.MAP_TYPE_TERRAIN
             R.id.action_zoom_to_all_markers -> zoomToAllMarkers()
             else -> return super.onOptionsItemSelected(item)
         }
