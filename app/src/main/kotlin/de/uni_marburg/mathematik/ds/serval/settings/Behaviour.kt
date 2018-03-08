@@ -46,9 +46,7 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                 positiveText(string(R.string.kau_yes))
                 negativeText(string(R.string.kau_no))
                 onPositive { _, _ ->
-                    FirebaseAnalytics.getInstance(context).apply {
-                        setAnalyticsCollectionEnabled(useAnalytics)
-                    }
+                    FirebaseAnalytics.getInstance(context).resetAnalyticsData()
                     Prefs.installDate = -1L
                     snackbarThemed(R.string.preference_reset_analytics_confirmation)
                 }

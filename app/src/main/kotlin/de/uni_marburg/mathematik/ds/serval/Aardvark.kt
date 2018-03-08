@@ -7,6 +7,7 @@ import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.github.ajalt.reprint.core.Reprint
 import com.google.firebase.FirebaseApp
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
@@ -48,6 +49,10 @@ class Aardvark : Application() {
 
     private fun setupAnalytics() {
         val analyticsEnabled = !BuildConfig.DEBUG && Prefs.analytics
+
+        FirebaseAnalytics
+            .getInstance(applicationContext)
+            .setAnalyticsCollectionEnabled(analyticsEnabled)
 
         if (analyticsEnabled) {
             Fabric.with(applicationContext, Crashlytics(), Answers())
