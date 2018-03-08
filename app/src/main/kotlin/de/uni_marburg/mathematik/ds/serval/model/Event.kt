@@ -62,8 +62,7 @@ data class Event(
     inline val passedSeconds: Long
         get() = currentTimeInSeconds - time
 
-    override fun getSnippet(): String? =
-        Prefs.dateTimeFormat.formatTime(time).replace(oldValue = " ", newValue = "\n")
+    override fun getSnippet(): String? = Prefs.dateTimeFormat.formatTime(time)
 
     override fun getLongitude(): Double = data.geohashLocation.longitude
 

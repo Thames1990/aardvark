@@ -1,9 +1,8 @@
 package de.uni_marburg.mathematik.ds.serval.enums
 
-import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInSeconds
+import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.concurrent.TimeUnit
 
 enum class DateTimeFormat(val dateStyle: Int, val timeStyle: Int) {
 
@@ -90,10 +89,20 @@ enum class DateTimeFormat(val dateStyle: Int, val timeStyle: Int) {
     private val format: DateFormat
         get() = SimpleDateFormat.getDateTimeInstance(dateStyle, timeStyle)
 
-    val previewText: String
-        get() = format.format(TimeUnit.SECONDS.toMillis(currentTimeInSeconds))
+    private val dateFormat: DateFormat
+        get() = SimpleDateFormat.getDateInstance(dateStyle)
 
-    fun formatTime(time: Long): String = format.format(TimeUnit.SECONDS.toMillis(time))
+    private val timeFormat: DateFormat
+        get() = SimpleDateFormat.getTimeInstance(timeStyle)
+
+    val previewText: String
+        get() = formatTime(currentTimeInMillis)
+
+    fun formatTime(time: Long, newLine: Boolean = true): String = if (newLine) {
+        val dateString = dateFormat.format(time)
+        val timeString = timeFormat.format(time)
+        "$dateString\n$timeString"
+    } else format.format(time)
 
     companion object {
         operator fun invoke(index: Int) = values()[index]
