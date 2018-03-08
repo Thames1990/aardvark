@@ -66,7 +66,7 @@ class Aardvark : Application() {
                 else RefWatcher.DISABLED
     }
 
-    private fun setupAuthentication(authenticate: Boolean = Prefs.secure_app) =
+    private fun setupAuthentication(authenticate: Boolean = Prefs.secureApp) =
         if (authenticate) lifecycle.addObserver(authenticationListener)
         else lifecycle.removeObserver(authenticationListener)
 }

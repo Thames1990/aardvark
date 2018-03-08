@@ -104,7 +104,7 @@ class FingerprintActivity : AppCompatActivity() {
                 iconCircle.setCardBackgroundColor(Theme.POMEGRENADE)
                 icon.setIcon(icon = CommunityMaterial.Icon.cmd_exclamation, color = Prefs.iconColor)
                 description.setTextWithFade(errorMessage.toString())
-                if (Prefs.useVibration) vibrate()
+                if (Prefs.useVibrations) vibrate()
             }
         })
     }

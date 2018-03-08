@@ -57,7 +57,7 @@ fun Activity.setTheme() =
  * Sets the treatment of the content of the window as [secure/non-secure][secure], (not) preventing
  * it from appearing in screenshots or from being viewed on non-secure displays.
  */
-fun Activity.setSecureFlag(secure: Boolean = Prefs.secure_app) {
+fun Activity.setSecureFlag(secure: Boolean = Prefs.secureApp) {
     val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
     if (secure) window.setFlags(secureFlag, secureFlag)
     else window.clearFlags(secureFlag)

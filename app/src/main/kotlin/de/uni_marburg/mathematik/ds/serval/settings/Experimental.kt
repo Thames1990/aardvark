@@ -51,9 +51,9 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_secure_app,
-        getter = Prefs::secure_app,
+        getter = Prefs::secureApp,
         setter = { secure_app ->
-            Prefs.secure_app = secure_app
+            Prefs.secureApp = secure_app
             setSecureFlag()
             shouldRestartApplication()
             reload()
@@ -62,14 +62,14 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
     )
 
     fun KPrefItemBase.BaseContract<Boolean>.dependsOnSecurePrivacy() {
-        enabler = Prefs::secure_app
+        enabler = Prefs::secureApp
         onDisabledClick = { snackbarThemed(R.string.preference_requires_secure_privacy) }
     }
 
     checkbox(
         title = R.string.preference_vibration,
-        getter = Prefs::useVibration,
-        setter = { Prefs.useVibration = it },
+        getter = Prefs::useVibrations,
+        setter = { Prefs.useVibrations = it },
         builder = {
             dependsOnSecurePrivacy()
             descRes = R.string.preference_vibration_desc

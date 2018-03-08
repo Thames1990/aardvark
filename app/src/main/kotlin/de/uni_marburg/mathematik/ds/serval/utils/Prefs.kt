@@ -50,7 +50,6 @@ object Prefs : KPref() {
         }
     )
     var analytics: Boolean by kpref(key = "ANALYTICS", fallback = true)
-    var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = true)
     var customTextColor: Int by kpref(key = "CUSTOM_COLOR_TEXT", fallback = Theme.PORCELAIN)
     var customAccentColor: Int by kpref(key = "CUSTOM_COLOR_ACCENT", fallback = Theme.LOCHMARA)
     var customBackgroundColor: Int by kpref(
@@ -129,9 +128,10 @@ object Prefs : KPref() {
         }
     )
     var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
-    var secure_app: Boolean by kpref(key = "SECURE_APP", fallback = false)
+    var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = false)
+    var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = true)
     var showDownloadProgress: Boolean by kpref(key = "SHOW_DOWNLOAD_PROGRESS", fallback = false)
-    var useVibration: Boolean by kpref(key = "USE_VIBRATION", fallback = false)
+    var useVibrations: Boolean by kpref(key = "USE_VIBRATIONS", fallback = false)
     var useWifiADB: Boolean by kpref(key = "USE_WIFI_ADB", fallback = false)
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
     var viewpagerSwipe: Boolean by kpref(key = "VIEWPAGER_SWIPE", fallback = false)
