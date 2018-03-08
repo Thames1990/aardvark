@@ -38,7 +38,16 @@ object Prefs : KPref() {
     val mainActivityLayout: MainActivityLayout
         get() = MainActivityLayout(mainActivityLayoutIndex)
 
-    var animate: Boolean by kpref(key = "ANIMATE", fallback = true)
+    var animate: Boolean by kpref(
+        key = "ANIMATE",
+        fallback = true,
+        postSetter = { value: Boolean ->
+            answersCustom(
+                name = "Animations",
+                events = *arrayOf("Animations" to value)
+            )
+        }
+    )
     var analytics: Boolean by kpref(key = "ANALYTICS", fallback = true)
     var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = true)
     var customTextColor: Int by kpref(key = "CUSTOM_COLOR_TEXT", fallback = Theme.PORCELAIN)
