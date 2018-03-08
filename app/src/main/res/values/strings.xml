@@ -36,6 +36,23 @@
     <string name="color_icon">Icon color</string>
     <string name="color_text">Text color</string>
 
+    <string name="date_full_time_full">Full date\nFull time</string>
+    <string name="date_full_time_long">Full date\nLong time</string>
+    <string name="date_full_time_medium">Full date\nMedium time</string>
+    <string name="date_full_time_short">Full date\nShort time</string>
+    <string name="date_long_time_full">Long date\nFull time</string>
+    <string name="date_long_time_long">Long date\nLong time</string>
+    <string name="date_long_time_medium">Long date\nMedium time</string>
+    <string name="date_long_time_short">Long date\nShort time</string>
+    <string name="date_medium_time_full">Medium date\nFull time</string>
+    <string name="date_medium_time_long">Medium date\nLong time</string>
+    <string name="date_medium_time_medium">Medium date\nMedium time</string>
+    <string name="date_medium_time_short">Medium date\nShort time</string>
+    <string name="date_short_time_full">Short date\nFull time</string>
+    <string name="date_short_time_long">Short date\nLong time</string>
+    <string name="date_short_time_medium">Short date\nMedium time</string>
+    <string name="date_short_time_short">Short date\nShort time</string>
+
     <string name="developer_email_aardvark" translatable="false">ThomasMohr1990@gmail.com</string>
     <string name="developer_name_aardvark" translatable="false">Thomas Mohr</string>
     <string name="developer_name_kerval" translatable="false">Markus Sommer</string>

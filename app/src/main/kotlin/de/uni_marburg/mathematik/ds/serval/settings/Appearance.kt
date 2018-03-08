@@ -204,14 +204,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                     }
                 }
             }
-            textGetter = {
-                // TODO Find a better way to break date and time, also considering translations...
-                DateTimeFormat(it).name
-                    .toLowerCase()
-                    .split(delimiters = *arrayOf("_"))
-                    .joinToString(separator = " ", transform = { it.trim().capitalize() })
-                    .replace(oldValue = "Date ", newValue = "Date\n")
-            }
+            textGetter = { string(DateTimeFormat(it).titleRes) }
         }
     )
 
