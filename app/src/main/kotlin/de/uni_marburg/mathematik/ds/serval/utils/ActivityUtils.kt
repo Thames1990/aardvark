@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.Theme
 
 /**
  * Color the navigation bar with the specified [color][Prefs.headerColor], if the user activated
@@ -97,6 +98,12 @@ class ActivityThemeUtils {
                 setBackgroundColor(Prefs.headerColor)
                 setTitleTextColor(Prefs.iconColor)
                 overflowIcon?.setTint(Prefs.iconColor)
+                popupTheme = when (Prefs.theme) {
+                    Theme.LIGHT -> R.style.AppTheme_PopupOverlay
+                    Theme.DARK -> R.style.AppTheme_PopupOverlay_Dark
+                    Theme.AMOLED -> R.style.AppTheme_PopupOverlay_Dark
+                    Theme.CUSTOM -> R.style.AppTheme_PopupOverlay // TODO Set theme accordingly
+                }
             }
             texts.forEach { textView -> textView.setTextColor(Prefs.textColor) }
             headers.forEach { view -> view.setBackgroundColor(Prefs.headerColor) }

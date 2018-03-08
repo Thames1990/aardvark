@@ -76,10 +76,7 @@ class MapFragment : BaseFragment() {
             color = Prefs.iconColor,
             iicons = *arrayOf(
                 R.id.action_zoom_to_all_markers to GoogleMaterial.Icon.gmd_zoom_out_map,
-                R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers,
-                R.id.action_change_map_type_normal to GoogleMaterial.Icon.gmd_map,
-                R.id.action_change_map_type_satellite to GoogleMaterial.Icon.gmd_satellite,
-                R.id.action_change_map_type_terrain to GoogleMaterial.Icon.gmd_terrain
+                R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers
             )
         )
     }
