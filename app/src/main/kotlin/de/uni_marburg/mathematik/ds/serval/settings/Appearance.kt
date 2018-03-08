@@ -199,6 +199,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                         if (item.pref != which) {
                             item.pref = which
                             reload()
+                            shouldRestartMain()
                         }
                         true
                     }
