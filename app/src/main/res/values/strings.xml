@@ -8,7 +8,6 @@
 
     <string name="action_map_type">Map type</string>
     <string name="action_map_type_hybrid">Hybrid</string>
-    <string name="action_map_type_none">None</string>
     <string name="action_map_type_normal">Normal</string>
     <string name="action_map_type_satellite">Satellite</string>
     <string name="action_map_type_terrain">Terrain</string>

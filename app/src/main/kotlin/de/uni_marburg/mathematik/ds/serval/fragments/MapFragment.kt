@@ -85,7 +85,6 @@ class MapFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = with(googleMap) {
         when (item.itemId) {
             R.id.action_change_map_type_hybrid -> mapType = MAP_TYPE_HYBRID
-            R.id.action_change_map_type_none -> mapType = MAP_TYPE_NONE
             R.id.action_change_map_type_normal -> mapType = MAP_TYPE_NORMAL
             R.id.action_change_map_type_satellite -> mapType = MAP_TYPE_SATELLITE
             R.id.action_change_map_type_terrain -> mapType = MAP_TYPE_TERRAIN

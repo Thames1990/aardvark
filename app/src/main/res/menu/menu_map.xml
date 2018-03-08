@@ -17,9 +17,6 @@
                 android:id="@+id/action_change_map_type_hybrid"
                 android:title="@string/action_map_type_hybrid" />
             <item
-                android:id="@+id/action_change_map_type_none"
-                android:title="@string/action_map_type_none" />
-            <item
                 android:id="@+id/action_change_map_type_normal"
                 android:title="@string/action_map_type_normal" />
             <item
