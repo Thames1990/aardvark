@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.8" />
+    <item text="Add reload animation on tab reselect" />
+    <item text="Add tooltip to floating action buttons" />
+    <item text="Add setting to change date/time format" />
+    <item text="Add custom my location button to map" />
+    <item text="Improve animations" />
+    <item text="Improve map icons" />
+    <item text="Remove obsolete map types" />
+    <item text="Fix action bar popup theme" />
+    <item text="Fix out of sync events for map. This fixes the empty map on first start." />
+
     <version title="0.8.7" />
     <item text="Add visual loading indicator when sorting events" />
     <item text="Improve performance" />

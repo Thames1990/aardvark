@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.8.8
+* Add reload animation on tab reselect
+* Add tooltip to floating action buttons
+* Add setting to change date/time format
+* Add custom my location button to map
+* Improve animations
+* Improve map icons
+* Remove obsolete map types
+* Fix action bar popup theme
+* Fix out of sync events for map. This fixes the empty map on first start.
+
 ## 0.8.7
 * Add visual loading indicator when sorting events
 * Improve performance
