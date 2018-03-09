@@ -182,7 +182,7 @@ class MainActivity : BaseActivity() {
                 val currentTab: Int = tab.position
                 val currentFragment: Fragment = sectionsPagerAdapter.getItem(currentTab)
 
-                viewPager.setCurrentItem(currentTab, Prefs.animate)
+                viewPager.item = currentTab
                 appBar.expand()
 
                 when (currentFragment) {

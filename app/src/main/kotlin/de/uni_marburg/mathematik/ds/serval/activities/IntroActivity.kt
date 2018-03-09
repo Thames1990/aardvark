@@ -20,10 +20,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.intro.*
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
-import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.find
 
 class IntroActivity : BaseActivity() {
@@ -57,7 +54,7 @@ class IntroActivity : BaseActivity() {
             setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.iconColor)
             setOnClickListener {
                 when {
-                    barHasNext -> viewpager.setCurrentItem(viewpager.currentItem + 1, Prefs.animate)
+                    barHasNext -> viewpager.item = viewpager.currentItem + 1
                     hasLocationPermission -> finish(
                         x = next.x + next.pivotX,
                         y = next.y + next.pivotY
@@ -74,7 +71,7 @@ class IntroActivity : BaseActivity() {
 
     override fun backConsumer(): Boolean {
         with(viewpager) {
-            if (currentItem > 0) setCurrentItem(currentItem - 1, Prefs.animate)
+            if (currentItem > 0) item = currentItem - 1
             else finishAffinity()
         }
         return true

@@ -5,6 +5,7 @@ import android.support.annotation.ColorInt
 import android.support.annotation.StringRes
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
+import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -93,3 +94,7 @@ fun ImageView.setIconWithOptions(
 }
 
 fun AppBarLayout.expand(animate: Boolean = Prefs.animate) = setExpanded(true, animate)
+
+inline var ViewPager.item
+    get() = currentItem
+    set(value) = setCurrentItem(value, Prefs.animate)
