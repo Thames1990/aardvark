@@ -72,6 +72,7 @@ class DashboardFragment : BaseFragment() {
         activityRecognitionControl.start { activity ->
             if (detectedActivity != activity) {
                 detectedActivity = activity
+                description.setTextWithOptions(activity.currentActivity)
                 if (Prefs.animate) {
                     image.fadeScaleTransition {
                         image.setIcon(
@@ -80,14 +81,12 @@ class DashboardFragment : BaseFragment() {
                             sizeDp = context.displayMetrics.densityDpi
                         )
                     }
-                    description.setTextWithOptions(activity.currentActivity)
                 } else {
                     image.setIcon(
                         icon = activity.iicon,
                         color = Prefs.textColor,
                         sizeDp = context.displayMetrics.densityDpi
                     )
-                    description.text = activity.currentActivity
                 }
             }
         }
