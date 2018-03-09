@@ -102,6 +102,22 @@ class EventsFragment : BaseFragment() {
         return true
     }
 
+    fun reloadEvents() {
+        with(swipeRefreshLayout) {
+            if (context.isNetworkAvailable) {
+                isRefreshing = true
+                doAsync {
+                    eventViewModel.reload()
+                    uiThread { isRefreshing = false }
+                }
+            } else {
+                isRefreshing = false
+                snackbarThemed(context.string(R.string.network_disconnected))
+            }
+            return
+        }
+    }
+
     private fun sortBy(eventComparator: EventComparator, reversed: Boolean = false) {
         swipeRefreshLayout.isRefreshing = true
         doAsync {
@@ -126,21 +142,7 @@ class EventsFragment : BaseFragment() {
         }
     }
 
-    private fun setupRefresh() {
-        with(swipeRefreshLayout) {
-            setOnRefreshListener {
-                if (context.isNetworkAvailable) {
-                    doAsync {
-                        eventViewModel.reload()
-                        uiThread { isRefreshing = false }
-                    }
-                } else {
-                    isRefreshing = false
-                    snackbarThemed(context.string(R.string.network_disconnected))
-                }
-            }
-        }
-    }
+    private fun setupRefresh() = swipeRefreshLayout.setOnRefreshListener { reloadEvents() }
 
     private class EventAdapter(
         private val listener: (Event) -> Unit

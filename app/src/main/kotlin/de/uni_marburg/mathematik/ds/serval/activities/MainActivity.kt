@@ -14,11 +14,10 @@ import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
 import ca.allanwang.kau.utils.*
 import com.google.android.gms.maps.model.LatLng
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -44,9 +43,8 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
-    val appBar: AppBarLayout by bindView(R.id.appbar)
-    val fab: FloatingActionButton by bindView(R.id.fab)
-
+    private val appBar: AppBarLayout by bindView(R.id.appbar)
+    private val fab: FloatingActionButton by bindView(R.id.fab)
     private val progressBar: MaterialProgressBar by bindView(R.id.progressBar)
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -75,7 +73,7 @@ class MainActivity : BaseActivity() {
 
         fab.backgroundTintList = ColorStateList.valueOf(Prefs.headerColor)
 
-        eventViewModel.events.observe(this, Observer { tabs.reload() })
+        eventViewModel.events.observe(this, Observer { reloadTabBadges() })
 
         if (hasLocationPermission) {
             val currentLocation = CurrentLocation(this)
@@ -180,92 +178,83 @@ class MainActivity : BaseActivity() {
         setBackgroundColor(Prefs.mainActivityLayout.backgroundColor)
 
         addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
-            @SuppressLint("NewApi")
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val currentTab: Int = tab.position
+                val currentFragment: Fragment = sectionsPagerAdapter.getItem(currentTab)
 
                 viewPager.setCurrentItem(currentTab, Prefs.animate)
                 appBar.setExpanded(true, Prefs.animate)
 
-                with(fab) {
-                    val currentFragment: Fragment = sectionsPagerAdapter.getItem(currentTab)
-                    when (currentFragment) {
-                        is DashboardFragment -> {
-                            hide()
-                            setOnClickListener { appBar.setExpanded(true, Prefs.animate) }
-                        }
-                        is EventsFragment -> {
-                            show()
-                            hideOnDownwardsScroll(currentFragment.recyclerView)
-                            setIcon(
-                                icon = GoogleMaterial.Icon.gmd_arrow_upward,
-                                color = Prefs.iconColor
-                            )
-                            setOnClickListener {
-                                appBar.setExpanded(true, Prefs.animate)
-                                currentFragment.recyclerView.smoothScrollToPosition(0)
-                            }
-                            if (buildIsOreoAndUp) tooltipText = string(R.string.event_reload)
-                        }
-                        is MapFragment -> {
-                            show()
-                            setIcon(
-                                icon = GoogleMaterial.Icon.gmd_my_location,
-                                color = Prefs.iconColor
-                            )
-                            setOnClickListener {
-                                appBar.setExpanded(true, Prefs.animate)
-                                val position = LatLng(lastLocation.latitude, lastLocation.longitude)
-                                currentFragment.cameraUpdate(position)
-                            }
-                            if (buildIsOreoAndUp) {
-                                tooltipText = string(R.string.location_move_to_current)
-                            }
-                        }
-                    }
-                }
+                selectFragmentTab(currentFragment)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
-                if (isNetworkAvailable) {
-                    val rotateAnimation = RotateAnimation(
-                        0f,
-                        360f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f
-                    ).apply {
-                        duration = 1500L
-                        interpolator = AnimHolder.decelerateInterpolator(context)
-                        repeatCount = Animation.INFINITE
-                    }
+                val currentTab: Int = tab.position
+                val currentFragment: Fragment = sectionsPagerAdapter.getItem(currentTab)
 
-                    val badgedIcon = tab.customView!! as BadgedIcon
-                    val icon = badgedIcon.iicon
-                    with(badgedIcon) {
-                        startAnimation(rotateAnimation)
-                        iicon = GoogleMaterial.Icon.gmd_autorenew
-                        badgeText = null
-                    }
-
-                    doAsync {
-                        eventViewModel.reload()
-                        uiThread {
-                            rotateAnimation.repeatCount = 0
-                            badgedIcon.iicon = icon
-                        }
-                    }
-                } else viewPager.snackbarThemed(string(R.string.network_disconnected))
+                when (currentFragment) {
+                    is DashboardFragment -> Unit
+                    is EventsFragment -> currentFragment.reloadEvents()
+                    is MapFragment -> Unit
+                }
             }
         })
     }
 
-    private fun TabLayout.reload() {
+    @SuppressLint("NewApi")
+    private fun selectFragmentTab(currentFragment: Fragment) {
+        when (currentFragment) {
+            is DashboardFragment -> selectDashboardFragment()
+            is EventsFragment -> selectEventsFragmentTab(currentFragment.recyclerView)
+            is MapFragment -> selectMapFragmentTab(currentFragment)
+        }
+    }
+
+    private fun selectDashboardFragment() {
+        fab.hide()
+        tabs.setOnClickListener { appBar.setExpanded(true, Prefs.animate) }
+    }
+
+    @SuppressLint("NewApi")
+    private fun MainActivity.selectEventsFragmentTab(recyclerView: RecyclerView) {
+        with(fab) {
+            setOnClickListener {
+                appBar.setExpanded(true, Prefs.animate)
+                recyclerView.scrollToPosition(0)
+            }
+            hideOnDownwardsScroll(recyclerView)
+            setIcon(
+                icon = GoogleMaterial.Icon.gmd_arrow_upward,
+                color = Prefs.iconColor
+            )
+            if (buildIsOreoAndUp) tooltipText = string(R.string.event_reload)
+            show()
+        }
+
+        tabs.setOnClickListener {
+            appBar.setExpanded(true, Prefs.animate)
+            recyclerView.smoothScrollToPosition(0)
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun selectMapFragmentTab(currentFragment: MapFragment) {
+        with(fab) {
+            setOnClickListener {
+                appBar.setExpanded(true, Prefs.animate)
+                currentFragment.moveTo(lastPosition)
+            }
+            setIcon(icon = GoogleMaterial.Icon.gmd_my_location, color = Prefs.iconColor)
+            if (buildIsOreoAndUp) tooltipText = string(R.string.location_move_to_current)
+            show()
+        }
+    }
+
+    private fun reloadTabBadges() {
         doAsync {
             val eventCount: Int = eventViewModel.count()
             uiThread {
-                val tab: TabLayout.Tab? = getTabAt(1)
+                val tab: TabLayout.Tab? = tabs.getTabAt(1)
                 val badgedIcon = tab?.customView as BadgedIcon
                 badgedIcon.badgeText = eventCount.toString()
             }
@@ -333,6 +322,8 @@ class MainActivity : BaseActivity() {
         const val REQUEST_NAV = 1 shl 4
 
         var lastLocation = Location(BuildConfig.APPLICATION_ID)
+        val lastPosition: LatLng
+            get() = LatLng(lastLocation.latitude, lastLocation.longitude)
     }
 
 }

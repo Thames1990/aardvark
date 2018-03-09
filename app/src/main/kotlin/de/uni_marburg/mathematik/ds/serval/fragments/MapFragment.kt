@@ -95,6 +95,12 @@ class MapFragment : BaseFragment() {
         return true
     }
 
+    fun moveTo(position: LatLng, animate: Boolean = Prefs.animate) {
+        val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLng(position)
+        if (animate) googleMap.animateCamera(cameraUpdate)
+        else googleMap.moveCamera(cameraUpdate)
+    }
+
     private fun GoogleMap.style() {
         setMapStyle(
             loadRawResourceStyle(
@@ -119,7 +125,7 @@ class MapFragment : BaseFragment() {
                     cluster.items.forEach { event ->
                         builder.include(event.position)
                         val bounds = builder.build()
-                        cameraUpdate(bounds, Prefs.animate)
+                        moveTo(bounds, Prefs.animate)
                     }
                     return true
                 }
@@ -155,19 +161,13 @@ class MapFragment : BaseFragment() {
                 uiThread {
                     val bounds: LatLngBounds = builder.build()
                     setLatLngBoundsForCameraTarget(bounds)
-                    cameraUpdate(bounds, animate)
+                    moveTo(bounds, animate)
                 }
             }
         }
     }
 
-    fun cameraUpdate(position: LatLng, animate: Boolean = Prefs.animate) {
-        val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLng(position)
-        if (animate) googleMap.animateCamera(cameraUpdate)
-        else googleMap.moveCamera(cameraUpdate)
-    }
-
-    private fun GoogleMap.cameraUpdate(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
+    private fun GoogleMap.moveTo(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) animateCamera(cameraUpdate)
         else moveCamera(cameraUpdate)
