@@ -211,7 +211,7 @@ class MainActivity : BaseActivity() {
     }
 
     @SuppressLint("NewApi")
-    private fun MainActivity.selectEventsFragmentTab(recyclerView: RecyclerView) {
+    private fun selectEventsFragmentTab(recyclerView: RecyclerView) {
         with(fab) {
             setOnClickListener {
                 appBar.setExpanded(true, Prefs.animate)
