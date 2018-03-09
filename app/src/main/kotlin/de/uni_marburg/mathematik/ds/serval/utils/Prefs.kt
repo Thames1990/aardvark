@@ -43,7 +43,7 @@ object Prefs : KPref() {
         key = "ANIMATE",
         fallback = true,
         postSetter = { value: Boolean ->
-            answersCustom(
+            logAnalytics(
                 name = "Animations",
                 events = *arrayOf("Animations" to value)
             )
@@ -62,7 +62,7 @@ object Prefs : KPref() {
         key = "DATE_TIME_FORMAT_INDEX",
         fallback = DateTimeFormat.MEDIUM_DATE_MEDIUM_TIME.ordinal,
         postSetter = { value: Int ->
-            answersCustom(
+            logAnalytics(
                 name = "Date time format",
                 events = *arrayOf("Date time format" to DateTimeFormat(value).name)
             )
@@ -79,7 +79,7 @@ object Prefs : KPref() {
         fallback = 0,
         postSetter = { value: Int ->
             mapsStyleLoader.invalidate()
-            answersCustom(
+            logAnalytics(
                 name = "Maps style",
                 events = *arrayOf("Count" to MapsStyle(value).name)
             )
@@ -113,7 +113,7 @@ object Prefs : KPref() {
         key = "MAIN_ACTIVITY_LAYOUT_INDEX",
         fallback = MainActivityLayout.TOP_BAR.ordinal,
         postSetter = { value: Int ->
-            answersCustom(
+            logAnalytics(
                 name = "Main Layout",
                 events = *arrayOf("Type" to MainActivityLayout(value).name)
             )
@@ -124,7 +124,7 @@ object Prefs : KPref() {
         fallback = Theme.LIGHT.ordinal,
         postSetter = { value: Int ->
             themeLoader.invalidate()
-            answersCustom(name = "Theme", events = *arrayOf("Count" to Theme(value).name))
+            logAnalytics(name = "Theme", events = *arrayOf("Count" to Theme(value).name))
         }
     )
     var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)

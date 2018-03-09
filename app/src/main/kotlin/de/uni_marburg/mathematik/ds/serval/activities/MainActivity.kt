@@ -257,7 +257,7 @@ class MainActivity : BaseActivity() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
             if (!BuildConfig.DEBUG && Prefs.showChangelog) showChangelog()
-            answersCustom(
+            logAnalytics(
                 name = "Version",
                 events = *arrayOf(
                     "Version code" to BuildConfig.VERSION_CODE,

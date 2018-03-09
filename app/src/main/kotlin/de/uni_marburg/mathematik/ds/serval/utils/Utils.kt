@@ -26,9 +26,9 @@ inline val analyticsEnabled: Boolean
 inline fun answers(action: Answers.() -> Unit) = Answers.getInstance().action()
 
 /**
- * Log custom events to Fabric Answers.
+ * Log custom events to analytics services.
  */
-fun answersCustom(name: String, vararg events: Pair<String, Any>) {
+fun logAnalytics(name: String, vararg events: Pair<String, Any>) {
     if (analyticsEnabled) {
         answers {
             logCustom(CustomEvent(name).apply {
