@@ -10,10 +10,7 @@ import android.support.constraint.Guideline
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -67,8 +64,8 @@ class EventsFragment : BaseFragment() {
         eventViewModel.events.observe(requireActivity(), Observer(eventAdapter::submitList))
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupRefresh()
     }
