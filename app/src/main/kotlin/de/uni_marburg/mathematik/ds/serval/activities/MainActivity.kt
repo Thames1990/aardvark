@@ -183,7 +183,7 @@ class MainActivity : BaseActivity() {
                 val currentFragment: Fragment = sectionsPagerAdapter.getItem(currentTab)
 
                 viewPager.setCurrentItem(currentTab, Prefs.animate)
-                appBar.setExpanded(true, Prefs.animate)
+                appBar.expand()
 
                 when (currentFragment) {
                     is DashboardFragment -> selectDashboardFragment()
@@ -207,14 +207,14 @@ class MainActivity : BaseActivity() {
 
     private fun selectDashboardFragment() {
         fab.hide()
-        tabs.setOnClickListener { appBar.setExpanded(true, Prefs.animate) }
+        tabs.setOnClickListener { appBar.expand() }
     }
 
     @SuppressLint("NewApi")
     private fun selectEventsFragmentTab(recyclerView: RecyclerView) {
         with(fab) {
             setOnClickListener {
-                appBar.setExpanded(true, Prefs.animate)
+                appBar.expand()
                 recyclerView.scrollToPosition(0)
             }
             hideOnDownwardsScroll(recyclerView)
@@ -224,7 +224,7 @@ class MainActivity : BaseActivity() {
         }
 
         tabs.setOnClickListener {
-            appBar.setExpanded(true, Prefs.animate)
+            appBar.expand()
             recyclerView.smoothScrollToPosition(0)
         }
     }
@@ -233,7 +233,7 @@ class MainActivity : BaseActivity() {
     private fun selectMapFragmentTab(currentFragment: MapFragment) {
         with(fab) {
             setOnClickListener {
-                appBar.setExpanded(true, Prefs.animate)
+                appBar.expand()
                 currentFragment.moveToPosition(lastPosition)
             }
             setIcon(icon = GoogleMaterial.Icon.gmd_my_location, color = Prefs.iconColor)

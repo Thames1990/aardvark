@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.utils
 import android.graphics.*
 import android.support.annotation.ColorInt
 import android.support.annotation.StringRes
+import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
 import android.view.View
 import android.view.ViewGroup
@@ -90,3 +91,5 @@ fun ImageView.setIconWithOptions(
     if (animate) fadeScaleTransition { setIcon(icon, sizeDp, color, builder) }
     else setIcon(icon, sizeDp, color, builder)
 }
+
+fun AppBarLayout.expand(animate: Boolean = Prefs.animate) = setExpanded(true, animate)
