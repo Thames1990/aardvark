@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.bindView
-import ca.allanwang.kau.utils.fadeScaleTransition
 import ca.allanwang.kau.utils.setIcon
 import ca.allanwang.kau.utils.string
 import com.google.android.gms.location.DetectedActivity
@@ -15,6 +14,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import io.nlopez.smartlocation.SmartLocation
 import org.jetbrains.anko.displayMetrics
@@ -66,37 +66,6 @@ class DashboardFragment : BaseFragment() {
             else -> CommunityMaterial.Icon.cmd_help
         }
 
-    override fun onResume() {
-        super.onResume()
-        val context: Context = requireContext()
-        activityRecognitionControl.start { activity ->
-            if (detectedActivity != activity) {
-                detectedActivity = activity
-                description.setTextWithOptions(activity.currentActivity)
-                if (Prefs.animate) {
-                    image.fadeScaleTransition {
-                        image.setIcon(
-                            icon = activity.iicon,
-                            color = Prefs.textColor,
-                            sizeDp = context.displayMetrics.densityDpi
-                        )
-                    }
-                } else {
-                    image.setIcon(
-                        icon = activity.iicon,
-                        color = Prefs.textColor,
-                        sizeDp = context.displayMetrics.densityDpi
-                    )
-                }
-            }
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        activityRecognitionControl.stop()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         title.setTextColor(Prefs.textColor)
@@ -106,6 +75,27 @@ class DashboardFragment : BaseFragment() {
             sizeDp = view.context.displayMetrics.densityDpi
         )
         description.setTextColor(Prefs.textColor)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val context: Context = requireContext()
+        activityRecognitionControl.start { activity ->
+            if (detectedActivity != activity) {
+                detectedActivity = activity
+                description.setTextWithOptions(activity.currentActivity)
+                image.setIconWithOptions(
+                    icon = activity.iicon,
+                    color = Prefs.textColor,
+                    sizeDp = context.displayMetrics.densityDpi
+                )
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activityRecognitionControl.stop()
     }
 
 }

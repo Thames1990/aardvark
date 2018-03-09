@@ -22,6 +22,7 @@ import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.intro.*
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
+import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.find
 
@@ -124,14 +125,12 @@ class IntroActivity : BaseActivity() {
                 val hasNext = position != fragments.size - 1
                 if (barHasNext == hasNext) return
                 barHasNext = hasNext
-                next.fadeScaleTransition {
-                    setIcon(
-                        icon =
-                        if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
-                        else GoogleMaterial.Icon.gmd_done,
-                        color = Prefs.iconColor
-                    )
-                }
+                next.setIconWithOptions(
+                    icon =
+                    if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
+                    else GoogleMaterial.Icon.gmd_done,
+                    color = Prefs.iconColor
+                )
                 skip.animate().scaleXY(if (barHasNext) 1f else 0f)
             }
 

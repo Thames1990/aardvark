@@ -1,16 +1,16 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.graphics.*
+import android.support.annotation.ColorInt
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import ca.allanwang.kau.utils.setTextWithFade
-import ca.allanwang.kau.utils.snackbar
-import ca.allanwang.kau.utils.string
-import ca.allanwang.kau.utils.toBitmap
+import ca.allanwang.kau.utils.*
+import com.mikepenz.iconics.IconicsDrawable
+import com.mikepenz.iconics.typeface.IIcon
 
 /**
  * Show themed snackbar with [a text resource][textRes] and a given [builder].
@@ -62,9 +62,9 @@ fun ImageView.flip() {
 
 fun TextView.setTextWithOptions(
     text: String,
-    animate: Boolean = Prefs.animate,
     duration: Long = 200,
-    onFinish: (() -> Unit)? = null
+    onFinish: (() -> Unit)? = null,
+    animate: Boolean = Prefs.animate
 ) {
     if (animate) setTextWithFade(text, duration, onFinish)
     else this.text = text
@@ -72,10 +72,21 @@ fun TextView.setTextWithOptions(
 
 fun TextView.setTextWithOptions(
     textRes: Int,
-    animate: Boolean = Prefs.animate,
     duration: Long = 200,
-    onFinish: (() -> Unit)? = null
+    onFinish: (() -> Unit)? = null,
+    animate: Boolean = Prefs.animate
 ) {
     if (animate) setTextWithFade(textRes, duration, onFinish)
     else text = context.string(textRes)
+}
+
+fun ImageView.setIconWithOptions(
+    icon: IIcon?,
+    sizeDp: Int = 24,
+    @ColorInt color: Int = Color.WHITE,
+    builder: IconicsDrawable.() -> Unit = {},
+    animate: Boolean = Prefs.animate
+) {
+    if (animate) fadeScaleTransition { setIcon(icon, sizeDp, color, builder) }
+    else setIcon(icon, sizeDp, color, builder)
 }

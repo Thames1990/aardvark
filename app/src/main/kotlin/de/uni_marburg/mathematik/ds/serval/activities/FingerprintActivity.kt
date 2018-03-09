@@ -6,7 +6,10 @@ import android.support.v7.widget.CardView
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import ca.allanwang.kau.utils.*
+import ca.allanwang.kau.utils.adjustAlpha
+import ca.allanwang.kau.utils.lighten
+import ca.allanwang.kau.utils.setIcon
+import ca.allanwang.kau.utils.withMinAlpha
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.ajalt.reprint.core.AuthenticationFailureReason
 import com.github.ajalt.reprint.core.AuthenticationListener
@@ -15,6 +18,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.vibrate
 import org.jetbrains.anko.find
@@ -79,12 +83,10 @@ class FingerprintActivity : AppCompatActivity() {
         Reprint.authenticate(object : AuthenticationListener {
             override fun onSuccess(moduleTag: Int) {
                 iconCircle.setCardBackgroundColor(Theme.PERSIAN_GREEN)
-                icon.fadeScaleTransition {
-                    setIcon(
-                        icon = CommunityMaterial.Icon.cmd_check,
-                        color = Prefs.iconColor
-                    )
-                }
+                icon.setIconWithOptions(
+                    icon = CommunityMaterial.Icon.cmd_check,
+                    color = Prefs.iconColor
+                )
                 description.setTextWithOptions(
                     textRes = R.string.dialog_fingerprint_recognized,
                     duration = 500L,
@@ -103,7 +105,10 @@ class FingerprintActivity : AppCompatActivity() {
                 errorCode: Int
             ) {
                 iconCircle.setCardBackgroundColor(Theme.POMEGRENADE)
-                icon.setIcon(icon = CommunityMaterial.Icon.cmd_exclamation, color = Prefs.iconColor)
+                icon.setIconWithOptions(
+                    icon = CommunityMaterial.Icon.cmd_exclamation,
+                    color = Prefs.iconColor
+                )
                 description.setTextWithOptions(errorMessage.toString())
                 if (Prefs.useVibrations) vibrate()
             }

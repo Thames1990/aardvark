@@ -218,10 +218,7 @@ class MainActivity : BaseActivity() {
                 recyclerView.scrollToPosition(0)
             }
             hideOnDownwardsScroll(recyclerView)
-            setIcon(
-                icon = GoogleMaterial.Icon.gmd_arrow_upward,
-                color = Prefs.iconColor
-            )
+            setIcon(icon = GoogleMaterial.Icon.gmd_arrow_upward, color = Prefs.iconColor)
             if (buildIsOreoAndUp) tooltipText = string(R.string.event_reload)
             show()
         }
