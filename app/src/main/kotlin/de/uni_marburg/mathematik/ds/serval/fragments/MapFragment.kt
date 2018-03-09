@@ -117,7 +117,7 @@ class MapFragment : BaseFragment() {
                     cluster.items.forEach { event ->
                         builder.include(event.position)
                         val bounds = builder.build()
-                        moveToBounds(bounds, Prefs.animate)
+                        moveToBounds(bounds)
                     }
                     return true
                 }

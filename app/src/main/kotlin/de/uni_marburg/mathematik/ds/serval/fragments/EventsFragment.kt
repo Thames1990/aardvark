@@ -47,9 +47,7 @@ class EventsFragment : BaseFragment() {
         val context: Context = requireContext()
         EventAdapter { event ->
             context.startActivity<DetailActivity>(
-                bundleBuilder = {
-                    if (Prefs.animate) withSceneTransitionAnimation(context)
-                },
+                bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(context) },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)
                     putExtra(DetailActivity.SHOW_MAP, true)
