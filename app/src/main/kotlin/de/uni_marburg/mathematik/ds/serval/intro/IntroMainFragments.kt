@@ -17,10 +17,7 @@ import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
-import de.uni_marburg.mathematik.ds.serval.utils.hasWriteExternalStoragePermission
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.childrenSequence
 import kotlin.math.absoluteValue
 
@@ -148,7 +145,7 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
                             ),
                             callback = { granted, deniedPerm ->
                                 if (!granted) deniedPerm?.let { snackbarThemed(it) }
-                                else description.setTextWithFade(R.string.intro_tap_to_exit)
+                                else description.setTextWithOptions(R.string.intro_tap_to_exit)
                             }
                         )
                     }
@@ -161,7 +158,7 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
                             permissions = *arrayOf(PERMISSION_ACCESS_FINE_LOCATION),
                             callback = { granted, deniedPerm ->
                                 if (!granted) deniedPerm?.let { snackbarThemed(it) }
-                                else description.setTextWithFade(R.string.intro_tap_to_exit)
+                                else description.setTextWithOptions(R.string.intro_tap_to_exit)
                             }
                         )
                     }

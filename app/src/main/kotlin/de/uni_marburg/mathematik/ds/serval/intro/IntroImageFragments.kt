@@ -7,13 +7,13 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.view.View
 import android.view.animation.RotateAnimation
-import ca.allanwang.kau.utils.setTextWithFade
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.withAlpha
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.flip
+import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import kotlin.math.absoluteValue
 
 abstract class BaseImageIntroFragment(
@@ -113,7 +113,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
                             MainActivityLayout.BOTTOM_BAR.ordinal
 
                 // Update text to indicate current main activity layout type
-                title.setTextWithFade(Prefs.mainActivityLayout.titleRes)
+                title.setTextWithOptions(Prefs.mainActivityLayout.titleRes)
             }
         }
     }

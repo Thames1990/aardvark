@@ -15,6 +15,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.vibrate
 import org.jetbrains.anko.find
 
@@ -84,8 +85,8 @@ class FingerprintActivity : AppCompatActivity() {
                         color = Prefs.iconColor
                     )
                 }
-                description.setTextWithFade(
-                    text = string(R.string.dialog_fingerprint_recognized),
+                description.setTextWithOptions(
+                    textRes = R.string.dialog_fingerprint_recognized,
                     duration = 500L,
                     onFinish = {
                         fingerprintDialog.dismiss()
@@ -103,7 +104,7 @@ class FingerprintActivity : AppCompatActivity() {
             ) {
                 iconCircle.setCardBackgroundColor(Theme.POMEGRENADE)
                 icon.setIcon(icon = CommunityMaterial.Icon.cmd_exclamation, color = Prefs.iconColor)
-                description.setTextWithFade(errorMessage.toString())
+                description.setTextWithOptions(errorMessage.toString())
                 if (Prefs.useVibrations) vibrate()
             }
         })

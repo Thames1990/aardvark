@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import ca.allanwang.kau.utils.*
+import ca.allanwang.kau.utils.bindView
+import ca.allanwang.kau.utils.fadeScaleTransition
+import ca.allanwang.kau.utils.setIcon
+import ca.allanwang.kau.utils.string
 import com.google.android.gms.location.DetectedActivity
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import io.nlopez.smartlocation.SmartLocation
 import org.jetbrains.anko.displayMetrics
 
@@ -76,7 +80,7 @@ class DashboardFragment : BaseFragment() {
                             sizeDp = context.displayMetrics.densityDpi
                         )
                     }
-                    description.setTextWithFade(activity.currentActivity)
+                    description.setTextWithOptions(activity.currentActivity)
                 } else {
                     image.setIcon(
                         icon = activity.iicon,

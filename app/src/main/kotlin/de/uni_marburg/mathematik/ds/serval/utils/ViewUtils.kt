@@ -6,7 +6,10 @@ import android.support.design.widget.Snackbar
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import ca.allanwang.kau.utils.setTextWithFade
 import ca.allanwang.kau.utils.snackbar
+import ca.allanwang.kau.utils.string
 import ca.allanwang.kau.utils.toBitmap
 
 /**
@@ -55,4 +58,24 @@ fun ImageView.flip() {
     }
     canvas.drawRect(0.0f, 0.0f, bitmap.width.toFloat(), bitmap.height.toFloat(), paint)
     setImageBitmap(flippedBitmap)
+}
+
+fun TextView.setTextWithOptions(
+    text: String,
+    animate: Boolean = Prefs.animate,
+    duration: Long = 200,
+    onFinish: (() -> Unit)? = null
+) {
+    if (animate) setTextWithFade(text, duration, onFinish)
+    else this.text = text
+}
+
+fun TextView.setTextWithOptions(
+    textRes: Int,
+    animate: Boolean = Prefs.animate,
+    duration: Long = 200,
+    onFinish: (() -> Unit)? = null
+) {
+    if (animate) setTextWithFade(textRes, duration, onFinish)
+    else text = context.string(textRes)
 }
