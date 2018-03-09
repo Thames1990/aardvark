@@ -100,7 +100,7 @@ class DashboardFragment : BaseFragment() {
         image.setIcon(
             icon = GoogleMaterial.Icon.gmd_sentiment_very_satisfied,
             color = Prefs.textColor,
-            sizeDp = requireContext().displayMetrics.densityDpi
+            sizeDp = view.context.displayMetrics.densityDpi
         )
         description.setTextColor(Prefs.textColor)
     }

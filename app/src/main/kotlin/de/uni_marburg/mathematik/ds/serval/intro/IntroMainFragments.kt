@@ -128,7 +128,7 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(requireContext()) {
+        with(view.context) {
             description.text =
                     if (hasLocationPermission) string(R.string.intro_tap_to_exit)
                     else string(R.string.grant_location_permission)
