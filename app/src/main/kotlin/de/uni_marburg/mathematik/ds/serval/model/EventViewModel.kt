@@ -22,6 +22,8 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getAll() = dao.getAll()
 
+    fun getAllLive() = dao.getAllLive()
+
     fun reload() = dao.insertOrUpdate(EventRepository.fetch())
 
     fun sortBy(eventComparator: EventComparator, reversed: Boolean = false): Boolean {

@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.model
 
+import android.arch.lifecycle.LiveData
 import android.arch.paging.DataSource
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
@@ -25,6 +26,9 @@ abstract class EventDao {
     @Language("RoomSql")
     @Query("SELECT * FROM events")
     abstract fun getAllPaged(): DataSource.Factory<Int, Event>
+
+    @Query("SELECT * FROM events")
+    abstract fun getAllLive(): LiveData<List<Event>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertOrUpdate(events: List<Event>)

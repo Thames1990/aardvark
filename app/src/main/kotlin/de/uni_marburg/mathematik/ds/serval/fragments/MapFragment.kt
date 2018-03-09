@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.res.Configuration
 import android.os.Bundle
@@ -130,10 +131,12 @@ class MapFragment : BaseFragment() {
 
             })
 
-            doAsync {
-                val events: List<Event> = eventViewModel.getAll()
-                uiThread { setItems(events) }
-            }
+            eventViewModel.getAllLive().observe(requireActivity(), Observer<List<Event>> { events ->
+                if (events != null) {
+                    setItems(events)
+                    zoomToAllMarkers()
+                }
+            })
         }
 
         setOnCameraIdleListener(clusterManager)
