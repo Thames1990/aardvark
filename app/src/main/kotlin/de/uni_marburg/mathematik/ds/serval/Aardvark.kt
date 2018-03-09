@@ -21,6 +21,7 @@ class Aardvark : Application() {
 
     companion object {
         lateinit var aardvarkId: String
+        lateinit var firebaseAnalytics: FirebaseAnalytics
         lateinit var refWatcher: RefWatcher
     }
 
@@ -49,9 +50,9 @@ class Aardvark : Application() {
     }
 
     private fun setupAnalytics() {
-        FirebaseAnalytics
-            .getInstance(applicationContext)
-            .setAnalyticsCollectionEnabled(analyticsEnabled)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(applicationContext).apply {
+            setAnalyticsCollectionEnabled(analyticsEnabled)
+        }
 
         if (analyticsEnabled) {
             Fabric.with(applicationContext, Crashlytics(), Answers())

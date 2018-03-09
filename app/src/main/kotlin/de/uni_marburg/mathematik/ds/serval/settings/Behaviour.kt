@@ -2,7 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.settings
 
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.utils.string
-import com.google.firebase.analytics.FirebaseAnalytics
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
@@ -46,7 +46,7 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                 positiveText(string(R.string.kau_yes))
                 negativeText(string(R.string.kau_no))
                 onPositive { _, _ ->
-                    FirebaseAnalytics.getInstance(context).resetAnalyticsData()
+                    Aardvark.firebaseAnalytics.resetAnalyticsData()
                     Prefs.installDate = -1L
                     snackbarThemed(R.string.preference_reset_analytics_confirmation)
                 }

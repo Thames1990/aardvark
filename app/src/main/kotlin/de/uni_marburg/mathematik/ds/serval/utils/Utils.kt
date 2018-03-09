@@ -9,8 +9,10 @@ import ca.allanwang.kau.utils.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
+import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import org.jetbrains.anko.bundleOf
 import java.time.Instant
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -35,6 +37,10 @@ fun answersCustom(name: String, vararg events: Pair<String, Any>) {
                     else putCustomAttribute(key, value.toString())
                 }
             })
+        }
+
+        events.forEach { (key: String, value: Any) ->
+            Aardvark.firebaseAnalytics.logEvent(name, bundleOf(key to value))
         }
     }
 }
