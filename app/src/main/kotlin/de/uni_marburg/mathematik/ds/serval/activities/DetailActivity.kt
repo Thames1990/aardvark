@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.location.Address
@@ -16,7 +17,7 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.SupportTopic
 import de.uni_marburg.mathematik.ds.serval.model.Event
-import de.uni_marburg.mathematik.ds.serval.model.EventDatabase
+import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import de.uni_marburg.mathematik.ds.serval.views.SmallHeaderIItem
@@ -34,6 +35,10 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private val geocodingControl by lazy { SmartLocation.with(this).geocoding() }
 
+    private val eventViewModel: EventViewModel by lazy {
+        ViewModelProviders.of(this).get(EventViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         setSecureFlag()
         setColors {
@@ -43,10 +48,8 @@ class DetailActivity : ElasticRecyclerActivity() {
         }
 
         doAsync {
-            event = EventDatabase
-                .get(this@DetailActivity)
-                .eventDao()
-                .getById(intent.extras.getString(EVENT_ID))
+            val eventId: String = intent.extras.getString(EVENT_ID)
+            event = eventViewModel.getById(eventId)
 
             uiThread {
                 recycler.adapter = FastItemAdapter<IItem<*, *>>().apply {

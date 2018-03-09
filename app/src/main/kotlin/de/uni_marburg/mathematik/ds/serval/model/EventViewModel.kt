@@ -20,6 +20,8 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     fun count(): Int = dao.count()
 
+    fun getById(id: String) = dao.getById(id)
+
     fun getAllLive() = dao.getAllLive()
 
     fun reload() = dao.insertOrUpdate(EventRepository.fetch())
