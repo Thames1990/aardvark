@@ -15,6 +15,7 @@ import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions.loadRawResourceStyle
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
@@ -39,8 +40,9 @@ class MapFragment : BaseFragment() {
         ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
     }
 
+    lateinit var googleMap: GoogleMap
+
     private lateinit var clusterManager: ClusterManager<Event>
-    private lateinit var googleMap: GoogleMap
     private lateinit var map: SupportMapFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,6 +106,7 @@ class MapFragment : BaseFragment() {
                 }
             )
         )
+        uiSettings.isMyLocationButtonEnabled = false
     }
 
     private fun GoogleMap.setupClusterManager() {
@@ -158,9 +161,16 @@ class MapFragment : BaseFragment() {
         }
     }
 
+    fun cameraUpdate(position: LatLng, animate: Boolean = Prefs.animate) {
+        val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLng(position)
+        if (animate) googleMap.animateCamera(cameraUpdate)
+        else googleMap.moveCamera(cameraUpdate)
+    }
+
     private fun GoogleMap.cameraUpdate(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
-        if (animate) animateCamera(cameraUpdate) else moveCamera(cameraUpdate)
+        if (animate) animateCamera(cameraUpdate)
+        else moveCamera(cameraUpdate)
     }
 
     companion object {

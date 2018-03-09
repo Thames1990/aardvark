@@ -19,6 +19,7 @@ import android.view.MenuItem
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import ca.allanwang.kau.utils.*
+import com.google.android.gms.maps.model.LatLng
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
@@ -209,7 +210,11 @@ class MainActivity : BaseActivity() {
                                 icon = GoogleMaterial.Icon.gmd_my_location,
                                 color = Prefs.iconColor
                             )
-                            setOnClickListener { appBar.setExpanded(true, Prefs.animate) }
+                            setOnClickListener {
+                                appBar.setExpanded(true, Prefs.animate)
+                                val position = LatLng(lastLocation.latitude, lastLocation.longitude)
+                                currentFragment.cameraUpdate(position)
+                            }
                         }
                     }
                 }
