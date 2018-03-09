@@ -7,7 +7,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
-import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
@@ -40,7 +39,8 @@ class EventsFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_events
 
-    private val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
+    val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
+
     private val swipeRefreshLayout by bindView<SwipeRefreshLayout>(R.id.swipe_refresh)
 
     private val eventAdapter: EventAdapter by lazy {
@@ -73,7 +73,6 @@ class EventsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         setupRecyclerView()
         setupRefresh()
-        setupFab()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -139,19 +138,6 @@ class EventsFragment : BaseFragment() {
                     isRefreshing = false
                     snackbarThemed(context.string(R.string.network_disconnected))
                 }
-            }
-        }
-    }
-
-    private fun setupFab() {
-        val mainActivity = activity as MainActivity
-        val fab = mainActivity.fab
-        with(fab) {
-            hideOnDownwardsScroll(recyclerView)
-            setOnClickListener {
-                recyclerView.scrollToPosition(0)
-                val appBar: AppBarLayout = mainActivity.appBar
-                appBar.setExpanded(true, Prefs.animate)
             }
         }
     }

@@ -54,6 +54,8 @@ class MainActivity : BaseActivity() {
         ViewModelProviders.of(this).get(EventViewModel::class.java)
     }
 
+    private val sectionsPagerAdapter = SectionsPagerAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,10 +71,7 @@ class MainActivity : BaseActivity() {
         viewPager.setup()
         tabs.setup()
 
-        with(fab) {
-            backgroundTintList = ColorStateList.valueOf(Prefs.headerColor)
-            setIcon(icon = GoogleMaterial.Icon.gmd_arrow_upward, color = Prefs.iconColor)
-        }
+        fab.backgroundTintList = ColorStateList.valueOf(Prefs.headerColor)
 
         eventViewModel.events.observe(this, Observer { tabs.reload() })
 
@@ -163,7 +162,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun SwipeToggleViewPager.setup() {
-        val sectionsPagerAdapter = SectionsPagerAdapter()
         adapter = sectionsPagerAdapter
         offscreenPageLimit = sectionsPagerAdapter.count - 1
         addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
@@ -181,9 +179,40 @@ class MainActivity : BaseActivity() {
 
         addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                fab.showIf(tab.position == 1)
-                viewPager.setCurrentItem(tab.position, Prefs.animate)
+                val currentTab: Int = tab.position
+
+                viewPager.setCurrentItem(currentTab, Prefs.animate)
                 appBar.setExpanded(true, Prefs.animate)
+
+                with(fab) {
+                    val currentFragment: Fragment = sectionsPagerAdapter.getItem(currentTab)
+                    when (currentFragment) {
+                        is DashboardFragment -> {
+                            hide()
+                            setOnClickListener { appBar.setExpanded(true, Prefs.animate) }
+                        }
+                        is EventsFragment -> {
+                            show()
+                            hideOnDownwardsScroll(currentFragment.recyclerView)
+                            setIcon(
+                                icon = GoogleMaterial.Icon.gmd_arrow_upward,
+                                color = Prefs.iconColor
+                            )
+                            setOnClickListener {
+                                appBar.setExpanded(true, Prefs.animate)
+                                currentFragment.recyclerView.smoothScrollToPosition(0)
+                            }
+                        }
+                        is MapFragment -> {
+                            show()
+                            setIcon(
+                                icon = GoogleMaterial.Icon.gmd_my_location,
+                                color = Prefs.iconColor
+                            )
+                            setOnClickListener { appBar.setExpanded(true, Prefs.animate) }
+                        }
+                    }
+                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
