@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.fragments
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -17,7 +16,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MapStyleOptions.loadRawResourceStyle
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
@@ -40,8 +39,7 @@ class MapFragment : BaseFragment() {
         ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
     }
 
-    lateinit var googleMap: GoogleMap
-
+    private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<Event>
     private lateinit var map: SupportMapFragment
 
@@ -56,19 +54,19 @@ class MapFragment : BaseFragment() {
 
         map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         map.getMapAsync { map ->
-            googleMap = map.apply {
-                isMyLocationEnabled = requireContext().hasLocationPermission
-                style()
-                setupClusterManager()
-                zoomToAllMarkers(animate = false)
-            }
-        }
-    }
+            googleMap = map.apply { isMyLocationEnabled = requireContext().hasLocationPermission }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-        // Relocate camera to include all event markers on device orientation changes
-        if (::googleMap.isInitialized) googleMap.zoomToAllMarkers()
+            setupClusterManager()
+            styleGoogleMap()
+            zoomToAllMarkers(animate = false)
+
+            eventViewModel.getAllLive().observe(requireActivity(), Observer<List<Event>> { events ->
+                if (events != null) {
+                    clusterManager.setItems(events)
+                    zoomToAllMarkers()
+                }
+            })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -77,55 +75,55 @@ class MapFragment : BaseFragment() {
         requireActivity().setMenuIcons(
             menu = menu,
             color = Prefs.iconColor,
-            iicons = *arrayOf(
-                R.id.action_zoom_to_all_markers to GoogleMaterial.Icon.gmd_zoom_out_map,
-                R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers
-            )
+            iicons = *arrayOf(R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers)
         )
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = with(googleMap) {
-        when (item.itemId) {
-            R.id.action_change_map_type_normal -> mapType = GoogleMap.MAP_TYPE_NORMAL
-            R.id.action_change_map_type_satellite -> mapType = GoogleMap.MAP_TYPE_SATELLITE
-            R.id.action_change_map_type_terrain -> mapType = GoogleMap.MAP_TYPE_TERRAIN
-            R.id.action_zoom_to_all_markers -> zoomToAllMarkers()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        googleMap.mapType = when (item.itemId) {
+            R.id.action_change_map_type_normal -> GoogleMap.MAP_TYPE_NORMAL
+            R.id.action_change_map_type_satellite -> GoogleMap.MAP_TYPE_SATELLITE
+            R.id.action_change_map_type_terrain -> GoogleMap.MAP_TYPE_TERRAIN
             else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
 
-    fun moveTo(position: LatLng, animate: Boolean = Prefs.animate) {
+    fun moveToPosition(position: LatLng, animate: Boolean = Prefs.animate) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLng(position)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
     }
 
-    private fun GoogleMap.style() {
-        setMapStyle(
-            loadRawResourceStyle(
-                context, when (Prefs.theme) {
-                    Theme.AMOLED -> R.raw.map_style_night
-                    Theme.LIGHT -> R.raw.map_style_standard
-                    Theme.DARK -> R.raw.map_style_dark
-                    Theme.CUSTOM -> Prefs.mapsStyle.style
+    fun zoomToAllMarkers(animate: Boolean = Prefs.animate) {
+        doAsync {
+            val events: List<Event> = eventViewModel.getAll()
+            // Check is necessary, because the cluster manager doesn't check for empty items
+            if (events.isNotEmpty()) {
+                val builder = LatLngBounds.builder()
+                events.forEach { event -> builder.include(event.position) }
+                uiThread {
+                    val bounds: LatLngBounds = builder.build()
+                    with(googleMap) {
+                        setLatLngBoundsForCameraTarget(bounds)
+                        moveToBounds(bounds, animate)
+                    }
                 }
-            )
-        )
-        uiSettings.isMyLocationButtonEnabled = false
+            }
+        }
     }
 
-    private fun GoogleMap.setupClusterManager() {
+    private fun setupClusterManager() {
         val context = requireContext()
 
-        clusterManager = ClusterManager<Event>(context, this).apply {
+        clusterManager = ClusterManager<Event>(context, googleMap).apply {
             setCallbacks(object : ClusterManager.Callbacks<Event> {
                 override fun onClusterClick(cluster: Cluster<Event>): Boolean {
                     val builder = LatLngBounds.builder()
                     cluster.items.forEach { event ->
                         builder.include(event.position)
                         val bounds = builder.build()
-                        moveTo(bounds, Prefs.animate)
+                        moveToBounds(bounds, Prefs.animate)
                     }
                     return true
                 }
@@ -139,38 +137,28 @@ class MapFragment : BaseFragment() {
                 }
 
             })
-
-            eventViewModel.getAllLive().observe(requireActivity(), Observer<List<Event>> { events ->
-                if (events != null) {
-                    setItems(events)
-                    zoomToAllMarkers()
-                }
-            })
         }
 
-        setOnCameraIdleListener(clusterManager)
+        googleMap.setOnCameraIdleListener(clusterManager)
     }
 
-    private fun GoogleMap.zoomToAllMarkers(animate: Boolean = Prefs.animate) {
-        doAsync {
-            val events: List<Event> = eventViewModel.getAll()
-            // Check is necessary, because the cluster manager doesn't check for empty items
-            if (events.isNotEmpty()) {
-                val builder = LatLngBounds.builder()
-                events.forEach { event -> builder.include(event.position) }
-                uiThread {
-                    val bounds: LatLngBounds = builder.build()
-                    setLatLngBoundsForCameraTarget(bounds)
-                    moveTo(bounds, animate)
-                }
+    private fun styleGoogleMap() {
+        with(googleMap) {
+            val rawResourceRes: Int = when (Prefs.theme) {
+                Theme.AMOLED -> R.raw.map_style_night
+                Theme.LIGHT -> R.raw.map_style_standard
+                Theme.DARK -> R.raw.map_style_dark
+                Theme.CUSTOM -> Prefs.mapsStyle.style
             }
+            setMapStyle(MapStyleOptions.loadRawResourceStyle(context, rawResourceRes))
+            uiSettings.isMyLocationButtonEnabled = false
         }
     }
 
-    private fun GoogleMap.moveTo(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
+    private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
-        if (animate) animateCamera(cameraUpdate)
-        else moveCamera(cameraUpdate)
+        if (animate) googleMap.animateCamera(cameraUpdate)
+        else googleMap.moveCamera(cameraUpdate)
     }
 
     companion object {

@@ -4,11 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_zoom_to_all_markers"
-        android:title="@string/action_zoom_to_all_markers"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_change_map_type"
         android:title="@string/action_map_type"
         app:showAsAction="ifRoom">

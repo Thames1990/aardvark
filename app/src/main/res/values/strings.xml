@@ -16,7 +16,6 @@
     <string name="action_sort_events_distance">Distance</string>
     <string name="action_sort_events_measurements">Measurements</string>
     <string name="action_sort_events_time">Time</string>
-    <string name="action_zoom_to_all_markers">Zoom to all markers</string>
 
     <string name="activity_desc">You are %1$s</string>
     <string name="activity_in_vehicle">in a vehicle</string>

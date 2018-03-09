@@ -185,7 +185,11 @@ class MainActivity : BaseActivity() {
                 viewPager.setCurrentItem(currentTab, Prefs.animate)
                 appBar.setExpanded(true, Prefs.animate)
 
-                selectFragmentTab(currentFragment)
+                when (currentFragment) {
+                    is DashboardFragment -> selectDashboardFragment()
+                    is EventsFragment -> selectEventsFragmentTab(currentFragment.recyclerView)
+                    is MapFragment -> selectMapFragmentTab(currentFragment)
+                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
@@ -195,19 +199,10 @@ class MainActivity : BaseActivity() {
                 when (currentFragment) {
                     is DashboardFragment -> Unit
                     is EventsFragment -> currentFragment.reloadEvents()
-                    is MapFragment -> Unit
+                    is MapFragment -> currentFragment.zoomToAllMarkers()
                 }
             }
         })
-    }
-
-    @SuppressLint("NewApi")
-    private fun selectFragmentTab(currentFragment: Fragment) {
-        when (currentFragment) {
-            is DashboardFragment -> selectDashboardFragment()
-            is EventsFragment -> selectEventsFragmentTab(currentFragment.recyclerView)
-            is MapFragment -> selectMapFragmentTab(currentFragment)
-        }
     }
 
     private fun selectDashboardFragment() {
@@ -242,7 +237,7 @@ class MainActivity : BaseActivity() {
         with(fab) {
             setOnClickListener {
                 appBar.setExpanded(true, Prefs.animate)
-                currentFragment.moveTo(lastPosition)
+                currentFragment.moveToPosition(lastPosition)
             }
             setIcon(icon = GoogleMaterial.Icon.gmd_my_location, color = Prefs.iconColor)
             if (buildIsOreoAndUp) tooltipText = string(R.string.location_move_to_current)
