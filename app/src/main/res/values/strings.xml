@@ -70,6 +70,7 @@
     <string name="event_id">ID</string>
     <string name="event_missing">Event is missing</string>
     <string name="event_missing_desc">This event couldn\'t be loaded from the database. If this happens more than once, please contact the developer with a bug report.</string>
+    <string name="event_reload">Reload events</string>
     <string name="event_time">Time</string>
 
     <string name="fingerprint_required">Access your secured environment</string>
@@ -106,6 +107,7 @@
     <string name="location">Location</string>
     <string name="location_address">Address</string>
     <string name="location_desc">Control your location settings</string>
+    <string name="location_move_to_current">Move to current location</string>
     <string name="location_request_distance">Location request distance</string>
     <string name="location_request_distance_desc">Define how many meters you have to move to trigger a location update</string>
     <string name="location_request_interval">Location request interval</string>

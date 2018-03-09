@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -179,6 +180,7 @@ class MainActivity : BaseActivity() {
         setBackgroundColor(Prefs.mainActivityLayout.backgroundColor)
 
         addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+            @SuppressLint("NewApi")
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val currentTab: Int = tab.position
 
@@ -203,6 +205,7 @@ class MainActivity : BaseActivity() {
                                 appBar.setExpanded(true, Prefs.animate)
                                 currentFragment.recyclerView.smoothScrollToPosition(0)
                             }
+                            if (buildIsOreoAndUp) tooltipText = string(R.string.event_reload)
                         }
                         is MapFragment -> {
                             show()
@@ -214,6 +217,9 @@ class MainActivity : BaseActivity() {
                                 appBar.setExpanded(true, Prefs.animate)
                                 val position = LatLng(lastLocation.latitude, lastLocation.longitude)
                                 currentFragment.cameraUpdate(position)
+                            }
+                            if (buildIsOreoAndUp) {
+                                tooltipText = string(R.string.location_move_to_current)
                             }
                         }
                     }
