@@ -91,12 +91,12 @@ class EventsFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_sort_distance_asc -> sortBy(Distance)
-            R.id.action_sort_distance_desc -> sortBy(Distance, reversed = true)
-            R.id.action_sort_measurements_asc -> sortBy(Measurements)
-            R.id.action_sort_measurements_desc -> sortBy(Measurements, reversed = true)
-            R.id.action_sort_time_asc -> sortBy(Time)
-            R.id.action_sort_time_desc -> sortBy(Time, reversed = true)
+            R.id.action_sort_distance_asc -> sortEventsBy(Distance)
+            R.id.action_sort_distance_desc -> sortEventsBy(Distance, reversed = true)
+            R.id.action_sort_measurements_asc -> sortEventsBy(Measurements)
+            R.id.action_sort_measurements_desc -> sortEventsBy(Measurements, reversed = true)
+            R.id.action_sort_time_asc -> sortEventsBy(Time)
+            R.id.action_sort_time_desc -> sortEventsBy(Time, reversed = true)
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -118,10 +118,10 @@ class EventsFragment : BaseFragment() {
         }
     }
 
-    private fun sortBy(eventComparator: EventComparator, reversed: Boolean = false) {
+    private fun sortEventsBy(eventComparator: EventComparator, reversed: Boolean = false) {
         swipeRefreshLayout.isRefreshing = true
         doAsync {
-            eventViewModel.sortBy(eventComparator, reversed)
+            eventViewModel.sortEventsBy(eventComparator, reversed)
             uiThread { swipeRefreshLayout.isRefreshing = false }
         }
     }

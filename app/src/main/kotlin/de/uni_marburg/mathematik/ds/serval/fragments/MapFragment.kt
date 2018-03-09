@@ -27,8 +27,6 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 class MapFragment : BaseFragment() {
 
@@ -42,6 +40,8 @@ class MapFragment : BaseFragment() {
     private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<Event>
     private lateinit var map: SupportMapFragment
+
+    private lateinit var events: List<Event>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +58,12 @@ class MapFragment : BaseFragment() {
 
             setupClusterManager()
             styleGoogleMap()
-            zoomToAllMarkers(animate = false)
 
             eventViewModel.getAllLive().observe(requireActivity(), Observer<List<Event>> { events ->
                 if (events != null) {
+                    this.events = events
                     clusterManager.setItems(events)
-                    zoomToAllMarkers()
+                    zoomToAllMarkers(animate = false)
                 }
             })
         }
@@ -96,19 +96,13 @@ class MapFragment : BaseFragment() {
     }
 
     fun zoomToAllMarkers(animate: Boolean = Prefs.animate) {
-        doAsync {
-            val events: List<Event> = eventViewModel.getAll()
-            // Check is necessary, because the cluster manager doesn't check for empty items
-            if (events.isNotEmpty()) {
-                val builder = LatLngBounds.builder()
-                events.forEach { event -> builder.include(event.position) }
-                uiThread {
-                    val bounds: LatLngBounds = builder.build()
-                    with(googleMap) {
-                        setLatLngBoundsForCameraTarget(bounds)
-                        moveToBounds(bounds, animate)
-                    }
-                }
+        if (events.isNotEmpty()) {
+            val builder = LatLngBounds.builder()
+            events.forEach { event -> builder.include(event.position) }
+            val bounds: LatLngBounds = builder.build()
+            with(googleMap) {
+                setLatLngBoundsForCameraTarget(bounds)
+                moveToBounds(bounds, animate)
             }
         }
     }

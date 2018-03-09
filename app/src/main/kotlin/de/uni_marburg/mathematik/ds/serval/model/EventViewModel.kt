@@ -20,13 +20,11 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     fun count(): Int = dao.count()
 
-    fun getAll() = dao.getAll()
-
     fun getAllLive() = dao.getAllLive()
 
     fun reload() = dao.insertOrUpdate(EventRepository.fetch())
 
-    fun sortBy(eventComparator: EventComparator, reversed: Boolean = false): Boolean {
+    fun sortEventsBy(eventComparator: EventComparator, reversed: Boolean = false): Boolean {
         val events: List<Event> = dao.getAll()
         val sortedEvents: List<Event> = eventComparator.sort(events, reversed)
         dao.insertOrUpdate(sortedEvents)
