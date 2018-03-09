@@ -83,7 +83,7 @@ fun TextView.setTextWithOptions(
 fun ImageView.setIconWithOptions(
     icon: IIcon?,
     sizeDp: Int = 24,
-    @ColorInt color: Int = Color.WHITE,
+    @ColorInt color: Int = Prefs.iconColor,
     builder: IconicsDrawable.() -> Unit = {},
     animate: Boolean = Prefs.animate
 ) {
