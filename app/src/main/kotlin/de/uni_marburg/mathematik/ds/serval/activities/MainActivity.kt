@@ -71,7 +71,7 @@ class MainActivity : BaseActivity() {
         viewPager.setup()
         tabs.setup()
 
-        fab.backgroundTintList = ColorStateList.valueOf(Prefs.headerColor)
+        fab.backgroundTintList = ColorStateList.valueOf(Prefs.headerColor.withMinAlpha(200))
 
         eventViewModel.events.observe(this, Observer { reloadTabBadges() })
 
