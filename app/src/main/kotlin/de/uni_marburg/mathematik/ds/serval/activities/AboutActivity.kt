@@ -65,9 +65,8 @@ class AboutActivity : AboutActivityBase(
                                 )
                             }
                         )
-                        return@OnClickListener true
                     }
-                    return@OnClickListener false
+                    true
                 }
             )
         }
