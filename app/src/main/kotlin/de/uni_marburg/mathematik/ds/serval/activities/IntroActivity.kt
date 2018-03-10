@@ -46,7 +46,7 @@ class IntroActivity : BaseActivity() {
         setContentView(R.layout.activity_intro)
 
         with(viewpager) {
-            init()
+            setupViewpager()
             adapter = IntroPageAdapter(supportFragmentManager, fragments)
         }
         indicator.setViewPager(viewpager)
@@ -70,67 +70,14 @@ class IntroActivity : BaseActivity() {
     }
 
     override fun backConsumer(): Boolean {
-        with(viewpager) {
-            if (currentItem > 0) item = currentItem - 1
-            else finishAffinity()
-        }
+        if (viewpager.currentItem > 0) viewpager.item = viewpager.currentItem - 1
+        else finishAffinity()
         return true
     }
 
     override fun finish() {
         startActivity<MainActivity>()
         super.finish()
-    }
-
-    private fun ViewPager.init() {
-        setPageTransformer(true) { page, position ->
-            var pageAlpha = 1f
-            var pageTranslationX = 0f
-
-            // Only apply to adjacent pages
-            if ((position < 0 && position > -1) || (position > 0 && position < 1)) {
-                val pageWidth = page.width
-                val translateValue = position * -pageWidth
-
-                pageAlpha = if (position < 0) 1 + position else 1f
-                pageTranslationX = if (translateValue > -pageWidth) translateValue else 0f
-            }
-
-            with(page) {
-                alpha = pageAlpha
-                translationX = pageTranslationX
-            }
-        }
-
-        addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) = Unit
-
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                fragments[position].onPageScrolled(positionOffset)
-                if (position + 1 < fragments.size) {
-                    fragments[position + 1].onPageScrolled(positionOffset - 1)
-                }
-            }
-
-            override fun onPageSelected(position: Int) {
-                fragments[position].onPageSelected()
-                val hasNext = position != fragments.size - 1
-                if (barHasNext == hasNext) return
-                barHasNext = hasNext
-                next.setIconWithOptions(
-                    icon =
-                    if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
-                    else GoogleMaterial.Icon.gmd_done,
-                    color = Prefs.iconColor
-                )
-                skip.animate().scaleXY(if (barHasNext) 1f else 0f)
-            }
-
-        })
     }
 
     fun theme() {
@@ -203,6 +150,57 @@ class IntroActivity : BaseActivity() {
                 start()
             }
         }
+    }
+
+    private fun setupViewpager() = with(viewpager) {
+        setPageTransformer(true) { page, position ->
+            var pageAlpha = 1f
+            var pageTranslationX = 0f
+
+            // Only apply to adjacent pages
+            if ((position < 0 && position > -1) || (position > 0 && position < 1)) {
+                val pageWidth = page.width
+                val translateValue = position * -pageWidth
+
+                pageAlpha = if (position < 0) 1 + position else 1f
+                pageTranslationX = if (translateValue > -pageWidth) translateValue else 0f
+            }
+
+            with(page) {
+                alpha = pageAlpha
+                translationX = pageTranslationX
+            }
+        }
+
+        addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) = Unit
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                fragments[position].onPageScrolled(positionOffset)
+                if (position + 1 < fragments.size) {
+                    fragments[position + 1].onPageScrolled(positionOffset - 1)
+                }
+            }
+
+            override fun onPageSelected(position: Int) {
+                fragments[position].onPageSelected()
+                val hasNext = position != fragments.size - 1
+                if (barHasNext == hasNext) return
+                barHasNext = hasNext
+                next.setIconWithOptions(
+                    icon =
+                    if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
+                    else GoogleMaterial.Icon.gmd_done,
+                    color = Prefs.iconColor
+                )
+                skip.animate().scaleXY(if (barHasNext) 1f else 0f)
+            }
+
+        })
     }
 
     private class IntroPageAdapter(

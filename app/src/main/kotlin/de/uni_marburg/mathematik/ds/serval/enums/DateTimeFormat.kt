@@ -6,6 +6,13 @@ import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
+/**
+ * Format for a [ date formatter][DateFormat.format].
+ *
+ * @property titleRes
+ * @property dateStyle
+ * @property timeStyle
+ */
 enum class DateTimeFormat(@StringRes val titleRes: Int, val dateStyle: Int, val timeStyle: Int) {
 
     FULL_DATE_FULL_TIME(

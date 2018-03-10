@@ -50,14 +50,14 @@ class MainActivity : BaseActivity() {
     private val toolbar: Toolbar by bindView(R.id.toolbar)
     private val viewPager: SwipeToggleViewPager by bindView(R.id.container)
 
-    private val viewModel: EventViewModel by lazy {
-        ViewModelProviders.of(this).get(EventViewModel::class.java)
-    }
-
-    private val sectionsPagerAdapter = SectionsPagerAdapter()
+    private lateinit var pagerAdapter: SectionsPagerAdapter
+    private lateinit var viewModel: EventViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        pagerAdapter = SectionsPagerAdapter()
+        viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
 
         setContentView(Prefs.mainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
@@ -67,39 +67,13 @@ class MainActivity : BaseActivity() {
             header(appBar)
             background(viewPager)
         }
-
-        viewPager.setup()
-        tabs.setup()
-
         fab.backgroundTintList = ColorStateList.valueOf(Prefs.headerColor.withMinAlpha(200))
 
-        viewModel.events.observe(this, Observer { reloadTabBadges() })
+        setupViewPager()
+        setupTabLayout()
 
-        if (hasLocationPermission) {
-            val currentLocation = CurrentLocation(this)
-
-            // Get last location
-            val oneFix = currentLocation.locationControl.oneFix()
-            oneFix.start { location ->
-                lastLocation = location
-                oneFix.stop()
-            }
-
-            // Get notified about location changes
-            currentLocation.observe(this, Observer<Location> { location ->
-                location?.let { lastLocation = it }
-            })
-        }
-
-        if (Prefs.showDownloadProgress) {
-            progressBar.visible()
-            EventRepository.progressObservable?.subscribe { progressEvent ->
-                val progress: Long = progressEvent.progress
-                if (progress != ProgressEvent.NO_CONTENT_AVAILABLE) {
-                    progressBar.progress = progress.toInt()
-                }
-            }
-        }
+        if (hasLocationPermission) trackLocation()
+        if (Prefs.showDownloadProgress) trackEventDownloadProgress()
 
         checkForNewVersion()
     }
@@ -161,48 +135,52 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun SwipeToggleViewPager.setup() {
-        adapter = sectionsPagerAdapter
-        offscreenPageLimit = sectionsPagerAdapter.count - 1
+    private fun setupViewPager() = with(viewPager) {
+        adapter = pagerAdapter
+        offscreenPageLimit = pagerAdapter.count - 1
         addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
     }
 
-    private fun TabLayout.setup() {
-        TabItem.values().map {
-            val badgedIcon = BadgedIcon(context).apply { iicon = it.iicon }
-            val tab: TabLayout.Tab = newTab().setCustomView(badgedIcon)
-            addTab(tab)
+    private fun setupTabLayout() {
+        with(tabs) {
+            TabItem.values().map {
+                val badgedIcon = BadgedIcon(context).apply { iicon = it.iicon }
+                val tab: TabLayout.Tab = newTab().setCustomView(badgedIcon)
+                addTab(tab)
+            }
+
+            setSelectedTabIndicatorColor(Prefs.mainActivityLayout.iconColor)
+            setBackgroundColor(Prefs.mainActivityLayout.backgroundColor)
+
+            addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    val currentTab: Int = tab.position
+                    val currentFragment: Fragment = pagerAdapter.getItem(currentTab)
+
+                    viewPager.item = currentTab
+                    appBar.expand()
+
+                    when (currentFragment) {
+                        is DashboardFragment -> selectDashboardFragment()
+                        is EventsFragment -> selectEventsFragmentTab(currentFragment.recyclerView)
+                        is MapFragment -> selectMapFragmentTab(currentFragment)
+                    }
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab) {
+                    val currentTab: Int = tab.position
+                    val currentFragment: Fragment = pagerAdapter.getItem(currentTab)
+
+                    when (currentFragment) {
+                        is DashboardFragment -> Unit
+                        is EventsFragment -> currentFragment.reloadEvents()
+                        is MapFragment -> currentFragment.zoomToAllMarkers()
+                    }
+                }
+            })
         }
 
-        setSelectedTabIndicatorColor(Prefs.mainActivityLayout.iconColor)
-        setBackgroundColor(Prefs.mainActivityLayout.backgroundColor)
-
-        addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                val currentTab: Int = tab.position
-                val currentFragment: Fragment = sectionsPagerAdapter.getItem(currentTab)
-
-                viewPager.item = currentTab
-                appBar.expand()
-
-                when (currentFragment) {
-                    is DashboardFragment -> selectDashboardFragment()
-                    is EventsFragment -> selectEventsFragmentTab(currentFragment.recyclerView)
-                    is MapFragment -> selectMapFragmentTab(currentFragment)
-                }
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                val currentTab: Int = tab.position
-                val currentFragment: Fragment = sectionsPagerAdapter.getItem(currentTab)
-
-                when (currentFragment) {
-                    is DashboardFragment -> Unit
-                    is EventsFragment -> currentFragment.reloadEvents()
-                    is MapFragment -> currentFragment.zoomToAllMarkers()
-                }
-            }
-        })
+        viewModel.events.observe(this, Observer { reloadTabBadges() })
     }
 
     private fun selectDashboardFragment() {
@@ -253,6 +231,29 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun trackLocation() {
+        val locationLiveData = LocationLiveData(this)
+
+        // Get last location
+        val oneFix = locationLiveData.locationControl.oneFix()
+        oneFix.start { location -> lastLocation = location }
+
+        // Get notified about location changes
+        locationLiveData.observe(this, Observer<Location> { location ->
+            if (location != null) lastLocation = location
+        })
+    }
+
+    private fun trackEventDownloadProgress() {
+        progressBar.visible()
+        EventRepository.progressObservable?.subscribe { progressEvent ->
+            val progress: Long = progressEvent.progress
+            if (progress != ProgressEvent.NO_CONTENT_AVAILABLE) {
+                progressBar.progress = progress.toInt()
+            }
+        }
+    }
+
     private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
@@ -283,7 +284,7 @@ class MainActivity : BaseActivity() {
 
     }
 
-    private class CurrentLocation(context: Context) : LiveData<Location>() {
+    private class LocationLiveData(context: Context) : LiveData<Location>() {
 
         private val locationParams: LocationParams = LocationParams.Builder()
             .setAccuracy(Prefs.locationRequestAccuracy.accuracy)

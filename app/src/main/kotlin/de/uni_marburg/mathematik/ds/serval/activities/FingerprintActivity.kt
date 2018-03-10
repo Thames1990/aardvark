@@ -34,8 +34,7 @@ class FingerprintActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val fingerprintDialog: MaterialDialog = createFingerprintDialog()
-        fingerprintDialog.show()
+        val fingerprintDialog: MaterialDialog = createFingerprintDialog().apply { show() }
         authenticate(fingerprintDialog)
     }
 

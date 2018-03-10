@@ -29,21 +29,21 @@ import java.util.*
  */
 class DetailActivity : ElasticRecyclerActivity() {
 
-    private val geocodingControl by lazy { SmartLocation.with(this).geocoding() }
-
     private lateinit var adapter: FastItemAdapter<IItem<*, *>>
     private lateinit var eventViewModel: EventViewModel
     private lateinit var event: Event
+    private lateinit var geocodingControl: SmartLocation.GeocodingControl
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
+        eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+        geocodingControl = SmartLocation.with(this).geocoding()
+
         setSecureFlag()
         setColors {
             header(appBar)
             toolbar(toolbar)
             themeWindow = false
         }
-
-        eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
 
         doAsync {
             val eventId: String = intent.extras.getString(EVENT_ID)
@@ -57,6 +57,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                     addAddressCard()
 //                    CardIItem.bindClickEvents(this)
                 }
+
                 with(fab) {
                     backgroundTintList = ColorStateList.valueOf(Prefs.accentColor)
                     setIcon(icon = GoogleMaterial.Icon.gmd_navigation, color = Prefs.iconColor)
@@ -102,6 +103,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 imageIIcon = measurement.type.iicon
                 imageIIconColor = Prefs.iconColor
             }
+
             measurementCardItems.add(measurementCardItem)
         }
 
@@ -157,6 +159,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                     desc = addressLines
                     imageIIcon = CommunityMaterial.Icon.cmd_map_marker
                 }
+
                 adapter.add(addressCard)
             }
         }
@@ -184,10 +187,7 @@ class DetailActivity : ElasticRecyclerActivity() {
             } else snackbarThemed(
                 textRes = R.string.google_maps_not_enabled,
                 builder = {
-                    setAction(
-                        R.string.snackbar_action_enable,
-                        { showAppInfo(GOOGLE_MAPS) }
-                    )
+                    setAction(R.string.snackbar_action_enable, { showAppInfo(GOOGLE_MAPS) })
                 }
             )
         } else snackbarThemed(
