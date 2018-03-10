@@ -41,11 +41,10 @@ class AboutActivity : AboutActivityBase(
 ) {
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
-        val aardvark: Library = LibraryDefinition.AARDVARK.getLibrary(context = this)
-        val aardvarkItem = LibraryIItem(aardvark)
+        val aardvark: LibraryIItem = LibraryDefinition.AARDVARK.getLibraryIItem(context = this)
 
         with(adapter) {
-            add(aardvarkItem)
+            add(aardvark)
             add(AboutLinks())
 
             // Activate debug settings, if the user clicked the Aardvark item multiple times in
@@ -54,7 +53,7 @@ class AboutActivity : AboutActivityBase(
                 count = 7,
                 duration = 500L,
                 event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
-                    if (!Prefs.experimentalSettings && item == aardvarkItem) {
+                    if (!Prefs.experimentalSettings && item == aardvark) {
                         Prefs.experimentalSettings = true
                         snackbarThemed(
                             textRes = R.string.preference_debug_enabled,

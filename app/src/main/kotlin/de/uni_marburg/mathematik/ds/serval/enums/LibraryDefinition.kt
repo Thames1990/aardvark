@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.enums
 
 import android.content.Context
 import android.support.annotation.StringRes
+import ca.allanwang.kau.about.LibraryIItem
 import ca.allanwang.kau.utils.string
 import com.mikepenz.aboutlibraries.entity.Library
 import com.mikepenz.aboutlibraries.entity.License
@@ -49,8 +50,8 @@ enum class LibraryDefinition(
         repositoryLinkRes = R.string.repository_link_kerval
     );
 
-    fun getLibrary(context: Context): Library = with(context) {
-        return Library().apply {
+    fun getLibraryIItem(context: Context): LibraryIItem = with(context) {
+        val library = Library().apply {
             author = string(authorRes)
             libraryDescription = descriptionRes?.let { string(it) }
             libraryName = string(nameRes)
@@ -61,6 +62,7 @@ enum class LibraryDefinition(
             }
             repositoryLink = string(repositoryLinkRes)
         }
+        return LibraryIItem(library)
     }
 
     companion object {
