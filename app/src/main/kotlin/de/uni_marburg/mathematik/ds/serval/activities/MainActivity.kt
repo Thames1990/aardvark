@@ -257,7 +257,7 @@ class MainActivity : BaseActivity() {
     private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
-            doOnDebugBuild(::showChangelog)
+            if (isReleaseBuild && Prefs.showChangelog) showChangelog()
             logAnalytics(
                 name = "Version",
                 events = *arrayOf(
