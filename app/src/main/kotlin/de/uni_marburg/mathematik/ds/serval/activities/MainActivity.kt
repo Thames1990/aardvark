@@ -50,7 +50,7 @@ class MainActivity : BaseActivity() {
     private val toolbar: Toolbar by bindView(R.id.toolbar)
     private val viewPager: SwipeToggleViewPager by bindView(R.id.container)
 
-    private val eventViewModel: EventViewModel by lazy {
+    private val viewModel: EventViewModel by lazy {
         ViewModelProviders.of(this).get(EventViewModel::class.java)
     }
 
@@ -73,7 +73,7 @@ class MainActivity : BaseActivity() {
 
         fab.backgroundTintList = ColorStateList.valueOf(Prefs.headerColor.withMinAlpha(200))
 
-        eventViewModel.events.observe(this, Observer { reloadTabBadges() })
+        viewModel.events.observe(this, Observer { reloadTabBadges() })
 
         if (hasLocationPermission) {
             val currentLocation = CurrentLocation(this)
@@ -244,7 +244,7 @@ class MainActivity : BaseActivity() {
 
     private fun reloadTabBadges() {
         doAsync {
-            val eventCount: Int = eventViewModel.count()
+            val eventCount: Int = viewModel.eventCount
             uiThread {
                 val tab: TabLayout.Tab? = tabs.getTabAt(1)
                 val badgedIcon = tab?.customView as BadgedIcon
@@ -256,7 +256,7 @@ class MainActivity : BaseActivity() {
     private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
-            if (!BuildConfig.DEBUG && Prefs.showChangelog) showChangelog()
+            doOnDebugBuild(::showChangelog)
             logAnalytics(
                 name = "Version",
                 events = *arrayOf(

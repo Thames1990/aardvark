@@ -14,7 +14,6 @@ import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
 import ca.allanwang.kau.permissions.PERMISSION_WRITE_EXTERNAL_STORAGE
 import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 import de.uni_marburg.mathematik.ds.serval.utils.*
@@ -133,7 +132,7 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
 
         container.setOnSingleTapListener { _, motionEvent ->
             with(requireActivity()) {
-                if (BuildConfig.DEBUG) {
+                if (isDebugBuild) {
                     if (hasLocationPermission && hasWriteExternalStoragePermission) {
                         val introActivity = this as IntroActivity
                         introActivity.finish(x = motionEvent.x, y = motionEvent.y)

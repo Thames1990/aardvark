@@ -67,8 +67,6 @@
 
     <string name="event_details">Details</string>
     <string name="event_id">ID</string>
-    <string name="event_missing">Event is missing</string>
-    <string name="event_missing_desc">This event couldn\'t be loaded from the database. If this happens more than once, please contact the developer with a bug report.</string>
     <string name="event_reload">Reload events</string>
     <string name="event_time">Time</string>
 

@@ -11,10 +11,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
-import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.analyticsEnabled
-import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import io.fabric.sdk.android.Fabric
 
 class Aardvark : Application() {
@@ -63,7 +60,7 @@ class Aardvark : Application() {
     private fun setupLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) return
         refWatcher =
-                if (BuildConfig.DEBUG) LeakCanary.install(this)
+                if (isDebugBuild) LeakCanary.install(this)
                 else RefWatcher.DISABLED
     }
 

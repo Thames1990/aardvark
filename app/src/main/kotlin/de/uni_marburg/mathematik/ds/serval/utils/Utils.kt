@@ -10,7 +10,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
 import de.uni_marburg.mathematik.ds.serval.Aardvark
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import org.jetbrains.anko.bundleOf
 import java.time.Instant
@@ -18,7 +17,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 inline val analyticsEnabled: Boolean
-    get() = !BuildConfig.DEBUG && Prefs.analytics
+    get() = isReleaseBuild && Prefs.analytics
 
 /**
  * Create Fabric Answers instance.
@@ -97,6 +96,10 @@ fun Long.formatPassedSeconds(context: Context): String {
     }
 
     return context.plural(id, quantity)
+}
+
+fun doOnDebugBuild(block: () -> Unit) {
+    if (isDebugBuild) block()
 }
 
 /**

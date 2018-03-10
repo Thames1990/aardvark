@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.utils
 import ca.allanwang.kau.kotlin.lazyResettable
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.enums.*
 import kotlin.math.roundToInt
 
@@ -70,7 +69,7 @@ object Prefs : KPref() {
     )
     var experimentalSettings: Boolean by kpref(
         key = "EXPERIMENTAL_SETTINGS",
-        fallback = BuildConfig.DEBUG
+        fallback = isDebugBuild
     )
     var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)

@@ -53,7 +53,7 @@ class EventsFragment : BaseFragment() {
         }
     }
 
-    private val eventViewModel: EventViewModel by lazy {
+    private val viewModel: EventViewModel by lazy {
         ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
     }
 
@@ -61,7 +61,7 @@ class EventsFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        eventViewModel.events.observe(requireActivity(), Observer(eventAdapter::submitList))
+        viewModel.events.observe(requireActivity(), Observer(eventAdapter::submitList))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -102,7 +102,7 @@ class EventsFragment : BaseFragment() {
             if (context.isNetworkAvailable) {
                 isRefreshing = true
                 doAsync {
-                    eventViewModel.reload()
+                    viewModel.fetchEvents()
                     uiThread { isRefreshing = false }
                 }
             } else {
@@ -116,7 +116,7 @@ class EventsFragment : BaseFragment() {
     private fun sortEventsBy(eventComparator: EventComparator, reversed: Boolean = false) {
         swipeRefreshLayout.isRefreshing = true
         doAsync {
-            eventViewModel.sortEventsBy(eventComparator, reversed)
+            viewModel.sortEventsBy(eventComparator, reversed)
             uiThread { swipeRefreshLayout.isRefreshing = false }
         }
     }

@@ -33,7 +33,7 @@ class MapFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_map
 
-    private val eventViewModel: EventViewModel by lazy {
+    private val viewModel: EventViewModel by lazy {
         ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
     }
 
@@ -59,7 +59,7 @@ class MapFragment : BaseFragment() {
             setupClusterManager()
             styleGoogleMap()
 
-            eventViewModel.getAllLive().observe(requireActivity(), Observer<List<Event>> { events ->
+            viewModel.eventLiveData.observe(requireActivity(), Observer<List<Event>> { events ->
                 if (events != null) {
                     this.events = events
                     clusterManager.setItems(events)

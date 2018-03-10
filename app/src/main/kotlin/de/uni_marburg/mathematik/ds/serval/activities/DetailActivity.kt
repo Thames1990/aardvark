@@ -13,9 +13,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.SupportTopic
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.*
@@ -31,13 +29,11 @@ import java.util.*
  */
 class DetailActivity : ElasticRecyclerActivity() {
 
-    private lateinit var event: Event
-
     private val geocodingControl by lazy { SmartLocation.with(this).geocoding() }
 
-    private val eventViewModel: EventViewModel by lazy {
-        ViewModelProviders.of(this).get(EventViewModel::class.java)
-    }
+    private lateinit var adapter: FastItemAdapter<IItem<*, *>>
+    private lateinit var eventViewModel: EventViewModel
+    private lateinit var event: Event
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         setSecureFlag()
@@ -47,22 +43,19 @@ class DetailActivity : ElasticRecyclerActivity() {
             themeWindow = false
         }
 
+        eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+
         doAsync {
             val eventId: String = intent.extras.getString(EVENT_ID)
-            event = eventViewModel.getById(eventId)
+            event = eventViewModel[eventId]
 
             uiThread {
-                recycler.adapter = FastItemAdapter<IItem<*, *>>().apply {
-                    CardIItem.bindClickEvents(this)
-
-                    if (::event.isInitialized) {
-                        title = event.title
-                        addGeneralCards()
-                        addAddressCard()
-                    } else {
-                        title = string(R.string.event_missing)
-                        addErrorCard()
-                    }
+                adapter = FastItemAdapter<IItem<*, *>>().apply {
+                    recycler.adapter = adapter
+                    title = event.title
+                    addGeneralCards()
+                    addAddressCard()
+//                    CardIItem.bindClickEvents(this)
                 }
                 with(fab) {
                     backgroundTintList = ColorStateList.valueOf(Prefs.accentColor)
@@ -86,9 +79,9 @@ class DetailActivity : ElasticRecyclerActivity() {
     /**
      * Add general [event] detail cards.
      */
-    private fun FastItemAdapter<IItem<*, *>>.addGeneralCards() {
+    private fun addGeneralCards() {
         val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
-        if (showMap) add(MapIItem(event))
+        if (showMap) adapter.add(MapIItem(event))
 
         addMeasurementsCards()
         addDetailsCards()
@@ -97,7 +90,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     /**
      * Add a card for each measurement of the [event].
      */
-    private fun FastItemAdapter<IItem<*, *>>.addMeasurementsCards() {
+    private fun addMeasurementsCards() {
         val measurementCardItems = mutableListOf<CardIItem>()
 
         event.measurements.forEach { measurement ->
@@ -116,14 +109,16 @@ class DetailActivity : ElasticRecyclerActivity() {
         val quantity = event.measurements.count()
         val measurementsHeader = SmallHeaderIItem(text = plural(id, quantity))
 
-        add(measurementsHeader)
-        measurementCardItems.forEach { add(it) }
+        with(adapter) {
+            add(measurementsHeader)
+            measurementCardItems.forEach { add(it) }
+        }
     }
 
     /**
      * Add [event] details cards.
      */
-    private fun FastItemAdapter<IItem<*, *>>.addDetailsCards() {
+    private fun addDetailsCards() {
         val detailsHeader = SmallHeaderIItem(textRes = R.string.event_details)
         val timeCard = CardIItem {
             titleRes = R.string.event_time
@@ -132,22 +127,24 @@ class DetailActivity : ElasticRecyclerActivity() {
             imageIIcon = GoogleMaterial.Icon.gmd_access_time
         }
 
-        add(detailsHeader)
-        if (BuildConfig.DEBUG) {
-            val idCard = CardIItem {
-                titleRes = R.string.event_id
-                desc = event.id
-                imageIIcon = CommunityMaterial.Icon.cmd_account_card_details
+        with(adapter) {
+            add(detailsHeader)
+            doOnDebugBuild {
+                val idCard = CardIItem {
+                    titleRes = R.string.event_id
+                    desc = event.id
+                    imageIIcon = CommunityMaterial.Icon.cmd_account_card_details
+                }
+                add(idCard)
             }
-            add(idCard)
+            add(timeCard)
         }
-        add(timeCard)
     }
 
     /**
      * Add [event] address card.
      */
-    private fun FastItemAdapter<IItem<*, *>>.addAddressCard() {
+    private fun addAddressCard() {
         geocodingControl.reverse(event.location) { _, results ->
             if (results.isNotEmpty()) {
                 val address: Address = results[0]
@@ -160,21 +157,9 @@ class DetailActivity : ElasticRecyclerActivity() {
                     desc = addressLines
                     imageIIcon = CommunityMaterial.Icon.cmd_map_marker
                 }
-                add(addressCard)
+                adapter.add(addressCard)
             }
         }
-    }
-
-    /**
-     * Add error card, when the [event] wasn't initialized.
-     */
-    private fun FastItemAdapter<IItem<*, *>>.addErrorCard() {
-        val missingEventCard = CardIItem {
-            descRes = R.string.event_missing_desc
-            buttonRes = R.string.preference_report_bug
-            buttonClick = { SupportTopic.BUG.sendEmail(this@DetailActivity) }
-        }
-        add(missingEventCard)
     }
 
     /**
