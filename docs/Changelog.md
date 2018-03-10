@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.10
+* Minor bug fixes
+
 ## 0.8.9
 * Improve tab reselection. Each tabs has its own action. The event tab reloads events and the map tab moves the camera to include all event markers.
 * Minor fixes and performance improvements
