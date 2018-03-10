@@ -12,4 +12,7 @@ inline val isDebugBuild: Boolean
 inline val isReleaseBuild: Boolean
     get() = !isDebugBuild
 
+inline val analyticsEnabled: Boolean
+    get() = isReleaseBuild && Prefs.analytics
+
 const val GOOGLE_MAPS = "com.google.android.apps.maps"
