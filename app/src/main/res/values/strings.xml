@@ -183,12 +183,12 @@
     <string name="preference_location_requires_location_permission">Requires location permission</string>
     <string name="preference_map">Map</string>
     <string name="preference_map_buildings">Buildings</string>
-    <string name="preference_map_buildings_desc">Show buildings</string>
+    <string name="preference_map_buildings_desc">Determines whether the 3D buildings layer is enabled</string>
     <string name="preference_map_compass">Compass</string>
     <string name="preference_map_compass_desc">Show compass</string>
     <string name="preference_map_desc">Customize Google Map</string>
     <string name="preference_map_indoor">Indoor</string>
-    <string name="preference_map_indoor_desc">Show indoor</string>
+    <string name="preference_map_indoor_desc">Determines whether indoor maps are enabled</string>
     <string name="preference_map_indoor_level_picker">Indoor level picker</string>
     <string name="preference_map_indoor_level_picker_desc">Show indoor level picker</string>
     <string name="preference_map_layers_header">Map layers</string>
@@ -202,7 +202,7 @@
     <string name="preference_map_tilt_gestures">Tilt gestures</string>
     <string name="preference_map_tilt_gestures_desc">Enable tilt gestures</string>
     <string name="preference_map_traffic">Traffic</string>
-    <string name="preference_map_traffic_desc">Show traffic</string>
+    <string name="preference_map_traffic_desc">Determines whether the map is drawing traffic data</string>
     <string name="preference_map_ui_header">UI</string>
     <string name="preference_map_ux_header">UX</string>
     <string name="preference_map_zoom_gestures">Zoom gestures</string>
