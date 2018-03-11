@@ -147,10 +147,10 @@ object Prefs : KPref() {
     var isIndoorEnabled: Boolean by kpref(key = "IS_INDOOR_ENABLED", fallback = false)
 
     // Map UI
-    var isCompassEnabled: Boolean by kpref("IS_COMPASS_ENABLED", fallback = false)
+    var isCompassEnabled: Boolean by kpref("IS_COMPASS_ENABLED", fallback = true)
     var isMyLocationButtonEnabled: Boolean by kpref(
         "IS_MY_LOCATION_BUTTON_ENABLED",
-        fallback = false
+        fallback = true
     )
     var isIndoorLevelPickerEnabled: Boolean by kpref(
         "IS_INDOOR_LEVEL_PICKER_ENABLED",
