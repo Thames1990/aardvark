@@ -126,16 +126,16 @@ object Prefs : KPref() {
             key = "EXPERIMENTAL_SETTINGS_ENABLED",
             fallback = isDebugBuild
         )
-        var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = enabled)
+        var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = false)
         var showDownloadProgress: Boolean by kpref(
             key = "SHOW_DOWNLOAD_PROGRESS",
-            fallback = enabled
+            fallback = false
         )
-        var wifiADBEnabled: Boolean by kpref(key = "WIFI_ADB_ENABLED", fallback = enabled)
-        var vibrationsEnabled: Boolean by kpref(key = "VIBRATIONS_ENABLED", fallback = enabled)
+        var wifiADBEnabled: Boolean by kpref(key = "WIFI_ADB_ENABLED", fallback = false)
+        var vibrationsEnabled: Boolean by kpref(key = "VIBRATIONS_ENABLED", fallback = false)
         var viewpagerSwipeEnabled: Boolean by kpref(
             key = "VIEWPAGER_SWIPE_ENABLED",
-            fallback = enabled
+            fallback = false
         )
     }
 
