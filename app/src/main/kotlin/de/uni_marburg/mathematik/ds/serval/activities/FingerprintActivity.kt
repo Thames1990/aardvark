@@ -46,22 +46,25 @@ class FingerprintActivity : AppCompatActivity() {
             .build()
 
         with(fingerprintDialog.customView!!) {
-            setBackgroundColor(Prefs.backgroundColor.lighten(0.1f).withMinAlpha(200))
+            setBackgroundColor(Prefs.Appearance.backgroundColor.lighten(0.1f).withMinAlpha(200))
 
             val title: TextView = find(R.id.fingerprint_title)
-            title.setTextColor(Prefs.textColor)
+            title.setTextColor(Prefs.Appearance.textColor)
 
             val subTitle: TextView = find(R.id.fingerprint_subtitle)
-            subTitle.setTextColor(Prefs.textColor)
+            subTitle.setTextColor(Prefs.Appearance.textColor)
 
             description = find(R.id.fingerprint_description)
-            description.setTextColor(Prefs.textColor.adjustAlpha(0.5f))
+            description.setTextColor(Prefs.Appearance.textColor.adjustAlpha(0.5f))
 
             iconCircle = find(R.id.fingerprint_icon_circle)
             iconCircle.setCardBackgroundColor(Theme.LYNCH)
 
             icon = find(R.id.fingerprint_icon)
-            icon.setIcon(icon = CommunityMaterial.Icon.cmd_fingerprint, color = Prefs.iconColor)
+            icon.setIcon(
+                icon = CommunityMaterial.Icon.cmd_fingerprint,
+                color = Prefs.Appearance.iconColor
+            )
 
             val usePassword: Button = find(R.id.button_use_password)
             with(usePassword) {
@@ -84,7 +87,7 @@ class FingerprintActivity : AppCompatActivity() {
                 iconCircle.setCardBackgroundColor(Theme.PERSIAN_GREEN)
                 icon.setIconWithOptions(
                     icon = CommunityMaterial.Icon.cmd_check,
-                    color = Prefs.iconColor
+                    color = Prefs.Appearance.iconColor
                 )
                 description.setTextWithOptions(
                     textRes = R.string.dialog_fingerprint_recognized,
@@ -106,7 +109,7 @@ class FingerprintActivity : AppCompatActivity() {
                 iconCircle.setCardBackgroundColor(Theme.POMEGRENADE)
                 icon.setIconWithOptions(
                     icon = CommunityMaterial.Icon.cmd_exclamation,
-                    color = Prefs.iconColor
+                    color = Prefs.Appearance.iconColor
                 )
                 description.setTextWithOptions(errorMessage.toString())
                 if (Prefs.useVibrations) vibrate()

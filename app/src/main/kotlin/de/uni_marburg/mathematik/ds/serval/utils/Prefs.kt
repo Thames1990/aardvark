@@ -10,36 +10,12 @@ object Prefs : KPref() {
 
     const val EVENT_COUNT = 10000
 
-    private val dateTimeFormatLoader =
-        lazyResettable { DateTimeFormat.values()[dateTimeFormatIndex] }
-    val dateTimeFormat: DateTimeFormat by dateTimeFormatLoader
-
     private val locationRequestAccuracyLoader =
         lazyResettable { LocationRequestAccuracy.values()[locationRequestAccuracyIndex] }
     val locationRequestAccuracy: LocationRequestAccuracy by locationRequestAccuracyLoader
 
-    private val mainActivityLayoutLoader =
-        lazyResettable { MainActivityLayout.values()[mainActivityLayoutIndex] }
-    val mainActivityLayout: MainActivityLayout by mainActivityLayoutLoader
-
     private val mapStyleLoader = lazyResettable { MapStyle.values()[mapStyleIndex] }
     val mapStyle: MapStyle by mapStyleLoader
-
-    private val themeLoader = lazyResettable { Theme.values()[themeIndex] }
-    val theme: Theme by themeLoader
-
-    val accentColor: Int
-        get() = theme.accentColor
-    val backgroundColor: Int
-        get() = theme.backgroundColor
-    val headerColor: Int
-        get() = theme.headerColor
-    val iconColor: Int
-        get() = theme.iconColor
-    val isCustomTheme: Boolean
-        get() = theme == Theme.CUSTOM
-    val textColor: Int
-        get() = theme.textColor
 
     var animate: Boolean by kpref(
         key = "ANIMATE",
@@ -52,25 +28,6 @@ object Prefs : KPref() {
         }
     )
     var analytics: Boolean by kpref(key = "ANALYTICS", fallback = true)
-    var customTextColor: Int by kpref(key = "CUSTOM_COLOR_TEXT", fallback = Theme.PORCELAIN)
-    var customAccentColor: Int by kpref(key = "CUSTOM_COLOR_ACCENT", fallback = Theme.LOCHMARA)
-    var customBackgroundColor: Int by kpref(
-        key = "CUSTOM_COLOR_BACKGROUND",
-        fallback = Theme.MINE_SHAFT
-    )
-    var customHeaderColor: Int by kpref(key = "CUSTOM_COLOR_HEADER", fallback = Theme.BAHAMA_BLUE)
-    var customIconColor: Int by kpref(key = "CUSTOM_COLOR_ICONS", fallback = Theme.PORCELAIN)
-    var dateTimeFormatIndex: Int by kpref(
-        key = "DATE_TIME_FORMAT_INDEX",
-        fallback = DateTimeFormat.MEDIUM_DATE_MEDIUM_TIME.ordinal,
-        postSetter = { value: Int ->
-            dateTimeFormatLoader.invalidate()
-            logAnalytics(
-                name = "Date time format",
-                events = *arrayOf("Date time format" to DateTimeFormat(value).name)
-            )
-        }
-    )
     var experimentalSettings: Boolean by kpref(
         key = "EXPERIMENTAL_SETTINGS",
         fallback = isDebugBuild
@@ -113,25 +70,6 @@ object Prefs : KPref() {
         fallback = LocationRequestAccuracy.HIGH.ordinal,
         postSetter = { locationRequestAccuracyLoader.invalidate() }
     )
-    var mainActivityLayoutIndex: Int by kpref(
-        key = "MAIN_ACTIVITY_LAYOUT_INDEX",
-        fallback = MainActivityLayout.TOP_BAR.ordinal,
-        postSetter = { value: Int ->
-            mainActivityLayoutLoader.invalidate()
-            logAnalytics(
-                name = "Main Layout",
-                events = *arrayOf("Type" to MainActivityLayout(value).name)
-            )
-        }
-    )
-    var themeIndex: Int by kpref(
-        key = "THEME_INDEX",
-        fallback = Theme.LIGHT.ordinal,
-        postSetter = { value: Int ->
-            themeLoader.invalidate()
-            logAnalytics(name = "Theme", events = *arrayOf("Count" to Theme(value).name))
-        }
-    )
     var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
     var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = false)
     var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = true)
@@ -140,6 +78,74 @@ object Prefs : KPref() {
     var useWifiADB: Boolean by kpref(key = "USE_WIFI_ADB", fallback = false)
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
     var viewpagerSwipe: Boolean by kpref(key = "VIEWPAGER_SWIPE", fallback = false)
+
+    object Appearance {
+        var themeIndex: Int by kpref(
+            key = "THEME_INDEX",
+            fallback = Theme.LIGHT.ordinal,
+            postSetter = { value: Int ->
+                themeLoader.invalidate()
+                logAnalytics(name = "Theme", events = *arrayOf("Count" to Theme(value).name))
+            }
+        )
+        private val themeLoader = lazyResettable { Theme.values()[themeIndex] }
+        val theme: Theme by themeLoader
+
+        val accentColor: Int
+            get() = theme.accentColor
+        val backgroundColor: Int
+            get() = theme.backgroundColor
+        val headerColor: Int
+            get() = theme.headerColor
+        val iconColor: Int
+            get() = theme.iconColor
+        val isCustomTheme: Boolean
+            get() = theme == Theme.CUSTOM
+        val textColor: Int
+            get() = theme.textColor
+
+        var customTextColor: Int by kpref(key = "CUSTOM_COLOR_TEXT", fallback = Theme.PORCELAIN)
+        var customAccentColor: Int by kpref(key = "CUSTOM_COLOR_ACCENT", fallback = Theme.LOCHMARA)
+        var customBackgroundColor: Int by kpref(
+            key = "CUSTOM_COLOR_BACKGROUND",
+            fallback = Theme.MINE_SHAFT
+        )
+        var customHeaderColor: Int by kpref(
+            key = "CUSTOM_COLOR_HEADER",
+            fallback = Theme.BAHAMA_BLUE
+        )
+        var customIconColor: Int by kpref(key = "CUSTOM_COLOR_ICONS", fallback = Theme.PORCELAIN)
+
+        var mainActivityLayoutIndex: Int by kpref(
+            key = "MAIN_ACTIVITY_LAYOUT_INDEX",
+            fallback = MainActivityLayout.TOP_BAR.ordinal,
+            postSetter = { value: Int ->
+                mainActivityLayoutLoader.invalidate()
+                logAnalytics(
+                    name = "Main Layout",
+                    events = *arrayOf("Type" to MainActivityLayout(value).name)
+                )
+            }
+        )
+        private val mainActivityLayoutLoader =
+            lazyResettable { MainActivityLayout.values()[mainActivityLayoutIndex] }
+        val mainActivityLayout: MainActivityLayout by mainActivityLayoutLoader
+
+        var dateTimeFormatIndex: Int by kpref(
+            key = "DATE_TIME_FORMAT_INDEX",
+            fallback = DateTimeFormat.MEDIUM_DATE_MEDIUM_TIME.ordinal,
+            postSetter = { value: Int ->
+                dateTimeFormatLoader.invalidate()
+                logAnalytics(
+                    name = "Date time format",
+                    events = *arrayOf("Date time format" to DateTimeFormat(value).name)
+                )
+            }
+        )
+        private val dateTimeFormatLoader =
+            lazyResettable { DateTimeFormat.values()[dateTimeFormatIndex] }
+        val dateTimeFormat: DateTimeFormat by dateTimeFormatLoader
+    }
 
     // Map layers
     var isTrafficEnabled: Boolean by kpref(key = "IS_TRAFFIC_ENABLED", fallback = false)

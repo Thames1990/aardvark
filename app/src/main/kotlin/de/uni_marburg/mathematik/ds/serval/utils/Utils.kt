@@ -62,11 +62,11 @@ inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.()
     val snackbarBaseLayout = view as FrameLayout
     val snackbarContentLayout = snackbarBaseLayout[0] as SnackbarContentLayout
     snackbarContentLayout.apply {
-        messageView.setTextColor(Prefs.textColor)
-        actionView.setTextColor(Prefs.accentColor)
+        messageView.setTextColor(Prefs.Appearance.textColor)
+        actionView.setTextColor(Prefs.Appearance.accentColor)
         //only set if previous text colors are set
         view.setBackgroundColor(
-            Prefs.backgroundColor.withAlpha(255).colorToForeground(0.1f)
+            Prefs.Appearance.backgroundColor.withAlpha(255).colorToForeground(0.1f)
         )
     }
 }
@@ -115,13 +115,13 @@ fun doOnDebugBuild(block: () -> Unit) {
  * Theme material dialog.
  */
 fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
-    val dimmerTextColor = Prefs.textColor.adjustAlpha(0.8f)
-    titleColor(Prefs.textColor)
+    val dimmerTextColor = Prefs.Appearance.textColor.adjustAlpha(0.8f)
+    titleColor(Prefs.Appearance.textColor)
     contentColor(dimmerTextColor)
     widgetColor(dimmerTextColor)
-    backgroundColor(Prefs.backgroundColor.lighten(0.1f).withMinAlpha(200))
-    positiveColor(Prefs.textColor)
-    negativeColor(Prefs.textColor)
-    neutralColor(Prefs.textColor)
+    backgroundColor(Prefs.Appearance.backgroundColor.lighten(0.1f).withMinAlpha(200))
+    positiveColor(Prefs.Appearance.textColor)
+    negativeColor(Prefs.Appearance.textColor)
+    neutralColor(Prefs.Appearance.textColor)
     return this
 }

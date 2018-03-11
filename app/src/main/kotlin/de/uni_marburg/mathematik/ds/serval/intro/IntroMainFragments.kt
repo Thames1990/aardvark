@@ -73,7 +73,7 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
     )
 
     protected open fun themeFragmentImpl() = view?.childrenSequence()?.forEach { view ->
-        (view as? TextView)?.setTextColor(Prefs.textColor)
+        (view as? TextView)?.setTextColor(Prefs.Appearance.textColor)
     }
 
     protected abstract fun viewArray(): Array<Array<out View>>
@@ -105,20 +105,20 @@ class IntroFragmentWelcome : BaseIntroFragment(R.layout.intro_welcome) {
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
-        image.imageTintList = ColorStateList.valueOf(Prefs.textColor)
+        image.imageTintList = ColorStateList.valueOf(Prefs.Appearance.textColor)
     }
 }
 
 class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
 
-    val container: ConstraintLayout by bindViewResettable(R.id.intro_end_container)
-    val description: TextView by bindView(R.id.intro_desc)
+    private val container: ConstraintLayout by bindViewResettable(R.id.intro_end_container)
+    private val description: TextView by bindView(R.id.intro_desc)
 
     override fun viewArray(): Array<Array<out View>> = defaultViewArray()
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
-        image.imageTintList = ColorStateList.valueOf(Prefs.textColor)
+        image.imageTintList = ColorStateList.valueOf(Prefs.Appearance.textColor)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

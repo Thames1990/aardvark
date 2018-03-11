@@ -14,11 +14,11 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Theme
 
 /**
- * Color the navigation bar with the specified [color][Prefs.headerColor], if the user activated
- * [the setting][Prefs.tintNavBar]; [black][Color.BLACK] otherwise.
+ * Color the navigation bar with the specified [color][Prefs.Appearance.headerColor], if the user
+ * activated [the setting][Prefs.tintNavBar]; [black][Color.BLACK] otherwise.
  */
 fun Activity.themeNavigationBar() {
-    navigationBarColor = if (Prefs.tintNavBar) Prefs.headerColor else Color.BLACK
+    navigationBarColor = if (Prefs.tintNavBar) Prefs.Appearance.headerColor else Color.BLACK
 }
 
 /**
@@ -48,10 +48,10 @@ inline fun Activity.setColors(builder: ActivityThemeUtils.() -> Unit) {
 
 /**
  * Set a light or dark theme based on the darkness of
- * [the user specified background color][Prefs.backgroundColor].
+ * [the user specified background color][Prefs.Appearance.backgroundColor].
  */
 fun Activity.setTheme() =
-    if (Prefs.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
+    if (Prefs.Appearance.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
 
 /**
@@ -91,23 +91,23 @@ class ActivityThemeUtils {
      */
     fun theme(activity: Activity) {
         with(activity) {
-            statusBarColor = Prefs.headerColor.darken(0.1f).withAlpha(255)
-            if (Prefs.tintNavBar) navigationBarColor = Prefs.headerColor
-            if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.backgroundColor))
+            statusBarColor = Prefs.Appearance.headerColor.darken(0.1f).withAlpha(255)
+            if (Prefs.tintNavBar) navigationBarColor = Prefs.Appearance.headerColor
+            if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.Appearance.backgroundColor))
             toolbar?.apply {
-                setBackgroundColor(Prefs.headerColor)
-                setTitleTextColor(Prefs.iconColor)
-                overflowIcon?.setTint(Prefs.iconColor)
-                popupTheme = when (Prefs.theme) {
+                setBackgroundColor(Prefs.Appearance.headerColor)
+                setTitleTextColor(Prefs.Appearance.iconColor)
+                overflowIcon?.setTint(Prefs.Appearance.iconColor)
+                popupTheme = when (Prefs.Appearance.theme) {
                     Theme.LIGHT -> R.style.AppTheme_PopupOverlay
                     Theme.DARK -> R.style.AppTheme_PopupOverlay_Dark
                     Theme.AMOLED -> R.style.AppTheme_PopupOverlay_Dark
                     Theme.CUSTOM -> R.style.AppTheme_PopupOverlay // TODO Set theme accordingly
                 }
             }
-            texts.forEach { textView -> textView.setTextColor(Prefs.textColor) }
-            headers.forEach { view -> view.setBackgroundColor(Prefs.headerColor) }
-            backgrounds.forEach { view -> view.setBackgroundColor(Prefs.backgroundColor) }
+            texts.forEach { textView -> textView.setTextColor(Prefs.Appearance.textColor) }
+            headers.forEach { view -> view.setBackgroundColor(Prefs.Appearance.headerColor) }
+            backgrounds.forEach { view -> view.setBackgroundColor(Prefs.Appearance.backgroundColor) }
         }
     }
 

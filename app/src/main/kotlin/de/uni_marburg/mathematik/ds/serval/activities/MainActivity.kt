@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
         pagerAdapter = SectionsPagerAdapter()
         viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
 
-        setContentView(Prefs.mainActivityLayout.layoutRes)
+        setContentView(Prefs.Appearance.mainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
         setColors {
             toolbar(toolbar)
@@ -69,7 +69,8 @@ class MainActivity : BaseActivity() {
             header(appBar)
             background(viewPager)
         }
-        fab.backgroundTintList = ColorStateList.valueOf(Prefs.headerColor.withMinAlpha(200))
+        fab.backgroundTintList =
+                ColorStateList.valueOf(Prefs.Appearance.headerColor.withMinAlpha(200))
 
         setupAppBar()
         setupViewPager()
@@ -114,7 +115,7 @@ class MainActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         setMenuIcons(
             menu = menu,
-            color = Prefs.iconColor,
+            color = Prefs.Appearance.mainActivityLayout.iconColor,
             iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
         )
         return true
@@ -141,7 +142,7 @@ class MainActivity : BaseActivity() {
 
     private fun setupAppBar() {
         // Fixes bottom layout cutoff
-        if (Prefs.mainActivityLayout == MainActivityLayout.BOTTOM_BAR) {
+        if (Prefs.Appearance.mainActivityLayout == MainActivityLayout.BOTTOM_BAR) {
             appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
                 val layoutParams = viewPager.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.setMargins(0, 0, 0, appBarLayout.measuredHeight + verticalOffset)
@@ -164,8 +165,8 @@ class MainActivity : BaseActivity() {
                 addTab(tab)
             }
 
-            setSelectedTabIndicatorColor(Prefs.mainActivityLayout.iconColor)
-            setBackgroundColor(Prefs.mainActivityLayout.backgroundColor)
+            setSelectedTabIndicatorColor(Prefs.Appearance.mainActivityLayout.iconColor)
+            setBackgroundColor(Prefs.Appearance.mainActivityLayout.backgroundColor)
 
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
@@ -214,7 +215,10 @@ class MainActivity : BaseActivity() {
                 recyclerView.scrollToPosition(0)
             }
             hideOnDownwardsScroll(recyclerView)
-            setIcon(icon = GoogleMaterial.Icon.gmd_arrow_upward, color = Prefs.iconColor)
+            setIcon(
+                icon = GoogleMaterial.Icon.gmd_arrow_upward,
+                color = Prefs.Appearance.mainActivityLayout.iconColor
+            )
             if (buildIsOreoAndUp) tooltipText = string(R.string.tooltip_fab_scroll_to_top)
             show()
         }
@@ -232,7 +236,10 @@ class MainActivity : BaseActivity() {
                 appBar.expand()
                 currentFragment.moveToPosition(lastPosition)
             }
-            setIcon(icon = GoogleMaterial.Icon.gmd_my_location, color = Prefs.iconColor)
+            setIcon(
+                icon = GoogleMaterial.Icon.gmd_my_location,
+                color = Prefs.Appearance.mainActivityLayout.iconColor
+            )
             if (buildIsOreoAndUp) {
                 tooltipText = string(R.string.tooltip_fab_move_to_current_location)
             }

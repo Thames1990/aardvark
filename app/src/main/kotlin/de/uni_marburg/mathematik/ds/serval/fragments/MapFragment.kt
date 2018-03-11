@@ -74,7 +74,7 @@ class MapFragment : BaseFragment() {
         inflater.inflate(R.menu.menu_map, menu)
         requireActivity().setMenuIcons(
             menu = menu,
-            color = Prefs.iconColor,
+            color = Prefs.Appearance.iconColor,
             iicons = *arrayOf(R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers)
         )
     }
@@ -137,7 +137,7 @@ class MapFragment : BaseFragment() {
     }
 
     private fun setupGoogleMap() = with(googleMap) {
-        val rawResourceRes: Int = when (Prefs.theme) {
+        val rawResourceRes: Int = when (Prefs.Appearance.theme) {
             Theme.AMOLED -> R.raw.map_style_night
             Theme.LIGHT -> R.raw.map_style_standard
             Theme.DARK -> R.raw.map_style_dark

@@ -53,11 +53,11 @@ enum class Theme(
 
     CUSTOM(
         titleRes = R.string.kau_custom,
-        textColorGetter = Prefs::customTextColor,
-        accentColorGetter = Prefs::customAccentColor,
-        backgroundColorGetter = Prefs::customBackgroundColor,
-        headerColorGetter = Prefs::customHeaderColor,
-        iconColorGetter = Prefs::customIconColor
+        textColorGetter = Prefs.Appearance::customTextColor,
+        accentColorGetter = Prefs.Appearance::customAccentColor,
+        backgroundColorGetter = Prefs.Appearance::customBackgroundColor,
+        headerColorGetter = Prefs.Appearance::customHeaderColor,
+        iconColorGetter = Prefs.Appearance::customIconColor
     );
 
     val accentColor: Int

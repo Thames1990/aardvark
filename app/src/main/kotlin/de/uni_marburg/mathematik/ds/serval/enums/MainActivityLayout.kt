@@ -21,15 +21,15 @@ enum class MainActivityLayout(
     TOP_BAR(
         titleRes = R.string.preference_bar_top,
         layoutRes = R.layout.activity_main,
-        backgroundColorGetter = Prefs::headerColor,
-        iconColorGetter = Prefs::iconColor
+        backgroundColorGetter = Prefs.Appearance::headerColor,
+        iconColorGetter = Prefs.Appearance::iconColor
     ),
 
     BOTTOM_BAR(
         titleRes = R.string.preference_bar_bottom,
         layoutRes = R.layout.activity_main_bottom_tabs,
-        backgroundColorGetter = Prefs::backgroundColor,
-        iconColorGetter = Prefs::textColor
+        backgroundColorGetter = Prefs.Appearance::backgroundColor,
+        iconColorGetter = Prefs.Appearance::textColor
     );
 
     val backgroundColor: Int

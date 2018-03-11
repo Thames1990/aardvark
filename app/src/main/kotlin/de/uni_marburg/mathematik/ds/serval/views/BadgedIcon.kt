@@ -23,7 +23,7 @@ class BadgedIcon @JvmOverloads constructor(
 
     init {
         View.inflate(context, R.layout.view_badged_icon, this)
-        val badgeColor = Prefs.mainActivityLayout.backgroundColor
+        val badgeColor = Prefs.Appearance.mainActivityLayout.backgroundColor
             .withAlpha(255)
             .colorToForeground(0.2f)
         val badgeBackground = GradientDrawable(
@@ -34,7 +34,7 @@ class BadgedIcon @JvmOverloads constructor(
         }
         with(badgeTextView) {
             background = badgeBackground
-            setTextColor(Prefs.mainActivityLayout.iconColor)
+            setTextColor(Prefs.Appearance.mainActivityLayout.iconColor)
         }
     }
 
@@ -45,7 +45,7 @@ class BadgedIcon @JvmOverloads constructor(
                 value?.toDrawable(
                     context,
                     sizeDp = 20,
-                    color = Prefs.mainActivityLayout.iconColor
+                    color = Prefs.Appearance.mainActivityLayout.iconColor
                 )
             )
         }

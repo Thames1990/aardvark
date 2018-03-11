@@ -77,7 +77,7 @@ class EventsFragment : BaseFragment() {
         with(requireContext()) {
             setMenuIcons(
                 menu = menu,
-                color = Prefs.iconColor,
+                color = Prefs.Appearance.iconColor,
                 iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_filter_list)
             )
             menu.findItem(R.id.action_sort_distance).isVisible = hasLocationPermission
@@ -190,7 +190,7 @@ class EventsFragment : BaseFragment() {
             private fun Event.displayTime() {
                 with(timeView) {
                     text = passedSeconds.formatPassedSeconds(itemView.context)
-                    setTextColor(Prefs.textColor)
+                    setTextColor(Prefs.Appearance.textColor)
                 }
             }
 
@@ -200,12 +200,12 @@ class EventsFragment : BaseFragment() {
                 if (context.hasLocationPermission) {
                     locationIconView.setIcon(
                         icon = GoogleMaterial.Icon.gmd_location_on,
-                        color = Prefs.textColor
+                        color = Prefs.Appearance.textColor
                     )
                     with(locationView) {
                         val distance: Float = location.distanceTo(MainActivity.lastLocation)
                         text = distance.formatDistance(context)
-                        setTextColor(Prefs.textColor)
+                        setTextColor(Prefs.Appearance.textColor)
                     }
                 } else {
                     locationIconView.gone()
@@ -221,7 +221,10 @@ class EventsFragment : BaseFragment() {
                     removeAllViews()
                     measurements.distinct().forEach { measurement ->
                         val icon = ImageView(itemView.context).apply {
-                            setIcon(icon = measurement.type.iicon, color = Prefs.textColor)
+                            setIcon(
+                                icon = measurement.type.iicon,
+                                color = Prefs.Appearance.textColor
+                            )
                         }
                         addView(icon)
                     }

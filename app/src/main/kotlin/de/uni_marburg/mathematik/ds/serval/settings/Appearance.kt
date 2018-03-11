@@ -18,8 +18,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_appearance_theme,
-        getter = Prefs::themeIndex,
-        setter = { Prefs.themeIndex = it },
+        getter = Prefs.Appearance::themeIndex,
+        setter = { Prefs.Appearance.themeIndex = it },
         builder = {
             onClick = {
                 materialDialogThemed {
@@ -43,16 +43,16 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     )
 
     fun KPrefColorPicker.KPrefColorContract.dependsOnCustom() {
-        enabler = Prefs::isCustomTheme
+        enabler = Prefs.Appearance::isCustomTheme
         onDisabledClick = { snackbarThemed(R.string.preference_requires_custom_theme) }
         allowCustom = true
     }
 
     colorPicker(
         title = R.string.preference_appearance_color_text,
-        getter = Prefs::customTextColor,
+        getter = Prefs.Appearance::customTextColor,
         setter = { customTextColor ->
-            Prefs.customTextColor = customTextColor
+            Prefs.Appearance.customTextColor = customTextColor
             reload()
             shouldRestartMain()
         },
@@ -64,9 +64,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_accent,
-        getter = Prefs::customAccentColor,
+        getter = Prefs.Appearance::customAccentColor,
         setter = { customAccentColor ->
-            Prefs.customAccentColor = customAccentColor
+            Prefs.Appearance.customAccentColor = customAccentColor
             reload()
             shouldRestartMain()
         },
@@ -78,9 +78,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_background,
-        getter = Prefs::customBackgroundColor,
+        getter = Prefs.Appearance::customBackgroundColor,
         setter = { customBackgroundColor ->
-            Prefs.customBackgroundColor = customBackgroundColor
+            Prefs.Appearance.customBackgroundColor = customBackgroundColor
             bgCanvas.ripple(color = customBackgroundColor, duration = 500L)
             setTheme()
             shouldRestartMain()
@@ -93,9 +93,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_header,
-        getter = Prefs::customHeaderColor,
+        getter = Prefs.Appearance::customHeaderColor,
         setter = { customHeaderColor ->
-            Prefs.customHeaderColor = customHeaderColor
+            Prefs.Appearance.customHeaderColor = customHeaderColor
             themeNavigationBar()
             toolbarCanvas.ripple(
                 color = customHeaderColor,
@@ -114,9 +114,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_icon,
-        getter = Prefs::customIconColor,
+        getter = Prefs.Appearance::customIconColor,
         setter = { customIconColor ->
-            Prefs.customIconColor = customIconColor
+            Prefs.Appearance.customIconColor = customIconColor
             invalidateOptionsMenu()
             shouldRestartMain()
         },
@@ -130,10 +130,10 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_appearance_main_activity_layout,
-        getter = Prefs::mainActivityLayoutIndex,
-        setter = { Prefs.mainActivityLayoutIndex = it },
+        getter = Prefs.Appearance::mainActivityLayoutIndex,
+        setter = { Prefs.Appearance.mainActivityLayoutIndex = it },
         builder = {
-            textGetter = { string(Prefs.mainActivityLayout.titleRes) }
+            textGetter = { string(Prefs.Appearance.mainActivityLayout.titleRes) }
             onClick = {
                 materialDialogThemed {
                     title(R.string.preference_appearance_main_activity_layout)
@@ -154,8 +154,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_appearance_date_time_format,
-        getter = Prefs::dateTimeFormatIndex,
-        setter = { Prefs.dateTimeFormatIndex = it },
+        getter = Prefs.Appearance::dateTimeFormatIndex,
+        setter = { Prefs.Appearance.dateTimeFormatIndex = it },
         builder = {
             onClick = {
                 materialDialogThemed {

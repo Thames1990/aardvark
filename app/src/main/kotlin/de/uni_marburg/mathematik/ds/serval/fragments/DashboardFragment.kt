@@ -68,13 +68,13 @@ class DashboardFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        title.setTextColor(Prefs.textColor)
+        title.setTextColor(Prefs.Appearance.textColor)
         image.setIcon(
             icon = GoogleMaterial.Icon.gmd_sentiment_very_satisfied,
-            color = Prefs.textColor,
+            color = Prefs.Appearance.textColor,
             sizeDp = view.context.displayMetrics.densityDpi
         )
-        description.setTextColor(Prefs.textColor)
+        description.setTextColor(Prefs.Appearance.textColor)
     }
 
     override fun onResume() {
@@ -86,7 +86,7 @@ class DashboardFragment : BaseFragment() {
                 description.setTextWithOptions(activity.currentActivity)
                 image.setIconWithOptions(
                     icon = activity.iicon,
-                    color = Prefs.textColor,
+                    color = Prefs.Appearance.textColor,
                     sizeDp = context.displayMetrics.densityDpi
                 )
             }

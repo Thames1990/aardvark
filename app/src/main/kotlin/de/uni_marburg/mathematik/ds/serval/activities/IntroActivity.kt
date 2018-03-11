@@ -51,7 +51,7 @@ class IntroActivity : BaseActivity() {
         }
         indicator.setViewPager(viewpager)
         with(next) {
-            setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.iconColor)
+            setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.Appearance.iconColor)
             setOnClickListener {
                 when {
                     barHasNext -> viewpager.item = viewpager.currentItem + 1
@@ -64,7 +64,7 @@ class IntroActivity : BaseActivity() {
             }
         }
         skip.setOnClickListener { finish() }
-        ripple.set(color = Prefs.backgroundColor)
+        ripple.set(color = Prefs.Appearance.backgroundColor)
 
         theme()
     }
@@ -81,12 +81,12 @@ class IntroActivity : BaseActivity() {
     }
 
     fun theme() {
-        statusBarColor = Prefs.headerColor
-        navigationBarColor = Prefs.headerColor
-        skip.setTextColor(Prefs.textColor)
-        next.imageTintList = ColorStateList.valueOf(Prefs.textColor)
+        statusBarColor = Prefs.Appearance.headerColor
+        navigationBarColor = Prefs.Appearance.headerColor
+        skip.setTextColor(Prefs.Appearance.textColor)
+        next.imageTintList = ColorStateList.valueOf(Prefs.Appearance.textColor)
         with(indicator) {
-            setColour(Prefs.textColor)
+            setColour(Prefs.Appearance.textColor)
             invalidate()
         }
         fragments.forEach { it.themeFragment() }
@@ -118,13 +118,13 @@ class IntroActivity : BaseActivity() {
                 ?.start()
         }
 
-        if (Prefs.textColor != Color.WHITE) {
+        if (Prefs.Appearance.textColor != Color.WHITE) {
             val image = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
             if (image != null) {
                 ValueAnimator.ofFloat(0f, 1f).apply {
                     addUpdateListener { animator ->
                         image.setTint(
-                            Prefs.textColor.blendWith(
+                            Prefs.Appearance.textColor.blendWith(
                                 color = Color.WHITE,
                                 ratio = animator.animatedValue as Float
                             )
@@ -136,10 +136,10 @@ class IntroActivity : BaseActivity() {
             }
         }
 
-        if (Prefs.headerColor != Theme.AARDVARK_GREEN) {
+        if (Prefs.Appearance.headerColor != Theme.AARDVARK_GREEN) {
             ValueAnimator.ofFloat(0f, 1f).apply {
                 addUpdateListener { animator ->
-                    val color = Prefs.headerColor.blendWith(
+                    val color = Prefs.Appearance.headerColor.blendWith(
                         color = Theme.AARDVARK_GREEN,
                         ratio = animator.animatedValue as Float
                     )
@@ -195,7 +195,7 @@ class IntroActivity : BaseActivity() {
                     icon =
                     if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
                     else GoogleMaterial.Icon.gmd_done,
-                    color = Prefs.iconColor
+                    color = Prefs.Appearance.iconColor
                 )
                 skip.animate().scaleXY(if (barHasNext) 1f else 0f)
             }

@@ -30,13 +30,13 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 class AboutActivity : AboutActivityBase(
     rClass = R.string::class.java,
     configBuilder = {
-        accentColor = Prefs.accentColor
-        backgroundColor = Prefs.backgroundColor.withMinAlpha(200)
+        accentColor = Prefs.Appearance.accentColor
+        backgroundColor = Prefs.Appearance.backgroundColor.withMinAlpha(200)
         cutoutDrawableRes = R.drawable.aardvark
-        cutoutForeground = Prefs.accentColor
+        cutoutForeground = Prefs.Appearance.accentColor
         faqParseNewLine = false
         faqXmlRes = R.xml.faq
-        textColor = Prefs.textColor
+        textColor = Prefs.Appearance.textColor
     }
 ) {
 
@@ -115,7 +115,7 @@ class AboutActivity : AboutActivityBase(
                         background = context.resolveDrawable(
                             android.R.attr.selectableItemBackgroundBorderless
                         )
-                        setIcon(icon = aboutLink.iicon, color = Prefs.iconColor)
+                        setIcon(icon = aboutLink.iicon, color = Prefs.Appearance.iconColor)
                         setOnClickListener { context.startLink(aboutLink.linkRes) }
                         container.addView(this)
                     }

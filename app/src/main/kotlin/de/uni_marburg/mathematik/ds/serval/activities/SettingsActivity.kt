@@ -67,8 +67,8 @@ class SettingsActivity : KPrefActivity() {
     }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = Prefs::accentColor
-        textColor = Prefs::textColor
+        accentColor = Prefs.Appearance::accentColor
+        textColor = Prefs.Appearance::textColor
     }
 
     override fun onBackPressed() {
@@ -80,10 +80,10 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_settings, menu)
-        toolbar.tint(color = Prefs.iconColor)
+        toolbar.tint(color = Prefs.Appearance.iconColor)
         setMenuIcons(
             menu = menu,
-            color = Prefs.iconColor,
+            color = Prefs.Appearance.iconColor,
             iicons = *arrayOf(
                 R.id.action_email to GoogleMaterial.Icon.gmd_email,
                 R.id.action_changelog to GoogleMaterial.Icon.gmd_info
@@ -111,15 +111,15 @@ class SettingsActivity : KPrefActivity() {
 
     fun themeExterior(animate: Boolean = Prefs.animate) {
         if (animate) {
-            bgCanvas.fade(color = Prefs.backgroundColor)
+            bgCanvas.fade(color = Prefs.Appearance.backgroundColor)
             toolbarCanvas.ripple(
-                color = Prefs.headerColor,
+                color = Prefs.Appearance.headerColor,
                 startX = RippleCanvas.MIDDLE,
                 startY = RippleCanvas.END
             )
         } else {
-            bgCanvas.set(color = Prefs.backgroundColor)
-            toolbarCanvas.set(color = Prefs.headerColor)
+            bgCanvas.set(color = Prefs.Appearance.backgroundColor)
+            toolbarCanvas.set(color = Prefs.Appearance.headerColor)
         }
         themeNavigationBar()
     }

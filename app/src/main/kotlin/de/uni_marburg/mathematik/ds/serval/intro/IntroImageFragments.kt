@@ -43,10 +43,10 @@ abstract class BaseImageIntroFragment(
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
-        title.setTextColor(Prefs.textColor)
-        desc.setTextColor(Prefs.textColor)
-        phone.tint(Prefs.textColor)
-        screen.tint(Prefs.backgroundColor)
+        title.setTextColor(Prefs.Appearance.textColor)
+        desc.setTextColor(Prefs.Appearance.textColor)
+        phone.tint(Prefs.Appearance.textColor)
+        screen.tint(Prefs.Appearance.backgroundColor)
     }
 
     override fun onPageScrolledImpl(positionOffset: Float) {
@@ -73,7 +73,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
 
     private val animationDuration = 1500L
 
-    private var currentRotation: Float = when (Prefs.mainActivityLayout) {
+    private var currentRotation: Float = when (Prefs.Appearance.mainActivityLayout) {
         MainActivityLayout.TOP_BAR -> 0.0f
         MainActivityLayout.BOTTOM_BAR -> -180.0f
     }
@@ -106,14 +106,14 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
                 image.startAnimation(rotateAnimation)
 
                 // Set main activity layout type
-                Prefs.mainActivityLayoutIndex =
+                Prefs.Appearance.mainActivityLayoutIndex =
                         if (currentRotation.rem(360.0f) == 0.0f)
                             MainActivityLayout.TOP_BAR.ordinal
                         else
                             MainActivityLayout.BOTTOM_BAR.ordinal
 
                 // Update text to indicate current main activity layout type
-                title.setTextWithOptions(Prefs.mainActivityLayout.titleRes)
+                title.setTextWithOptions(Prefs.Appearance.mainActivityLayout.titleRes)
             }
         }
     }
@@ -121,7 +121,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         themeImageComponent(
-            color = Prefs.iconColor,
+            color = Prefs.Appearance.iconColor,
             ids = *intArrayOf(
                 R.id.intro_phone_icon_1,
                 R.id.intro_phone_icon_2,
@@ -130,11 +130,11 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
             )
         )
         themeImageComponent(
-            color = Prefs.headerColor,
+            color = Prefs.Appearance.headerColor,
             ids = *intArrayOf(R.id.intro_phone_tab)
         )
         themeImageComponent(
-            color = Prefs.textColor.withAlpha(80),
+            color = Prefs.Appearance.textColor.withAlpha(80),
             ids = *intArrayOf(R.id.intro_phone_icon_ripple)
         )
     }
