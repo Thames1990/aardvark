@@ -105,7 +105,7 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 /** Enables WifiADB and lets the user send ADB connection information. */
 private fun enableWifiAdb() {
     with(getRuntime().exec("su")) {
-        DataOutputStream(outputStream).apply {
+        with(DataOutputStream(outputStream)) {
             writeBytes("setprop service.adb.tcp.port 5555\\nstop adbd\\nstart adbd\\nexit")
             flush()
             close()
@@ -116,11 +116,10 @@ private fun enableWifiAdb() {
 
 /**
  * Disables WifiADB.
- * TODO Figure out how to deactivate WifiADB on isFinishing
  */
 private fun disableWifiAdb() {
     with(getRuntime().exec("su")) {
-        DataOutputStream(outputStream).apply {
+        with(DataOutputStream(outputStream)) {
             writeBytes("setprop service.adb.tcp.port -1\\nstop adbd\\nstart adbd\\nexit")
             flush()
             close()
