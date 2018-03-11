@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.utils
 import ca.allanwang.kau.kotlin.lazyResettable
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
+import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.enums.*
 import io.nlopez.smartlocation.location.config.LocationAccuracy
 import kotlin.math.roundToInt
@@ -214,10 +215,16 @@ object Prefs : KPref() {
     object Serval {
         const val EVENT_COUNT = 10000
 
-        var baseUrl: String by kpref(key = "SERVAL_BASE_URL", fallback = "serval.splork.de")
-        var password: String by kpref(key = "SERVAL_PASSWORD", fallback = "pum123")
-        var port: Int by kpref(key = "SERVAL_PORT", fallback = 80)
-        var user: String by kpref(key = "SERVAL_USER", fallback = "pum")
+        var baseUrl: String by kpref(
+            key = "SERVAL_BASE_URL",
+            fallback = BuildConfig.SERVAL_BASE_URL
+        )
+        var password: String by kpref(
+            key = "SERVAL_PASSWORD",
+            fallback = BuildConfig.SERVAL_PASSWORD
+        )
+        var port: Int by kpref(key = "SERVAL_PORT", fallback = BuildConfig.SERVAL_PORT)
+        var user: String by kpref(key = "SERVAL_USER", fallback = BuildConfig.SERVAL_USER)
 
         var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
     }

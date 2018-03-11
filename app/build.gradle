@@ -50,6 +50,13 @@ android {
     buildTypes {
         buildTypes.each {
             it.buildConfigField "String", "KERVAL_VERSION", "\"$versions.kerval\""
+
+            if (hasProperties) {
+                it.buildConfigField "String", "SERVAL_USER", SERVAL_USER
+                it.buildConfigField "String", "SERVAL_PASSWORD", SERVAL_PASSWORD
+                it.buildConfigField "String", "SERVAL_BASE_URL", SERVAL_BASE_URL
+                it.buildConfigField "Integer", "SERVAL_PORT", SERVAL_PORT
+            }
         }
 
         debug {
