@@ -141,7 +141,27 @@ object Prefs : KPref() {
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
     var viewpagerSwipe: Boolean by kpref(key = "VIEWPAGER_SWIPE", fallback = false)
 
-    var mapShowTraffic: Boolean by kpref(key = "SHOW_TRAFFIC", fallback = false)
-    var mapShowBuildings: Boolean by kpref(key = "SHOW_BUILDINGS", fallback = false)
-    var mapShowIndoor: Boolean by kpref(key = "SHOW_INDOOR", fallback = false)
+    // Map layers
+    var isTrafficEnabled: Boolean by kpref(key = "IS_TRAFFIC_ENABLED", fallback = false)
+    var isBuildingsEnabled: Boolean by kpref(key = "IS_BUILDINGS_ENABLED", fallback = false)
+    var isIndoorEnabled: Boolean by kpref(key = "IS_INDOOR_ENABLED", fallback = false)
+
+    // Map UI
+    var isZoomControlsEnabled: Boolean by kpref("IS_ZOOM_CONTROLS_ENABLED", fallback = false)
+    var isCompassEnabled: Boolean by kpref("IS_COMPASS_ENABLED", fallback = false)
+    var isMyLocationButtonEnabled: Boolean by kpref(
+        "IS_MY_LOCATION_BUTTON_ENABLED",
+        fallback = false
+    )
+    var isIndoorLevelPickerEnabled: Boolean by kpref(
+        "IS_INDOOR_LEVEL_PICKER_ENABLED",
+        fallback = false
+    )
+    var isMapToolbarEnabled: Boolean by kpref("IS_MAP_TOOLBAR_ENABLED", fallback = false)
+
+    // Map UX
+    var isZoomGesturesEnabled: Boolean by kpref("IS_ZOOM_GESTURES_ENABLED", fallback = true)
+    var isScrollGesturesEnabled: Boolean by kpref("IS_SCROLL_GESTURES_ENABLED", fallback = true)
+    var isTiltGesturesEnabled: Boolean by kpref("IS_TILT_GESTURES_ENABLED", fallback = true)
+    var isRotateGesturesEnabled: Boolean by kpref("IS_ROTATE_GESTURES_ENABLED", fallback = true)
 }

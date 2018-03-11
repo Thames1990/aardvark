@@ -145,11 +145,22 @@ class MapFragment : BaseFragment() {
                 Theme.CUSTOM -> Prefs.mapStyle.style
             }
             setMapStyle(MapStyleOptions.loadRawResourceStyle(context, rawResourceRes))
-            uiSettings.isMyLocationButtonEnabled = false
 
-            isTrafficEnabled = Prefs.mapShowTraffic
-            isBuildingsEnabled = Prefs.mapShowBuildings
-            isIndoorEnabled = Prefs.mapShowBuildings
+            with(uiSettings) {
+                isCompassEnabled = Prefs.isCompassEnabled
+                isIndoorLevelPickerEnabled = Prefs.isIndoorLevelPickerEnabled
+                isMapToolbarEnabled = Prefs.isMapToolbarEnabled
+                isMyLocationButtonEnabled = false
+                isRotateGesturesEnabled = Prefs.isRotateGesturesEnabled
+                isScrollGesturesEnabled = Prefs.isScrollGesturesEnabled
+                isTiltGesturesEnabled = Prefs.isTiltGesturesEnabled
+                isZoomControlsEnabled = Prefs.isZoomControlsEnabled
+                isZoomGesturesEnabled = Prefs.isZoomGesturesEnabled
+            }
+
+            isBuildingsEnabled = Prefs.isBuildingsEnabled
+            isIndoorEnabled = Prefs.isIndoorEnabled
+            isTrafficEnabled = Prefs.isTrafficEnabled
         }
     }
 
