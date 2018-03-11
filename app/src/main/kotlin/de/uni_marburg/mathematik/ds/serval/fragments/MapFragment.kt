@@ -57,7 +57,7 @@ class MapFragment : BaseFragment() {
             googleMap = map.apply { isMyLocationEnabled = requireContext().hasLocationPermission }
 
             setupClusterManager()
-            styleGoogleMap()
+            setupGoogleMap()
 
             viewModel.eventLiveData.observe(requireActivity(), Observer<List<Event>> { events ->
                 if (events != null) {
@@ -136,32 +136,30 @@ class MapFragment : BaseFragment() {
         googleMap.setOnCameraIdleListener(clusterManager)
     }
 
-    private fun styleGoogleMap() {
-        with(googleMap) {
-            val rawResourceRes: Int = when (Prefs.theme) {
-                Theme.AMOLED -> R.raw.map_style_night
-                Theme.LIGHT -> R.raw.map_style_standard
-                Theme.DARK -> R.raw.map_style_dark
-                Theme.CUSTOM -> Prefs.mapStyle.style
-            }
-            setMapStyle(MapStyleOptions.loadRawResourceStyle(context, rawResourceRes))
-
-            with(uiSettings) {
-                isCompassEnabled = Prefs.isCompassEnabled
-                isIndoorLevelPickerEnabled = Prefs.isIndoorLevelPickerEnabled
-                isMapToolbarEnabled = Prefs.isMapToolbarEnabled
-                isMyLocationButtonEnabled = false
-                isRotateGesturesEnabled = Prefs.isRotateGesturesEnabled
-                isScrollGesturesEnabled = Prefs.isScrollGesturesEnabled
-                isTiltGesturesEnabled = Prefs.isTiltGesturesEnabled
-                isZoomControlsEnabled = Prefs.isZoomControlsEnabled
-                isZoomGesturesEnabled = Prefs.isZoomGesturesEnabled
-            }
-
-            isBuildingsEnabled = Prefs.isBuildingsEnabled
-            isIndoorEnabled = Prefs.isIndoorEnabled
-            isTrafficEnabled = Prefs.isTrafficEnabled
+    private fun setupGoogleMap() = with(googleMap) {
+        val rawResourceRes: Int = when (Prefs.theme) {
+            Theme.AMOLED -> R.raw.map_style_night
+            Theme.LIGHT -> R.raw.map_style_standard
+            Theme.DARK -> R.raw.map_style_dark
+            Theme.CUSTOM -> Prefs.mapStyle.style
         }
+        setMapStyle(MapStyleOptions.loadRawResourceStyle(context, rawResourceRes))
+
+        with(uiSettings) {
+            isCompassEnabled = Prefs.isCompassEnabled
+            isIndoorLevelPickerEnabled = Prefs.isIndoorLevelPickerEnabled
+            isMapToolbarEnabled = Prefs.isMapToolbarEnabled
+            isMyLocationButtonEnabled = false
+            isRotateGesturesEnabled = Prefs.isRotateGesturesEnabled
+            isScrollGesturesEnabled = Prefs.isScrollGesturesEnabled
+            isTiltGesturesEnabled = Prefs.isTiltGesturesEnabled
+            isZoomControlsEnabled = Prefs.isZoomControlsEnabled
+            isZoomGesturesEnabled = Prefs.isZoomGesturesEnabled
+        }
+
+        isBuildingsEnabled = Prefs.isBuildingsEnabled
+        isIndoorEnabled = Prefs.isIndoorEnabled
+        isTrafficEnabled = Prefs.isTrafficEnabled
     }
 
     private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
