@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.11
+* Add map settings
+* Fix event detail initialization
+* Fix issues with cutoff view pager when using the bottom layout
+* Fix security issues for WiFI-ADB (experimental)
+
 ## 0.8.10
 * Minor bug fixes
 

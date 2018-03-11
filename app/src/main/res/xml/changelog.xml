@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.11" />
+    <item text="Add map settings" />
+    <item text="Fix event detail initialization" />
+    <item text="Fix issues with cutoff view pager when using the bottom layout" />
+    <item text="Fix security issues for WiFI-ADB (experimental)" />
+
     <version title="0.8.10" />
     <item text="Minor bug fixes" />
 
