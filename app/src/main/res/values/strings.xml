@@ -202,14 +202,10 @@
     <string name="preference_map_style">Maps style</string>
     <string name="preference_map_tilt_gestures">Tilt gestures</string>
     <string name="preference_map_tilt_gestures_desc">Enable tilt gestures</string>
-    <string name="preference_map_toolbar">Toolbar</string>
-    <string name="preference_map_toolbar_desc">Show toolbar</string>
     <string name="preference_map_traffic">Traffic</string>
     <string name="preference_map_traffic_desc">Show traffic</string>
     <string name="preference_map_ui_header">UI</string>
     <string name="preference_map_ux_header">UX</string>
-    <string name="preference_map_zoom_controls">Zoom controls</string>
-    <string name="preference_map_zoom_controls_desc">Show zoom controls</string>
     <string name="preference_map_zoom_gestures">Zoom gestures</string>
     <string name="preference_map_zoom_gestures_desc">Enable zoom gestures</string>
     <string name="preference_reload">Reload settings</string>

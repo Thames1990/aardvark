@@ -147,7 +147,6 @@ object Prefs : KPref() {
     var isIndoorEnabled: Boolean by kpref(key = "IS_INDOOR_ENABLED", fallback = false)
 
     // Map UI
-    var isZoomControlsEnabled: Boolean by kpref("IS_ZOOM_CONTROLS_ENABLED", fallback = false)
     var isCompassEnabled: Boolean by kpref("IS_COMPASS_ENABLED", fallback = false)
     var isMyLocationButtonEnabled: Boolean by kpref(
         "IS_MY_LOCATION_BUTTON_ENABLED",
@@ -157,7 +156,6 @@ object Prefs : KPref() {
         "IS_INDOOR_LEVEL_PICKER_ENABLED",
         fallback = false
     )
-    var isMapToolbarEnabled: Boolean by kpref("IS_MAP_TOOLBAR_ENABLED", fallback = false)
 
     // Map UX
     var isZoomGesturesEnabled: Boolean by kpref("IS_ZOOM_GESTURES_ENABLED", fallback = true)

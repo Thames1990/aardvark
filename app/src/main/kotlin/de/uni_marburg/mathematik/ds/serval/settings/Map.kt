@@ -53,16 +53,6 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     header(R.string.preference_map_ui_header)
 
     checkbox(
-        title = R.string.preference_map_zoom_controls,
-        getter = Prefs::isZoomControlsEnabled,
-        setter = {
-            Prefs.isZoomControlsEnabled = it
-            shouldRestartMain()
-        },
-        builder = { descRes = R.string.preference_map_zoom_controls_desc }
-    )
-
-    checkbox(
         title = R.string.preference_map_compass,
         getter = Prefs::isCompassEnabled,
         setter = {
@@ -90,16 +80,6 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_indoor_level_picker_desc }
-    )
-
-    checkbox(
-        title = R.string.preference_map_toolbar,
-        getter = Prefs::isMapToolbarEnabled,
-        setter = {
-            Prefs.isMapToolbarEnabled = it
-            shouldRestartMain()
-        },
-        builder = { descRes = R.string.preference_map_toolbar_desc }
     )
 
     text(

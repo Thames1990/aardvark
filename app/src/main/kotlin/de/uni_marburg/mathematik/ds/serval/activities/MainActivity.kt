@@ -18,12 +18,14 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import ca.allanwang.kau.utils.*
 import com.google.android.gms.maps.model.LatLng
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
 import de.uni_marburg.mathematik.ds.serval.enums.TabItem
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
@@ -48,7 +50,7 @@ class MainActivity : BaseActivity() {
     private val progressBar: MaterialProgressBar by bindView(R.id.progressBar)
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
-    private val viewPager: SwipeToggleViewPager by bindView(R.id.container)
+    private val viewPager: SwipeToggleViewPager by bindView(R.id.view_pager)
 
     private lateinit var pagerAdapter: SectionsPagerAdapter
     private lateinit var viewModel: EventViewModel
@@ -69,6 +71,7 @@ class MainActivity : BaseActivity() {
         }
         fab.backgroundTintList = ColorStateList.valueOf(Prefs.headerColor.withMinAlpha(200))
 
+        setupAppBar()
         setupViewPager()
         setupTabLayout()
 
@@ -85,6 +88,7 @@ class MainActivity : BaseActivity() {
                 if (resultCode and REQUEST_RESTART > 0) restart()
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
+                if (resultCode and RELOAD_EVENTS > 0) doAsync { viewModel.fetchEvents(deleteEvents = true) }
             }
         }
     }
@@ -133,6 +137,17 @@ class MainActivity : BaseActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    private fun setupAppBar() {
+        // Fixes bottom layout cutoff
+        if (Prefs.mainActivityLayout == MainActivityLayout.BOTTOM_BAR) {
+            appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+                val layoutParams = viewPager.layoutParams as ViewGroup.MarginLayoutParams
+                layoutParams.setMargins(0, 0, 0, appBarLayout.measuredHeight + verticalOffset)
+                viewPager.requestLayout()
+            }
+        }
     }
 
     private fun setupViewPager() = with(viewPager) {
@@ -218,7 +233,7 @@ class MainActivity : BaseActivity() {
             if (buildIsOreoAndUp) {
                 tooltipText = string(R.string.tooltip_fab_move_to_current_location)
             }
-            showIf(Prefs.isMyLocationButtonEnabled)
+            visibleIf(hasLocationPermission && Prefs.isMyLocationButtonEnabled)
         }
     }
 
@@ -315,6 +330,7 @@ class MainActivity : BaseActivity() {
         const val REQUEST_RESTART = 1 shl 2
         const val REQUEST_APPLICATION_RESTART = 1 shl 3
         const val REQUEST_NAV = 1 shl 4
+        const val RELOAD_EVENTS = 1 shl 5
 
         var lastLocation = Location(BuildConfig.APPLICATION_ID)
         val lastPosition: LatLng

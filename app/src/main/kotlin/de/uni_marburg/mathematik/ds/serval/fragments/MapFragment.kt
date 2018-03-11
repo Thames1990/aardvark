@@ -148,12 +148,10 @@ class MapFragment : BaseFragment() {
         with(uiSettings) {
             isCompassEnabled = Prefs.isCompassEnabled
             isIndoorLevelPickerEnabled = Prefs.isIndoorLevelPickerEnabled
-            isMapToolbarEnabled = Prefs.isMapToolbarEnabled
             isMyLocationButtonEnabled = false
             isRotateGesturesEnabled = Prefs.isRotateGesturesEnabled
             isScrollGesturesEnabled = Prefs.isScrollGesturesEnabled
             isTiltGesturesEnabled = Prefs.isTiltGesturesEnabled
-            isZoomControlsEnabled = Prefs.isZoomControlsEnabled
             isZoomGesturesEnabled = Prefs.isZoomGesturesEnabled
         }
 

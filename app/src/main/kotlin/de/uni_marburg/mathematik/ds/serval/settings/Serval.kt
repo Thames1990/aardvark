@@ -3,6 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.settings
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
@@ -47,6 +48,8 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     )
 
+    fun shouldReloadEvents() = setAardvarkResult(MainActivity.RELOAD_EVENTS)
+
     seekbar(
         title = R.string.preference_serval_event_count,
         getter = Prefs::eventCount,
@@ -55,7 +58,7 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             descRes = R.string.preference_serval_event_count_desc
             min = 1
             max = Prefs.EVENT_COUNT
-            shouldRestartMain()
+            shouldReloadEvents()
         }
     )
 }

@@ -26,7 +26,11 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     operator fun get(id: String) = dao.getById(id)
 
-    fun fetchEvents() = dao.insertOrUpdate(EventRepository.fetch())
+    fun fetchEvents(deleteEvents: Boolean = false) {
+        val events: List<Event> = EventRepository.fetch()
+        if (deleteEvents) dao.removeAll()
+        dao.insertOrUpdate(events)
+    }
 
     fun sortEventsBy(eventComparator: EventComparator, reversed: Boolean = false): Boolean {
         val events: List<Event> = dao.getAll()
