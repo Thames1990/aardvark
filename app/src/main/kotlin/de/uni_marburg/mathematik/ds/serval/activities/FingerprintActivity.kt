@@ -112,7 +112,7 @@ class FingerprintActivity : AppCompatActivity() {
                     color = Prefs.Appearance.iconColor
                 )
                 description.setTextWithOptions(errorMessage.toString())
-                if (Prefs.useVibrations) vibrate()
+                if (Prefs.Experimental.useVibrations) vibrate()
             }
         })
     }

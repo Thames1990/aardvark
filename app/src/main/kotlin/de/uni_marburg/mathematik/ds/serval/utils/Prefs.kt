@@ -45,12 +45,7 @@ object Prefs : KPref() {
         postSetter = { locationRequestAccuracyLoader.invalidate() }
     )
     var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
-    var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = false)
-    var showDownloadProgress: Boolean by kpref(key = "SHOW_DOWNLOAD_PROGRESS", fallback = false)
-    var useVibrations: Boolean by kpref(key = "USE_VIBRATIONS", fallback = false)
-    var useWifiADB: Boolean by kpref(key = "USE_WIFI_ADB", fallback = false)
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
-    var viewpagerSwipe: Boolean by kpref(key = "VIEWPAGER_SWIPE", fallback = false)
 
     object Appearance {
         var themeIndex: Int by kpref(
@@ -134,6 +129,14 @@ object Prefs : KPref() {
         var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = isReleaseBuild)
         var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
         var analytics: Boolean by kpref(key = "ANALYTICS", fallback = true)
+    }
+
+    object Experimental {
+        var useWifiADB: Boolean by kpref(key = "USE_WIFI_ADB", fallback = false)
+        var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = false)
+        var useVibrations: Boolean by kpref(key = "USE_VIBRATIONS", fallback = false)
+        var showDownloadProgress: Boolean by kpref(key = "SHOW_DOWNLOAD_PROGRESS", fallback = false)
+        var viewpagerSwipe: Boolean by kpref(key = "VIEWPAGER_SWIPE", fallback = false)
     }
 
     object Map {

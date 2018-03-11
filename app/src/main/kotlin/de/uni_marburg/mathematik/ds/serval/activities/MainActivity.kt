@@ -77,7 +77,7 @@ class MainActivity : BaseActivity() {
         setupTabLayout()
 
         if (hasLocationPermission) trackLocation()
-        if (Prefs.showDownloadProgress) trackEventDownloadProgress()
+        if (Prefs.Experimental.showDownloadProgress) trackEventDownloadProgress()
 
         checkForNewVersion()
     }

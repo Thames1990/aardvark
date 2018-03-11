@@ -26,9 +26,9 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_enable_wifi_adb,
-        getter = Prefs::useWifiADB,
+        getter = Prefs.Experimental::useWifiADB,
         setter = { enableWifiADB ->
-            Prefs.useWifiADB = enableWifiADB
+            Prefs.Experimental.useWifiADB = enableWifiADB
             if (enableWifiADB) enableWifiAdb()
             else disableWifiAdb()
             reloadByTitle(R.string.preference_experimental_share_wifi_adb_command)
@@ -39,7 +39,7 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
         title = R.string.preference_experimental_share_wifi_adb_command,
         builder = {
             descRes = R.string.preference_experimental_share_adb_command_desc
-            enabler = Prefs::useWifiADB
+            enabler = Prefs.Experimental::useWifiADB
             onDisabledClick = {
                 snackbarThemed(getString(R.string.preference_experimental_requires_wifi_adb))
             }
@@ -51,9 +51,9 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_secure_app,
-        getter = Prefs::secureApp,
+        getter = Prefs.Experimental::secureApp,
         setter = { secure_app ->
-            Prefs.secureApp = secure_app
+            Prefs.Experimental.secureApp = secure_app
             setSecureFlag()
             shouldRestartApplication()
             reload()
@@ -62,15 +62,15 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
     )
 
     fun KPrefItemBase.BaseContract<Boolean>.dependsOnSecurePrivacy() {
-        enabler = Prefs::secureApp
+        enabler = Prefs.Experimental::secureApp
         onDisabledClick =
                 { snackbarThemed(R.string.preference_experimental_requires_secure_privacy) }
     }
 
     checkbox(
         title = R.string.preference_experimental_vibration,
-        getter = Prefs::useVibrations,
-        setter = { Prefs.useVibrations = it },
+        getter = Prefs.Experimental::useVibrations,
+        setter = { Prefs.Experimental.useVibrations = it },
         builder = {
             dependsOnSecurePrivacy()
             descRes = R.string.preference_experimental_vibration_desc
@@ -82,8 +82,8 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_progress_bar,
-        getter = Prefs::showDownloadProgress,
-        setter = { Prefs.showDownloadProgress = it },
+        getter = Prefs.Experimental::showDownloadProgress,
+        setter = { Prefs.Experimental.showDownloadProgress = it },
         builder = {
             descRes = R.string.preference_experimental_progress_bar_desc
             shouldRestartMain()
@@ -92,9 +92,9 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_paging,
-        getter = Prefs::viewpagerSwipe,
+        getter = Prefs.Experimental::viewpagerSwipe,
         setter = { usePaging ->
-            Prefs.viewpagerSwipe = usePaging
+            Prefs.Experimental.viewpagerSwipe = usePaging
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_experimental_paging_desc }
