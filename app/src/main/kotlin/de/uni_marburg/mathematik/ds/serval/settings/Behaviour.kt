@@ -12,31 +12,31 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
-        title = R.string.preference_animations,
+        title = R.string.preference_behaviour_animations,
         getter = Prefs::animate,
         setter = { useAnimations ->
             Prefs.animate = useAnimations
             animate = useAnimations
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_animations_desc }
+        builder = { descRes = R.string.preference_behaviour_animations_desc }
     )
 
     checkbox(
         title = R.string.kau_changelog,
         getter = Prefs::showChangelog,
         setter = { Prefs.showChangelog = it },
-        builder = { descRes = R.string.preference_changelog_desc }
+        builder = { descRes = R.string.preference_behaviour_changelog_desc }
     )
 
     checkbox(
-        title = R.string.preference_confirm_exit,
+        title = R.string.preference_behaviour_confirm_exit,
         getter = Prefs::confirmExit,
         setter = { Prefs.confirmExit = it }
     )
 
     checkbox(
-        title = R.string.preference_analytics,
+        title = R.string.preference_behaviour_analytics,
         getter = Prefs::analytics,
         setter = { useAnalytics ->
             Prefs.analytics = useAnalytics
@@ -53,6 +53,6 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             }
             shouldRestartApplication()
         },
-        builder = { descRes = R.string.preference_analytics_desc }
+        builder = { descRes = R.string.preference_behaviour_analytics_desc }
     )
 }

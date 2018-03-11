@@ -59,7 +59,7 @@ class IntroActivity : BaseActivity() {
                         x = next.x + next.pivotX,
                         y = next.y + next.pivotY
                     )
-                    else -> snackbarThemed(R.string.preference_requires_location_permission)
+                    else -> snackbarThemed(R.string.preference_location_requires_location_permission)
                 }
             }
         }

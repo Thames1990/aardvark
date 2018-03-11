@@ -22,7 +22,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     if (!hasLocationPermission) {
-        plainText(R.string.preference_requires_location_permission) {
+        plainText(R.string.preference_location_requires_location_permission) {
             descRes = R.string.grant_location_permission_settings
             onClick = {
                 kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
@@ -34,24 +34,18 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnLocationPermission() {
         enabler = ::hasLocationPermission
-        onDisabledClick = { snackbarThemed(R.string.preference_requires_location_permission) }
+        onDisabledClick = { snackbarThemed(R.string.preference_location_requires_location_permission) }
     }
 
-    fun KPrefSeekbar.KPrefSeekbarContract.dependsOnLocationPermission() {
-        enabler = ::hasLocationPermission
-        onDisabledClick = { snackbarThemed(R.string.preference_requires_location_permission) }
-    }
-
-    // Location request accuracy
     text(
-        title = R.string.location_request_priority,
+        title = R.string.preference_location_request_priority,
         getter = Prefs::locationRequestAccuracyIndex,
         setter = { Prefs.locationRequestAccuracyIndex = it },
         builder = {
             dependsOnLocationPermission()
             onClick = {
                 materialDialogThemed {
-                    title(R.string.location_request_priority)
+                    title(R.string.preference_location_request_priority)
                     items(LocationRequestAccuracy.values().map { priority ->
                         "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
                     })
@@ -69,27 +63,30 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     )
 
-    // Location request distance
+    fun KPrefSeekbar.KPrefSeekbarContract.dependsOnLocationPermission() {
+        enabler = ::hasLocationPermission
+        onDisabledClick = { snackbarThemed(R.string.preference_location_requires_location_permission) }
+    }
+
     seekbar(
-        title = R.string.location_request_distance,
+        title = R.string.preference_location_request_distance,
         getter = Prefs::locationRequestDistance,
         setter = { Prefs.locationRequestDistance = it },
         builder = {
             dependsOnLocationPermission()
-            descRes = R.string.location_request_distance_desc
+            descRes = R.string.preference_location_request_distance_desc
             min = LOCATION_REQUEST_MIN_DISTANCE
             max = LOCATION_REQUEST_MAX_DISTANCE
         }
     )
 
-    // Location request interval
     seekbar(
-        title = R.string.location_request_interval,
+        title = R.string.preference_location_request_interval,
         getter = Prefs::locationRequestInterval,
         setter = { Prefs.locationRequestInterval = it },
         builder = {
             dependsOnLocationPermission()
-            descRes = R.string.location_request_interval_desc
+            descRes = R.string.preference_location_request_interval_desc
             min = LOCATION_REQUEST_MIN_INTERVAL
             max = LOCATION_REQUEST_MAX_INTERVAL
         }

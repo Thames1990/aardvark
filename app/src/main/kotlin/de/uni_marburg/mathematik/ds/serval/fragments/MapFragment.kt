@@ -142,7 +142,7 @@ class MapFragment : BaseFragment() {
                 Theme.AMOLED -> R.raw.map_style_night
                 Theme.LIGHT -> R.raw.map_style_standard
                 Theme.DARK -> R.raw.map_style_dark
-                Theme.CUSTOM -> Prefs.mapsStyle.style
+                Theme.CUSTOM -> Prefs.mapStyle.style
             }
             setMapStyle(MapStyleOptions.loadRawResourceStyle(context, rawResourceRes))
             uiSettings.isMyLocationButtonEnabled = false

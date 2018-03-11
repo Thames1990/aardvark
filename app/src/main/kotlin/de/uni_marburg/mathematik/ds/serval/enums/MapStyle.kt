@@ -10,7 +10,7 @@ import de.uni_marburg.mathematik.ds.serval.R
  * @property titleRes Resource ID of the title
  * @property style Resource ID to the JSON file describing the style
  */
-enum class MapsStyle(@StringRes val titleRes: Int, @RawRes val style: Int) {
+enum class MapStyle(@StringRes val titleRes: Int, @RawRes val style: Int) {
 
     STANDARD(
         titleRes = R.string.maps_style_standard,

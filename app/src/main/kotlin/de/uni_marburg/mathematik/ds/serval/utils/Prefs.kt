@@ -10,8 +10,20 @@ object Prefs : KPref() {
 
     const val EVENT_COUNT = 10000
 
-    private val mapsStyleLoader = lazyResettable { MapsStyle.values()[mapsStyleIndex] }
-    val mapsStyle: MapsStyle by mapsStyleLoader
+    private val dateTimeFormatLoader =
+        lazyResettable { DateTimeFormat.values()[dateTimeFormatIndex] }
+    val dateTimeFormat: DateTimeFormat by dateTimeFormatLoader
+
+    private val locationRequestAccuracyLoader =
+        lazyResettable { LocationRequestAccuracy.values()[locationRequestAccuracyIndex] }
+    val locationRequestAccuracy: LocationRequestAccuracy by locationRequestAccuracyLoader
+
+    private val mainActivityLayoutLoader =
+        lazyResettable { MainActivityLayout.values()[mainActivityLayoutIndex] }
+    val mainActivityLayout: MainActivityLayout by mainActivityLayoutLoader
+
+    private val mapStyleLoader = lazyResettable { MapStyle.values()[mapStyleIndex] }
+    val mapStyle: MapStyle by mapStyleLoader
 
     private val themeLoader = lazyResettable { Theme.values()[themeIndex] }
     val theme: Theme by themeLoader
@@ -28,15 +40,6 @@ object Prefs : KPref() {
         get() = theme == Theme.CUSTOM
     val textColor: Int
         get() = theme.textColor
-
-    val dateTimeFormat: DateTimeFormat
-        get() = DateTimeFormat(dateTimeFormatIndex)
-
-    val locationRequestAccuracy: LocationRequestAccuracy
-        get() = LocationRequestAccuracy(locationRequestAccuracyIndex)
-
-    val mainActivityLayout: MainActivityLayout
-        get() = MainActivityLayout(mainActivityLayoutIndex)
 
     var animate: Boolean by kpref(
         key = "ANIMATE",
@@ -61,6 +64,7 @@ object Prefs : KPref() {
         key = "DATE_TIME_FORMAT_INDEX",
         fallback = DateTimeFormat.MEDIUM_DATE_MEDIUM_TIME.ordinal,
         postSetter = { value: Int ->
+            dateTimeFormatLoader.invalidate()
             logAnalytics(
                 name = "Date time format",
                 events = *arrayOf("Date time format" to DateTimeFormat(value).name)
@@ -73,22 +77,22 @@ object Prefs : KPref() {
     )
     var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
     var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
-    var mapsStyleIndex: Int by kpref(
+    var mapStyleIndex: Int by kpref(
         key = "MAPS_STYLE_INDEX",
         fallback = 0,
         postSetter = { value: Int ->
-            mapsStyleLoader.invalidate()
+            mapStyleLoader.invalidate()
             logAnalytics(
                 name = "Maps style",
-                events = *arrayOf("Count" to MapsStyle(value).name)
+                events = *arrayOf("Count" to MapStyle(value).name)
             )
         }
     )
     var installDate: Long by kpref(key = "INSTALL_DATE", fallback = -1L)
-    var kervalBaseUrl: String by kpref(key = "KERVAL_BASE_URL", fallback = "serval.splork.de")
-    var kervalPassword: String by kpref(key = "KERVAL_PASSWORD", fallback = "pum123")
-    var kervalPort: Int by kpref(key = "KERVAL_PORT", fallback = 80)
-    var kervalUser: String by kpref("KERVAL_USER", "pum")
+    var servalBaseUrl: String by kpref(key = "SERVAL_BASE_URL", fallback = "serval.splork.de")
+    var servalPassword: String by kpref(key = "SERVAL_PASSWORD", fallback = "pum123")
+    var servalPort: Int by kpref(key = "SERVAL_PORT", fallback = 80)
+    var servalUser: String by kpref("SERVAL_USER", "pum")
     var lastLaunch: Long by kpref(key = "LAST_LAUNCH", fallback = -1L)
     var locationRequestInterval: Int by kpref(
         key = "LOCATION_REQUEST_INTERVAL",
@@ -106,12 +110,14 @@ object Prefs : KPref() {
     )
     var locationRequestAccuracyIndex: Int by kpref(
         key = "LOCATION_REQUEST_ACCURACY_INDEX",
-        fallback = LocationRequestAccuracy.HIGH.ordinal
+        fallback = LocationRequestAccuracy.HIGH.ordinal,
+        postSetter = { locationRequestAccuracyLoader.invalidate() }
     )
     var mainActivityLayoutIndex: Int by kpref(
         key = "MAIN_ACTIVITY_LAYOUT_INDEX",
         fallback = MainActivityLayout.TOP_BAR.ordinal,
         postSetter = { value: Int ->
+            mainActivityLayoutLoader.invalidate()
             logAnalytics(
                 name = "Main Layout",
                 events = *arrayOf("Type" to MainActivityLayout(value).name)

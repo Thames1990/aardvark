@@ -18,39 +18,39 @@ import java.net.InetAddress
 fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     plainText(
-        title = R.string.preference_debug_disclaimer,
-        builder = { descRes = R.string.preference_debug_disclaimer_desc }
+        title = R.string.preference_experimental_disclaimer,
+        builder = { descRes = R.string.preference_experimental_disclaimer_desc }
     )
 
     header(R.string.preference_debug_wifi_adb)
 
     checkbox(
-        title = R.string.preference_enable_wifi_adb,
+        title = R.string.preference_experimental_enable_wifi_adb,
         getter = Prefs::useWifiADB,
         setter = { enableWifiADB ->
             Prefs.useWifiADB = enableWifiADB
             if (enableWifiADB) enableWifiAdb()
             else disableWifiAdb()
-            reloadByTitle(R.string.preference_share_wifi_adb_command)
+            reloadByTitle(R.string.preference_experimental_share_wifi_adb_command)
         }
     )
 
     plainText(
-        title = R.string.preference_share_wifi_adb_command,
+        title = R.string.preference_experimental_share_wifi_adb_command,
         builder = {
-            descRes = R.string.preference_share_adb_command_desc
+            descRes = R.string.preference_experimental_share_adb_command_desc
             enabler = Prefs::useWifiADB
             onDisabledClick = {
-                snackbarThemed(getString(R.string.preference_enable_wifi_adb_hint))
+                snackbarThemed(getString(R.string.preference_experimental_requires_wifi_adb))
             }
             onClick = { shareWifiAdbCommand() }
         }
     )
 
-    header(R.string.preference_debug_security)
+    header(R.string.preference_experimental_security_header)
 
     checkbox(
-        title = R.string.preference_secure_app,
+        title = R.string.preference_experimental_secure_app,
         getter = Prefs::secureApp,
         setter = { secure_app ->
             Prefs.secureApp = secure_app
@@ -58,45 +58,46 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
             shouldRestartApplication()
             reload()
         },
-        builder = { descRes = R.string.preference_secure_app_desc }
+        builder = { descRes = R.string.preference_experimental_secure_app_desc }
     )
 
     fun KPrefItemBase.BaseContract<Boolean>.dependsOnSecurePrivacy() {
         enabler = Prefs::secureApp
-        onDisabledClick = { snackbarThemed(R.string.preference_requires_secure_privacy) }
+        onDisabledClick =
+                { snackbarThemed(R.string.preference_experimental_requires_secure_privacy) }
     }
 
     checkbox(
-        title = R.string.preference_vibration,
+        title = R.string.preference_experimental_vibration,
         getter = Prefs::useVibrations,
         setter = { Prefs.useVibrations = it },
         builder = {
             dependsOnSecurePrivacy()
-            descRes = R.string.preference_vibration_desc
+            descRes = R.string.preference_experimental_vibration_desc
             shouldRestartApplication()
         }
     )
 
-    header(R.string.preference_debug_miscellaneous)
+    header(R.string.preference_experimental_miscellaneous_header)
 
     checkbox(
-        title = R.string.preference_progress_bar,
+        title = R.string.preference_experimental_progress_bar,
         getter = Prefs::showDownloadProgress,
         setter = { Prefs.showDownloadProgress = it },
         builder = {
-            descRes = R.string.preference_progress_bar_desc
+            descRes = R.string.preference_experimental_progress_bar_desc
             shouldRestartMain()
         }
     )
 
     checkbox(
-        title = R.string.preference_paging,
+        title = R.string.preference_experimental_paging,
         getter = Prefs::viewpagerSwipe,
         setter = { usePaging ->
             Prefs.viewpagerSwipe = usePaging
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_paging_desc }
+        builder = { descRes = R.string.preference_experimental_paging_desc }
     )
 
 }

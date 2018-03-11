@@ -8,18 +8,18 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
 fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
-    // Serval API username
+
     text(
-        title = R.string.kerval_username,
-        getter = Prefs::kervalUser,
-        setter = { Prefs.kervalUser = it },
+        title = R.string.preference_serval_username,
+        getter = Prefs::servalUser,
+        setter = { Prefs.servalUser = it },
         builder = {
-            descRes = R.string.preference_username_desc
+            descRes = R.string.preference_serval_username_desc
             onClick = {
                 materialDialogThemed {
-                    title(string(R.string.kerval_username))
+                    title(string(R.string.preference_serval_username))
                     input(
-                        string(R.string.kerval_username),
+                        string(R.string.preference_serval_username),
                         item.pref,
                         { _, input -> item.pref = input.toString() }
                     )
@@ -28,18 +28,17 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     )
 
-    // Serval API password
     text(
-        title = R.string.kerval_password,
-        getter = Prefs::kervalPassword,
-        setter = { Prefs.kervalPassword = it },
+        title = R.string.preference_serval_password,
+        getter = Prefs::servalPassword,
+        setter = { Prefs.servalPassword = it },
         builder = {
-            descRes = R.string.preference_password_desc
+            descRes = R.string.preference_serval_password_desc
             onClick = {
                 materialDialogThemed {
-                    title(string(R.string.kerval_password))
+                    title(string(R.string.preference_serval_password))
                     input(
-                        string(R.string.kerval_password),
+                        string(R.string.preference_serval_password),
                         item.pref,
                         { _, input -> item.pref = input.toString() }
                     )
@@ -48,13 +47,12 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     )
 
-    // Events to fetch from Serval API
     seekbar(
-        title = R.string.preference_event_count,
+        title = R.string.preference_serval_event_count,
         getter = Prefs::eventCount,
         setter = { Prefs.eventCount = it },
         builder = {
-            descRes = R.string.preference_event_count_desc
+            descRes = R.string.preference_serval_event_count_desc
             min = 1
             max = Prefs.EVENT_COUNT
             shouldRestartMain()

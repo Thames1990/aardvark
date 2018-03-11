@@ -197,7 +197,7 @@ class MainActivity : BaseActivity() {
             }
             hideOnDownwardsScroll(recyclerView)
             setIcon(icon = GoogleMaterial.Icon.gmd_arrow_upward, color = Prefs.iconColor)
-            if (buildIsOreoAndUp) tooltipText = string(R.string.event_reload)
+            if (buildIsOreoAndUp) tooltipText = string(R.string.tooltip_fab_scroll_to_top)
             show()
         }
 
@@ -215,7 +215,9 @@ class MainActivity : BaseActivity() {
                 currentFragment.moveToPosition(lastPosition)
             }
             setIcon(icon = GoogleMaterial.Icon.gmd_my_location, color = Prefs.iconColor)
-            if (buildIsOreoAndUp) tooltipText = string(R.string.location_move_to_current)
+            if (buildIsOreoAndUp) {
+                tooltipText = string(R.string.tooltip_fab_move_to_current_location)
+            }
             show()
         }
     }

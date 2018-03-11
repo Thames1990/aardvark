@@ -27,12 +27,6 @@
     <string name="activity_unknown">… WTF are you doing?</string>
     <string name="activity_walking">walking</string>
 
-    <string name="color_accent">Accent color</string>
-    <string name="color_background">Background color</string>
-    <string name="color_header">Header color</string>
-    <string name="color_icon">Icon color</string>
-    <string name="color_text">Text color</string>
-
     <string name="date_full_time_full">Full date\nFull time</string>
     <string name="date_full_time_long">Full date\nLong time</string>
     <string name="date_full_time_medium">Full date\nMedium time</string>
@@ -92,9 +86,9 @@
 
     <string name="kerval_desc">Kotlin client for serval-dna REST-interface</string>
     <string name="kerval_name" translatable="false">Kerval</string>
-    <string name="kerval_password">Password</string>
+    <string name="preference_serval_password">Password</string>
     <string name="kerval_password_must_not_be_empty">You need to enter a password</string>
-    <string name="kerval_username">Username</string>
+    <string name="preference_serval_username">Username</string>
     <string name="kerval_username_must_not_be_empty">You need to enter a username</string>
 
     <string name="license_mit">MIT License</string>
@@ -104,12 +98,11 @@
     <string name="location">Location</string>
     <string name="location_address">Address</string>
     <string name="location_desc">Control your location settings</string>
-    <string name="location_move_to_current">Move to current location</string>
-    <string name="location_request_distance">Location request distance</string>
-    <string name="location_request_distance_desc">Define how many meters you have to move to trigger a location update</string>
-    <string name="location_request_interval">Location request interval</string>
-    <string name="location_request_interval_desc">Define the interval in minutes between active location updates</string>
-    <string name="location_request_priority">Location request priority</string>
+    <string name="preference_location_request_distance">Location request distance</string>
+    <string name="preference_location_request_distance_desc">Define how many meters you have to move to trigger a location update</string>
+    <string name="preference_location_request_interval">Location request interval</string>
+    <string name="preference_location_request_interval_desc">Define the interval in minutes between active location updates</string>
+    <string name="preference_location_request_priority">Location request priority</string>
     <string name="location_request_priority_accurate">Accurate</string>
     <string name="location_request_priority_accurate_desc">Use this setting to request the most precise location possible. With this setting, the location services are more likely to use GPS to determine the location.</string>
     <string name="location_request_priority_block_accuracy">Block accuracy</string>
@@ -119,7 +112,6 @@
     <string name="location_request_priority_passive">Passive</string>
     <string name="location_request_priority_passive_desc">Use this setting if you need negligible impact on power consumption, but want to receive location updates when available. With this setting, your app does not trigger any location updates, but receives locations triggered by other apps.</string>
 
-    <string name="maps_style">Maps style</string>
     <string name="maps_style_aubergine">Aubergine</string>
     <string name="maps_style_dark">Dark</string>
     <string name="maps_style_night">Night</string>
@@ -146,72 +138,79 @@
     <string name="placeholder_desc">The developer was too lazy to include a layout!</string>
     <string name="placeholder_title">DAMN</string>
 
-    <string name="preference_analytics">Analytics</string>
-    <string name="preference_analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
-    <string name="preference_animations">Fancy Animations</string>
-    <string name="preference_animations_desc">Use ripples and animate transitions</string>
+    <string name="preference_behaviour_analytics">Analytics</string>
+    <string name="preference_behaviour_analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
+    <string name="preference_behaviour_animations">Fancy Animations</string>
+    <string name="preference_behaviour_animations_desc">Use ripples and animate transitions</string>
     <string name="preference_appearance">Appearance</string>
+    <string name="preference_appearance_color_accent">Accent color</string>
+    <string name="preference_appearance_color_background">Background color</string>
+    <string name="preference_appearance_color_header">Header color</string>
+    <string name="preference_appearance_color_icon">Icon color</string>
+    <string name="preference_appearance_color_text">Text color</string>
+    <string name="preference_appearance_date_time_format">Date/Time format</string>
     <string name="preference_appearance_desc">Theme, Items to display, etc</string>
+    <string name="preference_appearance_global_header">Global Customization</string>
+    <string name="preference_appearance_main_activity_layout">Main Activity Layout</string>
+    <string name="preference_appearance_theme">Theme</string>
+    <string name="preference_appearance_theme_header">Theme Customization</string>
+    <string name="preference_appearance_tint_navbar">Tint navigation bar</string>
     <string name="preference_bar_bottom">Bottom bar</string>
     <string name="preference_bar_top">Top bar</string>
     <string name="preference_behaviour">Behaviour</string>
     <string name="preference_behaviour_desc">Define how the app interacts in certain settings</string>
-    <string name="preference_changelog_desc">Show changelogs after updates</string>
-    <string name="preference_confirm_exit">Confirm exit</string>
+    <string name="preference_behaviour_changelog_desc">Show changelogs after updates</string>
+    <string name="preference_behaviour_confirm_exit">Confirm exit</string>
     <string name="preference_confirm_exit_desc">Show confirmation dialog before exiting the app</string>
-    <string name="preference_date_time_format">Date/Time format</string>
-    <string name="preference_debug_disclaimer">Disclaimer</string>
-    <string name="preference_debug_disclaimer_desc">Experimental features may be unstable and may never make it to production. Use at your own risk, send feedback, and feel free to disable them if they don\'t work well.</string>
+    <string name="preference_experimental_disclaimer">Disclaimer</string>
+    <string name="preference_experimental_disclaimer_desc">Experimental features may be unstable and may never make it to production. Use at your own risk, send feedback, and feel free to disable them if they don\'t work well.</string>
     <string name="preference_debug_enabled">Debug settings activated</string>
-    <string name="preference_debug_miscellaneous">Miscellaneous</string>
-    <string name="preference_debug_security">Security</string>
+    <string name="preference_experimental_miscellaneous_header">Miscellaneous</string>
+    <string name="preference_experimental_security_header">Security</string>
     <string name="preference_debug_wifi_adb">WiFi ADB</string>
-    <string name="preference_enable_wifi_adb">Enable WiFi ADB</string>
-    <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>
-    <string name="preference_event_count">Event count</string>
-    <string name="preference_event_count_desc">Define how many events should be loaded</string>
+    <string name="preference_experimental_enable_wifi_adb">Enable WiFi ADB</string>
+    <string name="preference_experimental_requires_wifi_adb">You need to enable WifiADB</string>
+    <string name="preference_serval_event_count">Event count</string>
+    <string name="preference_serval_event_count_desc">Define how many events should be loaded</string>
     <string name="preference_experimental">Experimental</string>
     <string name="preference_experimental_desc">Enable early access to potentially unstable features</string>
-    <string name="preference_global_customization">Global Customization</string>
-    <string name="preference_main_activity_layout">Main Activity Layout</string>
     <string name="preference_map">Map</string>
     <string name="preference_map_buildings">Buildings</string>
     <string name="preference_map_buildings_desc">Show buildings</string>
     <string name="preference_map_desc">Customize Google Map</string>
     <string name="preference_map_indoor">Indoor</string>
     <string name="preference_map_indoor_desc">Show indoor</string>
-    <string name="preference_map_layers">Map layers</string>
+    <string name="preference_map_layers_header">Map layers</string>
     <string name="preference_map_traffic">Traffic</string>
     <string name="preference_map_traffic_desc">Show traffic</string>
-    <string name="preference_paging">Viewpager Swipe</string>
-    <string name="preference_paging_desc">Allow swiping between the pages in the main view to switch tabs. Disabling this will prevent page swiping altogether.</string>
-    <string name="preference_password_desc">Serval API password</string>
-    <string name="preference_progress_bar">Download progress</string>
-    <string name="preference_progress_bar_desc">Show event download progress in toolbar</string>
+    <string name="preference_map_style">Maps style</string>
+    <string name="preference_experimental_paging">Viewpager Swipe</string>
+    <string name="preference_experimental_paging_desc">Allow swiping between the pages in the main view to switch tabs. Disabling this will prevent page swiping altogether.</string>
+    <string name="preference_serval_password_desc">Serval API password</string>
+    <string name="preference_experimental_progress_bar">Download progress</string>
+    <string name="preference_experimental_progress_bar_desc">Show event download progress in toolbar</string>
     <string name="preference_reload">Reload settings</string>
     <string name="preference_replay_intro">Replay Introduction</string>
     <string name="preference_report_bug">Report bug</string>
     <string name="preference_requires_custom_theme">Requires custom theme</string>
-    <string name="preference_requires_location_permission">Requires location permission</string>
-    <string name="preference_requires_secure_privacy">Requires secure privacy</string>
+    <string name="preference_location_requires_location_permission">Requires location permission</string>
+    <string name="preference_experimental_requires_secure_privacy">Requires secure privacy</string>
     <string name="preference_reset_analytics">Reset analytics</string>
     <string name="preference_reset_analytics_confirmation">Your analytics collection was removed</string>
     <string name="preference_reset_analytics_desc">Do you want to delete all collected analytics data?</string>
-    <string name="preference_secure_app">Fingerprint authentication</string>
-    <string name="preference_secure_app_desc">Prohibit screenshots, interception of screen status and require fingerprint authentication</string>
+    <string name="preference_experimental_secure_app">Fingerprint authentication</string>
+    <string name="preference_experimental_secure_app_desc">Prohibit screenshots, interception of screen status and require fingerprint authentication</string>
     <string name="preference_send_feedback">Send feedback</string>
     <string name="preference_send_feedback_desc">Got any queries? We are happy to help!</string>
     <string name="preference_serval" translatable="false">Serval</string>
     <string name="preference_serval_desc">Serval login information</string>
     <string name="preference_set_main_activity_layout">Set Main Activity Layout</string>
-    <string name="preference_share_adb_command_desc">Use this command on your computer</string>
-    <string name="preference_share_wifi_adb_command">Share ADB command</string>
-    <string name="preference_theme">Theme</string>
-    <string name="preference_tint_nav">Tint nav bar</string>
-    <string name="preference_tint_nav_desc">Navigation bar will be the same color as the header</string>
-    <string name="preference_username_desc">Serval API username</string>
-    <string name="preference_vibration">Vibrations</string>
-    <string name="preference_vibration_desc">Vibrate on failed fingerprint unlock</string>
+    <string name="preference_experimental_share_adb_command_desc">Use this command on your computer</string>
+    <string name="preference_experimental_share_wifi_adb_command">Share ADB command</string>appearance_
+    <string name="preference_appearance_tint_navbar_desc">Navigation bar will be the same color as the header</string>
+    <string name="preference_serval_username_desc">Serval API username</string>
+    <string name="preference_experimental_vibration">Vibrations</string>
+    <string name="preference_experimental_vibration_desc">Vibrate on failed fingerprint unlock</string>
 
     <string name="repository_link_aardvark" translatable="false">https://github.com/Thames1990/aardvark</string>
     <string name="repository_link_kerval" translatable="false">https://github.com/CryptoCopter/kerval</string>
@@ -228,8 +227,6 @@
     <string name="tab_item_events">Events</string>
     <string name="tab_item_map">Map</string>
 
-    <string name="theme">Theme</string>
-    <string name="theme_customization">Theme Customization</string>
-
+    <string name="tooltip_fab_move_to_current_location">Move to current location</string>
     <string name="tooltip_fab_scroll_to_top">Scroll to top</string>
 </resources>
