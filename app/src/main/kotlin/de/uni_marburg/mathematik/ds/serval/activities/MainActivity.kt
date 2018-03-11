@@ -177,7 +177,10 @@ class MainActivity : BaseActivity() {
 
                     when (currentFragment) {
                         is DashboardFragment -> selectDashboardFragment()
-                        is EventsFragment -> selectEventsFragmentTab(currentFragment.recyclerView)
+                        is EventsFragment -> {
+                            checkNotNull(currentFragment.recyclerView)
+                            selectEventsFragmentTab(currentFragment.recyclerView)
+                        }
                         is MapFragment -> selectMapFragmentTab(currentFragment)
                     }
                 }
