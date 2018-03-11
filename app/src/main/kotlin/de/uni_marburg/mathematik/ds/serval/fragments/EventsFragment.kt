@@ -47,7 +47,7 @@ class EventsFragment : BaseFragment() {
                 bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(context) },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)
-                    putExtra(DetailActivity.SHOW_MAP, true)
+                    putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
                 }
             )
         }

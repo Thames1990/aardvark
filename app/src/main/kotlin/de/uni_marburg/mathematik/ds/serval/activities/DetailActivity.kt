@@ -29,7 +29,8 @@ import java.util.*
  */
 class DetailActivity : ElasticRecyclerActivity() {
 
-    private lateinit var adapter: FastItemAdapter<IItem<*, *>>
+    private val adapter: FastItemAdapter<IItem<*, *>> = FastItemAdapter()
+
     private lateinit var eventViewModel: EventViewModel
     private lateinit var event: Event
     private lateinit var geocodingControl: SmartLocation.GeocodingControl
@@ -45,6 +46,19 @@ class DetailActivity : ElasticRecyclerActivity() {
             themeWindow = false
         }
 
+        setup()
+
+        setOutsideTapListener { finishAfterTransition() }
+
+        return true
+    }
+
+    override fun onPause() {
+        geocodingControl.stop()
+        super.onPause()
+    }
+
+    private fun setup() {
         doAsync {
             val eventId: String = intent.extras.getString(EVENT_ID)
             event = eventViewModel[eventId]
@@ -52,9 +66,8 @@ class DetailActivity : ElasticRecyclerActivity() {
             uiThread {
                 title = event.title
 
-                adapter = FastItemAdapter()
                 with(adapter) {
-                    recycler.adapter = adapter
+                    recycler.adapter = this
                     addGeneralCards()
                     addAddressCard()
 //                    CardIItem.bindClickEvents(this)
@@ -68,23 +81,14 @@ class DetailActivity : ElasticRecyclerActivity() {
                 }
             }
         }
-
-        setOutsideTapListener { finishAfterTransition() }
-
-        return true
-    }
-
-    override fun onPause() {
-        geocodingControl.stop()
-        super.onPause()
     }
 
     /**
      * Add general [event] detail cards.
      */
     private fun addGeneralCards() {
-        val showMap: Boolean = intent.extras.getBoolean(SHOW_MAP)
-        if (showMap) adapter.add(MapIItem(event))
+        val shouldShowMap: Boolean = intent.extras.getBoolean(SHOULD_SHOW_MAP)
+        if (shouldShowMap) adapter.add(MapIItem(event))
 
         addMeasurementsCards()
         addDetailsCards()
@@ -202,7 +206,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     companion object {
         const val EVENT_ID = "EVENT_ID"
-        const val SHOW_MAP = "SHOW_MAP"
+        const val SHOULD_SHOW_MAP = "SHOULD_SHOW_MAP"
     }
 
 }
