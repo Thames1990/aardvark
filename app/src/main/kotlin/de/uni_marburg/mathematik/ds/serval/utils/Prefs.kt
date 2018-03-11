@@ -8,15 +8,8 @@ import kotlin.math.roundToInt
 
 object Prefs : KPref() {
 
-    const val EVENT_COUNT = 10000
-
-    var experimentalSettings: Boolean by kpref(
-        key = "EXPERIMENTAL_SETTINGS",
-        fallback = isDebugBuild
-    )
     var installDate: Long by kpref(key = "INSTALL_DATE", fallback = -1L)
     var lastLaunch: Long by kpref(key = "LAST_LAUNCH", fallback = -1L)
-    var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
 
     object Appearance {
@@ -85,6 +78,8 @@ object Prefs : KPref() {
         private val dateTimeFormatLoader =
             lazyResettable { DateTimeFormat.values()[dateTimeFormatIndex] }
         val dateTimeFormat: DateTimeFormat by dateTimeFormatLoader
+
+        var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
     }
 
     object Behaviour {
@@ -104,6 +99,11 @@ object Prefs : KPref() {
     }
 
     object Experimental {
+        var experimentalSettings: Boolean by kpref(
+            key = "EXPERIMENTAL_SETTINGS",
+            fallback = isDebugBuild
+        )
+
         var useWifiADB: Boolean by kpref(key = "USE_WIFI_ADB", fallback = false)
         var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = false)
         var useVibrations: Boolean by kpref(key = "USE_VIBRATIONS", fallback = false)
@@ -171,6 +171,8 @@ object Prefs : KPref() {
     }
 
     object Serval {
+        const val EVENT_COUNT = 10000
+
         var servalBaseUrl: String by kpref(key = "SERVAL_BASE_URL", fallback = "serval.splork.de")
         var servalPassword: String by kpref(key = "SERVAL_PASSWORD", fallback = "pum123")
         var servalPort: Int by kpref(key = "SERVAL_PORT", fallback = 80)

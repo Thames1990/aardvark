@@ -15,10 +15,11 @@ import de.uni_marburg.mathematik.ds.serval.enums.Theme
 
 /**
  * Color the navigation bar with the specified [color][Prefs.Appearance.headerColor], if the user
- * activated [the setting][Prefs.tintNavBar]; [black][Color.BLACK] otherwise.
+ * activated [the setting][Prefs.Appearance.tintNavBar]; [black][Color.BLACK] otherwise.
  */
 fun Activity.themeNavigationBar() {
-    navigationBarColor = if (Prefs.tintNavBar) Prefs.Appearance.headerColor else Color.BLACK
+    navigationBarColor =
+            if (Prefs.Appearance.tintNavBar) Prefs.Appearance.headerColor else Color.BLACK
 }
 
 /**
@@ -92,7 +93,7 @@ class ActivityThemeUtils {
     fun theme(activity: Activity) {
         with(activity) {
             statusBarColor = Prefs.Appearance.headerColor.darken(0.1f).withAlpha(255)
-            if (Prefs.tintNavBar) navigationBarColor = Prefs.Appearance.headerColor
+            if (Prefs.Appearance.tintNavBar) navigationBarColor = Prefs.Appearance.headerColor
             if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.Appearance.backgroundColor))
             toolbar?.apply {
                 setBackgroundColor(Prefs.Appearance.headerColor)

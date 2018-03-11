@@ -177,9 +177,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_appearance_tint_navbar,
-        getter = Prefs::tintNavBar,
+        getter = Prefs.Appearance::tintNavBar,
         setter = { tintNavBar ->
-            Prefs.tintNavBar = tintNavBar
+            Prefs.Appearance.tintNavBar = tintNavBar
             themeNavigationBar()
             setAardvarkResult(MainActivity.REQUEST_NAV)
         },

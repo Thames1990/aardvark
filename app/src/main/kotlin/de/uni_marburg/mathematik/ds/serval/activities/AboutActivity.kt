@@ -53,8 +53,8 @@ class AboutActivity : AboutActivityBase(
                 count = 7,
                 duration = 500L,
                 event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
-                    if (!Prefs.experimentalSettings && item == aardvark) {
-                        Prefs.experimentalSettings = true
+                    if (!Prefs.Experimental.experimentalSettings && item == aardvark) {
+                        Prefs.Experimental.experimentalSettings = true
                         snackbarThemed(
                             textRes = R.string.preference_experimental_enabled,
                             builder = {

@@ -57,7 +57,7 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         builder = {
             descRes = R.string.preference_serval_event_count_desc
             min = 1
-            max = Prefs.EVENT_COUNT
+            max = Prefs.Serval.EVENT_COUNT
             shouldReloadEvents()
         }
     )
