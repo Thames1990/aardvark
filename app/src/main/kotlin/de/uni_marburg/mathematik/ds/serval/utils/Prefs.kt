@@ -117,7 +117,7 @@ object Prefs : KPref() {
                 )
             }
         )
-        var confirmExit: Boolean by kpref(key = "CONFIRM_EXIT", fallback = true)
+        var confirmExit: Boolean by kpref(key = "CONFIRM_EXIT", fallback = isReleaseBuild)
         var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = isReleaseBuild)
     }
 
