@@ -136,7 +136,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             textGetter = { string(Prefs.mainActivityLayout.titleRes) }
             onClick = {
                 materialDialogThemed {
-                    title(R.string.preference_set_main_activity_layout)
+                    title(R.string.preference_appearance_main_activity_layout)
                     items(MainActivityLayout.values().map { mainActivityLayout ->
                         string(mainActivityLayout.titleRes)
                     })

@@ -56,7 +56,7 @@ class AboutActivity : AboutActivityBase(
                     if (!Prefs.experimentalSettings && item == aardvark) {
                         Prefs.experimentalSettings = true
                         snackbarThemed(
-                            textRes = R.string.preference_debug_enabled,
+                            textRes = R.string.preference_experimental_enabled,
                             builder = {
                                 // Add option to reload settings to activate debug settings
                                 setAction(

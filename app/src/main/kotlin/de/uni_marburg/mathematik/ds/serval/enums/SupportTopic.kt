@@ -13,13 +13,13 @@ import de.uni_marburg.mathematik.ds.serval.utils.sendSupportEmail
  */
 enum class SupportTopic(@StringRes val titleRes: Int) {
 
-    FEEDBACK(R.string.support_feedback),
+    FEEDBACK(R.string.support_email_feedback),
 
     BUG(R.string.kau_report_bug),
 
-    THEME(R.string.support_theme_issue),
+    THEME(R.string.support_email_theme_issue),
 
-    FEATURE(R.string.support_feature_request);
+    FEATURE(R.string.support_email_feature_request);
 
     /**
      * Sends an email with the given support topic

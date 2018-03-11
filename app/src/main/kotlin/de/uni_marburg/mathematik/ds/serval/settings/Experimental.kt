@@ -22,7 +22,7 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
         builder = { descRes = R.string.preference_experimental_disclaimer_desc }
     )
 
-    header(R.string.preference_debug_wifi_adb)
+    header(R.string.preference_experimental_wifi_adb)
 
     checkbox(
         title = R.string.preference_experimental_enable_wifi_adb,

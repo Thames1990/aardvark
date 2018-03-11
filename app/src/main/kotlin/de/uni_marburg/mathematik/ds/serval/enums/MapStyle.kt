@@ -13,32 +13,32 @@ import de.uni_marburg.mathematik.ds.serval.R
 enum class MapStyle(@StringRes val titleRes: Int, @RawRes val style: Int) {
 
     STANDARD(
-        titleRes = R.string.maps_style_standard,
+        titleRes = R.string.map_style_standard,
         style = R.raw.map_style_standard
     ),
 
     SILVER(
-        titleRes = R.string.maps_style_silver,
+        titleRes = R.string.map_style_silver,
         style = R.raw.map_style_silver
     ),
 
     RETRO(
-        titleRes = R.string.maps_style_retro,
+        titleRes = R.string.map_style_retro,
         style = R.raw.map_style_retro
     ),
 
     DARK(
-        titleRes = R.string.maps_style_dark,
+        titleRes = R.string.map_style_dark,
         style = R.raw.map_style_dark
     ),
 
     NIGHT(
-        titleRes = R.string.maps_style_night,
+        titleRes = R.string.map_style_night,
         style = R.raw.map_style_night
     ),
 
     AUBERGINE(
-        titleRes = R.string.maps_style_aubergine,
+        titleRes = R.string.map_style_aubergine,
         style = R.raw.map_style_aubergine
     );
 
