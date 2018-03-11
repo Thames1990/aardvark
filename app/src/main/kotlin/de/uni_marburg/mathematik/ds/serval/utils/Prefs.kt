@@ -106,7 +106,7 @@ object Prefs : KPref() {
     }
 
     object Behaviour {
-        var analyticsEnabled: Boolean by kpref(key = "ANALYTICS_ENABLED", fallback = true)
+        var analyticsEnabled: Boolean by kpref(key = "ANALYTICS_ENABLED", fallback = isReleaseBuild)
         var animationsEnabled: Boolean by kpref(
             key = "ANIMATIONS_ENABLED",
             fallback = true,

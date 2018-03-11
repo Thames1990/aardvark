@@ -11,7 +11,10 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
+import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
+import de.uni_marburg.mathematik.ds.serval.utils.isDebugBuild
 import io.fabric.sdk.android.Fabric
 
 class Aardvark : Application() {
@@ -48,10 +51,10 @@ class Aardvark : Application() {
 
     private fun setupAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(applicationContext).apply {
-            setAnalyticsCollectionEnabled(analyticsEnabled)
+            setAnalyticsCollectionEnabled(Prefs.Behaviour.analyticsEnabled)
         }
 
-        if (analyticsEnabled) {
+        if (Prefs.Behaviour.analyticsEnabled) {
             Fabric.with(applicationContext, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(aardvarkId)
         }

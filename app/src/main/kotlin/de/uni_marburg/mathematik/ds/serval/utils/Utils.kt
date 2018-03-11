@@ -37,7 +37,7 @@ inline fun answers(action: Answers.() -> Unit) = Answers.getInstance().action()
  * Log custom events to analytics services.
  */
 fun logAnalytics(name: String, vararg events: Pair<String, Any>) {
-    if (analyticsEnabled) {
+    if (Prefs.Behaviour.analyticsEnabled) {
         answers {
             logCustom(CustomEvent(name).apply {
                 events.forEach { (key: String, value: Any) ->
