@@ -19,10 +19,10 @@ object EventRepository {
      * Authenticates with the Serval API and offers connection to the Rhizome database.
      */
     private val client = ServalClient(
-        host = Prefs.servalBaseUrl,
-        port = Prefs.servalPort,
-        user = Prefs.servalUser,
-        password = Prefs.servalPassword,
+        host = Prefs.Serval.servalBaseUrl,
+        port = Prefs.Serval.servalPort,
+        user = Prefs.Serval.servalUser,
+        password = Prefs.Serval.servalPassword,
         withProgressListener = true
     )
 
@@ -41,7 +41,7 @@ object EventRepository {
     /**
      * Fetches [a number of][count] [events][Event] from the [Serval client][client].
      */
-    fun fetch(count: Int = Prefs.eventCount): List<Event> {
+    fun fetch(count: Int = Prefs.Serval.eventCount): List<Event> {
         val events = mutableListOf<Event>()
 
         with(client.rhizome) {

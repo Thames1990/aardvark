@@ -12,8 +12,8 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_serval_username,
-        getter = Prefs::servalUser,
-        setter = { Prefs.servalUser = it },
+        getter = Prefs.Serval::servalUser,
+        setter = { Prefs.Serval.servalUser = it },
         builder = {
             descRes = R.string.preference_serval_username_desc
             onClick = {
@@ -31,8 +31,8 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_serval_password,
-        getter = Prefs::servalPassword,
-        setter = { Prefs.servalPassword = it },
+        getter = Prefs.Serval::servalPassword,
+        setter = { Prefs.Serval.servalPassword = it },
         builder = {
             descRes = R.string.preference_serval_password_desc
             onClick = {
@@ -52,8 +52,8 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     seekbar(
         title = R.string.preference_serval_event_count,
-        getter = Prefs::eventCount,
-        setter = { Prefs.eventCount = it },
+        getter = Prefs.Serval::eventCount,
+        setter = { Prefs.Serval.eventCount = it },
         builder = {
             descRes = R.string.preference_serval_event_count_desc
             min = 1

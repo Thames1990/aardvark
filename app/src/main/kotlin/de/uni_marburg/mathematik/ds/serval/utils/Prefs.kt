@@ -14,12 +14,7 @@ object Prefs : KPref() {
         key = "EXPERIMENTAL_SETTINGS",
         fallback = isDebugBuild
     )
-    var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
     var installDate: Long by kpref(key = "INSTALL_DATE", fallback = -1L)
-    var servalBaseUrl: String by kpref(key = "SERVAL_BASE_URL", fallback = "serval.splork.de")
-    var servalPassword: String by kpref(key = "SERVAL_PASSWORD", fallback = "pum123")
-    var servalPort: Int by kpref(key = "SERVAL_PORT", fallback = 80)
-    var servalUser: String by kpref("SERVAL_USER", "pum")
     var lastLaunch: Long by kpref(key = "LAST_LAUNCH", fallback = -1L)
     var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
@@ -174,4 +169,13 @@ object Prefs : KPref() {
         private val mapStyleLoader = lazyResettable { MapStyle.values()[mapStyleIndex] }
         val mapStyle: MapStyle by mapStyleLoader
     }
+
+    object Serval {
+        var servalBaseUrl: String by kpref(key = "SERVAL_BASE_URL", fallback = "serval.splork.de")
+        var servalPassword: String by kpref(key = "SERVAL_PASSWORD", fallback = "pum123")
+        var servalPort: Int by kpref(key = "SERVAL_PORT", fallback = 80)
+        var servalUser: String by kpref("SERVAL_USER", "pum")
+        var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
+    }
+
 }
