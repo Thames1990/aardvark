@@ -16,33 +16,33 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     header(R.string.preference_map_layers_header)
 
     checkbox(
-        title = R.string.preference_map_traffic,
+        title = R.string.preference_map_is_traffic_enabled,
         getter = Prefs::isTrafficEnabled,
         setter = {
             Prefs.isTrafficEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_traffic_desc }
+        builder = { descRes = R.string.preference_map_is_traffic_enabled_desc }
     )
 
     checkbox(
-        title = R.string.preference_map_buildings,
+        title = R.string.preference_map_is_buildings_enabled,
         getter = Prefs::isBuildingsEnabled,
         setter = {
             Prefs.isBuildingsEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_buildings_desc }
+        builder = { descRes = R.string.preference_map_is_buildings_enabled_desc }
     )
 
     checkbox(
-        title = R.string.preference_map_indoor,
+        title = R.string.preference_map_is_indoor_enabled,
         getter = Prefs::isIndoorEnabled,
         setter = {
             Prefs.isIndoorEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_indoor_desc }
+        builder = { descRes = R.string.preference_map_is_indoor_enabled_desc }
     )
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnCustom() {
@@ -53,33 +53,33 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     header(R.string.preference_map_ui_header)
 
     checkbox(
-        title = R.string.preference_map_compass,
+        title = R.string.preference_map_is_compass_enabled,
         getter = Prefs::isCompassEnabled,
         setter = {
             Prefs.isCompassEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_compass_desc }
+        builder = { descRes = R.string.preference_map_is_compass_enabled_desc }
     )
 
     checkbox(
-        title = R.string.preference_map_my_location_button,
+        title = R.string.preference_map_is_my_location_button_enabled,
         getter = Prefs::isMyLocationButtonEnabled,
         setter = {
             Prefs.isMyLocationButtonEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_my_location_button_desc }
+        builder = { descRes = R.string.preference_map_is_my_location_button_enabled_desc }
     )
 
     checkbox(
-        title = R.string.preference_map_indoor_level_picker,
+        title = R.string.preference_map_is_indoor_level_picker_enabled,
         getter = Prefs::isIndoorLevelPickerEnabled,
         setter = {
             Prefs.isIndoorLevelPickerEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_indoor_level_picker_desc }
+        builder = { descRes = R.string.preference_map_is_indoor_level_picker_enabled_desc }
     )
 
     text(
@@ -112,43 +112,43 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     header(R.string.preference_map_ux_header)
 
     checkbox(
-        title = R.string.preference_map_zoom_gestures,
+        title = R.string.preference_map_is_zoom_gestures_enabled,
         getter = Prefs::isZoomGesturesEnabled,
         setter = {
             Prefs.isZoomGesturesEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_zoom_gestures_desc }
+        builder = { descRes = R.string.preference_map_is_zoom_gestures_enabled_desc }
     )
 
     checkbox(
-        title = R.string.preference_map_scroll_gestures,
+        title = R.string.preference_map_is_scroll_gestures_enabled,
         getter = Prefs::isScrollGesturesEnabled,
         setter = {
             Prefs.isScrollGesturesEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_scroll_gestures_desc }
+        builder = { descRes = R.string.preference_map_is_scroll_gestures_enabled_desc }
     )
 
     checkbox(
-        title = R.string.preference_map_tilt_gestures,
+        title = R.string.preference_map_is_tilt_gestures_enabled,
         getter = Prefs::isTiltGesturesEnabled,
         setter = {
             Prefs.isTiltGesturesEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_tilt_gestures_desc }
+        builder = { descRes = R.string.preference_map_is_tilt_gestures_enabled_desc }
     )
 
     checkbox(
-        title = R.string.preference_map_rotate_gestures,
+        title = R.string.preference_map_is_rotate_gestures_enabled,
         getter = Prefs::isRotateGesturesEnabled,
         setter = {
             Prefs.isRotateGesturesEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_rotate_gestures_desc }
+        builder = { descRes = R.string.preference_map_is_rotate_gestures_enabled_desc }
     )
 
 }
