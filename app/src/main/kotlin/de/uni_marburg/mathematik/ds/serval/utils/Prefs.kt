@@ -17,23 +17,11 @@ object Prefs : KPref() {
     private val mapStyleLoader = lazyResettable { MapStyle.values()[mapStyleIndex] }
     val mapStyle: MapStyle by mapStyleLoader
 
-    var animate: Boolean by kpref(
-        key = "ANIMATE",
-        fallback = true,
-        postSetter = { value: Boolean ->
-            logAnalytics(
-                name = "Animations",
-                events = *arrayOf("Animations" to value)
-            )
-        }
-    )
-    var analytics: Boolean by kpref(key = "ANALYTICS", fallback = true)
     var experimentalSettings: Boolean by kpref(
         key = "EXPERIMENTAL_SETTINGS",
         fallback = isDebugBuild
     )
     var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
-    var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
     var mapStyleIndex: Int by kpref(
         key = "MAPS_STYLE_INDEX",
         fallback = 0,
@@ -72,7 +60,6 @@ object Prefs : KPref() {
     )
     var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
     var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = false)
-    var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = true)
     var showDownloadProgress: Boolean by kpref(key = "SHOW_DOWNLOAD_PROGRESS", fallback = false)
     var useVibrations: Boolean by kpref(key = "USE_VIBRATIONS", fallback = false)
     var useWifiADB: Boolean by kpref(key = "USE_WIFI_ADB", fallback = false)
@@ -145,6 +132,22 @@ object Prefs : KPref() {
         private val dateTimeFormatLoader =
             lazyResettable { DateTimeFormat.values()[dateTimeFormatIndex] }
         val dateTimeFormat: DateTimeFormat by dateTimeFormatLoader
+    }
+
+    object Behaviour {
+        var animate: Boolean by kpref(
+            key = "ANIMATE",
+            fallback = true,
+            postSetter = { value: Boolean ->
+                logAnalytics(
+                    name = "Animations",
+                    events = *arrayOf("Animations" to value)
+                )
+            }
+        )
+        var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = isReleaseBuild)
+        var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
+        var analytics: Boolean by kpref(key = "ANALYTICS", fallback = true)
     }
 
     // Map layers

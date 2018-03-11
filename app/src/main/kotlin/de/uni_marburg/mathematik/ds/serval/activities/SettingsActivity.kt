@@ -29,7 +29,7 @@ class SettingsActivity : KPrefActivity() {
         setSecureFlag()
         setTheme()
 
-        animate = Prefs.animate
+        animate = Prefs.Behaviour.animate
         themeExterior(animate = false)
     }
 
@@ -109,7 +109,7 @@ class SettingsActivity : KPrefActivity() {
 
     fun shouldRestartApplication() = setAardvarkResult(MainActivity.REQUEST_APPLICATION_RESTART)
 
-    fun themeExterior(animate: Boolean = Prefs.animate) {
+    fun themeExterior(animate: Boolean = Prefs.Behaviour.animate) {
         if (animate) {
             bgCanvas.fade(color = Prefs.Appearance.backgroundColor)
             toolbarCanvas.ripple(

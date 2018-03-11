@@ -95,7 +95,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun backConsumer(): Boolean {
-        if (Prefs.confirmExit) {
+        if (Prefs.Behaviour.confirmExit) {
             materialDialogThemed {
                 title(R.string.kau_exit)
                 content(R.string.kau_exit_confirmation)
@@ -103,7 +103,7 @@ class MainActivity : BaseActivity() {
                 negativeText(R.string.kau_no)
                 onPositive { _, _ -> finish() }
                 checkBoxPromptRes(R.string.kau_do_not_show_again, false, { _, isChecked ->
-                    Prefs.confirmExit = !isChecked
+                    Prefs.Behaviour.confirmExit = !isChecked
                 })
             }
             return true
@@ -284,7 +284,7 @@ class MainActivity : BaseActivity() {
     private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
-            if (isReleaseBuild && Prefs.showChangelog) showChangelog()
+            if (Prefs.Behaviour.showChangelog) showChangelog()
             logAnalytics(
                 name = "Version",
                 events = *arrayOf(

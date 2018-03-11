@@ -89,13 +89,13 @@ class MapFragment : BaseFragment() {
         return true
     }
 
-    fun moveToPosition(position: LatLng, animate: Boolean = Prefs.animate) {
+    fun moveToPosition(position: LatLng, animate: Boolean = Prefs.Behaviour.animate) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLng(position)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
     }
 
-    fun zoomToAllMarkers(animate: Boolean = Prefs.animate) {
+    fun zoomToAllMarkers(animate: Boolean = Prefs.Behaviour.animate) {
         if (events.isNotEmpty()) {
             val builder = LatLngBounds.builder()
             events.forEach { event -> builder.include(event.position) }
@@ -124,7 +124,9 @@ class MapFragment : BaseFragment() {
 
                 override fun onClusterItemClick(event: Event): Boolean {
                     context.startActivity<DetailActivity>(
-                        bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(context) },
+                        bundleBuilder = {
+                            if (Prefs.Behaviour.animate) withSceneTransitionAnimation(context)
+                        },
                         intentBuilder = { putExtra(DetailActivity.EVENT_ID, event.id) }
                     )
                     return true
@@ -160,7 +162,7 @@ class MapFragment : BaseFragment() {
         isTrafficEnabled = Prefs.isTrafficEnabled
     }
 
-    private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = Prefs.animate) {
+    private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = Prefs.Behaviour.animate) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)

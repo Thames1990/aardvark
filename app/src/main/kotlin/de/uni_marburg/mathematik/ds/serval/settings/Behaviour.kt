@@ -13,9 +13,9 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_behaviour_animations,
-        getter = Prefs::animate,
+        getter = Prefs.Behaviour::animate,
         setter = { useAnimations ->
-            Prefs.animate = useAnimations
+            Prefs.Behaviour.animate = useAnimations
             animate = useAnimations
             shouldRestartMain()
         },
@@ -24,22 +24,22 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.kau_changelog,
-        getter = Prefs::showChangelog,
-        setter = { Prefs.showChangelog = it },
+        getter = Prefs.Behaviour::showChangelog,
+        setter = { Prefs.Behaviour.showChangelog = it },
         builder = { descRes = R.string.preference_behaviour_changelog_desc }
     )
 
     checkbox(
         title = R.string.preference_behaviour_confirm_exit,
-        getter = Prefs::confirmExit,
-        setter = { Prefs.confirmExit = it }
+        getter = Prefs.Behaviour::confirmExit,
+        setter = { Prefs.Behaviour.confirmExit = it }
     )
 
     checkbox(
         title = R.string.preference_behaviour_analytics,
-        getter = Prefs::analytics,
+        getter = Prefs.Behaviour::analytics,
         setter = { useAnalytics ->
-            Prefs.analytics = useAnalytics
+            Prefs.Behaviour.analytics = useAnalytics
             if (!useAnalytics) materialDialogThemed {
                 title(string(R.string.preference_behaviour_reset_analytics))
                 content(string(R.string.preference_behaviour_reset_analytics_desc))

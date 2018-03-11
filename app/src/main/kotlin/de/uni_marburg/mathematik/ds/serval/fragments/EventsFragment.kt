@@ -44,7 +44,7 @@ class EventsFragment : BaseFragment() {
         val context: Context = requireContext()
         EventAdapter { event ->
             context.startActivity<DetailActivity>(
-                bundleBuilder = { if (Prefs.animate) withSceneTransitionAnimation(context) },
+                bundleBuilder = { if (Prefs.Behaviour.animate) withSceneTransitionAnimation(context) },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)
                     putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
@@ -124,7 +124,7 @@ class EventsFragment : BaseFragment() {
     private fun setupRecyclerView() {
         with(recyclerView) {
             withLinearAdapter(eventAdapter)
-            if (Prefs.animate) {
+            if (Prefs.Behaviour.animate) {
                 itemAnimator = KauAnimator(
                     addAnimator = FadeScaleAnimatorAdd(scaleFactor = 0.7f, itemDelayFactor = 0.2f),
                     changeAnimator = NoAnimatorChange()
