@@ -143,23 +143,23 @@ class MapFragment : BaseFragment() {
             Theme.AMOLED -> R.raw.map_style_night
             Theme.LIGHT -> R.raw.map_style_standard
             Theme.DARK -> R.raw.map_style_dark
-            Theme.CUSTOM -> Prefs.mapStyle.style
+            Theme.CUSTOM -> Prefs.Map.mapStyle.style
         }
         setMapStyle(MapStyleOptions.loadRawResourceStyle(context, rawResourceRes))
 
         with(uiSettings) {
-            isCompassEnabled = Prefs.isCompassEnabled
-            isIndoorLevelPickerEnabled = Prefs.isIndoorLevelPickerEnabled
+            isCompassEnabled = Prefs.Map.isCompassEnabled
+            isIndoorLevelPickerEnabled = Prefs.Map.isIndoorLevelPickerEnabled
             isMyLocationButtonEnabled = false
-            isRotateGesturesEnabled = Prefs.isRotateGesturesEnabled
-            isScrollGesturesEnabled = Prefs.isScrollGesturesEnabled
-            isTiltGesturesEnabled = Prefs.isTiltGesturesEnabled
-            isZoomGesturesEnabled = Prefs.isZoomGesturesEnabled
+            isRotateGesturesEnabled = Prefs.Map.isRotateGesturesEnabled
+            isScrollGesturesEnabled = Prefs.Map.isScrollGesturesEnabled
+            isTiltGesturesEnabled = Prefs.Map.isTiltGesturesEnabled
+            isZoomGesturesEnabled = Prefs.Map.isZoomGesturesEnabled
         }
 
-        isBuildingsEnabled = Prefs.isBuildingsEnabled
-        isIndoorEnabled = Prefs.isIndoorEnabled
-        isTrafficEnabled = Prefs.isTrafficEnabled
+        isBuildingsEnabled = Prefs.Map.isBuildingsEnabled
+        isIndoorEnabled = Prefs.Map.isIndoorEnabled
+        isTrafficEnabled = Prefs.Map.isTrafficEnabled
     }
 
     private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = Prefs.Behaviour.animate) {

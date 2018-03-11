@@ -14,25 +14,11 @@ object Prefs : KPref() {
         lazyResettable { LocationRequestAccuracy.values()[locationRequestAccuracyIndex] }
     val locationRequestAccuracy: LocationRequestAccuracy by locationRequestAccuracyLoader
 
-    private val mapStyleLoader = lazyResettable { MapStyle.values()[mapStyleIndex] }
-    val mapStyle: MapStyle by mapStyleLoader
-
     var experimentalSettings: Boolean by kpref(
         key = "EXPERIMENTAL_SETTINGS",
         fallback = isDebugBuild
     )
     var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
-    var mapStyleIndex: Int by kpref(
-        key = "MAPS_STYLE_INDEX",
-        fallback = 0,
-        postSetter = { value: Int ->
-            mapStyleLoader.invalidate()
-            logAnalytics(
-                name = "Maps style",
-                events = *arrayOf("Count" to MapStyle(value).name)
-            )
-        }
-    )
     var installDate: Long by kpref(key = "INSTALL_DATE", fallback = -1L)
     var servalBaseUrl: String by kpref(key = "SERVAL_BASE_URL", fallback = "serval.splork.de")
     var servalPassword: String by kpref(key = "SERVAL_PASSWORD", fallback = "pum123")
@@ -150,25 +136,36 @@ object Prefs : KPref() {
         var analytics: Boolean by kpref(key = "ANALYTICS", fallback = true)
     }
 
-    // Map layers
-    var isTrafficEnabled: Boolean by kpref(key = "IS_TRAFFIC_ENABLED", fallback = false)
-    var isBuildingsEnabled: Boolean by kpref(key = "IS_BUILDINGS_ENABLED", fallback = false)
-    var isIndoorEnabled: Boolean by kpref(key = "IS_INDOOR_ENABLED", fallback = false)
+    object Map {
+        var isTrafficEnabled: Boolean by kpref(key = "IS_TRAFFIC_ENABLED", fallback = false)
+        var isBuildingsEnabled: Boolean by kpref(key = "IS_BUILDINGS_ENABLED", fallback = false)
+        var isIndoorEnabled: Boolean by kpref(key = "IS_INDOOR_ENABLED", fallback = false)
+        var isCompassEnabled: Boolean by kpref("IS_COMPASS_ENABLED", fallback = true)
+        var isMyLocationButtonEnabled: Boolean by kpref(
+            "IS_MY_LOCATION_BUTTON_ENABLED",
+            fallback = true
+        )
+        var isIndoorLevelPickerEnabled: Boolean by kpref(
+            "IS_INDOOR_LEVEL_PICKER_ENABLED",
+            fallback = false
+        )
+        var isZoomGesturesEnabled: Boolean by kpref("IS_ZOOM_GESTURES_ENABLED", fallback = true)
+        var isScrollGesturesEnabled: Boolean by kpref("IS_SCROLL_GESTURES_ENABLED", fallback = true)
+        var isTiltGesturesEnabled: Boolean by kpref("IS_TILT_GESTURES_ENABLED", fallback = true)
+        var isRotateGesturesEnabled: Boolean by kpref("IS_ROTATE_GESTURES_ENABLED", fallback = true)
 
-    // Map UI
-    var isCompassEnabled: Boolean by kpref("IS_COMPASS_ENABLED", fallback = true)
-    var isMyLocationButtonEnabled: Boolean by kpref(
-        "IS_MY_LOCATION_BUTTON_ENABLED",
-        fallback = true
-    )
-    var isIndoorLevelPickerEnabled: Boolean by kpref(
-        "IS_INDOOR_LEVEL_PICKER_ENABLED",
-        fallback = false
-    )
-
-    // Map UX
-    var isZoomGesturesEnabled: Boolean by kpref("IS_ZOOM_GESTURES_ENABLED", fallback = true)
-    var isScrollGesturesEnabled: Boolean by kpref("IS_SCROLL_GESTURES_ENABLED", fallback = true)
-    var isTiltGesturesEnabled: Boolean by kpref("IS_TILT_GESTURES_ENABLED", fallback = true)
-    var isRotateGesturesEnabled: Boolean by kpref("IS_ROTATE_GESTURES_ENABLED", fallback = true)
+        var mapStyleIndex: Int by kpref(
+            key = "MAPS_STYLE_INDEX",
+            fallback = 0,
+            postSetter = { value: Int ->
+                mapStyleLoader.invalidate()
+                logAnalytics(
+                    name = "Maps style",
+                    events = *arrayOf("Count" to MapStyle(value).name)
+                )
+            }
+        )
+        private val mapStyleLoader = lazyResettable { MapStyle.values()[mapStyleIndex] }
+        val mapStyle: MapStyle by mapStyleLoader
+    }
 }
