@@ -8,6 +8,7 @@ import de.uni_marburg.mathematik.ds.serval.enums.*
 import io.nlopez.smartlocation.location.config.LocationAccuracy
 import kotlin.math.roundToInt
 
+// TODO Separate into different shared preferences
 object Prefs : KPref() {
 
     var installDate: Long by kpref(key = "INSTALL_DATE", fallback = -1L)
