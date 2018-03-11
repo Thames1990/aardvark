@@ -50,9 +50,11 @@ class DetailActivity : ElasticRecyclerActivity() {
             event = eventViewModel[eventId]
 
             uiThread {
-                adapter = FastItemAdapter<IItem<*, *>>().apply {
+                title = event.title
+
+                adapter = FastItemAdapter()
+                with(adapter) {
                     recycler.adapter = adapter
-                    title = event.title
                     addGeneralCards()
                     addAddressCard()
 //                    CardIItem.bindClickEvents(this)
