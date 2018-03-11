@@ -314,9 +314,9 @@ class MainActivity : BaseActivity() {
     private class LocationLiveData(context: Context) : LiveData<Location>() {
 
         private val locationParams: LocationParams = LocationParams.Builder()
-            .setAccuracy(Prefs.locationRequestAccuracy.accuracy)
-            .setDistance(Prefs.locationRequestDistance.toFloat())
-            .setInterval(Prefs.locationRequestInterval.toLong())
+            .setAccuracy(Prefs.Location.locationRequestAccuracy.accuracy)
+            .setDistance(Prefs.Location.locationRequestDistance.toFloat())
+            .setInterval(Prefs.Location.locationRequestInterval.toLong())
             .build()
 
         val locationControl: SmartLocation.LocationControl = SmartLocation.with(context)

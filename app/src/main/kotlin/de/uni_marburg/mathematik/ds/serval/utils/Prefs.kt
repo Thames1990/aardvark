@@ -10,10 +10,6 @@ object Prefs : KPref() {
 
     const val EVENT_COUNT = 10000
 
-    private val locationRequestAccuracyLoader =
-        lazyResettable { LocationRequestAccuracy.values()[locationRequestAccuracyIndex] }
-    val locationRequestAccuracy: LocationRequestAccuracy by locationRequestAccuracyLoader
-
     var experimentalSettings: Boolean by kpref(
         key = "EXPERIMENTAL_SETTINGS",
         fallback = isDebugBuild
@@ -25,25 +21,6 @@ object Prefs : KPref() {
     var servalPort: Int by kpref(key = "SERVAL_PORT", fallback = 80)
     var servalUser: String by kpref("SERVAL_USER", "pum")
     var lastLaunch: Long by kpref(key = "LAST_LAUNCH", fallback = -1L)
-    var locationRequestInterval: Int by kpref(
-        key = "LOCATION_REQUEST_INTERVAL",
-        fallback = arrayOf(
-            LocationRequestAccuracy.LOCATION_REQUEST_MIN_INTERVAL,
-            LocationRequestAccuracy.LOCATION_REQUEST_MAX_INTERVAL
-        ).average().roundToInt()
-    )
-    var locationRequestDistance: Int by kpref(
-        "LOCATION_REQUEST_DISTANCE",
-        fallback = arrayOf(
-            LocationRequestAccuracy.LOCATION_REQUEST_MIN_DISTANCE,
-            LocationRequestAccuracy.LOCATION_REQUEST_MAX_DISTANCE
-        ).average().roundToInt()
-    )
-    var locationRequestAccuracyIndex: Int by kpref(
-        key = "LOCATION_REQUEST_ACCURACY_INDEX",
-        fallback = LocationRequestAccuracy.HIGH.ordinal,
-        postSetter = { locationRequestAccuracyLoader.invalidate() }
-    )
     var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
 
@@ -137,6 +114,32 @@ object Prefs : KPref() {
         var useVibrations: Boolean by kpref(key = "USE_VIBRATIONS", fallback = false)
         var showDownloadProgress: Boolean by kpref(key = "SHOW_DOWNLOAD_PROGRESS", fallback = false)
         var viewpagerSwipe: Boolean by kpref(key = "VIEWPAGER_SWIPE", fallback = false)
+    }
+
+    object Location {
+        var locationRequestAccuracyIndex: Int by kpref(
+            key = "LOCATION_REQUEST_ACCURACY_INDEX",
+            fallback = LocationRequestAccuracy.HIGH.ordinal,
+            postSetter = { locationRequestAccuracyLoader.invalidate() }
+        )
+        private val locationRequestAccuracyLoader =
+            lazyResettable { LocationRequestAccuracy.values()[locationRequestAccuracyIndex] }
+        val locationRequestAccuracy: LocationRequestAccuracy by locationRequestAccuracyLoader
+
+        var locationRequestInterval: Int by kpref(
+            key = "LOCATION_REQUEST_INTERVAL",
+            fallback = arrayOf(
+                LocationRequestAccuracy.LOCATION_REQUEST_MIN_INTERVAL,
+                LocationRequestAccuracy.LOCATION_REQUEST_MAX_INTERVAL
+            ).average().roundToInt()
+        )
+        var locationRequestDistance: Int by kpref(
+            "LOCATION_REQUEST_DISTANCE",
+            fallback = arrayOf(
+                LocationRequestAccuracy.LOCATION_REQUEST_MIN_DISTANCE,
+                LocationRequestAccuracy.LOCATION_REQUEST_MAX_DISTANCE
+            ).average().roundToInt()
+        )
     }
 
     object Map {

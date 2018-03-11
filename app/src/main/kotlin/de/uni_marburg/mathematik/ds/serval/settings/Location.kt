@@ -39,8 +39,8 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_location_request_priority,
-        getter = Prefs::locationRequestAccuracyIndex,
-        setter = { Prefs.locationRequestAccuracyIndex = it },
+        getter = Prefs.Location::locationRequestAccuracyIndex,
+        setter = { Prefs.Location.locationRequestAccuracyIndex = it },
         builder = {
             dependsOnLocationPermission()
             onClick = {
@@ -70,8 +70,8 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     seekbar(
         title = R.string.preference_location_request_distance,
-        getter = Prefs::locationRequestDistance,
-        setter = { Prefs.locationRequestDistance = it },
+        getter = Prefs.Location::locationRequestDistance,
+        setter = { Prefs.Location.locationRequestDistance = it },
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.preference_location_request_distance_desc
@@ -82,8 +82,8 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     seekbar(
         title = R.string.preference_location_request_interval,
-        getter = Prefs::locationRequestInterval,
-        setter = { Prefs.locationRequestInterval = it },
+        getter = Prefs.Location::locationRequestInterval,
+        setter = { Prefs.Location.locationRequestInterval = it },
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.preference_location_request_interval_desc
