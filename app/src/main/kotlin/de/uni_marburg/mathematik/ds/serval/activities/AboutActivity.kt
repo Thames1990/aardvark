@@ -58,7 +58,7 @@ class AboutActivity : AboutActivityBase(
                         snackbarThemed(
                             textRes = R.string.preference_experimental_enabled,
                             builder = {
-                                // Add option to reload settings to activate debug settings
+                                // Add option to reload settings to activate experimental settings
                                 setAction(
                                     R.string.preference_reload,
                                     { startActivity<SettingsActivity>() }
