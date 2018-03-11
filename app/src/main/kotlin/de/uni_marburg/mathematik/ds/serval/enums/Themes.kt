@@ -15,7 +15,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
  * @property headerColor Color used for the toolbar
  * @property iconColor Color used for icons
  */
-enum class Theme(
+enum class Themes(
     @StringRes val titleRes: Int,
     private val textColorGetter: () -> Int,
     private val accentColorGetter: () -> Int,
@@ -53,11 +53,11 @@ enum class Theme(
 
     CUSTOM(
         titleRes = R.string.kau_custom,
-        textColorGetter = Prefs.Appearance::customTextColor,
-        accentColorGetter = Prefs.Appearance::customAccentColor,
-        backgroundColorGetter = Prefs.Appearance::customBackgroundColor,
-        headerColorGetter = Prefs.Appearance::customHeaderColor,
-        iconColorGetter = Prefs.Appearance::customIconColor
+        textColorGetter = Prefs.Appearance.Theme::customTextColor,
+        accentColorGetter = Prefs.Appearance.Theme::customAccentColor,
+        backgroundColorGetter = Prefs.Appearance.Theme::customBackgroundColor,
+        headerColorGetter = Prefs.Appearance.Theme::customHeaderColor,
+        iconColorGetter = Prefs.Appearance.Theme::customIconColor
     );
 
     val accentColor: Int

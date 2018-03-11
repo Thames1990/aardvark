@@ -19,8 +19,8 @@ import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.listeners.OnClickListener
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.AboutLink
-import de.uni_marburg.mathematik.ds.serval.enums.LibraryDefinition
+import de.uni_marburg.mathematik.ds.serval.enums.AboutLinks
+import de.uni_marburg.mathematik.ds.serval.enums.LibraryDefinitions
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
@@ -30,22 +30,22 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 class AboutActivity : AboutActivityBase(
     rClass = R.string::class.java,
     configBuilder = {
-        accentColor = Prefs.Appearance.accentColor
-        backgroundColor = Prefs.Appearance.backgroundColor.withMinAlpha(200)
+        accentColor = Prefs.Appearance.Theme.accentColor
+        backgroundColor = Prefs.Appearance.Theme.backgroundColor.withMinAlpha(200)
         cutoutDrawableRes = R.drawable.aardvark
-        cutoutForeground = Prefs.Appearance.accentColor
+        cutoutForeground = Prefs.Appearance.Theme.accentColor
         faqParseNewLine = false
         faqXmlRes = R.xml.faq
-        textColor = Prefs.Appearance.textColor
+        textColor = Prefs.Appearance.Theme.textColor
     }
 ) {
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
-        val aardvark: LibraryIItem = LibraryDefinition.AARDVARK.getLibraryIItem(context = this)
+        val aardvark: LibraryIItem = LibraryDefinitions.AARDVARK.getLibraryIItem(context = this)
 
         with(adapter) {
             add(aardvark)
-            add(AboutLinks())
+            add(AboutLinkIItem())
 
             // Activate debug settings, if the user clicked the Aardvark item multiple times in
             // a short duration
@@ -53,8 +53,8 @@ class AboutActivity : AboutActivityBase(
                 count = 7,
                 duration = 500L,
                 event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
-                    if (!Prefs.Experimental.experimentalSettings && item == aardvark) {
-                        Prefs.Experimental.experimentalSettings = true
+                    if (!Prefs.Experimental.enabled && item == aardvark) {
+                        Prefs.Experimental.enabled = true
                         snackbarThemed(
                             textRes = R.string.preference_experimental_enabled,
                             builder = {
@@ -76,12 +76,12 @@ class AboutActivity : AboutActivityBase(
         // Auto detect libraries
         val libraries: List<Library> = super.getLibraries(libs)
         // Manually add libraries
-        val extendedLibraries = libraries union LibraryDefinition.getAllLibraries(context = this)
+        val extendedLibraries = libraries union LibraryDefinitions.getAllLibraries(context = this)
         return extendedLibraries.sortedBy { it.libraryName }
     }
 
-    private class AboutLinks :
-        AbstractItem<AboutLinks, AboutLinks.ViewHolder>(),
+    private class AboutLinkIItem :
+        AbstractItem<AboutLinkIItem, AboutLinkIItem.ViewHolder>(),
         ThemableIItem by ThemableIItemDelegate() {
 
         override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
@@ -107,7 +107,7 @@ class AboutActivity : AboutActivityBase(
                 val context = itemView.context
                 val size = context.dimenPixelSize(R.dimen.kau_avatar_bounds)
 
-                items = AboutLink.values().mapIndexed { index, aboutLink ->
+                items = AboutLinks.values().mapIndexed { index, aboutLink ->
                     ImageView(context).apply {
                         id = index
                         layoutParams = ViewGroup.LayoutParams(size, size)
@@ -115,7 +115,7 @@ class AboutActivity : AboutActivityBase(
                         background = context.resolveDrawable(
                             android.R.attr.selectableItemBackgroundBorderless
                         )
-                        setIcon(icon = aboutLink.iicon, color = Prefs.Appearance.iconColor)
+                        setIcon(icon = aboutLink.iicon, color = Prefs.Appearance.Theme.iconColor)
                         setOnClickListener { context.startLink(aboutLink.linkRes) }
                         container.addView(this)
                     }

@@ -28,7 +28,7 @@ inline val Context.hasWriteExternalStoragePermission: Boolean
  */
 fun Context.showChangelog() = showChangelog(
     xmlRes = R.xml.changelog,
-    textColor = Prefs.Appearance.textColor,
+    textColor = Prefs.Appearance.Theme.textColor,
     customize = { theme() }
 )
 

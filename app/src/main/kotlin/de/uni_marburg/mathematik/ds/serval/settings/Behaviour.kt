@@ -13,9 +13,9 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_behaviour_animations,
-        getter = Prefs.Behaviour::animate,
+        getter = Prefs.Behaviour::animationsEnabled,
         setter = { useAnimations ->
-            Prefs.Behaviour.animate = useAnimations
+            Prefs.Behaviour.animationsEnabled = useAnimations
             animate = useAnimations
             shouldRestartMain()
         },
@@ -37,9 +37,9 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_behaviour_analytics,
-        getter = Prefs.Behaviour::analytics,
+        getter = Prefs.Behaviour::analyticsEnabled,
         setter = { useAnalytics ->
-            Prefs.Behaviour.analytics = useAnalytics
+            Prefs.Behaviour.analyticsEnabled = useAnalytics
             if (!useAnalytics) materialDialogThemed {
                 title(string(R.string.preference_behaviour_reset_analytics))
                 content(string(R.string.preference_behaviour_reset_analytics_desc))

@@ -19,10 +19,10 @@ object EventRepository {
      * Authenticates with the Serval API and offers connection to the Rhizome database.
      */
     private val client = ServalClient(
-        host = Prefs.Serval.servalBaseUrl,
-        port = Prefs.Serval.servalPort,
-        user = Prefs.Serval.servalUser,
-        password = Prefs.Serval.servalPassword,
+        host = Prefs.Serval.baseUrl,
+        port = Prefs.Serval.port,
+        user = Prefs.Serval.user,
+        password = Prefs.Serval.password,
         withProgressListener = true
     )
 

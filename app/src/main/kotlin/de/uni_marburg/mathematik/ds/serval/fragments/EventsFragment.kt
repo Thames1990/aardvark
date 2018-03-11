@@ -44,7 +44,7 @@ class EventsFragment : BaseFragment() {
         val context: Context = requireContext()
         EventAdapter { event ->
             context.startActivity<DetailActivity>(
-                bundleBuilder = { if (Prefs.Behaviour.animate) withSceneTransitionAnimation(context) },
+                bundleBuilder = { if (Prefs.Behaviour.animationsEnabled) withSceneTransitionAnimation(context) },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)
                     putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
@@ -77,7 +77,7 @@ class EventsFragment : BaseFragment() {
         with(requireContext()) {
             setMenuIcons(
                 menu = menu,
-                color = Prefs.Appearance.iconColor,
+                color = Prefs.Appearance.Theme.iconColor,
                 iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_filter_list)
             )
             menu.findItem(R.id.action_sort_distance).isVisible = hasLocationPermission
@@ -124,7 +124,7 @@ class EventsFragment : BaseFragment() {
     private fun setupRecyclerView() {
         with(recyclerView) {
             withLinearAdapter(eventAdapter)
-            if (Prefs.Behaviour.animate) {
+            if (Prefs.Behaviour.animationsEnabled) {
                 itemAnimator = KauAnimator(
                     addAnimator = FadeScaleAnimatorAdd(scaleFactor = 0.7f, itemDelayFactor = 0.2f),
                     changeAnimator = NoAnimatorChange()
@@ -190,7 +190,7 @@ class EventsFragment : BaseFragment() {
             private fun Event.displayTime() {
                 with(timeView) {
                     text = passedSeconds.formatPassedSeconds(itemView.context)
-                    setTextColor(Prefs.Appearance.textColor)
+                    setTextColor(Prefs.Appearance.Theme.textColor)
                 }
             }
 
@@ -200,12 +200,12 @@ class EventsFragment : BaseFragment() {
                 if (context.hasLocationPermission) {
                     locationIconView.setIcon(
                         icon = GoogleMaterial.Icon.gmd_location_on,
-                        color = Prefs.Appearance.textColor
+                        color = Prefs.Appearance.Theme.textColor
                     )
                     with(locationView) {
                         val distance: Float = location.distanceTo(MainActivity.lastLocation)
                         text = distance.formatDistance(context)
-                        setTextColor(Prefs.Appearance.textColor)
+                        setTextColor(Prefs.Appearance.Theme.textColor)
                     }
                 } else {
                     locationIconView.gone()
@@ -223,7 +223,7 @@ class EventsFragment : BaseFragment() {
                         val icon = ImageView(itemView.context).apply {
                             setIcon(
                                 icon = measurement.type.iicon,
-                                color = Prefs.Appearance.textColor
+                                color = Prefs.Appearance.Theme.textColor
                             )
                         }
                         addView(icon)

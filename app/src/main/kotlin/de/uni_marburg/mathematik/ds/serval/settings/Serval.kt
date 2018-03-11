@@ -12,8 +12,8 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_serval_username,
-        getter = Prefs.Serval::servalUser,
-        setter = { Prefs.Serval.servalUser = it },
+        getter = Prefs.Serval::user,
+        setter = { Prefs.Serval.user = it },
         builder = {
             descRes = R.string.preference_serval_username_desc
             onClick = {
@@ -31,8 +31,8 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_serval_password,
-        getter = Prefs.Serval::servalPassword,
-        setter = { Prefs.Serval.servalPassword = it },
+        getter = Prefs.Serval::password,
+        setter = { Prefs.Serval.password = it },
         builder = {
             descRes = R.string.preference_serval_password_desc
             onClick = {

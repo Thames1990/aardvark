@@ -11,15 +11,16 @@ import android.view.WindowManager
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.Theme
+import de.uni_marburg.mathematik.ds.serval.enums.Themes
 
 /**
- * Color the navigation bar with the specified [color][Prefs.Appearance.headerColor], if the user
- * activated [the setting][Prefs.Appearance.tintNavBar]; [black][Color.BLACK] otherwise.
+ * Color the navigation bar with the specified [color][Prefs.Appearance.Theme.headerColor],
+ * if the user activated [the setting][Prefs.Appearance.tintNavBar]; [black][Color.BLACK] otherwise.
  */
 fun Activity.themeNavigationBar() {
     navigationBarColor =
-            if (Prefs.Appearance.tintNavBar) Prefs.Appearance.headerColor else Color.BLACK
+            if (Prefs.Appearance.tintNavBar) Prefs.Appearance.Theme.headerColor
+            else Color.BLACK
 }
 
 /**
@@ -49,10 +50,10 @@ inline fun Activity.setColors(builder: ActivityThemeUtils.() -> Unit) {
 
 /**
  * Set a light or dark theme based on the darkness of
- * [the user specified background color][Prefs.Appearance.backgroundColor].
+ * [the user specified background color][Prefs.Appearance.Theme.backgroundColor].
  */
 fun Activity.setTheme() =
-    if (Prefs.Appearance.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
+    if (Prefs.Appearance.Theme.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
 
 /**
@@ -92,23 +93,23 @@ class ActivityThemeUtils {
      */
     fun theme(activity: Activity) {
         with(activity) {
-            statusBarColor = Prefs.Appearance.headerColor.darken(0.1f).withAlpha(255)
-            if (Prefs.Appearance.tintNavBar) navigationBarColor = Prefs.Appearance.headerColor
-            if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.Appearance.backgroundColor))
+            statusBarColor = Prefs.Appearance.Theme.headerColor.darken(0.1f).withAlpha(255)
+            if (Prefs.Appearance.tintNavBar) navigationBarColor = Prefs.Appearance.Theme.headerColor
+            if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Prefs.Appearance.Theme.backgroundColor))
             toolbar?.apply {
-                setBackgroundColor(Prefs.Appearance.headerColor)
-                setTitleTextColor(Prefs.Appearance.iconColor)
-                overflowIcon?.setTint(Prefs.Appearance.iconColor)
-                popupTheme = when (Prefs.Appearance.theme) {
-                    Theme.LIGHT -> R.style.AppTheme_PopupOverlay
-                    Theme.DARK -> R.style.AppTheme_PopupOverlay_Dark
-                    Theme.AMOLED -> R.style.AppTheme_PopupOverlay_Dark
-                    Theme.CUSTOM -> R.style.AppTheme_PopupOverlay // TODO Set theme accordingly
+                setBackgroundColor(Prefs.Appearance.Theme.headerColor)
+                setTitleTextColor(Prefs.Appearance.Theme.iconColor)
+                overflowIcon?.setTint(Prefs.Appearance.Theme.iconColor)
+                popupTheme = when (Prefs.Appearance.Theme.theme) {
+                    Themes.LIGHT -> R.style.AppTheme_PopupOverlay
+                    Themes.DARK -> R.style.AppTheme_PopupOverlay_Dark
+                    Themes.AMOLED -> R.style.AppTheme_PopupOverlay_Dark
+                    Themes.CUSTOM -> R.style.AppTheme_PopupOverlay // TODO Set theme accordingly
                 }
             }
-            texts.forEach { textView -> textView.setTextColor(Prefs.Appearance.textColor) }
-            headers.forEach { view -> view.setBackgroundColor(Prefs.Appearance.headerColor) }
-            backgrounds.forEach { view -> view.setBackgroundColor(Prefs.Appearance.backgroundColor) }
+            texts.forEach { textView -> textView.setTextColor(Prefs.Appearance.Theme.textColor) }
+            headers.forEach { view -> view.setBackgroundColor(Prefs.Appearance.Theme.headerColor) }
+            backgrounds.forEach { view -> view.setBackgroundColor(Prefs.Appearance.Theme.backgroundColor) }
         }
     }
 

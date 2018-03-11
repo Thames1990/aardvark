@@ -25,8 +25,8 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
-import de.uni_marburg.mathematik.ds.serval.enums.TabItem
+import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayouts
+import de.uni_marburg.mathematik.ds.serval.enums.TabItems
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
         pagerAdapter = SectionsPagerAdapter()
         viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
 
-        setContentView(Prefs.Appearance.mainActivityLayout.layoutRes)
+        setContentView(Prefs.Appearance.MainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
         setColors {
             toolbar(toolbar)
@@ -70,7 +70,7 @@ class MainActivity : BaseActivity() {
             background(viewPager)
         }
         fab.backgroundTintList =
-                ColorStateList.valueOf(Prefs.Appearance.headerColor.withMinAlpha(200))
+                ColorStateList.valueOf(Prefs.Appearance.Theme.headerColor.withMinAlpha(200))
 
         setupAppBar()
         setupViewPager()
@@ -115,7 +115,7 @@ class MainActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         setMenuIcons(
             menu = menu,
-            color = Prefs.Appearance.mainActivityLayout.iconColor,
+            color = Prefs.Appearance.MainActivityLayout.iconColor,
             iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
         )
         return true
@@ -142,7 +142,7 @@ class MainActivity : BaseActivity() {
 
     private fun setupAppBar() {
         // Fixes bottom layout cutoff
-        if (Prefs.Appearance.mainActivityLayout == MainActivityLayout.BOTTOM_BAR) {
+        if (Prefs.Appearance.MainActivityLayout.layout == MainActivityLayouts.BOTTOM_BAR) {
             appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
                 val layoutParams = viewPager.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.setMargins(0, 0, 0, appBarLayout.measuredHeight + verticalOffset)
@@ -159,14 +159,14 @@ class MainActivity : BaseActivity() {
 
     private fun setupTabLayout() {
         with(tabs) {
-            TabItem.values().map {
+            TabItems.values().map {
                 val badgedIcon = BadgedIcon(context).apply { iicon = it.iicon }
                 val tab: TabLayout.Tab = newTab().setCustomView(badgedIcon)
                 addTab(tab)
             }
 
-            setSelectedTabIndicatorColor(Prefs.Appearance.mainActivityLayout.iconColor)
-            setBackgroundColor(Prefs.Appearance.mainActivityLayout.backgroundColor)
+            setSelectedTabIndicatorColor(Prefs.Appearance.MainActivityLayout.iconColor)
+            setBackgroundColor(Prefs.Appearance.MainActivityLayout.backgroundColor)
 
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
@@ -217,7 +217,7 @@ class MainActivity : BaseActivity() {
             hideOnDownwardsScroll(recyclerView)
             setIcon(
                 icon = GoogleMaterial.Icon.gmd_arrow_upward,
-                color = Prefs.Appearance.mainActivityLayout.iconColor
+                color = Prefs.Appearance.MainActivityLayout.iconColor
             )
             if (buildIsOreoAndUp) tooltipText = string(R.string.tooltip_fab_scroll_to_top)
             show()
@@ -238,12 +238,12 @@ class MainActivity : BaseActivity() {
             }
             setIcon(
                 icon = GoogleMaterial.Icon.gmd_my_location,
-                color = Prefs.Appearance.mainActivityLayout.iconColor
+                color = Prefs.Appearance.MainActivityLayout.iconColor
             )
             if (buildIsOreoAndUp) {
                 tooltipText = string(R.string.tooltip_fab_move_to_current_location)
             }
-            visibleIf(hasLocationPermission && Prefs.Map.isMyLocationButtonEnabled)
+            visibleIf(hasLocationPermission && Prefs.Map.myLocationButtonEnabled)
         }
     }
 
@@ -314,9 +314,9 @@ class MainActivity : BaseActivity() {
     private class LocationLiveData(context: Context) : LiveData<Location>() {
 
         private val locationParams: LocationParams = LocationParams.Builder()
-            .setAccuracy(Prefs.Location.locationRequestAccuracy.accuracy)
-            .setDistance(Prefs.Location.locationRequestDistance.toFloat())
-            .setInterval(Prefs.Location.locationRequestInterval.toLong())
+            .setAccuracy(Prefs.Location.RequestAccuracy.accuracy)
+            .setDistance(Prefs.Location.RequestAccuracy.distance.toFloat())
+            .setInterval(Prefs.Location.RequestAccuracy.interval.toLong())
             .build()
 
         val locationControl: SmartLocation.LocationControl = SmartLocation.with(context)

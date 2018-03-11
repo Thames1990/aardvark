@@ -11,7 +11,7 @@ import de.uni_marburg.mathematik.ds.serval.R
  * @property linkRes Resource ID of the link
  * @property iicon Icon representing the link
  */
-enum class AboutLink(@StringRes val linkRes: Int, val iicon: IIcon) {
+enum class AboutLinks(@StringRes val linkRes: Int, val iicon: IIcon) {
 
     GITHUB(
         linkRes = R.string.repository_link_aardvark,

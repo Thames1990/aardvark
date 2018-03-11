@@ -11,7 +11,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.sendSupportEmail
  *
  * @property titleRes Resource ID of the title
  */
-enum class SupportTopic(@StringRes val titleRes: Int) {
+enum class SupportTopics(@StringRes val titleRes: Int) {
 
     FEEDBACK(R.string.support_email_feedback),
 

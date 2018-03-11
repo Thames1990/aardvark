@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat
  * @property dateStyle
  * @property timeStyle
  */
-enum class DateTimeFormat(@StringRes val titleRes: Int, val dateStyle: Int, val timeStyle: Int) {
+enum class DateTimeFormats(@StringRes val titleRes: Int, val dateStyle: Int, val timeStyle: Int) {
 
     FULL_DATE_FULL_TIME(
         titleRes = R.string.date_full_time_full,

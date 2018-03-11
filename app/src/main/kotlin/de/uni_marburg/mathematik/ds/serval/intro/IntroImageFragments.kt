@@ -10,7 +10,7 @@ import android.view.animation.RotateAnimation
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.withAlpha
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
+import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayouts
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.flip
 import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
@@ -43,10 +43,10 @@ abstract class BaseImageIntroFragment(
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
-        title.setTextColor(Prefs.Appearance.textColor)
-        desc.setTextColor(Prefs.Appearance.textColor)
-        phone.tint(Prefs.Appearance.textColor)
-        screen.tint(Prefs.Appearance.backgroundColor)
+        title.setTextColor(Prefs.Appearance.Theme.textColor)
+        desc.setTextColor(Prefs.Appearance.Theme.textColor)
+        phone.tint(Prefs.Appearance.Theme.textColor)
+        screen.tint(Prefs.Appearance.Theme.backgroundColor)
     }
 
     override fun onPageScrolledImpl(positionOffset: Float) {
@@ -73,9 +73,9 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
 
     private val animationDuration = 1500L
 
-    private var currentRotation: Float = when (Prefs.Appearance.mainActivityLayout) {
-        MainActivityLayout.TOP_BAR -> 0.0f
-        MainActivityLayout.BOTTOM_BAR -> -180.0f
+    private var currentRotation: Float = when (Prefs.Appearance.MainActivityLayout.layout) {
+        MainActivityLayouts.TOP_BAR -> 0.0f
+        MainActivityLayouts.BOTTOM_BAR -> -180.0f
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -106,14 +106,14 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
                 image.startAnimation(rotateAnimation)
 
                 // Set main activity layout type
-                Prefs.Appearance.mainActivityLayoutIndex =
+                Prefs.Appearance.MainActivityLayout.index =
                         if (currentRotation.rem(360.0f) == 0.0f)
-                            MainActivityLayout.TOP_BAR.ordinal
+                            MainActivityLayouts.TOP_BAR.ordinal
                         else
-                            MainActivityLayout.BOTTOM_BAR.ordinal
+                            MainActivityLayouts.BOTTOM_BAR.ordinal
 
                 // Update text to indicate current main activity layout type
-                title.setTextWithOptions(Prefs.Appearance.mainActivityLayout.titleRes)
+                title.setTextWithOptions(Prefs.Appearance.MainActivityLayout.titleRes)
             }
         }
     }
@@ -121,7 +121,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         themeImageComponent(
-            color = Prefs.Appearance.iconColor,
+            color = Prefs.Appearance.Theme.iconColor,
             ids = *intArrayOf(
                 R.id.intro_phone_icon_1,
                 R.id.intro_phone_icon_2,
@@ -130,11 +130,11 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
             )
         )
         themeImageComponent(
-            color = Prefs.Appearance.headerColor,
+            color = Prefs.Appearance.Theme.headerColor,
             ids = *intArrayOf(R.id.intro_phone_tab)
         )
         themeImageComponent(
-            color = Prefs.Appearance.textColor.withAlpha(80),
+            color = Prefs.Appearance.Theme.textColor.withAlpha(80),
             ids = *intArrayOf(R.id.intro_phone_icon_ripple)
         )
     }

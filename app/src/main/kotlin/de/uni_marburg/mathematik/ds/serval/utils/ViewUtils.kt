@@ -66,7 +66,7 @@ fun TextView.setTextWithOptions(
     text: String,
     duration: Long = 200,
     onFinish: (() -> Unit)? = null,
-    animate: Boolean = Prefs.Behaviour.animate
+    animate: Boolean = Prefs.Behaviour.animationsEnabled
 ) {
     if (animate) setTextWithFade(text, duration, onFinish)
     else this.text = text
@@ -76,7 +76,7 @@ fun TextView.setTextWithOptions(
     textRes: Int,
     duration: Long = 200,
     onFinish: (() -> Unit)? = null,
-    animate: Boolean = Prefs.Behaviour.animate
+    animate: Boolean = Prefs.Behaviour.animationsEnabled
 ) {
     if (animate) setTextWithFade(textRes, duration, onFinish)
     else text = context.string(textRes)
@@ -85,16 +85,16 @@ fun TextView.setTextWithOptions(
 fun ImageView.setIconWithOptions(
     icon: IIcon?,
     sizeDp: Int = 24,
-    @ColorInt color: Int = Prefs.Appearance.iconColor,
+    @ColorInt color: Int = Prefs.Appearance.Theme.iconColor,
     builder: IconicsDrawable.() -> Unit = {},
-    animate: Boolean = Prefs.Behaviour.animate
+    animate: Boolean = Prefs.Behaviour.animationsEnabled
 ) {
     if (animate) fadeScaleTransition { setIcon(icon, sizeDp, color, builder) }
     else setIcon(icon, sizeDp, color, builder)
 }
 
-fun AppBarLayout.expand(animate: Boolean = Prefs.Behaviour.animate) = setExpanded(true, animate)
+fun AppBarLayout.expand(animate: Boolean = Prefs.Behaviour.animationsEnabled) = setExpanded(true, animate)
 
 inline var ViewPager.item
     get() = currentItem
-    set(value) = setCurrentItem(value, Prefs.Behaviour.animate)
+    set(value) = setCurrentItem(value, Prefs.Behaviour.animationsEnabled)

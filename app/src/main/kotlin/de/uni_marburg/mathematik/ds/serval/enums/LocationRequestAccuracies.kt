@@ -11,7 +11,7 @@ import io.nlopez.smartlocation.location.config.LocationAccuracy
  * @property descTextRes Resource ID of the description
  * @property accuracy Accuracy of a location request
  */
-enum class LocationRequestAccuracy(
+enum class LocationRequestAccuracies(
     @StringRes val titleRes: Int,
     @StringRes val descTextRes: Int,
     val accuracy: LocationAccuracy
@@ -65,10 +65,10 @@ enum class LocationRequestAccuracy(
     companion object {
         operator fun invoke(index: Int) = values()[index]
 
-        const val LOCATION_REQUEST_MIN_DISTANCE = 0
-        const val LOCATION_REQUEST_MAX_DISTANCE = 500
+        const val MIN_DISTANCE = 0
+        const val MAX_DISTANCE = 500
 
-        const val LOCATION_REQUEST_MIN_INTERVAL = 500
-        const val LOCATION_REQUEST_MAX_INTERVAL = 5000
+        const val MIN_INTERVAL = 500
+        const val MAX_INTERVAL = 5000
     }
 }

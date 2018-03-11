@@ -74,10 +74,10 @@ class DetailActivity : ElasticRecyclerActivity() {
                 }
 
                 with(fab) {
-                    backgroundTintList = ColorStateList.valueOf(Prefs.Appearance.accentColor)
+                    backgroundTintList = ColorStateList.valueOf(Prefs.Appearance.Theme.accentColor)
                     setIcon(
                         icon = GoogleMaterial.Icon.gmd_navigation,
-                        color = Prefs.Appearance.iconColor
+                        color = Prefs.Appearance.Theme.iconColor
                     )
                     setOnClickListener { showInGoogleMaps() }
                     show()
@@ -110,7 +110,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 titleRes = measurement.type.titleRes
                 desc = measurementDescription
                 imageIIcon = measurement.type.iicon
-                imageIIconColor = Prefs.Appearance.iconColor
+                imageIIconColor = Prefs.Appearance.Theme.iconColor
             }
 
             measurementCardItems.add(measurementCardItem)

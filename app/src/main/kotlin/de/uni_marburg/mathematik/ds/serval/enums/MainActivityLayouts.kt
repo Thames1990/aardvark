@@ -11,7 +11,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.Prefs
  * @property titleRes Resource ID of the title
  * @property layoutRes Resource ID of the layout
  */
-enum class MainActivityLayout(
+enum class MainActivityLayouts(
     @StringRes val titleRes: Int,
     @LayoutRes val layoutRes: Int,
     private val backgroundColorGetter: () -> Int,
@@ -21,15 +21,15 @@ enum class MainActivityLayout(
     TOP_BAR(
         titleRes = R.string.preference_bar_top,
         layoutRes = R.layout.activity_main,
-        backgroundColorGetter = Prefs.Appearance::headerColor,
-        iconColorGetter = Prefs.Appearance::iconColor
+        backgroundColorGetter = Prefs.Appearance.Theme::headerColor,
+        iconColorGetter = Prefs.Appearance.Theme::iconColor
     ),
 
     BOTTOM_BAR(
         titleRes = R.string.preference_bar_bottom,
         layoutRes = R.layout.activity_main_bottom_tabs,
-        backgroundColorGetter = Prefs.Appearance::backgroundColor,
-        iconColorGetter = Prefs.Appearance::textColor
+        backgroundColorGetter = Prefs.Appearance.Theme::backgroundColor,
+        iconColorGetter = Prefs.Appearance.Theme::textColor
     );
 
     val backgroundColor: Int

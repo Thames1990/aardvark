@@ -13,10 +13,10 @@ class SwipeToggleViewPager @JvmOverloads constructor(
 ) : ViewPager(context, attrs) {
 
     override fun onInterceptTouchEvent(motionEvent: MotionEvent?) =
-        Prefs.Experimental.viewpagerSwipe && super.onInterceptTouchEvent(motionEvent)
+        Prefs.Experimental.viewpagerSwipeEnabled && super.onInterceptTouchEvent(motionEvent)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(motionEvent: MotionEvent?): Boolean =
-        Prefs.Experimental.viewpagerSwipe && super.onTouchEvent(motionEvent)
+        Prefs.Experimental.viewpagerSwipeEnabled && super.onTouchEvent(motionEvent)
 
 }

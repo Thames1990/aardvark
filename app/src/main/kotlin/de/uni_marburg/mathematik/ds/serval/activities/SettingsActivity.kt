@@ -13,8 +13,8 @@ import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.PreferenceSubItem
-import de.uni_marburg.mathematik.ds.serval.enums.SupportTopic
+import de.uni_marburg.mathematik.ds.serval.enums.PreferenceSubItems
+import de.uni_marburg.mathematik.ds.serval.enums.SupportTopics
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
@@ -29,23 +29,23 @@ class SettingsActivity : KPrefActivity() {
         setSecureFlag()
         setTheme()
 
-        animate = Prefs.Behaviour.animate
+        animate = Prefs.Behaviour.animationsEnabled
         themeExterior(animate = false)
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
-        PreferenceSubItem.values()
-            .filter { if (!Prefs.Experimental.experimentalSettings) !it.experimental else true }
+        PreferenceSubItems.values()
+            .filter { if (!Prefs.Experimental.enabled) !it.experimental else true }
             .map { preferenceSubItem ->
                 subItems(
                     title = preferenceSubItem.titleRes,
                     itemBuilder = when (preferenceSubItem) {
-                        PreferenceSubItem.BEHAVIOUR -> behaviourItemBuilder()
-                        PreferenceSubItem.APPEARANCE -> appearanceItemBuilder()
-                        PreferenceSubItem.MAP -> mapItemBuilder()
-                        PreferenceSubItem.LOCATION -> locationItemBuilder()
-                        PreferenceSubItem.SERVAL -> servalItemBuilder()
-                        PreferenceSubItem.EXPERIMENTAL -> experimentalItemBuilder()
+                        PreferenceSubItems.BEHAVIOUR -> behaviourItemBuilder()
+                        PreferenceSubItems.APPEARANCE -> appearanceItemBuilder()
+                        PreferenceSubItems.MAP -> mapItemBuilder()
+                        PreferenceSubItems.LOCATION -> locationItemBuilder()
+                        PreferenceSubItems.SERVAL -> servalItemBuilder()
+                        PreferenceSubItems.EXPERIMENTAL -> experimentalItemBuilder()
                     },
                     builder = {
                         descRes = preferenceSubItem.descRes
@@ -67,8 +67,8 @@ class SettingsActivity : KPrefActivity() {
     }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = Prefs.Appearance::accentColor
-        textColor = Prefs.Appearance::textColor
+        accentColor = Prefs.Appearance.Theme::accentColor
+        textColor = Prefs.Appearance.Theme::textColor
     }
 
     override fun onBackPressed() {
@@ -80,10 +80,10 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_settings, menu)
-        toolbar.tint(color = Prefs.Appearance.iconColor)
+        toolbar.tint(color = Prefs.Appearance.Theme.iconColor)
         setMenuIcons(
             menu = menu,
-            color = Prefs.Appearance.iconColor,
+            color = Prefs.Appearance.Theme.iconColor,
             iicons = *arrayOf(
                 R.id.action_email to GoogleMaterial.Icon.gmd_email,
                 R.id.action_changelog to GoogleMaterial.Icon.gmd_info
@@ -96,8 +96,8 @@ class SettingsActivity : KPrefActivity() {
         when (item.itemId) {
             R.id.action_email -> materialDialogThemed {
                 title(R.string.support_email_subject)
-                items(SupportTopic.values().map { string(it.titleRes) })
-                itemsCallback { _, _, which, _ -> SupportTopic.values()[which].sendEmail(context) }
+                items(SupportTopics.values().map { string(it.titleRes) })
+                itemsCallback { _, _, which, _ -> SupportTopics.values()[which].sendEmail(context) }
             }
             R.id.action_changelog -> showChangelog()
             else -> return super.onOptionsItemSelected(item)
@@ -109,17 +109,17 @@ class SettingsActivity : KPrefActivity() {
 
     fun shouldRestartApplication() = setAardvarkResult(MainActivity.REQUEST_APPLICATION_RESTART)
 
-    fun themeExterior(animate: Boolean = Prefs.Behaviour.animate) {
+    fun themeExterior(animate: Boolean = Prefs.Behaviour.animationsEnabled) {
         if (animate) {
-            bgCanvas.fade(color = Prefs.Appearance.backgroundColor)
+            bgCanvas.fade(color = Prefs.Appearance.Theme.backgroundColor)
             toolbarCanvas.ripple(
-                color = Prefs.Appearance.headerColor,
+                color = Prefs.Appearance.Theme.headerColor,
                 startX = RippleCanvas.MIDDLE,
                 startY = RippleCanvas.END
             )
         } else {
-            bgCanvas.set(color = Prefs.Appearance.backgroundColor)
-            toolbarCanvas.set(color = Prefs.Appearance.headerColor)
+            bgCanvas.set(color = Prefs.Appearance.Theme.backgroundColor)
+            toolbarCanvas.set(color = Prefs.Appearance.Theme.headerColor)
         }
         themeNavigationBar()
     }

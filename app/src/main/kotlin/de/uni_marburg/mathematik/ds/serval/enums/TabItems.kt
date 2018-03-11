@@ -11,7 +11,7 @@ import de.uni_marburg.mathematik.ds.serval.R
  * @property titleRes Resource ID of title of the tab item that is shown to the user.
  * @property iicon Icon of the tab item that is shown to the user.
  */
-enum class TabItem(@StringRes val titleRes: Int, val iicon: IIcon) {
+enum class TabItems(@StringRes val titleRes: Int, val iicon: IIcon) {
 
     DASHBOARD(
         titleRes = R.string.tab_item_dashboard,

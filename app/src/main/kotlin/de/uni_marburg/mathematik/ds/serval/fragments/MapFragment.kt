@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
-import de.uni_marburg.mathematik.ds.serval.enums.Theme
+import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
@@ -74,7 +74,7 @@ class MapFragment : BaseFragment() {
         inflater.inflate(R.menu.menu_map, menu)
         requireActivity().setMenuIcons(
             menu = menu,
-            color = Prefs.Appearance.iconColor,
+            color = Prefs.Appearance.Theme.iconColor,
             iicons = *arrayOf(R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers)
         )
     }
@@ -89,13 +89,13 @@ class MapFragment : BaseFragment() {
         return true
     }
 
-    fun moveToPosition(position: LatLng, animate: Boolean = Prefs.Behaviour.animate) {
+    fun moveToPosition(position: LatLng, animate: Boolean = Prefs.Behaviour.animationsEnabled) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLng(position)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
     }
 
-    fun zoomToAllMarkers(animate: Boolean = Prefs.Behaviour.animate) {
+    fun zoomToAllMarkers(animate: Boolean = Prefs.Behaviour.animationsEnabled) {
         if (events.isNotEmpty()) {
             val builder = LatLngBounds.builder()
             events.forEach { event -> builder.include(event.position) }
@@ -125,7 +125,7 @@ class MapFragment : BaseFragment() {
                 override fun onClusterItemClick(event: Event): Boolean {
                     context.startActivity<DetailActivity>(
                         bundleBuilder = {
-                            if (Prefs.Behaviour.animate) withSceneTransitionAnimation(context)
+                            if (Prefs.Behaviour.animationsEnabled) withSceneTransitionAnimation(context)
                         },
                         intentBuilder = { putExtra(DetailActivity.EVENT_ID, event.id) }
                     )
@@ -139,30 +139,30 @@ class MapFragment : BaseFragment() {
     }
 
     private fun setupGoogleMap() = with(googleMap) {
-        val rawResourceRes: Int = when (Prefs.Appearance.theme) {
-            Theme.AMOLED -> R.raw.map_style_night
-            Theme.LIGHT -> R.raw.map_style_standard
-            Theme.DARK -> R.raw.map_style_dark
-            Theme.CUSTOM -> Prefs.Map.mapStyle.style
+        val rawResourceRes: Int = when (Prefs.Appearance.Theme.theme) {
+            Themes.AMOLED -> R.raw.map_style_night
+            Themes.LIGHT -> R.raw.map_style_standard
+            Themes.DARK -> R.raw.map_style_dark
+            Themes.CUSTOM -> Prefs.Map.MapStyle.styleRes
         }
         setMapStyle(MapStyleOptions.loadRawResourceStyle(context, rawResourceRes))
 
         with(uiSettings) {
-            isCompassEnabled = Prefs.Map.isCompassEnabled
-            isIndoorLevelPickerEnabled = Prefs.Map.isIndoorLevelPickerEnabled
+            isCompassEnabled = Prefs.Map.compassEnabled
+            isIndoorLevelPickerEnabled = Prefs.Map.indoorLevelPickerEnabled
             isMyLocationButtonEnabled = false
-            isRotateGesturesEnabled = Prefs.Map.isRotateGesturesEnabled
-            isScrollGesturesEnabled = Prefs.Map.isScrollGesturesEnabled
-            isTiltGesturesEnabled = Prefs.Map.isTiltGesturesEnabled
-            isZoomGesturesEnabled = Prefs.Map.isZoomGesturesEnabled
+            isRotateGesturesEnabled = Prefs.Map.Gestures.rotateEnabled
+            isScrollGesturesEnabled = Prefs.Map.Gestures.scrollEnabled
+            isTiltGesturesEnabled = Prefs.Map.Gestures.tiltEnabled
+            isZoomGesturesEnabled = Prefs.Map.Gestures.zoomEnabled
         }
 
-        isBuildingsEnabled = Prefs.Map.isBuildingsEnabled
-        isIndoorEnabled = Prefs.Map.isIndoorEnabled
-        isTrafficEnabled = Prefs.Map.isTrafficEnabled
+        isBuildingsEnabled = Prefs.Map.Layers.buildingsEnabled
+        isIndoorEnabled = Prefs.Map.Layers.indoorEnabled
+        isTrafficEnabled = Prefs.Map.Layers.trafficEnabled
     }
 
-    private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = Prefs.Behaviour.animate) {
+    private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = Prefs.Behaviour.animationsEnabled) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)

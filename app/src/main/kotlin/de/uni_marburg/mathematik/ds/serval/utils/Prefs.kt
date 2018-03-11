@@ -4,6 +4,7 @@ import ca.allanwang.kau.kotlin.lazyResettable
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
 import de.uni_marburg.mathematik.ds.serval.enums.*
+import io.nlopez.smartlocation.location.config.LocationAccuracy
 import kotlin.math.roundToInt
 
 object Prefs : KPref() {
@@ -13,170 +14,211 @@ object Prefs : KPref() {
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
 
     object Appearance {
-        var themeIndex: Int by kpref(
-            key = "THEME_INDEX",
-            fallback = Theme.LIGHT.ordinal,
-            postSetter = { value: Int ->
-                themeLoader.invalidate()
-                logAnalytics(name = "Theme", events = *arrayOf("Count" to Theme(value).name))
-            }
-        )
-        private val themeLoader = lazyResettable { Theme.values()[themeIndex] }
-        val theme: Theme by themeLoader
+        object Theme {
+            var index: Int by kpref(
+                key = "THEME_INDEX",
+                fallback = Themes.LIGHT.ordinal,
+                postSetter = { value: Int ->
+                    loader.invalidate()
+                    logAnalytics(name = "Theme", events = *arrayOf("Count" to Themes(value).name))
+                }
+            )
+            private val loader = lazyResettable { Themes.values()[index] }
+            val theme: Themes by loader
 
-        val accentColor: Int
-            get() = theme.accentColor
-        val backgroundColor: Int
-            get() = theme.backgroundColor
-        val headerColor: Int
-            get() = theme.headerColor
-        val iconColor: Int
-            get() = theme.iconColor
-        val isCustomTheme: Boolean
-            get() = theme == Theme.CUSTOM
-        val textColor: Int
-            get() = theme.textColor
+            val accentColor: Int
+                get() = theme.accentColor
+            val backgroundColor: Int
+                get() = theme.backgroundColor
+            val headerColor: Int
+                get() = theme.headerColor
+            val iconColor: Int
+                get() = theme.iconColor
+            val isCustomTheme: Boolean
+                get() = theme == Themes.CUSTOM
+            val textColor: Int
+                get() = theme.textColor
 
-        var customTextColor: Int by kpref(key = "CUSTOM_COLOR_TEXT", fallback = Theme.PORCELAIN)
-        var customAccentColor: Int by kpref(key = "CUSTOM_COLOR_ACCENT", fallback = Theme.LOCHMARA)
-        var customBackgroundColor: Int by kpref(
-            key = "CUSTOM_COLOR_BACKGROUND",
-            fallback = Theme.MINE_SHAFT
-        )
-        var customHeaderColor: Int by kpref(
-            key = "CUSTOM_COLOR_HEADER",
-            fallback = Theme.BAHAMA_BLUE
-        )
-        var customIconColor: Int by kpref(key = "CUSTOM_COLOR_ICONS", fallback = Theme.PORCELAIN)
+            var customTextColor: Int by kpref(
+                key = "CUSTOM_COLOR_TEXT",
+                fallback = Themes.PORCELAIN
+            )
+            var customAccentColor: Int by kpref(
+                key = "CUSTOM_COLOR_ACCENT",
+                fallback = Themes.LOCHMARA
+            )
+            var customBackgroundColor: Int by kpref(
+                key = "CUSTOM_COLOR_BACKGROUND",
+                fallback = Themes.MINE_SHAFT
+            )
+            var customHeaderColor: Int by kpref(
+                key = "CUSTOM_COLOR_HEADER",
+                fallback = Themes.BAHAMA_BLUE
+            )
+            var customIconColor: Int by kpref(
+                key = "CUSTOM_COLOR_ICONS",
+                fallback = Themes.PORCELAIN
+            )
+        }
 
-        var mainActivityLayoutIndex: Int by kpref(
-            key = "MAIN_ACTIVITY_LAYOUT_INDEX",
-            fallback = MainActivityLayout.TOP_BAR.ordinal,
-            postSetter = { value: Int ->
-                mainActivityLayoutLoader.invalidate()
-                logAnalytics(
-                    name = "Main Layout",
-                    events = *arrayOf("Type" to MainActivityLayout(value).name)
-                )
-            }
-        )
-        private val mainActivityLayoutLoader =
-            lazyResettable { MainActivityLayout.values()[mainActivityLayoutIndex] }
-        val mainActivityLayout: MainActivityLayout by mainActivityLayoutLoader
+        object DateTimeFormat {
+            var index: Int by kpref(
+                key = "DATE_TIME_FORMAT_INDEX",
+                fallback = DateTimeFormats.MEDIUM_DATE_MEDIUM_TIME.ordinal,
+                postSetter = { value: Int ->
+                    loader.invalidate()
+                    logAnalytics(
+                        name = "Date time format",
+                        events = *arrayOf("Date time format" to DateTimeFormats(value).name)
+                    )
+                }
+            )
+            private val loader = lazyResettable { DateTimeFormats.values()[index] }
+            val format: DateTimeFormats by loader
+        }
 
-        var dateTimeFormatIndex: Int by kpref(
-            key = "DATE_TIME_FORMAT_INDEX",
-            fallback = DateTimeFormat.MEDIUM_DATE_MEDIUM_TIME.ordinal,
-            postSetter = { value: Int ->
-                dateTimeFormatLoader.invalidate()
-                logAnalytics(
-                    name = "Date time format",
-                    events = *arrayOf("Date time format" to DateTimeFormat(value).name)
-                )
-            }
-        )
-        private val dateTimeFormatLoader =
-            lazyResettable { DateTimeFormat.values()[dateTimeFormatIndex] }
-        val dateTimeFormat: DateTimeFormat by dateTimeFormatLoader
+        object MainActivityLayout {
+            var index: Int by kpref(
+                key = "MAIN_ACTIVITY_LAYOUT_INDEX",
+                fallback = MainActivityLayouts.TOP_BAR.ordinal,
+                postSetter = { value: Int ->
+                    loader.invalidate()
+                    logAnalytics(
+                        name = "Main Layout",
+                        events = *arrayOf("Type" to MainActivityLayouts(value).name)
+                    )
+                }
+            )
+            private val loader = lazyResettable { MainActivityLayouts.values()[index] }
+            val layout: MainActivityLayouts by loader
+
+            val backgroundColor: Int
+                get() = layout.backgroundColor
+            val iconColor: Int
+                get() = layout.iconColor
+            val layoutRes: Int
+                get() = layout.layoutRes
+            val titleRes: Int
+                get() = layout.titleRes
+        }
 
         var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
     }
 
     object Behaviour {
-        var animate: Boolean by kpref(
-            key = "ANIMATE",
+        var analyticsEnabled: Boolean by kpref(key = "ANALYTICS_ENABLED", fallback = true)
+        var animationsEnabled: Boolean by kpref(
+            key = "ANIMATIONS_ENABLED",
             fallback = true,
             postSetter = { value: Boolean ->
                 logAnalytics(
-                    name = "Animations",
+                    name = "Animations enabled",
                     events = *arrayOf("Animations" to value)
                 )
             }
         )
+        var confirmExit: Boolean by kpref(key = "CONFIRM_EXIT", fallback = true)
         var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = isReleaseBuild)
-        var confirmExit: Boolean by kpref("CONFIRM_EXIT", true)
-        var analytics: Boolean by kpref(key = "ANALYTICS", fallback = true)
     }
 
     object Experimental {
-        var experimentalSettings: Boolean by kpref(
-            key = "EXPERIMENTAL_SETTINGS",
+        var enabled: Boolean by kpref(
+            key = "EXPERIMENTAL_SETTINGS_ENABLED",
             fallback = isDebugBuild
         )
-
-        var useWifiADB: Boolean by kpref(key = "USE_WIFI_ADB", fallback = false)
-        var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = false)
-        var useVibrations: Boolean by kpref(key = "USE_VIBRATIONS", fallback = false)
-        var showDownloadProgress: Boolean by kpref(key = "SHOW_DOWNLOAD_PROGRESS", fallback = false)
-        var viewpagerSwipe: Boolean by kpref(key = "VIEWPAGER_SWIPE", fallback = false)
+        var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = enabled)
+        var showDownloadProgress: Boolean by kpref(
+            key = "SHOW_DOWNLOAD_PROGRESS",
+            fallback = enabled
+        )
+        var wifiADBEnabled: Boolean by kpref(key = "WIFI_ADB_ENABLED", fallback = enabled)
+        var vibrationsEnabled: Boolean by kpref(key = "VIBRATIONS_ENABLED", fallback = enabled)
+        var viewpagerSwipeEnabled: Boolean by kpref(
+            key = "VIEWPAGER_SWIPE_ENABLED",
+            fallback = enabled
+        )
     }
 
     object Location {
-        var locationRequestAccuracyIndex: Int by kpref(
-            key = "LOCATION_REQUEST_ACCURACY_INDEX",
-            fallback = LocationRequestAccuracy.HIGH.ordinal,
-            postSetter = { locationRequestAccuracyLoader.invalidate() }
-        )
-        private val locationRequestAccuracyLoader =
-            lazyResettable { LocationRequestAccuracy.values()[locationRequestAccuracyIndex] }
-        val locationRequestAccuracy: LocationRequestAccuracy by locationRequestAccuracyLoader
+        object RequestAccuracy {
+            var index: Int by kpref(
+                key = "LOCATION_REQUEST_ACCURACY_INDEX",
+                fallback = LocationRequestAccuracies.HIGH.ordinal,
+                postSetter = { loader.invalidate() }
+            )
+            private val loader = lazyResettable { LocationRequestAccuracies.values()[index] }
+            private val requestAccuracy: LocationRequestAccuracies by loader
+            val accuracy: LocationAccuracy
+                get() = requestAccuracy.accuracy
 
-        var locationRequestInterval: Int by kpref(
-            key = "LOCATION_REQUEST_INTERVAL",
-            fallback = arrayOf(
-                LocationRequestAccuracy.LOCATION_REQUEST_MIN_INTERVAL,
-                LocationRequestAccuracy.LOCATION_REQUEST_MAX_INTERVAL
-            ).average().roundToInt()
-        )
-        var locationRequestDistance: Int by kpref(
-            "LOCATION_REQUEST_DISTANCE",
-            fallback = arrayOf(
-                LocationRequestAccuracy.LOCATION_REQUEST_MIN_DISTANCE,
-                LocationRequestAccuracy.LOCATION_REQUEST_MAX_DISTANCE
-            ).average().roundToInt()
-        )
+            var interval: Int by kpref(
+                key = "LOCATION_REQUEST_INTERVAL",
+                fallback = arrayOf(
+                    LocationRequestAccuracies.MIN_INTERVAL,
+                    LocationRequestAccuracies.MAX_INTERVAL
+                ).average().roundToInt()
+            )
+            var distance: Int by kpref(
+                key = "LOCATION_REQUEST_DISTANCE",
+                fallback = arrayOf(
+                    LocationRequestAccuracies.MIN_DISTANCE,
+                    LocationRequestAccuracies.MAX_DISTANCE
+                ).average().roundToInt()
+            )
+        }
     }
 
     object Map {
-        var isTrafficEnabled: Boolean by kpref(key = "IS_TRAFFIC_ENABLED", fallback = false)
-        var isBuildingsEnabled: Boolean by kpref(key = "IS_BUILDINGS_ENABLED", fallback = false)
-        var isIndoorEnabled: Boolean by kpref(key = "IS_INDOOR_ENABLED", fallback = false)
-        var isCompassEnabled: Boolean by kpref("IS_COMPASS_ENABLED", fallback = true)
-        var isMyLocationButtonEnabled: Boolean by kpref(
-            "IS_MY_LOCATION_BUTTON_ENABLED",
-            fallback = true
-        )
-        var isIndoorLevelPickerEnabled: Boolean by kpref(
-            "IS_INDOOR_LEVEL_PICKER_ENABLED",
+        var compassEnabled: Boolean by kpref(key = "COMPASS_ENABLED", fallback = true)
+        var indoorLevelPickerEnabled: Boolean by kpref(
+            key = "INDOOR_LEVEL_PICKER_ENABLED",
             fallback = false
         )
-        var isZoomGesturesEnabled: Boolean by kpref("IS_ZOOM_GESTURES_ENABLED", fallback = true)
-        var isScrollGesturesEnabled: Boolean by kpref("IS_SCROLL_GESTURES_ENABLED", fallback = true)
-        var isTiltGesturesEnabled: Boolean by kpref("IS_TILT_GESTURES_ENABLED", fallback = true)
-        var isRotateGesturesEnabled: Boolean by kpref("IS_ROTATE_GESTURES_ENABLED", fallback = true)
-
-        var mapStyleIndex: Int by kpref(
-            key = "MAPS_STYLE_INDEX",
-            fallback = 0,
-            postSetter = { value: Int ->
-                mapStyleLoader.invalidate()
-                logAnalytics(
-                    name = "Maps style",
-                    events = *arrayOf("Count" to MapStyle(value).name)
-                )
-            }
+        var myLocationButtonEnabled: Boolean by kpref(
+            key = "MY_LOCATION_BUTTON_ENABLED",
+            fallback = true
         )
-        private val mapStyleLoader = lazyResettable { MapStyle.values()[mapStyleIndex] }
-        val mapStyle: MapStyle by mapStyleLoader
+
+        object Gestures {
+            var rotateEnabled: Boolean by kpref(key = "ROTATE_GESTURES_ENABLED", fallback = true)
+            var scrollEnabled: Boolean by kpref(key = "SCROLL_GESTURES_ENABLED", fallback = true)
+            var tiltEnabled: Boolean by kpref(key = "TILT_GESTURES_ENABLED", fallback = true)
+            var zoomEnabled: Boolean by kpref(key = "ZOOM_GESTURES_ENABLED", fallback = true)
+        }
+
+        object Layers {
+            var buildingsEnabled: Boolean by kpref(key = "BUILDINGS_ENABLED", fallback = false)
+            var indoorEnabled: Boolean by kpref(key = "INDOOR_ENABLED", fallback = false)
+            var trafficEnabled: Boolean by kpref(key = "TRAFFIC_ENABLED", fallback = false)
+        }
+
+        object MapStyle {
+            var index: Int by kpref(
+                key = "MAPS_STYLE_INDEX",
+                fallback = MapStyles.STANDARD.ordinal,
+                postSetter = { value: Int ->
+                    loader.invalidate()
+                    logAnalytics(
+                        name = "Maps style",
+                        events = *arrayOf("Count" to MapStyles(value).name)
+                    )
+                }
+            )
+            private val loader = lazyResettable { MapStyles.values()[index] }
+            private val mapStyle: MapStyles by loader
+            val styleRes: Int
+                get() = mapStyle.styleRes
+        }
     }
 
     object Serval {
         const val EVENT_COUNT = 10000
 
-        var servalBaseUrl: String by kpref(key = "SERVAL_BASE_URL", fallback = "serval.splork.de")
-        var servalPassword: String by kpref(key = "SERVAL_PASSWORD", fallback = "pum123")
-        var servalPort: Int by kpref(key = "SERVAL_PORT", fallback = 80)
-        var servalUser: String by kpref("SERVAL_USER", "pum")
+        var baseUrl: String by kpref(key = "SERVAL_BASE_URL", fallback = "serval.splork.de")
+        var password: String by kpref(key = "SERVAL_PASSWORD", fallback = "pum123")
+        var port: Int by kpref(key = "SERVAL_PORT", fallback = 80)
+        var user: String by kpref(key = "SERVAL_USER", fallback = "pum")
+
         var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
     }
 

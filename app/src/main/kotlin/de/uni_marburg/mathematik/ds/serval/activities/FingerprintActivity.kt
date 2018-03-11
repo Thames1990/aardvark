@@ -16,7 +16,7 @@ import com.github.ajalt.reprint.core.AuthenticationListener
 import com.github.ajalt.reprint.core.Reprint
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.Theme
+import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
@@ -46,35 +46,35 @@ class FingerprintActivity : AppCompatActivity() {
             .build()
 
         with(fingerprintDialog.customView!!) {
-            setBackgroundColor(Prefs.Appearance.backgroundColor.lighten(0.1f).withMinAlpha(200))
+            setBackgroundColor(Prefs.Appearance.Theme.backgroundColor.lighten(0.1f).withMinAlpha(200))
 
             val title: TextView = find(R.id.fingerprint_title)
-            title.setTextColor(Prefs.Appearance.textColor)
+            title.setTextColor(Prefs.Appearance.Theme.textColor)
 
             val subTitle: TextView = find(R.id.fingerprint_subtitle)
-            subTitle.setTextColor(Prefs.Appearance.textColor)
+            subTitle.setTextColor(Prefs.Appearance.Theme.textColor)
 
             description = find(R.id.fingerprint_description)
-            description.setTextColor(Prefs.Appearance.textColor.adjustAlpha(0.5f))
+            description.setTextColor(Prefs.Appearance.Theme.textColor.adjustAlpha(0.5f))
 
             iconCircle = find(R.id.fingerprint_icon_circle)
-            iconCircle.setCardBackgroundColor(Theme.LYNCH)
+            iconCircle.setCardBackgroundColor(Themes.LYNCH)
 
             icon = find(R.id.fingerprint_icon)
             icon.setIcon(
                 icon = CommunityMaterial.Icon.cmd_fingerprint,
-                color = Prefs.Appearance.iconColor
+                color = Prefs.Appearance.Theme.iconColor
             )
 
             val usePassword: Button = find(R.id.button_use_password)
             with(usePassword) {
-                setTextColor(Theme.LYNCH)
+                setTextColor(Themes.LYNCH)
                 isEnabled = false
             }
 
             val cancel: Button = find(R.id.button_cancel)
             with(cancel) {
-                setTextColor(Theme.LYNCH)
+                setTextColor(Themes.LYNCH)
                 isEnabled = false
             }
         }
@@ -84,10 +84,10 @@ class FingerprintActivity : AppCompatActivity() {
     private fun authenticate(fingerprintDialog: MaterialDialog) {
         Reprint.authenticate(object : AuthenticationListener {
             override fun onSuccess(moduleTag: Int) {
-                iconCircle.setCardBackgroundColor(Theme.PERSIAN_GREEN)
+                iconCircle.setCardBackgroundColor(Themes.PERSIAN_GREEN)
                 icon.setIconWithOptions(
                     icon = CommunityMaterial.Icon.cmd_check,
-                    color = Prefs.Appearance.iconColor
+                    color = Prefs.Appearance.Theme.iconColor
                 )
                 description.setTextWithOptions(
                     textRes = R.string.dialog_fingerprint_recognized,
@@ -106,13 +106,13 @@ class FingerprintActivity : AppCompatActivity() {
                 moduleTag: Int,
                 errorCode: Int
             ) {
-                iconCircle.setCardBackgroundColor(Theme.POMEGRENADE)
+                iconCircle.setCardBackgroundColor(Themes.POMEGRENADE)
                 icon.setIconWithOptions(
                     icon = CommunityMaterial.Icon.cmd_exclamation,
-                    color = Prefs.Appearance.iconColor
+                    color = Prefs.Appearance.Theme.iconColor
                 )
                 description.setTextWithOptions(errorMessage.toString())
-                if (Prefs.Experimental.useVibrations) vibrate()
+                if (Prefs.Experimental.vibrationsEnabled) vibrate()
             }
         })
     }

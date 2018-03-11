@@ -18,7 +18,7 @@ import ca.allanwang.kau.ui.widgets.InkPageIndicator
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.Theme
+import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.intro.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.find
@@ -51,7 +51,10 @@ class IntroActivity : BaseActivity() {
         }
         indicator.setViewPager(viewpager)
         with(next) {
-            setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.Appearance.iconColor)
+            setIcon(
+                icon = GoogleMaterial.Icon.gmd_navigate_next,
+                color = Prefs.Appearance.Theme.iconColor
+            )
             setOnClickListener {
                 when {
                     barHasNext -> viewpager.item = viewpager.currentItem + 1
@@ -64,7 +67,7 @@ class IntroActivity : BaseActivity() {
             }
         }
         skip.setOnClickListener { finish() }
-        ripple.set(color = Prefs.Appearance.backgroundColor)
+        ripple.set(color = Prefs.Appearance.Theme.backgroundColor)
 
         theme()
     }
@@ -81,12 +84,12 @@ class IntroActivity : BaseActivity() {
     }
 
     fun theme() {
-        statusBarColor = Prefs.Appearance.headerColor
-        navigationBarColor = Prefs.Appearance.headerColor
-        skip.setTextColor(Prefs.Appearance.textColor)
-        next.imageTintList = ColorStateList.valueOf(Prefs.Appearance.textColor)
+        statusBarColor = Prefs.Appearance.Theme.headerColor
+        navigationBarColor = Prefs.Appearance.Theme.headerColor
+        skip.setTextColor(Prefs.Appearance.Theme.textColor)
+        next.imageTintList = ColorStateList.valueOf(Prefs.Appearance.Theme.textColor)
         with(indicator) {
-            setColour(Prefs.Appearance.textColor)
+            setColour(Prefs.Appearance.Theme.textColor)
             invalidate()
         }
         fragments.forEach { it.themeFragment() }
@@ -97,7 +100,7 @@ class IntroActivity : BaseActivity() {
         window.setFlags(flagNotTouchable, flagNotTouchable)
 
         ripple.ripple(
-            color = Theme.AARDVARK_GREEN,
+            color = Themes.AARDVARK_GREEN,
             startX = x,
             startY = y,
             duration = 600,
@@ -118,13 +121,13 @@ class IntroActivity : BaseActivity() {
                 ?.start()
         }
 
-        if (Prefs.Appearance.textColor != Color.WHITE) {
+        if (Prefs.Appearance.Theme.textColor != Color.WHITE) {
             val image = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
             if (image != null) {
                 ValueAnimator.ofFloat(0f, 1f).apply {
                     addUpdateListener { animator ->
                         image.setTint(
-                            Prefs.Appearance.textColor.blendWith(
+                            Prefs.Appearance.Theme.textColor.blendWith(
                                 color = Color.WHITE,
                                 ratio = animator.animatedValue as Float
                             )
@@ -136,11 +139,11 @@ class IntroActivity : BaseActivity() {
             }
         }
 
-        if (Prefs.Appearance.headerColor != Theme.AARDVARK_GREEN) {
+        if (Prefs.Appearance.Theme.headerColor != Themes.AARDVARK_GREEN) {
             ValueAnimator.ofFloat(0f, 1f).apply {
                 addUpdateListener { animator ->
-                    val color = Prefs.Appearance.headerColor.blendWith(
-                        color = Theme.AARDVARK_GREEN,
+                    val color = Prefs.Appearance.Theme.headerColor.blendWith(
+                        color = Themes.AARDVARK_GREEN,
                         ratio = animator.animatedValue as Float
                     )
                     statusBarColor = color
@@ -195,7 +198,7 @@ class IntroActivity : BaseActivity() {
                     icon =
                     if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
                     else GoogleMaterial.Icon.gmd_done,
-                    color = Prefs.Appearance.iconColor
+                    color = Prefs.Appearance.Theme.iconColor
                 )
                 skip.animate().scaleXY(if (barHasNext) 1f else 0f)
             }

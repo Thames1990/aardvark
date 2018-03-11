@@ -26,9 +26,9 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_enable_wifi_adb,
-        getter = Prefs.Experimental::useWifiADB,
+        getter = Prefs.Experimental::wifiADBEnabled,
         setter = { enableWifiADB ->
-            Prefs.Experimental.useWifiADB = enableWifiADB
+            Prefs.Experimental.wifiADBEnabled = enableWifiADB
             if (enableWifiADB) enableWifiAdb()
             else disableWifiAdb()
             reloadByTitle(R.string.preference_experimental_share_wifi_adb_command)
@@ -39,7 +39,7 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
         title = R.string.preference_experimental_share_wifi_adb_command,
         builder = {
             descRes = R.string.preference_experimental_share_adb_command_desc
-            enabler = Prefs.Experimental::useWifiADB
+            enabler = Prefs.Experimental::wifiADBEnabled
             onDisabledClick = {
                 snackbarThemed(getString(R.string.preference_experimental_requires_wifi_adb))
             }
@@ -69,8 +69,8 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_vibration,
-        getter = Prefs.Experimental::useVibrations,
-        setter = { Prefs.Experimental.useVibrations = it },
+        getter = Prefs.Experimental::vibrationsEnabled,
+        setter = { Prefs.Experimental.vibrationsEnabled = it },
         builder = {
             dependsOnSecurePrivacy()
             descRes = R.string.preference_experimental_vibration_desc
@@ -92,9 +92,9 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_paging,
-        getter = Prefs.Experimental::viewpagerSwipe,
+        getter = Prefs.Experimental::viewpagerSwipeEnabled,
         setter = { usePaging ->
-            Prefs.Experimental.viewpagerSwipe = usePaging
+            Prefs.Experimental.viewpagerSwipeEnabled = usePaging
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_experimental_paging_desc }

@@ -17,7 +17,7 @@ import de.uni_marburg.mathematik.ds.serval.R
  * @property experimental Experimental preference sub items are only visible when experimental
  * settings are activated
  */
-enum class PreferenceSubItem(
+enum class PreferenceSubItems(
     @StringRes val titleRes: Int,
     @StringRes val descRes: Int,
     val iicon: IIcon,

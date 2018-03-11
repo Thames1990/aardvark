@@ -9,11 +9,11 @@ import ca.allanwang.kau.utils.restartApplication
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy.Companion.LOCATION_REQUEST_MAX_DISTANCE
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy.Companion.LOCATION_REQUEST_MAX_INTERVAL
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy.Companion.LOCATION_REQUEST_MIN_DISTANCE
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracy.Companion.LOCATION_REQUEST_MIN_INTERVAL
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MAX_DISTANCE
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MAX_INTERVAL
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MIN_DISTANCE
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MIN_INTERVAL
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
@@ -39,14 +39,14 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_location_request_priority,
-        getter = Prefs.Location::locationRequestAccuracyIndex,
-        setter = { Prefs.Location.locationRequestAccuracyIndex = it },
+        getter = Prefs.Location.RequestAccuracy::index,
+        setter = { Prefs.Location.RequestAccuracy.index = it },
         builder = {
             dependsOnLocationPermission()
             onClick = {
                 materialDialogThemed {
                     title(R.string.preference_location_request_priority)
-                    items(LocationRequestAccuracy.values().map { priority ->
+                    items(LocationRequestAccuracies.values().map { priority ->
                         "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
                     })
                     itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
@@ -59,7 +59,7 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                     }
                 }
             }
-            textGetter = { string(LocationRequestAccuracy(it).titleRes) }
+            textGetter = { string(LocationRequestAccuracies(it).titleRes) }
         }
     )
 
@@ -70,25 +70,25 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     seekbar(
         title = R.string.preference_location_request_distance,
-        getter = Prefs.Location::locationRequestDistance,
-        setter = { Prefs.Location.locationRequestDistance = it },
+        getter = Prefs.Location.RequestAccuracy::distance,
+        setter = { Prefs.Location.RequestAccuracy.distance = it },
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.preference_location_request_distance_desc
-            min = LOCATION_REQUEST_MIN_DISTANCE
-            max = LOCATION_REQUEST_MAX_DISTANCE
+            min = MIN_DISTANCE
+            max = MAX_DISTANCE
         }
     )
 
     seekbar(
         title = R.string.preference_location_request_interval,
-        getter = Prefs.Location::locationRequestInterval,
-        setter = { Prefs.Location.locationRequestInterval = it },
+        getter = Prefs.Location.RequestAccuracy::interval,
+        setter = { Prefs.Location.RequestAccuracy.interval = it },
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.preference_location_request_interval_desc
-            min = LOCATION_REQUEST_MIN_INTERVAL
-            max = LOCATION_REQUEST_MAX_INTERVAL
+            min = MIN_INTERVAL
+            max = MAX_INTERVAL
         }
     )
 
