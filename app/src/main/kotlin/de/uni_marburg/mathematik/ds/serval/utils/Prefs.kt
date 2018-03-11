@@ -134,4 +134,8 @@ object Prefs : KPref() {
     var useWifiADB: Boolean by kpref(key = "USE_WIFI_ADB", fallback = false)
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
     var viewpagerSwipe: Boolean by kpref(key = "VIEWPAGER_SWIPE", fallback = false)
+
+    var mapShowTraffic: Boolean by kpref(key = "SHOW_TRAFFIC", fallback = false)
+    var mapShowBuildings: Boolean by kpref(key = "SHOW_BUILDINGS", fallback = false)
+    var mapShowIndoor: Boolean by kpref(key = "SHOW_INDOOR", fallback = false)
 }

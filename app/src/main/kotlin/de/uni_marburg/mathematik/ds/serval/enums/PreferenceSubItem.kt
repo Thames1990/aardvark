@@ -36,6 +36,12 @@ enum class PreferenceSubItem(
         iicon = GoogleMaterial.Icon.gmd_trending_up
     ),
 
+    MAP(
+        titleRes = R.string.preference_map,
+        descRes = R.string.preference_map_desc,
+        iicon = GoogleMaterial.Icon.gmd_map
+    ),
+
     LOCATION(
         titleRes = R.string.location,
         descRes = R.string.location_desc,

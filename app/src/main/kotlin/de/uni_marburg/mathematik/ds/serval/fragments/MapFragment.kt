@@ -146,6 +146,10 @@ class MapFragment : BaseFragment() {
             }
             setMapStyle(MapStyleOptions.loadRawResourceStyle(context, rawResourceRes))
             uiSettings.isMyLocationButtonEnabled = false
+
+            isTrafficEnabled = Prefs.mapShowTraffic
+            isBuildingsEnabled = Prefs.mapShowBuildings
+            isIndoorEnabled = Prefs.mapShowBuildings
         }
     }
 

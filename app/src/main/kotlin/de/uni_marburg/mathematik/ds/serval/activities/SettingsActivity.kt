@@ -42,6 +42,7 @@ class SettingsActivity : KPrefActivity() {
                     itemBuilder = when (preferenceSubItem) {
                         PreferenceSubItem.BEHAVIOUR -> behaviourItemBuilder()
                         PreferenceSubItem.APPEARANCE -> appearanceItemBuilder()
+                        PreferenceSubItem.MAP -> mapItemBuilder()
                         PreferenceSubItem.LOCATION -> locationItemBuilder()
                         PreferenceSubItem.SERVAL -> servalItemBuilder()
                         PreferenceSubItem.EXPERIMENTAL -> experimentalItemBuilder()

@@ -174,6 +174,15 @@
     <string name="preference_experimental_desc">Enable early access to potentially unstable features</string>
     <string name="preference_global_customization">Global Customization</string>
     <string name="preference_main_activity_layout">Main Activity Layout</string>
+    <string name="preference_map">Map</string>
+    <string name="preference_map_buildings">Buildings</string>
+    <string name="preference_map_buildings_desc">Show buildings</string>
+    <string name="preference_map_desc">Customize Google Map</string>
+    <string name="preference_map_indoor">Indoor</string>
+    <string name="preference_map_indoor_desc">Show indoor</string>
+    <string name="preference_map_layers">Map layers</string>
+    <string name="preference_map_traffic">Traffic</string>
+    <string name="preference_map_traffic_desc">Show traffic</string>
     <string name="preference_paging">Viewpager Swipe</string>
     <string name="preference_paging_desc">Allow swiping between the pages in the main view to switch tabs. Disabling this will prevent page swiping altogether.</string>
     <string name="preference_password_desc">Serval API password</string>
