@@ -217,7 +217,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     header(R.string.preference_appearance_global_header)
 
-    fun showMainActivityLayoutChooser(onClick: KClick<Int>) {
+    fun showMainActivityLayoutChooserDialog(onClick: KClick<Int>) {
         materialDialogThemed {
             title(R.string.preference_appearance_main_activity_layout)
             items(MainActivityLayouts.values().map { mainActivityLayout ->
@@ -241,11 +241,11 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         setter = { AppearancePrefs.MainActivityLayout.index = it },
         builder = {
             textGetter = { string(AppearancePrefs.MainActivityLayout.titleRes) }
-            onClick = ::showMainActivityLayoutChooser
+            onClick = ::showMainActivityLayoutChooserDialog
         }
     )
 
-    fun showDateTimeFormatChooser(onClick: KClick<Int>) {
+    fun showDateTimeFormatChooserDialog(onClick: KClick<Int>) {
         materialDialogThemed {
             title(R.string.preference_appearance_date_time_format)
             items(DateTimeFormats.values().map { it.previewText })
@@ -267,7 +267,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         getter = AppearancePrefs.DateTimeFormat::index,
         setter = { AppearancePrefs.DateTimeFormat.index = it },
         builder = {
-            onClick = ::showDateTimeFormatChooser
+            onClick = ::showDateTimeFormatChooserDialog
             textGetter = { string(DateTimeFormats(it).titleRes) }
         }
     )

@@ -312,7 +312,7 @@ class MainActivity : BaseActivity() {
     private class LocationLiveData(context: Context) : LiveData<Location>() {
 
         private val locationParams: LocationParams = LocationParams.Builder()
-            .setAccuracy(LocationPrefs.accuracy)
+            .setAccuracy(LocationPrefs.LocationRequestAccuracy.accuracy)
             .setDistance(LocationPrefs.distance.toFloat())
             .setInterval(LocationPrefs.interval.toLong())
             .build()

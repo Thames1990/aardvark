@@ -17,48 +17,27 @@ enum class LocationRequestAccuracies(
     val accuracy: LocationAccuracy
 ) {
 
-    /**
-     * Use this setting to request the most precise location possible. With this setting,
-     * the location services are more likely to use GPS to determine the location.
-     */
     HIGH(
-        titleRes = R.string.location_request_priority_accurate,
-        descTextRes = R.string.location_request_priority_accurate_desc,
+        titleRes = R.string.location_request_accuracy_high,
+        descTextRes = R.string.location_request_accuracy_high_desc,
         accuracy = LocationAccuracy.HIGH
     ),
 
-    /**
-     * Use this setting to request location precision to within a city block, which is an accuracy
-     * of approximately 100 meters. This is considered a coarse level of accuracy, and is likely to
-     * consume less power. With this setting, the location services are likely to use WiFi and cell
-     * tower positioning. Note, however, that the choice of location provider depends on many other
-     * factors, such as which sources are available.
-     */
     MEDIUM(
-        titleRes = R.string.location_request_priority_block_accuracy,
-        descTextRes = R.string.location_request_priority_block_accuracy_desc,
+        titleRes = R.string.location_request_accuracy_medium,
+        descTextRes = R.string.location_request_accuracy_medium_desc,
         accuracy = LocationAccuracy.MEDIUM
     ),
 
-    /**
-     * Use this setting to request city-level precision, which is an accuracy of approximately
-     * 10 kilometers. This is considered a coarse level of accuracy, and is likely to consume
-     * less power.
-     */
     LOW(
-        titleRes = R.string.location_request_priority_city_accuracy,
-        descTextRes = R.string.location_request_priority_city_accuracy_desc,
+        titleRes = R.string.location_request_accuracy_low,
+        descTextRes = R.string.location_request_accuracy_low_desc,
         accuracy = LocationAccuracy.LOW
     ),
 
-    /**
-     * Use this setting if you need negligible impact on power consumption, but want to receive
-     * location updates when available. With this setting, your app does not trigger any location
-     * updates, but receives locations triggered by other apps.
-     */
     LOWEST(
-        titleRes = R.string.location_request_priority_passive,
-        descTextRes = R.string.location_request_priority_passive_desc,
+        titleRes = R.string.location_request_accuracy_lowest,
+        descTextRes = R.string.location_request_accuracy_lowest_desc,
         accuracy = LocationAccuracy.LOWEST
     );
 

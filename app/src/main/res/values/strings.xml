@@ -93,14 +93,14 @@
     <string name="location">Location</string>
     <string name="location_address">Address</string>
     <string name="location_desc">Control your location settings</string>
-    <string name="location_request_priority_accurate">Accurate</string>
-    <string name="location_request_priority_accurate_desc">Use this setting to request the most precise location possible. With this setting, the location services are more likely to use GPS to determine the location.</string>
-    <string name="location_request_priority_block_accuracy">Block accuracy</string>
-    <string name="location_request_priority_block_accuracy_desc">Use this setting to request location precision to within a city block, which is an accuracy of approximately 100 meters. This is considered a coarse level of accuracy, and is likely to consume less power. With this setting, the location services are likely to use WiFi and cell tower positioning. Note, however, that the choice of location provider depends on many other factors, such as which sources are available.</string>
-    <string name="location_request_priority_city_accuracy">City accuracy</string>
-    <string name="location_request_priority_city_accuracy_desc">Use this setting to request city-level precision, which is an accuracy of approximately 10 kilometers. This is considered a coarse level of accuracy, and is likely to consume less power.</string>
-    <string name="location_request_priority_passive">Passive</string>
-    <string name="location_request_priority_passive_desc">Use this setting if you need negligible impact on power consumption, but want to receive location updates when available. With this setting, your app does not trigger any location updates, but receives locations triggered by other apps.</string>
+    <string name="location_request_accuracy_high">High</string>
+    <string name="location_request_accuracy_high_desc">This will return the finest location available.</string>
+    <string name="location_request_accuracy_low">Low</string>
+    <string name="location_request_accuracy_low_desc">City level accuracy is considered to be about 10km accuracy. Using a coarse accuracy such as this often consumes less power.</string>
+    <string name="location_request_accuracy_lowest">Lowest</string>
+    <string name="location_request_accuracy_lowest_desc">No locations will be returned unless a different client has requested location updates in which case this request will act as a passive listener to those locations.</string>
+    <string name="location_request_accuracy_medium">Medium</string>
+    <string name="location_request_accuracy_medium_desc">Block level accuracy is considered to be about 100 meter accuracy. Using a coarse accuracy such as this often consumes less power.</string>
 
     <string name="map_style_aubergine">Aubergine</string>
     <string name="map_style_dark">Dark</string>
@@ -179,11 +179,11 @@
     <string name="preference_experimental_wifi_adb_deactivate" translatable="false">setprop service.adb.tcp.port -1</string>
     <string name="preference_experimental_wifi_adb_start" translatable="false">start adbd</string>
     <string name="preference_experimental_wifi_adb_stop" translatable="false">stop adbd</string>
+    <string name="preference_location_request_accuracy">Location request accuracy</string>
     <string name="preference_location_request_distance">Location request distance</string>
-    <string name="preference_location_request_distance_desc">Define how many meters you have to move to trigger a location update</string>
+    <string name="preference_location_request_distance_desc">Define how many meters you have to move to trigger a location request</string>
     <string name="preference_location_request_interval">Location request interval</string>
-    <string name="preference_location_request_interval_desc">Define the interval in minutes between active location updates</string>
-    <string name="preference_location_request_priority">Location request priority</string>
+    <string name="preference_location_request_interval_desc">Define the interval in between location requests</string>
     <string name="preference_location_requires_location_permission">Requires location permission</string>
     <string name="preference_map">Map</string>
     <string name="preference_map_desc">Customize Google Map</string>

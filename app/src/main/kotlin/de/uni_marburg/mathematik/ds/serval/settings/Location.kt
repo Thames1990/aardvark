@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.settings
 
 import ca.allanwang.kau.kotlin.lazyResettable
 import ca.allanwang.kau.kpref.KPref
+import ca.allanwang.kau.kpref.activity.KClick
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.activity.items.KPrefSeekbar
 import ca.allanwang.kau.kpref.activity.items.KPrefText
@@ -24,15 +25,17 @@ import io.nlopez.smartlocation.location.config.LocationAccuracy
 import kotlin.math.roundToInt
 
 object LocationPrefs : KPref() {
-    var index: Int by kpref(
-        key = "LOCATION_REQUEST_ACCURACY_INDEX",
-        fallback = LocationRequestAccuracies.HIGH.ordinal,
-        postSetter = { loader.invalidate() }
-    )
-    private val loader = lazyResettable { LocationRequestAccuracies.values()[index] }
-    private val requestAccuracy: LocationRequestAccuracies by loader
-    val accuracy: LocationAccuracy
-        get() = requestAccuracy.accuracy
+    object LocationRequestAccuracy {
+        var index: Int by kpref(
+            key = "LOCATION_REQUEST_ACCURACY_INDEX",
+            fallback = LocationRequestAccuracies.HIGH.ordinal,
+            postSetter = { loader.invalidate() }
+        )
+        private val loader = lazyResettable { LocationRequestAccuracies.values()[index] }
+        private val requestAccuracy: LocationRequestAccuracies by loader
+        val accuracy: LocationAccuracy
+            get() = requestAccuracy.accuracy
+    }
 
     var interval: Int by kpref(
         key = "LOCATION_REQUEST_INTERVAL",
@@ -53,14 +56,17 @@ object LocationPrefs : KPref() {
 fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     if (!hasLocationPermission) {
-        plainText(R.string.preference_location_requires_location_permission) {
-            descRes = R.string.grant_location_permission_settings
-            onClick = {
-                kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
-                    if (granted) restartApplication()
+        plainText(
+            title = R.string.preference_location_requires_location_permission,
+            builder = {
+                descRes = R.string.grant_location_permission_settings
+                onClick = {
+                    kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
+                        if (granted) restartApplication()
+                    }
                 }
             }
-        }
+        )
     }
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnLocationPermission() {
@@ -70,36 +76,41 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     }
 
-    text(
-        title = R.string.preference_location_request_priority,
-        getter = LocationPrefs::index,
-        setter = { LocationPrefs.index = it },
-        builder = {
-            dependsOnLocationPermission()
-            onClick = {
-                materialDialogThemed {
-                    title(R.string.preference_location_request_priority)
-                    items(LocationRequestAccuracies.values().map { priority ->
-                        "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
-                    })
-                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                        if (item.pref != which) {
-                            item.pref = which
-                            shouldRestartMain()
-                            reload()
-                        }
-                        true
+    fun showLocationRequestAccuracyChooserDialog(onClick: KClick<Int>) {
+        materialDialogThemed {
+            title(R.string.preference_location_request_accuracy)
+            items(LocationRequestAccuracies.values().map { accuracy ->
+                "${string(accuracy.titleRes)}\n${string(accuracy.descTextRes)}"
+            })
+            with(onClick) {
+                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                    if (item.pref != which) {
+                        item.pref = which
+                        shouldRestartMain()
+                        reload()
                     }
+                    true
                 }
             }
+        }
+    }
+
+    text(
+        title = R.string.preference_location_request_accuracy,
+        getter = LocationPrefs.LocationRequestAccuracy::index,
+        setter = { LocationPrefs.LocationRequestAccuracy.index = it },
+        builder = {
+            dependsOnLocationPermission()
+            onClick = ::showLocationRequestAccuracyChooserDialog
             textGetter = { string(LocationRequestAccuracies(it).titleRes) }
         }
     )
 
     fun KPrefSeekbar.KPrefSeekbarContract.dependsOnLocationPermission() {
         enabler = ::hasLocationPermission
-        onDisabledClick =
-                { snackbarThemed(R.string.preference_location_requires_location_permission) }
+        onDisabledClick = {
+            snackbarThemed(R.string.preference_location_requires_location_permission)
+        }
     }
 
     seekbar(
