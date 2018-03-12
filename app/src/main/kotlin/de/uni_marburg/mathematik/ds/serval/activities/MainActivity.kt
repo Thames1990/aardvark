@@ -33,6 +33,7 @@ import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.Appearance
+import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
 import de.uni_marburg.mathematik.ds.serval.settings.Experimental
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
@@ -97,7 +98,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun backConsumer(): Boolean {
-        if (Prefs.Behaviour.confirmExit) {
+        if (Behaviour.confirmExit) {
             materialDialogThemed {
                 title(R.string.kau_exit)
                 content(R.string.kau_exit_confirmation)
@@ -105,7 +106,7 @@ class MainActivity : BaseActivity() {
                 negativeText(R.string.kau_no)
                 onPositive { _, _ -> finish() }
                 checkBoxPromptRes(R.string.kau_do_not_show_again, false, { _, isChecked ->
-                    Prefs.Behaviour.confirmExit = !isChecked
+                    Behaviour.confirmExit = !isChecked
                 })
             }
             return true
@@ -286,7 +287,7 @@ class MainActivity : BaseActivity() {
     private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
-            if (Prefs.Behaviour.showChangelog) showChangelog()
+            if (Behaviour.showChangelog) showChangelog()
             logAnalytics(
                 name = "Version",
                 events = *arrayOf(

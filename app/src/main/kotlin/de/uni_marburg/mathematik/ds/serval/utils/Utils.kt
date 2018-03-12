@@ -12,6 +12,7 @@ import com.crashlytics.android.answers.CustomEvent
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.settings.Appearance
+import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
 import org.jetbrains.anko.bundleOf
 import java.time.Instant
 import java.util.*
@@ -38,7 +39,7 @@ inline fun answers(action: Answers.() -> Unit) = Answers.getInstance().action()
  * Log custom events to analytics services.
  */
 fun logAnalytics(name: String, vararg events: Pair<String, Any>) {
-    if (Prefs.Behaviour.analyticsEnabled) {
+    if (Behaviour.analyticsEnabled) {
         answers {
             logCustom(CustomEvent(name).apply {
                 events.forEach { (key: String, value: Any) ->

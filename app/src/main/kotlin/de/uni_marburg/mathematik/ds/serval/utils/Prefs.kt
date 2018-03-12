@@ -16,22 +16,6 @@ object Prefs : KPref() {
     var lastLaunch: Long by kpref(key = "LAST_LAUNCH", fallback = -1L)
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
 
-    object Behaviour {
-        var analyticsEnabled: Boolean by kpref(key = "ANALYTICS_ENABLED", fallback = isReleaseBuild)
-        var animationsEnabled: Boolean by kpref(
-            key = "ANIMATIONS_ENABLED",
-            fallback = true,
-            postSetter = { value: Boolean ->
-                logAnalytics(
-                    name = "Animations enabled",
-                    events = *arrayOf("Animations" to value)
-                )
-            }
-        )
-        var confirmExit: Boolean by kpref(key = "CONFIRM_EXIT", fallback = isReleaseBuild)
-        var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = isReleaseBuild)
-    }
-
     object Location {
         object RequestAccuracy {
             var index: Int by kpref(

@@ -12,6 +12,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import de.uni_marburg.mathematik.ds.serval.settings.Appearance
+import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
 import de.uni_marburg.mathematik.ds.serval.settings.Experimental
 import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
@@ -41,6 +42,7 @@ class Aardvark : Application() {
     private fun setupPreferences() {
         Prefs.initialize(applicationContext, BuildConfig.APPLICATION_ID)
         Appearance.initialize(applicationContext, Appearance::class.java.simpleName)
+        Behaviour.initialize(applicationContext, Behaviour::class.java.simpleName)
         Experimental.initialize(applicationContext, Experimental::class.java.simpleName)
 
         if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
@@ -48,10 +50,10 @@ class Aardvark : Application() {
 
     private fun setupAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(applicationContext).apply {
-            setAnalyticsCollectionEnabled(Prefs.Behaviour.analyticsEnabled)
+            setAnalyticsCollectionEnabled(Behaviour.analyticsEnabled)
         }
 
-        if (Prefs.Behaviour.analyticsEnabled) {
+        if (Behaviour.analyticsEnabled) {
             Fabric.with(applicationContext, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(aardvarkId)
         }

@@ -27,7 +27,11 @@ import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
+import de.uni_marburg.mathematik.ds.serval.utils.formatDistance
+import de.uni_marburg.mathematik.ds.serval.utils.formatPassedSeconds
+import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
+import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -45,7 +49,7 @@ class EventsFragment : BaseFragment() {
         val context: Context = requireContext()
         EventAdapter { event ->
             context.startActivity<DetailActivity>(
-                bundleBuilder = { if (Prefs.Behaviour.animationsEnabled) withSceneTransitionAnimation(context) },
+                bundleBuilder = { if (Behaviour.animationsEnabled) withSceneTransitionAnimation(context) },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)
                     putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
@@ -125,7 +129,7 @@ class EventsFragment : BaseFragment() {
     private fun setupRecyclerView() {
         with(recyclerView) {
             withLinearAdapter(eventAdapter)
-            if (Prefs.Behaviour.animationsEnabled) {
+            if (Behaviour.animationsEnabled) {
                 itemAnimator = KauAnimator(
                     addAnimator = FadeScaleAnimatorAdd(scaleFactor = 0.7f, itemDelayFactor = 0.2f),
                     changeAnimator = NoAnimatorChange()
