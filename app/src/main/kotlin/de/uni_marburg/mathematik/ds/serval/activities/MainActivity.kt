@@ -70,6 +70,7 @@ class MainActivity : BaseActivity() {
             header(appBar)
             background(viewPager)
         }
+
         fab.backgroundTintList =
                 ColorStateList.valueOf(AppearancePrefs.Theme.headerColor.withMinAlpha(200))
 
