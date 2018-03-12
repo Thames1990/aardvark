@@ -2,6 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.settings
 
 import ca.allanwang.kau.kotlin.lazyResettable
 import ca.allanwang.kau.kpref.KPref
+import ca.allanwang.kau.kpref.activity.KClick
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.activity.items.KPrefColorPicker
 import ca.allanwang.kau.kpref.kpref
@@ -16,6 +17,9 @@ import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
 object AppearancePrefs : KPref() {
+
+    var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
+
     object Theme {
         var index: Int by kpref(
             key = "THEME_INDEX",
@@ -54,11 +58,11 @@ object AppearancePrefs : KPref() {
         var index: Int by kpref(
             key = "DATE_TIME_FORMAT_INDEX",
             fallback = DateTimeFormats.MEDIUM_DATE_MEDIUM_TIME.ordinal,
-            postSetter = { value: Int ->
+            postSetter = {
                 loader.invalidate()
                 logAnalytics(
                     name = "Date time format",
-                    events = *arrayOf("Count" to DateTimeFormats(value).name)
+                    events = *arrayOf("Count" to DateTimeFormats(it).name)
                 )
             }
         )
@@ -70,11 +74,11 @@ object AppearancePrefs : KPref() {
         var index: Int by kpref(
             key = "MAIN_ACTIVITY_LAYOUT_INDEX",
             fallback = MainActivityLayouts.TOP_BAR.ordinal,
-            postSetter = { value: Int ->
+            postSetter = {
                 loader.invalidate()
                 logAnalytics(
                     name = "Main Layout",
-                    events = *arrayOf("Count" to MainActivityLayouts(value).name)
+                    events = *arrayOf("Count" to MainActivityLayouts(it).name)
                 )
             }
         )
@@ -91,35 +95,38 @@ object AppearancePrefs : KPref() {
             get() = layout.titleRes
     }
 
-    var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
 }
 
 fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
-    header(R.string.preference_appearance_theme_header)
+    header(title = R.string.preference_appearance_theme_header)
+
+    fun showThemeChooserDialog(onClick: KClick<Int>) {
+        materialDialogThemed {
+            title(R.string.preference_appearance_theme)
+            items(Themes.values().map { theme -> string(theme.titleRes) })
+            with(onClick) {
+                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                    if (item.pref != which) {
+                        item.pref = which
+                        shouldRestartMain()
+                        reload()
+                        setTheme()
+                        themeExterior()
+                        invalidateOptionsMenu()
+                    }
+                    true
+                }
+            }
+        }
+    }
 
     text(
         title = R.string.preference_appearance_theme,
         getter = AppearancePrefs.Theme::index,
         setter = { AppearancePrefs.Theme.index = it },
         builder = {
-            onClick = {
-                materialDialogThemed {
-                    title(R.string.preference_appearance_theme)
-                    items(Themes.values().map { theme -> string(theme.titleRes) })
-                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                        if (item.pref != which) {
-                            item.pref = which
-                            shouldRestartMain()
-                            reload()
-                            setTheme()
-                            themeExterior()
-                            invalidateOptionsMenu()
-                        }
-                        true
-                    }
-                }
-            }
+            onClick = ::showThemeChooserDialog
             textGetter = { string(Themes(it).titleRes) }
         }
     )
@@ -133,8 +140,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     colorPicker(
         title = R.string.preference_appearance_color_text,
         getter = AppearancePrefs.Theme.Custom::textColor,
-        setter = { customTextColor ->
-            AppearancePrefs.Theme.Custom.textColor = customTextColor
+        setter = { textColor ->
+            AppearancePrefs.Theme.Custom.textColor = textColor
             reload()
             shouldRestartMain()
         },
@@ -147,8 +154,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     colorPicker(
         title = R.string.preference_appearance_color_accent,
         getter = AppearancePrefs.Theme.Custom::accentColor,
-        setter = { customAccentColor ->
-            AppearancePrefs.Theme.Custom.accentColor = customAccentColor
+        setter = { accentColor ->
+            AppearancePrefs.Theme.Custom.accentColor = accentColor
             reload()
             shouldRestartMain()
         },
@@ -161,9 +168,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     colorPicker(
         title = R.string.preference_appearance_color_background,
         getter = AppearancePrefs.Theme.Custom::bgColor,
-        setter = { customBackgroundColor ->
-            AppearancePrefs.Theme.Custom.bgColor = customBackgroundColor
-            bgCanvas.ripple(color = customBackgroundColor, duration = 500L)
+        setter = { backgroundColor ->
+            AppearancePrefs.Theme.Custom.bgColor = backgroundColor
+            bgCanvas.ripple(color = backgroundColor, duration = 500L)
             setTheme()
             shouldRestartMain()
         },
@@ -176,11 +183,11 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     colorPicker(
         title = R.string.preference_appearance_color_header,
         getter = AppearancePrefs.Theme.Custom::headerColor,
-        setter = { customHeaderColor ->
-            AppearancePrefs.Theme.Custom.headerColor = customHeaderColor
+        setter = { headerColor ->
+            AppearancePrefs.Theme.Custom.headerColor = headerColor
             themeNavigationBar()
             toolbarCanvas.ripple(
-                color = customHeaderColor,
+                color = headerColor,
                 startX = RippleCanvas.MIDDLE,
                 startY = RippleCanvas.END,
                 duration = 500L
@@ -197,8 +204,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     colorPicker(
         title = R.string.preference_appearance_color_icon,
         getter = AppearancePrefs.Theme.Custom::iconColor,
-        setter = { customIconColor ->
-            AppearancePrefs.Theme.Custom.iconColor = customIconColor
+        setter = { iconColor ->
+            AppearancePrefs.Theme.Custom.iconColor = iconColor
             invalidateOptionsMenu()
             shouldRestartMain()
         },
@@ -210,49 +217,57 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     header(R.string.preference_appearance_global_header)
 
+    fun showMainActivityLayoutChooser(onClick: KClick<Int>) {
+        materialDialogThemed {
+            title(R.string.preference_appearance_main_activity_layout)
+            items(MainActivityLayouts.values().map { mainActivityLayout ->
+                string(mainActivityLayout.titleRes)
+            })
+            with(onClick) {
+                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                    if (item.pref != which) {
+                        item.pref = which
+                        shouldRestartMain()
+                    }
+                    true
+                }
+            }
+        }
+    }
+
     text(
         title = R.string.preference_appearance_main_activity_layout,
         getter = AppearancePrefs.MainActivityLayout::index,
         setter = { AppearancePrefs.MainActivityLayout.index = it },
         builder = {
             textGetter = { string(AppearancePrefs.MainActivityLayout.titleRes) }
-            onClick = {
-                materialDialogThemed {
-                    title(R.string.preference_appearance_main_activity_layout)
-                    items(MainActivityLayouts.values().map { mainActivityLayout ->
-                        string(mainActivityLayout.titleRes)
-                    })
-                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                        if (item.pref != which) {
-                            item.pref = which
-                            shouldRestartMain()
-                        }
-                        true
+            onClick = ::showMainActivityLayoutChooser
+        }
+    )
+
+    fun showDateTimeFormatChooser(onClick: KClick<Int>) {
+        materialDialogThemed {
+            title(R.string.preference_appearance_date_time_format)
+            items(DateTimeFormats.values().map { it.previewText })
+            with(onClick) {
+                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                    if (item.pref != which) {
+                        item.pref = which
+                        reload()
+                        shouldRestartMain()
                     }
+                    true
                 }
             }
         }
-    )
+    }
 
     text(
         title = R.string.preference_appearance_date_time_format,
         getter = AppearancePrefs.DateTimeFormat::index,
         setter = { AppearancePrefs.DateTimeFormat.index = it },
         builder = {
-            onClick = {
-                materialDialogThemed {
-                    title(R.string.preference_appearance_date_time_format)
-                    items(DateTimeFormats.values().map { it.previewText })
-                    itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
-                        if (item.pref != which) {
-                            item.pref = which
-                            reload()
-                            shouldRestartMain()
-                        }
-                        true
-                    }
-                }
-            }
+            onClick = ::showDateTimeFormatChooser
             textGetter = { string(DateTimeFormats(it).titleRes) }
         }
     )
