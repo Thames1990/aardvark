@@ -7,19 +7,17 @@ import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.utils.isReleaseBuild
+import de.uni_marburg.mathematik.ds.serval.utils.logAnalytics
+import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
+import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
-object BehaviourPrefs: KPref() {
+object BehaviourPrefs : KPref() {
     var analyticsEnabled: Boolean by kpref(key = "ANALYTICS_ENABLED", fallback = isReleaseBuild)
     var animationsEnabled: Boolean by kpref(
         key = "ANIMATIONS_ENABLED",
         fallback = true,
-        postSetter = { value: Boolean ->
-            logAnalytics(
-                name = "Animations enabled",
-                events = *arrayOf("Count" to value)
-            )
-        }
+        postSetter = { logAnalytics(name = "Animations enabled", events = *arrayOf("Count" to it)) }
     )
     var confirmExit: Boolean by kpref(key = "CONFIRM_EXIT", fallback = isReleaseBuild)
     var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = isReleaseBuild)
@@ -30,9 +28,9 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     checkbox(
         title = R.string.preference_behaviour_animations,
         getter = BehaviourPrefs::animationsEnabled,
-        setter = { useAnimations ->
-            BehaviourPrefs.animationsEnabled = useAnimations
-            animate = useAnimations
+        setter = { animationsEnabled ->
+            BehaviourPrefs.animationsEnabled = animationsEnabled
+            animate = animationsEnabled
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_behaviour_animations_desc }
@@ -51,24 +49,29 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         setter = { BehaviourPrefs.confirmExit = it }
     )
 
+    fun showResetAnalyticsDialog() {
+        materialDialogThemed {
+            title(string(R.string.preference_behaviour_reset_analytics))
+            content(string(R.string.preference_behaviour_reset_analytics_desc))
+            positiveText(string(R.string.kau_yes))
+            negativeText(string(R.string.kau_no))
+            onPositive { _, _ ->
+                Aardvark.firebaseAnalytics.resetAnalyticsData()
+                Prefs.installDate = -1L
+                snackbarThemed(R.string.preference_behaviour_reset_analytics_confirmation)
+            }
+        }
+    }
+
     checkbox(
         title = R.string.preference_behaviour_analytics,
         getter = BehaviourPrefs::analyticsEnabled,
-        setter = { useAnalytics ->
-            BehaviourPrefs.analyticsEnabled = useAnalytics
-            if (!useAnalytics) materialDialogThemed {
-                title(string(R.string.preference_behaviour_reset_analytics))
-                content(string(R.string.preference_behaviour_reset_analytics_desc))
-                positiveText(string(R.string.kau_yes))
-                negativeText(string(R.string.kau_no))
-                onPositive { _, _ ->
-                    Aardvark.firebaseAnalytics.resetAnalyticsData()
-                    Prefs.installDate = -1L
-                    snackbarThemed(R.string.preference_behaviour_reset_analytics_confirmation)
-                }
-            }
+        setter = { analyticsEnabled ->
+            BehaviourPrefs.analyticsEnabled = analyticsEnabled
+            if (!analyticsEnabled) showResetAnalyticsDialog()
             shouldRestartApplication()
         },
         builder = { descRes = R.string.preference_behaviour_analytics_desc }
     )
+
 }
