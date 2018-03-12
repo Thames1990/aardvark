@@ -1,15 +1,61 @@
 package de.uni_marburg.mathematik.ds.serval.settings
 
+import ca.allanwang.kau.kotlin.lazyResettable
+import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.activity.items.KPrefText
+import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.MapStyles
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.utils.logAnalytics
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 import de.uni_marburg.mathematik.ds.serval.utils.setTheme
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+
+object MapPrefs: KPref() {
+    var compassEnabled: Boolean by kpref(key = "COMPASS_ENABLED", fallback = true)
+    var indoorLevelPickerEnabled: Boolean by kpref(
+        key = "INDOOR_LEVEL_PICKER_ENABLED",
+        fallback = false
+    )
+    var myLocationButtonEnabled: Boolean by kpref(
+        key = "MY_LOCATION_BUTTON_ENABLED",
+        fallback = true
+    )
+
+    object Gestures {
+        var rotateEnabled: Boolean by kpref(key = "ROTATE_GESTURES_ENABLED", fallback = true)
+        var scrollEnabled: Boolean by kpref(key = "SCROLL_GESTURES_ENABLED", fallback = true)
+        var tiltEnabled: Boolean by kpref(key = "TILT_GESTURES_ENABLED", fallback = true)
+        var zoomEnabled: Boolean by kpref(key = "ZOOM_GESTURES_ENABLED", fallback = true)
+    }
+
+    object Layers {
+        var buildingsEnabled: Boolean by kpref(key = "BUILDINGS_ENABLED", fallback = false)
+        var indoorEnabled: Boolean by kpref(key = "INDOOR_ENABLED", fallback = false)
+        var trafficEnabled: Boolean by kpref(key = "TRAFFIC_ENABLED", fallback = false)
+    }
+
+    object MapStyle {
+        var index: Int by kpref(
+            key = "MAPS_STYLE_INDEX",
+            fallback = MapStyles.STANDARD.ordinal,
+            postSetter = { value: Int ->
+                loader.invalidate()
+                logAnalytics(
+                    name = "Maps style",
+                    events = *arrayOf("Count" to MapStyles(value).name)
+                )
+            }
+        )
+        private val loader = lazyResettable { MapStyles.values()[index] }
+        private val mapStyle: MapStyles by loader
+        val styleRes: Int
+            get() = mapStyle.styleRes
+    }
+}
 
 fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
@@ -17,9 +63,9 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_map_is_traffic_enabled,
-        getter = Prefs.Map.Layers::trafficEnabled,
+        getter = MapPrefs.Layers::trafficEnabled,
         setter = {
-            Prefs.Map.Layers.trafficEnabled = it
+            MapPrefs.Layers.trafficEnabled = it
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_is_traffic_enabled_desc }
@@ -27,9 +73,9 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_map_is_buildings_enabled,
-        getter = Prefs.Map.Layers::buildingsEnabled,
+        getter = MapPrefs.Layers::buildingsEnabled,
         setter = {
-            Prefs.Map.Layers.buildingsEnabled = it
+            MapPrefs.Layers.buildingsEnabled = it
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_is_buildings_enabled_desc }
@@ -37,9 +83,9 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_map_is_indoor_enabled,
-        getter = Prefs.Map.Layers::indoorEnabled,
+        getter = MapPrefs.Layers::indoorEnabled,
         setter = {
-            Prefs.Map.Layers.indoorEnabled = it
+            MapPrefs.Layers.indoorEnabled = it
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_is_indoor_enabled_desc }
@@ -54,9 +100,9 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_map_is_compass_enabled,
-        getter = Prefs.Map::compassEnabled,
+        getter = MapPrefs::compassEnabled,
         setter = {
-            Prefs.Map.compassEnabled = it
+            MapPrefs.compassEnabled = it
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_is_compass_enabled_desc }
@@ -64,9 +110,9 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_map_is_my_location_button_enabled,
-        getter = Prefs.Map::myLocationButtonEnabled,
+        getter = MapPrefs::myLocationButtonEnabled,
         setter = {
-            Prefs.Map.myLocationButtonEnabled = it
+            MapPrefs.myLocationButtonEnabled = it
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_is_my_location_button_enabled_desc }
@@ -74,9 +120,9 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_map_is_indoor_level_picker_enabled,
-        getter = Prefs.Map::indoorLevelPickerEnabled,
+        getter = MapPrefs::indoorLevelPickerEnabled,
         setter = {
-            Prefs.Map.indoorLevelPickerEnabled = it
+            MapPrefs.indoorLevelPickerEnabled = it
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_is_indoor_level_picker_enabled_desc }
@@ -84,8 +130,8 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_map_style,
-        getter = Prefs.Map.MapStyle::index,
-        setter = { Prefs.Map.MapStyle.index = it },
+        getter = MapPrefs.MapStyle::index,
+        setter = { MapPrefs.MapStyle.index = it },
         builder = {
             dependsOnCustom()
             onClick = {
@@ -113,9 +159,9 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_map_is_zoom_gestures_enabled,
-        getter = Prefs.Map.Gestures::zoomEnabled,
+        getter = MapPrefs.Gestures::zoomEnabled,
         setter = {
-            Prefs.Map.Gestures.zoomEnabled = it
+            MapPrefs.Gestures.zoomEnabled = it
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_is_zoom_gestures_enabled_desc }
@@ -123,9 +169,9 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_map_is_scroll_gestures_enabled,
-        getter = Prefs.Map.Gestures::scrollEnabled,
+        getter = MapPrefs.Gestures::scrollEnabled,
         setter = {
-            Prefs.Map.Gestures.scrollEnabled = it
+            MapPrefs.Gestures.scrollEnabled = it
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_is_scroll_gestures_enabled_desc }
@@ -133,9 +179,9 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_map_is_tilt_gestures_enabled,
-        getter = Prefs.Map.Gestures::tiltEnabled,
+        getter = MapPrefs.Gestures::tiltEnabled,
         setter = {
-            Prefs.Map.Gestures.tiltEnabled = it
+            MapPrefs.Gestures.tiltEnabled = it
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_is_tilt_gestures_enabled_desc }
@@ -143,9 +189,9 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_map_is_rotate_gestures_enabled,
-        getter = Prefs.Map.Gestures::rotateEnabled,
+        getter = MapPrefs.Gestures::rotateEnabled,
         setter = {
-            Prefs.Map.Gestures.rotateEnabled = it
+            MapPrefs.Gestures.rotateEnabled = it
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_map_is_rotate_gestures_enabled_desc }

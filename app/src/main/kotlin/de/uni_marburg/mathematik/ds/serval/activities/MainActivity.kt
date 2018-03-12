@@ -32,10 +32,7 @@ import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
-import de.uni_marburg.mathematik.ds.serval.settings.Experimental
-import de.uni_marburg.mathematik.ds.serval.settings.LocationPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import de.uni_marburg.mathematik.ds.serval.views.SwipeToggleViewPager
@@ -247,7 +244,7 @@ class MainActivity : BaseActivity() {
             if (buildIsOreoAndUp) {
                 tooltipText = string(R.string.tooltip_fab_move_to_current_location)
             }
-            visibleIf(hasLocationPermission && Prefs.Map.myLocationButtonEnabled)
+            visibleIf(hasLocationPermission && MapPrefs.myLocationButtonEnabled)
         }
     }
 

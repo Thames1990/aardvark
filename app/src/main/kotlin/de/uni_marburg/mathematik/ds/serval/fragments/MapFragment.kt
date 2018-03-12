@@ -25,7 +25,7 @@ import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
@@ -145,23 +145,23 @@ class MapFragment : BaseFragment() {
             Themes.AMOLED -> R.raw.map_style_night
             Themes.LIGHT -> R.raw.map_style_standard
             Themes.DARK -> R.raw.map_style_dark
-            Themes.CUSTOM -> Prefs.Map.MapStyle.styleRes
+            Themes.CUSTOM -> MapPrefs.MapStyle.styleRes
         }
         setMapStyle(MapStyleOptions.loadRawResourceStyle(context, rawResourceRes))
 
         with(uiSettings) {
-            isCompassEnabled = Prefs.Map.compassEnabled
-            isIndoorLevelPickerEnabled = Prefs.Map.indoorLevelPickerEnabled
+            isCompassEnabled = MapPrefs.compassEnabled
+            isIndoorLevelPickerEnabled = MapPrefs.indoorLevelPickerEnabled
             isMyLocationButtonEnabled = false
-            isRotateGesturesEnabled = Prefs.Map.Gestures.rotateEnabled
-            isScrollGesturesEnabled = Prefs.Map.Gestures.scrollEnabled
-            isTiltGesturesEnabled = Prefs.Map.Gestures.tiltEnabled
-            isZoomGesturesEnabled = Prefs.Map.Gestures.zoomEnabled
+            isRotateGesturesEnabled = MapPrefs.Gestures.rotateEnabled
+            isScrollGesturesEnabled = MapPrefs.Gestures.scrollEnabled
+            isTiltGesturesEnabled = MapPrefs.Gestures.tiltEnabled
+            isZoomGesturesEnabled = MapPrefs.Gestures.zoomEnabled
         }
 
-        isBuildingsEnabled = Prefs.Map.Layers.buildingsEnabled
-        isIndoorEnabled = Prefs.Map.Layers.indoorEnabled
-        isTrafficEnabled = Prefs.Map.Layers.trafficEnabled
+        isBuildingsEnabled = MapPrefs.Layers.buildingsEnabled
+        isIndoorEnabled = MapPrefs.Layers.indoorEnabled
+        isTrafficEnabled = MapPrefs.Layers.trafficEnabled
     }
 
     private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = Behaviour.animationsEnabled) {
