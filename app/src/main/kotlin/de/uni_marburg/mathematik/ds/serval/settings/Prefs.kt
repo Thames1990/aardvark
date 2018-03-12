@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.utils
+package de.uni_marburg.mathematik.ds.serval.settings
 
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
