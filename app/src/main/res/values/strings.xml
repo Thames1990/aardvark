@@ -175,6 +175,10 @@
     <string name="preference_experimental_vibration">Vibrations</string>
     <string name="preference_experimental_vibration_desc">Vibrate on failed fingerprint unlock</string>
     <string name="preference_experimental_wifi_adb">WiFi ADB</string>
+    <string name="preference_experimental_wifi_adb_activate" translatable="false">setprop service.adb.tcp.port 5555</string>
+    <string name="preference_experimental_wifi_adb_deactivate" translatable="false">setprop service.adb.tcp.port -1</string>
+    <string name="preference_experimental_wifi_adb_start" translatable="false">start adbd</string>
+    <string name="preference_experimental_wifi_adb_stop" translatable="false">stop adbd</string>
     <string name="preference_location_request_distance">Location request distance</string>
     <string name="preference_location_request_distance_desc">Define how many meters you have to move to trigger a location update</string>
     <string name="preference_location_request_interval">Location request interval</string>
