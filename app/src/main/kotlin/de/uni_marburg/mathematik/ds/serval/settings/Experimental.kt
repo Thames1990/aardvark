@@ -86,8 +86,8 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
     checkbox(
         title = R.string.preference_experimental_secure_app,
         getter = ExperimentalPrefs::secureApp,
-        setter = { secure_app ->
-            ExperimentalPrefs.secureApp = secure_app
+        setter = { secureApp ->
+            ExperimentalPrefs.secureApp = secureApp
             setSecureFlag()
             shouldRestartApplication()
             reload()
@@ -128,8 +128,8 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
     checkbox(
         title = R.string.preference_experimental_paging,
         getter = ExperimentalPrefs::viewpagerSwipeEnabled,
-        setter = { usePaging ->
-            ExperimentalPrefs.viewpagerSwipeEnabled = usePaging
+        setter = { viewpagerSwipeEnabled ->
+            ExperimentalPrefs.viewpagerSwipeEnabled = viewpagerSwipeEnabled
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_experimental_paging_desc }
