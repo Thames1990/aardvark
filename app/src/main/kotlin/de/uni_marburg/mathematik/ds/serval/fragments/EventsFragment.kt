@@ -26,8 +26,8 @@ import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.formatDistance
 import de.uni_marburg.mathematik.ds.serval.utils.formatPassedSeconds
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
@@ -49,7 +49,7 @@ class EventsFragment : BaseFragment() {
         val context: Context = requireContext()
         EventAdapter { event ->
             context.startActivity<DetailActivity>(
-                bundleBuilder = { if (Behaviour.animationsEnabled) withSceneTransitionAnimation(context) },
+                bundleBuilder = { if (BehaviourPrefs.animationsEnabled) withSceneTransitionAnimation(context) },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)
                     putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
@@ -82,7 +82,7 @@ class EventsFragment : BaseFragment() {
         with(requireContext()) {
             setMenuIcons(
                 menu = menu,
-                color = Appearance.Theme.iconColor,
+                color = AppearancePrefs.Theme.iconColor,
                 iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_filter_list)
             )
             menu.findItem(R.id.action_sort_distance).isVisible = hasLocationPermission
@@ -129,7 +129,7 @@ class EventsFragment : BaseFragment() {
     private fun setupRecyclerView() {
         with(recyclerView) {
             withLinearAdapter(eventAdapter)
-            if (Behaviour.animationsEnabled) {
+            if (BehaviourPrefs.animationsEnabled) {
                 itemAnimator = KauAnimator(
                     addAnimator = FadeScaleAnimatorAdd(scaleFactor = 0.7f, itemDelayFactor = 0.2f),
                     changeAnimator = NoAnimatorChange()
@@ -195,7 +195,7 @@ class EventsFragment : BaseFragment() {
             private fun Event.displayTime() {
                 with(timeView) {
                     text = passedSeconds.formatPassedSeconds(itemView.context)
-                    setTextColor(Appearance.Theme.textColor)
+                    setTextColor(AppearancePrefs.Theme.textColor)
                 }
             }
 
@@ -205,12 +205,12 @@ class EventsFragment : BaseFragment() {
                 if (context.hasLocationPermission) {
                     locationIconView.setIcon(
                         icon = GoogleMaterial.Icon.gmd_location_on,
-                        color = Appearance.Theme.textColor
+                        color = AppearancePrefs.Theme.textColor
                     )
                     with(locationView) {
                         val distance: Float = location.distanceTo(MainActivity.lastLocation)
                         text = distance.formatDistance(context)
-                        setTextColor(Appearance.Theme.textColor)
+                        setTextColor(AppearancePrefs.Theme.textColor)
                     }
                 } else {
                     locationIconView.gone()
@@ -228,7 +228,7 @@ class EventsFragment : BaseFragment() {
                         val icon = ImageView(itemView.context).apply {
                             setIcon(
                                 icon = measurement.type.iicon,
-                                color = Appearance.Theme.textColor
+                                color = AppearancePrefs.Theme.textColor
                             )
                         }
                         addView(icon)

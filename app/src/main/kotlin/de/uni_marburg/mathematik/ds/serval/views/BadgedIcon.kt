@@ -10,7 +10,7 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 
 class BadgedIcon @JvmOverloads constructor(
     context: Context,
@@ -23,7 +23,7 @@ class BadgedIcon @JvmOverloads constructor(
 
     init {
         View.inflate(context, R.layout.view_badged_icon, this)
-        val badgeColor = Appearance.MainActivityLayout.backgroundColor
+        val badgeColor = AppearancePrefs.MainActivityLayout.backgroundColor
             .withAlpha(255)
             .colorToForeground(0.2f)
         val badgeBackground = GradientDrawable(
@@ -34,7 +34,7 @@ class BadgedIcon @JvmOverloads constructor(
         }
         with(badgeTextView) {
             background = badgeBackground
-            setTextColor(Appearance.MainActivityLayout.iconColor)
+            setTextColor(AppearancePrefs.MainActivityLayout.iconColor)
         }
     }
 
@@ -45,7 +45,7 @@ class BadgedIcon @JvmOverloads constructor(
                 value?.toDrawable(
                     context,
                     sizeDp = 20,
-                    color = Appearance.MainActivityLayout.iconColor
+                    color = AppearancePrefs.MainActivityLayout.iconColor
                 )
             )
         }

@@ -11,9 +11,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
-import de.uni_marburg.mathematik.ds.serval.settings.Experimental
+import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
@@ -41,19 +39,21 @@ class Aardvark : Application() {
 
     private fun setupPreferences() {
         Prefs.initialize(applicationContext, BuildConfig.APPLICATION_ID)
-        Appearance.initialize(applicationContext, Appearance::class.java.simpleName)
-        Behaviour.initialize(applicationContext, Behaviour::class.java.simpleName)
-        Experimental.initialize(applicationContext, Experimental::class.java.simpleName)
+        AppearancePrefs.initialize(applicationContext, AppearancePrefs::class.java.simpleName)
+        BehaviourPrefs.initialize(applicationContext, BehaviourPrefs::class.java.simpleName)
+        ExperimentalPrefs.initialize(applicationContext, ExperimentalPrefs::class.java.simpleName)
+        LocationPrefs.initialize(applicationContext, LocationPrefs::class.java.simpleName)
+        MapPrefs.initialize(applicationContext, MapPrefs::class.java.simpleName)
 
         if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
     }
 
     private fun setupAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(applicationContext).apply {
-            setAnalyticsCollectionEnabled(Behaviour.analyticsEnabled)
+            setAnalyticsCollectionEnabled(BehaviourPrefs.analyticsEnabled)
         }
 
-        if (Behaviour.analyticsEnabled) {
+        if (BehaviourPrefs.analyticsEnabled) {
             Fabric.with(applicationContext, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(aardvarkId)
         }
@@ -76,7 +76,7 @@ class Aardvark : Application() {
         setupAuthentication()
     }
 
-    private fun setupAuthentication(authenticate: Boolean = Experimental.secureApp) =
+    private fun setupAuthentication(authenticate: Boolean = ExperimentalPrefs.secureApp) =
         if (authenticate) lifecycle.addObserver(authenticationListener)
         else lifecycle.removeObserver(authenticationListener)
 

@@ -23,8 +23,8 @@ import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import net.sharewire.googlemapsclustering.Cluster
@@ -76,7 +76,7 @@ class MapFragment : BaseFragment() {
         inflater.inflate(R.menu.menu_map, menu)
         requireActivity().setMenuIcons(
             menu = menu,
-            color = Appearance.Theme.iconColor,
+            color = AppearancePrefs.Theme.iconColor,
             iicons = *arrayOf(R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers)
         )
     }
@@ -91,13 +91,13 @@ class MapFragment : BaseFragment() {
         return true
     }
 
-    fun moveToPosition(position: LatLng, animate: Boolean = Behaviour.animationsEnabled) {
+    fun moveToPosition(position: LatLng, animate: Boolean = BehaviourPrefs.animationsEnabled) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLng(position)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
     }
 
-    fun zoomToAllMarkers(animate: Boolean = Behaviour.animationsEnabled) {
+    fun zoomToAllMarkers(animate: Boolean = BehaviourPrefs.animationsEnabled) {
         if (events.isNotEmpty()) {
             val builder = LatLngBounds.builder()
             events.forEach { event -> builder.include(event.position) }
@@ -127,7 +127,7 @@ class MapFragment : BaseFragment() {
                 override fun onClusterItemClick(event: Event): Boolean {
                     context.startActivity<DetailActivity>(
                         bundleBuilder = {
-                            if (Behaviour.animationsEnabled) withSceneTransitionAnimation(context)
+                            if (BehaviourPrefs.animationsEnabled) withSceneTransitionAnimation(context)
                         },
                         intentBuilder = { putExtra(DetailActivity.EVENT_ID, event.id) }
                     )
@@ -141,7 +141,7 @@ class MapFragment : BaseFragment() {
     }
 
     private fun setupGoogleMap() = with(googleMap) {
-        val rawResourceRes: Int = when (Appearance.Theme.theme) {
+        val rawResourceRes: Int = when (AppearancePrefs.Theme.theme) {
             Themes.AMOLED -> R.raw.map_style_night
             Themes.LIGHT -> R.raw.map_style_standard
             Themes.DARK -> R.raw.map_style_dark
@@ -164,7 +164,7 @@ class MapFragment : BaseFragment() {
         isTrafficEnabled = MapPrefs.Layers.trafficEnabled
     }
 
-    private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = Behaviour.animationsEnabled) {
+    private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = BehaviourPrefs.animationsEnabled) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)

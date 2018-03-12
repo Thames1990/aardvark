@@ -62,7 +62,7 @@ class MainActivity : BaseActivity() {
         pagerAdapter = SectionsPagerAdapter()
         viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
 
-        setContentView(Appearance.MainActivityLayout.layoutRes)
+        setContentView(AppearancePrefs.MainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
         setColors {
             toolbar(toolbar)
@@ -71,14 +71,14 @@ class MainActivity : BaseActivity() {
             background(viewPager)
         }
         fab.backgroundTintList =
-                ColorStateList.valueOf(Appearance.Theme.headerColor.withMinAlpha(200))
+                ColorStateList.valueOf(AppearancePrefs.Theme.headerColor.withMinAlpha(200))
 
         setupAppBar()
         setupViewPager()
         setupTabLayout()
 
         if (hasLocationPermission) trackLocation()
-        if (Experimental.showDownloadProgress) trackEventDownloadProgress()
+        if (ExperimentalPrefs.showDownloadProgress) trackEventDownloadProgress()
 
         checkForNewVersion()
     }
@@ -96,7 +96,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun backConsumer(): Boolean {
-        if (Behaviour.confirmExit) {
+        if (BehaviourPrefs.confirmExit) {
             materialDialogThemed {
                 title(R.string.kau_exit)
                 content(R.string.kau_exit_confirmation)
@@ -104,7 +104,7 @@ class MainActivity : BaseActivity() {
                 negativeText(R.string.kau_no)
                 onPositive { _, _ -> finish() }
                 checkBoxPromptRes(R.string.kau_do_not_show_again, false, { _, isChecked ->
-                    Behaviour.confirmExit = !isChecked
+                    BehaviourPrefs.confirmExit = !isChecked
                 })
             }
             return true
@@ -116,7 +116,7 @@ class MainActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         setMenuIcons(
             menu = menu,
-            color = Appearance.MainActivityLayout.iconColor,
+            color = AppearancePrefs.MainActivityLayout.iconColor,
             iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
         )
         return true
@@ -143,7 +143,7 @@ class MainActivity : BaseActivity() {
 
     private fun setupAppBar() {
         // Fixes bottom layout cutoff
-        if (Appearance.MainActivityLayout.layout == MainActivityLayouts.BOTTOM_BAR) {
+        if (AppearancePrefs.MainActivityLayout.layout == MainActivityLayouts.BOTTOM_BAR) {
             appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
                 val layoutParams = viewPager.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.setMargins(0, 0, 0, appBarLayout.measuredHeight + verticalOffset)
@@ -166,8 +166,8 @@ class MainActivity : BaseActivity() {
                 addTab(tab)
             }
 
-            setSelectedTabIndicatorColor(Appearance.MainActivityLayout.iconColor)
-            setBackgroundColor(Appearance.MainActivityLayout.backgroundColor)
+            setSelectedTabIndicatorColor(AppearancePrefs.MainActivityLayout.iconColor)
+            setBackgroundColor(AppearancePrefs.MainActivityLayout.backgroundColor)
 
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
@@ -218,7 +218,7 @@ class MainActivity : BaseActivity() {
             hideOnDownwardsScroll(recyclerView)
             setIcon(
                 icon = GoogleMaterial.Icon.gmd_arrow_upward,
-                color = Appearance.MainActivityLayout.iconColor
+                color = AppearancePrefs.MainActivityLayout.iconColor
             )
             if (buildIsOreoAndUp) tooltipText = string(R.string.tooltip_fab_scroll_to_top)
             show()
@@ -239,7 +239,7 @@ class MainActivity : BaseActivity() {
             }
             setIcon(
                 icon = GoogleMaterial.Icon.gmd_my_location,
-                color = Appearance.MainActivityLayout.iconColor
+                color = AppearancePrefs.MainActivityLayout.iconColor
             )
             if (buildIsOreoAndUp) {
                 tooltipText = string(R.string.tooltip_fab_move_to_current_location)
@@ -285,7 +285,7 @@ class MainActivity : BaseActivity() {
     private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
-            if (Behaviour.showChangelog) showChangelog()
+            if (BehaviourPrefs.showChangelog) showChangelog()
             logAnalytics(
                 name = "Version",
                 events = *arrayOf(

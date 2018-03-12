@@ -29,13 +29,13 @@ class SettingsActivity : KPrefActivity() {
         setSecureFlag()
         setTheme()
 
-        animate = Behaviour.animationsEnabled
+        animate = BehaviourPrefs.animationsEnabled
         themeExterior(animate = false)
     }
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
         PreferenceSubItems.values()
-            .filter { if (!Experimental.enabled) !it.experimental else true }
+            .filter { if (!ExperimentalPrefs.enabled) !it.experimental else true }
             .map { preferenceSubItem ->
                 subItems(
                     title = preferenceSubItem.titleRes,
@@ -67,8 +67,8 @@ class SettingsActivity : KPrefActivity() {
     }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = Appearance.Theme::accentColor
-        textColor = Appearance.Theme::textColor
+        accentColor = AppearancePrefs.Theme::accentColor
+        textColor = AppearancePrefs.Theme::textColor
     }
 
     override fun onBackPressed() {
@@ -80,10 +80,10 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_settings, menu)
-        toolbar.tint(color = Appearance.Theme.iconColor)
+        toolbar.tint(color = AppearancePrefs.Theme.iconColor)
         setMenuIcons(
             menu = menu,
-            color = Appearance.Theme.iconColor,
+            color = AppearancePrefs.Theme.iconColor,
             iicons = *arrayOf(
                 R.id.action_email to GoogleMaterial.Icon.gmd_email,
                 R.id.action_changelog to GoogleMaterial.Icon.gmd_info
@@ -109,17 +109,17 @@ class SettingsActivity : KPrefActivity() {
 
     fun shouldRestartApplication() = setAardvarkResult(MainActivity.REQUEST_APPLICATION_RESTART)
 
-    fun themeExterior(animate: Boolean = Behaviour.animationsEnabled) {
+    fun themeExterior(animate: Boolean = BehaviourPrefs.animationsEnabled) {
         if (animate) {
-            bgCanvas.fade(color = Appearance.Theme.backgroundColor)
+            bgCanvas.fade(color = AppearancePrefs.Theme.backgroundColor)
             toolbarCanvas.ripple(
-                color = Appearance.Theme.headerColor,
+                color = AppearancePrefs.Theme.headerColor,
                 startX = RippleCanvas.MIDDLE,
                 startY = RippleCanvas.END
             )
         } else {
-            bgCanvas.set(color = Appearance.Theme.backgroundColor)
-            toolbarCanvas.set(color = Appearance.Theme.headerColor)
+            bgCanvas.set(color = AppearancePrefs.Theme.backgroundColor)
+            toolbarCanvas.set(color = AppearancePrefs.Theme.headerColor)
         }
         themeNavigationBar()
     }

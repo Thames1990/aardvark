@@ -3,7 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.enums
 import android.graphics.Color
 import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 
 /**
  * Defines a layout theme.
@@ -53,11 +53,11 @@ enum class Themes(
 
     CUSTOM(
         titleRes = R.string.kau_custom,
-        textColorGetter = Appearance.Theme::customTextColor,
-        accentColorGetter = Appearance.Theme::customAccentColor,
-        backgroundColorGetter = Appearance.Theme::customBackgroundColor,
-        headerColorGetter = Appearance.Theme::customHeaderColor,
-        iconColorGetter = Appearance.Theme::customIconColor
+        textColorGetter = AppearancePrefs.Theme::customTextColor,
+        accentColorGetter = AppearancePrefs.Theme::customAccentColor,
+        backgroundColorGetter = AppearancePrefs.Theme::customBackgroundColor,
+        headerColorGetter = AppearancePrefs.Theme::customHeaderColor,
+        iconColorGetter = AppearancePrefs.Theme::customIconColor
     );
 
     val accentColor: Int

@@ -12,16 +12,16 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.settings.Experimental
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
 
 /**
- * Color the navigation bar with the specified [color][Appearance.Theme.headerColor],
- * if the user activated [the setting][Appearance.tintNavBar]; [black][Color.BLACK] otherwise.
+ * Color the navigation bar with the specified [color][AppearancePrefs.Theme.headerColor],
+ * if the user activated [the setting][AppearancePrefs.tintNavBar]; [black][Color.BLACK] otherwise.
  */
 fun Activity.themeNavigationBar() {
     navigationBarColor =
-            if (Appearance.tintNavBar) Appearance.Theme.headerColor
+            if (AppearancePrefs.tintNavBar) AppearancePrefs.Theme.headerColor
             else Color.BLACK
 }
 
@@ -52,17 +52,17 @@ inline fun Activity.setColors(builder: ActivityThemeUtils.() -> Unit) {
 
 /**
  * Set a light or dark theme based on the darkness of
- * [the user specified background color][Appearance.Theme.backgroundColor].
+ * [the user specified background color][AppearancePrefs.Theme.backgroundColor].
  */
 fun Activity.setTheme() =
-    if (Appearance.Theme.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
+    if (AppearancePrefs.Theme.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
 
 /**
  * Sets the treatment of the content of the window as [secure/non-secure][secure], (not) preventing
  * it from appearing in screenshots or from being viewed on non-secure displays.
  */
-fun Activity.setSecureFlag(secure: Boolean = Experimental.secureApp) {
+fun Activity.setSecureFlag(secure: Boolean = ExperimentalPrefs.secureApp) {
     val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
     if (secure) window.setFlags(secureFlag, secureFlag)
     else window.clearFlags(secureFlag)
@@ -95,23 +95,23 @@ class ActivityThemeUtils {
      */
     fun theme(activity: Activity) {
         with(activity) {
-            statusBarColor = Appearance.Theme.headerColor.darken(0.1f).withAlpha(255)
-            if (Appearance.tintNavBar) navigationBarColor = Appearance.Theme.headerColor
-            if (themeWindow) window.setBackgroundDrawable(ColorDrawable(Appearance.Theme.backgroundColor))
+            statusBarColor = AppearancePrefs.Theme.headerColor.darken(0.1f).withAlpha(255)
+            if (AppearancePrefs.tintNavBar) navigationBarColor = AppearancePrefs.Theme.headerColor
+            if (themeWindow) window.setBackgroundDrawable(ColorDrawable(AppearancePrefs.Theme.backgroundColor))
             toolbar?.apply {
-                setBackgroundColor(Appearance.Theme.headerColor)
-                setTitleTextColor(Appearance.Theme.iconColor)
-                overflowIcon?.setTint(Appearance.Theme.iconColor)
-                popupTheme = when (Appearance.Theme.theme) {
+                setBackgroundColor(AppearancePrefs.Theme.headerColor)
+                setTitleTextColor(AppearancePrefs.Theme.iconColor)
+                overflowIcon?.setTint(AppearancePrefs.Theme.iconColor)
+                popupTheme = when (AppearancePrefs.Theme.theme) {
                     Themes.LIGHT -> R.style.AppTheme_PopupOverlay
                     Themes.DARK -> R.style.AppTheme_PopupOverlay_Dark
                     Themes.AMOLED -> R.style.AppTheme_PopupOverlay_Dark
                     Themes.CUSTOM -> R.style.AppTheme_PopupOverlay // TODO Set theme accordingly
                 }
             }
-            texts.forEach { textView -> textView.setTextColor(Appearance.Theme.textColor) }
-            headers.forEach { view -> view.setBackgroundColor(Appearance.Theme.headerColor) }
-            backgrounds.forEach { view -> view.setBackgroundColor(Appearance.Theme.backgroundColor) }
+            texts.forEach { textView -> textView.setTextColor(AppearancePrefs.Theme.textColor) }
+            headers.forEach { view -> view.setBackgroundColor(AppearancePrefs.Theme.headerColor) }
+            backgrounds.forEach { view -> view.setBackgroundColor(AppearancePrefs.Theme.backgroundColor) }
         }
     }
 

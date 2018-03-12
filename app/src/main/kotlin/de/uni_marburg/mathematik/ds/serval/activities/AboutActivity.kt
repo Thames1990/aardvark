@@ -21,8 +21,8 @@ import com.mikepenz.fastadapter.listeners.OnClickListener
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AboutLinks
 import de.uni_marburg.mathematik.ds.serval.enums.LibraryDefinitions
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.settings.Experimental
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 /**
@@ -31,13 +31,13 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 class AboutActivity : AboutActivityBase(
     rClass = R.string::class.java,
     configBuilder = {
-        accentColor = Appearance.Theme.accentColor
-        backgroundColor = Appearance.Theme.backgroundColor.withMinAlpha(200)
+        accentColor = AppearancePrefs.Theme.accentColor
+        backgroundColor = AppearancePrefs.Theme.backgroundColor.withMinAlpha(200)
         cutoutDrawableRes = R.drawable.aardvark
-        cutoutForeground = Appearance.Theme.accentColor
+        cutoutForeground = AppearancePrefs.Theme.accentColor
         faqParseNewLine = false
         faqXmlRes = R.xml.faq
-        textColor = Appearance.Theme.textColor
+        textColor = AppearancePrefs.Theme.textColor
     }
 ) {
 
@@ -54,8 +54,8 @@ class AboutActivity : AboutActivityBase(
                 count = 7,
                 duration = 500L,
                 event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
-                    if (!Experimental.enabled && item == aardvark) {
-                        Experimental.enabled = true
+                    if (!ExperimentalPrefs.enabled && item == aardvark) {
+                        ExperimentalPrefs.enabled = true
                         snackbarThemed(
                             textRes = R.string.preference_experimental_enabled,
                             builder = {
@@ -116,7 +116,7 @@ class AboutActivity : AboutActivityBase(
                         background = context.resolveDrawable(
                             android.R.attr.selectableItemBackgroundBorderless
                         )
-                        setIcon(icon = aboutLink.iicon, color = Appearance.Theme.iconColor)
+                        setIcon(icon = aboutLink.iicon, color = AppearancePrefs.Theme.iconColor)
                         setOnClickListener { context.startLink(aboutLink.linkRes) }
                         container.addView(this)
                     }

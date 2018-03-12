@@ -15,7 +15,7 @@ import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayouts
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
-object Appearance: KPref() {
+object AppearancePrefs: KPref() {
     object Theme {
         var index: Int by kpref(
             key = "THEME_INDEX",
@@ -113,8 +113,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_appearance_theme,
-        getter = Appearance.Theme::index,
-        setter = { Appearance.Theme.index = it },
+        getter = AppearancePrefs.Theme::index,
+        setter = { AppearancePrefs.Theme.index = it },
         builder = {
             onClick = {
                 materialDialogThemed {
@@ -138,16 +138,16 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     )
 
     fun KPrefColorPicker.KPrefColorContract.dependsOnCustom() {
-        enabler = Appearance.Theme::isCustomTheme
+        enabler = AppearancePrefs.Theme::isCustomTheme
         onDisabledClick = { snackbarThemed(R.string.preference_requires_custom_theme) }
         allowCustom = true
     }
 
     colorPicker(
         title = R.string.preference_appearance_color_text,
-        getter = Appearance.Theme::customTextColor,
+        getter = AppearancePrefs.Theme::customTextColor,
         setter = { customTextColor ->
-            Appearance.Theme.customTextColor = customTextColor
+            AppearancePrefs.Theme.customTextColor = customTextColor
             reload()
             shouldRestartMain()
         },
@@ -159,9 +159,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_accent,
-        getter = Appearance.Theme::customAccentColor,
+        getter = AppearancePrefs.Theme::customAccentColor,
         setter = { customAccentColor ->
-            Appearance.Theme.customAccentColor = customAccentColor
+            AppearancePrefs.Theme.customAccentColor = customAccentColor
             reload()
             shouldRestartMain()
         },
@@ -173,9 +173,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_background,
-        getter = Appearance.Theme::customBackgroundColor,
+        getter = AppearancePrefs.Theme::customBackgroundColor,
         setter = { customBackgroundColor ->
-            Appearance.Theme.customBackgroundColor = customBackgroundColor
+            AppearancePrefs.Theme.customBackgroundColor = customBackgroundColor
             bgCanvas.ripple(color = customBackgroundColor, duration = 500L)
             setTheme()
             shouldRestartMain()
@@ -188,9 +188,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_header,
-        getter = Appearance.Theme::customHeaderColor,
+        getter = AppearancePrefs.Theme::customHeaderColor,
         setter = { customHeaderColor ->
-            Appearance.Theme.customHeaderColor = customHeaderColor
+            AppearancePrefs.Theme.customHeaderColor = customHeaderColor
             themeNavigationBar()
             toolbarCanvas.ripple(
                 color = customHeaderColor,
@@ -209,9 +209,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_icon,
-        getter = Appearance.Theme::customIconColor,
+        getter = AppearancePrefs.Theme::customIconColor,
         setter = { customIconColor ->
-            Appearance.Theme.customIconColor = customIconColor
+            AppearancePrefs.Theme.customIconColor = customIconColor
             invalidateOptionsMenu()
             shouldRestartMain()
         },
@@ -225,10 +225,10 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_appearance_main_activity_layout,
-        getter = Appearance.MainActivityLayout::index,
-        setter = { Appearance.MainActivityLayout.index = it },
+        getter = AppearancePrefs.MainActivityLayout::index,
+        setter = { AppearancePrefs.MainActivityLayout.index = it },
         builder = {
-            textGetter = { string(Appearance.MainActivityLayout.titleRes) }
+            textGetter = { string(AppearancePrefs.MainActivityLayout.titleRes) }
             onClick = {
                 materialDialogThemed {
                     title(R.string.preference_appearance_main_activity_layout)
@@ -249,8 +249,8 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_appearance_date_time_format,
-        getter = Appearance.DateTimeFormat::index,
-        setter = { Appearance.DateTimeFormat.index = it },
+        getter = AppearancePrefs.DateTimeFormat::index,
+        setter = { AppearancePrefs.DateTimeFormat.index = it },
         builder = {
             onClick = {
                 materialDialogThemed {
@@ -272,9 +272,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_appearance_tint_navbar,
-        getter = Appearance::tintNavBar,
+        getter = AppearancePrefs::tintNavBar,
         setter = { tintNavBar ->
-            Appearance.tintNavBar = tintNavBar
+            AppearancePrefs.tintNavBar = tintNavBar
             themeNavigationBar()
             setAardvarkResult(MainActivity.REQUEST_NAV)
         },

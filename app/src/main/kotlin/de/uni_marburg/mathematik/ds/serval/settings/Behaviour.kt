@@ -9,7 +9,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
-object Behaviour: KPref() {
+object BehaviourPrefs: KPref() {
     var analyticsEnabled: Boolean by kpref(key = "ANALYTICS_ENABLED", fallback = isReleaseBuild)
     var animationsEnabled: Boolean by kpref(
         key = "ANIMATIONS_ENABLED",
@@ -29,9 +29,9 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.preference_behaviour_animations,
-        getter = Behaviour::animationsEnabled,
+        getter = BehaviourPrefs::animationsEnabled,
         setter = { useAnimations ->
-            Behaviour.animationsEnabled = useAnimations
+            BehaviourPrefs.animationsEnabled = useAnimations
             animate = useAnimations
             shouldRestartMain()
         },
@@ -40,22 +40,22 @@ fun SettingsActivity.behaviourItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     checkbox(
         title = R.string.kau_changelog,
-        getter = Behaviour::showChangelog,
-        setter = { Behaviour.showChangelog = it },
+        getter = BehaviourPrefs::showChangelog,
+        setter = { BehaviourPrefs.showChangelog = it },
         builder = { descRes = R.string.preference_behaviour_changelog_desc }
     )
 
     checkbox(
         title = R.string.preference_behaviour_confirm_exit,
-        getter = Behaviour::confirmExit,
-        setter = { Behaviour.confirmExit = it }
+        getter = BehaviourPrefs::confirmExit,
+        setter = { BehaviourPrefs.confirmExit = it }
     )
 
     checkbox(
         title = R.string.preference_behaviour_analytics,
-        getter = Behaviour::analyticsEnabled,
+        getter = BehaviourPrefs::analyticsEnabled,
         setter = { useAnalytics ->
-            Behaviour.analyticsEnabled = useAnalytics
+            BehaviourPrefs.analyticsEnabled = useAnalytics
             if (!useAnalytics) materialDialogThemed {
                 title(string(R.string.preference_behaviour_reset_analytics))
                 content(string(R.string.preference_behaviour_reset_analytics_desc))

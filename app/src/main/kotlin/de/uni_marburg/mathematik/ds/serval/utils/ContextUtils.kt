@@ -16,7 +16,7 @@ import ca.allanwang.kau.xml.showChangelog
 import com.afollestad.materialdialogs.MaterialDialog
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 
 inline val Context.hasLocationPermission: Boolean
     get() = hasPermission(PERMISSION_ACCESS_FINE_LOCATION)
@@ -29,7 +29,7 @@ inline val Context.hasWriteExternalStoragePermission: Boolean
  */
 fun Context.showChangelog() = showChangelog(
     xmlRes = R.xml.changelog,
-    textColor = Appearance.Theme.textColor,
+    textColor = AppearancePrefs.Theme.textColor,
     customize = { theme() }
 )
 

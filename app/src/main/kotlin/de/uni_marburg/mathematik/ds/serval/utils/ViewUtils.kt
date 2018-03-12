@@ -13,8 +13,8 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 
 /**
  * Show themed snackbar with [a text resource][textRes] and a given [builder].
@@ -68,7 +68,7 @@ fun TextView.setTextWithOptions(
     text: String,
     duration: Long = 200,
     onFinish: (() -> Unit)? = null,
-    animate: Boolean = Behaviour.animationsEnabled
+    animate: Boolean = BehaviourPrefs.animationsEnabled
 ) {
     if (animate) setTextWithFade(text, duration, onFinish)
     else this.text = text
@@ -78,7 +78,7 @@ fun TextView.setTextWithOptions(
     textRes: Int,
     duration: Long = 200,
     onFinish: (() -> Unit)? = null,
-    animate: Boolean = Behaviour.animationsEnabled
+    animate: Boolean = BehaviourPrefs.animationsEnabled
 ) {
     if (animate) setTextWithFade(textRes, duration, onFinish)
     else text = context.string(textRes)
@@ -87,18 +87,18 @@ fun TextView.setTextWithOptions(
 fun ImageView.setIconWithOptions(
     icon: IIcon?,
     sizeDp: Int = 24,
-    @ColorInt color: Int = Appearance.Theme.iconColor,
+    @ColorInt color: Int = AppearancePrefs.Theme.iconColor,
     builder: IconicsDrawable.() -> Unit = {},
-    animate: Boolean = Behaviour.animationsEnabled
+    animate: Boolean = BehaviourPrefs.animationsEnabled
 ) {
     if (animate) fadeScaleTransition { setIcon(icon, sizeDp, color, builder) }
     else setIcon(icon, sizeDp, color, builder)
 }
 
 fun AppBarLayout.expand(
-    animate: Boolean = Behaviour.animationsEnabled
+    animate: Boolean = BehaviourPrefs.animationsEnabled
 ) = setExpanded(true, animate)
 
 inline var ViewPager.item
     get() = currentItem
-    set(value) = setCurrentItem(value, Behaviour.animationsEnabled)
+    set(value) = setCurrentItem(value, BehaviourPrefs.animationsEnabled)

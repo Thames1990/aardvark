@@ -5,7 +5,7 @@ import android.content.Context
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
-import de.uni_marburg.mathematik.ds.serval.settings.Experimental
+import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
 
 class SwipeToggleViewPager @JvmOverloads constructor(
     context: Context,
@@ -13,10 +13,10 @@ class SwipeToggleViewPager @JvmOverloads constructor(
 ) : ViewPager(context, attrs) {
 
     override fun onInterceptTouchEvent(motionEvent: MotionEvent?) =
-        Experimental.viewpagerSwipeEnabled && super.onInterceptTouchEvent(motionEvent)
+        ExperimentalPrefs.viewpagerSwipeEnabled && super.onInterceptTouchEvent(motionEvent)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(motionEvent: MotionEvent?): Boolean =
-        Experimental.viewpagerSwipeEnabled && super.onTouchEvent(motionEvent)
+        ExperimentalPrefs.viewpagerSwipeEnabled && super.onTouchEvent(motionEvent)
 
 }

@@ -92,7 +92,7 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     )
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnCustom() {
-        enabler = Appearance.Theme::isCustomTheme
+        enabler = AppearancePrefs.Theme::isCustomTheme
         onDisabledClick = { snackbarThemed(R.string.preference_requires_custom_theme) }
     }
 

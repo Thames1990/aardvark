@@ -16,7 +16,7 @@ import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.childrenSequence
 import kotlin.math.absoluteValue
@@ -74,7 +74,7 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
     )
 
     protected open fun themeFragmentImpl() = view?.childrenSequence()?.forEach { view ->
-        (view as? TextView)?.setTextColor(Appearance.Theme.textColor)
+        (view as? TextView)?.setTextColor(AppearancePrefs.Theme.textColor)
     }
 
     protected abstract fun viewArray(): Array<Array<out View>>
@@ -106,7 +106,7 @@ class IntroFragmentWelcome : BaseIntroFragment(R.layout.intro_welcome) {
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
-        image.imageTintList = ColorStateList.valueOf(Appearance.Theme.textColor)
+        image.imageTintList = ColorStateList.valueOf(AppearancePrefs.Theme.textColor)
     }
 }
 
@@ -119,7 +119,7 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
-        image.imageTintList = ColorStateList.valueOf(Appearance.Theme.textColor)
+        image.imageTintList = ColorStateList.valueOf(AppearancePrefs.Theme.textColor)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

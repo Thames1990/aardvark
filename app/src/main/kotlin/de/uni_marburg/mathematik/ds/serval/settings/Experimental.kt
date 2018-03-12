@@ -17,7 +17,7 @@ import java.lang.Runtime.getRuntime
 import java.math.BigInteger
 import java.net.InetAddress
 
-object Experimental : KPref() {
+object ExperimentalPrefs : KPref() {
     var enabled: Boolean by kpref(
         key = "EXPERIMENTAL_SETTINGS_ENABLED",
         fallback = isDebugBuild
@@ -46,9 +46,9 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_enable_wifi_adb,
-        getter = Experimental::wifiADBEnabled,
+        getter = ExperimentalPrefs::wifiADBEnabled,
         setter = { enableWifiADB ->
-            Experimental.wifiADBEnabled = enableWifiADB
+            ExperimentalPrefs.wifiADBEnabled = enableWifiADB
             if (enableWifiADB) enableWifiAdb()
             else disableWifiAdb()
             reloadByTitle(R.string.preference_experimental_share_wifi_adb_command)
@@ -59,7 +59,7 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
         title = R.string.preference_experimental_share_wifi_adb_command,
         builder = {
             descRes = R.string.preference_experimental_share_adb_command_desc
-            enabler = Experimental::wifiADBEnabled
+            enabler = ExperimentalPrefs::wifiADBEnabled
             onDisabledClick = {
                 snackbarThemed(getString(R.string.preference_experimental_requires_wifi_adb))
             }
@@ -71,9 +71,9 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_secure_app,
-        getter = Experimental::secureApp,
+        getter = ExperimentalPrefs::secureApp,
         setter = { secure_app ->
-            Experimental.secureApp = secure_app
+            ExperimentalPrefs.secureApp = secure_app
             setSecureFlag()
             shouldRestartApplication()
             reload()
@@ -82,15 +82,15 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
     )
 
     fun KPrefItemBase.BaseContract<Boolean>.dependsOnSecurePrivacy() {
-        enabler = Experimental::secureApp
+        enabler = ExperimentalPrefs::secureApp
         onDisabledClick =
                 { snackbarThemed(R.string.preference_experimental_requires_secure_privacy) }
     }
 
     checkbox(
         title = R.string.preference_experimental_vibration,
-        getter = Experimental::vibrationsEnabled,
-        setter = { Experimental.vibrationsEnabled = it },
+        getter = ExperimentalPrefs::vibrationsEnabled,
+        setter = { ExperimentalPrefs.vibrationsEnabled = it },
         builder = {
             dependsOnSecurePrivacy()
             descRes = R.string.preference_experimental_vibration_desc
@@ -102,8 +102,8 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_progress_bar,
-        getter = Experimental::showDownloadProgress,
-        setter = { Experimental.showDownloadProgress = it },
+        getter = ExperimentalPrefs::showDownloadProgress,
+        setter = { ExperimentalPrefs.showDownloadProgress = it },
         builder = {
             descRes = R.string.preference_experimental_progress_bar_desc
             shouldRestartMain()
@@ -112,9 +112,9 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     checkbox(
         title = R.string.preference_experimental_paging,
-        getter = Experimental::viewpagerSwipeEnabled,
+        getter = ExperimentalPrefs::viewpagerSwipeEnabled,
         setter = { usePaging ->
-            Experimental.viewpagerSwipeEnabled = usePaging
+            ExperimentalPrefs.viewpagerSwipeEnabled = usePaging
             shouldRestartMain()
         },
         builder = { descRes = R.string.preference_experimental_paging_desc }

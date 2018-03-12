@@ -11,8 +11,8 @@ import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import org.jetbrains.anko.bundleOf
 import java.time.Instant
 import java.util.*
@@ -39,7 +39,7 @@ inline fun answers(action: Answers.() -> Unit) = Answers.getInstance().action()
  * Log custom events to analytics services.
  */
 fun logAnalytics(name: String, vararg events: Pair<String, Any>) {
-    if (Behaviour.analyticsEnabled) {
+    if (BehaviourPrefs.analyticsEnabled) {
         answers {
             logCustom(CustomEvent(name).apply {
                 events.forEach { (key: String, value: Any) ->
@@ -64,11 +64,11 @@ inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.()
     val snackbarBaseLayout = view as FrameLayout
     val snackbarContentLayout = snackbarBaseLayout[0] as SnackbarContentLayout
     snackbarContentLayout.apply {
-        messageView.setTextColor(Appearance.Theme.textColor)
-        actionView.setTextColor(Appearance.Theme.accentColor)
+        messageView.setTextColor(AppearancePrefs.Theme.textColor)
+        actionView.setTextColor(AppearancePrefs.Theme.accentColor)
         //only set if previous text colors are set
         view.setBackgroundColor(
-            Appearance.Theme.backgroundColor.withAlpha(255).colorToForeground(0.1f)
+            AppearancePrefs.Theme.backgroundColor.withAlpha(255).colorToForeground(0.1f)
         )
     }
 }
@@ -117,13 +117,13 @@ fun doOnDebugBuild(block: () -> Unit) {
  * Theme material dialog.
  */
 fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
-    val dimmerTextColor = Appearance.Theme.textColor.adjustAlpha(0.8f)
-    titleColor(Appearance.Theme.textColor)
+    val dimmerTextColor = AppearancePrefs.Theme.textColor.adjustAlpha(0.8f)
+    titleColor(AppearancePrefs.Theme.textColor)
     contentColor(dimmerTextColor)
     widgetColor(dimmerTextColor)
-    backgroundColor(Appearance.Theme.backgroundColor.lighten(0.1f).withMinAlpha(200))
-    positiveColor(Appearance.Theme.textColor)
-    negativeColor(Appearance.Theme.textColor)
-    neutralColor(Appearance.Theme.textColor)
+    backgroundColor(AppearancePrefs.Theme.backgroundColor.lighten(0.1f).withMinAlpha(200))
+    positiveColor(AppearancePrefs.Theme.textColor)
+    negativeColor(AppearancePrefs.Theme.textColor)
+    neutralColor(AppearancePrefs.Theme.textColor)
     return this
 }

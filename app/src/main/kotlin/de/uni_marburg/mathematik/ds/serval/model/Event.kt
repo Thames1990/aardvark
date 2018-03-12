@@ -11,7 +11,7 @@ import com.mikepenz.weather_icons_typeface_library.WeatherIcons
 import com.squareup.moshi.Json
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.settings.Appearance
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInSeconds
 import net.sharewire.googlemapsclustering.ClusterItem
 
@@ -62,7 +62,7 @@ data class Event(
     inline val passedSeconds: Long
         get() = currentTimeInSeconds - time
 
-    override fun getSnippet(): String? = Appearance.DateTimeFormat.format.formatTime(time)
+    override fun getSnippet(): String? = AppearancePrefs.DateTimeFormat.format.formatTime(time)
 
     override fun getLongitude(): Double = data.geohashLocation.longitude
 
