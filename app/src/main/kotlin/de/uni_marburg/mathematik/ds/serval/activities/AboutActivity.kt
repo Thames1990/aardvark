@@ -22,7 +22,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AboutLinks
 import de.uni_marburg.mathematik.ds.serval.enums.LibraryDefinitions
 import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.settings.Experimental
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 /**
@@ -54,8 +54,8 @@ class AboutActivity : AboutActivityBase(
                 count = 7,
                 duration = 500L,
                 event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
-                    if (!Prefs.Experimental.enabled && item == aardvark) {
-                        Prefs.Experimental.enabled = true
+                    if (!Experimental.enabled && item == aardvark) {
+                        Experimental.enabled = true
                         snackbarThemed(
                             textRes = R.string.preference_experimental_enabled,
                             builder = {

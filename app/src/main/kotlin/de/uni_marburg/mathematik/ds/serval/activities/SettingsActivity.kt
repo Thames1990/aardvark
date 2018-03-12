@@ -35,7 +35,7 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onCreateKPrefs(savedInstanceState: Bundle?): KPrefAdapterBuilder.() -> Unit = {
         PreferenceSubItems.values()
-            .filter { if (!Prefs.Experimental.enabled) !it.experimental else true }
+            .filter { if (!Experimental.enabled) !it.experimental else true }
             .map { preferenceSubItem ->
                 subItems(
                     title = preferenceSubItem.titleRes,

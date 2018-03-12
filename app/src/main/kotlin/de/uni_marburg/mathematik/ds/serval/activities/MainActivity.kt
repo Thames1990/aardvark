@@ -33,6 +33,7 @@ import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.Appearance
+import de.uni_marburg.mathematik.ds.serval.settings.Experimental
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import de.uni_marburg.mathematik.ds.serval.views.SwipeToggleViewPager
@@ -78,7 +79,7 @@ class MainActivity : BaseActivity() {
         setupTabLayout()
 
         if (hasLocationPermission) trackLocation()
-        if (Prefs.Experimental.showDownloadProgress) trackEventDownloadProgress()
+        if (Experimental.showDownloadProgress) trackEventDownloadProgress()
 
         checkForNewVersion()
     }

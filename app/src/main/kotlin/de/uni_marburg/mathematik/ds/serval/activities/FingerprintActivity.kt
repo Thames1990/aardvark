@@ -18,7 +18,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.settings.Appearance
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.settings.Experimental
 import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.vibrate
@@ -113,7 +113,7 @@ class FingerprintActivity : AppCompatActivity() {
                     color = Appearance.Theme.iconColor
                 )
                 description.setTextWithOptions(errorMessage.toString())
-                if (Prefs.Experimental.vibrationsEnabled) vibrate()
+                if (Experimental.vibrationsEnabled) vibrate()
             }
         })
     }

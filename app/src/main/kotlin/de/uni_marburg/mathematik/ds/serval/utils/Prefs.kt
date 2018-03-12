@@ -32,24 +32,6 @@ object Prefs : KPref() {
         var showChangelog: Boolean by kpref(key = "SHOW_CHANGELOG", fallback = isReleaseBuild)
     }
 
-    object Experimental {
-        var enabled: Boolean by kpref(
-            key = "EXPERIMENTAL_SETTINGS_ENABLED",
-            fallback = isDebugBuild
-        )
-        var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = false)
-        var showDownloadProgress: Boolean by kpref(
-            key = "SHOW_DOWNLOAD_PROGRESS",
-            fallback = false
-        )
-        var wifiADBEnabled: Boolean by kpref(key = "WIFI_ADB_ENABLED", fallback = false)
-        var vibrationsEnabled: Boolean by kpref(key = "VIBRATIONS_ENABLED", fallback = false)
-        var viewpagerSwipeEnabled: Boolean by kpref(
-            key = "VIEWPAGER_SWIPE_ENABLED",
-            fallback = false
-        )
-    }
-
     object Location {
         object RequestAccuracy {
             var index: Int by kpref(
