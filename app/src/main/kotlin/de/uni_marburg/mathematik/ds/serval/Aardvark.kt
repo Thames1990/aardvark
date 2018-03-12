@@ -13,7 +13,6 @@ import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
-import de.uni_marburg.mathematik.ds.serval.settings.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import de.uni_marburg.mathematik.ds.serval.utils.isDebugBuild
 import io.fabric.sdk.android.Fabric
@@ -31,10 +30,16 @@ class Aardvark : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        FirebaseApp.initializeApp(applicationContext)
+        aardvarkId = FirebaseInstanceId.getInstance().id
+
         setupPreferences()
         setupAnalytics()
         setupLeakCanary()
-        initialize()
+        setupAuthentication()
+
+        if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
     }
 
     private fun setupPreferences() {
@@ -45,8 +50,6 @@ class Aardvark : Application() {
         LocationPrefs.initialize(applicationContext, LocationPrefs::class.java.simpleName)
         MapPrefs.initialize(applicationContext, MapPrefs::class.java.simpleName)
         ServalPrefs.initialize(applicationContext, ServalPrefs::class.java.simpleName)
-
-        if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
     }
 
     private fun setupAnalytics() {
@@ -61,24 +64,19 @@ class Aardvark : Application() {
     }
 
     private fun setupLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) return
+        if (LeakCanary.isInAnalyzerProcess(applicationContext)) return
         refWatcher =
                 if (isDebugBuild) LeakCanary.install(this)
                 else RefWatcher.DISABLED
     }
 
-    private fun initialize() {
-        FirebaseApp.initializeApp(applicationContext)
-        aardvarkId = FirebaseInstanceId.getInstance().id
-
+    private fun setupAuthentication(authenticate: Boolean = ExperimentalPrefs.secureApp) {
         Reprint.initialize(applicationContext)
         authenticationListener = AuthenticationListener(this)
         lifecycle = ProcessLifecycleOwner.get().lifecycle
-        setupAuthentication()
-    }
 
-    private fun setupAuthentication(authenticate: Boolean = ExperimentalPrefs.secureApp) =
         if (authenticate) lifecycle.addObserver(authenticationListener)
         else lifecycle.removeObserver(authenticationListener)
+    }
 
 }
