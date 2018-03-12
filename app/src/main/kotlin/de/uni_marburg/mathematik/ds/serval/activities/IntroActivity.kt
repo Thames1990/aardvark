@@ -71,7 +71,7 @@ class IntroActivity : BaseActivity() {
             }
         }
         skip.setOnClickListener { finish() }
-        ripple.set(color = AppearancePrefs.Theme.backgroundColor)
+        ripple.set(color = AppearancePrefs.Theme.bgColor)
 
         theme()
     }

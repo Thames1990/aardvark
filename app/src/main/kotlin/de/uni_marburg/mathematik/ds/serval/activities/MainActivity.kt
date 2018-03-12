@@ -167,7 +167,7 @@ class MainActivity : BaseActivity() {
             }
 
             setSelectedTabIndicatorColor(AppearancePrefs.MainActivityLayout.iconColor)
-            setBackgroundColor(AppearancePrefs.MainActivityLayout.backgroundColor)
+            setBackgroundColor(AppearancePrefs.MainActivityLayout.bgColor)
 
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {

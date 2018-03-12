@@ -28,11 +28,11 @@ enum class MainActivityLayouts(
     BOTTOM_BAR(
         titleRes = R.string.preference_bar_bottom,
         layoutRes = R.layout.activity_main_bottom_tabs,
-        backgroundColorGetter = AppearancePrefs.Theme::backgroundColor,
+        backgroundColorGetter = AppearancePrefs.Theme::bgColor,
         iconColorGetter = AppearancePrefs.Theme::textColor
     );
 
-    val backgroundColor: Int
+    val bgColor: Int
         get() = backgroundColorGetter()
 
     val iconColor: Int

@@ -43,7 +43,7 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
             val introActivity = activity as IntroActivity
             with(introActivity) {
                 ripple.ripple(
-                    color = AppearancePrefs.Theme.backgroundColor,
+                    color = AppearancePrefs.Theme.bgColor,
                     startX = view.x + view.pivotX,
                     startY = view.y + view.pivotY
                 )

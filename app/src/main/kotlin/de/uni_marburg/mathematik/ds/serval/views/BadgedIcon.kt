@@ -23,7 +23,7 @@ class BadgedIcon @JvmOverloads constructor(
 
     init {
         View.inflate(context, R.layout.view_badged_icon, this)
-        val badgeColor = AppearancePrefs.MainActivityLayout.backgroundColor
+        val badgeColor = AppearancePrefs.MainActivityLayout.bgColor
             .withAlpha(255)
             .colorToForeground(0.2f)
         val badgeBackground = GradientDrawable(

@@ -111,14 +111,14 @@ class SettingsActivity : KPrefActivity() {
 
     fun themeExterior(animate: Boolean = BehaviourPrefs.animationsEnabled) {
         if (animate) {
-            bgCanvas.fade(color = AppearancePrefs.Theme.backgroundColor)
+            bgCanvas.fade(color = AppearancePrefs.Theme.bgColor)
             toolbarCanvas.ripple(
                 color = AppearancePrefs.Theme.headerColor,
                 startX = RippleCanvas.MIDDLE,
                 startY = RippleCanvas.END
             )
         } else {
-            bgCanvas.set(color = AppearancePrefs.Theme.backgroundColor)
+            bgCanvas.set(color = AppearancePrefs.Theme.bgColor)
             toolbarCanvas.set(color = AppearancePrefs.Theme.headerColor)
         }
         themeNavigationBar()

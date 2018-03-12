@@ -47,7 +47,7 @@ class FingerprintActivity : AppCompatActivity() {
             .build()
 
         with(fingerprintDialog.customView!!) {
-            setBackgroundColor(AppearancePrefs.Theme.backgroundColor.lighten(0.1f).withMinAlpha(200))
+            setBackgroundColor(AppearancePrefs.Theme.bgColor.lighten(0.1f).withMinAlpha(200))
 
             val title: TextView = find(R.id.fingerprint_title)
             title.setTextColor(AppearancePrefs.Theme.textColor)

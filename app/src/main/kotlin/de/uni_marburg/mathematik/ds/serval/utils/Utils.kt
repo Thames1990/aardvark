@@ -68,7 +68,7 @@ inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.()
         actionView.setTextColor(AppearancePrefs.Theme.accentColor)
         //only set if previous text colors are set
         view.setBackgroundColor(
-            AppearancePrefs.Theme.backgroundColor.withAlpha(255).colorToForeground(0.1f)
+            AppearancePrefs.Theme.bgColor.withAlpha(255).colorToForeground(0.1f)
         )
     }
 }
@@ -121,7 +121,7 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     titleColor(AppearancePrefs.Theme.textColor)
     contentColor(dimmerTextColor)
     widgetColor(dimmerTextColor)
-    backgroundColor(AppearancePrefs.Theme.backgroundColor.lighten(0.1f).withMinAlpha(200))
+    backgroundColor(AppearancePrefs.Theme.bgColor.lighten(0.1f).withMinAlpha(200))
     positiveColor(AppearancePrefs.Theme.textColor)
     negativeColor(AppearancePrefs.Theme.textColor)
     neutralColor(AppearancePrefs.Theme.textColor)

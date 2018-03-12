@@ -17,7 +17,7 @@ object BehaviourPrefs: KPref() {
         postSetter = { value: Boolean ->
             logAnalytics(
                 name = "Animations enabled",
-                events = *arrayOf("Animations" to value)
+                events = *arrayOf("Count" to value)
             )
         }
     )

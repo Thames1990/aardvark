@@ -15,14 +15,14 @@ import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayouts
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
-object AppearancePrefs: KPref() {
+object AppearancePrefs : KPref() {
     object Theme {
         var index: Int by kpref(
             key = "THEME_INDEX",
             fallback = Themes.LIGHT.ordinal,
-            postSetter = { value: Int ->
+            postSetter = {
                 loader.invalidate()
-                logAnalytics(name = "Theme", events = *arrayOf("Count" to Themes(value).name))
+                logAnalytics(name = "Theme", events = *arrayOf("Count" to Themes(it).name))
             }
         )
         private val loader = lazyResettable { Themes.values()[index] }
@@ -30,8 +30,8 @@ object AppearancePrefs: KPref() {
 
         val accentColor: Int
             get() = theme.accentColor
-        val backgroundColor: Int
-            get() = theme.backgroundColor
+        val bgColor: Int
+            get() = theme.bgColor
         val headerColor: Int
             get() = theme.headerColor
         val iconColor: Int
@@ -41,26 +41,13 @@ object AppearancePrefs: KPref() {
         val textColor: Int
             get() = theme.textColor
 
-        var customTextColor: Int by kpref(
-            key = "CUSTOM_COLOR_TEXT",
-            fallback = Themes.PORCELAIN
-        )
-        var customAccentColor: Int by kpref(
-            key = "CUSTOM_COLOR_ACCENT",
-            fallback = Themes.LOCHMARA
-        )
-        var customBackgroundColor: Int by kpref(
-            key = "CUSTOM_COLOR_BACKGROUND",
-            fallback = Themes.MINE_SHAFT
-        )
-        var customHeaderColor: Int by kpref(
-            key = "CUSTOM_COLOR_HEADER",
-            fallback = Themes.BAHAMA_BLUE
-        )
-        var customIconColor: Int by kpref(
-            key = "CUSTOM_COLOR_ICONS",
-            fallback = Themes.PORCELAIN
-        )
+        object Custom {
+            var accentColor: Int by kpref(key = "COLOR_ACCENT", fallback = Themes.LOCHMARA)
+            var bgColor: Int by kpref(key = "COLOR_BACKGROUND", fallback = Themes.MINE_SHAFT)
+            var headerColor: Int by kpref(key = "COLOR_HEADER", fallback = Themes.BAHAMA_BLUE)
+            var iconColor: Int by kpref(key = "COLOR_ICONS", fallback = Themes.PORCELAIN)
+            var textColor: Int by kpref(key = "COLOR_TEXT", fallback = Themes.PORCELAIN)
+        }
     }
 
     object DateTimeFormat {
@@ -71,7 +58,7 @@ object AppearancePrefs: KPref() {
                 loader.invalidate()
                 logAnalytics(
                     name = "Date time format",
-                    events = *arrayOf("Date time format" to DateTimeFormats(value).name)
+                    events = *arrayOf("Count" to DateTimeFormats(value).name)
                 )
             }
         )
@@ -87,15 +74,15 @@ object AppearancePrefs: KPref() {
                 loader.invalidate()
                 logAnalytics(
                     name = "Main Layout",
-                    events = *arrayOf("Type" to MainActivityLayouts(value).name)
+                    events = *arrayOf("Count" to MainActivityLayouts(value).name)
                 )
             }
         )
         private val loader = lazyResettable { MainActivityLayouts.values()[index] }
         val layout: MainActivityLayouts by loader
 
-        val backgroundColor: Int
-            get() = layout.backgroundColor
+        val bgColor: Int
+            get() = layout.bgColor
         val iconColor: Int
             get() = layout.iconColor
         val layoutRes: Int
@@ -145,9 +132,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_text,
-        getter = AppearancePrefs.Theme::customTextColor,
+        getter = AppearancePrefs.Theme.Custom::textColor,
         setter = { customTextColor ->
-            AppearancePrefs.Theme.customTextColor = customTextColor
+            AppearancePrefs.Theme.Custom.textColor = customTextColor
             reload()
             shouldRestartMain()
         },
@@ -159,9 +146,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_accent,
-        getter = AppearancePrefs.Theme::customAccentColor,
+        getter = AppearancePrefs.Theme.Custom::accentColor,
         setter = { customAccentColor ->
-            AppearancePrefs.Theme.customAccentColor = customAccentColor
+            AppearancePrefs.Theme.Custom.accentColor = customAccentColor
             reload()
             shouldRestartMain()
         },
@@ -173,9 +160,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_background,
-        getter = AppearancePrefs.Theme::customBackgroundColor,
+        getter = AppearancePrefs.Theme.Custom::bgColor,
         setter = { customBackgroundColor ->
-            AppearancePrefs.Theme.customBackgroundColor = customBackgroundColor
+            AppearancePrefs.Theme.Custom.bgColor = customBackgroundColor
             bgCanvas.ripple(color = customBackgroundColor, duration = 500L)
             setTheme()
             shouldRestartMain()
@@ -188,9 +175,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_header,
-        getter = AppearancePrefs.Theme::customHeaderColor,
+        getter = AppearancePrefs.Theme.Custom::headerColor,
         setter = { customHeaderColor ->
-            AppearancePrefs.Theme.customHeaderColor = customHeaderColor
+            AppearancePrefs.Theme.Custom.headerColor = customHeaderColor
             themeNavigationBar()
             toolbarCanvas.ripple(
                 color = customHeaderColor,
@@ -209,9 +196,9 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     colorPicker(
         title = R.string.preference_appearance_color_icon,
-        getter = AppearancePrefs.Theme::customIconColor,
+        getter = AppearancePrefs.Theme.Custom::iconColor,
         setter = { customIconColor ->
-            AppearancePrefs.Theme.customIconColor = customIconColor
+            AppearancePrefs.Theme.Custom.iconColor = customIconColor
             invalidateOptionsMenu()
             shouldRestartMain()
         },
