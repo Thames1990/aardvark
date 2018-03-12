@@ -20,7 +20,11 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.intro.*
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
+import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
+import de.uni_marburg.mathematik.ds.serval.utils.item
+import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
+import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.find
 
 class IntroActivity : BaseActivity() {
@@ -53,7 +57,7 @@ class IntroActivity : BaseActivity() {
         with(next) {
             setIcon(
                 icon = GoogleMaterial.Icon.gmd_navigate_next,
-                color = Prefs.Appearance.Theme.iconColor
+                color = Appearance.Theme.iconColor
             )
             setOnClickListener {
                 when {
@@ -67,7 +71,7 @@ class IntroActivity : BaseActivity() {
             }
         }
         skip.setOnClickListener { finish() }
-        ripple.set(color = Prefs.Appearance.Theme.backgroundColor)
+        ripple.set(color = Appearance.Theme.backgroundColor)
 
         theme()
     }
@@ -84,12 +88,12 @@ class IntroActivity : BaseActivity() {
     }
 
     fun theme() {
-        statusBarColor = Prefs.Appearance.Theme.headerColor
-        navigationBarColor = Prefs.Appearance.Theme.headerColor
-        skip.setTextColor(Prefs.Appearance.Theme.textColor)
-        next.imageTintList = ColorStateList.valueOf(Prefs.Appearance.Theme.textColor)
+        statusBarColor = Appearance.Theme.headerColor
+        navigationBarColor = Appearance.Theme.headerColor
+        skip.setTextColor(Appearance.Theme.textColor)
+        next.imageTintList = ColorStateList.valueOf(Appearance.Theme.textColor)
         with(indicator) {
-            setColour(Prefs.Appearance.Theme.textColor)
+            setColour(Appearance.Theme.textColor)
             invalidate()
         }
         fragments.forEach { it.themeFragment() }
@@ -121,13 +125,13 @@ class IntroActivity : BaseActivity() {
                 ?.start()
         }
 
-        if (Prefs.Appearance.Theme.textColor != Color.WHITE) {
+        if (Appearance.Theme.textColor != Color.WHITE) {
             val image = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
             if (image != null) {
                 ValueAnimator.ofFloat(0f, 1f).apply {
                     addUpdateListener { animator ->
                         image.setTint(
-                            Prefs.Appearance.Theme.textColor.blendWith(
+                            Appearance.Theme.textColor.blendWith(
                                 color = Color.WHITE,
                                 ratio = animator.animatedValue as Float
                             )
@@ -139,10 +143,10 @@ class IntroActivity : BaseActivity() {
             }
         }
 
-        if (Prefs.Appearance.Theme.headerColor != Themes.AARDVARK_GREEN) {
+        if (Appearance.Theme.headerColor != Themes.AARDVARK_GREEN) {
             ValueAnimator.ofFloat(0f, 1f).apply {
                 addUpdateListener { animator ->
-                    val color = Prefs.Appearance.Theme.headerColor.blendWith(
+                    val color = Appearance.Theme.headerColor.blendWith(
                         color = Themes.AARDVARK_GREEN,
                         ratio = animator.animatedValue as Float
                     )
@@ -198,7 +202,7 @@ class IntroActivity : BaseActivity() {
                     icon =
                     if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
                     else GoogleMaterial.Icon.gmd_done,
-                    color = Prefs.Appearance.Theme.iconColor
+                    color = Appearance.Theme.iconColor
                 )
                 skip.animate().scaleXY(if (barHasNext) 1f else 0f)
             }

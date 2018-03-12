@@ -11,6 +11,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
@@ -30,21 +31,15 @@ class Aardvark : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initialize()
+        setupPreferences()
         setupAnalytics()
         setupLeakCanary()
+        initialize()
     }
 
-    private fun initialize() {
-        FirebaseApp.initializeApp(applicationContext)
-        aardvarkId = FirebaseInstanceId.getInstance().id
-
+    private fun setupPreferences() {
         Prefs.initialize(applicationContext, BuildConfig.APPLICATION_ID)
-
-        Reprint.initialize(applicationContext)
-        authenticationListener = AuthenticationListener(this)
-        lifecycle = ProcessLifecycleOwner.get().lifecycle
-        setupAuthentication()
+        Appearance.initialize(applicationContext, Appearance.javaClass.simpleName)
 
         if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
     }
@@ -67,7 +62,18 @@ class Aardvark : Application() {
                 else RefWatcher.DISABLED
     }
 
+    private fun initialize() {
+        FirebaseApp.initializeApp(applicationContext)
+        aardvarkId = FirebaseInstanceId.getInstance().id
+
+        Reprint.initialize(applicationContext)
+        authenticationListener = AuthenticationListener(this)
+        lifecycle = ProcessLifecycleOwner.get().lifecycle
+        setupAuthentication()
+    }
+
     private fun setupAuthentication(authenticate: Boolean = Prefs.Experimental.secureApp) =
         if (authenticate) lifecycle.addObserver(authenticationListener)
         else lifecycle.removeObserver(authenticationListener)
+
 }

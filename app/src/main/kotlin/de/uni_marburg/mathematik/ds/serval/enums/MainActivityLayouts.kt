@@ -3,7 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.enums
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 
 /**
  * Defines the layout of the main activity.
@@ -21,15 +21,15 @@ enum class MainActivityLayouts(
     TOP_BAR(
         titleRes = R.string.preference_bar_top,
         layoutRes = R.layout.activity_main,
-        backgroundColorGetter = Prefs.Appearance.Theme::headerColor,
-        iconColorGetter = Prefs.Appearance.Theme::iconColor
+        backgroundColorGetter = Appearance.Theme::headerColor,
+        iconColorGetter = Appearance.Theme::iconColor
     ),
 
     BOTTOM_BAR(
         titleRes = R.string.preference_bar_bottom,
         layoutRes = R.layout.activity_main_bottom_tabs,
-        backgroundColorGetter = Prefs.Appearance.Theme::backgroundColor,
-        iconColorGetter = Prefs.Appearance.Theme::textColor
+        backgroundColorGetter = Appearance.Theme::backgroundColor,
+        iconColorGetter = Appearance.Theme::textColor
     );
 
     val backgroundColor: Int

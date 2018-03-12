@@ -17,6 +17,7 @@ import com.github.ajalt.reprint.core.Reprint
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
@@ -46,16 +47,16 @@ class FingerprintActivity : AppCompatActivity() {
             .build()
 
         with(fingerprintDialog.customView!!) {
-            setBackgroundColor(Prefs.Appearance.Theme.backgroundColor.lighten(0.1f).withMinAlpha(200))
+            setBackgroundColor(Appearance.Theme.backgroundColor.lighten(0.1f).withMinAlpha(200))
 
             val title: TextView = find(R.id.fingerprint_title)
-            title.setTextColor(Prefs.Appearance.Theme.textColor)
+            title.setTextColor(Appearance.Theme.textColor)
 
             val subTitle: TextView = find(R.id.fingerprint_subtitle)
-            subTitle.setTextColor(Prefs.Appearance.Theme.textColor)
+            subTitle.setTextColor(Appearance.Theme.textColor)
 
             description = find(R.id.fingerprint_description)
-            description.setTextColor(Prefs.Appearance.Theme.textColor.adjustAlpha(0.5f))
+            description.setTextColor(Appearance.Theme.textColor.adjustAlpha(0.5f))
 
             iconCircle = find(R.id.fingerprint_icon_circle)
             iconCircle.setCardBackgroundColor(Themes.LYNCH)
@@ -63,7 +64,7 @@ class FingerprintActivity : AppCompatActivity() {
             icon = find(R.id.fingerprint_icon)
             icon.setIcon(
                 icon = CommunityMaterial.Icon.cmd_fingerprint,
-                color = Prefs.Appearance.Theme.iconColor
+                color = Appearance.Theme.iconColor
             )
 
             val usePassword: Button = find(R.id.button_use_password)
@@ -87,7 +88,7 @@ class FingerprintActivity : AppCompatActivity() {
                 iconCircle.setCardBackgroundColor(Themes.PERSIAN_GREEN)
                 icon.setIconWithOptions(
                     icon = CommunityMaterial.Icon.cmd_check,
-                    color = Prefs.Appearance.Theme.iconColor
+                    color = Appearance.Theme.iconColor
                 )
                 description.setTextWithOptions(
                     textRes = R.string.dialog_fingerprint_recognized,
@@ -109,7 +110,7 @@ class FingerprintActivity : AppCompatActivity() {
                 iconCircle.setCardBackgroundColor(Themes.POMEGRENADE)
                 icon.setIconWithOptions(
                     icon = CommunityMaterial.Icon.cmd_exclamation,
-                    color = Prefs.Appearance.Theme.iconColor
+                    color = Appearance.Theme.iconColor
                 )
                 description.setTextWithOptions(errorMessage.toString())
                 if (Prefs.Experimental.vibrationsEnabled) vibrate()

@@ -23,6 +23,7 @@ import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import net.sharewire.googlemapsclustering.Cluster
@@ -74,7 +75,7 @@ class MapFragment : BaseFragment() {
         inflater.inflate(R.menu.menu_map, menu)
         requireActivity().setMenuIcons(
             menu = menu,
-            color = Prefs.Appearance.Theme.iconColor,
+            color = Appearance.Theme.iconColor,
             iicons = *arrayOf(R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers)
         )
     }
@@ -139,7 +140,7 @@ class MapFragment : BaseFragment() {
     }
 
     private fun setupGoogleMap() = with(googleMap) {
-        val rawResourceRes: Int = when (Prefs.Appearance.Theme.theme) {
+        val rawResourceRes: Int = when (Appearance.Theme.theme) {
             Themes.AMOLED -> R.raw.map_style_night
             Themes.LIGHT -> R.raw.map_style_standard
             Themes.DARK -> R.raw.map_style_dark

@@ -21,6 +21,7 @@ import com.mikepenz.fastadapter.listeners.OnClickListener
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.AboutLinks
 import de.uni_marburg.mathematik.ds.serval.enums.LibraryDefinitions
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
@@ -30,13 +31,13 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 class AboutActivity : AboutActivityBase(
     rClass = R.string::class.java,
     configBuilder = {
-        accentColor = Prefs.Appearance.Theme.accentColor
-        backgroundColor = Prefs.Appearance.Theme.backgroundColor.withMinAlpha(200)
+        accentColor = Appearance.Theme.accentColor
+        backgroundColor = Appearance.Theme.backgroundColor.withMinAlpha(200)
         cutoutDrawableRes = R.drawable.aardvark
-        cutoutForeground = Prefs.Appearance.Theme.accentColor
+        cutoutForeground = Appearance.Theme.accentColor
         faqParseNewLine = false
         faqXmlRes = R.xml.faq
-        textColor = Prefs.Appearance.Theme.textColor
+        textColor = Appearance.Theme.textColor
     }
 ) {
 
@@ -115,7 +116,7 @@ class AboutActivity : AboutActivityBase(
                         background = context.resolveDrawable(
                             android.R.attr.selectableItemBackgroundBorderless
                         )
-                        setIcon(icon = aboutLink.iicon, color = Prefs.Appearance.Theme.iconColor)
+                        setIcon(icon = aboutLink.iicon, color = Appearance.Theme.iconColor)
                         setOnClickListener { context.startLink(aboutLink.linkRes) }
                         container.addView(this)
                     }

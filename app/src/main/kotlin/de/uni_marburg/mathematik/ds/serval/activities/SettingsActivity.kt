@@ -40,12 +40,12 @@ class SettingsActivity : KPrefActivity() {
                 subItems(
                     title = preferenceSubItem.titleRes,
                     itemBuilder = when (preferenceSubItem) {
-                        PreferenceSubItems.BEHAVIOUR -> behaviourItemBuilder()
                         PreferenceSubItems.APPEARANCE -> appearanceItemBuilder()
-                        PreferenceSubItems.MAP -> mapItemBuilder()
-                        PreferenceSubItems.LOCATION -> locationItemBuilder()
-                        PreferenceSubItems.SERVAL -> servalItemBuilder()
+                        PreferenceSubItems.BEHAVIOUR -> behaviourItemBuilder()
                         PreferenceSubItems.EXPERIMENTAL -> experimentalItemBuilder()
+                        PreferenceSubItems.LOCATION -> locationItemBuilder()
+                        PreferenceSubItems.MAP -> mapItemBuilder()
+                        PreferenceSubItems.SERVAL -> servalItemBuilder()
                     },
                     builder = {
                         descRes = preferenceSubItem.descRes
@@ -67,8 +67,8 @@ class SettingsActivity : KPrefActivity() {
     }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
-        accentColor = Prefs.Appearance.Theme::accentColor
-        textColor = Prefs.Appearance.Theme::textColor
+        accentColor = Appearance.Theme::accentColor
+        textColor = Appearance.Theme::textColor
     }
 
     override fun onBackPressed() {
@@ -80,10 +80,10 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_settings, menu)
-        toolbar.tint(color = Prefs.Appearance.Theme.iconColor)
+        toolbar.tint(color = Appearance.Theme.iconColor)
         setMenuIcons(
             menu = menu,
-            color = Prefs.Appearance.Theme.iconColor,
+            color = Appearance.Theme.iconColor,
             iicons = *arrayOf(
                 R.id.action_email to GoogleMaterial.Icon.gmd_email,
                 R.id.action_changelog to GoogleMaterial.Icon.gmd_info
@@ -111,15 +111,15 @@ class SettingsActivity : KPrefActivity() {
 
     fun themeExterior(animate: Boolean = Prefs.Behaviour.animationsEnabled) {
         if (animate) {
-            bgCanvas.fade(color = Prefs.Appearance.Theme.backgroundColor)
+            bgCanvas.fade(color = Appearance.Theme.backgroundColor)
             toolbarCanvas.ripple(
-                color = Prefs.Appearance.Theme.headerColor,
+                color = Appearance.Theme.headerColor,
                 startX = RippleCanvas.MIDDLE,
                 startY = RippleCanvas.END
             )
         } else {
-            bgCanvas.set(color = Prefs.Appearance.Theme.backgroundColor)
-            toolbarCanvas.set(color = Prefs.Appearance.Theme.headerColor)
+            bgCanvas.set(color = Appearance.Theme.backgroundColor)
+            toolbarCanvas.set(color = Appearance.Theme.headerColor)
         }
         themeNavigationBar()
     }

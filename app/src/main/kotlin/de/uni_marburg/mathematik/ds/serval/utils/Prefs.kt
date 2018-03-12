@@ -4,7 +4,8 @@ import ca.allanwang.kau.kotlin.lazyResettable
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
-import de.uni_marburg.mathematik.ds.serval.enums.*
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies
+import de.uni_marburg.mathematik.ds.serval.enums.MapStyles
 import io.nlopez.smartlocation.location.config.LocationAccuracy
 import kotlin.math.roundToInt
 
@@ -14,98 +15,6 @@ object Prefs : KPref() {
     var installDate: Long by kpref(key = "INSTALL_DATE", fallback = -1L)
     var lastLaunch: Long by kpref(key = "LAST_LAUNCH", fallback = -1L)
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
-
-    object Appearance {
-        object Theme {
-            var index: Int by kpref(
-                key = "THEME_INDEX",
-                fallback = Themes.LIGHT.ordinal,
-                postSetter = { value: Int ->
-                    loader.invalidate()
-                    logAnalytics(name = "Theme", events = *arrayOf("Count" to Themes(value).name))
-                }
-            )
-            private val loader = lazyResettable { Themes.values()[index] }
-            val theme: Themes by loader
-
-            val accentColor: Int
-                get() = theme.accentColor
-            val backgroundColor: Int
-                get() = theme.backgroundColor
-            val headerColor: Int
-                get() = theme.headerColor
-            val iconColor: Int
-                get() = theme.iconColor
-            val isCustomTheme: Boolean
-                get() = theme == Themes.CUSTOM
-            val textColor: Int
-                get() = theme.textColor
-
-            var customTextColor: Int by kpref(
-                key = "CUSTOM_COLOR_TEXT",
-                fallback = Themes.PORCELAIN
-            )
-            var customAccentColor: Int by kpref(
-                key = "CUSTOM_COLOR_ACCENT",
-                fallback = Themes.LOCHMARA
-            )
-            var customBackgroundColor: Int by kpref(
-                key = "CUSTOM_COLOR_BACKGROUND",
-                fallback = Themes.MINE_SHAFT
-            )
-            var customHeaderColor: Int by kpref(
-                key = "CUSTOM_COLOR_HEADER",
-                fallback = Themes.BAHAMA_BLUE
-            )
-            var customIconColor: Int by kpref(
-                key = "CUSTOM_COLOR_ICONS",
-                fallback = Themes.PORCELAIN
-            )
-        }
-
-        object DateTimeFormat {
-            var index: Int by kpref(
-                key = "DATE_TIME_FORMAT_INDEX",
-                fallback = DateTimeFormats.MEDIUM_DATE_MEDIUM_TIME.ordinal,
-                postSetter = { value: Int ->
-                    loader.invalidate()
-                    logAnalytics(
-                        name = "Date time format",
-                        events = *arrayOf("Date time format" to DateTimeFormats(value).name)
-                    )
-                }
-            )
-            private val loader = lazyResettable { DateTimeFormats.values()[index] }
-            val format: DateTimeFormats by loader
-        }
-
-        object MainActivityLayout {
-            var index: Int by kpref(
-                key = "MAIN_ACTIVITY_LAYOUT_INDEX",
-                fallback = MainActivityLayouts.TOP_BAR.ordinal,
-                postSetter = { value: Int ->
-                    loader.invalidate()
-                    logAnalytics(
-                        name = "Main Layout",
-                        events = *arrayOf("Type" to MainActivityLayouts(value).name)
-                    )
-                }
-            )
-            private val loader = lazyResettable { MainActivityLayouts.values()[index] }
-            val layout: MainActivityLayouts by loader
-
-            val backgroundColor: Int
-                get() = layout.backgroundColor
-            val iconColor: Int
-                get() = layout.iconColor
-            val layoutRes: Int
-                get() = layout.layoutRes
-            val titleRes: Int
-                get() = layout.titleRes
-        }
-
-        var tintNavBar: Boolean by kpref(key = "TINT_NAV_BAR", fallback = false)
-    }
 
     object Behaviour {
         var analyticsEnabled: Boolean by kpref(key = "ANALYTICS_ENABLED", fallback = isReleaseBuild)

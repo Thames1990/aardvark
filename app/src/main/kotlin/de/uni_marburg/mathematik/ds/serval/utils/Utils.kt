@@ -11,6 +11,7 @@ import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import org.jetbrains.anko.bundleOf
 import java.time.Instant
 import java.util.*
@@ -62,11 +63,11 @@ inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.()
     val snackbarBaseLayout = view as FrameLayout
     val snackbarContentLayout = snackbarBaseLayout[0] as SnackbarContentLayout
     snackbarContentLayout.apply {
-        messageView.setTextColor(Prefs.Appearance.Theme.textColor)
-        actionView.setTextColor(Prefs.Appearance.Theme.accentColor)
+        messageView.setTextColor(Appearance.Theme.textColor)
+        actionView.setTextColor(Appearance.Theme.accentColor)
         //only set if previous text colors are set
         view.setBackgroundColor(
-            Prefs.Appearance.Theme.backgroundColor.withAlpha(255).colorToForeground(0.1f)
+            Appearance.Theme.backgroundColor.withAlpha(255).colorToForeground(0.1f)
         )
     }
 }
@@ -115,13 +116,13 @@ fun doOnDebugBuild(block: () -> Unit) {
  * Theme material dialog.
  */
 fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
-    val dimmerTextColor = Prefs.Appearance.Theme.textColor.adjustAlpha(0.8f)
-    titleColor(Prefs.Appearance.Theme.textColor)
+    val dimmerTextColor = Appearance.Theme.textColor.adjustAlpha(0.8f)
+    titleColor(Appearance.Theme.textColor)
     contentColor(dimmerTextColor)
     widgetColor(dimmerTextColor)
-    backgroundColor(Prefs.Appearance.Theme.backgroundColor.lighten(0.1f).withMinAlpha(200))
-    positiveColor(Prefs.Appearance.Theme.textColor)
-    negativeColor(Prefs.Appearance.Theme.textColor)
-    neutralColor(Prefs.Appearance.Theme.textColor)
+    backgroundColor(Appearance.Theme.backgroundColor.lighten(0.1f).withMinAlpha(200))
+    positiveColor(Appearance.Theme.textColor)
+    negativeColor(Appearance.Theme.textColor)
+    neutralColor(Appearance.Theme.textColor)
     return this
 }

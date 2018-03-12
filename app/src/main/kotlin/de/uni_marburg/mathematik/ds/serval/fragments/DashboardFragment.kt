@@ -13,7 +13,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import io.nlopez.smartlocation.SmartLocation
@@ -68,13 +68,13 @@ class DashboardFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        title.setTextColor(Prefs.Appearance.Theme.textColor)
+        title.setTextColor(Appearance.Theme.textColor)
         image.setIcon(
             icon = GoogleMaterial.Icon.gmd_sentiment_very_satisfied,
-            color = Prefs.Appearance.Theme.textColor,
+            color = Appearance.Theme.textColor,
             sizeDp = view.context.displayMetrics.densityDpi
         )
-        description.setTextColor(Prefs.Appearance.Theme.textColor)
+        description.setTextColor(Appearance.Theme.textColor)
     }
 
     override fun onResume() {
@@ -86,7 +86,7 @@ class DashboardFragment : BaseFragment() {
                 description.setTextWithOptions(activity.currentActivity)
                 image.setIconWithOptions(
                     icon = activity.iicon,
-                    color = Prefs.Appearance.Theme.textColor,
+                    color = Appearance.Theme.textColor,
                     sizeDp = context.displayMetrics.densityDpi
                 )
             }

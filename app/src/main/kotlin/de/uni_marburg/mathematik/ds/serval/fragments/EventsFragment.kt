@@ -26,6 +26,7 @@ import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -77,7 +78,7 @@ class EventsFragment : BaseFragment() {
         with(requireContext()) {
             setMenuIcons(
                 menu = menu,
-                color = Prefs.Appearance.Theme.iconColor,
+                color = Appearance.Theme.iconColor,
                 iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_filter_list)
             )
             menu.findItem(R.id.action_sort_distance).isVisible = hasLocationPermission
@@ -190,7 +191,7 @@ class EventsFragment : BaseFragment() {
             private fun Event.displayTime() {
                 with(timeView) {
                     text = passedSeconds.formatPassedSeconds(itemView.context)
-                    setTextColor(Prefs.Appearance.Theme.textColor)
+                    setTextColor(Appearance.Theme.textColor)
                 }
             }
 
@@ -200,12 +201,12 @@ class EventsFragment : BaseFragment() {
                 if (context.hasLocationPermission) {
                     locationIconView.setIcon(
                         icon = GoogleMaterial.Icon.gmd_location_on,
-                        color = Prefs.Appearance.Theme.textColor
+                        color = Appearance.Theme.textColor
                     )
                     with(locationView) {
                         val distance: Float = location.distanceTo(MainActivity.lastLocation)
                         text = distance.formatDistance(context)
-                        setTextColor(Prefs.Appearance.Theme.textColor)
+                        setTextColor(Appearance.Theme.textColor)
                     }
                 } else {
                     locationIconView.gone()
@@ -223,7 +224,7 @@ class EventsFragment : BaseFragment() {
                         val icon = ImageView(itemView.context).apply {
                             setIcon(
                                 icon = measurement.type.iicon,
-                                color = Prefs.Appearance.Theme.textColor
+                                color = Appearance.Theme.textColor
                             )
                         }
                         addView(icon)

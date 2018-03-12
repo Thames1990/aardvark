@@ -16,6 +16,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import de.uni_marburg.mathematik.ds.serval.views.SmallHeaderIItem
@@ -74,10 +75,10 @@ class DetailActivity : ElasticRecyclerActivity() {
                 }
 
                 with(fab) {
-                    backgroundTintList = ColorStateList.valueOf(Prefs.Appearance.Theme.accentColor)
+                    backgroundTintList = ColorStateList.valueOf(Appearance.Theme.accentColor)
                     setIcon(
                         icon = GoogleMaterial.Icon.gmd_navigation,
-                        color = Prefs.Appearance.Theme.iconColor
+                        color = Appearance.Theme.iconColor
                     )
                     setOnClickListener { showInGoogleMaps() }
                     show()
@@ -110,7 +111,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 titleRes = measurement.type.titleRes
                 desc = measurementDescription
                 imageIIcon = measurement.type.iicon
-                imageIIconColor = Prefs.Appearance.Theme.iconColor
+                imageIIconColor = Appearance.Theme.iconColor
             }
 
             measurementCardItems.add(measurementCardItem)

@@ -32,6 +32,7 @@ import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.EventRepository
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import de.uni_marburg.mathematik.ds.serval.views.SwipeToggleViewPager
@@ -61,7 +62,7 @@ class MainActivity : BaseActivity() {
         pagerAdapter = SectionsPagerAdapter()
         viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
 
-        setContentView(Prefs.Appearance.MainActivityLayout.layoutRes)
+        setContentView(Appearance.MainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
         setColors {
             toolbar(toolbar)
@@ -70,7 +71,7 @@ class MainActivity : BaseActivity() {
             background(viewPager)
         }
         fab.backgroundTintList =
-                ColorStateList.valueOf(Prefs.Appearance.Theme.headerColor.withMinAlpha(200))
+                ColorStateList.valueOf(Appearance.Theme.headerColor.withMinAlpha(200))
 
         setupAppBar()
         setupViewPager()
@@ -115,7 +116,7 @@ class MainActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         setMenuIcons(
             menu = menu,
-            color = Prefs.Appearance.MainActivityLayout.iconColor,
+            color = Appearance.MainActivityLayout.iconColor,
             iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
         )
         return true
@@ -142,7 +143,7 @@ class MainActivity : BaseActivity() {
 
     private fun setupAppBar() {
         // Fixes bottom layout cutoff
-        if (Prefs.Appearance.MainActivityLayout.layout == MainActivityLayouts.BOTTOM_BAR) {
+        if (Appearance.MainActivityLayout.layout == MainActivityLayouts.BOTTOM_BAR) {
             appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
                 val layoutParams = viewPager.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.setMargins(0, 0, 0, appBarLayout.measuredHeight + verticalOffset)
@@ -165,8 +166,8 @@ class MainActivity : BaseActivity() {
                 addTab(tab)
             }
 
-            setSelectedTabIndicatorColor(Prefs.Appearance.MainActivityLayout.iconColor)
-            setBackgroundColor(Prefs.Appearance.MainActivityLayout.backgroundColor)
+            setSelectedTabIndicatorColor(Appearance.MainActivityLayout.iconColor)
+            setBackgroundColor(Appearance.MainActivityLayout.backgroundColor)
 
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
@@ -217,7 +218,7 @@ class MainActivity : BaseActivity() {
             hideOnDownwardsScroll(recyclerView)
             setIcon(
                 icon = GoogleMaterial.Icon.gmd_arrow_upward,
-                color = Prefs.Appearance.MainActivityLayout.iconColor
+                color = Appearance.MainActivityLayout.iconColor
             )
             if (buildIsOreoAndUp) tooltipText = string(R.string.tooltip_fab_scroll_to_top)
             show()
@@ -238,7 +239,7 @@ class MainActivity : BaseActivity() {
             }
             setIcon(
                 icon = GoogleMaterial.Icon.gmd_my_location,
-                color = Prefs.Appearance.MainActivityLayout.iconColor
+                color = Appearance.MainActivityLayout.iconColor
             )
             if (buildIsOreoAndUp) {
                 tooltipText = string(R.string.tooltip_fab_move_to_current_location)

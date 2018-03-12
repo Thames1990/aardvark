@@ -11,7 +11,7 @@ import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.withAlpha
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayouts
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.utils.flip
 import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import kotlin.math.absoluteValue
@@ -43,10 +43,10 @@ abstract class BaseImageIntroFragment(
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
-        title.setTextColor(Prefs.Appearance.Theme.textColor)
-        desc.setTextColor(Prefs.Appearance.Theme.textColor)
-        phone.tint(Prefs.Appearance.Theme.textColor)
-        screen.tint(Prefs.Appearance.Theme.backgroundColor)
+        title.setTextColor(Appearance.Theme.textColor)
+        desc.setTextColor(Appearance.Theme.textColor)
+        phone.tint(Appearance.Theme.textColor)
+        screen.tint(Appearance.Theme.backgroundColor)
     }
 
     override fun onPageScrolledImpl(positionOffset: Float) {
@@ -73,7 +73,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
 
     private val animationDuration = 1500L
 
-    private var currentRotation: Float = when (Prefs.Appearance.MainActivityLayout.layout) {
+    private var currentRotation: Float = when (Appearance.MainActivityLayout.layout) {
         MainActivityLayouts.TOP_BAR -> 0.0f
         MainActivityLayouts.BOTTOM_BAR -> -180.0f
     }
@@ -106,14 +106,14 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
                 image.startAnimation(rotateAnimation)
 
                 // Set main activity layout type
-                Prefs.Appearance.MainActivityLayout.index =
+                Appearance.MainActivityLayout.index =
                         if (currentRotation.rem(360.0f) == 0.0f)
                             MainActivityLayouts.TOP_BAR.ordinal
                         else
                             MainActivityLayouts.BOTTOM_BAR.ordinal
 
                 // Update text to indicate current main activity layout type
-                title.setTextWithOptions(Prefs.Appearance.MainActivityLayout.titleRes)
+                title.setTextWithOptions(Appearance.MainActivityLayout.titleRes)
             }
         }
     }
@@ -121,7 +121,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         themeImageComponent(
-            color = Prefs.Appearance.Theme.iconColor,
+            color = Appearance.Theme.iconColor,
             ids = *intArrayOf(
                 R.id.intro_phone_icon_1,
                 R.id.intro_phone_icon_2,
@@ -130,11 +130,11 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
             )
         )
         themeImageComponent(
-            color = Prefs.Appearance.Theme.headerColor,
+            color = Appearance.Theme.headerColor,
             ids = *intArrayOf(R.id.intro_phone_tab)
         )
         themeImageComponent(
-            color = Prefs.Appearance.Theme.textColor.withAlpha(80),
+            color = Appearance.Theme.textColor.withAlpha(80),
             ids = *intArrayOf(R.id.intro_phone_icon_ripple)
         )
     }

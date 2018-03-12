@@ -13,6 +13,7 @@ import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 
 /**
  * Show themed snackbar with [a text resource][textRes] and a given [builder].
@@ -85,7 +86,7 @@ fun TextView.setTextWithOptions(
 fun ImageView.setIconWithOptions(
     icon: IIcon?,
     sizeDp: Int = 24,
-    @ColorInt color: Int = Prefs.Appearance.Theme.iconColor,
+    @ColorInt color: Int = Appearance.Theme.iconColor,
     builder: IconicsDrawable.() -> Unit = {},
     animate: Boolean = Prefs.Behaviour.animationsEnabled
 ) {
@@ -93,7 +94,9 @@ fun ImageView.setIconWithOptions(
     else setIcon(icon, sizeDp, color, builder)
 }
 
-fun AppBarLayout.expand(animate: Boolean = Prefs.Behaviour.animationsEnabled) = setExpanded(true, animate)
+fun AppBarLayout.expand(
+    animate: Boolean = Prefs.Behaviour.animationsEnabled
+) = setExpanded(true, animate)
 
 inline var ViewPager.item
     get() = currentItem

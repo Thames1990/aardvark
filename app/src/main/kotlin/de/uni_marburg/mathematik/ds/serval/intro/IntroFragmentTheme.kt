@@ -7,7 +7,7 @@ import ca.allanwang.kau.utils.scaleXY
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 
 class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
 
@@ -28,7 +28,7 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
         dark.setThemeClick(Themes.DARK)
         amoled.setThemeClick(Themes.AMOLED)
 
-        val currentTheme = Prefs.Appearance.Theme.index
+        val currentTheme = Appearance.Theme.index
         // Check if theme is in the theme list. Currently this doesn't check for the proper theme.
         if (IntRange(0, themeList.size).contains(currentTheme)) {
             themeList.forEachIndexed { index, v ->
@@ -39,11 +39,11 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
 
     private fun View.setThemeClick(theme: Themes) {
         setOnClickListener { view ->
-            Prefs.Appearance.Theme.index = theme.ordinal
+            Appearance.Theme.index = theme.ordinal
             val introActivity = activity as IntroActivity
             with(introActivity) {
                 ripple.ripple(
-                    color = Prefs.Appearance.Theme.backgroundColor,
+                    color = Appearance.Theme.backgroundColor,
                     startX = view.x + view.pivotX,
                     startY = view.y + view.pivotY
                 )
