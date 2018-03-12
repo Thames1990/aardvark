@@ -83,7 +83,7 @@ class EventsFragment : BaseFragment() {
             setMenuIcons(
                 menu = menu,
                 color = AppearancePrefs.Theme.iconColor,
-                iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_filter_list)
+                iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_sort)
             )
             menu.findItem(R.id.action_sort_distance).isVisible = hasLocationPermission
         }
