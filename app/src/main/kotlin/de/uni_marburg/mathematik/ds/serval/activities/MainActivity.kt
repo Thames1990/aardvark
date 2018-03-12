@@ -35,6 +35,7 @@ import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.Appearance
 import de.uni_marburg.mathematik.ds.serval.settings.Behaviour
 import de.uni_marburg.mathematik.ds.serval.settings.Experimental
+import de.uni_marburg.mathematik.ds.serval.settings.LocationPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
 import de.uni_marburg.mathematik.ds.serval.views.SwipeToggleViewPager
@@ -317,9 +318,9 @@ class MainActivity : BaseActivity() {
     private class LocationLiveData(context: Context) : LiveData<Location>() {
 
         private val locationParams: LocationParams = LocationParams.Builder()
-            .setAccuracy(Prefs.Location.RequestAccuracy.accuracy)
-            .setDistance(Prefs.Location.RequestAccuracy.distance.toFloat())
-            .setInterval(Prefs.Location.RequestAccuracy.interval.toLong())
+            .setAccuracy(LocationPrefs.accuracy)
+            .setDistance(LocationPrefs.distance.toFloat())
+            .setInterval(LocationPrefs.interval.toLong())
             .build()
 
         val locationControl: SmartLocation.LocationControl = SmartLocation.with(context)

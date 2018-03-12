@@ -1,8 +1,11 @@
 package de.uni_marburg.mathematik.ds.serval.settings
 
+import ca.allanwang.kau.kotlin.lazyResettable
+import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.activity.items.KPrefSeekbar
 import ca.allanwang.kau.kpref.activity.items.KPrefText
+import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
 import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.restartApplication
@@ -14,10 +17,38 @@ import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Compa
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MAX_INTERVAL
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MIN_DISTANCE
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MIN_INTERVAL
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import io.nlopez.smartlocation.location.config.LocationAccuracy
+import kotlin.math.roundToInt
+
+object LocationPrefs : KPref() {
+    var index: Int by kpref(
+        key = "LOCATION_REQUEST_ACCURACY_INDEX",
+        fallback = LocationRequestAccuracies.HIGH.ordinal,
+        postSetter = { loader.invalidate() }
+    )
+    private val loader = lazyResettable { LocationRequestAccuracies.values()[index] }
+    private val requestAccuracy: LocationRequestAccuracies by loader
+    val accuracy: LocationAccuracy
+        get() = requestAccuracy.accuracy
+
+    var interval: Int by kpref(
+        key = "LOCATION_REQUEST_INTERVAL",
+        fallback = arrayOf(
+            LocationRequestAccuracies.MIN_INTERVAL,
+            LocationRequestAccuracies.MAX_INTERVAL
+        ).average().roundToInt()
+    )
+    var distance: Int by kpref(
+        key = "LOCATION_REQUEST_DISTANCE",
+        fallback = arrayOf(
+            LocationRequestAccuracies.MIN_DISTANCE,
+            LocationRequestAccuracies.MAX_DISTANCE
+        ).average().roundToInt()
+    )
+}
 
 fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
@@ -34,13 +65,14 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnLocationPermission() {
         enabler = ::hasLocationPermission
-        onDisabledClick = { snackbarThemed(R.string.preference_location_requires_location_permission) }
+        onDisabledClick =
+                { snackbarThemed(R.string.preference_location_requires_location_permission) }
     }
 
     text(
         title = R.string.preference_location_request_priority,
-        getter = Prefs.Location.RequestAccuracy::index,
-        setter = { Prefs.Location.RequestAccuracy.index = it },
+        getter = LocationPrefs::index,
+        setter = { LocationPrefs.index = it },
         builder = {
             dependsOnLocationPermission()
             onClick = {
@@ -65,13 +97,14 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefSeekbar.KPrefSeekbarContract.dependsOnLocationPermission() {
         enabler = ::hasLocationPermission
-        onDisabledClick = { snackbarThemed(R.string.preference_location_requires_location_permission) }
+        onDisabledClick =
+                { snackbarThemed(R.string.preference_location_requires_location_permission) }
     }
 
     seekbar(
         title = R.string.preference_location_request_distance,
-        getter = Prefs.Location.RequestAccuracy::distance,
-        setter = { Prefs.Location.RequestAccuracy.distance = it },
+        getter = LocationPrefs::distance,
+        setter = { LocationPrefs.distance = it },
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.preference_location_request_distance_desc
@@ -82,8 +115,8 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     seekbar(
         title = R.string.preference_location_request_interval,
-        getter = Prefs.Location.RequestAccuracy::interval,
-        setter = { Prefs.Location.RequestAccuracy.interval = it },
+        getter = LocationPrefs::interval,
+        setter = { LocationPrefs.interval = it },
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.preference_location_request_interval_desc

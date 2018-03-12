@@ -4,10 +4,7 @@ import ca.allanwang.kau.kotlin.lazyResettable
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.kpref
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies
 import de.uni_marburg.mathematik.ds.serval.enums.MapStyles
-import io.nlopez.smartlocation.location.config.LocationAccuracy
-import kotlin.math.roundToInt
 
 // TODO Separate into different shared preferences
 object Prefs : KPref() {
@@ -15,35 +12,6 @@ object Prefs : KPref() {
     var installDate: Long by kpref(key = "INSTALL_DATE", fallback = -1L)
     var lastLaunch: Long by kpref(key = "LAST_LAUNCH", fallback = -1L)
     var versionCode: Int by kpref(key = "VERSION_CODE", fallback = -1)
-
-    object Location {
-        object RequestAccuracy {
-            var index: Int by kpref(
-                key = "LOCATION_REQUEST_ACCURACY_INDEX",
-                fallback = LocationRequestAccuracies.HIGH.ordinal,
-                postSetter = { loader.invalidate() }
-            )
-            private val loader = lazyResettable { LocationRequestAccuracies.values()[index] }
-            private val requestAccuracy: LocationRequestAccuracies by loader
-            val accuracy: LocationAccuracy
-                get() = requestAccuracy.accuracy
-
-            var interval: Int by kpref(
-                key = "LOCATION_REQUEST_INTERVAL",
-                fallback = arrayOf(
-                    LocationRequestAccuracies.MIN_INTERVAL,
-                    LocationRequestAccuracies.MAX_INTERVAL
-                ).average().roundToInt()
-            )
-            var distance: Int by kpref(
-                key = "LOCATION_REQUEST_DISTANCE",
-                fallback = arrayOf(
-                    LocationRequestAccuracies.MIN_DISTANCE,
-                    LocationRequestAccuracies.MAX_DISTANCE
-                ).average().roundToInt()
-            )
-        }
-    }
 
     object Map {
         var compassEnabled: Boolean by kpref(key = "COMPASS_ENABLED", fallback = true)
