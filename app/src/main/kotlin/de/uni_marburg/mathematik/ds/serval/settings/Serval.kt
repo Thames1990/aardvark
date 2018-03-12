@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.settings
 
 import ca.allanwang.kau.kpref.KPref
+import ca.allanwang.kau.kpref.activity.KClick
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.string
@@ -10,24 +11,28 @@ import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
-object ServalPrefs: KPref() {
+object ServalPrefs : KPref() {
     const val EVENT_COUNT = 10000
 
-    var baseUrl: String by kpref(
-        key = "SERVAL_BASE_URL",
-        fallback = BuildConfig.SERVAL_BASE_URL
-    )
-    var password: String by kpref(
-        key = "SERVAL_PASSWORD",
-        fallback = BuildConfig.SERVAL_PASSWORD
-    )
+    var baseUrl: String by kpref(key = "SERVAL_BASE_URL", fallback = BuildConfig.SERVAL_BASE_URL)
+    var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
+    var password: String by kpref(key = "SERVAL_PASSWORD", fallback = BuildConfig.SERVAL_PASSWORD)
     var port: Int by kpref(key = "SERVAL_PORT", fallback = BuildConfig.SERVAL_PORT)
     var user: String by kpref(key = "SERVAL_USER", fallback = BuildConfig.SERVAL_USER)
-
-    var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
 }
 
 fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
+
+    fun showUserNameDialog(onClick: KClick<String>) {
+        materialDialogThemed {
+            title(string(R.string.preference_serval_username))
+            with(onClick) {
+                input(string(R.string.preference_serval_username), item.pref, { _, input ->
+                    item.pref = input.toString()
+                })
+            }
+        }
+    }
 
     text(
         title = R.string.preference_serval_username,
@@ -35,18 +40,20 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         setter = { ServalPrefs.user = it },
         builder = {
             descRes = R.string.preference_serval_username_desc
-            onClick = {
-                materialDialogThemed {
-                    title(string(R.string.preference_serval_username))
-                    input(
-                        string(R.string.preference_serval_username),
-                        item.pref,
-                        { _, input -> item.pref = input.toString() }
-                    )
-                }
-            }
+            onClick = ::showUserNameDialog
         }
     )
+
+    fun showPasswordDialog(onClick: KClick<String>) {
+        materialDialogThemed {
+            title(string(R.string.preference_serval_password))
+            with(onClick) {
+                input(string(R.string.preference_serval_password), item.pref, { _, input ->
+                    item.pref = input.toString()
+                })
+            }
+        }
+    }
 
     text(
         title = R.string.preference_serval_password,
@@ -54,16 +61,7 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         setter = { ServalPrefs.password = it },
         builder = {
             descRes = R.string.preference_serval_password_desc
-            onClick = {
-                materialDialogThemed {
-                    title(string(R.string.preference_serval_password))
-                    input(
-                        string(R.string.preference_serval_password),
-                        item.pref,
-                        { _, input -> item.pref = input.toString() }
-                    )
-                }
-            }
+            onClick = ::showPasswordDialog
         }
     )
 
@@ -80,4 +78,5 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             shouldReloadEvents()
         }
     )
+
 }
