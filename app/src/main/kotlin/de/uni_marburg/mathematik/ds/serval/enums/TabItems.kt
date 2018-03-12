@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.enums
 
 import android.support.annotation.StringRes
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
@@ -20,12 +21,12 @@ enum class TabItems(@StringRes val titleRes: Int, val iicon: IIcon) {
 
     EVENTS(
         titleRes = R.string.tab_item_events,
-        iicon = GoogleMaterial.Icon.gmd_info_outline
+        iicon = GoogleMaterial.Icon.gmd_view_list
     ),
 
     MAP(
         titleRes = R.string.tab_item_map,
-        iicon = GoogleMaterial.Icon.gmd_map
+        iicon = CommunityMaterial.Icon.cmd_google_maps
     )
 
 }
