@@ -65,8 +65,9 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnLocationPermission() {
         enabler = ::hasLocationPermission
-        onDisabledClick =
-                { snackbarThemed(R.string.preference_location_requires_location_permission) }
+        onDisabledClick = {
+            snackbarThemed(R.string.preference_location_requires_location_permission)
+        }
     }
 
     text(

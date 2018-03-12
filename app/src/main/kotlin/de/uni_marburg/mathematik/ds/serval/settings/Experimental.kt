@@ -83,8 +83,9 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     fun KPrefItemBase.BaseContract<Boolean>.dependsOnSecurePrivacy() {
         enabler = ExperimentalPrefs::secureApp
-        onDisabledClick =
-                { snackbarThemed(R.string.preference_experimental_requires_secure_privacy) }
+        onDisabledClick = {
+            snackbarThemed(R.string.preference_experimental_requires_secure_privacy)
+        }
     }
 
     checkbox(

@@ -3,16 +3,14 @@ package de.uni_marburg.mathematik.ds.serval.settings
 import ca.allanwang.kau.kotlin.lazyResettable
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
+import ca.allanwang.kau.kpref.activity.items.KPrefItemBase
 import ca.allanwang.kau.kpref.activity.items.KPrefText
 import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.MapStyles
-import de.uni_marburg.mathematik.ds.serval.utils.logAnalytics
-import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
-import de.uni_marburg.mathematik.ds.serval.utils.setTheme
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import de.uni_marburg.mathematik.ds.serval.utils.*
 
 object MapPrefs: KPref() {
     var compassEnabled: Boolean by kpref(key = "COMPASS_ENABLED", fallback = true)
@@ -108,6 +106,13 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         builder = { descRes = R.string.preference_map_is_compass_enabled_desc }
     )
 
+    fun KPrefItemBase.BaseContract<Boolean>.dependsOnLocationPermission() {
+        enabler = ::hasLocationPermission
+        onDisabledClick = {
+            snackbarThemed(R.string.preference_location_requires_location_permission)
+        }
+    }
+
     checkbox(
         title = R.string.preference_map_is_my_location_button_enabled,
         getter = MapPrefs::myLocationButtonEnabled,
@@ -115,7 +120,10 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             MapPrefs.myLocationButtonEnabled = it
             shouldRestartMain()
         },
-        builder = { descRes = R.string.preference_map_is_my_location_button_enabled_desc }
+        builder = {
+            dependsOnLocationPermission()
+            descRes = R.string.preference_map_is_my_location_button_enabled_desc
+        }
     )
 
     checkbox(
