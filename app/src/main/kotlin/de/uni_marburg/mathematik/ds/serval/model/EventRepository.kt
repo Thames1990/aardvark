@@ -2,7 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.model
 
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.settings.ServalPrefs
 import io.reactivex.Observable
 import kerval.ServalClient
 import kerval.connection.ProgressEvent
@@ -19,10 +19,10 @@ object EventRepository {
      * Authenticates with the Serval API and offers connection to the Rhizome database.
      */
     private val client = ServalClient(
-        host = Prefs.Serval.baseUrl,
-        port = Prefs.Serval.port,
-        user = Prefs.Serval.user,
-        password = Prefs.Serval.password,
+        host = ServalPrefs.baseUrl,
+        port = ServalPrefs.port,
+        user = ServalPrefs.user,
+        password = ServalPrefs.password,
         withProgressListener = true
     )
 
@@ -41,7 +41,7 @@ object EventRepository {
     /**
      * Fetches [a number of][count] [events][Event] from the [Serval client][client].
      */
-    fun fetch(count: Int = Prefs.Serval.eventCount): List<Event> {
+    fun fetch(count: Int = ServalPrefs.eventCount): List<Event> {
         val events = mutableListOf<Event>()
 
         with(client.rhizome) {

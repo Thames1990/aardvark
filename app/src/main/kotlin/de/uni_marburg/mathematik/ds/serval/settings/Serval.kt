@@ -1,19 +1,38 @@
 package de.uni_marburg.mathematik.ds.serval.settings
 
+import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
+import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.string
+import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
+
+object ServalPrefs: KPref() {
+    const val EVENT_COUNT = 10000
+
+    var baseUrl: String by kpref(
+        key = "SERVAL_BASE_URL",
+        fallback = BuildConfig.SERVAL_BASE_URL
+    )
+    var password: String by kpref(
+        key = "SERVAL_PASSWORD",
+        fallback = BuildConfig.SERVAL_PASSWORD
+    )
+    var port: Int by kpref(key = "SERVAL_PORT", fallback = BuildConfig.SERVAL_PORT)
+    var user: String by kpref(key = "SERVAL_USER", fallback = BuildConfig.SERVAL_USER)
+
+    var eventCount: Int by kpref(key = "EVENT_COUNT", fallback = EVENT_COUNT)
+}
 
 fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_serval_username,
-        getter = Prefs.Serval::user,
-        setter = { Prefs.Serval.user = it },
+        getter = ServalPrefs::user,
+        setter = { ServalPrefs.user = it },
         builder = {
             descRes = R.string.preference_serval_username_desc
             onClick = {
@@ -31,8 +50,8 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     text(
         title = R.string.preference_serval_password,
-        getter = Prefs.Serval::password,
-        setter = { Prefs.Serval.password = it },
+        getter = ServalPrefs::password,
+        setter = { ServalPrefs.password = it },
         builder = {
             descRes = R.string.preference_serval_password_desc
             onClick = {
@@ -52,12 +71,12 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     seekbar(
         title = R.string.preference_serval_event_count,
-        getter = Prefs.Serval::eventCount,
-        setter = { Prefs.Serval.eventCount = it },
+        getter = ServalPrefs::eventCount,
+        setter = { ServalPrefs.eventCount = it },
         builder = {
             descRes = R.string.preference_serval_event_count_desc
             min = 1
-            max = Prefs.Serval.EVENT_COUNT
+            max = ServalPrefs.EVENT_COUNT
             shouldReloadEvents()
         }
     )

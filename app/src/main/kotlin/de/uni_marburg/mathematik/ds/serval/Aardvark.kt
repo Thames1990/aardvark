@@ -44,6 +44,7 @@ class Aardvark : Application() {
         ExperimentalPrefs.initialize(applicationContext, ExperimentalPrefs::class.java.simpleName)
         LocationPrefs.initialize(applicationContext, LocationPrefs::class.java.simpleName)
         MapPrefs.initialize(applicationContext, MapPrefs::class.java.simpleName)
+        ServalPrefs.initialize(applicationContext, ServalPrefs::class.java.simpleName)
 
         if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
     }
