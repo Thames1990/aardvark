@@ -241,7 +241,7 @@ class MainActivity : BaseActivity() {
             if (buildIsOreoAndUp) {
                 tooltipText = string(R.string.tooltip_fab_move_to_current_location)
             }
-            visibleIf(hasLocationPermission && MapPrefs.myLocationButtonEnabled)
+            showIf(hasLocationPermission && MapPrefs.myLocationButtonEnabled)
         }
     }
 
