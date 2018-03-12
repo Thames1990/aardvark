@@ -14,7 +14,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -180,10 +179,7 @@ class MainActivity : BaseActivity() {
 
                     when (currentFragment) {
                         is DashboardFragment -> selectDashboardFragment()
-                        is EventsFragment -> {
-                            checkNotNull(currentFragment.recyclerView)
-                            selectEventsFragmentTab(currentFragment.recyclerView)
-                        }
+                        is EventsFragment -> selectEventsFragmentTab(currentFragment)
                         is MapFragment -> selectMapFragmentTab(currentFragment)
                     }
                 }
@@ -210,13 +206,13 @@ class MainActivity : BaseActivity() {
     }
 
     @SuppressLint("NewApi")
-    private fun selectEventsFragmentTab(recyclerView: RecyclerView) {
+    private fun selectEventsFragmentTab(currentFragment: EventsFragment) {
         with(fab) {
             setOnClickListener {
                 appBar.expand()
-                recyclerView.scrollToPosition(0)
+                currentFragment.scrollToTop()
             }
-            hideOnDownwardsScroll(recyclerView)
+            currentFragment.bindFab(fab)
             setIcon(
                 icon = GoogleMaterial.Icon.gmd_arrow_upward,
                 color = AppearancePrefs.MainActivityLayout.iconColor
@@ -227,7 +223,7 @@ class MainActivity : BaseActivity() {
 
         tabs.setOnClickListener {
             appBar.expand()
-            recyclerView.smoothScrollToPosition(0)
+            currentFragment.scrollToTop()
         }
     }
 

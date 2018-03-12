@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
@@ -41,8 +42,7 @@ class EventsFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_events
 
-    val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
-
+    private val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
     private val swipeRefreshLayout by bindView<SwipeRefreshLayout>(R.id.swipe_refresh)
 
     private val eventAdapter: EventAdapter by lazy {
@@ -117,6 +117,10 @@ class EventsFragment : BaseFragment() {
             return
         }
     }
+
+    fun bindFab(fab: FloatingActionButton) = fab.hideOnDownwardsScroll(recyclerView)
+
+    fun scrollToTop() = recyclerView.scrollToPosition(0)
 
     private fun sortEventsBy(eventComparator: EventComparator, reversed: Boolean = false) {
         swipeRefreshLayout.isRefreshing = true
