@@ -12,16 +12,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_ZOOM
 
 class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
     layoutRes = R.layout.iitem_map,
     viewHolder = ::ViewHolder,
     type = R.id.item_map
 ), ThemableIItem by ThemableIItemDelegate() {
-
-    companion object {
-        const val MAP_ZOOM = 15f
-    }
 
     override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
         super.bindView(holder, payloads)

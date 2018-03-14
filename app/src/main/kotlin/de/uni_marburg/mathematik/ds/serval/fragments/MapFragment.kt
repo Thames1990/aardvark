@@ -26,6 +26,7 @@ import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_ZOOM
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
@@ -92,7 +93,7 @@ class MapFragment : BaseFragment() {
     }
 
     fun moveToPosition(position: LatLng, animate: Boolean = BehaviourPrefs.animationsEnabled) {
-        val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLng(position)
+        val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
     }
@@ -127,7 +128,9 @@ class MapFragment : BaseFragment() {
                 override fun onClusterItemClick(event: Event): Boolean {
                     context.startActivity<DetailActivity>(
                         bundleBuilder = {
-                            if (BehaviourPrefs.animationsEnabled) withSceneTransitionAnimation(context)
+                            if (BehaviourPrefs.animationsEnabled) withSceneTransitionAnimation(
+                                context
+                            )
                         },
                         intentBuilder = { putExtra(DetailActivity.EVENT_ID, event.id) }
                     )
@@ -164,7 +167,10 @@ class MapFragment : BaseFragment() {
         isTrafficEnabled = MapPrefs.Layers.trafficEnabled
     }
 
-    private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = BehaviourPrefs.animationsEnabled) {
+    private fun moveToBounds(
+        bounds: LatLngBounds,
+        animate: Boolean = BehaviourPrefs.animationsEnabled
+    ) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)

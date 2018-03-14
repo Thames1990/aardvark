@@ -14,6 +14,9 @@ import de.uni_marburg.mathematik.ds.serval.enums.MapStyles
 import de.uni_marburg.mathematik.ds.serval.utils.*
 
 object MapPrefs : KPref() {
+
+    const val MAP_ZOOM = 15f
+
     var compassEnabled: Boolean by kpref(key = "COMPASS_ENABLED", fallback = true)
     var indoorLevelPickerEnabled: Boolean by kpref(
         key = "INDOOR_LEVEL_PICKER_ENABLED",
@@ -54,6 +57,7 @@ object MapPrefs : KPref() {
         val styleRes: Int
             get() = mapStyle.styleRes
     }
+
 }
 
 fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
