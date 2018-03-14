@@ -161,8 +161,6 @@
     <string name="preference_experimental_miscellaneous_header">Miscellaneous</string>
     <string name="preference_experimental_paging">Viewpager Swipe</string>
     <string name="preference_experimental_paging_desc">Allow swiping between the pages in the main view to switch tabs. Disabling this will prevent page swiping altogether.</string>
-    <string name="preference_experimental_progress_bar">Download progress</string>
-    <string name="preference_experimental_progress_bar_desc">Show event download progress in toolbar</string>
     <string name="preference_experimental_requires_secure_privacy">Requires secure privacy</string>
     <string name="preference_experimental_requires_wifi_adb">You need to enable WifiADB</string>
     <string name="preference_experimental_secure_app">Fingerprint authentication</string>

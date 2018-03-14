@@ -28,7 +28,6 @@ import de.uni_marburg.mathematik.ds.serval.enums.TabItems
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
-import de.uni_marburg.mathematik.ds.serval.model.EventRepository
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
@@ -36,8 +35,6 @@ import de.uni_marburg.mathematik.ds.serval.views.SwipeToggleViewPager
 import io.nlopez.smartlocation.SmartLocation
 import io.nlopez.smartlocation.location.config.LocationParams
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider
-import kerval.connection.ProgressEvent
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -45,7 +42,6 @@ class MainActivity : BaseActivity() {
 
     private val appBar: AppBarLayout by bindView(R.id.appbar)
     private val fab: FloatingActionButton by bindView(R.id.fab)
-    private val progressBar: MaterialProgressBar by bindView(R.id.progressBar)
     private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
     private val viewPager: SwipeToggleViewPager by bindView(R.id.view_pager)
@@ -72,7 +68,6 @@ class MainActivity : BaseActivity() {
         setupTabLayout()
 
         if (hasLocationPermission) trackLocation()
-        if (ExperimentalPrefs.showDownloadProgress) trackEventDownloadProgress()
 
         checkForNewVersion()
     }
@@ -261,16 +256,6 @@ class MainActivity : BaseActivity() {
         locationLiveData.observe(this, Observer<Location> { location ->
             if (location != null) lastLocation = location
         })
-    }
-
-    private fun trackEventDownloadProgress() {
-        progressBar.visible()
-        EventRepository.progressObservable?.subscribe { progressEvent ->
-            val progress: Long = progressEvent.progress
-            if (progress != ProgressEvent.NO_CONTENT_AVAILABLE) {
-                progressBar.progress = progress.toInt()
-            }
-        }
     }
 
     private fun checkForNewVersion() {

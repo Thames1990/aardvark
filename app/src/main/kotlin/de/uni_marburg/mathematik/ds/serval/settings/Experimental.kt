@@ -21,7 +21,6 @@ import java.net.InetAddress
 object ExperimentalPrefs : KPref() {
     var enabled: Boolean by kpref(key = "EXPERIMENTAL_SETTINGS_ENABLED", fallback = isDebugBuild)
     var secureApp: Boolean by kpref(key = "SECURE_APP", fallback = false)
-    var showDownloadProgress: Boolean by kpref(key = "SHOW_DOWNLOAD_PROGRESS", fallback = false)
     var wifiADBEnabled: Boolean by kpref(key = "WIFI_ADB_ENABLED", fallback = false)
     var vibrationsEnabled: Boolean by kpref(key = "VIBRATIONS_ENABLED", fallback = false)
     var viewpagerSwipeEnabled: Boolean by kpref(key = "VIEWPAGER_SWIPE_ENABLED", fallback = false)
@@ -114,16 +113,6 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
     )
 
     header(R.string.preference_experimental_miscellaneous_header)
-
-    checkbox(
-        title = R.string.preference_experimental_progress_bar,
-        getter = ExperimentalPrefs::showDownloadProgress,
-        setter = { ExperimentalPrefs.showDownloadProgress = it },
-        builder = {
-            descRes = R.string.preference_experimental_progress_bar_desc
-            shouldRestartMain()
-        }
-    )
 
     checkbox(
         title = R.string.preference_experimental_paging,

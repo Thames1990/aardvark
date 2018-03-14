@@ -3,9 +3,7 @@ package de.uni_marburg.mathematik.ds.serval.model
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import de.uni_marburg.mathematik.ds.serval.settings.ServalPrefs
-import io.reactivex.Observable
 import kerval.ServalClient
-import kerval.connection.ProgressEvent
 import java.io.BufferedReader
 
 /**
@@ -22,11 +20,8 @@ object EventRepository {
         host = ServalPrefs.baseUrl,
         port = ServalPrefs.port,
         user = ServalPrefs.user,
-        password = ServalPrefs.password,
-        withProgressListener = true
+        password = ServalPrefs.password
     )
-
-    val progressObservable: Observable<ProgressEvent>? = client.progressObservable
 
     /**
      * JSON converter

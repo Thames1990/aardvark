@@ -17,8 +17,6 @@
 
         <include layout="@layout/view_main_tab_layout" />
 
-        <include layout="@layout/view_main_progressbar" />
-
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/view_main_viewpager" />
