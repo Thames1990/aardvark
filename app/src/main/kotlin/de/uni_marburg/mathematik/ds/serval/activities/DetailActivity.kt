@@ -23,7 +23,6 @@ import de.uni_marburg.mathematik.ds.serval.views.SmallHeaderIItem
 import io.nlopez.smartlocation.SmartLocation
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import java.util.*
 
 /**
  * Displays all details of an [event][Event].
@@ -184,29 +183,29 @@ class DetailActivity : ElasticRecyclerActivity() {
             if (isAppEnabled(GOOGLE_MAPS)) {
                 val action: String = Intent.ACTION_VIEW
 
-                val uriFormat: String = string(R.string.intent_uri_show_in_google_maps)
-                val uriValues = arrayOf(
-                    // English localization forces dot delimiter
-                    String.format(Locale.ENGLISH, "%.5f", event.location.latitude),
-                    String.format(Locale.ENGLISH, "%.5f", event.location.longitude),
-                    event.title
-                )
-                val uri = Uri.parse(String.format(uriFormat, *uriValues))
+                val latitude = event.latitude
+                val longitude = event.longitude
+                val title = event.title
+                val uri = Uri.parse("geo:$latitude,$longitude?q=$latitude,$longitude($title)")
 
-                val navigationIntent = Intent(action, uri).apply { `package` = GOOGLE_MAPS }
-                startActivity(navigationIntent)
-            } else snackbarThemed(
-                textRes = R.string.google_maps_not_enabled,
+                val mapIntent = Intent(action, uri).apply { `package` = GOOGLE_MAPS }
+                if (mapIntent.resolveActivity(packageManager) != null) startActivity(mapIntent)
+            } else {
+                coordinator.snackbarThemed(
+                    textRes = R.string.google_maps_not_enabled,
+                    builder = {
+                        setAction(R.string.snackbar_action_enable, { showAppInfo(GOOGLE_MAPS) })
+                    }
+                )
+            }
+        } else {
+            coordinator.snackbarThemed(
+                textRes = R.string.google_maps_not_installed,
                 builder = {
-                    setAction(R.string.snackbar_action_enable, { showAppInfo(GOOGLE_MAPS) })
+                    setAction(R.string.snackbar_action_install, { startPlayStoreLink(GOOGLE_MAPS) })
                 }
             )
-        } else snackbarThemed(
-            textRes = R.string.google_maps_not_installed,
-            builder = {
-                setAction(R.string.snackbar_action_install, { startPlayStoreLink(GOOGLE_MAPS) })
-            }
-        )
+        }
     }
 
     companion object {

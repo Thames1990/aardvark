@@ -46,7 +46,7 @@ data class Event(
      * Occurrence position
      */
     inline val position: LatLng
-        get() = LatLng(location.latitude, location.longitude)
+        get() = LatLng(latitude, longitude)
 
     /**
      * Measurements captured by this event

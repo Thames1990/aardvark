@@ -72,8 +72,6 @@
     <string name="grant_location_permission">Tap anywhere to grant location permission</string>
     <string name="grant_location_permission_settings">Grant location permission to use and customize location features</string>
 
-    <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
-
     <string name="intro_easy_navigation">Easy Navigation</string>
     <string name="intro_easy_navigation_desc">Click tabs to navigate, click them again to trigger custom actions.</string>
     <string name="intro_end">Let\'s begin</string>
