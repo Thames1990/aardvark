@@ -50,12 +50,10 @@ class MainActivity : BaseActivity() {
     private val toolbar: Toolbar by bindView(R.id.toolbar)
     private val viewPager: SwipeToggleViewPager by bindView(R.id.view_pager)
 
-    private lateinit var pagerAdapter: SectionsPagerAdapter
+    private val pagerAdapter = SectionsPagerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        pagerAdapter = SectionsPagerAdapter()
 
         setContentView(AppearancePrefs.MainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
