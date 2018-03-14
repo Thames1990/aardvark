@@ -139,13 +139,13 @@ class MapFragment : BaseFragment() {
     }
 
     private fun setupGoogleMap() = with(googleMap) {
-        val rawResourceRes: Int = when (AppearancePrefs.Theme.theme) {
+        val mapStyleRes: Int = when (AppearancePrefs.Theme.theme) {
             Themes.AMOLED -> R.raw.map_style_night
             Themes.LIGHT -> R.raw.map_style_standard
             Themes.DARK -> R.raw.map_style_dark
             Themes.CUSTOM -> MapPrefs.MapStyle.styleRes
         }
-        setMapStyle(MapStyleOptions.loadRawResourceStyle(context, rawResourceRes))
+        setMapStyle(MapStyleOptions.loadRawResourceStyle(context, mapStyleRes))
 
         with(uiSettings) {
             isCompassEnabled = MapPrefs.compassEnabled
