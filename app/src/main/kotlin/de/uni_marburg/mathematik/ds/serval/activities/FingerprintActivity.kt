@@ -29,9 +29,9 @@ import org.jetbrains.anko.find
  */
 class FingerprintActivity : AppCompatActivity() {
 
-    private lateinit var iconCircle: CardView
-    private lateinit var icon: ImageView
     private lateinit var description: TextView
+    private lateinit var icon: ImageView
+    private lateinit var iconCircle: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

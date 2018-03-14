@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedListAdapter
 import android.content.Context
 import android.os.Bundle
@@ -26,7 +25,6 @@ import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator.*
-import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.formatDistance
@@ -49,7 +47,11 @@ class EventsFragment : BaseFragment() {
         val context: Context = requireContext()
         EventAdapter { event ->
             context.startActivity<DetailActivity>(
-                bundleBuilder = { if (BehaviourPrefs.animationsEnabled) withSceneTransitionAnimation(context) },
+                bundleBuilder = {
+                    if (BehaviourPrefs.animationsEnabled) withSceneTransitionAnimation(
+                        context
+                    )
+                },
                 intentBuilder = {
                     putExtra(DetailActivity.EVENT_ID, event.id)
                     putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
@@ -58,14 +60,9 @@ class EventsFragment : BaseFragment() {
         }
     }
 
-    private val viewModel: EventViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
         viewModel.events.observe(requireActivity(), Observer(eventAdapter::submitList))
     }
 

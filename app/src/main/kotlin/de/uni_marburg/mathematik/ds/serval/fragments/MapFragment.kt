@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -22,7 +21,6 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.model.Event
-import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
@@ -36,15 +34,10 @@ class MapFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_map
 
-    private val viewModel: EventViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(EventViewModel::class.java)
-    }
-
-    private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<Event>
-    private lateinit var map: SupportMapFragment
-
     private lateinit var events: List<Event>
+    private lateinit var googleMap: GoogleMap
+    private lateinit var map: SupportMapFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

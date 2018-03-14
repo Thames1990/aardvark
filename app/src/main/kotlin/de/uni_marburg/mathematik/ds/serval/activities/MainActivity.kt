@@ -59,7 +59,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         pagerAdapter = SectionsPagerAdapter()
-        viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+        viewModel = ViewModelProviders.of(this)[EventViewModel::class.java]
 
         setContentView(AppearancePrefs.MainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)

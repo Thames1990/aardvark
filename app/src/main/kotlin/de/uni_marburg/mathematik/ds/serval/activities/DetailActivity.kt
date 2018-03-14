@@ -31,12 +31,12 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private val adapter: FastItemAdapter<IItem<*, *>> = FastItemAdapter()
 
-    private lateinit var eventViewModel: EventViewModel
     private lateinit var event: Event
     private lateinit var geocodingControl: SmartLocation.GeocodingControl
+    private lateinit var viewModel: EventViewModel
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
-        eventViewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+        viewModel = ViewModelProviders.of(this)[EventViewModel::class.java]
         geocodingControl = SmartLocation.with(this).geocoding()
 
         setSecureFlag()
@@ -61,7 +61,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     private fun setup() {
         doAsync {
             val eventId: String = intent.extras.getString(EVENT_ID)
-            event = eventViewModel[eventId]
+            event = viewModel[eventId]
 
             uiThread {
                 title = event.title
