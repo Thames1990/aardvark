@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.activities
 import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -30,7 +29,6 @@ import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.EventRepository
-import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
@@ -53,13 +51,11 @@ class MainActivity : BaseActivity() {
     private val viewPager: SwipeToggleViewPager by bindView(R.id.view_pager)
 
     private lateinit var pagerAdapter: SectionsPagerAdapter
-    private lateinit var viewModel: EventViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         pagerAdapter = SectionsPagerAdapter()
-        viewModel = ViewModelProviders.of(this)[EventViewModel::class.java]
 
         setContentView(AppearancePrefs.MainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)

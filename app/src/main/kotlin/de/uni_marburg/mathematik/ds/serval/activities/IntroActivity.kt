@@ -13,6 +13,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import ca.allanwang.kau.internal.KauBaseActivity
 import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.ui.widgets.InkPageIndicator
 import ca.allanwang.kau.utils.*
@@ -27,7 +28,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.find
 
-class IntroActivity : BaseActivity() {
+class IntroActivity : KauBaseActivity() {
 
     val ripple: RippleCanvas by bindView(R.id.intro_ripple)
 
@@ -76,10 +77,9 @@ class IntroActivity : BaseActivity() {
         theme()
     }
 
-    override fun backConsumer(): Boolean {
-        if (viewpager.currentItem > 0) viewpager.item = viewpager.currentItem - 1
+    override fun onBackPressed() {
+        if (viewpager.item > 0) viewpager.item = viewpager.item - 1
         else finishAffinity()
-        return true
     }
 
     override fun finish() {
