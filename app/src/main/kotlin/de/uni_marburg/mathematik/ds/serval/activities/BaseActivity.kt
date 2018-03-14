@@ -34,7 +34,7 @@ abstract class BaseActivity : KauBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel(activity = this)
+        viewModel = getViewModel()
 
         setSecureFlag()
         setTheme()

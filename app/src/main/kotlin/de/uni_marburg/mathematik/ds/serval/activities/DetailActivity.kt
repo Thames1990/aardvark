@@ -35,7 +35,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     private lateinit var viewModel: EventViewModel
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
-        viewModel = getViewModel(activity = this)
+        viewModel = getViewModel()
         geocodingControl = SmartLocation.with(this).geocoding()
 
         setSecureFlag()

@@ -17,7 +17,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel(activity = requireActivity())
+        viewModel = getViewModel()
     }
 
     override fun onCreateView(
