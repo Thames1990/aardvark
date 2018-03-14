@@ -1,10 +1,10 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import ca.allanwang.kau.internal.KauBaseActivity
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
+import de.uni_marburg.mathematik.ds.serval.utils.getViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
 import de.uni_marburg.mathematik.ds.serval.utils.setTheme
 
@@ -34,7 +34,7 @@ abstract class BaseActivity : KauBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this)[EventViewModel::class.java]
+        viewModel = getViewModel(activity = this)
 
         setSecureFlag()
         setTheme()

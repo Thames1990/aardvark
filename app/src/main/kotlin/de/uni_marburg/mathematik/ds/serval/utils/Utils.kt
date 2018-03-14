@@ -1,9 +1,12 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.design.internal.SnackbarContentLayout
 import android.support.design.widget.Snackbar
+import android.support.v4.app.FragmentActivity
 import android.widget.FrameLayout
 import ca.allanwang.kau.utils.*
 import com.afollestad.materialdialogs.MaterialDialog
@@ -127,3 +130,7 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     neutralColor(AppearancePrefs.Theme.textColor)
     return this
 }
+
+inline fun <reified T : ViewModel> getViewModel(
+    activity: FragmentActivity
+): T = ViewModelProviders.of(activity)[T::class.java]

@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.location.Address
@@ -36,7 +35,7 @@ class DetailActivity : ElasticRecyclerActivity() {
     private lateinit var viewModel: EventViewModel
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
-        viewModel = ViewModelProviders.of(this)[EventViewModel::class.java]
+        viewModel = getViewModel(activity = this)
         geocodingControl = SmartLocation.with(this).geocoding()
 
         setSecureFlag()
