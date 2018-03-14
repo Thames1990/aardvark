@@ -29,11 +29,7 @@ class DashboardFragment : BaseFragment() {
     private val image: ImageView by bindView(R.id.image)
     private val description: TextView by bindView(R.id.description)
 
-    private val activityRecognitionControl: SmartLocation.ActivityRecognitionControl by lazy {
-        SmartLocation.with(requireContext()).activity()
-    }
-
-    private var detectedActivity: DetectedActivity? = null
+    private lateinit var activityRecognitionControl: SmartLocation.ActivityRecognitionControl
 
     private inline val DetectedActivity.currentActivity: String
         get() {
@@ -66,6 +62,11 @@ class DashboardFragment : BaseFragment() {
             else -> CommunityMaterial.Icon.cmd_help
         }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activityRecognitionControl = SmartLocation.with(requireContext()).activity()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         title.setTextColor(AppearancePrefs.Theme.textColor)
@@ -81,15 +82,12 @@ class DashboardFragment : BaseFragment() {
         super.onResume()
         val context: Context = requireContext()
         activityRecognitionControl.start { activity ->
-            if (detectedActivity != activity) {
-                detectedActivity = activity
-                description.setTextWithOptions(activity.currentActivity)
-                image.setIconWithOptions(
-                    icon = activity.iicon,
-                    color = AppearancePrefs.Theme.textColor,
-                    sizeDp = context.displayMetrics.densityDpi
-                )
-            }
+            description.setTextWithOptions(activity.currentActivity)
+            image.setIconWithOptions(
+                icon = activity.iicon,
+                color = AppearancePrefs.Theme.textColor,
+                sizeDp = context.displayMetrics.densityDpi
+            )
         }
     }
 
