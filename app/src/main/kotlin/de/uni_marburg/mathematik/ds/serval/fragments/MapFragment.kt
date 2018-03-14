@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -26,6 +25,7 @@ import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_ZOOM
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
+import de.uni_marburg.mathematik.ds.serval.utils.observe
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
 
@@ -55,13 +55,15 @@ class MapFragment : BaseFragment() {
             setupClusterManager()
             setupGoogleMap()
 
-            viewModel.eventLiveData.observe(requireActivity(), Observer<List<Event>> { events ->
+            fun submitEvents(events: List<Event>?) {
                 if (events != null) {
                     this.events = events
                     clusterManager.setItems(events)
                     zoomToAllMarkers(animate = false)
                 }
-            })
+            }
+
+            observe(liveData = viewModel.eventLiveData, body = ::submitEvents)
         }
     }
 

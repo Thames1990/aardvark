@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
-import android.arch.lifecycle.Observer
 import android.arch.paging.PagedListAdapter
 import android.content.Context
 import android.os.Bundle
@@ -27,10 +26,7 @@ import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator.*
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
-import de.uni_marburg.mathematik.ds.serval.utils.formatDistance
-import de.uni_marburg.mathematik.ds.serval.utils.formatPassedSeconds
-import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -43,27 +39,23 @@ class EventsFragment : BaseFragment() {
     private val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
     private val swipeRefreshLayout by bindView<SwipeRefreshLayout>(R.id.swipe_refresh)
 
-    private val eventAdapter: EventAdapter by lazy {
+    private val eventAdapter = EventAdapter { event ->
         val context: Context = requireContext()
-        EventAdapter { event ->
-            context.startActivity<DetailActivity>(
-                bundleBuilder = {
-                    if (BehaviourPrefs.animationsEnabled) withSceneTransitionAnimation(
-                        context
-                    )
-                },
-                intentBuilder = {
-                    putExtra(DetailActivity.EVENT_ID, event.id)
-                    putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
-                }
-            )
-        }
+        context.startActivity<DetailActivity>(
+            bundleBuilder = {
+                if (BehaviourPrefs.animationsEnabled) withSceneTransitionAnimation(context)
+            },
+            intentBuilder = {
+                putExtra(DetailActivity.EVENT_ID, event.id)
+                putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
+            }
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel.events.observe(requireActivity(), Observer(eventAdapter::submitList))
+        observePagedList(liveData = viewModel.events, body = eventAdapter::submitList)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

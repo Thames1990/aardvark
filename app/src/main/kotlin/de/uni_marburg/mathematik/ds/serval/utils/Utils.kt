@@ -1,8 +1,12 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
+import android.arch.paging.PagedList
 import android.content.Context
 import android.support.design.internal.SnackbarContentLayout
 import android.support.design.widget.Snackbar
@@ -133,3 +137,13 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
 
 inline fun <reified T : ViewModel> Fragment.getViewModel(): T =
     ViewModelProviders.of(requireActivity())[T::class.java]
+
+fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(
+    liveData: L,
+    body: (T?) -> Unit
+) = liveData.observe(this, Observer(body))
+
+fun <T : Any, L : LiveData<PagedList<T>>> LifecycleOwner.observePagedList(
+    liveData: L,
+    body: (PagedList<T>?) -> Unit
+) = liveData.observe(this, Observer(body))

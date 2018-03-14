@@ -2,7 +2,7 @@ package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
+import android.arch.paging.PagedList
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -28,6 +28,7 @@ import de.uni_marburg.mathematik.ds.serval.enums.TabItems
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
+import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
@@ -36,7 +37,6 @@ import io.nlopez.smartlocation.SmartLocation
 import io.nlopez.smartlocation.location.config.LocationParams
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 class MainActivity : BaseActivity() {
 
@@ -186,7 +186,14 @@ class MainActivity : BaseActivity() {
             })
         }
 
-        viewModel.events.observe(this, Observer { reloadTabBadges() })
+        fun submitEvents(pagedList: PagedList<Event>?) {
+            val eventCount: Int = pagedList?.snapshot()?.count() ?: 0
+            val tab: TabLayout.Tab? = tabs.getTabAt(1)
+            val badgedIcon = tab?.customView as BadgedIcon
+            badgedIcon.badgeText = eventCount.toString()
+        }
+
+        observe(liveData = viewModel.events, body = ::submitEvents)
     }
 
     private fun selectDashboardFragment() {
@@ -234,17 +241,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun reloadTabBadges() {
-        doAsync {
-            val eventCount: Int = viewModel.eventCount
-            uiThread {
-                val tab: TabLayout.Tab? = tabs.getTabAt(1)
-                val badgedIcon = tab?.customView as BadgedIcon
-                badgedIcon.badgeText = eventCount.toString()
-            }
-        }
-    }
-
     private fun trackLocation() {
         val locationLiveData = LocationLiveData(this)
 
@@ -252,10 +248,12 @@ class MainActivity : BaseActivity() {
         val oneFix = locationLiveData.locationControl.oneFix()
         oneFix.start { location -> lastLocation = location }
 
-        // Get notified about location changes
-        locationLiveData.observe(this, Observer<Location> { location ->
+        fun submitLocation(location: Location?) {
             if (location != null) lastLocation = location
-        })
+        }
+
+        // Get notified about location changes
+        observe(liveData = locationLiveData, body = ::submitLocation)
     }
 
     private fun checkForNewVersion() {

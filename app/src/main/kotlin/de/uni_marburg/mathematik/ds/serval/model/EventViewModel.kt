@@ -18,9 +18,6 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
             .build()
     ).build()
 
-    val eventCount: Int
-        get() = dao.count()
-
     val eventLiveData: LiveData<List<Event>>
         get() = dao.getAllLive()
 

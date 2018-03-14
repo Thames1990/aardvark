@@ -10,9 +10,6 @@ import android.arch.persistence.room.Query
 @Dao
 abstract class EventDao {
 
-    @Query("SELECT COUNT(*) FROM events")
-    abstract fun count(): Int
-
     @Query("SELECT * FROM events WHERE id = :id")
     abstract fun getById(id: String): Event
 
