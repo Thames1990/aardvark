@@ -23,6 +23,7 @@ import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_ZOOM
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.observe
@@ -169,10 +170,6 @@ class MapFragment : BaseFragment() {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
-    }
-
-    companion object {
-        const val MAP_PADDING = 150
     }
 
 }
