@@ -24,7 +24,7 @@ abstract class BaseActivity : KauBaseActivity() {
      */
     protected open fun backConsumer(): Boolean = false
 
-    protected lateinit var viewModel: EventViewModel
+    lateinit var viewModel: EventViewModel
 
     override fun onBackPressed() {
         if (backConsumer()) return
