@@ -1,10 +1,13 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.app.Activity
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.WindowManager
@@ -67,6 +70,9 @@ fun Activity.setSecureFlag(secure: Boolean = ExperimentalPrefs.secureApp) {
     if (secure) window.setFlags(secureFlag, secureFlag)
     else window.clearFlags(secureFlag)
 }
+
+inline fun <reified T : ViewModel> FragmentActivity.getViewModel(): T =
+    ViewModelProviders.of(this)[T::class.java]
 
 class ActivityThemeUtils {
 

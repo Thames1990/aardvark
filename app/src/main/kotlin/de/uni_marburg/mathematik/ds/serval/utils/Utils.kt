@@ -7,7 +7,6 @@ import android.content.Context
 import android.support.design.internal.SnackbarContentLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
 import android.widget.FrameLayout
 import ca.allanwang.kau.utils.*
 import com.afollestad.materialdialogs.MaterialDialog
@@ -131,9 +130,6 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     neutralColor(AppearancePrefs.Theme.textColor)
     return this
 }
-
-inline fun <reified T : ViewModel> FragmentActivity.getViewModel(): T =
-    ViewModelProviders.of(this)[T::class.java]
 
 inline fun <reified T : ViewModel> Fragment.getViewModel(): T =
     ViewModelProviders.of(requireActivity())[T::class.java]
