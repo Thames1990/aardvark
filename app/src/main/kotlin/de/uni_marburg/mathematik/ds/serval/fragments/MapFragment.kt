@@ -98,10 +98,7 @@ class MapFragment : BaseFragment() {
             val builder = LatLngBounds.builder()
             events.forEach { event -> builder.include(event.position) }
             val bounds: LatLngBounds = builder.build()
-            with(googleMap) {
-                setLatLngBoundsForCameraTarget(bounds)
-                moveToBounds(bounds, animate)
-            }
+            moveToBounds(bounds, animate)
         }
     }
 
