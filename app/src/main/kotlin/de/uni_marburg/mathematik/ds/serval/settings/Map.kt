@@ -15,7 +15,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.*
 
 object MapPrefs : KPref() {
 
-    const val MAP_PADDING = 150
+    const val MAP_PADDING = 160
     const val MAP_ZOOM = 15f
 
     var compassEnabled: Boolean by kpref(key = "COMPASS_ENABLED", fallback = true)
