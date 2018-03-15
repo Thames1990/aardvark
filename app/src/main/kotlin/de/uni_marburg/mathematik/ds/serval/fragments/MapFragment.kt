@@ -39,20 +39,18 @@ class MapFragment : BaseFragment() {
     private lateinit var clusterManager: ClusterManager<Event>
     private lateinit var events: List<Event>
     private lateinit var googleMap: GoogleMap
-    private lateinit var map: SupportMapFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
-    @SuppressLint("MissingPermission")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        map.getMapAsync { map ->
-            googleMap = map.apply { isMyLocationEnabled = requireContext().hasLocationPermission }
+        val map = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        map.getMapAsync {
+            googleMap = it
 
             setupClusterManager()
             setupGoogleMap()
@@ -170,7 +168,10 @@ class MapFragment : BaseFragment() {
         googleMap.setOnCameraIdleListener(clusterManager)
     }
 
+    @SuppressLint("MissingPermission")
     private fun setupGoogleMap() = with(googleMap) {
+        isMyLocationEnabled = requireContext().hasLocationPermission
+
         val mapStyleRes: Int = when (AppearancePrefs.Theme.theme) {
             Themes.AMOLED -> R.raw.map_style_night
             Themes.LIGHT -> R.raw.map_style_standard
