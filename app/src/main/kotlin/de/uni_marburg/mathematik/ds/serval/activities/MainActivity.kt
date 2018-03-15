@@ -100,7 +100,7 @@ class MainActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         setMenuIcons(
             menu = menu,
-            color = AppearancePrefs.MainActivityLayout.iconColor,
+            color = AppearancePrefs.Theme.iconColor,
             iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
         )
         return true
