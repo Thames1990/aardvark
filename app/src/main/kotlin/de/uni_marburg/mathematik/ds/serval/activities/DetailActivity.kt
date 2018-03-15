@@ -67,12 +67,11 @@ class DetailActivity : ElasticRecyclerActivity() {
             uiThread {
                 title = event.title
 
-                with(adapter) {
-                    recycler.adapter = this
-                    addGeneralCards()
-                    addAddressCard()
-//                    CardIItem.bindClickEvents(this)
-                }
+                recycler.adapter = adapter
+                CardIItem.bindClickEvents(adapter)
+
+                addGeneralCards()
+                addAddressCard()
 
                 with(fab) {
                     backgroundTintList = ColorStateList.valueOf(AppearancePrefs.Theme.accentColor)
