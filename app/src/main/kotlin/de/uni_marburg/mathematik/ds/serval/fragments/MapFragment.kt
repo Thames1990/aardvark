@@ -138,6 +138,8 @@ class MapFragment : BaseFragment() {
                             .iconText(cluster.items.count().toString())
                             .color(AppearancePrefs.Theme.textColor)
                             .backgroundColor(AppearancePrefs.Theme.backgroundColor)
+                            .backgroundContourColor(AppearancePrefs.Theme.textColor)
+                            .backgroundContourWidthDp(1)
                             .sizeDp(40)
                             .roundedCornersDp(24)
                             .paddingDp(8)
