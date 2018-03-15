@@ -11,25 +11,25 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     private val dao: EventDao = EventDatabase.get(application).eventDao()
 
-    val events: LiveData<PagedList<Event>> = LivePagedListBuilder(
+    val pagedList: LiveData<PagedList<Event>> = LivePagedListBuilder(
         dao.getAllPaged(),
         PagedList.Config.Builder()
             .setPageSize(PAGE_SIZE)
             .build()
     ).build()
 
-    val eventLiveData: LiveData<List<Event>>
+    val liveData: LiveData<List<Event>>
         get() = dao.getAllLive()
 
     operator fun get(id: String) = dao.getById(id)
 
-    fun fetchEvents(deleteEvents: Boolean = false) {
+    fun getFromRepository(deleteEvents: Boolean = false) {
         val events: List<Event> = EventRepository.fetch()
         if (deleteEvents) dao.removeAll()
         dao.insertOrUpdate(events)
     }
 
-    fun sortEventsBy(eventComparator: EventComparator, reversed: Boolean = false): Boolean {
+    fun sortBy(eventComparator: EventComparator, reversed: Boolean = false): Boolean {
         val events: List<Event> = dao.getAll()
         val sortedEvents: List<Event> = eventComparator.sort(events, reversed)
         dao.insertOrUpdate(sortedEvents)

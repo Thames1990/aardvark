@@ -63,7 +63,7 @@ class MapFragment : BaseFragment() {
                 }
             }
 
-            observe(liveData = viewModel.eventLiveData, body = ::submitEvents)
+            observe(liveData = eventViewModel.liveData, body = ::submitEvents)
         }
     }
 

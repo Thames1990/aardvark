@@ -55,7 +55,7 @@ class EventsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        observePagedList(liveData = viewModel.events, body = eventAdapter::submitList)
+        observe(liveData = eventViewModel.pagedList, body = eventAdapter::submitList)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,7 +96,7 @@ class EventsFragment : BaseFragment() {
             if (context.isNetworkAvailable) {
                 isRefreshing = true
                 doAsync {
-                    viewModel.fetchEvents()
+                    eventViewModel.getFromRepository()
                     uiThread { isRefreshing = false }
                 }
             } else {
@@ -114,7 +114,7 @@ class EventsFragment : BaseFragment() {
     private fun sortEventsBy(eventComparator: EventComparator, reversed: Boolean = false) {
         swipeRefreshLayout.isRefreshing = true
         doAsync {
-            viewModel.sortEventsBy(eventComparator, reversed)
+            eventViewModel.sortBy(eventComparator, reversed)
             uiThread { swipeRefreshLayout.isRefreshing = false }
         }
     }

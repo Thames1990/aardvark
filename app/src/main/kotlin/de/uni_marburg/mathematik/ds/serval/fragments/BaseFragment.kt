@@ -13,11 +13,11 @@ abstract class BaseFragment : Fragment() {
 
     protected abstract val layout: Int
 
-    protected lateinit var viewModel: EventViewModel
+    protected lateinit var eventViewModel: EventViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = getViewModel()
+        eventViewModel = getViewModel()
     }
 
     override fun onCreateView(

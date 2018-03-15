@@ -74,7 +74,11 @@ class MainActivity : BaseActivity() {
                 if (resultCode and REQUEST_RESTART > 0) restart()
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
-                if (resultCode and RELOAD_EVENTS > 0) doAsync { viewModel.fetchEvents(deleteEvents = true) }
+                if (resultCode and RELOAD_EVENTS > 0) doAsync {
+                    eventViewModel.getFromRepository(
+                        deleteEvents = true
+                    )
+                }
             }
         }
     }
@@ -182,13 +186,13 @@ class MainActivity : BaseActivity() {
         }
 
         fun submitEvents(pagedList: PagedList<Event>?) {
-            val eventCount: Int = pagedList?.snapshot()?.count() ?: 0
+            val eventCount: Int = pagedList?.size ?: 0
             val tab: TabLayout.Tab? = tabs.getTabAt(1)
             val badgedIcon = tab?.customView as BadgedIcon
             badgedIcon.badgeText = eventCount.toString()
         }
 
-        observe(liveData = viewModel.events, body = ::submitEvents)
+        observe(liveData = eventViewModel.pagedList, body = ::submitEvents)
     }
 
     private fun selectDashboardFragment() {

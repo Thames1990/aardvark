@@ -24,7 +24,7 @@ abstract class BaseActivity : KauBaseActivity() {
      */
     protected open fun backConsumer(): Boolean = false
 
-    lateinit var viewModel: EventViewModel
+    lateinit var eventViewModel: EventViewModel
 
     override fun onBackPressed() {
         if (backConsumer()) return
@@ -34,7 +34,7 @@ abstract class BaseActivity : KauBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel()
+        eventViewModel = getViewModel()
 
         setSecureFlag()
         setTheme()
