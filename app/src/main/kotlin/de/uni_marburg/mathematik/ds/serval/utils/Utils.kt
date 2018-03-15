@@ -29,7 +29,7 @@ inline val currentTimeInSeconds: Long
     @SuppressLint("NewApi")
     get() =
         if (buildIsOreoAndUp) Instant.now().epochSecond
-        else Calendar.getInstance().get(Calendar.SECOND).toLong()
+        else Calendar.getInstance()[Calendar.SECOND].toLong()
 
 inline val currentTimeInMillis: Long
     @SuppressLint("NewApi")

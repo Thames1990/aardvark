@@ -19,6 +19,12 @@ import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 
+inline var ViewPager.item
+    get() = currentItem
+    set(value) = setCurrentItem(value, BehaviourPrefs.animationsEnabled)
+
+operator fun ViewGroup.get(position: Int): View = getChildAt(position)
+
 /**
  * Show themed snackbar with [a text resource][textRes] and a given [builder].
  */
@@ -42,8 +48,6 @@ fun View.snackbarThemed(
     duration = Snackbar.LENGTH_LONG,
     builder = snackbarThemed(builder)
 )
-
-operator fun ViewGroup.get(position: Int): View = getChildAt(position)
 
 fun ImageView.flip() {
     val bitmap = drawable.toBitmap()
@@ -101,10 +105,6 @@ fun ImageView.setIconWithOptions(
 fun AppBarLayout.expand(
     animate: Boolean = BehaviourPrefs.animationsEnabled
 ) = setExpanded(true, animate)
-
-inline var ViewPager.item
-    get() = currentItem
-    set(value) = setCurrentItem(value, BehaviourPrefs.animationsEnabled)
 
 @SuppressLint("NewApi")
 fun FloatingActionButton.showWithOptions(
