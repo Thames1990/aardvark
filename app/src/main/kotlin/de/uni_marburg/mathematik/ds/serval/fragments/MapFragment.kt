@@ -132,10 +132,23 @@ class MapFragment : BaseFragment() {
 
         fun ClusterManager<Event>.setIcons() {
             setIconGenerator(object : IconGenerator<Event> {
-                override fun getClusterIcon(cluster: Cluster<Event>): BitmapDescriptor =
-                    BitmapDescriptorFactory.fromBitmap(
+                override fun getClusterIcon(cluster: Cluster<Event>): BitmapDescriptor {
+                    val eventCount: Int = cluster.items.size
+
+                    val iconText: String =
+                        if (MapPrefs.showExactClusterSize) eventCount.toString()
+                        else when (eventCount) {
+                            in 0..10 -> eventCount.toString()
+                            in 10..50 -> "10+"
+                            in 50..100 -> "50+"
+                            in 100..250 -> "100+"
+                            in 500..1000 -> "500+"
+                            else -> "1000+"
+                        }
+
+                    return BitmapDescriptorFactory.fromBitmap(
                         IconicsDrawable(context)
-                            .iconText(cluster.items.count().toString())
+                            .iconText(iconText)
                             .color(AppearancePrefs.Theme.textColor)
                             .backgroundColor(AppearancePrefs.Theme.backgroundColor)
                             .backgroundContourColor(AppearancePrefs.Theme.textColor)
@@ -145,6 +158,7 @@ class MapFragment : BaseFragment() {
                             .paddingDp(8)
                             .toBitmap()
                     )
+                }
 
                 override fun getClusterItemIcon(clusterItem: Event): BitmapDescriptor =
                     BitmapDescriptorFactory.fromBitmap(

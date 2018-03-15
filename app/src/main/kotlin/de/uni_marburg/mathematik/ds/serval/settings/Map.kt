@@ -27,6 +27,7 @@ object MapPrefs : KPref() {
         key = "MY_LOCATION_BUTTON_ENABLED",
         fallback = true
     )
+    var showExactClusterSize: Boolean by kpref(key = "SHOW_EXACT_CLUSTER_SIZE", fallback = false)
 
     object Gestures {
         var rotateEnabled: Boolean by kpref(key = "ROTATE_GESTURES_ENABLED", fallback = true)
@@ -161,6 +162,16 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
             }
         }
     }
+
+    checkbox(
+        title = R.string.preference_map_show_exact_cluster_size,
+        getter = MapPrefs::showExactClusterSize,
+        setter = { showExactClusterSize ->
+            MapPrefs.showExactClusterSize = showExactClusterSize
+            shouldRestartMain()
+        },
+        builder = { descRes = R.string.preference_map_show_exact_cluster_size_desc }
+    )
 
     text(
         title = R.string.preference_map_style,

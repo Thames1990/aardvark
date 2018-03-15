@@ -204,6 +204,8 @@
     <string name="preference_map_is_zoom_gestures_enabled">Zoom gestures</string>
     <string name="preference_map_is_zoom_gestures_enabled_desc">Enable zoom gestures</string>
     <string name="preference_map_layers_header">Map layers</string>
+    <string name="preference_map_show_exact_cluster_size">Exact cluster size</string>
+    <string name="preference_map_show_exact_cluster_size_desc">Show exact size of events in cluster. Otherwise ranges (e.g. 50+) are shown.</string>
     <string name="preference_map_style">Map style</string>
     <string name="preference_map_ui_header">UI</string>
     <string name="preference_map_ux_header">UX</string>
