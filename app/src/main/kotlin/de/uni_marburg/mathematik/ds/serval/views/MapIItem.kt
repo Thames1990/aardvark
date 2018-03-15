@@ -9,9 +9,13 @@ import ca.allanwang.kau.utils.bindView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.model.Event
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_ZOOM
 
 class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
@@ -26,6 +30,14 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
             onCreate(null)
             getMapAsync { googleMap ->
                 with(googleMap) {
+                    val mapStyleRes: Int = when (AppearancePrefs.Theme.theme) {
+                        Themes.AMOLED -> R.raw.map_style_night
+                        Themes.LIGHT -> R.raw.map_style_standard
+                        Themes.DARK -> R.raw.map_style_dark
+                        Themes.CUSTOM -> MapPrefs.MapStyle.styleRes
+                    }
+                    setMapStyle(MapStyleOptions.loadRawResourceStyle(context, mapStyleRes))
+
                     with(uiSettings) {
                         isClickable = false
                         isMapToolbarEnabled = false
