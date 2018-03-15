@@ -73,18 +73,12 @@ class DetailActivity : ElasticRecyclerActivity() {
                 addGeneralCards()
                 addAddressCard()
 
-                with(fab) {
-                    backgroundTintList = ColorStateList.valueOf(AppearancePrefs.Theme.accentColor)
-                    setIcon(
-                        icon = CommunityMaterial.Icon.cmd_google_maps,
-                        color = AppearancePrefs.Theme.iconColor
-                    )
-                    if (buildIsOreoAndUp) {
-                        tooltipText = string(R.string.tooltip_fab_show_in_google_maps)
-                    }
-                    setOnClickListener { showInGoogleMaps() }
-                    show()
-                }
+                fab.showWithOptions(
+                    icon = CommunityMaterial.Icon.cmd_google_maps,
+                    tooltipTextRes = R.string.tooltip_fab_show_in_google_maps,
+                    backgroundColor = ColorStateList.valueOf(AppearancePrefs.Theme.accentColor),
+                    onClickListener = ::showInGoogleMaps
+                )
             }
         }
     }

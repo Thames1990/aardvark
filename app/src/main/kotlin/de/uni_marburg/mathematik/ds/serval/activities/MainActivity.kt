@@ -1,11 +1,9 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
 import android.arch.paging.PagedList
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
@@ -59,9 +57,6 @@ class MainActivity : BaseActivity() {
             header(appBar)
             background(viewPager)
         }
-
-        fab.backgroundTintList =
-                ColorStateList.valueOf(AppearancePrefs.Theme.headerColor.withMinAlpha(200))
 
         setupAppBar()
         setupViewPager()
@@ -198,48 +193,30 @@ class MainActivity : BaseActivity() {
 
     private fun selectDashboardFragment() {
         fab.hide()
-        tabs.setOnClickListener { appBar.expand() }
+        appBar.expand()
     }
 
-    @SuppressLint("NewApi")
-    private fun selectEventsFragmentTab(currentFragment: EventsFragment) {
-        with(fab) {
-            setOnClickListener {
+    private fun selectEventsFragmentTab(currentFragment: EventsFragment) = with(fab) {
+        currentFragment.bindFab(fab = this)
+        showWithOptions(
+            icon = GoogleMaterial.Icon.gmd_arrow_upward,
+            tooltipTextRes = R.string.tooltip_fab_scroll_to_top,
+            onClickListener = {
                 appBar.expand()
                 currentFragment.scrollToTop()
             }
-            currentFragment.bindFab(fab)
-            setIcon(
-                icon = GoogleMaterial.Icon.gmd_arrow_upward,
-                color = AppearancePrefs.MainActivityLayout.iconColor
-            )
-            if (buildIsOreoAndUp) tooltipText = string(R.string.tooltip_fab_scroll_to_top)
-            show()
-        }
+        )
+    }
 
-        tabs.setOnClickListener {
+    private fun selectMapFragmentTab(currentFragment: MapFragment) = fab.showWithOptions(
+        icon = GoogleMaterial.Icon.gmd_my_location,
+        tooltipTextRes = R.string.tooltip_fab_move_to_current_location,
+        onClickListener = {
             appBar.expand()
-            currentFragment.scrollToTop()
-        }
-    }
-
-    @SuppressLint("NewApi")
-    private fun selectMapFragmentTab(currentFragment: MapFragment) {
-        with(fab) {
-            setOnClickListener {
-                appBar.expand()
-                currentFragment.moveToPosition(lastPosition)
-            }
-            setIcon(
-                icon = GoogleMaterial.Icon.gmd_my_location,
-                color = AppearancePrefs.MainActivityLayout.iconColor
-            )
-            if (buildIsOreoAndUp) {
-                tooltipText = string(R.string.tooltip_fab_move_to_current_location)
-            }
-            showIf(hasLocationPermission && MapPrefs.myLocationButtonEnabled)
-        }
-    }
+            currentFragment.moveToPosition(lastPosition)
+        },
+        show = hasLocationPermission && MapPrefs.myLocationButtonEnabled
+    )
 
     private fun trackLocation() {
         val locationLiveData = LocationLiveData(this)

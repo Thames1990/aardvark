@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.settings
 
+import android.content.res.ColorStateList
 import ca.allanwang.kau.kotlin.lazyResettable
 import ca.allanwang.kau.kpref.KPref
 import ca.allanwang.kau.kpref.activity.KClick
@@ -8,6 +9,7 @@ import ca.allanwang.kau.kpref.activity.items.KPrefColorPicker
 import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.withMinAlpha
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
@@ -36,6 +38,8 @@ object AppearancePrefs : KPref() {
             get() = theme.accentColor
         val bgColor: Int
             get() = theme.bgColor
+        val fabColor: ColorStateList
+            get() = ColorStateList.valueOf(headerColor.withMinAlpha(200))
         val headerColor: Int
             get() = theme.headerColor
         val iconColor: Int

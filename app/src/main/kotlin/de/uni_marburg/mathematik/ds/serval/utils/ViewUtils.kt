@@ -1,9 +1,12 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
+import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.*
 import android.support.annotation.ColorInt
 import android.support.annotation.StringRes
 import android.support.design.widget.AppBarLayout
+import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.view.ViewPager
 import android.view.View
@@ -102,3 +105,19 @@ fun AppBarLayout.expand(
 inline var ViewPager.item
     get() = currentItem
     set(value) = setCurrentItem(value, BehaviourPrefs.animationsEnabled)
+
+@SuppressLint("NewApi")
+fun FloatingActionButton.showWithOptions(
+    icon: IIcon,
+    @StringRes tooltipTextRes: Int,
+    @ColorInt color: Int = AppearancePrefs.Theme.iconColor,
+    backgroundColor: ColorStateList = AppearancePrefs.Theme.fabColor,
+    onClickListener: () -> Unit,
+    show: Boolean = true
+) {
+    setIcon(icon, color)
+    backgroundTintList = backgroundColor
+    if (buildIsOreoAndUp) tooltipText = context.string(tooltipTextRes)
+    setOnClickListener { onClickListener() }
+    showIf(show)
+}
