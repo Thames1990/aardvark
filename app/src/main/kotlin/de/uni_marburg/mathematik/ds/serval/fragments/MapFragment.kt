@@ -12,10 +12,10 @@ import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.*
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
@@ -29,6 +29,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.observe
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
+import net.sharewire.googlemapsclustering.IconGenerator
 
 class MapFragment : BaseFragment() {
 
@@ -132,6 +133,29 @@ class MapFragment : BaseFragment() {
                     )
                     return true
                 }
+
+            })
+
+            setIconGenerator(object : IconGenerator<Event> {
+                override fun getClusterIcon(cluster: Cluster<Event>): BitmapDescriptor =
+                    BitmapDescriptorFactory.fromBitmap(
+                        IconicsDrawable(context)
+                            .iconText(cluster.items.count().toString())
+                            .color(AppearancePrefs.Theme.textColor)
+                            .backgroundColor(AppearancePrefs.Theme.bgColor)
+                            .sizeDp(40)
+                            .roundedCornersDp(24)
+                            .paddingDp(8)
+                            .toBitmap()
+                    )
+
+                override fun getClusterItemIcon(clusterItem: Event): BitmapDescriptor =
+                    BitmapDescriptorFactory.fromBitmap(
+                        IconicsDrawable(context)
+                            .icon(CommunityMaterial.Icon.cmd_map_marker)
+                            .color(AppearancePrefs.Theme.iconColor)
+                            .toBitmap()
+                    )
 
             })
         }
