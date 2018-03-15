@@ -25,15 +25,6 @@ inline val Context.hasWriteExternalStoragePermission: Boolean
     get() = hasPermission(PERMISSION_WRITE_EXTERNAL_STORAGE)
 
 /**
- * Show the showChangelog.
- */
-fun Context.showChangelog() = showChangelog(
-    xmlRes = R.xml.changelog,
-    textColor = AppearancePrefs.Theme.textColor,
-    customize = { theme() }
-)
-
-/**
  * Show a themed dialog.
  */
 inline fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Unit): MaterialDialog {
@@ -64,6 +55,15 @@ inline fun Context.sendSupportEmail(
         builder()
         addItem(string(R.string.aardvark_id), Aardvark.aardvarkId)
     }
+)
+
+/**
+ * Show the showChangelog.
+ */
+fun Context.showChangelog() = showChangelog(
+    xmlRes = R.xml.changelog,
+    textColor = AppearancePrefs.Theme.textColor,
+    customize = { theme() }
 )
 
 /**

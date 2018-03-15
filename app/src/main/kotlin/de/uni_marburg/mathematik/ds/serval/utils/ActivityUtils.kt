@@ -19,14 +19,31 @@ import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
 
 /**
- * Color the navigation bar with the specified [color][AppearancePrefs.Theme.headerColor],
- * if the user activated [the setting][AppearancePrefs.tintNavBar]; [black][Color.BLACK] otherwise.
+ * Set all colors with the given [builder].
  */
-fun Activity.themeNavigationBar() {
-    navigationBarColor =
-            if (AppearancePrefs.tintNavBar) AppearancePrefs.Theme.headerColor
-            else Color.BLACK
+inline fun Activity.setColors(builder: ActivityThemeUtils.() -> Unit) {
+    val themer = ActivityThemeUtils()
+    themer.builder()
+    themer.theme(this)
 }
+
+/**
+ * Sets the treatment of the content of the window as [secure/non-secure][secure], (not) preventing
+ * it from appearing in screenshots or from being viewed on non-secure displays.
+ */
+fun Activity.setSecureFlag(secure: Boolean = ExperimentalPrefs.secureApp) {
+    val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
+    if (secure) window.setFlags(secureFlag, secureFlag)
+    else window.clearFlags(secureFlag)
+}
+
+/**
+ * Set a light or dark theme based on the darkness of
+ * [the user specified background color][AppearancePrefs.Theme.bgColor].
+ */
+fun Activity.setTheme() =
+    if (AppearancePrefs.Theme.bgColor.isColorDark) setTheme(R.style.AardvarkTheme)
+    else setTheme(R.style.AardvarkTheme_Light)
 
 /**
  * Show themed snackbar with [a text resource][textRes] and a given [builder].
@@ -45,30 +62,13 @@ inline fun Activity.snackbarThemed(
 ) = snackbar(text, duration = Snackbar.LENGTH_LONG, builder = snackbarThemed(builder))
 
 /**
- * Set all colors with the given [builder].
+ * Color the navigation bar with the specified [color][AppearancePrefs.Theme.headerColor],
+ * if the user activated [the setting][AppearancePrefs.tintNavBar]; [black][Color.BLACK] otherwise.
  */
-inline fun Activity.setColors(builder: ActivityThemeUtils.() -> Unit) {
-    val themer = ActivityThemeUtils()
-    themer.builder()
-    themer.theme(this)
-}
-
-/**
- * Set a light or dark theme based on the darkness of
- * [the user specified background color][AppearancePrefs.Theme.bgColor].
- */
-fun Activity.setTheme() =
-    if (AppearancePrefs.Theme.bgColor.isColorDark) setTheme(R.style.AardvarkTheme)
-    else setTheme(R.style.AardvarkTheme_Light)
-
-/**
- * Sets the treatment of the content of the window as [secure/non-secure][secure], (not) preventing
- * it from appearing in screenshots or from being viewed on non-secure displays.
- */
-fun Activity.setSecureFlag(secure: Boolean = ExperimentalPrefs.secureApp) {
-    val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
-    if (secure) window.setFlags(secureFlag, secureFlag)
-    else window.clearFlags(secureFlag)
+fun Activity.themeNavigationBar() {
+    navigationBarColor =
+            if (AppearancePrefs.tintNavBar) AppearancePrefs.Theme.headerColor
+            else Color.BLACK
 }
 
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(): T =

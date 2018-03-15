@@ -9,8 +9,12 @@ import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedList
 import android.content.Context
 import android.support.design.internal.SnackbarContentLayout
+import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
+import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import ca.allanwang.kau.utils.*
 import com.afollestad.materialdialogs.MaterialDialog
@@ -37,10 +41,20 @@ inline val currentTimeInMillis: Long
         if (buildIsOreoAndUp) Instant.now().toEpochMilli()
         else Calendar.getInstance().timeInMillis
 
+inline var ViewPager.item
+    get() = currentItem
+    set(value) = setCurrentItem(value, BehaviourPrefs.animationsEnabled)
+
+operator fun ViewGroup.get(position: Int): View = getChildAt(position)
+
 /**
  * Create Fabric Answers instance.
  */
 inline fun answers(action: Answers.() -> Unit) = Answers.getInstance().action()
+
+fun doOnDebugBuild(block: () -> Unit) {
+    if (isDebugBuild) block()
+}
 
 /**
  * Log custom events to analytics services.
@@ -80,12 +94,29 @@ inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.()
     }
 }
 
+fun AppBarLayout.expand(
+    animate: Boolean = BehaviourPrefs.animationsEnabled
+) = setExpanded(true, animate)
+
 /**
  * Converts distance in meters in formatted string with meters/kilometers.
  */
 fun Float.formatDistance(context: Context): String =
     if (this < 1000) String.format(context.string(R.string.distance_in_meter), this)
     else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
+
+inline fun <reified T : ViewModel> Fragment.getViewModel(): T =
+    ViewModelProviders.of(requireActivity())[T::class.java]
+
+fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(
+    liveData: L,
+    body: (T?) -> Unit
+) = liveData.observe(this, Observer(body))
+
+fun <T : Any, L : LiveData<PagedList<T>>> LifecycleOwner.observePagedList(
+    liveData: L,
+    body: (PagedList<T>?) -> Unit
+) = liveData.observe(this, Observer(body))
 
 /**
  * Converts UNIX time to human readable information in relation to the current time.
@@ -116,10 +147,6 @@ fun Long.formatPassedSeconds(context: Context): String {
     return context.plural(id, quantity)
 }
 
-fun doOnDebugBuild(block: () -> Unit) {
-    if (isDebugBuild) block()
-}
-
 /**
  * Theme material dialog.
  */
@@ -134,16 +161,3 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     neutralColor(AppearancePrefs.Theme.textColor)
     return this
 }
-
-inline fun <reified T : ViewModel> Fragment.getViewModel(): T =
-    ViewModelProviders.of(requireActivity())[T::class.java]
-
-fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(
-    liveData: L,
-    body: (T?) -> Unit
-) = liveData.observe(this, Observer(body))
-
-fun <T : Any, L : LiveData<PagedList<T>>> LifecycleOwner.observePagedList(
-    liveData: L,
-    body: (PagedList<T>?) -> Unit
-) = liveData.observe(this, Observer(body))
