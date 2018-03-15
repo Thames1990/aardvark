@@ -46,7 +46,7 @@ abstract class BaseImageIntroFragment(
         title.setTextColor(AppearancePrefs.Theme.textColor)
         desc.setTextColor(AppearancePrefs.Theme.textColor)
         phone.tint(AppearancePrefs.Theme.textColor)
-        screen.tint(AppearancePrefs.Theme.bgColor)
+        screen.tint(AppearancePrefs.Theme.backgroundColor)
     }
 
     override fun onPageScrolledImpl(positionOffset: Float) {

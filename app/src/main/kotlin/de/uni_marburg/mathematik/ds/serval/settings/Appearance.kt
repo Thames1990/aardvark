@@ -36,8 +36,8 @@ object AppearancePrefs : KPref() {
 
         val accentColor: Int
             get() = theme.accentColor
-        val bgColor: Int
-            get() = theme.bgColor
+        val backgroundColor: Int
+            get() = theme.backgroundColor
         val fabColor: ColorStateList
             get() = ColorStateList.valueOf(headerColor.withMinAlpha(200))
         val headerColor: Int
@@ -89,8 +89,8 @@ object AppearancePrefs : KPref() {
         private val loader = lazyResettable { MainActivityLayouts.values()[index] }
         val layout: MainActivityLayouts by loader
 
-        val bgColor: Int
-            get() = layout.bgColor
+        val backgroundColor: Int
+            get() = layout.backgroundColor
         val iconColor: Int
             get() = layout.iconColor
         val layoutRes: Int

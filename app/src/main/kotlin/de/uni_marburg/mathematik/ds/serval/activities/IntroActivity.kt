@@ -72,7 +72,7 @@ class IntroActivity : KauBaseActivity() {
             }
         }
         skip.setOnClickListener { finish() }
-        ripple.set(color = AppearancePrefs.Theme.bgColor)
+        ripple.set(color = AppearancePrefs.Theme.backgroundColor)
 
         theme()
     }

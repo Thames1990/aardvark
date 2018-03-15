@@ -39,10 +39,10 @@ fun Activity.setSecureFlag(secure: Boolean = ExperimentalPrefs.secureApp) {
 
 /**
  * Set a light or dark theme based on the darkness of
- * [the user specified background color][AppearancePrefs.Theme.bgColor].
+ * [the user specified background color][AppearancePrefs.Theme.backgroundColor].
  */
 fun Activity.setTheme() =
-    if (AppearancePrefs.Theme.bgColor.isColorDark) setTheme(R.style.AardvarkTheme)
+    if (AppearancePrefs.Theme.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
     else setTheme(R.style.AardvarkTheme_Light)
 
 /**
@@ -103,7 +103,7 @@ class ActivityThemeUtils {
         with(activity) {
             statusBarColor = AppearancePrefs.Theme.headerColor.darken(0.1f).withAlpha(255)
             if (AppearancePrefs.tintNavBar) navigationBarColor = AppearancePrefs.Theme.headerColor
-            if (themeWindow) window.setBackgroundDrawable(ColorDrawable(AppearancePrefs.Theme.bgColor))
+            if (themeWindow) window.setBackgroundDrawable(ColorDrawable(AppearancePrefs.Theme.backgroundColor))
             toolbar?.apply {
                 setBackgroundColor(AppearancePrefs.Theme.headerColor)
                 setTitleTextColor(AppearancePrefs.Theme.iconColor)
@@ -117,7 +117,7 @@ class ActivityThemeUtils {
             }
             texts.forEach { textView -> textView.setTextColor(AppearancePrefs.Theme.textColor) }
             headers.forEach { view -> view.setBackgroundColor(AppearancePrefs.Theme.headerColor) }
-            backgrounds.forEach { view -> view.setBackgroundColor(AppearancePrefs.Theme.bgColor) }
+            backgrounds.forEach { view -> view.setBackgroundColor(AppearancePrefs.Theme.backgroundColor) }
         }
     }
 

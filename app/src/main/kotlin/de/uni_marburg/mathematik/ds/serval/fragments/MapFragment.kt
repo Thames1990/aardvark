@@ -137,7 +137,7 @@ class MapFragment : BaseFragment() {
                         IconicsDrawable(context)
                             .iconText(cluster.items.count().toString())
                             .color(AppearancePrefs.Theme.textColor)
-                            .backgroundColor(AppearancePrefs.Theme.bgColor)
+                            .backgroundColor(AppearancePrefs.Theme.backgroundColor)
                             .sizeDp(40)
                             .roundedCornersDp(24)
                             .paddingDp(8)

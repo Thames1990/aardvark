@@ -11,7 +11,7 @@ import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
  * @property titleRes Resource ID of the title
  * @property textColor Color used for text
  * @property accentColor Color used to call attention to key elements
- * @property bgColor Color used for backgrounds
+ * @property backgroundColor Color used for backgrounds
  * @property headerColor Color used for the toolbar
  * @property iconColor Color used for icons
  */
@@ -63,7 +63,7 @@ enum class Themes(
     val accentColor: Int
         get() = accentColorGetter()
 
-    val bgColor: Int
+    val backgroundColor: Int
         get() = backgroundColorGetter()
 
     val headerColor: Int

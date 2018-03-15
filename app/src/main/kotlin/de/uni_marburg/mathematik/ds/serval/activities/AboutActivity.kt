@@ -32,7 +32,7 @@ class AboutActivity : AboutActivityBase(
     rClass = R.string::class.java,
     configBuilder = {
         accentColor = AppearancePrefs.Theme.accentColor
-        backgroundColor = AppearancePrefs.Theme.bgColor.withMinAlpha(200)
+        backgroundColor = AppearancePrefs.Theme.backgroundColor.withMinAlpha(200)
         cutoutDrawableRes = R.drawable.aardvark
         cutoutForeground = AppearancePrefs.Theme.accentColor
         faqParseNewLine = false
