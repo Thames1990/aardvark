@@ -112,11 +112,9 @@ class MapFragment : BaseFragment() {
             setCallbacks(object : ClusterManager.Callbacks<Event> {
                 override fun onClusterClick(cluster: Cluster<Event>): Boolean {
                     val builder = LatLngBounds.builder()
-                    cluster.items.forEach { event ->
-                        builder.include(event.position)
-                        val bounds = builder.build()
-                        moveToBounds(bounds)
-                    }
+                    cluster.items.forEach { event -> builder.include(event.position) }
+                    val bounds = builder.build()
+                    moveToBounds(bounds)
                     return true
                 }
 
