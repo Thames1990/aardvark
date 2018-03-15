@@ -16,6 +16,7 @@ android {
 
     def properties = file("../gradle.properties")
     def hasProperties = properties.exists()
+    if (!hasProperties) throw new InvalidUserDataException("Gradle property file is not configured")
 
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
@@ -27,44 +28,31 @@ android {
         setProperty('archivesBaseName', "aardvark-$versionName")
         multiDexEnabled true
 
-        if (hasProperties) {
-            manifestPlaceholders = [KEY_FABRIC: KEY_FABRIC, KEY_GOOGLE_MAPS: KEY_GOOGLE_MAPS]
-        } else {
-            throw new InvalidUserDataException("Define Fabric and Google Maps keys")
-        }
+        buildConfigField "String", "KERVAL_VERSION", "\"$versions.kerval\""
+        buildConfigField "String", "SERVAL_USER", SERVAL_USER
+        buildConfigField "String", "SERVAL_PASSWORD", SERVAL_PASSWORD
+        buildConfigField "String", "SERVAL_BASE_URL", SERVAL_BASE_URL
+        buildConfigField "Integer", "SERVAL_PORT", SERVAL_PORT
+
+        manifestPlaceholders = [KEY_FABRIC: KEY_FABRIC, KEY_GOOGLE_MAPS: KEY_GOOGLE_MAPS]
     }
 
     signingConfigs {
-        if (hasProperties) {
-            release {
-                storeFile = file(STORE_FILE)
-                storePassword = STORE_PASSWORD
-                keyAlias = KEY_ALIAS
-                keyPassword = KEY_PASSWORD
-            }
-        } else {
-            throw new InvalidUserDataException("Define release signing secrets")
+        release {
+            storeFile = file(STORE_FILE)
+            storePassword = STORE_PASSWORD
+            keyAlias = KEY_ALIAS
+            keyPassword = KEY_PASSWORD
         }
     }
 
     buildTypes {
-        buildTypes.each {
-            it.buildConfigField "String", "KERVAL_VERSION", "\"$versions.kerval\""
-
-            if (hasProperties) {
-                it.buildConfigField "String", "SERVAL_USER", SERVAL_USER
-                it.buildConfigField "String", "SERVAL_PASSWORD", SERVAL_PASSWORD
-                it.buildConfigField "String", "SERVAL_BASE_URL", SERVAL_BASE_URL
-                it.buildConfigField "Integer", "SERVAL_PORT", SERVAL_PORT
-            }
-        }
-
         debug {
             ext.enableCrashlytics = false
         }
         release {
             minifyEnabled false
-            if (hasProperties) signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
     }
 
