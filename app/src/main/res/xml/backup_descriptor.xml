@@ -3,6 +3,31 @@
     <include
         domain="sharedpref"
         path="de.uni_marburg.mathematik.ds.serval.xml" />
+
+    <include
+        domain="sharedpref"
+        path="Appearance.xml" />
+
+    <include
+        domain="sharedpref"
+        path="Behaviour.xml" />
+
+    <include
+        domain="sharedpref"
+        path="Experimental.xml" />
+
+    <include
+        domain="sharedpref"
+        path="Location.xml" />
+
+    <include
+        domain="sharedpref"
+        path="Map.xml" />
+
+    <include
+        domain="sharedpref"
+        path="Serval.xml" />
+
     <include
         domain="database"
         path="events.db" />
