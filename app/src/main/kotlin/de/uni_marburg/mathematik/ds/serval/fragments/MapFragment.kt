@@ -124,9 +124,9 @@ class MapFragment : BaseFragment() {
                 override fun onClusterItemClick(event: Event): Boolean {
                     context.startActivity<DetailActivity>(
                         bundleBuilder = {
-                            if (BehaviourPrefs.animationsEnabled) withSceneTransitionAnimation(
-                                context
-                            )
+                            if (BehaviourPrefs.animationsEnabled) {
+                                withSceneTransitionAnimation(context)
+                            }
                         },
                         intentBuilder = { putExtra(DetailActivity.EVENT_ID, event.id) }
                     )

@@ -8,9 +8,12 @@ import ca.allanwang.kau.iitems.KauIItem
 import ca.allanwang.kau.utils.bindView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
+import com.mikepenz.iconics.IconicsDrawable
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.model.Event
@@ -45,7 +48,16 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
                     }
 
                     val position: LatLng = event.position
-                    val marker: MarkerOptions = MarkerOptions().position(position)
+                    val marker: MarkerOptions = MarkerOptions()
+                        .position(position)
+                        .icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                IconicsDrawable(context)
+                                    .icon(CommunityMaterial.Icon.cmd_map_marker)
+                                    .color(AppearancePrefs.Theme.iconColor)
+                                    .toBitmap()
+                            )
+                        )
                     addMarker(marker)
 
                     val cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM)
