@@ -54,7 +54,7 @@ class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
                             BitmapDescriptorFactory.fromBitmap(
                                 IconicsDrawable(context)
                                     .icon(CommunityMaterial.Icon.cmd_map_marker)
-                                    .color(AppearancePrefs.Theme.iconColor)
+                                    .color(AppearancePrefs.Theme.textColor)
                                     .toBitmap()
                             )
                         )
