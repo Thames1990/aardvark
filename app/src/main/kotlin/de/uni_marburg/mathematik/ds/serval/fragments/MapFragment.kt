@@ -110,7 +110,7 @@ class MapFragment : BaseFragment() {
     private fun setupClusterManager() {
         val context = requireContext()
 
-        clusterManager = ClusterManager<Event>(context, googleMap).apply {
+        fun ClusterManager<Event>.setCallbacks() {
             setCallbacks(object : ClusterManager.Callbacks<Event> {
                 override fun onClusterClick(cluster: Cluster<Event>): Boolean {
                     val builder = LatLngBounds.builder()
@@ -135,7 +135,9 @@ class MapFragment : BaseFragment() {
                 }
 
             })
+        }
 
+        fun ClusterManager<Event>.setIcons() {
             setIconGenerator(object : IconGenerator<Event> {
                 override fun getClusterIcon(cluster: Cluster<Event>): BitmapDescriptor =
                     BitmapDescriptorFactory.fromBitmap(
@@ -158,6 +160,11 @@ class MapFragment : BaseFragment() {
                     )
 
             })
+        }
+
+        clusterManager = ClusterManager<Event>(context, googleMap).apply {
+            setCallbacks()
+            setIcons()
         }
 
         googleMap.setOnCameraIdleListener(clusterManager)
