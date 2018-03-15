@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.location.Address
@@ -57,6 +58,7 @@ class DetailActivity : ElasticRecyclerActivity() {
         super.onPause()
     }
 
+    @SuppressLint("NewApi")
     private fun setup() {
         doAsync {
             val eventId: String = intent.extras.getString(EVENT_ID)
@@ -78,6 +80,9 @@ class DetailActivity : ElasticRecyclerActivity() {
                         icon = CommunityMaterial.Icon.cmd_google_maps,
                         color = AppearancePrefs.Theme.iconColor
                     )
+                    if (buildIsOreoAndUp) {
+                        tooltipText = string(R.string.tooltip_fab_show_in_google_maps)
+                    }
                     setOnClickListener { showInGoogleMaps() }
                     show()
                 }

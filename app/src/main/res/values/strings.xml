@@ -242,4 +242,5 @@
 
     <string name="tooltip_fab_move_to_current_location">Move to current location</string>
     <string name="tooltip_fab_scroll_to_top">Scroll to top</string>
+    <string name="tooltip_fab_show_in_google_maps">Show in Google Maps</string>
 </resources>
