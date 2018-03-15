@@ -75,7 +75,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 with(fab) {
                     backgroundTintList = ColorStateList.valueOf(AppearancePrefs.Theme.accentColor)
                     setIcon(
-                        icon = GoogleMaterial.Icon.gmd_navigation,
+                        icon = CommunityMaterial.Icon.cmd_google_maps,
                         color = AppearancePrefs.Theme.iconColor
                     )
                     setOnClickListener { showInGoogleMaps() }
