@@ -152,6 +152,9 @@
     <string name="preference_behaviour_reset_analytics_confirmation">Your analytics collection was removed</string>
     <string name="preference_behaviour_reset_analytics_desc">Do you want to delete all collected analytics data?</string>
     <string name="preference_confirm_exit_desc">Show confirmation dialog before exiting the app</string>
+    <string name="preference_event">Event</string>
+    <string name="preference_event_desc">Define how certain properties of events are displayed</string>
+    <string name="preference_event_temperature_unit">Temperature Unit</string>
     <string name="preference_experimental">Experimental</string>
     <string name="preference_experimental_desc">Enable early access to potentially unstable features</string>
     <string name="preference_experimental_disclaimer">Disclaimer</string>
@@ -241,6 +244,10 @@
     <string name="tab_item_dashboard">Dashboard</string>
     <string name="tab_item_events">Events</string>
     <string name="tab_item_map">Map</string>
+
+    <string name="temperature_unit_celsius">Celsius</string>
+    <string name="temperature_unit_fahrenheit">Fahrenheit</string>
+    <string name="temperature_unit_kelvin">Kelvin</string>
 
     <string name="tooltip_fab_move_to_current_location">Move to current location</string>
     <string name="tooltip_fab_scroll_to_top">Scroll to top</string>

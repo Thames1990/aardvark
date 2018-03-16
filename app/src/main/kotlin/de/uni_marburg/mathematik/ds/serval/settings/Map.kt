@@ -11,7 +11,10 @@ import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.MapStyles
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
+import de.uni_marburg.mathematik.ds.serval.utils.logAnalytics
+import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
+import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 object MapPrefs : KPref() {
 
@@ -153,9 +156,6 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
                         item.pref = which
                         shouldRestartMain()
                         reload()
-                        setTheme()
-                        themeExterior()
-                        invalidateOptionsMenu()
                     }
                     true
                 }

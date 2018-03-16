@@ -36,6 +36,19 @@ enum class PreferenceSubItems(
         iicon = GoogleMaterial.Icon.gmd_trending_up
     ),
 
+    EVENT(
+        titleRes = R.string.preference_event,
+        descRes = R.string.preference_event_desc,
+        iicon = GoogleMaterial.Icon.gmd_event
+    ),
+
+    EXPERIMENTAL(
+        titleRes = R.string.preference_experimental,
+        descRes = R.string.preference_experimental_desc,
+        iicon = CommunityMaterial.Icon.cmd_flask_outline,
+        experimental = true
+    ),
+
     MAP(
         titleRes = R.string.preference_map,
         descRes = R.string.preference_map_desc,
@@ -52,13 +65,6 @@ enum class PreferenceSubItems(
         titleRes = R.string.preference_serval,
         descRes = R.string.preference_serval_desc,
         iicon = GoogleMaterial.Icon.gmd_network_wifi
-    ),
-
-    EXPERIMENTAL(
-        titleRes = R.string.preference_experimental,
-        descRes = R.string.preference_experimental_desc,
-        iicon = CommunityMaterial.Icon.cmd_flask_outline,
-        experimental = true
     );
 
 }

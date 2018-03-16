@@ -46,6 +46,7 @@ class Aardvark : Application() {
         Prefs.initialize(applicationContext, BuildConfig.APPLICATION_ID)
         AppearancePrefs.initialize(applicationContext, AppearancePrefs::class.java.simpleName)
         BehaviourPrefs.initialize(applicationContext, BehaviourPrefs::class.java.simpleName)
+        EventPrefs.initialize(applicationContext, EventPrefs::class.java.simpleName)
         ExperimentalPrefs.initialize(applicationContext, ExperimentalPrefs::class.java.simpleName)
         LocationPrefs.initialize(applicationContext, LocationPrefs::class.java.simpleName)
         MapPrefs.initialize(applicationContext, MapPrefs::class.java.simpleName)
