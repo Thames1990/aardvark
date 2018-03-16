@@ -120,6 +120,11 @@
 
     <string name="placeholder_title">DAMN</string>
 
+    <string name="precipitation_unit_inches">Inches</string>
+    <string name="precipitation_unit_inches_unit">in</string>
+    <string name="precipitation_unit_millimeter">Millimeter</string>
+    <string name="precipitation_unit_millimeter_unit">mm</string>
+
     <string name="preference_appearance">Appearance</string>
     <string name="preference_appearance_color_accent">Accent color</string>
     <string name="preference_appearance_color_background">Background color</string>
@@ -265,4 +270,5 @@
     <string name="tooltip_fab_move_to_current_location">Move to current location</string>
     <string name="tooltip_fab_scroll_to_top">Scroll to top</string>
     <string name="tooltip_fab_show_in_google_maps">Show in Google Maps</string>
+    <string name="preference_event_precipitation_unit">Precipitation Unit</string>
 </resources>

@@ -11,12 +11,15 @@ import com.mikepenz.weather_icons_typeface_library.WeatherIcons
 import com.squareup.moshi.Json
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.PrecipitationUnits
 import de.uni_marburg.mathematik.ds.serval.enums.RadiationUnits
 import de.uni_marburg.mathematik.ds.serval.enums.TemperatureUnits
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.EventPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInSeconds
 import net.sharewire.googlemapsclustering.ClusterItem
+import kotlin.math.pow
+import kotlin.math.round
 
 /**
  * An event is something which happens or takes place. An event is brief, possibly extremely brief.
@@ -107,11 +110,22 @@ data class Measurement(val type: MeasurementType, val value: Double) {
 
     inline val conversionValue: Double
         get() = when (type) {
-            MeasurementType.PRECIPITATION -> value
+            MeasurementType.PRECIPITATION -> value toPrecipitationUnit EventPrefs.PrecipitationUnit.unit
             MeasurementType.RADIATION -> value toRadiationUnit EventPrefs.RadiationUnit.unit
             MeasurementType.TEMPERATURE -> value toTemperatureUnit EventPrefs.TemperatureUnit.unit
             MeasurementType.WIND -> value
         }
+
+    infix fun Double.toPrecipitationUnit(
+        precipitationUnit: PrecipitationUnits
+    ) = when (precipitationUnit) {
+        PrecipitationUnits.MILLIMETER -> value
+        PrecipitationUnits.INCHES -> {
+            val decimalPoints = 2
+            val power = 10.0.pow(decimalPoints)
+            round(value / 25.4 * power) / power
+        }
+    }
 
     infix fun Double.toRadiationUnit(
         radiationUnit: RadiationUnits

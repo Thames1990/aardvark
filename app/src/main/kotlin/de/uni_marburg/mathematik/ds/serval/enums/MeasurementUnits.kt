@@ -3,6 +3,27 @@ package de.uni_marburg.mathematik.ds.serval.enums
 import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
 
+enum class PrecipitationUnits(
+    @StringRes val titleRes: Int,
+    @StringRes val unitRes: Int
+) {
+
+    MILLIMETER(
+        titleRes = R.string.precipitation_unit_millimeter,
+        unitRes = R.string.precipitation_unit_millimeter_unit
+    ),
+
+    INCHES(
+        titleRes = R.string.precipitation_unit_inches,
+        unitRes = R.string.precipitation_unit_inches_unit
+    );
+
+    companion object {
+        operator fun invoke(index: Int) = values()[index]
+    }
+
+}
+
 enum class RadiationUnits(
     @StringRes val titleRes: Int,
     @StringRes val unitRes: Int

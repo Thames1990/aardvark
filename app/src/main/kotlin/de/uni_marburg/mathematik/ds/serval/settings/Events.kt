@@ -8,12 +8,29 @@ import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
+import de.uni_marburg.mathematik.ds.serval.enums.PrecipitationUnits
 import de.uni_marburg.mathematik.ds.serval.enums.RadiationUnits
 import de.uni_marburg.mathematik.ds.serval.enums.TemperatureUnits
 import de.uni_marburg.mathematik.ds.serval.utils.logAnalytics
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
 object EventPrefs : KPref() {
+
+    object PrecipitationUnit {
+        var index: Int by kpref(
+            key = "PRECIPITATION_INDEX",
+            fallback = PrecipitationUnits.MILLIMETER.ordinal,
+            postSetter = {
+                loader.invalidate()
+                logAnalytics(
+                    name = "Precipitation Unit",
+                    events = *arrayOf("Count" to PrecipitationUnits(it).name)
+                )
+            }
+        )
+        private val loader = lazyResettable { PrecipitationUnits.values()[index] }
+        val unit: PrecipitationUnits by loader
+    }
 
     object RadiationUnit {
         var index: Int by kpref(
@@ -50,6 +67,33 @@ object EventPrefs : KPref() {
 }
 
 fun SettingsActivity.eventItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
+
+    fun showPrecipitationUnitChooserDialog(onClick: KClick<Int>) {
+        materialDialogThemed {
+            title(R.string.preference_event_precipitation_unit)
+            items(PrecipitationUnits.values().map { string(it.titleRes) })
+            with(onClick) {
+                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                    if (item.pref != which) {
+                        item.pref = which
+                        shouldRestartMain()
+                        reload()
+                    }
+                    true
+                }
+            }
+        }
+    }
+
+    text(
+        title = R.string.preference_event_precipitation_unit,
+        getter = EventPrefs.PrecipitationUnit::index,
+        setter = { EventPrefs.PrecipitationUnit.index = it },
+        builder = {
+            onClick = ::showPrecipitationUnitChooserDialog
+            textGetter = { string(PrecipitationUnits(it).titleRes) }
+        }
+    )
 
     fun showRadiationUnitChooserDialog(onClick: KClick<Int>) {
         materialDialogThemed {
