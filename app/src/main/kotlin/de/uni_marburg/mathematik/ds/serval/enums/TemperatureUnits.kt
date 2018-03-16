@@ -7,7 +7,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 
 enum class TemperatureUnits(
     @StringRes val titleRes: Int,
-    val iicon: IIcon
+    val iicon: IIcon // TODO Refactor as string
 ) {
 
     CELSIUS(
