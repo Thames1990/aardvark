@@ -155,8 +155,10 @@
     <string name="preference_confirm_exit_desc">Show confirmation dialog before exiting the app</string>
     <string name="preference_event">Event</string>
     <string name="preference_event_desc">Define how certain properties of events are displayed</string>
+    <string name="preference_event_precipitation_unit">Precipitation Unit</string>
     <string name="preference_event_radiation_unit">Radiation Unit</string>
     <string name="preference_event_temperature_unit">Temperature Unit</string>
+    <string name="preference_event_wind_unit">Wind Unit</string>
     <string name="preference_experimental">Experimental</string>
     <string name="preference_experimental_desc">Enable early access to potentially unstable features</string>
     <string name="preference_experimental_disclaimer">Disclaimer</string>
@@ -270,5 +272,13 @@
     <string name="tooltip_fab_move_to_current_location">Move to current location</string>
     <string name="tooltip_fab_scroll_to_top">Scroll to top</string>
     <string name="tooltip_fab_show_in_google_maps">Show in Google Maps</string>
-    <string name="preference_event_precipitation_unit">Precipitation Unit</string>
+
+    <string name="wind_unit_kilometres">Kilometres</string>
+    <string name="wind_unit_kilometres_unit">km/h</string>
+    <string name="wind_unit_metres">Metres</string>
+    <string name="wind_unit_metres_unit">m/s</string>
+    <string name="wind_unit_miles">Miles</string>
+    <string name="wind_unit_miles_unit">mph</string>
+    <string name="wind_unit_nautical_knots">Nautical Knots</string>
+    <string name="wind_unit_nautical_knots_unit">kts</string>
 </resources>

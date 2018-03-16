@@ -90,3 +90,34 @@ enum class TemperatureUnits(
     }
 
 }
+
+enum class WindUnits(
+    @StringRes val titleRes: Int,
+    @StringRes val unitRes: Int
+) {
+
+    METRES(
+        titleRes = R.string.wind_unit_metres,
+        unitRes = R.string.wind_unit_metres_unit
+    ),
+
+    MILES(
+        titleRes = R.string.wind_unit_miles,
+        unitRes = R.string.wind_unit_miles_unit
+    ),
+
+    KILOMETRES(
+        titleRes = R.string.wind_unit_kilometres,
+        unitRes = R.string.wind_unit_kilometres_unit
+    ),
+
+    NAUTICAL_KNOTS(
+        titleRes = R.string.wind_unit_nautical_knots,
+        unitRes = R.string.wind_unit_nautical_knots_unit
+    );
+
+    companion object {
+        operator fun invoke(index: Int) = values()[index]
+    }
+
+}

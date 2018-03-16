@@ -108,7 +108,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 MeasurementType.PRECIPITATION -> string(EventPrefs.PrecipitationUnit.unit.unitRes)
                 MeasurementType.RADIATION -> string(EventPrefs.RadiationUnit.unit.unitRes)
                 MeasurementType.TEMPERATURE -> string(EventPrefs.TemperatureUnit.unit.unitRes)
-                MeasurementType.WIND -> "km/h"
+                MeasurementType.WIND -> string(EventPrefs.WindUnit.unit.unitRes)
             }
 
             val measurementCardItem = CardIItem {

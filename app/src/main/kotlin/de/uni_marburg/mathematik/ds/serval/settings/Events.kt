@@ -11,6 +11,7 @@ import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.PrecipitationUnits
 import de.uni_marburg.mathematik.ds.serval.enums.RadiationUnits
 import de.uni_marburg.mathematik.ds.serval.enums.TemperatureUnits
+import de.uni_marburg.mathematik.ds.serval.enums.WindUnits
 import de.uni_marburg.mathematik.ds.serval.utils.logAnalytics
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 
@@ -62,6 +63,22 @@ object EventPrefs : KPref() {
         )
         private val loader = lazyResettable { TemperatureUnits.values()[index] }
         val unit: TemperatureUnits by loader
+    }
+
+    object WindUnit {
+        var index: Int by kpref(
+            key = "WIND_INDEX",
+            fallback = WindUnits.METRES.ordinal,
+            postSetter = {
+                loader.invalidate()
+                logAnalytics(
+                    name = "Wind Unit",
+                    events = *arrayOf("Count" to WindUnits(it).name)
+                )
+            }
+        )
+        private val loader = lazyResettable { WindUnits.values()[index] }
+        val unit: WindUnits by loader
     }
 
 }
@@ -146,6 +163,33 @@ fun SettingsActivity.eventItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         builder = {
             onClick = ::showTemperatureUnitChooserDialog
             textGetter = { string(TemperatureUnits(it).titleRes) }
+        }
+    )
+
+    fun showWindUnitChooserDialog(onClick: KClick<Int>) {
+        materialDialogThemed {
+            title(R.string.preference_event_wind_unit)
+            items(WindUnits.values().map { string(it.titleRes) })
+            with(onClick) {
+                itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
+                    if (item.pref != which) {
+                        item.pref = which
+                        shouldRestartMain()
+                        reload()
+                    }
+                    true
+                }
+            }
+        }
+    }
+
+    text(
+        title = R.string.preference_event_wind_unit,
+        getter = EventPrefs.WindUnit::index,
+        setter = { EventPrefs.WindUnit.index = it },
+        builder = {
+            onClick = ::showWindUnitChooserDialog
+            textGetter = { string(WindUnits(it).titleRes) }
         }
     )
 
