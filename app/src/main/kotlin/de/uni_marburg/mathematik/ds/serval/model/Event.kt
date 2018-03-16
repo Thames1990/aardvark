@@ -11,6 +11,7 @@ import com.mikepenz.weather_icons_typeface_library.WeatherIcons
 import com.squareup.moshi.Json
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.RadiationUnits
 import de.uni_marburg.mathematik.ds.serval.enums.TemperatureUnits
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.EventPrefs
@@ -107,14 +108,22 @@ data class Measurement(val type: MeasurementType, val value: Double) {
     inline val conversionValue: Double
         get() = when (type) {
             MeasurementType.PRECIPITATION -> value
-            MeasurementType.RADIATION -> value
-            MeasurementType.TEMPERATURE -> {
-                value.converseToTemperatureUnit(EventPrefs.TemperatureUnit.temperatureUnit)
-            }
+            MeasurementType.RADIATION -> value toRadiationUnit EventPrefs.RadiationUnit.unit
+            MeasurementType.TEMPERATURE -> value toTemperatureUnit EventPrefs.TemperatureUnit.unit
             MeasurementType.WIND -> value
         }
 
-    infix fun Double.converseToTemperatureUnit(
+    infix fun Double.toRadiationUnit(
+        radiationUnit: RadiationUnits
+    ) = when (radiationUnit) {
+        RadiationUnits.REM -> this / 10000
+        RadiationUnits.MILLIREM -> this / 10
+        RadiationUnits.MILLISIEVERT -> this / 1000
+        RadiationUnits.SIEVERT -> this / 1000000
+        RadiationUnits.MICROSIEVERT -> this
+    }
+
+    infix fun Double.toTemperatureUnit(
         temperatureUnit: TemperatureUnits
     ) = when (temperatureUnit) {
         TemperatureUnits.CELSIUS -> this

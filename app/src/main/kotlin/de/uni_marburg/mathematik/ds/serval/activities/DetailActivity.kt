@@ -106,8 +106,8 @@ class DetailActivity : ElasticRecyclerActivity() {
             val value: Double = measurement.conversionValue
             val unit: String = when (measurement.type) {
                 MeasurementType.PRECIPITATION -> "mm"
-                MeasurementType.RADIATION -> "μSv/h"
-                MeasurementType.TEMPERATURE -> string(EventPrefs.TemperatureUnit.temperatureUnit.unit)
+                MeasurementType.RADIATION -> string(EventPrefs.RadiationUnit.unit.unitRes)
+                MeasurementType.TEMPERATURE -> string(EventPrefs.TemperatureUnit.unit.unitRes)
                 MeasurementType.WIND -> "km/h"
             }
 

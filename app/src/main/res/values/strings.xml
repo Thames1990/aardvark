@@ -150,6 +150,7 @@
     <string name="preference_confirm_exit_desc">Show confirmation dialog before exiting the app</string>
     <string name="preference_event">Event</string>
     <string name="preference_event_desc">Define how certain properties of events are displayed</string>
+    <string name="preference_event_radiation_unit">Radiation Unit</string>
     <string name="preference_event_temperature_unit">Temperature Unit</string>
     <string name="preference_experimental">Experimental</string>
     <string name="preference_experimental_desc">Enable early access to potentially unstable features</string>
@@ -222,6 +223,17 @@
     <string name="preference_serval_password_desc">Serval API password</string>
     <string name="preference_serval_username">Username</string>
     <string name="preference_serval_username_desc">Serval API username</string>
+
+    <string name="radiation_unit_microsievert">Microsievert</string>
+    <string name="radiation_unit_microsievert_unit">µSv</string>
+    <string name="radiation_unit_millirem">Millirem</string>
+    <string name="radiation_unit_millirem_unit">mrem</string>
+    <string name="radiation_unit_millisievert">Millisievert</string>
+    <string name="radiation_unit_millisievert_unit">mSv</string>
+    <string name="radiation_unit_rem">Rem</string>
+    <string name="radiation_unit_rem_unit">rem</string>
+    <string name="radiation_unit_sievert">Sievert</string>
+    <string name="radiation_unit_sievert_unit">Sv</string>
 
     <string name="repository_link_aardvark" translatable="false">https://github.com/Thames1990/aardvark</string>
     <string name="repository_link_kerval" translatable="false">https://github.com/CryptoCopter/kerval</string>
