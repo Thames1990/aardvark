@@ -242,8 +242,11 @@
     <string name="tab_item_map">Map</string>
 
     <string name="temperature_unit_celsius">Celsius</string>
+    <string name="temperature_unit_celsius_unit">°C</string>
     <string name="temperature_unit_fahrenheit">Fahrenheit</string>
+    <string name="temperature_unit_fahrenheit_unit">°F</string>
     <string name="temperature_unit_kelvin">Kelvin</string>
+    <string name="temperature_unit_kelvin_unit">K</string>
 
     <string name="tooltip_fab_move_to_current_location">Move to current location</string>
     <string name="tooltip_fab_scroll_to_top">Scroll to top</string>

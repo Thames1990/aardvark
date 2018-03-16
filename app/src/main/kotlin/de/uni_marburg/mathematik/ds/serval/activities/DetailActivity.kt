@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.location.Address
@@ -14,7 +13,6 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.context.IconicsContextWrapper
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
@@ -62,10 +60,6 @@ class DetailActivity : ElasticRecyclerActivity() {
         super.onPause()
     }
 
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(IconicsContextWrapper.wrap(newBase))
-    }
-
     @SuppressLint("NewApi")
     private fun setup() {
         doAsync {
@@ -110,11 +104,10 @@ class DetailActivity : ElasticRecyclerActivity() {
 
         event.measurements.forEach { measurement ->
             val value: Double = measurement.conversionValue
-            // TODO Refactor with new unit settings
-            val unit: String = when(measurement.type) {
+            val unit: String = when (measurement.type) {
                 MeasurementType.PRECIPITATION -> "mm"
                 MeasurementType.RADIATION -> "μSv/h"
-                MeasurementType.TEMPERATURE -> EventPrefs.TemperatureUnit.temperatureUnit.iicon.formattedName
+                MeasurementType.TEMPERATURE -> string(EventPrefs.TemperatureUnit.temperatureUnit.unit)
                 MeasurementType.WIND -> "km/h"
             }
 
