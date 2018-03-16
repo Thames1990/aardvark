@@ -121,6 +121,7 @@ data class Measurement(val type: MeasurementType, val value: Double) {
         RadiationUnits.MILLISIEVERT -> this / 1000
         RadiationUnits.SIEVERT -> this / 1000000
         RadiationUnits.MICROSIEVERT -> this
+        RadiationUnits.BANANA_EQUIVALENT_DOSE -> this * 10
     }
 
     infix fun Double.toTemperatureUnit(

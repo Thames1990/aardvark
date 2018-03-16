@@ -28,6 +28,11 @@ enum class RadiationUnits(
         unitRes = R.string.radiation_unit_sievert_unit
     ),
 
+    BANANA_EQUIVALENT_DOSE(
+        titleRes = R.string.radiation_unit_banana_equivalent_dose,
+        unitRes = R.string.radiation_unit_banana_equivalent_dose_unit
+    ),
+
     MICROSIEVERT(
         titleRes = R.string.radiation_unit_microsievert,
         unitRes = R.string.radiation_unit_microsievert_unit

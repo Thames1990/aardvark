@@ -224,6 +224,8 @@
     <string name="preference_serval_username">Username</string>
     <string name="preference_serval_username_desc">Serval API username</string>
 
+    <string name="radiation_unit_banana_equivalent_dose">Banana equivalent dose</string>
+    <string name="radiation_unit_banana_equivalent_dose_unit">BED</string>
     <string name="radiation_unit_microsievert">Microsievert</string>
     <string name="radiation_unit_microsievert_unit">µSv</string>
     <string name="radiation_unit_millirem">Millirem</string>
