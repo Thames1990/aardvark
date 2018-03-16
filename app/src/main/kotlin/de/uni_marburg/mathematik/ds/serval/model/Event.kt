@@ -11,7 +11,9 @@ import com.mikepenz.weather_icons_typeface_library.WeatherIcons
 import com.squareup.moshi.Json
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.TemperatureUnits
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.EventPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInSeconds
 import net.sharewire.googlemapsclustering.ClusterItem
 
@@ -100,20 +102,35 @@ data class GeohashLocation(val latitude: Double, val longitude: Double, private 
  * @property type Measurement type
  * @property value Measurement value
  */
-data class Measurement(val type: MeasurementType, val value: Int)
+data class Measurement(val type: MeasurementType, val value: Double) {
+
+    inline val conversionValue: Double
+        get() = when (type) {
+            MeasurementType.PRECIPITATION -> value
+            MeasurementType.RADIATION -> value
+            MeasurementType.TEMPERATURE -> {
+                value.converseToTemperatureUnit(EventPrefs.TemperatureUnit.temperatureUnit)
+            }
+            MeasurementType.WIND -> value
+        }
+
+    infix fun Double.converseToTemperatureUnit(
+        temperatureUnit: TemperatureUnits
+    ) = when (temperatureUnit) {
+        TemperatureUnits.CELSIUS -> this
+        TemperatureUnits.FAHRENHEIT -> (this * 1.8 + 32)
+        TemperatureUnits.KELVIN -> (this + 273.15)
+    }
+
+}
 
 /**
  * Type of a [measurement][Measurement].
  *
  * @property titleRes Resource ID of the title
- * @property formatRes Resource ID for the format
  * @property iicon Measurement icon
  */
-enum class MeasurementType(
-    @StringRes val titleRes: Int,
-    @StringRes val formatRes: Int,
-    val iicon: IIcon
-) {
+enum class MeasurementType(@StringRes val titleRes: Int, val iicon: IIcon) {
 
     /**
      * Any product of the condensation of atmospheric water vapor that falls under gravity.
@@ -122,7 +139,6 @@ enum class MeasurementType(
     @Json(name = "precipitation")
     PRECIPITATION(
         titleRes = R.string.measurement_precipitation,
-        formatRes = R.string.measurement_value_precipitation,
         iicon = WeatherIcons.Icon.wic_rain
     ),
 
@@ -133,7 +149,6 @@ enum class MeasurementType(
     @Json(name = "radiation")
     RADIATION(
         titleRes = R.string.measurement_radiation,
-        formatRes = R.string.measurement_value_radiation,
         iicon = CommunityMaterial.Icon.cmd_atom
     ),
 
@@ -143,7 +158,6 @@ enum class MeasurementType(
     @Json(name = "temperature")
     TEMPERATURE(
         titleRes = R.string.measurement_temperature,
-        formatRes = R.string.measurement_value_temperature,
         iicon = WeatherIcons.Icon.wic_thermometer
     ),
 
@@ -154,7 +168,6 @@ enum class MeasurementType(
     @Json(name = "wind")
     WIND(
         titleRes = R.string.measurement_wind,
-        formatRes = R.string.measurement_value_wind,
         iicon = WeatherIcons.Icon.wic_strong_wind
     )
 }

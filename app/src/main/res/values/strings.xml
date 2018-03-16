@@ -114,10 +114,6 @@
     <string name="measurement_precipitation">Precipitation</string>
     <string name="measurement_radiation">Radiation</string>
     <string name="measurement_temperature">Temperature</string>
-    <string name="measurement_value_precipitation" translatable="false">%1$d mm</string>
-    <string name="measurement_value_radiation" translatable="false">%1$d μSv/h</string>
-    <string name="measurement_value_temperature" translatable="false">%1$d °C</string>
-    <string name="measurement_value_wind" translatable="false">%1$d km/h</string>
     <string name="measurement_wind">Wind</string>
 
     <string name="network_disconnected">No network connectivity</string>

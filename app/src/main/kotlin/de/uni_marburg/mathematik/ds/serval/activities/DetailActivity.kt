@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.location.Address
@@ -13,10 +14,13 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.context.IconicsContextWrapper
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
+import de.uni_marburg.mathematik.ds.serval.model.MeasurementType
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.EventPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import de.uni_marburg.mathematik.ds.serval.views.MapIItem
 import de.uni_marburg.mathematik.ds.serval.views.SmallHeaderIItem
@@ -56,6 +60,10 @@ class DetailActivity : ElasticRecyclerActivity() {
     override fun onPause() {
         geocodingControl.stop()
         super.onPause()
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(IconicsContextWrapper.wrap(newBase))
     }
 
     @SuppressLint("NewApi")
@@ -101,11 +109,18 @@ class DetailActivity : ElasticRecyclerActivity() {
         val measurementCardItems = mutableListOf<CardIItem>()
 
         event.measurements.forEach { measurement ->
-            val format = string(measurement.type.formatRes)
-            val measurementDescription = String.format(format, measurement.value)
+            val value: Double = measurement.conversionValue
+            // TODO Refactor with new unit settings
+            val unit: String = when(measurement.type) {
+                MeasurementType.PRECIPITATION -> "mm"
+                MeasurementType.RADIATION -> "μSv/h"
+                MeasurementType.TEMPERATURE -> EventPrefs.TemperatureUnit.temperatureUnit.iicon.formattedName
+                MeasurementType.WIND -> "km/h"
+            }
+
             val measurementCardItem = CardIItem {
                 titleRes = measurement.type.titleRes
-                desc = measurementDescription
+                desc = "$value $unit"
                 imageIIcon = measurement.type.iicon
                 imageIIconColor = AppearancePrefs.Theme.iconColor
             }
