@@ -23,6 +23,7 @@ import de.uni_marburg.mathematik.ds.serval.enums.AboutLinks
 import de.uni_marburg.mathematik.ds.serval.enums.LibraryDefinitions
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
+import de.uni_marburg.mathematik.ds.serval.utils.experimentalSettingsAreEnabled
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 /**
@@ -48,13 +49,13 @@ class AboutActivity : AboutActivityBase(
             add(aardvark)
             add(AboutLinkIItem())
 
-            // Activate debug settings, if the user clicked the Aardvark item multiple times in
-            // a short duration
+            // Activate experimental settings, if the user clicked the Aardvark item multiple times
+            // in a short duration
             withOnRepeatedClickListener(
                 count = 7,
                 duration = 500L,
                 event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
-                    if (!ExperimentalPrefs.enabled && item == aardvark) {
+                    if (!experimentalSettingsAreEnabled && item == aardvark) {
                         ExperimentalPrefs.enabled = true
                         snackbarThemed(
                             textRes = R.string.preference_experimental_enabled,

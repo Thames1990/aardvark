@@ -23,6 +23,7 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
 import org.jetbrains.anko.bundleOf
 import java.time.Instant
 import java.util.*
@@ -39,6 +40,9 @@ inline val currentTimeInMillis: Long
     get() =
         if (buildIsOreoAndUp) Instant.now().toEpochMilli()
         else Calendar.getInstance().timeInMillis
+
+inline val experimentalSettingsAreEnabled: Boolean
+    get() = ExperimentalPrefs.enabled
 
 inline var ViewPager.item
     get() = currentItem
