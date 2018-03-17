@@ -1,27 +1,38 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.location.Address
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.widget.CardView
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.TextView
+import ca.allanwang.kau.adapters.ThemableIItem
+import ca.allanwang.kau.adapters.ThemableIItemDelegate
 import ca.allanwang.kau.iitems.CardIItem
+import ca.allanwang.kau.iitems.KauIItem
 import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
 import ca.allanwang.kau.utils.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.IconicsDrawable
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
-import de.uni_marburg.mathematik.ds.serval.model.MeasurementType
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
-import de.uni_marburg.mathematik.ds.serval.settings.EventPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
-import de.uni_marburg.mathematik.ds.serval.views.MapIItem
-import de.uni_marburg.mathematik.ds.serval.views.SmallHeaderIItem
 import io.nlopez.smartlocation.SmartLocation
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -35,10 +46,10 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private lateinit var event: Event
     private lateinit var geocodingControl: SmartLocation.GeocodingControl
-    private lateinit var viewModel: EventViewModel
+    private lateinit var eventViewModel: EventViewModel
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
-        viewModel = getViewModel()
+        eventViewModel = getViewModel()
         geocodingControl = SmartLocation.with(this).geocoding()
 
         setSecureFlag()
@@ -50,8 +61,6 @@ class DetailActivity : ElasticRecyclerActivity() {
 
         setup()
 
-        setOutsideTapListener { finishAfterTransition() }
-
         return true
     }
 
@@ -60,11 +69,10 @@ class DetailActivity : ElasticRecyclerActivity() {
         super.onPause()
     }
 
-    @SuppressLint("NewApi")
     private fun setup() {
         doAsync {
             val eventId: String = intent.extras.getString(EVENT_ID)
-            event = viewModel[eventId]
+            event = eventViewModel[eventId]
 
             uiThread {
                 title = event.title
@@ -83,6 +91,8 @@ class DetailActivity : ElasticRecyclerActivity() {
                 )
             }
         }
+
+        setOutsideTapListener { finishAfterTransition() }
     }
 
     /**
@@ -104,12 +114,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
         event.measurements.forEach { measurement ->
             val value: Double = measurement.conversionValue
-            val unit: String = when (measurement.type) {
-                MeasurementType.PRECIPITATION -> string(EventPrefs.PrecipitationUnit.unit.unitRes)
-                MeasurementType.RADIATION -> string(EventPrefs.RadiationUnit.unit.unitRes)
-                MeasurementType.TEMPERATURE -> string(EventPrefs.TemperatureUnit.unit.unitRes)
-                MeasurementType.WIND -> string(EventPrefs.WindUnit.unit.unitRes)
-            }
+            val unit: String = string(measurement.type.unit)
 
             val measurementCardItem = CardIItem {
                 titleRes = measurement.type.titleRes
@@ -216,6 +221,93 @@ class DetailActivity : ElasticRecyclerActivity() {
     companion object {
         const val EVENT_ID = "EVENT_ID"
         const val SHOULD_SHOW_MAP = "SHOULD_SHOW_MAP"
+    }
+
+    private class MapIItem(val event: Event) : KauIItem<MapIItem, MapIItem.ViewHolder>(
+        layoutRes = R.layout.iitem_map,
+        viewHolder = ::ViewHolder,
+        type = R.id.item_map
+    ), ThemableIItem by ThemableIItemDelegate() {
+
+        override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
+            super.bindView(holder, payloads)
+            with(holder.map) {
+                onCreate(null)
+                getMapAsync { googleMap ->
+                    with(googleMap) {
+                        val mapStyleRes: Int = when (AppearancePrefs.Theme.theme) {
+                            Themes.AMOLED -> R.raw.map_style_night
+                            Themes.LIGHT -> R.raw.map_style_standard
+                            Themes.DARK -> R.raw.map_style_dark
+                            Themes.CUSTOM -> MapPrefs.MapStyle.styleRes
+                        }
+                        setMapStyle(MapStyleOptions.loadRawResourceStyle(context, mapStyleRes))
+
+                        with(uiSettings) {
+                            isClickable = false
+                            isMapToolbarEnabled = false
+                            setAllGesturesEnabled(false)
+                        }
+
+                        val position: LatLng = event.position
+                        val marker: MarkerOptions = MarkerOptions()
+                            .position(position)
+                            .icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                    IconicsDrawable(context)
+                                        .icon(CommunityMaterial.Icon.cmd_map_marker)
+                                        .color(AppearancePrefs.Theme.textColor)
+                                        .toBitmap()
+                                )
+                            )
+                        addMarker(marker)
+
+                        val cameraUpdate =
+                            CameraUpdateFactory.newLatLngZoom(position, MapPrefs.MAP_ZOOM)
+                        moveCamera(cameraUpdate)
+                    }
+                }
+            }
+        }
+
+        override fun unbindView(holder: ViewHolder) {
+            super.unbindView(holder)
+            holder.map.onDestroy()
+        }
+
+        class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val map: MapView by bindView(R.id.map)
+        }
+    }
+
+    private class SmallHeaderIItem(
+        text: String? = null,
+        var textRes: Int = -1
+    ) : KauIItem<SmallHeaderIItem, SmallHeaderIItem.ViewHolder>(
+        layoutRes = R.layout.iitem_header,
+        viewHolder = ::ViewHolder,
+        type = R.id.item_small_header
+    ), ThemableIItem by ThemableIItemDelegate() {
+
+        var text: String = text ?: "Header Placeholder"
+
+        override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
+            super.bindView(holder, payloads)
+            holder.text.text = holder.itemView.context.string(textRes, text)
+            bindTextColor(holder.text)
+            bindBackgroundColor(holder.container)
+        }
+
+        override fun unbindView(holder: ViewHolder) {
+            super.unbindView(holder)
+            holder.text.text = null
+        }
+
+        class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+            val text: TextView by bindView(R.id.kau_header_text)
+            val container: CardView by bindView(R.id.kau_header_container)
+        }
+
     }
 
 }

@@ -1,4 +1,4 @@
-package de.uni_marburg.mathematik.ds.serval.views
+package de.uni_marburg.mathematik.ds.serval
 
 import android.annotation.SuppressLint
 import android.content.Context

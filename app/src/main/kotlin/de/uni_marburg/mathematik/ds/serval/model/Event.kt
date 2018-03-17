@@ -158,7 +158,11 @@ data class Measurement(val type: MeasurementType, val value: Double) {
  * @property titleRes Resource ID of the title
  * @property iicon Measurement icon
  */
-enum class MeasurementType(@StringRes val titleRes: Int, val iicon: IIcon) {
+enum class MeasurementType(
+    @StringRes val titleRes: Int,
+    @StringRes val unit: Int,
+    val iicon: IIcon
+) {
 
     /**
      * Any product of the condensation of atmospheric water vapor that falls under gravity.
@@ -167,6 +171,7 @@ enum class MeasurementType(@StringRes val titleRes: Int, val iicon: IIcon) {
     @Json(name = "precipitation")
     PRECIPITATION(
         titleRes = R.string.measurement_precipitation,
+        unit = EventPrefs.PrecipitationUnit.unit.unitRes,
         iicon = WeatherIcons.Icon.wic_rain
     ),
 
@@ -177,6 +182,7 @@ enum class MeasurementType(@StringRes val titleRes: Int, val iicon: IIcon) {
     @Json(name = "radiation")
     RADIATION(
         titleRes = R.string.measurement_radiation,
+        unit = EventPrefs.RadiationUnit.unit.unitRes,
         iicon = CommunityMaterial.Icon.cmd_atom
     ),
 
@@ -186,6 +192,7 @@ enum class MeasurementType(@StringRes val titleRes: Int, val iicon: IIcon) {
     @Json(name = "temperature")
     TEMPERATURE(
         titleRes = R.string.measurement_temperature,
+        unit = EventPrefs.TemperatureUnit.unit.unitRes,
         iicon = WeatherIcons.Icon.wic_thermometer
     ),
 
@@ -196,6 +203,7 @@ enum class MeasurementType(@StringRes val titleRes: Int, val iicon: IIcon) {
     @Json(name = "wind")
     WIND(
         titleRes = R.string.measurement_wind,
+        unit = EventPrefs.WindUnit.unit.unitRes,
         iicon = WeatherIcons.Icon.wic_strong_wind
     )
 }

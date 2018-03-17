@@ -4,23 +4,31 @@ import android.arch.lifecycle.LiveData
 import android.arch.paging.PagedList
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.location.Location
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.widget.Toolbar
+import android.util.AttributeSet
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import com.google.android.gms.maps.model.LatLng
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
+import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.SwipeToggleViewPager
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayouts
 import de.uni_marburg.mathematik.ds.serval.enums.TabItems
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
@@ -29,8 +37,6 @@ import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
-import de.uni_marburg.mathematik.ds.serval.views.BadgedIcon
-import de.uni_marburg.mathematik.ds.serval.views.SwipeToggleViewPager
 import io.nlopez.smartlocation.SmartLocation
 import io.nlopez.smartlocation.location.config.LocationParams
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider
@@ -288,6 +294,55 @@ class MainActivity : BaseActivity() {
             locationControl.stop()
             super.onInactive()
         }
+
+    }
+
+    private class BadgedIcon @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0
+    ) : ConstraintLayout(context, attrs, defStyleAttr) {
+
+        private val badgeTextView: TextView by bindView(R.id.badge_text)
+        private val badgeImage: ImageView by bindView(R.id.badge_image)
+
+        init {
+            View.inflate(context, R.layout.view_badged_icon, this)
+            val badgeColor = AppearancePrefs.MainActivityLayout.backgroundColor
+                .withAlpha(255)
+                .colorToForeground(0.2f)
+            val badgeBackground = GradientDrawable(
+                GradientDrawable.Orientation.BOTTOM_TOP,
+                intArrayOf(badgeColor, badgeColor)
+            ).apply {
+                cornerRadius = 13.dpToPx.toFloat()
+            }
+            with(badgeTextView) {
+                background = badgeBackground
+                setTextColor(AppearancePrefs.MainActivityLayout.iconColor)
+            }
+        }
+
+        var iicon: IIcon? = null
+            set(value) {
+                field = value
+                badgeImage.setImageDrawable(
+                    value?.toDrawable(
+                        context,
+                        sizeDp = 20,
+                        color = AppearancePrefs.MainActivityLayout.iconColor
+                    )
+                )
+            }
+
+        var badgeText: String?
+            get() = badgeTextView.text.toString()
+            set(value) {
+                if (badgeTextView.text == value) return
+                badgeTextView.text = value
+                if (value != null && value != "0") badgeTextView.visible()
+                else badgeTextView.gone()
+            }
 
     }
 
