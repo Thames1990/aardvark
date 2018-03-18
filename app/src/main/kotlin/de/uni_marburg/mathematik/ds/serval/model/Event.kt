@@ -27,10 +27,7 @@ import net.sharewire.googlemapsclustering.ClusterItem
  * @property data Describes this event
  */
 @Entity(tableName = "events")
-data class Event(
-    @PrimaryKey val id: String,
-    val data: Data
-) : ClusterItem {
+data class Event(@PrimaryKey val id: String, val data: Data) : ClusterItem {
 
     /**
      * Occurrence time in seconds
@@ -105,50 +102,46 @@ data class GeohashLocation(val latitude: Double, val longitude: Double, private 
  * @property type Measurement type
  * @property value Measurement value
  */
-data class Measurement(val type: MeasurementType, val value: Double) {
+data class Measurement(val type: MeasurementType, private val value: Double) {
 
-    inline val conversionValue: Double
+    val conversionValue: Double
         get() = when (type) {
-            MeasurementType.PRECIPITATION -> value toPrecipitationUnit EventPrefs.PrecipitationUnit.unit
-            MeasurementType.RADIATION -> value toRadiationUnit EventPrefs.RadiationUnit.unit
-            MeasurementType.TEMPERATURE -> value toTemperatureUnit EventPrefs.TemperatureUnit.unit
-            MeasurementType.WIND -> value toWindUnit EventPrefs.WindUnit.unit
+            MeasurementType.PRECIPITATION -> precipitationValue
+            MeasurementType.RADIATION -> radiationValue
+            MeasurementType.TEMPERATURE -> temperatureValue
+            MeasurementType.WIND -> windValue
         }
 
-    infix fun Double.toPrecipitationUnit(
-        precipitationUnit: PrecipitationUnits
-    ) = when (precipitationUnit) {
-        PrecipitationUnits.MILLIMETER -> value
-        PrecipitationUnits.INCHES -> value / 25.4
-    }
+    private inline val precipitationValue: Double
+        get() = when (EventPrefs.PrecipitationUnit.unit) {
+            PrecipitationUnits.MILLIMETER -> value
+            PrecipitationUnits.INCHES -> value / 25.4
+        }
 
-    infix fun Double.toRadiationUnit(
-        radiationUnit: RadiationUnits
-    ) = when (radiationUnit) {
-        RadiationUnits.REM -> this / 10000
-        RadiationUnits.MILLIREM -> this / 10
-        RadiationUnits.MILLISIEVERT -> this / 1000
-        RadiationUnits.SIEVERT -> this / 1000000
-        RadiationUnits.MICROSIEVERT -> this
-        RadiationUnits.BANANA_EQUIVALENT_DOSE -> this * 10
-    }
+    private inline val radiationValue: Double
+        get() = when (EventPrefs.RadiationUnit.unit) {
+            RadiationUnits.REM -> value / 10000
+            RadiationUnits.MILLIREM -> value / 10
+            RadiationUnits.MILLISIEVERT -> value / 1000
+            RadiationUnits.SIEVERT -> value / 1000000
+            RadiationUnits.MICROSIEVERT -> value
+            RadiationUnits.BANANA_EQUIVALENT_DOSE -> value * 10
+        }
 
-    infix fun Double.toTemperatureUnit(
-        temperatureUnit: TemperatureUnits
-    ) = when (temperatureUnit) {
-        TemperatureUnits.CELSIUS -> this
-        TemperatureUnits.FAHRENHEIT -> (this * 1.8 + 32)
-        TemperatureUnits.KELVIN -> (this + 273.15)
-    }
+    private inline val temperatureValue: Double
+        get() = when (EventPrefs.TemperatureUnit.unit) {
+            TemperatureUnits.CELSIUS -> value
+            TemperatureUnits.FAHRENHEIT -> (value * 1.8 + 32)
+            TemperatureUnits.KELVIN -> (value + 273.15)
+        }
 
-    infix fun Double.toWindUnit(
-        windUnit: WindUnits
-    ) = when (windUnit) {
-        WindUnits.METRES -> this
-        WindUnits.MILES -> this * (25 / 11)
-        WindUnits.KILOMETRES -> this * 3.6
-        WindUnits.NAUTICAL_KNOTS -> this * 1.943844
-    }
+    private inline val windValue: Double
+        get() = when (EventPrefs.WindUnit.unit) {
+            WindUnits.METRES -> value
+            WindUnits.MILES -> value * (25 / 11)
+            WindUnits.KILOMETRES -> value * 3.6
+            WindUnits.NAUTICAL_KNOTS -> value * 1.943844
+        }
 
 }
 
