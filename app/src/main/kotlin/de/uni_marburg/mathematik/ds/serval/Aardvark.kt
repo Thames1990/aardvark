@@ -39,7 +39,7 @@ class Aardvark : Application() {
         setupPreferences()
         setupAnalytics()
         setupLeakCanary()
-        setupAuthentication()
+        if (appIsSecured) setupAuthentication()
 
         if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
     }
@@ -73,14 +73,12 @@ class Aardvark : Application() {
                 else RefWatcher.DISABLED
     }
 
-    private fun setupAuthentication(authenticate: Boolean = appIsSecured) {
-        if (authenticate) {
-            Reprint.initialize(applicationContext)
-            ProcessLifecycleOwner.get().lifecycle.addObserver(AuthenticationListener())
-        }
+    private fun setupAuthentication() {
+        Reprint.initialize(applicationContext)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(AuthenticationListener())
     }
 
-    private inner class AuthenticationListener : LifecycleObserver {
+    inner class AuthenticationListener : LifecycleObserver {
 
         /**
          * Requires fingerprint authentication and therefore opens
