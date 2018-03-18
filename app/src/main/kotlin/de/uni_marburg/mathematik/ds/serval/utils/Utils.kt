@@ -30,23 +30,26 @@ import java.time.Instant
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-inline val analyticsEnabled: Boolean
+inline val analyticsAreEnabled: Boolean
     get() = BehaviourPrefs.analyticsEnabled
 
-inline val animationsEnabled: Boolean
+inline val animationsAreEnabled: Boolean
     get() = BehaviourPrefs.animationsEnabled
 
-inline val currentTimeInSeconds: Long
-    @SuppressLint("NewApi")
-    get() =
-        if (buildIsOreoAndUp) Instant.now().epochSecond
-        else Calendar.getInstance()[Calendar.SECOND].toLong()
+inline val appIsSecured: Boolean
+    get() = ExperimentalPrefs.secureApp
 
 inline val currentTimeInMillis: Long
     @SuppressLint("NewApi")
     get() =
         if (buildIsOreoAndUp) Instant.now().toEpochMilli()
         else Calendar.getInstance().timeInMillis
+
+inline val currentTimeInSeconds: Long
+    @SuppressLint("NewApi")
+    get() =
+        if (buildIsOreoAndUp) Instant.now().epochSecond
+        else Calendar.getInstance()[Calendar.SECOND].toLong()
 
 inline val experimentalSettingsAreEnabled: Boolean
     get() = ExperimentalPrefs.enabled
@@ -70,7 +73,7 @@ fun doOnDebugBuild(block: () -> Unit) {
  * Log custom events to analytics services.
  */
 fun logAnalytics(name: String, vararg events: Pair<String, Any>) {
-    if (analyticsEnabled) {
+    if (analyticsAreEnabled) {
         answers {
             logCustom(CustomEvent(name).apply {
                 events.forEach { (key: String, value: Any) ->

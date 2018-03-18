@@ -114,7 +114,7 @@ class EventsFragment : BaseFragment() {
         swipeRefreshLayout.setOnRefreshListener { reloadEvents() }
         with(recyclerView) {
             withLinearAdapter(eventAdapter)
-            if (animationsEnabled) itemAnimator = KauAnimator(
+            if (animationsAreEnabled) itemAnimator = KauAnimator(
                 addAnimator = FadeScaleAnimatorAdd(scaleFactor = 0.7f, itemDelayFactor = 0.2f),
                 changeAnimator = NoAnimatorChange()
             ).apply {
@@ -160,7 +160,7 @@ class EventsFragment : BaseFragment() {
                     val context: Context = it.context
                     context.startActivity<DetailActivity>(
                         bundleBuilder = {
-                            if (animationsEnabled) withSceneTransitionAnimation(context)
+                            if (animationsAreEnabled) withSceneTransitionAnimation(context)
                         },
                         intentBuilder = {
                             putExtra(DetailActivity.EVENT_ID, event.id)

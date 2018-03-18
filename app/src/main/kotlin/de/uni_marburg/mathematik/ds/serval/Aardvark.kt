@@ -2,7 +2,10 @@ package de.uni_marburg.mathematik.ds.serval
 
 import android.app.Application
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ProcessLifecycleOwner
+import android.content.Intent
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.github.ajalt.reprint.core.Reprint
@@ -11,9 +14,10 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import de.uni_marburg.mathematik.ds.serval.activities.FingerprintActivity
 import de.uni_marburg.mathematik.ds.serval.settings.*
-import de.uni_marburg.mathematik.ds.serval.utils.AuthenticationListener
-import de.uni_marburg.mathematik.ds.serval.utils.analyticsEnabled
+import de.uni_marburg.mathematik.ds.serval.utils.analyticsAreEnabled
+import de.uni_marburg.mathematik.ds.serval.utils.appIsSecured
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import de.uni_marburg.mathematik.ds.serval.utils.isDebugBuild
 import io.fabric.sdk.android.Fabric
@@ -25,9 +29,6 @@ class Aardvark : Application() {
         lateinit var firebaseAnalytics: FirebaseAnalytics
         lateinit var refWatcher: RefWatcher
     }
-
-    private lateinit var authenticationListener: AuthenticationListener
-    private lateinit var lifecycle: Lifecycle
 
     override fun onCreate() {
         super.onCreate()
@@ -56,10 +57,10 @@ class Aardvark : Application() {
 
     private fun setupAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(applicationContext).apply {
-            setAnalyticsCollectionEnabled(analyticsEnabled)
+            setAnalyticsCollectionEnabled(analyticsAreEnabled)
         }
 
-        if (analyticsEnabled) {
+        if (analyticsAreEnabled) {
             Fabric.with(applicationContext, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(aardvarkId)
         }
@@ -72,13 +73,26 @@ class Aardvark : Application() {
                 else RefWatcher.DISABLED
     }
 
-    private fun setupAuthentication(authenticate: Boolean = ExperimentalPrefs.secureApp) {
-        Reprint.initialize(applicationContext)
-        authenticationListener = AuthenticationListener(this)
-        lifecycle = ProcessLifecycleOwner.get().lifecycle
+    private fun setupAuthentication(authenticate: Boolean = appIsSecured) {
+        if (authenticate) {
+            Reprint.initialize(applicationContext)
+            ProcessLifecycleOwner.get().lifecycle.addObserver(AuthenticationListener())
+        }
+    }
 
-        if (authenticate) lifecycle.addObserver(authenticationListener)
-        else lifecycle.removeObserver(authenticationListener)
+    private inner class AuthenticationListener : LifecycleObserver {
+
+        /**
+         * Requires fingerprint authentication and therefore opens
+         * [the fingerprint authentication activity][FingerprintActivity].
+         */
+        @OnLifecycleEvent(Lifecycle.Event.ON_START)
+        fun requireFingerprintAuthentication() {
+            val fingerprintIntent = Intent(applicationContext, FingerprintActivity::class.java)
+            fingerprintIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(fingerprintIntent)
+        }
+
     }
 
 }

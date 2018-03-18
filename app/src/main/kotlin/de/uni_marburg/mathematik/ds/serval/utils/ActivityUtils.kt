@@ -16,7 +16,6 @@ import ca.allanwang.kau.utils.*
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
-import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
 
 /**
  * Set all colors with the given [builder].
@@ -31,10 +30,9 @@ inline fun Activity.setColors(builder: ActivityThemeUtils.() -> Unit) {
  * Sets the treatment of the content of the window as [secure/non-secure][secure], (not) preventing
  * it from appearing in screenshots or from being viewed on non-secure displays.
  */
-fun Activity.setSecureFlag(secure: Boolean = ExperimentalPrefs.secureApp) {
+fun Activity.setSecureFlag(secure: Boolean = appIsSecured) {
     val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
-    if (secure) window.setFlags(secureFlag, secureFlag)
-    else window.clearFlags(secureFlag)
+    if (secure) window.setFlags(secureFlag, secureFlag) else window.clearFlags(secureFlag)
 }
 
 /**

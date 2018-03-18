@@ -291,11 +291,9 @@ class DetailActivity : ElasticRecyclerActivity() {
         type = R.id.item_small_header
     ), ThemableIItem by ThemableIItemDelegate() {
 
-        var text: String = text ?: "Header Placeholder"
-
         override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
             super.bindView(holder, payloads)
-            holder.text.text = holder.itemView.context.string(textRes, text)
+            holder.text.setTextIfValid(textRes)
             bindTextColor(holder.text)
             bindBackgroundColor(holder.container)
         }
