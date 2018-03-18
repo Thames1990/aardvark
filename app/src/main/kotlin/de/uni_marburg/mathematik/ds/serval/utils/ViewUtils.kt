@@ -64,6 +64,11 @@ fun ImageView.setIconWithOptions(
     else setIcon(icon, sizeDp, color, builder)
 }
 
+fun Snackbar.withAction(
+    @StringRes titleRes: Int,
+    onClick: () -> Unit
+) = setAction(context.string(titleRes), { onClick() })
+
 fun TextView.setTextWithOptions(
     text: String,
     duration: Long = 200,

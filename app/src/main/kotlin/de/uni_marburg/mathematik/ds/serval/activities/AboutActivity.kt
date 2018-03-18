@@ -25,6 +25,7 @@ import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.experimentalSettingsAreEnabled
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import de.uni_marburg.mathematik.ds.serval.utils.withAction
 
 /**
  * Shows details about the application, used open-source libraries and frequently asked questions.
@@ -61,9 +62,9 @@ class AboutActivity : AboutActivityBase(
                             textRes = R.string.preference_experimental_enabled,
                             builder = {
                                 // Add option to reload settings to activate experimental settings
-                                setAction(
-                                    R.string.preference_reload,
-                                    { startActivity<SettingsActivity>() }
+                                withAction(
+                                    titleRes = R.string.preference_reload,
+                                    onClick = { startActivity<SettingsActivity>() }
                                 )
                             }
                         )

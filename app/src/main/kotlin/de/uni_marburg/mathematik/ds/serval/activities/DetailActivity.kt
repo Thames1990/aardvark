@@ -206,7 +206,9 @@ class DetailActivity : ElasticRecyclerActivity() {
                 coordinator.snackbarThemed(
                     textRes = R.string.google_maps_not_enabled,
                     builder = {
-                        setAction(R.string.snackbar_action_enable, { showAppInfo(GOOGLE_MAPS) })
+                        withAction(
+                            titleRes = R.string.snackbar_action_enable,
+                            onClick = { showAppInfo(GOOGLE_MAPS) })
                     }
                 )
             }
@@ -214,7 +216,10 @@ class DetailActivity : ElasticRecyclerActivity() {
             coordinator.snackbarThemed(
                 textRes = R.string.google_maps_not_installed,
                 builder = {
-                    setAction(R.string.snackbar_action_install, { startPlayStoreLink(GOOGLE_MAPS) })
+                    withAction(
+                        titleRes = R.string.snackbar_action_install,
+                        onClick = { startPlayStoreLink(GOOGLE_MAPS) }
+                    )
                 }
             )
         }
