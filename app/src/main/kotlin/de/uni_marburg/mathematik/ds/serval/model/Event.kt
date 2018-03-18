@@ -139,7 +139,7 @@ data class Measurement(val type: MeasurementType, private val value: Double) {
             WindUnits.METRES -> value
             WindUnits.MILES -> value * (25 / 11)
             WindUnits.KILOMETRES -> value * 3.6
-            WindUnits.NAUTICAL_KNOTS -> value * 1.943844
+            WindUnits.NAUTICAL_KNOTS -> value * 1.94
         }
 
 }
