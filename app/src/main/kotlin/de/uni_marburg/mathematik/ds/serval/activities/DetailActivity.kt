@@ -70,6 +70,8 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     private fun setup() {
+        coordinator.setMarginTop(0)
+
         doAsync {
             val eventId: String = intent.extras.getString(EVENT_ID)
             event = eventViewModel[eventId]
