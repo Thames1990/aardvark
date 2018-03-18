@@ -52,8 +52,6 @@ data class Event(@PrimaryKey val id: String, val data: Data) : ClusterItem {
 
     /**
      * Measurements captured by this event
-     *
-     *
      */
     inline val measurements: List<Measurement>
         get() = data.measurements
@@ -101,10 +99,11 @@ data class GeohashLocation(val latitude: Double, val longitude: Double, private 
  *
  * @property type Measurement type
  * @property value Measurement value
+ * @property convertedValue Measurement value converted to its type and user preference
  */
 data class Measurement(val type: MeasurementType, private val value: Double) {
 
-    val conversionValue: Double
+    val convertedValue: Double
         get() = when (type) {
             MeasurementType.PRECIPITATION -> precipitationValue
             MeasurementType.RADIATION -> radiationValue
@@ -149,7 +148,8 @@ data class Measurement(val type: MeasurementType, private val value: Double) {
  * Type of a [measurement][Measurement].
  *
  * @property titleRes Resource ID of the title
- * @property iicon Measurement icon
+ * @property unit Measurement type unit
+ * @property iicon Measurement type icon
  */
 enum class MeasurementType(
     @StringRes val titleRes: Int,

@@ -115,7 +115,7 @@ class DetailActivity : ElasticRecyclerActivity() {
         val measurementCardItems = mutableListOf<CardIItem>()
 
         event.measurements.forEach { measurement ->
-            val value: Double = measurement.conversionValue
+            val value: Double = measurement.convertedValue
             val unit: String = string(measurement.type.unit)
 
             val measurementCardItem = CardIItem {
