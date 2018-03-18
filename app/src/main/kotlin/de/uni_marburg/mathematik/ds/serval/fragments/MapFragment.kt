@@ -152,10 +152,10 @@ class MapFragment : BaseFragment() {
                             .color(AppearancePrefs.Theme.textColor)
                             .backgroundColor(AppearancePrefs.Theme.backgroundColor)
                             .backgroundContourColor(AppearancePrefs.Theme.textColor)
-                            .backgroundContourWidthDp(1)
-                            .sizeDp(40)
-                            .roundedCornersDp(24)
-                            .paddingDp(8)
+                            .backgroundContourWidthDp(CLUSTER_ICON_BACKGROUND_CONTOUR_WIDTH)
+                            .sizeDp(CLUSTER_ICON_SIZE)
+                            .roundedCornersDp(CLUSTER_ICON_SIZE / 2)
+                            .paddingDp(CLUSTER_ICON_PADDING)
                             .toBitmap()
                     )
                 }
@@ -213,6 +213,12 @@ class MapFragment : BaseFragment() {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
+    }
+
+    companion object {
+        const val CLUSTER_ICON_BACKGROUND_CONTOUR_WIDTH = 1
+        const val CLUSTER_ICON_PADDING = 8
+        const val CLUSTER_ICON_SIZE = 42
     }
 
 }
