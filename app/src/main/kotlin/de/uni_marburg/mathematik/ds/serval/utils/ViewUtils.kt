@@ -5,19 +5,15 @@ import android.content.res.ColorStateList
 import android.graphics.*
 import android.support.annotation.ColorInt
 import android.support.annotation.StringRes
-import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
-import android.support.v4.view.ViewPager
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
 import com.mikepenz.iconics.IconicsDrawable
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
-import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 
 fun ImageView.flip() {
     val bitmap = drawable.toBitmap()
@@ -46,7 +42,7 @@ fun ImageView.setIconWithOptions(
     sizeDp: Int = 24,
     @ColorInt color: Int = AppearancePrefs.Theme.iconColor,
     builder: IconicsDrawable.() -> Unit = {},
-    animate: Boolean = BehaviourPrefs.animationsEnabled
+    animate: Boolean = animationsEnabled
 ) {
     if (animate) fadeScaleTransition { setIcon(icon, sizeDp, color, builder) }
     else setIcon(icon, sizeDp, color, builder)
@@ -72,7 +68,7 @@ fun TextView.setTextWithOptions(
     text: String,
     duration: Long = 200,
     onFinish: (() -> Unit)? = null,
-    animate: Boolean = BehaviourPrefs.animationsEnabled
+    animate: Boolean = animationsEnabled
 ) {
     if (animate) setTextWithFade(text, duration, onFinish)
     else this.text = text
@@ -82,7 +78,7 @@ fun TextView.setTextWithOptions(
     textRes: Int,
     duration: Long = 200,
     onFinish: (() -> Unit)? = null,
-    animate: Boolean = BehaviourPrefs.animationsEnabled
+    animate: Boolean = animationsEnabled
 ) {
     if (animate) setTextWithFade(textRes, duration, onFinish)
     else text = context.string(textRes)

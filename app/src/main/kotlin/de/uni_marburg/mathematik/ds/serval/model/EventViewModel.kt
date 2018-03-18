@@ -29,9 +29,9 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         dao.insertOrUpdate(events)
     }
 
-    fun sortBy(eventComparator: EventComparator, reversed: Boolean = false): Boolean {
+    fun sortBy(eventComparator: EventComparator, descending: Boolean = false): Boolean {
         val events: List<Event> = dao.getAll()
-        val sortedEvents: List<Event> = eventComparator.sort(events, reversed)
+        val sortedEvents: List<Event> = eventComparator.sort(events, descending)
         dao.insertOrUpdate(sortedEvents)
         return true
     }
@@ -45,25 +45,25 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 sealed class EventComparator {
 
     object Distance : EventComparator() {
-        override fun sort(events: List<Event>, reversed: Boolean): List<Event> =
-            if (reversed) events.sortedByDescending { event ->
+        override fun sort(events: List<Event>, descending: Boolean): List<Event> =
+            if (descending) events.sortedByDescending { event ->
                 event.location.distanceTo(MainActivity.lastLocation)
             }
             else events.sortedBy { event -> event.location.distanceTo(MainActivity.lastLocation) }
     }
 
     object Measurements : EventComparator() {
-        override fun sort(events: List<Event>, reversed: Boolean): List<Event> =
-            if (reversed) events.sortedByDescending { event -> event.measurements.size }
+        override fun sort(events: List<Event>, descending: Boolean): List<Event> =
+            if (descending) events.sortedByDescending { event -> event.measurements.size }
             else events.sortedBy { event -> event.measurements.size }
     }
 
     object Time : EventComparator() {
-        override fun sort(events: List<Event>, reversed: Boolean): List<Event> =
-            if (reversed) events.sortedBy { event -> event.time }
+        override fun sort(events: List<Event>, descending: Boolean): List<Event> =
+            if (descending) events.sortedBy { event -> event.time }
             else events.sortedByDescending { event -> event.time }
     }
 
-    abstract fun sort(events: List<Event>, reversed: Boolean): List<Event>
+    abstract fun sort(events: List<Event>, descending: Boolean): List<Event>
 
 }

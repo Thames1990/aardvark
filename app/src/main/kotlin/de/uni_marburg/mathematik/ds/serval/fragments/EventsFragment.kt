@@ -9,7 +9,10 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,8 +27,8 @@ import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator.*
+import de.uni_marburg.mathematik.ds.serval.model.Measurement
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
-import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -39,18 +42,7 @@ class EventsFragment : BaseFragment() {
     private val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
     private val swipeRefreshLayout by bindView<SwipeRefreshLayout>(R.id.swipe_refresh)
 
-    private val eventAdapter = EventAdapter { event ->
-        val context: Context = requireContext()
-        context.startActivity<DetailActivity>(
-            bundleBuilder = {
-                if (BehaviourPrefs.animationsEnabled) withSceneTransitionAnimation(context)
-            },
-            intentBuilder = {
-                putExtra(DetailActivity.EVENT_ID, event.id)
-                putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
-            }
-        )
-    }
+    private val eventAdapter = EventAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,10 +50,9 @@ class EventsFragment : BaseFragment() {
         observe(liveData = eventViewModel.pagedList, body = eventAdapter::submitList)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         setupRecyclerView()
-        setupRefresh()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -81,11 +72,11 @@ class EventsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_sort_distance_asc -> sortEventsBy(Distance)
-            R.id.action_sort_distance_desc -> sortEventsBy(Distance, reversed = true)
+            R.id.action_sort_distance_desc -> sortEventsBy(Distance, descending = true)
             R.id.action_sort_measurements_asc -> sortEventsBy(Measurements)
-            R.id.action_sort_measurements_desc -> sortEventsBy(Measurements, reversed = true)
+            R.id.action_sort_measurements_desc -> sortEventsBy(Measurements, descending = true)
             R.id.action_sort_time_asc -> sortEventsBy(Time)
-            R.id.action_sort_time_desc -> sortEventsBy(Time, reversed = true)
+            R.id.action_sort_time_desc -> sortEventsBy(Time, descending = true)
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -111,61 +102,42 @@ class EventsFragment : BaseFragment() {
 
     fun scrollToTop() = recyclerView.scrollToPosition(0)
 
-    private fun sortEventsBy(eventComparator: EventComparator, reversed: Boolean = false) {
+    private fun sortEventsBy(eventComparator: EventComparator, descending: Boolean = false) {
         swipeRefreshLayout.isRefreshing = true
         doAsync {
-            eventViewModel.sortBy(eventComparator, reversed)
+            eventViewModel.sortBy(eventComparator, descending)
             uiThread { swipeRefreshLayout.isRefreshing = false }
         }
     }
 
     private fun setupRecyclerView() {
+        swipeRefreshLayout.setOnRefreshListener { reloadEvents() }
         with(recyclerView) {
             withLinearAdapter(eventAdapter)
-            if (BehaviourPrefs.animationsEnabled) {
-                itemAnimator = KauAnimator(
-                    addAnimator = FadeScaleAnimatorAdd(scaleFactor = 0.7f, itemDelayFactor = 0.2f),
-                    changeAnimator = NoAnimatorChange()
-                ).apply {
-                    addDuration = 300
-                    interpolator = AnimHolder.decelerateInterpolator(context)
+            if (animationsEnabled) itemAnimator = KauAnimator(
+                addAnimator = FadeScaleAnimatorAdd(scaleFactor = 0.7f, itemDelayFactor = 0.2f),
+                changeAnimator = NoAnimatorChange()
+            ).apply {
+                addDuration = 300
+                interpolator = AnimHolder.decelerateInterpolator(context)
 
-                }
             }
         }
     }
 
-    private fun setupRefresh() = swipeRefreshLayout.setOnRefreshListener { reloadEvents() }
+    private class EventAdapter : PagedListAdapter<Event, EventAdapter.ViewHolder>(diffCallback) {
 
-    private class EventAdapter(
-        private val listener: (Event) -> Unit
-    ) : PagedListAdapter<Event, EventAdapter.EventHolder>(diffCallback) {
-
-        companion object {
-            private val diffCallback = object : DiffUtil.ItemCallback<Event>() {
-                override fun areContentsTheSame(
-                    oldEvent: Event,
-                    newEvent: Event
-                ): Boolean = oldEvent == newEvent
-
-                override fun areItemsTheSame(
-                    oldEvent: Event,
-                    newEvent: Event
-                ): Boolean = oldEvent.id == newEvent.id
-            }
-        }
-
-        override fun onBindViewHolder(holder: EventHolder, position: Int) {
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val event: Event? = currentList?.get(position)
-            if (event != null) holder.bindTo(event, listener)
+            event?.let { holder.bindTo(it) }
         }
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ): EventHolder = EventHolder(parent)
+        ): ViewHolder = ViewHolder(parent)
 
-        private class EventHolder(
+        private class ViewHolder(
             parent: ViewGroup
         ) : RecyclerView.ViewHolder(parent.inflate(R.layout.event_row)) {
 
@@ -175,60 +147,80 @@ class EventsFragment : BaseFragment() {
             private val guideline: Guideline by bindView(R.id.guideline)
             private val locationView: TextView by bindView(R.id.location)
 
-            fun bindTo(event: Event, listener: (Event) -> Unit) {
-                with(event) {
-                    displayTime()
-                    displayMeasurementTypes()
-                    displayLocation()
+            private lateinit var event: Event
 
-                    itemView.setOnClickListener { listener(this) }
+            fun bindTo(event: Event) {
+                this.event = event
+
+                setupTimeView()
+                setupMeasurementsView()
+                setupLocationView()
+
+                itemView.setOnClickListener {
+                    val context: Context = it.context
+                    context.startActivity<DetailActivity>(
+                        bundleBuilder = {
+                            if (animationsEnabled) withSceneTransitionAnimation(context)
+                        },
+                        intentBuilder = {
+                            putExtra(DetailActivity.EVENT_ID, event.id)
+                            putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
+                        }
+                    )
                 }
             }
 
-            private fun Event.displayTime() {
-                with(timeView) {
-                    text = passedSeconds.formatPassedSeconds(itemView.context)
-                    setTextColor(AppearancePrefs.Theme.textColor)
-                }
+            private fun setupTimeView() = with(timeView) {
+                text = event.passedSeconds.formatPassedSeconds(itemView.context)
+                setTextColor(AppearancePrefs.Theme.textColor)
             }
 
-            private fun Event.displayLocation() {
-                val context = itemView.context
-
-                if (context.hasLocationPermission) {
+            private fun setupLocationView() {
+                fun show() {
                     locationIconView.setIcon(
                         icon = GoogleMaterial.Icon.gmd_location_on,
                         color = AppearancePrefs.Theme.textColor
                     )
                     with(locationView) {
-                        val distance: Float = location.distanceTo(MainActivity.lastLocation)
-                        text = distance.formatDistance(context)
+                        val distance: Float = event.location.distanceTo(MainActivity.lastLocation)
+                        text = distance.formatDistance(itemView.context)
                         setTextColor(AppearancePrefs.Theme.textColor)
                     }
-                } else {
+                }
+
+                fun hide() {
                     locationIconView.gone()
                     locationView.gone()
                     val params = guideline.layoutParams as ConstraintLayout.LayoutParams
                     params.guideEnd = 0
                     guideline.layoutParams = params
                 }
+
+                if (itemView.context.hasLocationPermission) show() else hide()
             }
 
-            private fun Event.displayMeasurementTypes() {
-                measurementsView.apply {
-                    removeAllViews()
-                    measurements.distinct().forEach { measurement ->
-                        val icon = ImageView(itemView.context).apply {
-                            setIcon(
-                                icon = measurement.type.iicon,
-                                color = AppearancePrefs.Theme.textColor
-                            )
-                        }
-                        addView(icon)
+            private fun setupMeasurementsView() = with(measurementsView) {
+                removeAllViews()
+
+                val uniqueMeasurements: List<Measurement> = event.measurements.distinct()
+                uniqueMeasurements.forEach { measurement ->
+                    val icon = ImageView(itemView.context).apply {
+                        setIcon(
+                            icon = measurement.type.iicon,
+                            color = AppearancePrefs.Theme.textColor
+                        )
                     }
+                    addView(icon)
                 }
             }
 
+        }
+
+        companion object {
+            private val diffCallback = object : DiffUtil.ItemCallback<Event>() {
+                override fun areContentsTheSame(old: Event, new: Event): Boolean = old == new
+                override fun areItemsTheSame(old: Event, new: Event): Boolean = old.id == new.id
+            }
         }
 
     }

@@ -23,11 +23,18 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs.animationsEnabled
 import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
 import org.jetbrains.anko.bundleOf
 import java.time.Instant
 import java.util.*
 import java.util.concurrent.TimeUnit
+
+inline val analyticsEnabled: Boolean
+    get() = BehaviourPrefs.analyticsEnabled
+
+inline val animationsEnabled: Boolean
+    get() = BehaviourPrefs.animationsEnabled
 
 inline val currentTimeInSeconds: Long
     @SuppressLint("NewApi")
@@ -46,7 +53,7 @@ inline val experimentalSettingsAreEnabled: Boolean
 
 inline var ViewPager.item
     get() = currentItem
-    set(value) = setCurrentItem(value, BehaviourPrefs.animationsEnabled)
+    set(value) = setCurrentItem(value, animationsEnabled)
 
 operator fun ViewGroup.get(position: Int): View = getChildAt(position)
 
@@ -63,7 +70,7 @@ fun doOnDebugBuild(block: () -> Unit) {
  * Log custom events to analytics services.
  */
 fun logAnalytics(name: String, vararg events: Pair<String, Any>) {
-    if (BehaviourPrefs.analyticsEnabled) {
+    if (analyticsEnabled) {
         answers {
             logCustom(CustomEvent(name).apply {
                 events.forEach { (key: String, value: Any) ->
@@ -97,9 +104,7 @@ inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.()
     }
 }
 
-fun AppBarLayout.expand(
-    animate: Boolean = BehaviourPrefs.animationsEnabled
-) = setExpanded(true, animate)
+fun AppBarLayout.expand(animate: Boolean = animationsEnabled) = setExpanded(true, animate)
 
 /**
  * Converts distance in meters in formatted string with meters/kilometers.

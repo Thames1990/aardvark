@@ -13,7 +13,6 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import ca.allanwang.kau.internal.KauBaseActivity
 import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.ui.widgets.InkPageIndicator
 import ca.allanwang.kau.utils.*
@@ -22,13 +21,14 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.intro.*
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.item
 import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import org.jetbrains.anko.find
 
-class IntroActivity : KauBaseActivity() {
+class IntroActivity : BaseActivity() {
 
     val ripple: RippleCanvas by bindView(R.id.intro_ripple)
 
@@ -77,9 +77,13 @@ class IntroActivity : KauBaseActivity() {
         theme()
     }
 
-    override fun onBackPressed() {
+    override fun backConsumer(): Boolean {
         if (viewpager.item > 0) viewpager.item = viewpager.item - 1
-        else finishAffinity()
+        else {
+            Prefs.lastLaunch = -1L
+            finishAffinity()
+        }
+        return true
     }
 
     override fun finish() {

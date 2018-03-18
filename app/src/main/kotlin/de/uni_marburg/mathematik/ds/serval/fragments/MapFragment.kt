@@ -21,10 +21,10 @@ import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
-import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_ZOOM
+import de.uni_marburg.mathematik.ds.serval.utils.animationsEnabled
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.observe
 import net.sharewire.googlemapsclustering.Cluster
@@ -87,13 +87,13 @@ class MapFragment : BaseFragment() {
         return true
     }
 
-    fun moveToPosition(position: LatLng, animate: Boolean = BehaviourPrefs.animationsEnabled) {
+    fun moveToPosition(position: LatLng, animate: Boolean = animationsEnabled) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
     }
 
-    fun zoomToAllMarkers(animate: Boolean = BehaviourPrefs.animationsEnabled) {
+    fun zoomToAllMarkers(animate: Boolean = animationsEnabled) {
         if (events.isNotEmpty()) {
             val builder = LatLngBounds.builder()
             events.forEach { event -> builder.include(event.position) }
@@ -118,9 +118,7 @@ class MapFragment : BaseFragment() {
                 override fun onClusterItemClick(event: Event): Boolean {
                     context.startActivity<DetailActivity>(
                         bundleBuilder = {
-                            if (BehaviourPrefs.animationsEnabled) {
-                                withSceneTransitionAnimation(context)
-                            }
+                            if (animationsEnabled) withSceneTransitionAnimation(context)
                         },
                         intentBuilder = { putExtra(DetailActivity.EVENT_ID, event.id) }
                     )
@@ -206,10 +204,7 @@ class MapFragment : BaseFragment() {
         isTrafficEnabled = MapPrefs.Layers.trafficEnabled
     }
 
-    private fun moveToBounds(
-        bounds: LatLngBounds,
-        animate: Boolean = BehaviourPrefs.animationsEnabled
-    ) {
+    private fun moveToBounds(bounds: LatLngBounds, animate: Boolean = animationsEnabled) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
