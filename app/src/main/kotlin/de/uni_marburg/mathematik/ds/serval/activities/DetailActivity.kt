@@ -19,7 +19,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fastadapter.IItem
@@ -27,7 +26,6 @@ import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
@@ -169,16 +167,18 @@ class DetailActivity : ElasticRecyclerActivity() {
      * Add [event] address card.
      */
     private fun addAddressCard() {
-        geocodingControl.reverse(event.location) { _, results ->
-            if (results.isNotEmpty()) {
-                val address: Address = results[0]
-                val addressLine: String = address.getAddressLine(0)
-                val addressLines: String = addressLine
-                    .replace(oldValue = "unnamed road, ", newValue = "", ignoreCase = true)
-                    .replace(oldValue = ", ", newValue = "\n")
+
+        fun List<Address>.getMostProbableAddress() = first()
+            .address
+            .replace(oldValue = "unnamed road, ", newValue = "", ignoreCase = true)
+            .replace(oldValue = ", ", newValue = "\n")
+
+        geocodingControl.reverse(event.location) { _, addressResults ->
+            // Add most probable address if available
+            if (addressResults.isNotEmpty()) {
                 val addressCard = CardIItem {
                     titleRes = R.string.location_address
-                    desc = addressLines
+                    desc = addressResults.getMostProbableAddress()
                     imageIIcon = CommunityMaterial.Icon.cmd_map_marker
                 }
 
@@ -242,13 +242,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 onCreate(null)
                 getMapAsync { googleMap ->
                     with(googleMap) {
-                        val mapStyleRes: Int = when (AppearancePrefs.Theme.theme) {
-                            Themes.AMOLED -> R.raw.map_style_night
-                            Themes.LIGHT -> R.raw.map_style_standard
-                            Themes.DARK -> R.raw.map_style_dark
-                            Themes.CUSTOM -> MapPrefs.MapStyle.styleRes
-                        }
-                        setMapStyle(MapStyleOptions.loadRawResourceStyle(context, mapStyleRes))
+                        withStyle(context)
 
                         with(uiSettings) {
                             isClickable = false

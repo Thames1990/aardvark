@@ -1,9 +1,11 @@
 package de.uni_marburg.mathematik.ds.serval.enums
 
 import android.graphics.Color
+import android.support.annotation.RawRes
 import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs.Theme.Custom
+import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 
 /**
  * Defines a layout theme.
@@ -17,6 +19,7 @@ import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
  */
 enum class Themes(
     @StringRes val titleRes: Int,
+    @RawRes val mapStyle: Int,
     private val textColorGetter: () -> Int,
     private val accentColorGetter: () -> Int,
     private val backgroundColorGetter: () -> Int,
@@ -26,6 +29,7 @@ enum class Themes(
 
     LIGHT(
         titleRes = R.string.kau_light,
+        mapStyle = R.raw.map_style_standard,
         textColorGetter = Color::BLACK,
         accentColorGetter = ::FRUIT_SALAD,
         backgroundColorGetter = ::ALABASTER,
@@ -35,6 +39,7 @@ enum class Themes(
 
     DARK(
         titleRes = R.string.kau_dark,
+        mapStyle = R.raw.map_style_dark,
         textColorGetter = Color::WHITE,
         accentColorGetter = ::PASTEL_GREEN,
         backgroundColorGetter = ::MINE_SHAFT,
@@ -44,6 +49,7 @@ enum class Themes(
 
     AMOLED(
         titleRes = R.string.kau_amoled,
+        mapStyle = R.raw.map_style_night,
         textColorGetter = Color::WHITE,
         accentColorGetter = ::PASTEL_GREEN,
         backgroundColorGetter = Color::BLACK,
@@ -53,11 +59,12 @@ enum class Themes(
 
     CUSTOM(
         titleRes = R.string.kau_custom,
-        textColorGetter = AppearancePrefs.Theme.Custom::textColor,
-        accentColorGetter = AppearancePrefs.Theme.Custom::accentColor,
-        backgroundColorGetter = AppearancePrefs.Theme.Custom::bgColor,
-        headerColorGetter = AppearancePrefs.Theme.Custom::headerColor,
-        iconColorGetter = AppearancePrefs.Theme.Custom::iconColor
+        mapStyle = MapPrefs.MapStyle.styleRes,
+        textColorGetter = Custom::textColor,
+        accentColorGetter = Custom::accentColor,
+        backgroundColorGetter = Custom::bgColor,
+        headerColorGetter = Custom::headerColor,
+        iconColorGetter = Custom::iconColor
     );
 
     val accentColor: Int

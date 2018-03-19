@@ -26,6 +26,7 @@ import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.experimentalSettingsAreEnabled
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import de.uni_marburg.mathematik.ds.serval.utils.withAction
+import de.uni_marburg.mathematik.ds.serval.utils.withHorizontalChain
 
 /**
  * Shows details about the application, used open-source libraries and frequently asked questions.
@@ -61,7 +62,7 @@ class AboutActivity : AboutActivityBase(
                         snackbarThemed(
                             textRes = R.string.preference_experimental_enabled,
                             builder = {
-                                // Add option to reload settings to activate experimental settings
+                                // Add action to reload settings to trigger experimental settings
                                 withAction(
                                     titleRes = R.string.preference_reload,
                                     onClick = { startActivity<SettingsActivity>() }
@@ -79,7 +80,8 @@ class AboutActivity : AboutActivityBase(
         // Auto detect libraries
         val libraries: List<Library> = super.getLibraries(libs)
         // Manually add libraries
-        val extendedLibraries = libraries union LibraryDefinitions.getAllLibraries(context = this)
+        val extendedLibraries: Set<Library> =
+            libraries union LibraryDefinitions.getAllLibraries(context = this)
         return extendedLibraries.sortedBy { it.libraryName }
     }
 
@@ -128,14 +130,14 @@ class AboutActivity : AboutActivityBase(
                 if (items.size >= 2) {
                     ConstraintSet().apply {
                         clone(container)
-                        createHorizontalChain(
-                            ConstraintSet.PARENT_ID,
-                            ConstraintSet.LEFT,
-                            ConstraintSet.PARENT_ID,
-                            ConstraintSet.RIGHT,
-                            items.map { it.id }.toIntArray(),
-                            null,
-                            ConstraintSet.CHAIN_SPREAD_INSIDE
+                        withHorizontalChain(
+                            leftId = ConstraintSet.PARENT_ID,
+                            leftSide = ConstraintSet.LEFT,
+                            rightId = ConstraintSet.PARENT_ID,
+                            rightSide = ConstraintSet.RIGHT,
+                            chainIds = items.map { it.id }.toIntArray(),
+                            weights = null,
+                            style = ConstraintSet.CHAIN_SPREAD_INSIDE
                         )
                         applyTo(container)
                     }

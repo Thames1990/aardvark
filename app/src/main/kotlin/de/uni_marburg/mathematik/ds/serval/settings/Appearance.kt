@@ -46,6 +46,8 @@ object AppearancePrefs : KPref() {
             get() = theme.iconColor
         val isCustomTheme: Boolean
             get() = theme == Themes.CUSTOM
+        val mapStyle: Int
+            get() = theme.mapStyle
         val textColor: Int
             get() = theme.textColor
 

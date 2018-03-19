@@ -12,13 +12,15 @@ import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
-import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
@@ -27,6 +29,7 @@ import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_ZOOM
 import de.uni_marburg.mathematik.ds.serval.utils.animationsAreEnabled
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.observe
+import de.uni_marburg.mathematik.ds.serval.utils.withStyle
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
 import net.sharewire.googlemapsclustering.IconGenerator
@@ -181,13 +184,7 @@ class MapFragment : BaseFragment() {
     private fun setupGoogleMap() = with(googleMap) {
         isMyLocationEnabled = requireContext().hasLocationPermission
 
-        val mapStyleRes: Int = when (AppearancePrefs.Theme.theme) {
-            Themes.AMOLED -> R.raw.map_style_night
-            Themes.LIGHT -> R.raw.map_style_standard
-            Themes.DARK -> R.raw.map_style_dark
-            Themes.CUSTOM -> MapPrefs.MapStyle.styleRes
-        }
-        setMapStyle(MapStyleOptions.loadRawResourceStyle(context, mapStyleRes))
+        withStyle(requireContext())
 
         with(uiSettings) {
             isCompassEnabled = MapPrefs.compassEnabled

@@ -7,6 +7,8 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.location.Address
+import android.support.constraint.ConstraintSet
 import android.support.design.internal.SnackbarContentLayout
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
@@ -19,6 +21,8 @@ import ca.allanwang.kau.utils.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.MapStyleOptions
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
@@ -53,6 +57,9 @@ inline val currentTimeInSeconds: Long
 
 inline val experimentalSettingsAreEnabled: Boolean
     get() = ExperimentalPrefs.enabled
+
+inline val Address.address: String
+    get() = getAddressLine(0)
 
 inline var ViewPager.item
     get() = currentItem
@@ -109,6 +116,16 @@ inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.()
 
 fun AppBarLayout.expand(animate: Boolean = animationsEnabled) = setExpanded(true, animate)
 
+fun ConstraintSet.withHorizontalChain(
+    leftId: Int,
+    leftSide: Int,
+    rightId: Int,
+    rightSide: Int,
+    chainIds: IntArray,
+    weights: FloatArray?,
+    style: Int
+) = createHorizontalChain(leftId, leftSide, rightId, rightSide, chainIds, weights, style)
+
 /**
  * Converts distance in meters in formatted string with meters/kilometers.
  */
@@ -118,6 +135,10 @@ fun Float.formatDistance(context: Context): String =
 
 inline fun <reified T : ViewModel> Fragment.getViewModel(): T =
     ViewModelProviders.of(requireActivity())[T::class.java]
+
+fun GoogleMap.withStyle(
+    context: Context
+) = setMapStyle(MapStyleOptions.loadRawResourceStyle(context, AppearancePrefs.Theme.mapStyle))
 
 fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(
     liveData: L,
@@ -167,3 +188,10 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     neutralColor(AppearancePrefs.Theme.textColor)
     return this
 }
+
+fun ViewGroup.MarginLayoutParams.withMargins(
+    left: Int,
+    top: Int,
+    right: Int,
+    bottom: Int
+) = setMargins(left, top, right, bottom)
