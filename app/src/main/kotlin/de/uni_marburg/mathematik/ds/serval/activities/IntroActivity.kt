@@ -51,11 +51,10 @@ class IntroActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
-        setupViewpager()
-        setupBottomBar()
-
         ripple.set(color = AppearancePrefs.Theme.backgroundColor)
 
+        setupViewpager()
+        setupBottomBar()
         theme()
 
         doAsync { eventViewModel.getFromRepository() }

@@ -157,7 +157,7 @@ class MapFragment : BaseFragment() {
                 }
 
                 override fun getClusterItemIcon(
-                    clusterItem: Event
+                    event: Event
                 ): BitmapDescriptor = styledMarker(context)
 
             })
