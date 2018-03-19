@@ -36,7 +36,7 @@ class FingerprintActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fingerprintDialog: MaterialDialog = createFingerprintDialog().apply { show() }
-        authenticate(fingerprintDialog)
+        authenticateWith(fingerprintDialog)
     }
 
     private fun createFingerprintDialog(): MaterialDialog {
@@ -82,7 +82,7 @@ class FingerprintActivity : AppCompatActivity() {
         return fingerprintDialog
     }
 
-    private fun authenticate(fingerprintDialog: MaterialDialog) {
+    private fun authenticateWith(fingerprintDialog: MaterialDialog) {
         Reprint.authenticate(object : AuthenticationListener {
             override fun onSuccess(moduleTag: Int) {
                 iconCircle.setCardBackgroundColor(Themes.PERSIAN_GREEN)

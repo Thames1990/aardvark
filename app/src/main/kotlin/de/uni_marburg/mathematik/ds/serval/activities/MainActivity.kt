@@ -52,6 +52,8 @@ class MainActivity : BaseActivity() {
 
     private val pagerAdapter = SectionsPagerAdapter()
 
+    private lateinit var locationControl: SmartLocation.LocationControl
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,6 +75,16 @@ class MainActivity : BaseActivity() {
         checkForNewVersion()
     }
 
+    override fun onPause() {
+        super.onPause()
+        if (::locationControl.isInitialized) locationControl.stop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (hasLocationPermission) trackLocation()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -81,9 +93,7 @@ class MainActivity : BaseActivity() {
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
                 if (resultCode and RELOAD_EVENTS > 0) doAsync {
-                    eventViewModel.getFromRepository(
-                        deleteEvents = true
-                    )
+                    eventViewModel.getFromRepository(deleteEvents = true)
                 }
             }
         }
@@ -230,9 +240,10 @@ class MainActivity : BaseActivity() {
 
     private fun trackLocation() {
         val locationLiveData = LocationLiveData(this)
+        locationControl = locationLiveData.locationControl
 
         // Get last location
-        val oneFix = locationLiveData.locationControl.oneFix()
+        val oneFix = locationControl.oneFix()
         oneFix.start { location -> lastLocation = location }
 
         fun submitLocation(location: Location?) {

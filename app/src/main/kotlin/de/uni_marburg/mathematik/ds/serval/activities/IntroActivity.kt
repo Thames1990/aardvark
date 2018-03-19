@@ -26,6 +26,7 @@ import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.item
 import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 
 class IntroActivity : BaseActivity() {
@@ -50,31 +51,14 @@ class IntroActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
-        with(viewpager) {
-            setupViewpager()
-            adapter = IntroPageAdapter(supportFragmentManager, fragments)
-        }
-        indicator.setViewPager(viewpager)
-        with(next) {
-            setIcon(
-                icon = GoogleMaterial.Icon.gmd_navigate_next,
-                color = AppearancePrefs.Theme.iconColor
-            )
-            setOnClickListener {
-                when {
-                    barHasNext -> viewpager.item = viewpager.currentItem + 1
-                    hasLocationPermission -> finish(
-                        x = next.x + next.pivotX,
-                        y = next.y + next.pivotY
-                    )
-                    else -> snackbarThemed(R.string.preference_location_requires_location_permission)
-                }
-            }
-        }
-        skip.setOnClickListener { finish() }
+        setupViewpager()
+        setupBottomBar()
+
         ripple.set(color = AppearancePrefs.Theme.backgroundColor)
 
         theme()
+
+        doAsync { eventViewModel.getFromRepository() }
     }
 
     override fun backConsumer(): Boolean {
@@ -100,7 +84,7 @@ class IntroActivity : BaseActivity() {
             setColour(AppearancePrefs.Theme.textColor)
             invalidate()
         }
-        fragments.forEach { it.themeFragment() }
+        fragments.forEach(BaseIntroFragment::themeFragment)
     }
 
     fun finish(x: Float, y: Float) {
@@ -112,7 +96,7 @@ class IntroActivity : BaseActivity() {
             startX = x,
             startY = y,
             duration = 600,
-            callback = { postDelayed(delay = 1000) { finish() } }
+            callback = { postDelayed(delay = 1000, action = ::finish) }
         )
 
         @Suppress("RemoveExplicitTypeArguments")
@@ -164,6 +148,8 @@ class IntroActivity : BaseActivity() {
     }
 
     private fun setupViewpager() = with(viewpager) {
+        adapter = IntroPageAdapter(supportFragmentManager, fragments)
+
         setPageTransformer(true) { page, position ->
             var pageAlpha = 1f
             var pageTranslationX = 0f
@@ -212,6 +198,27 @@ class IntroActivity : BaseActivity() {
             }
 
         })
+    }
+
+    private fun setupBottomBar() {
+        indicator.setViewPager(viewpager)
+        with(next) {
+            setIcon(
+                icon = GoogleMaterial.Icon.gmd_navigate_next,
+                color = AppearancePrefs.Theme.iconColor
+            )
+            setOnClickListener {
+                when {
+                    barHasNext -> viewpager.item = viewpager.currentItem + 1
+                    hasLocationPermission -> finish(
+                        x = next.x + next.pivotX,
+                        y = next.y + next.pivotY
+                    )
+                    else -> snackbarThemed(R.string.preference_location_requires_location_permission)
+                }
+            }
+        }
+        skip.setOnClickListener { finish() }
     }
 
     private class IntroPageAdapter(

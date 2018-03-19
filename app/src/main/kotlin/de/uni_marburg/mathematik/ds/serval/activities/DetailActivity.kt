@@ -269,8 +269,10 @@ class DetailActivity : ElasticRecyclerActivity() {
                             )
                         addMarker(marker)
 
-                        val cameraUpdate =
-                            CameraUpdateFactory.newLatLngZoom(position, MapPrefs.MAP_ZOOM)
+                        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(
+                            position,
+                            MapPrefs.MAP_ZOOM
+                        )
                         moveCamera(cameraUpdate)
                     }
                 }
