@@ -5,7 +5,6 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ProcessLifecycleOwner
-import android.content.Intent
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import com.github.ajalt.reprint.core.Reprint
@@ -21,6 +20,8 @@ import de.uni_marburg.mathematik.ds.serval.utils.appIsSecured
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import de.uni_marburg.mathematik.ds.serval.utils.isDebugBuild
 import io.fabric.sdk.android.Fabric
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.newTask
 
 class Aardvark : Application() {
 
@@ -80,16 +81,9 @@ class Aardvark : Application() {
 
     inner class AuthenticationListener : LifecycleObserver {
 
-        /**
-         * Requires fingerprint authentication and therefore opens
-         * [the fingerprint authentication activity][FingerprintActivity].
-         */
         @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        fun requireFingerprintAuthentication() {
-            val fingerprintIntent = Intent(applicationContext, FingerprintActivity::class.java)
-            fingerprintIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(fingerprintIntent)
-        }
+        fun requireFingerprintAuthentication() =
+            startActivity(intentFor<FingerprintActivity>().newTask())
 
     }
 
