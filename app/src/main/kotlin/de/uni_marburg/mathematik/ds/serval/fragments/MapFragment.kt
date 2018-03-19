@@ -16,7 +16,6 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import de.uni_marburg.mathematik.ds.serval.R
@@ -26,10 +25,7 @@ import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_ZOOM
-import de.uni_marburg.mathematik.ds.serval.utils.animationsAreEnabled
-import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
-import de.uni_marburg.mathematik.ds.serval.utils.observe
-import de.uni_marburg.mathematik.ds.serval.utils.withStyle
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
 import net.sharewire.googlemapsclustering.IconGenerator
@@ -135,7 +131,6 @@ class MapFragment : BaseFragment() {
             setIconGenerator(object : IconGenerator<Event> {
                 override fun getClusterIcon(cluster: Cluster<Event>): BitmapDescriptor {
                     val eventCount: Int = cluster.items.size
-
                     val iconText: String =
                         if (MapPrefs.showExactClusterSize) eventCount.toString()
                         else when (eventCount) {
@@ -161,13 +156,9 @@ class MapFragment : BaseFragment() {
                     )
                 }
 
-                override fun getClusterItemIcon(clusterItem: Event): BitmapDescriptor =
-                    BitmapDescriptorFactory.fromBitmap(
-                        IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_map_marker)
-                            .color(AppearancePrefs.Theme.textColor)
-                            .toBitmap()
-                    )
+                override fun getClusterItemIcon(
+                    clusterItem: Event
+                ): BitmapDescriptor = styledMarker(context)
 
             })
         }

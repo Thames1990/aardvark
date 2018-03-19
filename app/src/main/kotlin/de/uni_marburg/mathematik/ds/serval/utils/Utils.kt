@@ -22,7 +22,11 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
+import com.mikepenz.iconics.IconicsDrawable
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
@@ -113,6 +117,13 @@ inline fun snackbarThemed(crossinline builder: Snackbar.() -> Unit): Snackbar.()
         )
     }
 }
+
+fun styledMarker(context: Context): BitmapDescriptor = BitmapDescriptorFactory.fromBitmap(
+    IconicsDrawable(context)
+        .icon(CommunityMaterial.Icon.cmd_map_marker)
+        .color(AppearancePrefs.Theme.textColor)
+        .toBitmap()
+)
 
 fun AppBarLayout.expand(animate: Boolean = animationsEnabled) = setExpanded(true, animate)
 

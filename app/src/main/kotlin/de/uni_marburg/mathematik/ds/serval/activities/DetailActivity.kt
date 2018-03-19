@@ -17,14 +17,12 @@ import ca.allanwang.kau.ui.activities.ElasticRecyclerActivity
 import ca.allanwang.kau.utils.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
@@ -253,14 +251,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                         val position: LatLng = event.position
                         val marker: MarkerOptions = MarkerOptions()
                             .position(position)
-                            .icon(
-                                BitmapDescriptorFactory.fromBitmap(
-                                    IconicsDrawable(context)
-                                        .icon(CommunityMaterial.Icon.cmd_map_marker)
-                                        .color(AppearancePrefs.Theme.textColor)
-                                        .toBitmap()
-                                )
-                            )
+                            .icon(styledMarker(context))
                         addMarker(marker)
 
                         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(
