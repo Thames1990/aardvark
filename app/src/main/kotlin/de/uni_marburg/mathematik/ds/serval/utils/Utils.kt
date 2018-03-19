@@ -76,7 +76,7 @@ operator fun ViewGroup.get(position: Int): View = getChildAt(position)
  */
 inline fun answers(action: Answers.() -> Unit) = Answers.getInstance().action()
 
-fun doOnDebugBuild(block: () -> Unit) {
+inline fun doOnDebugBuild(block: () -> Unit) {
     if (isDebugBuild) block()
 }
 

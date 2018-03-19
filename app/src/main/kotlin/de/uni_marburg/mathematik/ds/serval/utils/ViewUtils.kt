@@ -17,12 +17,12 @@ import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 
 @SuppressLint("NewApi")
-fun FloatingActionButton.showWithOptions(
+inline fun FloatingActionButton.showWithOptions(
     icon: IIcon,
     @StringRes tooltipTextRes: Int,
     @ColorInt color: Int = AppearancePrefs.Theme.iconColor,
     backgroundColor: ColorStateList = AppearancePrefs.Theme.fabColor,
-    onClickListener: () -> Unit,
+    crossinline onClickListener: () -> Unit,
     show: Boolean = true
 ) {
     setIcon(icon, color)
@@ -65,9 +65,9 @@ fun ImageView.setIconWithOptions(
     else setIcon(icon, sizeDp, color, builder)
 }
 
-fun Snackbar.withAction(
+inline fun Snackbar.withAction(
     @StringRes titleRes: Int,
-    onClick: () -> Unit
+    crossinline onClick: () -> Unit
 ) = setAction(context.string(titleRes), { onClick() })
 
 fun TextView.setTextWithOptions(
@@ -87,17 +87,17 @@ fun TextView.setTextWithOptions(
 /**
  * Show themed snackbar with [a text resource][textRes] and a given [builder].
  */
-fun View.snackbarThemed(
+inline fun View.snackbarThemed(
     @StringRes textRes: Int,
-    builder: Snackbar.() -> Unit = {}
+    crossinline builder: Snackbar.() -> Unit = {}
 ) = snackbar(textId = textRes, duration = Snackbar.LENGTH_LONG, builder = snackbarThemed(builder))
 
 /**
  * Show themed snackbar with the given [text] and [builder].
  */
-fun View.snackbarThemed(
+inline fun View.snackbarThemed(
     text: String,
-    builder: Snackbar.() -> Unit = {}
+    crossinline builder: Snackbar.() -> Unit = {}
 ) = snackbar(text, duration = Snackbar.LENGTH_LONG, builder = snackbarThemed(builder))
 
 /**
@@ -110,7 +110,6 @@ fun View.snackbarThemed(
 inline fun View.updateLayoutParams(block: ViewGroup.LayoutParams.() -> Unit) {
     updateLayoutParams<ViewGroup.LayoutParams>(block)
 }
-
 
 /**
  * Executes [block] with a typed version of the View's layoutParams and reassigns the
