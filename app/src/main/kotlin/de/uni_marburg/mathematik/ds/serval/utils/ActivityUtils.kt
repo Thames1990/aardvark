@@ -39,9 +39,10 @@ fun Activity.setSecureFlag(secure: Boolean = appIsSecured) {
  * Set a light or dark theme based on the darkness of
  * [the user specified background color][AppearancePrefs.Theme.backgroundColor].
  */
-fun Activity.setTheme() =
-    if (AppearancePrefs.Theme.backgroundColor.isColorDark) setTheme(R.style.AardvarkTheme)
-    else setTheme(R.style.AardvarkTheme_Light)
+fun Activity.setTheme() = setTheme(
+    if (AppearancePrefs.Theme.backgroundColor.isColorDark) R.style.AardvarkTheme
+    else R.style.AardvarkTheme_Light
+)
 
 /**
  * Show themed snackbar with [a text resource][textRes] and a given [builder].
