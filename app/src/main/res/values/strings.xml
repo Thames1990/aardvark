@@ -75,6 +75,9 @@
     <string name="intro_easy_navigation">Easy Navigation</string>
     <string name="intro_easy_navigation_desc">Click tabs to navigate, click them again to trigger custom actions.</string>
     <string name="intro_end">Let\'s begin</string>
+    <string name="intro_requires_both_permissions">Requires access to location and storage</string>
+    <string name="intro_requires_location_permission">Requires location access</string>
+    <string name="intro_requires_write_external_storage_permission">Requires access to storage</string>
     <string name="intro_select_theme">Select a theme</string>
     <string name="intro_skip">Skip</string>
     <string name="intro_slide_to_continue">Slide to continue</string>

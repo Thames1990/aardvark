@@ -112,58 +112,80 @@ class IntroFragmentWelcome : BaseIntroFragment(R.layout.intro_welcome) {
 
 class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
 
+    override fun viewArray(): Array<Array<out View>> = defaultViewArray()
+
     private val container: ConstraintLayout by bindViewResettable(R.id.intro_end_container)
     private val description: TextView by bindView(R.id.intro_desc)
 
-    override fun viewArray(): Array<Array<out View>> = defaultViewArray()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupDescription()
+        setupPermissionRequests()
+    }
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         image.imageTintList = ColorStateList.valueOf(AppearancePrefs.Theme.textColor)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        with(view.context) {
-            description.text =
-                    if (hasLocationPermission) string(R.string.intro_tap_to_exit)
-                    else string(R.string.grant_location_permission)
-        }
-
-        container.setOnSingleTapListener { _, motionEvent ->
-            with(requireActivity()) {
-                if (isDebugBuild) {
-                    if (hasLocationPermission && hasWriteExternalStoragePermission) {
-                        val introActivity = this as IntroActivity
-                        introActivity.finish(x = motionEvent.x, y = motionEvent.y)
-                    } else {
-                        kauRequestPermissions(
-                            permissions = *arrayOf(
-                                PERMISSION_ACCESS_FINE_LOCATION,
-                                PERMISSION_WRITE_EXTERNAL_STORAGE
-                            ),
-                            callback = { granted, deniedPerm ->
-                                if (!granted) deniedPerm?.let { snackbarThemed(it) }
-                                else description.setTextWithOptions(R.string.intro_tap_to_exit)
-                            }
-                        )
-                    }
-                } else {
-                    if (hasLocationPermission) {
-                        val introActivity = this as IntroActivity
-                        introActivity.finish(x = motionEvent.x, y = motionEvent.y)
-                    } else {
-                        kauRequestPermissions(
-                            permissions = *arrayOf(PERMISSION_ACCESS_FINE_LOCATION),
-                            callback = { granted, deniedPerm ->
-                                if (!granted) deniedPerm?.let { snackbarThemed(it) }
-                                else description.setTextWithOptions(R.string.intro_tap_to_exit)
-                            }
-                        )
-                    }
+    private fun setupDescription() = with(requireContext()) {
+        description.text = string(
+            when {
+                hasAllPermissions -> R.string.intro_tap_to_exit
+                isDebugBuild -> when {
+                    hasLocationPermission -> R.string.intro_requires_write_external_storage_permission
+                    hasWriteExternalStoragePermission -> R.string.intro_requires_write_external_storage_permission
+                    else -> R.string.intro_requires_both_permissions
                 }
+                else ->
+                    if (hasLocationPermission) R.string.intro_tap_to_exit
+                    else R.string.preference_location_requires_location_permission
+            }
+        )
+    }
+
+    private fun setupPermissionRequests() = container.setOnSingleTapListener { _, event ->
+        val activity: IntroActivity = requireActivity() as IntroActivity
+
+        // TODO Properly check all permissions and let location be optional
+        with(requireContext()) {
+            when {
+                hasAllPermissions -> activity.finish(x = event.x, y = event.y)
+                isDebugBuild -> when {
+                    hasLocationPermission -> {
+                        activity.kauRequestPermissions(
+                            permissions = *arrayOf(PERMISSION_WRITE_EXTERNAL_STORAGE),
+                            callback = { _, _ ->
+                                description.setTextWithOptions(R.string.intro_tap_to_exit)
+                            }
+                        )
+                    }
+                    hasWriteExternalStoragePermission -> {
+                        activity.kauRequestPermissions(
+                            permissions = *arrayOf(PERMISSION_ACCESS_FINE_LOCATION),
+                            callback = { _, _ ->
+                                description.setTextWithOptions(R.string.intro_tap_to_exit)
+                            }
+                        )
+                    }
+                    else -> activity.kauRequestPermissions(
+                        permissions = *arrayOf(
+                            PERMISSION_ACCESS_FINE_LOCATION,
+                            PERMISSION_WRITE_EXTERNAL_STORAGE
+                        ),
+                        callback = { _, _ ->
+                            description.setTextWithOptions(R.string.intro_tap_to_exit)
+                        }
+                    )
+                }
+                else -> activity.kauRequestPermissions(
+                    permissions = *arrayOf(PERMISSION_ACCESS_FINE_LOCATION),
+                    callback = { _, _ ->
+                        description.setTextWithOptions(R.string.intro_tap_to_exit)
+                    }
+                )
             }
         }
     }
+
 }
