@@ -8,6 +8,7 @@ import android.support.annotation.StringRes
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
@@ -98,3 +99,29 @@ fun View.snackbarThemed(
     text: String,
     builder: Snackbar.() -> Unit = {}
 ) = snackbar(text, duration = Snackbar.LENGTH_LONG, builder = snackbarThemed(builder))
+
+/**
+ * Executes [block] with the View's layoutParams and reassigns the layoutParams with the
+ * updated version.
+ *
+ * @see View.getLayoutParams
+ * @see View.setLayoutParams
+ **/
+inline fun View.updateLayoutParams(block: ViewGroup.LayoutParams.() -> Unit) {
+    updateLayoutParams<ViewGroup.LayoutParams>(block)
+}
+
+
+/**
+ * Executes [block] with a typed version of the View's layoutParams and reassigns the
+ * layoutParams with the updated version.
+ *
+ * @see View.getLayoutParams
+ * @see View.setLayoutParams
+ **/
+@JvmName("updateLayoutParamsTyped")
+inline fun <reified T : ViewGroup.LayoutParams> View.updateLayoutParams(block: T.() -> Unit) {
+    val params = layoutParams as T
+    block(params)
+    layoutParams = params
+}

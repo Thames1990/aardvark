@@ -149,13 +149,14 @@ class MainActivity : BaseActivity() {
         // Fixes bottom layout cutoff
         if (AppearancePrefs.MainActivityLayout.layout == MainActivityLayouts.BOTTOM_BAR) {
             appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-                val layoutParams = viewPager.layoutParams as ViewGroup.MarginLayoutParams
-                layoutParams.withMargins(
-                    left = 0,
-                    top = 0,
-                    right = 0,
-                    bottom = appBarLayout.measuredHeight + verticalOffset
-                )
+                viewPager.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    withMargins(
+                        left = 0,
+                        top = 0,
+                        right = 0,
+                        bottom = appBarLayout.measuredHeight + verticalOffset
+                    )
+                }
                 viewPager.requestLayout()
             }
         }

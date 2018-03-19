@@ -191,9 +191,7 @@ class EventsFragment : BaseFragment() {
                 fun hide() {
                     locationIconView.gone()
                     locationView.gone()
-                    val params = guideline.layoutParams as ConstraintLayout.LayoutParams
-                    params.guideEnd = 0
-                    guideline.layoutParams = params
+                    guideline.updateLayoutParams<ConstraintLayout.LayoutParams> { guideEnd = 0 }
                 }
 
                 if (itemView.context.hasLocationPermission) show() else hide()
