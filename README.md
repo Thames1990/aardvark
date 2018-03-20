@@ -16,7 +16,7 @@ Theme | Dashboard | Events | Details | Map
 :---: | :---: | :---: | :---: | :---:
 Light | ![Dashboard Light](art/dashboard/light.png) | ![Events Light](art/events/light.png) | ![Detail Light](art/detail/light.png) | ![Map Light](art/map/light.png)
 Dark | ![Dashboard Dark](art/dashboard/dark.png) | ![Events Dark](art/events/dark.png) | ![Detail Dark](art/detail/dark.png) | ![Map Dark](art/map/dark.png)
-AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.png) | ![Dashboard AMOLED](art/events/amoled.png) | ![Detail AMOLED](art/detail/amoled.png) | ![Map AMOLED](art/map/amoled.png)
+AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.png) | ![Events AMOLED](art/events/amoled.png) | ![Detail AMOLED](art/detail/amoled.png) | ![Map AMOLED](art/map/amoled.png)
 
 ---
 ## Intro
@@ -27,8 +27,7 @@ AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.png) | ![Dashboard AMOLED](art
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.  
 
 ### Select toolbar layout
 
