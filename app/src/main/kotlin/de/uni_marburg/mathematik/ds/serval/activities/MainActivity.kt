@@ -236,7 +236,7 @@ class MainActivity : BaseActivity() {
         tooltipTextRes = R.string.tooltip_fab_move_to_current_location,
         onClickListener = {
             appBar.expand()
-            currentFragment.moveToPosition(lastPosition)
+            currentFragment.moveToPosition(devicePosition)
         },
         show = hasLocationPermission && MapPrefs.myLocationButtonEnabled
     )
@@ -247,10 +247,10 @@ class MainActivity : BaseActivity() {
 
         // Get last location
         val oneFix = locationControl.oneFix()
-        oneFix.start { location -> lastLocation = location }
+        oneFix.start { location -> deviceLocation = location }
 
         fun submitLocation(location: Location?) {
-            if (location != null) lastLocation = location
+            if (location != null) deviceLocation = location
         }
 
         // Get notified about location changes
@@ -367,9 +367,9 @@ class MainActivity : BaseActivity() {
         const val REQUEST_NAV = 1 shl 4
         const val RELOAD_EVENTS = 1 shl 5
 
-        var lastLocation = Location(BuildConfig.APPLICATION_ID)
-        val lastPosition: LatLng
-            get() = LatLng(lastLocation.latitude, lastLocation.longitude)
+        var deviceLocation = Location(BuildConfig.APPLICATION_ID)
+        val devicePosition: LatLng
+            get() = LatLng(deviceLocation.latitude, deviceLocation.longitude)
     }
 
 }

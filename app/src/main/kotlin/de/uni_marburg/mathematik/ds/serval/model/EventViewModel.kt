@@ -6,6 +6,8 @@ import android.arch.lifecycle.LiveData
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
+import de.uni_marburg.mathematik.ds.serval.model.EventComparator.Order.ASCENDING
+import de.uni_marburg.mathematik.ds.serval.model.EventComparator.Order.DESCENDING
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -37,11 +39,15 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         uiThread { doOnFinish() }
     }
 
-    fun sortBy(eventComparator: EventComparator, descending: Boolean = false): Boolean {
+    inline fun sortBy(
+        comparator: EventComparator,
+        order: EventComparator.Order = ASCENDING,
+        crossinline doOnFinish: () -> Unit = {}
+    ) = doAsync {
         val events: List<Event> = dao.getAll()
-        val sortedEvents: List<Event> = eventComparator.sort(events, descending)
+        val sortedEvents: List<Event> = comparator.sort(events, order)
         dao.insertOrUpdate(sortedEvents)
-        return true
+        uiThread { doOnFinish() }
     }
 
     companion object {
@@ -52,26 +58,35 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
 sealed class EventComparator {
 
+    enum class Order {
+        ASCENDING, DESCENDING
+    }
+
     object Distance : EventComparator() {
-        override fun sort(events: List<Event>, descending: Boolean): List<Event> =
-            if (descending) events.sortedByDescending { event ->
-                event.location.distanceTo(MainActivity.lastLocation)
+        override fun sort(events: List<Event>, order: Order): List<Event> = when (order) {
+            ASCENDING -> events.sortedBy { event ->
+                event.location.distanceTo(MainActivity.deviceLocation)
             }
-            else events.sortedBy { event -> event.location.distanceTo(MainActivity.lastLocation) }
+            DESCENDING -> events.sortedByDescending { event ->
+                event.location.distanceTo(MainActivity.deviceLocation)
+            }
+        }
     }
 
     object Measurements : EventComparator() {
-        override fun sort(events: List<Event>, descending: Boolean): List<Event> =
-            if (descending) events.sortedByDescending { event -> event.measurements.size }
-            else events.sortedBy { event -> event.measurements.size }
+        override fun sort(events: List<Event>, order: Order): List<Event> = when (order) {
+            ASCENDING -> events.sortedBy { event -> event.measurements.size }
+            DESCENDING -> events.sortedByDescending { event -> event.measurements.size }
+        }
     }
 
     object Time : EventComparator() {
-        override fun sort(events: List<Event>, descending: Boolean): List<Event> =
-            if (descending) events.sortedBy { event -> event.time }
-            else events.sortedByDescending { event -> event.time }
+        override fun sort(events: List<Event>, order: Order): List<Event> = when (order) {
+            ASCENDING -> events.sortedByDescending { event -> event.time }
+            DESCENDING -> events.sortedBy { event -> event.time }
+        }
     }
 
-    abstract fun sort(events: List<Event>, descending: Boolean): List<Event>
+    abstract fun sort(events: List<Event>, order: Order): List<Event>
 
 }

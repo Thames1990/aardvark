@@ -27,11 +27,11 @@ import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator
 import de.uni_marburg.mathematik.ds.serval.model.EventComparator.*
+import de.uni_marburg.mathematik.ds.serval.model.EventComparator.Order.ASCENDING
+import de.uni_marburg.mathematik.ds.serval.model.EventComparator.Order.DESCENDING
 import de.uni_marburg.mathematik.ds.serval.model.Measurement
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 
 class EventsFragment : BaseFragment() {
@@ -72,11 +72,11 @@ class EventsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_sort_distance_asc -> sortEventsBy(Distance)
-            R.id.action_sort_distance_desc -> sortEventsBy(Distance, descending = true)
+            R.id.action_sort_distance_desc -> sortEventsBy(Distance, order = DESCENDING)
             R.id.action_sort_measurements_asc -> sortEventsBy(Measurements)
-            R.id.action_sort_measurements_desc -> sortEventsBy(Measurements, descending = true)
+            R.id.action_sort_measurements_desc -> sortEventsBy(Measurements, order = DESCENDING)
             R.id.action_sort_time_asc -> sortEventsBy(Time)
-            R.id.action_sort_time_desc -> sortEventsBy(Time, descending = true)
+            R.id.action_sort_time_desc -> sortEventsBy(Time, order = DESCENDING)
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -85,6 +85,7 @@ class EventsFragment : BaseFragment() {
     fun reloadEvents() {
         with(swipeRefreshLayout) {
             if (context.isNetworkAvailable) {
+                isRefreshing = true
                 eventViewModel.getFromRepository(doOnFinish = { isRefreshing = false })
             } else {
                 isRefreshing = false
@@ -98,12 +99,13 @@ class EventsFragment : BaseFragment() {
 
     fun scrollToTop() = recyclerView.scrollToPosition(0)
 
-    private fun sortEventsBy(eventComparator: EventComparator, descending: Boolean = false) {
+    private fun sortEventsBy(eventComparator: EventComparator, order: Order = ASCENDING) {
         swipeRefreshLayout.isRefreshing = true
-        doAsync {
-            eventViewModel.sortBy(eventComparator, descending)
-            uiThread { swipeRefreshLayout.isRefreshing = false }
-        }
+        eventViewModel.sortBy(
+            eventComparator,
+            order,
+            doOnFinish = { swipeRefreshLayout.isRefreshing = false }
+        )
     }
 
     private fun setupRecyclerView() {
@@ -178,7 +180,7 @@ class EventsFragment : BaseFragment() {
                         color = AppearancePrefs.Theme.textColor
                     )
                     with(locationView) {
-                        val distance: Float = event.location.distanceTo(MainActivity.lastLocation)
+                        val distance: Float = event.location.distanceTo(MainActivity.deviceLocation)
                         text = distance.formatDistance(itemView.context)
                         setTextColor(AppearancePrefs.Theme.textColor)
                     }
