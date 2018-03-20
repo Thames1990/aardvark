@@ -6,11 +6,11 @@
 
 ## Screenshots
 
-Theme | Dashboard | Events | Map
+Theme | Dashboard | Events | Details | Map
 :---: | :---: | :---: | :---:
-Light | ![Dashboard Light](art/dashboard/light.png) | ![Events Light](art/events/light.png) | ![Map Light](art/map/light.png)
-Dark | ![Dashboard Dark](art/dashboard/dark.png) | ![Events Dark](art/events/dark.png) | ![Map Dark](art/map/dark.png)
-AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.png) | ![Dashboard AMOLED](art/events/amoled.png) | ![Map AMOLED](art/map/amoled.png)
+Light | ![Dashboard Light](art/dashboard/light.png) | ![Events Light](art/events/light.png) | ![Detail Light](art/detail/light.png) | ![Map Light](art/map/light.png)
+Dark | ![Dashboard Dark](art/dashboard/dark.png) | ![Events Dark](art/events/dark.png) | ![Detail Dark](art/detail/dark.png) | ![Map Dark](art/map/dark.png)
+AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.png) | ![Dashboard AMOLED](art/events/amoled.png) | ![Detail AMOLED](art/detail/amoled.png) | ![Map AMOLED](art/map/amoled.png)
 
 ## Intro
 
