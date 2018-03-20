@@ -245,8 +245,7 @@ class MainActivity : BaseActivity() {
         locationControl = locationLiveData.locationControl
 
         // Get last location
-        val oneFix = locationControl.oneFix()
-        oneFix.start { location -> deviceLocation = location }
+        locationControl.oneFix().apply { start { location -> deviceLocation = location } }
 
         fun submitLocation(location: Location?) {
             if (location != null) deviceLocation = location
