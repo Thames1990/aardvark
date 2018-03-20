@@ -182,13 +182,14 @@ class MainActivity : BaseActivity() {
                     val currentFragment: Fragment = pagerAdapter.getItem(currentTab)
 
                     viewPager.item = currentTab
-                    appBar.expand()
 
                     when (currentFragment) {
                         is DashboardFragment -> selectDashboardFragment()
                         is EventsFragment -> selectEventsFragmentTab(currentFragment)
                         is MapFragment -> selectMapFragmentTab(currentFragment)
                     }
+
+                    appBar.expand()
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab) {
@@ -214,10 +215,7 @@ class MainActivity : BaseActivity() {
         observe(liveData = eventViewModel.pagedList, onChanged = ::submitEvents)
     }
 
-    private fun selectDashboardFragment() {
-        fab.hide()
-        appBar.expand()
-    }
+    private fun selectDashboardFragment() = fab.hide()
 
     private fun selectEventsFragmentTab(currentFragment: EventsFragment) = with(fab) {
         currentFragment.bindFab(fab = this)
