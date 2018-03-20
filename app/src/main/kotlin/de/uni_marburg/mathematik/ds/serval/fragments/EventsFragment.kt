@@ -47,7 +47,7 @@ class EventsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        observe(liveData = eventViewModel.pagedList, body = eventAdapter::submitList)
+        observe(liveData = eventViewModel.pagedList, onChanged = eventAdapter::submitList)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -211,7 +211,7 @@ class MainActivity : BaseActivity() {
             badgedIcon.badgeText = eventCount.toString()
         }
 
-        observe(liveData = eventViewModel.pagedList, body = ::submitEvents)
+        observe(liveData = eventViewModel.pagedList, onChanged = ::submitEvents)
     }
 
     private fun selectDashboardFragment() {
@@ -254,7 +254,7 @@ class MainActivity : BaseActivity() {
         }
 
         // Get notified about location changes
-        observe(liveData = locationLiveData, body = ::submitLocation)
+        observe(liveData = locationLiveData, onChanged = ::submitLocation)
     }
 
     private fun checkForNewVersion() {
@@ -311,7 +311,7 @@ class MainActivity : BaseActivity() {
 
     }
 
-    private class BadgedIcon @JvmOverloads constructor(
+    private class BadgedIcon(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0

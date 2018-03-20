@@ -153,8 +153,8 @@ fun GoogleMap.withStyle(
 
 fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(
     liveData: L,
-    body: (T?) -> Unit
-) = liveData.observe(this, Observer(body))
+    onChanged: (T?) -> Unit
+) = liveData.observe(this, Observer(onChanged))
 
 /**
  * Converts UNIX time to human readable information in relation to the current time.
