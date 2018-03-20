@@ -8,7 +8,9 @@
 
 Theme | Dashboard | Events | Map
 :---: | :---: | :---: | :---:
-Light | ![Dashboard Light](art/dashboard/light.png) | test | test
+Light | ![Dashboard Light](art/dashboard/light.png) | ![Events Light](art/events/light.png) | ![Map Light](art/map/light.png)
+Dark | ![Dashboard Dark](art/dashboard/dark.png) | ![Events Dark](art/events/dark.png) | ![Map Dark](art/map/dark.png)
+AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.png) | ![Dashboard AMOLED](art/events/amoled.png) | ![Map AMOLED](art/map/amoled.png)
 
 ## Intro
 
