@@ -43,7 +43,7 @@
             android:theme="@style/Base.Theme.AppCompat.Dialog" />
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.MainActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation"
             android:theme="@style/AardvarkTheme" />
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.DetailActivity"

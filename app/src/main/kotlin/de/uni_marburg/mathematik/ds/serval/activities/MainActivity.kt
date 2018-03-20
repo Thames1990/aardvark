@@ -31,6 +31,7 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.SwipeToggleViewPager
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayouts
 import de.uni_marburg.mathematik.ds.serval.enums.TabItems
+import de.uni_marburg.mathematik.ds.serval.fragments.BaseFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
@@ -273,11 +274,17 @@ class MainActivity : BaseActivity() {
 
     private inner class SectionsPagerAdapter : FragmentPagerAdapter(supportFragmentManager) {
 
-        private val fragments = listOf(
+        private val fragments = mutableListOf(
             DashboardFragment(),
             EventsFragment(),
             MapFragment()
         )
+
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
+            val fragment: BaseFragment = super.instantiateItem(container, position) as BaseFragment
+            fragments[position] = fragment
+            return fragment
+        }
 
         override fun getItem(position: Int): Fragment = fragments[position]
 
