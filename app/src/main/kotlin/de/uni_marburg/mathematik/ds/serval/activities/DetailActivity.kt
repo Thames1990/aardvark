@@ -67,6 +67,9 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private fun setup() {
         coordinator.setMarginTop(0)
+        recycler.adapter = adapter
+        CardIItem.bindClickEvents(adapter)
+        setOutsideTapListener { finishAfterTransition() }
 
         doAsync {
             val eventId: String = intent.extras.getString(EVENT_ID)
@@ -74,9 +77,6 @@ class DetailActivity : ElasticRecyclerActivity() {
 
             uiThread {
                 title = event.title
-
-                recycler.adapter = adapter
-                CardIItem.bindClickEvents(adapter)
 
                 addGeneralCards()
                 addAddressCard()
@@ -89,8 +89,6 @@ class DetailActivity : ElasticRecyclerActivity() {
                 )
             }
         }
-
-        setOutsideTapListener { finishAfterTransition() }
     }
 
     /**
