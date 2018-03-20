@@ -139,13 +139,13 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
             when {
                 hasAllPermissions -> R.string.intro_tap_to_exit
                 isDebugBuild -> when {
-                    hasLocationPermission -> R.string.intro_requires_write_external_storage_permission
-                    hasWriteExternalStoragePermission -> R.string.intro_requires_location_permission
-                    else -> R.string.intro_requires_both_permissions
+                    hasLocationPermission -> R.string.intro_tap_to_grant_write_external_storage_permission
+                    hasWriteExternalStoragePermission -> R.string.intro_tap_to_grant_access_fine_location_permission
+                    else -> R.string.intro_tap_to_grant_all_permissions
                 }
                 else ->
                     if (hasLocationPermission) R.string.intro_tap_to_exit
-                    else R.string.preference_location_requires_location_permission
+                    else R.string.intro_tap_to_grant_access_fine_location_permission
             }
         )
     }
