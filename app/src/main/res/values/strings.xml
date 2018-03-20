@@ -80,7 +80,7 @@
     <string name="intro_requires_write_external_storage_permission">Requires access to storage</string>
     <string name="intro_select_theme">Select a theme</string>
     <string name="intro_skip">Skip</string>
-    <string name="intro_slide_to_continue">Slide to continue</string>
+    <string name="intro_slide_to_continue">Swipe right to continue</string>
     <string name="intro_tap_to_exit">Tap anywhere to exit the intro</string>
     <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
 

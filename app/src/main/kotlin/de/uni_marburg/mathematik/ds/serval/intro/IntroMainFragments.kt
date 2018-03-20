@@ -14,11 +14,13 @@ import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
 import ca.allanwang.kau.permissions.PERMISSION_WRITE_EXTERNAL_STORAGE
 import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.childrenSequence
+import org.jetbrains.anko.displayMetrics
 import kotlin.math.absoluteValue
 
 abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
@@ -104,9 +106,13 @@ class IntroFragmentWelcome : BaseIntroFragment(R.layout.intro_welcome) {
 
     override fun viewArray(): Array<Array<out View>> = defaultViewArray()
 
-    override fun themeFragmentImpl() {
-        super.themeFragmentImpl()
-        image.imageTintList = ColorStateList.valueOf(AppearancePrefs.Theme.textColor)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        image.setIcon(
+            icon = CommunityMaterial.Icon.cmd_gesture_swipe_right,
+            sizeDp = requireActivity().displayMetrics.densityDpi,
+            color = AppearancePrefs.Theme.textColor
+        )
     }
 }
 
@@ -134,7 +140,7 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
                 hasAllPermissions -> R.string.intro_tap_to_exit
                 isDebugBuild -> when {
                     hasLocationPermission -> R.string.intro_requires_write_external_storage_permission
-                    hasWriteExternalStoragePermission -> R.string.intro_requires_write_external_storage_permission
+                    hasWriteExternalStoragePermission -> R.string.intro_requires_location_permission
                     else -> R.string.intro_requires_both_permissions
                 }
                 else ->
