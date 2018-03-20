@@ -5,3 +5,5 @@
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 ![Screenshots](art/screenshots.webp)
+
+![Theme Selection](art/theme_selection.gif)
