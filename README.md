@@ -14,5 +14,5 @@ AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.png) | ![Dashboard AMOLED](art
 
 ## Intro
 
-[![Theme Selection](https://j.gifs.com/rRN9x4.gif)](https://youtu.be/r3pKBu0TQQY)
+[![Theme Selection](https://j.gifs.com/rRN9x4.gif)](https://youtu.be/r3pKBu0TQQY){:style="float: right;margin-right: 7px;margin-top: 7px;"}
 [![Toolbar Selection](https://j.gifs.com/gLV2jG.gif)](https://youtu.be/2Byiw5WKmkU)
