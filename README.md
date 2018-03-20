@@ -7,3 +7,4 @@
 ![Screenshots](art/screenshots.webp)
 
 [![Theme Selection](https://j.gifs.com/mQVyP3.gif)](https://youtu.be/r3pKBu0TQQY)
+[![Toolbar Selection](https://j.gifs.com/gLV2jG.gif)](https://youtu.be/2Byiw5WKmkU)
