@@ -345,12 +345,10 @@ class MainActivity : BaseActivity() {
         var iicon: IIcon? = null
             set(value) {
                 field = value
-                badgeImage.setImageDrawable(
-                    value?.toDrawable(
-                        context,
-                        sizeDp = 20,
-                        color = AppearancePrefs.MainActivityLayout.iconColor
-                    )
+                badgeImage.setIconWithOptions(
+                    icon = value,
+                    sizeDp = 20,
+                    color = AppearancePrefs.MainActivityLayout.iconColor
                 )
             }
 
@@ -359,8 +357,7 @@ class MainActivity : BaseActivity() {
             set(value) {
                 if (badgeTextView.text == value) return
                 badgeTextView.text = value
-                if (value != null && value != "0") badgeTextView.visible()
-                else badgeTextView.gone()
+                badgeTextView.visibleIf(value != null && value != "0")
             }
 
     }
