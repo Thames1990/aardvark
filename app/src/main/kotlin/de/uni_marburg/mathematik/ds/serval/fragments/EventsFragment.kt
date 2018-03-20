@@ -85,11 +85,7 @@ class EventsFragment : BaseFragment() {
     fun reloadEvents() {
         with(swipeRefreshLayout) {
             if (context.isNetworkAvailable) {
-                isRefreshing = true
-                doAsync {
-                    eventViewModel.getFromRepository()
-                    uiThread { isRefreshing = false }
-                }
+                eventViewModel.getFromRepository(doOnFinish = { isRefreshing = false })
             } else {
                 isRefreshing = false
                 snackbarThemed(context.string(R.string.network_disconnected))

@@ -26,7 +26,6 @@ import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.item
 import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 
 class IntroActivity : BaseActivity() {
@@ -57,7 +56,7 @@ class IntroActivity : BaseActivity() {
         setupBottomBar()
         theme()
 
-        doAsync { eventViewModel.getFromRepository() }
+        eventViewModel.getFromRepository()
     }
 
     override fun backConsumer(): Boolean {

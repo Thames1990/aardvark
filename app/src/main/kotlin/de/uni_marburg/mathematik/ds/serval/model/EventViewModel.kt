@@ -6,10 +6,14 @@ import android.arch.lifecycle.LiveData
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class EventViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val dao: EventDao = EventDatabase.get(application).eventDao()
+    @Suppress("MemberVisibilityCanBePrivate")
+    @PublishedApi
+    internal val dao: EventDao = EventDatabase.get(application).eventDao()
 
     val pagedList: LiveData<PagedList<Event>> = LivePagedListBuilder(
         dao.getAllPaged(),
@@ -23,10 +27,14 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     operator fun get(id: String) = dao.getById(id)
 
-    fun getFromRepository(deleteEvents: Boolean = false) {
+    inline fun getFromRepository(
+        deleteEvents: Boolean = false,
+        crossinline doOnFinish: () -> Unit = {}
+    ) = doAsync {
         val events: List<Event> = EventRepository.fetch()
         if (deleteEvents) dao.removeAll()
         dao.insertOrUpdate(events)
+        uiThread { doOnFinish() }
     }
 
     fun sortBy(eventComparator: EventComparator, descending: Boolean = false): Boolean {

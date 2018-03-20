@@ -40,7 +40,6 @@ import de.uni_marburg.mathematik.ds.serval.utils.*
 import io.nlopez.smartlocation.SmartLocation
 import io.nlopez.smartlocation.location.config.LocationParams
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider
-import org.jetbrains.anko.doAsync
 
 class MainActivity : BaseActivity() {
 
@@ -92,9 +91,7 @@ class MainActivity : BaseActivity() {
                 if (resultCode and REQUEST_RESTART > 0) restart()
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
-                if (resultCode and RELOAD_EVENTS > 0) doAsync {
-                    eventViewModel.getFromRepository(deleteEvents = true)
-                }
+                if (resultCode and RELOAD_EVENTS > 0) eventViewModel.getFromRepository(deleteEvents = true)
             }
         }
     }
