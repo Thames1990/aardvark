@@ -14,5 +14,10 @@ AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.png) | ![Dashboard AMOLED](art
 
 ## Intro
 
-[![Theme Selection](https://j.gifs.com/rRN9x4.gif)](https://youtu.be/r3pKBu0TQQY) test test
-test test [![Toolbar Selection](https://j.gifs.com/gLV2jG.gif)](https://youtu.be/2Byiw5WKmkU)
+<img align="left" src="https://j.gifs.com/rRN9x4.gif">
+
+test test
+
+<img align="right" src="https://j.gifs.com/gLV2jG.gif">
+
+test test
