@@ -6,4 +6,4 @@
 
 ![Screenshots](art/screenshots.webp)
 
-[![Theme Selection](https://j.gifs.com/mQVyP3.gif)](https://youtu.be/r3pKBu0TQQY)
+[![Theme Selection](art/theme_selection.gif)](https://youtu.be/r3pKBu0TQQY)
