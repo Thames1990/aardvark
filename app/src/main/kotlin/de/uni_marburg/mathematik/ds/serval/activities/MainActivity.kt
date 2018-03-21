@@ -131,11 +131,13 @@ class MainActivity : BaseActivity() {
                 startActivityForResult<SettingsActivity>(
                     requestCode = ACTIVITY_SETTINGS,
                     bundleBuilder = {
-                        withCustomAnimation(
-                            context = this@MainActivity,
-                            enterResId = R.anim.kau_slide_in_right,
-                            exitResId = R.anim.kau_fade_out
-                        )
+                        if (animationsAreEnabled) {
+                            withCustomAnimation(
+                                context = this@MainActivity,
+                                enterResId = R.anim.kau_slide_in_right,
+                                exitResId = R.anim.kau_fade_out
+                            )
+                        }
                     }
                 )
             }
