@@ -14,9 +14,9 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 Theme | Dashboard | Events | Details | Map
 :---: | :---: | :---: | :---: | :---:
-Light | ![Dashboard Light](art/dashboard/light.webp) | ![Events Light](art/events/light.webp) | ![Detail Light](art/detail/light.webp) | ![Map Light](art/map/light.webp)
-Dark | ![Dashboard Dark](art/dashboard/dark.webp) | ![Events Dark](art/events/dark.webp) | ![Detail Dark](art/detail/dark.webp) | ![Map Dark](art/map/dark.webp)
-AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.webp) | ![Events AMOLED](art/events/amoled.webp) | ![Detail AMOLED](art/detail/amoled.webp) | ![Map AMOLED](art/map/amoled.webp)
+Light | ![Dashboard Light](art/dashboard/light.webp "Dashboard Light") | ![Events Light](art/events/light.webp "Events Light") | ![Detail Light](art/detail/light.webp "Detail Light") | ![Map Light](art/map/light.webp "Map Light")
+Dark | ![Dashboard Dark](art/dashboard/dark.webp "Dashboard Dark") | ![Events Dark](art/events/dark.webp "Events Dark") | ![Detail Dark](art/detail/dark.webp "Detail Dark") | ![Map Dark](art/map/dark.webp "Map Dark")
+AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.webp "Dashboard AMOLED") | ![Events AMOLED](art/events/amoled.webp "Events AMOLED") | ![Detail AMOLED](art/detail/amoled.webp "Detail AMOLED") | ![Map AMOLED](art/map/amoled.webp "Map AMOLED")
 
 ---
 ## Intro
