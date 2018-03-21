@@ -5,7 +5,7 @@ versions.kau = "3.7.0"
 versions.kerval = "0.1.4"
 versions.kotlin = "1.2.30"
 versions.leak_canary = "1.5.4"
-versions.lifecycle = "1.1.0"
+versions.lifecycle = "1.1.1"
 versions.room = "1.1.0-beta1"
 versions.support_library = "27.1.0"
 ext.versions = versions
@@ -70,7 +70,7 @@ deps.dexcount_gradle_plugin = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0
 deps.fabric_gradle_plugin = "io.fabric.tools:gradle:1.25.1"
 deps.google_maps_clustering = "net.sharewire:google-maps-clustering:0.1.3"
 deps.moshi = "com.squareup.moshi:moshi:1.4.0"
-deps.paging = "android.arch.paging:runtime:1.0.0-alpha6"
+deps.paging = "android.arch.paging:runtime:1.0.0-alpha7"
 deps.reprint = "com.github.ajalt.reprint:core:3.2.1@aar"
 ext.deps = deps
 
