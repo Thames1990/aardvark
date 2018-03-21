@@ -13,43 +13,31 @@ import ca.allanwang.kau.utils.restartApplication
 import ca.allanwang.kau.utils.string
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MAX_DISTANCE
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MAX_INTERVAL
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MIN_DISTANCE
-import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestAccuracies.Companion.MIN_INTERVAL
+import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriorities
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
 import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
-import io.nlopez.smartlocation.location.config.LocationAccuracy
-import kotlin.math.roundToInt
 
 object LocationPrefs : KPref() {
-    object LocationRequestAccuracy {
+    object LocationRequestPriority {
         var index: Int by kpref(
-            key = "LOCATION_REQUEST_ACCURACY_INDEX",
-            fallback = LocationRequestAccuracies.HIGH.ordinal,
+            key = "LOCATION_REQUEST_PRIORITY_INDEX",
+            fallback = LocationRequestPriorities.HIGH_ACCURACY.ordinal,
             postSetter = { loader.invalidate() }
         )
-        private val loader = lazyResettable { LocationRequestAccuracies.values()[index] }
-        private val requestAccuracy: LocationRequestAccuracies by loader
-        val accuracy: LocationAccuracy
-            get() = requestAccuracy.accuracy
+        private val loader = lazyResettable { LocationRequestPriorities.values()[index] }
+        private val locationRequestPriority: LocationRequestPriorities by loader
+        val priority
+            get() = locationRequestPriority.priority
     }
 
     var interval: Int by kpref(
         key = "LOCATION_REQUEST_INTERVAL",
-        fallback = arrayOf(
-            LocationRequestAccuracies.MIN_INTERVAL,
-            LocationRequestAccuracies.MAX_INTERVAL
-        ).average().roundToInt()
+        fallback = LocationRequestPriorities.MIN_INTERVAL
     )
-    var distance: Int by kpref(
-        key = "LOCATION_REQUEST_DISTANCE",
-        fallback = arrayOf(
-            LocationRequestAccuracies.MIN_DISTANCE,
-            LocationRequestAccuracies.MAX_DISTANCE
-        ).average().roundToInt()
+    var fastestInterval: Int by kpref(
+        key = "LOCATION_REQUEST_FASTEST_INTERVAL",
+        fallback = LocationRequestPriorities.MIN_FASTEST_INTERVAL
     )
 }
 
@@ -76,11 +64,11 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     }
 
-    fun showLocationRequestAccuracyChooserDialog(onClick: KClick<Int>) {
+    fun showLocationRequestPriorityChooserDialog(onClick: KClick<Int>) {
         materialDialogThemed {
-            title(R.string.preference_location_request_accuracy)
-            items(LocationRequestAccuracies.values().map { accuracy ->
-                "${string(accuracy.titleRes)}\n${string(accuracy.descTextRes)}"
+            title(R.string.preference_location_request_priority)
+            items(LocationRequestPriorities.values().map { priority ->
+                "${string(priority.titleRes)}\n${string(priority.descTextRes)}"
             })
             with(onClick) {
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
@@ -96,13 +84,13 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     }
 
     text(
-        title = R.string.preference_location_request_accuracy,
-        getter = LocationPrefs.LocationRequestAccuracy::index,
-        setter = { LocationPrefs.LocationRequestAccuracy.index = it },
+        title = R.string.preference_location_request_priority,
+        getter = LocationPrefs.LocationRequestPriority::index,
+        setter = { LocationPrefs.LocationRequestPriority.index = it },
         builder = {
             dependsOnLocationPermission()
-            onClick = ::showLocationRequestAccuracyChooserDialog
-            textGetter = { string(LocationRequestAccuracies(it).titleRes) }
+            onClick = ::showLocationRequestPriorityChooserDialog
+            textGetter = { string(LocationRequestPriorities(it).titleRes) }
         }
     )
 
@@ -114,26 +102,26 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     }
 
     seekbar(
-        title = R.string.preference_location_request_distance,
-        getter = LocationPrefs::distance,
-        setter = { LocationPrefs.distance = it },
-        builder = {
-            dependsOnLocationPermission()
-            descRes = R.string.preference_location_request_distance_desc
-            min = MIN_DISTANCE
-            max = MAX_DISTANCE
-        }
-    )
-
-    seekbar(
         title = R.string.preference_location_request_interval,
         getter = LocationPrefs::interval,
         setter = { LocationPrefs.interval = it },
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.preference_location_request_interval_desc
-            min = MIN_INTERVAL
-            max = MAX_INTERVAL
+            min = LocationRequestPriorities.MIN_INTERVAL
+            max = LocationRequestPriorities.MAX_INTERVAL
+        }
+    )
+
+    seekbar(
+        title = R.string.preference_location_request_fastest_interval,
+        getter = LocationPrefs::interval,
+        setter = { LocationPrefs.interval = it },
+        builder = {
+            dependsOnLocationPermission()
+            descRes = R.string.preference_location_request_fastest_interval_desc
+            min = LocationRequestPriorities.MIN_FASTEST_INTERVAL
+            max = LocationRequestPriorities.MAX_FASTEST_INTERVAL
         }
     )
 

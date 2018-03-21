@@ -74,7 +74,6 @@ dependencies {
     implementation deps.google_maps_clustering
     implementation(deps.moshi) { exclude group: 'com.squareup.okio', module: 'okio' }
     implementation deps.reprint
-    implementation(deps.smartlocation) { transitive = false }
     // Architecture Components
     implementation deps.lifecycle.extensions
     implementation deps.room.runtime

@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
 import android.arch.paging.PagedList
 import android.content.Context
@@ -22,7 +23,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.Task
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.Aardvark
@@ -38,9 +42,6 @@ import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
-import io.nlopez.smartlocation.SmartLocation
-import io.nlopez.smartlocation.location.config.LocationParams
-import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider
 
 class MainActivity : BaseActivity() {
 
@@ -52,11 +53,10 @@ class MainActivity : BaseActivity() {
 
     private val pagerAdapter = SectionsPagerAdapter()
 
-    private lateinit var locationControl: SmartLocation.LocationControl
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Prefs.lastLaunch = currentTimeInMillis
+        if (hasLocationPermission) trackLocation()
 
         setContentView(AppearancePrefs.MainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
@@ -71,19 +71,7 @@ class MainActivity : BaseActivity() {
         setupViewPager()
         setupTabLayout()
 
-        if (hasLocationPermission) trackLocation()
-
         checkForNewVersion()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (::locationControl.isInitialized) locationControl.stop()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (hasLocationPermission) trackLocation()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -245,16 +233,11 @@ class MainActivity : BaseActivity() {
 
     private fun trackLocation() {
         val locationLiveData = LocationLiveData(this)
-        locationControl = locationLiveData.locationControl
-
-        // Get last location
-        locationControl.oneFix().apply { start { location -> deviceLocation = location } }
 
         fun submitLocation(location: Location?) {
             if (location != null) deviceLocation = location
         }
 
-        // Get notified about location changes
         observe(liveData = locationLiveData, onChanged = ::submitLocation)
     }
 
@@ -294,26 +277,57 @@ class MainActivity : BaseActivity() {
 
     }
 
-    private class LocationLiveData(context: Context) : LiveData<Location>() {
+    private inner class LocationLiveData(context: Context) : LiveData<Location>() {
 
-        private val locationParams: LocationParams = LocationParams.Builder()
-            .setAccuracy(LocationPrefs.LocationRequestAccuracy.accuracy)
-            .setDistance(LocationPrefs.distance.toFloat())
-            .setInterval(LocationPrefs.interval.toLong())
-            .build()
+        val fusedLocationClient = FusedLocationProviderClient(context)
 
-        val locationControl: SmartLocation.LocationControl = SmartLocation.with(context)
-            .location(LocationGooglePlayServicesWithFallbackProvider(context))
-            .config(locationParams)
+        val locationRequest = LocationRequest().apply {
+            interval = (LocationPrefs.interval * 1000).toLong() // s -> ms
+            fastestInterval = (LocationPrefs.fastestInterval * 1000).toLong() // s -> ms
+            priority = LocationPrefs.LocationRequestPriority.priority
+        }
 
+        val builder: LocationSettingsRequest.Builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+
+        val client: SettingsClient = LocationServices.getSettingsClient(context)
+
+        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
+
+        val locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                value = locationResult.lastLocation
+            }
+        }
+
+        @SuppressLint("MissingPermission")
         override fun onActive() {
             super.onActive()
-            locationControl.start { location -> value = location }
+
+            with(task) {
+                addOnSuccessListener {
+                    fusedLocationClient.requestLocationUpdates(
+                        locationRequest,
+                        locationCallback,
+                        null
+                    )
+                }
+
+                addOnFailureListener { exception ->
+                    if (exception is ResolvableApiException) {
+                        exception.startResolutionForResult(
+                            this@MainActivity,
+                            REQUEST_CHECK_SETTINGS
+                        )
+                    }
+                }
+            }
         }
 
         override fun onInactive() {
-            locationControl.stop()
             super.onInactive()
+            fusedLocationClient.removeLocationUpdates(locationCallback)
         }
 
     }
@@ -369,7 +383,8 @@ class MainActivity : BaseActivity() {
         const val REQUEST_RESTART = 1 shl 2
         const val REQUEST_APPLICATION_RESTART = 1 shl 3
         const val REQUEST_NAV = 1 shl 4
-        const val RELOAD_EVENTS = 1 shl 5
+        const val REQUEST_CHECK_SETTINGS = 1 shl 5
+        const val RELOAD_EVENTS = 1 shl 6
 
         var deviceLocation = Location(BuildConfig.APPLICATION_ID)
         val devicePosition: LatLng

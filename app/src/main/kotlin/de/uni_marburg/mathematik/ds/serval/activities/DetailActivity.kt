@@ -2,7 +2,6 @@ package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.location.Address
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.CardView
@@ -29,7 +28,6 @@ import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
-import io.nlopez.smartlocation.SmartLocation
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -41,12 +39,10 @@ class DetailActivity : ElasticRecyclerActivity() {
     private val adapter: FastItemAdapter<IItem<*, *>> = FastItemAdapter()
 
     private lateinit var event: Event
-    private lateinit var geocodingControl: SmartLocation.GeocodingControl
     private lateinit var eventViewModel: EventViewModel
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         eventViewModel = getViewModel()
-        geocodingControl = SmartLocation.with(this).geocoding()
 
         setSecureFlag()
         setColors {
@@ -58,11 +54,6 @@ class DetailActivity : ElasticRecyclerActivity() {
         setup()
 
         return true
-    }
-
-    override fun onPause() {
-        geocodingControl.stop()
-        super.onPause()
     }
 
     private fun setup() {
@@ -160,28 +151,9 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     /**
-     * Add [event] address card.
+     * TODO Add [event] address card.
      */
-    private fun addAddressCard() {
-
-        fun List<Address>.getMostProbableAddress() = first()
-            .address
-            .replace(oldValue = "unnamed road, ", newValue = "", ignoreCase = true)
-            .replace(oldValue = ", ", newValue = "\n")
-
-        geocodingControl.reverse(event.location) { _, addressResults ->
-            // Add most probable address if available
-            if (addressResults.isNotEmpty()) {
-                val addressCard = CardIItem {
-                    titleRes = R.string.location_address
-                    desc = addressResults.getMostProbableAddress()
-                    imageIIcon = CommunityMaterial.Icon.cmd_map_marker
-                }
-
-                adapter.add(addressCard)
-            }
-        }
-    }
+    private fun addAddressCard() = Unit
 
     /**
      * Show the [event's][event] location in Google Maps.

@@ -17,16 +17,6 @@
     <string name="action_sort_events_measurements">Measurements</string>
     <string name="action_sort_events_time">Time</string>
 
-    <string name="activity_desc">You are %1$s</string>
-    <string name="activity_in_vehicle">in a vehicle</string>
-    <string name="activity_on_bicycle">on a bicycle</string>
-    <string name="activity_on_foot">on foot</string>
-    <string name="activity_running">running</string>
-    <string name="activity_still">standing still</string>
-    <string name="activity_tilting">tilting</string>
-    <string name="activity_unknown">… WTF are you doing?</string>
-    <string name="activity_walking">walking</string>
-
     <string name="date_full_time_full">Full date\nFull time</string>
     <string name="date_full_time_long">Full date\nLong time</string>
     <string name="date_full_time_medium">Full date\nMedium time</string>
@@ -94,14 +84,14 @@
     <string name="location">Location</string>
     <string name="location_address">Address</string>
     <string name="location_desc">Control your location settings</string>
-    <string name="location_request_accuracy_high">High</string>
-    <string name="location_request_accuracy_high_desc">This will return the finest location available.</string>
-    <string name="location_request_accuracy_low">Low</string>
-    <string name="location_request_accuracy_low_desc">City level accuracy is considered to be about 10km accuracy. Using a coarse accuracy such as this often consumes less power.</string>
-    <string name="location_request_accuracy_lowest">Lowest</string>
-    <string name="location_request_accuracy_lowest_desc">No locations will be returned unless a different client has requested location updates in which case this request will act as a passive listener to those locations.</string>
-    <string name="location_request_accuracy_medium">Medium</string>
-    <string name="location_request_accuracy_medium_desc">Block level accuracy is considered to be about 100 meter accuracy. Using a coarse accuracy such as this often consumes less power.</string>
+    <string name="location_request_priority_balanced_power_accuracy">Block level accuracy</string>
+    <string name="location_request_priority_balanced_power_accuracy_desc">Block level accuracy is considered to be about 100 meter accuracy. Using a coarse accuracy such as this often consumes less power.</string>
+    <string name="location_request_priority_high_accuracy">High accuracy</string>
+    <string name="location_request_priority_high_accuracy_desc">Return the finest location available</string>
+    <string name="location_request_priority_low_power">City level accuracy</string>
+    <string name="location_request_priority_low_power_desc">City level accuracy is considered to be about 10km accuracy. Using a coarse accuracy such as this often consumes less power.</string>
+    <string name="location_request_priority_no_power">None</string>
+    <string name="location_request_priority_no_power_desc">No locations will be returned unless a different client has requested location updates in which case this request will act as a passive listener to those locations.</string>
 
     <string name="map_style_aubergine">Aubergine</string>
     <string name="map_style_dark">Dark</string>
@@ -122,6 +112,7 @@
     <string name="network_disconnected">No network connectivity</string>
 
     <string name="placeholder_title">DAMN</string>
+    <string name="placeholder_desc">The developer was too lazy to include a layout</string>
 
     <string name="precipitation_unit_inches">Inches</string>
     <string name="precipitation_unit_inches_unit">in</string>
@@ -185,11 +176,11 @@
     <string name="preference_experimental_wifi_adb_deactivate" translatable="false">setprop service.adb.tcp.port -1</string>
     <string name="preference_experimental_wifi_adb_start" translatable="false">start adbd</string>
     <string name="preference_experimental_wifi_adb_stop" translatable="false">stop adbd</string>
-    <string name="preference_location_request_accuracy">Location request accuracy</string>
-    <string name="preference_location_request_distance">Location request distance</string>
-    <string name="preference_location_request_distance_desc">Define how many meters you have to move to trigger a location request</string>
+    <string name="preference_location_request_fastest_interval">Fastest interval</string>
+    <string name="preference_location_request_fastest_interval_desc">Set the fastest rate in seconds at which location updates are handled.</string>
     <string name="preference_location_request_interval">Location request interval</string>
-    <string name="preference_location_request_interval_desc">Define the interval in between location requests</string>
+    <string name="preference_location_request_interval_desc">Set the rate in milliseconds at which your app prefers to receive location updates.</string>
+    <string name="preference_location_request_priority">Location request priority</string>
     <string name="preference_location_requires_location_permission">Requires location permission</string>
     <string name="preference_map">Map</string>
     <string name="preference_map_desc">Customize Google Map</string>
