@@ -56,6 +56,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Prefs.lastLaunch = currentTimeInMillis
 
         setContentView(AppearancePrefs.MainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)

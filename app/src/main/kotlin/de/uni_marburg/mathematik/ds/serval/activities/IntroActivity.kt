@@ -22,10 +22,7 @@ import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.intro.*
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
-import de.uni_marburg.mathematik.ds.serval.utils.item
-import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.find
 
 class IntroActivity : BaseActivity() {
@@ -69,6 +66,7 @@ class IntroActivity : BaseActivity() {
     }
 
     override fun finish() {
+        Prefs.lastLaunch = currentTimeInMillis
         startActivity<MainActivity>()
         super.finish()
     }
