@@ -14,16 +14,16 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 Theme | Dashboard | Events | Details | Map
 :---: | :---: | :---: | :---: | :---:
-Light | ![Dashboard Light](art/dashboard/light.png) | ![Events Light](art/events/light.png) | ![Detail Light](art/detail/light.png) | ![Map Light](art/map/light.png)
-Dark | ![Dashboard Dark](art/dashboard/dark.png) | ![Events Dark](art/events/dark.png) | ![Detail Dark](art/detail/dark.png) | ![Map Dark](art/map/dark.png)
-AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.png) | ![Events AMOLED](art/events/amoled.png) | ![Detail AMOLED](art/detail/amoled.png) | ![Map AMOLED](art/map/amoled.png)
+Light | ![Dashboard Light](art/dashboard/light.webp) | ![Events Light](art/events/light.webp) | ![Detail Light](art/detail/light.webp) | ![Map Light](art/map/light.webp)
+Dark | ![Dashboard Dark](art/dashboard/dark.webp) | ![Events Dark](art/events/dark.webp) | ![Detail Dark](art/detail/dark.webp) | ![Map Dark](art/map/dark.webp)
+AMOLED | ![Dashboard AMOLED](art/dashboard/amoled.webp) | ![Events AMOLED](art/events/amoled.webp) | ![Detail AMOLED](art/detail/amoled.webp) | ![Map AMOLED](art/map/amoled.webp)
 
 ---
 ## Intro
 
 ### Select theme
 
-<img align="left" src="https://j.gifs.com/rRN9x4.gif">
+<img align="left" src="art/intro/theme.webp">
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
@@ -31,7 +31,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 ### Select toolbar layout
 
-<img align="right" src="https://j.gifs.com/gLV2jG.gif">
+<img align="right" src="art/intro/bar.webp">
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
