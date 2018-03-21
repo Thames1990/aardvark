@@ -63,7 +63,20 @@ class SettingsActivity : KPrefActivity() {
 
         plainText(R.string.preference_replay_intro) {
             iicon = GoogleMaterial.Icon.gmd_replay
-            onClick = { startActivity<IntroActivity>() }
+            onClick = {
+                startActivityForResult<IntroActivity>(
+                    requestCode = ACTIVITY_INTRO,
+                    bundleBuilder = {
+                        if (animationsAreEnabled) {
+                            withCustomAnimation(
+                                context = this@SettingsActivity,
+                                enterResId = R.anim.kau_slide_in_bottom,
+                                exitResId = R.anim.kau_fade_out
+                            )
+                        }
+                    }
+                )
+            }
         }
     }
 
@@ -127,6 +140,10 @@ class SettingsActivity : KPrefActivity() {
 
     fun setAardvarkResult(flag: Int) {
         resultFlag = resultFlag or flag
+    }
+
+    companion object {
+        const val ACTIVITY_INTRO = 1 shl 1
     }
 
 }

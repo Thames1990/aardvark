@@ -23,6 +23,7 @@ import de.uni_marburg.mathematik.ds.serval.intro.*
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
+import org.jetbrains.anko.displayMetrics
 import org.jetbrains.anko.find
 
 class IntroActivity : BaseActivity() {
@@ -34,14 +35,17 @@ class IntroActivity : BaseActivity() {
     private val skip: Button by bindView(R.id.intro_skip)
     private val viewpager: ViewPager by bindView(R.id.intro_viewpager)
 
-    private var barHasNext = true
-
+    private val startedFromSettings: Boolean by lazy {
+        callingActivity?.className == SettingsActivity::class.java.name
+    }
     private val fragments = listOf(
         IntroFragmentWelcome(),
         IntroFragmentTheme(),
         IntroFragmentTabTouch(),
         IntroFragmentEnd()
     )
+
+    private var barHasNext = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,16 +62,19 @@ class IntroActivity : BaseActivity() {
 
     override fun backConsumer(): Boolean {
         if (viewpager.item > 0) viewpager.item = viewpager.item - 1
-        else {
+        else if (!startedFromSettings) {
             Prefs.lastLaunch = -1L
             finishAffinity()
         }
+        else finish(x = 0F, y = displayMetrics.heightPixels.toFloat())
         return true
     }
 
     override fun finish() {
-        Prefs.lastLaunch = currentTimeInMillis
-        startActivity<MainActivity>()
+        if (!startedFromSettings) {
+            Prefs.lastLaunch = currentTimeInMillis
+            startActivity<MainActivity>()
+        }
         super.finish()
     }
 
