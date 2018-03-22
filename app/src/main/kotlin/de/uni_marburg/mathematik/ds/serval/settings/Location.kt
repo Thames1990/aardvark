@@ -115,8 +115,8 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     seekbar(
         title = R.string.preference_location_request_fastest_interval,
-        getter = LocationPrefs::interval,
-        setter = { LocationPrefs.interval = it },
+        getter = LocationPrefs::fastestInterval,
+        setter = { LocationPrefs.fastestInterval = it },
         builder = {
             dependsOnLocationPermission()
             descRes = R.string.preference_location_request_fastest_interval_desc
