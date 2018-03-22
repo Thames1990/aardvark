@@ -2,6 +2,8 @@ package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.CardView
@@ -40,6 +42,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private lateinit var event: Event
     private lateinit var eventViewModel: EventViewModel
+    private lateinit var geocoder: Geocoder
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         eventViewModel = getViewModel()
@@ -57,8 +60,10 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     private fun setup() {
-        coordinator.setMarginTop(0)
+        geocoder = Geocoder(this)
         recycler.adapter = adapter
+
+        coordinator.setMarginTop(0)
         CardIItem.bindClickEvents(adapter)
         setOutsideTapListener { finishAfterTransition() }
 
@@ -151,9 +156,32 @@ class DetailActivity : ElasticRecyclerActivity() {
     }
 
     /**
-     * TODO Add [event] address card.
+     * Add [event] address card.
      */
-    private fun addAddressCard() = Unit
+    private fun addAddressCard() {
+        fun List<Address>.getMostProbableAddress(): String = first()
+            .address
+            .replace(oldValue = "unnamed road, ", newValue = "", ignoreCase = true)
+            .replace(oldValue = ", ", newValue = "\n")
+
+        doAsync {
+            val addresses: List<Address> = geocoder.getFromLocation(
+                event.latitude,
+                event.longitude,
+                1
+            )
+            uiThread {
+                if (addresses.isNotEmpty()) {
+                    val addressCard = CardIItem {
+                        titleRes = R.string.location_address
+                        desc = addresses.getMostProbableAddress()
+                        imageIIcon = CommunityMaterial.Icon.cmd_map_marker
+                    }
+                    adapter.add(addressCard)
+                }
+            }
+        }
+    }
 
     /**
      * Show the [event's][event] location in Google Maps.
