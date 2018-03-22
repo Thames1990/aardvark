@@ -1,8 +1,4 @@
 <resources>
-    <dimen name="margin_bottom_fragment">80dp</dimen>
-    <dimen name="margin_horizontal_fragment_title">32dp</dimen>
-    <dimen name="margin_horizontal_fragment_description">32dp</dimen>
-    <dimen name="margin_fragment_image">32dp</dimen>
     <dimen name="text_size_fragment_description">20sp</dimen>
     <dimen name="text_size_fragment_title">28sp</dimen>
 
