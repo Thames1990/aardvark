@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ca.allanwang.kau.utils.Kotterknife
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.model.EventViewModel
 import de.uni_marburg.mathematik.ds.serval.utils.getViewModel
@@ -29,5 +30,10 @@ abstract class BaseFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         Aardvark.refWatcher.watch(this)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Kotterknife.reset(this)
     }
 }

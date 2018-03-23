@@ -39,8 +39,8 @@ class EventsFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_events
 
-    private val recyclerView by bindView<RecyclerView>(R.id.recycler_view)
-    private val swipeRefreshLayout by bindView<SwipeRefreshLayout>(R.id.swipe_refresh)
+    private val recyclerView by bindViewResettable<RecyclerView>(R.id.recycler_view)
+    private val swipeRefreshLayout by bindViewResettable<SwipeRefreshLayout>(R.id.swipe_refresh)
 
     private val eventAdapter = EventAdapter()
 

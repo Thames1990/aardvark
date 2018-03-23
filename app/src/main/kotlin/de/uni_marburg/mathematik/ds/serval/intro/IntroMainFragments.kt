@@ -122,7 +122,7 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
     override fun viewArray(): Array<Array<out View>> = defaultViewArray()
 
     private val container: ConstraintLayout by bindViewResettable(R.id.intro_end_container)
-    private val description: TextView by bindView(R.id.intro_desc)
+    private val description: TextView by bindViewResettable(R.id.intro_desc)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
