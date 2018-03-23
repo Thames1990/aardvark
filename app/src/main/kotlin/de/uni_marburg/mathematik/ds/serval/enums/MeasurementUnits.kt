@@ -3,8 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.enums
 import android.support.annotation.StringRes
 import de.uni_marburg.mathematik.ds.serval.R
 
-// TODO Move conversion here
-
 enum class PrecipitationUnits(
     @StringRes val titleRes: Int,
     @StringRes val unitRes: Int
