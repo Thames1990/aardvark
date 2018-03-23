@@ -55,21 +55,19 @@ class EventsFragment : BaseFragment() {
         setupRecyclerView()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_events, menu)
-
-        with(requireContext()) {
-            setMenuIcons(
-                menu = menu,
-                color = AppearancePrefs.Theme.iconColor,
-                iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_sort)
-            )
-            menu.findItem(R.id.action_sort_distance).isVisible = hasLocationPermission
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) = createOptionsMenu(
+        inflater = inflater,
+        menuRes = R.menu.menu_events,
+        menu = menu,
+        iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_sort),
+        block = {
+            menu?.findItem(R.id.action_sort_distance)?.isVisible =
+                    requireContext().hasLocationPermission
         }
-    }
+    )
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item ?: return false
         when (item.itemId) {
             R.id.action_sort_distance_asc -> sortEventsBy(Distance)
             R.id.action_sort_distance_desc -> sortEventsBy(Distance, order = DESCENDING)

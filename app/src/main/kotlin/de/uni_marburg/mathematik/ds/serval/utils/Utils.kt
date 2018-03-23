@@ -4,15 +4,12 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.location.Address
 import android.support.constraint.ConstraintSet
 import android.support.design.internal.SnackbarContentLayout
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
@@ -143,9 +140,6 @@ fun ConstraintSet.withHorizontalChain(
 fun Float.formatDistance(context: Context): String =
     if (this < 1000) String.format(context.string(R.string.distance_in_meter), this)
     else String.format(context.string(R.string.distance_in_kilometer), this.div(1000))
-
-inline fun <reified T : ViewModel> Fragment.getViewModel(): T =
-    ViewModelProviders.of(requireActivity())[T::class.java]
 
 fun GoogleMap.withStyle(
     context: Context

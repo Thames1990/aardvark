@@ -5,17 +5,33 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.support.annotation.ColorInt
+import android.support.annotation.MenuRes
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
+import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+
+fun Activity.createOptionsMenu(
+    @MenuRes menuRes: Int,
+    menu: Menu?,
+    @ColorInt color: Int = AppearancePrefs.Theme.iconColor,
+    vararg iicons: Pair<Int, IIcon>
+): Boolean {
+    menu ?: return false
+    menuInflater.inflate(menuRes, menu)
+    setMenuIcons(menu, color, *iicons)
+    return true
+}
 
 /**
  * Set all colors with the given [builder].

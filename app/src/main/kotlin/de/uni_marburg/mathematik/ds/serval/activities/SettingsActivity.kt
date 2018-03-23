@@ -10,7 +10,10 @@ import ca.allanwang.kau.kpref.activity.CoreAttributeContract
 import ca.allanwang.kau.kpref.activity.KPrefActivity
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.ui.views.RippleCanvas
-import ca.allanwang.kau.utils.*
+import ca.allanwang.kau.utils.finishSlideOut
+import ca.allanwang.kau.utils.startActivityForResult
+import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.withCustomAnimation
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.PreferenceSubItems
@@ -92,21 +95,17 @@ class SettingsActivity : KPrefActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_settings, menu)
-        toolbar.tint(color = AppearancePrefs.Theme.iconColor)
-        setMenuIcons(
-            menu = menu,
-            color = AppearancePrefs.Theme.iconColor,
-            iicons = *arrayOf(
-                R.id.action_email to GoogleMaterial.Icon.gmd_email,
-                R.id.action_changelog to GoogleMaterial.Icon.gmd_info
-            )
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean = createOptionsMenu(
+        menuRes = R.menu.menu_settings,
+        menu = menu,
+        iicons = *arrayOf(
+            R.id.action_email to GoogleMaterial.Icon.gmd_email,
+            R.id.action_changelog to GoogleMaterial.Icon.gmd_info
         )
-        return true
-    }
+    )
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item ?: return false
         when (item.itemId) {
             R.id.action_email -> materialDialogThemed {
                 title(R.string.support_email_subject)

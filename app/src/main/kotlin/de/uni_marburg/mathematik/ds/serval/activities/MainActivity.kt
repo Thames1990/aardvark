@@ -103,17 +103,14 @@ class MainActivity : BaseActivity() {
         return false
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        setMenuIcons(
-            menu = menu,
-            color = AppearancePrefs.Theme.iconColor,
-            iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
-        )
-        return true
-    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean = createOptionsMenu(
+        menuRes = R.menu.menu_main,
+        menu = menu,
+        iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
+    )
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item ?: return false
         when (item.itemId) {
             R.id.action_settings -> {
                 startActivityForResult<SettingsActivity>(

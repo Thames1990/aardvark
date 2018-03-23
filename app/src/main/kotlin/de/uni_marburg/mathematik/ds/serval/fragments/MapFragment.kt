@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import ca.allanwang.kau.utils.setMenuIcons
 import ca.allanwang.kau.utils.startActivity
 import ca.allanwang.kau.utils.withSceneTransitionAnimation
 import com.google.android.gms.maps.CameraUpdate
@@ -66,17 +65,15 @@ class MapFragment : BaseFragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_map, menu)
-        requireActivity().setMenuIcons(
-            menu = menu,
-            color = AppearancePrefs.Theme.iconColor,
-            iicons = *arrayOf(R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers)
-        )
-    }
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) = createOptionsMenu(
+        inflater = inflater,
+        menuRes = R.menu.menu_map,
+        menu = menu,
+        iicons = *arrayOf(R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers)
+    )
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item ?: return false
         googleMap.mapType = when (item.itemId) {
             R.id.action_change_map_type_normal -> GoogleMap.MAP_TYPE_NORMAL
             R.id.action_change_map_type_satellite -> GoogleMap.MAP_TYPE_SATELLITE
