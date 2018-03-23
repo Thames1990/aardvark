@@ -21,6 +21,15 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 
+/**
+ * Initialize the contents of the Activity's standard options menu.
+ * You should place your menu items in to [menu].
+ *
+ * @param menuRes
+ * @param menu
+ * @param color
+ * @param iicons
+ */
 fun Activity.createOptionsMenu(
     @MenuRes menuRes: Int,
     menu: Menu?,
@@ -86,6 +95,14 @@ fun Activity.themeNavigationBar() {
             else Color.BLACK
 }
 
+/**
+ * Creates a {@link ViewModelProvider}, which retains ViewModels while a scope of given Activity
+ * is alive. More detailed explanation is in {@link ViewModel}.
+ * <p>
+ * It uses {@link ViewModelProvider.AndroidViewModelFactory} to instantiate new ViewModels.
+ *
+ * @return a ViewModelProvider instance
+ */
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(): T =
     ViewModelProviders.of(this)[T::class.java]
 
@@ -114,26 +131,24 @@ class ActivityThemeUtils {
     /**
      * Theme the [activity].
      */
-    fun theme(activity: Activity) {
-        with(activity) {
-            statusBarColor = AppearancePrefs.Theme.headerColor.darken(0.1f).withAlpha(255)
-            if (AppearancePrefs.tintNavBar) navigationBarColor = AppearancePrefs.Theme.headerColor
-            if (themeWindow) window.setBackgroundDrawable(ColorDrawable(AppearancePrefs.Theme.backgroundColor))
-            toolbar?.apply {
-                setBackgroundColor(AppearancePrefs.Theme.headerColor)
-                setTitleTextColor(AppearancePrefs.Theme.iconColor)
-                overflowIcon?.setTint(AppearancePrefs.Theme.iconColor)
-                popupTheme = when (AppearancePrefs.Theme.theme) {
-                    Themes.LIGHT -> R.style.AppTheme_PopupOverlay
-                    Themes.DARK -> R.style.AppTheme_PopupOverlay_Dark
-                    Themes.AMOLED -> R.style.AppTheme_PopupOverlay_Dark
-                    Themes.CUSTOM -> R.style.AppTheme_PopupOverlay // TODO Set theme accordingly
-                }
+    fun theme(activity: Activity) = with(activity) {
+        statusBarColor = AppearancePrefs.Theme.headerColor.darken(0.1f).withAlpha(255)
+        if (AppearancePrefs.tintNavBar) navigationBarColor = AppearancePrefs.Theme.headerColor
+        if (themeWindow) window.setBackgroundDrawable(ColorDrawable(AppearancePrefs.Theme.backgroundColor))
+        toolbar?.apply {
+            setBackgroundColor(AppearancePrefs.Theme.headerColor)
+            setTitleTextColor(AppearancePrefs.Theme.iconColor)
+            overflowIcon?.setTint(AppearancePrefs.Theme.iconColor)
+            popupTheme = when (AppearancePrefs.Theme.theme) {
+                Themes.LIGHT -> R.style.AppTheme_PopupOverlay
+                Themes.DARK -> R.style.AppTheme_PopupOverlay_Dark
+                Themes.AMOLED -> R.style.AppTheme_PopupOverlay_Dark
+                Themes.CUSTOM -> R.style.AppTheme_PopupOverlay // TODO Set theme accordingly
             }
-            texts.forEach { textView -> textView.setTextColor(AppearancePrefs.Theme.textColor) }
-            headers.forEach { view -> view.setBackgroundColor(AppearancePrefs.Theme.headerColor) }
-            backgrounds.forEach { view -> view.setBackgroundColor(AppearancePrefs.Theme.backgroundColor) }
         }
+        texts.forEach { it.setTextColor(AppearancePrefs.Theme.textColor) }
+        headers.forEach { it.setBackgroundColor(AppearancePrefs.Theme.headerColor) }
+        backgrounds.forEach { it.setBackgroundColor(AppearancePrefs.Theme.backgroundColor) }
     }
 
 }
