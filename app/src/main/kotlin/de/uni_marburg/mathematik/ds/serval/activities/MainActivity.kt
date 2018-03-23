@@ -46,11 +46,11 @@ import de.uni_marburg.mathematik.ds.serval.utils.*
 
 class MainActivity : BaseActivity() {
 
-    private val appBar: AppBarLayout by bindView(R.id.appbar)
+    private val appBarLayout: AppBarLayout by bindView(R.id.app_bar_layout)
     private val fab: FloatingActionButton by bindView(R.id.fab)
-    private val tabs: TabLayout by bindView(R.id.tabs)
+    private val tabLayout: TabLayout by bindView(R.id.tab_layout)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
-    private val viewPager: SwipeToggleViewPager by bindView(R.id.view_pager)
+    private val viewPager: SwipeToggleViewPager by bindView(R.id.swipe_toggle_view_pager)
 
     private val pagerAdapter = SectionsPagerAdapter()
 
@@ -64,7 +64,7 @@ class MainActivity : BaseActivity() {
         setColors {
             toolbar(toolbar)
             themeWindow = false
-            header(appBar)
+            header(appBarLayout)
             background(viewPager)
         }
 
@@ -143,7 +143,7 @@ class MainActivity : BaseActivity() {
     private fun setupAppBar() {
         // Fixes bottom layout cutoff
         if (AppearancePrefs.MainActivityLayout.layout == MainActivityLayouts.BOTTOM_BAR) {
-            appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
                 viewPager.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                     withMargins(
                         left = 0,
@@ -160,13 +160,13 @@ class MainActivity : BaseActivity() {
     private fun setupViewPager() = with(viewPager) {
         adapter = pagerAdapter
         offscreenPageLimit = pagerAdapter.count - 1
-        addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
     }
 
     private fun setupTabLayout() {
-        with(tabs) {
-            TabItems.values().map {
-                val badgedIcon = BadgedIcon(context).apply { iicon = it.iicon }
+        with(tabLayout) {
+            TabItems.values().forEach { tabItem ->
+                val badgedIcon = BadgedIcon(context).apply { iicon = tabItem.iicon }
                 val tab: TabLayout.Tab = newTab().setCustomView(badgedIcon)
                 addTab(tab)
             }
@@ -187,7 +187,7 @@ class MainActivity : BaseActivity() {
                         is MapFragment -> selectMapFragmentTab(currentFragment)
                     }
 
-                    appBar.expand()
+                    appBarLayout.expand()
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab) {
@@ -205,7 +205,7 @@ class MainActivity : BaseActivity() {
 
         fun submitEvents(pagedList: PagedList<Event>?) {
             val eventCount: Int = pagedList?.size ?: 0
-            val tab: TabLayout.Tab? = tabs.getTabAt(1)
+            val tab: TabLayout.Tab? = tabLayout.getTabAt(1)
             val badgedIcon = tab?.customView as BadgedIcon
             badgedIcon.badgeText = eventCount.toString()
         }
@@ -221,7 +221,7 @@ class MainActivity : BaseActivity() {
             icon = GoogleMaterial.Icon.gmd_arrow_upward,
             tooltipTextRes = R.string.tooltip_fab_scroll_to_top,
             onClickListener = {
-                appBar.expand()
+                appBarLayout.expand()
                 currentFragment.scrollToTop()
             }
         )
@@ -231,7 +231,7 @@ class MainActivity : BaseActivity() {
         icon = GoogleMaterial.Icon.gmd_my_location,
         tooltipTextRes = R.string.tooltip_fab_move_to_current_location,
         onClickListener = {
-            appBar.expand()
+            appBarLayout.expand()
             currentFragment.moveToPosition(devicePosition)
         },
         show = hasLocationPermission && MapPrefs.myLocationButtonEnabled

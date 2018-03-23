@@ -9,7 +9,7 @@
     android:layout_margin="@dimen/kau_fab_margin"
     android:visibility="gone"
     app:fabSize="normal"
-    app:layout_anchor="@id/view_pager"
+    app:layout_anchor="@id/swipe_toggle_view_pager"
     app:layout_anchorGravity="bottom|right|end"
     tools:showIn="@layout/activity_main"
     tools:src="@tools:sample/avatars" />
