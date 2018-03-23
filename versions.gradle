@@ -1,6 +1,6 @@
 ext.deps = [:]
 def versions = [:]
-versions.google_play_services = "11.8.0"
+versions.google_play_services = "12.0.0"
 versions.kau = "3.7.0"
 versions.kerval = "0.1.4"
 versions.kotlin = "1.2.30"
