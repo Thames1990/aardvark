@@ -12,7 +12,7 @@ import ca.allanwang.kau.utils.setMenuIcons
 import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 
-fun Fragment.createOptionsMenu(
+inline fun Fragment.createOptionsMenu(
     inflater: MenuInflater?,
     @MenuRes menuRes: Int,
     menu: Menu?,

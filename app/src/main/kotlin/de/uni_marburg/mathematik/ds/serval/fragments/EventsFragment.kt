@@ -80,17 +80,15 @@ class EventsFragment : BaseFragment() {
         return true
     }
 
-    fun reloadEvents() {
-        with(swipeRefreshLayout) {
-            if (context.isNetworkAvailable) {
-                isRefreshing = true
-                eventViewModel.getFromRepository(doOnFinish = { isRefreshing = false })
-            } else {
-                isRefreshing = false
-                snackbarThemed(context.string(R.string.network_disconnected))
-            }
-            return
+    fun reloadEvents(): Unit = with(swipeRefreshLayout) {
+        if (context.isNetworkAvailable) {
+            isRefreshing = true
+            eventViewModel.getFromRepository(doOnFinish = { isRefreshing = false })
+        } else {
+            isRefreshing = false
+            snackbarThemed(context.string(R.string.network_disconnected))
         }
+        return
     }
 
     fun bindFab(fab: FloatingActionButton) = fab.hideOnDownwardsScroll(recyclerView)

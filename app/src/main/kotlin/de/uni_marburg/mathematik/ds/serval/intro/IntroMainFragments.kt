@@ -91,8 +91,9 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
         if (view != null) onPageScrolledImpl(positionOffset)
     }
 
-    protected open fun onPageScrolledImpl(positionOffset: Float) =
-        translate(positionOffset, viewArray)
+    protected open fun onPageScrolledImpl(
+        positionOffset: Float
+    ) = translate(positionOffset, viewArray)
 
     fun onPageSelected() {
         if (view != null) onPageSelectedImpl()

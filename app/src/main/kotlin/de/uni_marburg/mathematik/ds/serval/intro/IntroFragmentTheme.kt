@@ -37,21 +37,19 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
         }
     }
 
-    private fun View.setThemeClick(theme: Themes) {
-        setOnClickListener { view ->
-            AppearancePrefs.Theme.index = theme.ordinal
-            val introActivity = activity as IntroActivity
-            with(introActivity) {
-                ripple.ripple(
-                    color = AppearancePrefs.Theme.backgroundColor,
-                    startX = view.x + view.pivotX,
-                    startY = view.y + view.pivotY
-                )
-                theme()
-            }
-            themeList.forEach { themeView ->
-                themeView.animate().scaleXY(if (themeView == this) 1.6f else 0.8f).start()
-            }
+    private fun View.setThemeClick(theme: Themes) = setOnClickListener { view ->
+        AppearancePrefs.Theme.index = theme.ordinal
+        val introActivity = activity as IntroActivity
+        with(introActivity) {
+            ripple.ripple(
+                color = AppearancePrefs.Theme.backgroundColor,
+                startX = view.x + view.pivotX,
+                startY = view.y + view.pivotY
+            )
+            theme()
+        }
+        themeList.forEach { themeView ->
+            themeView.animate().scaleXY(if (themeView == this) 1.6f else 0.8f).start()
         }
     }
 

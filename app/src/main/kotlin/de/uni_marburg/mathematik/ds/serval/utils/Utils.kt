@@ -59,8 +59,11 @@ inline val currentTimeInSeconds: Long
 inline val experimentalSettingsAreEnabled: Boolean
     get() = ExperimentalPrefs.enabled
 
-inline val Address.address: String
-    get() = getAddressLine(0)
+inline val List<Address>.mostProbableAddressLine: String
+    get() = first()
+        .getAddressLine(0)
+        .replace(oldValue = "unnamed road, ", newValue = "", ignoreCase = true)
+        .replace(oldValue = ", ", newValue = "\n")
 
 inline var ViewPager.item
     get() = currentItem

@@ -159,11 +159,6 @@ class DetailActivity : ElasticRecyclerActivity() {
      * Add [event] address card.
      */
     private fun addAddressCard() {
-        fun List<Address>.getMostProbableAddress(): String = first()
-            .address
-            .replace(oldValue = "unnamed road, ", newValue = "", ignoreCase = true)
-            .replace(oldValue = ", ", newValue = "\n")
-
         doAsync {
             val addresses: List<Address> = geocoder.getFromLocation(
                 event.latitude,
@@ -174,7 +169,7 @@ class DetailActivity : ElasticRecyclerActivity() {
                 if (addresses.isNotEmpty()) {
                     val addressCard = CardIItem {
                         titleRes = R.string.location_address
-                        desc = addresses.getMostProbableAddress()
+                        desc = addresses.mostProbableAddressLine
                         imageIIcon = CommunityMaterial.Icon.cmd_map_marker
                     }
                     adapter.add(addressCard)
