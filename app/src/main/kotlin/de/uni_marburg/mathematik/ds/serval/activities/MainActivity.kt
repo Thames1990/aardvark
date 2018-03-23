@@ -1,6 +1,7 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.arch.lifecycle.LiveData
 import android.arch.paging.PagedList
 import android.content.Context
@@ -82,6 +83,14 @@ class MainActivity : BaseActivity() {
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
                 if (resultCode and RELOAD_EVENTS > 0) eventViewModel.getFromRepository(deleteEvents = true)
+            }
+            REQUEST_CHECK_SETTINGS -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> Unit
+                    Activity.RESULT_CANCELED -> {
+                        // The user was asked to change settings, but chose not to
+                    }
+                }
             }
         }
     }
