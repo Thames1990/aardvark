@@ -316,10 +316,15 @@ class MainActivity : BaseActivity() {
 
                 addOnFailureListener { exception ->
                     if (exception is ResolvableApiException) {
-                        exception.startResolutionForResult(
-                            this@MainActivity,
-                            REQUEST_CHECK_SETTINGS
-                        )
+                        when (exception.statusCode) {
+                            LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
+                                exception.startResolutionForResult(
+                                    this@MainActivity,
+                                    REQUEST_CHECK_SETTINGS
+                                )
+                            }
+                            LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> Unit
+                        }
                     }
                 }
             }
