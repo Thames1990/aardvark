@@ -196,10 +196,3 @@ fun MaterialDialog.Builder.theme(): MaterialDialog.Builder {
     neutralColor(AppearancePrefs.Theme.textColor)
     return this
 }
-
-fun ViewGroup.MarginLayoutParams.withMargins(
-    left: Int,
-    top: Int,
-    right: Int,
-    bottom: Int
-) = setMargins(left, top, right, bottom)

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.MainActivity"
-    tools:keep="@layout/activity_main_bottom_tabs"
     tools:menu="menu_main">
 
     <android.support.design.widget.CoordinatorLayout
@@ -14,11 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fitsSystemWindows="true"
-        tools:context=".activities.MainActivity">
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar_layout"
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

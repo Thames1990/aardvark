@@ -46,11 +46,11 @@ import de.uni_marburg.mathematik.ds.serval.utils.*
 
 class MainActivity : BaseActivity() {
 
-    private val appBarLayout: AppBarLayout by bindView(R.id.app_bar_layout)
+    private val appBar: AppBarLayout by bindView(R.id.app_bar)
     private val fab: FloatingActionButton by bindView(R.id.fab)
-    private val tabLayout: TabLayout by bindView(R.id.tab_layout)
+    private val tabs: TabLayout by bindView(R.id.tabs)
     private val toolbar: Toolbar by bindView(R.id.toolbar)
-    private val viewPager: SwipeToggleViewPager by bindView(R.id.swipe_toggle_view_pager)
+    private val viewPager: SwipeToggleViewPager by bindView(R.id.view_pager)
 
     private val pagerAdapter = SectionsPagerAdapter()
 
@@ -64,7 +64,7 @@ class MainActivity : BaseActivity() {
         setColors {
             toolbar(toolbar)
             themeWindow = false
-            header(appBarLayout)
+            header(appBar)
             background(viewPager)
         }
 
@@ -140,19 +140,11 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun setupAppBar() {
-        // Fixes bottom layout cutoff
-        if (AppearancePrefs.MainActivityLayout.layout == MainActivityLayouts.BOTTOM_BAR) {
-            appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-                viewPager.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                    withMargins(
-                        left = 0,
-                        top = 0,
-                        right = 0,
-                        bottom = appBarLayout.measuredHeight + verticalOffset
-                    )
-                }
-                viewPager.requestLayout()
+    private fun setupAppBar() = appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+        when (AppearancePrefs.MainActivityLayout.layout) {
+            MainActivityLayouts.TOP_BAR -> Unit
+            MainActivityLayouts.BOTTOM_BAR -> {
+                viewPager.setMarginBottom(appBarLayout.measuredHeight + verticalOffset)
             }
         }
     }
@@ -160,11 +152,11 @@ class MainActivity : BaseActivity() {
     private fun setupViewPager() = with(viewPager) {
         adapter = pagerAdapter
         offscreenPageLimit = pagerAdapter.count - 1
-        addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+        addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
     }
 
     private fun setupTabLayout() {
-        with(tabLayout) {
+        with(tabs) {
             TabItems.values().forEach { tabItem ->
                 val badgedIcon = BadgedIcon(context).apply { iicon = tabItem.iicon }
                 val tab: TabLayout.Tab = newTab().setCustomView(badgedIcon)
@@ -187,7 +179,7 @@ class MainActivity : BaseActivity() {
                         is MapFragment -> selectMapFragmentTab(currentFragment)
                     }
 
-                    appBarLayout.expand()
+                    appBar.expand()
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab) {
@@ -205,7 +197,7 @@ class MainActivity : BaseActivity() {
 
         fun submitEvents(pagedList: PagedList<Event>?) {
             val eventCount: Int = pagedList?.size ?: 0
-            val tab: TabLayout.Tab? = tabLayout.getTabAt(1)
+            val tab: TabLayout.Tab? = tabs.getTabAt(1)
             val badgedIcon = tab?.customView as BadgedIcon
             badgedIcon.badgeText = eventCount.toString()
         }
@@ -221,7 +213,7 @@ class MainActivity : BaseActivity() {
             icon = GoogleMaterial.Icon.gmd_arrow_upward,
             tooltipTextRes = R.string.tooltip_fab_scroll_to_top,
             onClickListener = {
-                appBarLayout.expand()
+                appBar.expand()
                 currentFragment.scrollToTop()
             }
         )
@@ -231,7 +223,7 @@ class MainActivity : BaseActivity() {
         icon = GoogleMaterial.Icon.gmd_my_location,
         tooltipTextRes = R.string.tooltip_fab_move_to_current_location,
         onClickListener = {
-            appBarLayout.expand()
+            appBar.expand()
             currentFragment.moveToPosition(devicePosition)
         },
         show = hasLocationPermission && MapPrefs.myLocationButtonEnabled
