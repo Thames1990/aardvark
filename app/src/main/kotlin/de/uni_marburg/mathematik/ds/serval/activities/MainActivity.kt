@@ -286,6 +286,7 @@ class MainActivity : BaseActivity() {
             get() = LocationServices.getSettingsClient(context)
 
         private val locationRequest: LocationRequest
+            @SuppressLint("RestrictedApi")
             get() = LocationRequest().apply {
                 interval = (LocationPrefs.interval * 1000).toLong() // s -> ms
                 fastestInterval = (LocationPrefs.fastestInterval * 1000).toLong() // s -> ms
