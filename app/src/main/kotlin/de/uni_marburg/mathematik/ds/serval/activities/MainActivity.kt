@@ -68,7 +68,6 @@ class MainActivity : BaseActivity() {
             background(viewPager)
         }
 
-        setupAppBar()
         setupViewPager()
         setupTabLayout()
 
@@ -140,15 +139,6 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun setupAppBar() = appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-        when (AppearancePrefs.MainActivityLayout.layout) {
-            MainActivityLayouts.TOP_BAR -> Unit
-            MainActivityLayouts.BOTTOM_BAR -> {
-                viewPager.setMarginBottom(appBarLayout.measuredHeight + verticalOffset)
-            }
-        }
-    }
-
     private fun setupViewPager() = with(viewPager) {
         adapter = pagerAdapter
         offscreenPageLimit = pagerAdapter.count - 1
@@ -205,29 +195,42 @@ class MainActivity : BaseActivity() {
         observe(liveData = eventViewModel.pagedList, onChanged = ::submitEvents)
     }
 
-    private fun selectDashboardFragment() = fab.hide()
-
-    private fun selectEventsFragmentTab(currentFragment: EventsFragment) = with(fab) {
-        currentFragment.bindFab(fab = this)
-        showWithOptions(
-            icon = GoogleMaterial.Icon.gmd_arrow_upward,
-            tooltipTextRes = R.string.tooltip_fab_scroll_to_top,
-            onClickListener = {
-                appBar.expand()
-                currentFragment.scrollToTop()
-            }
-        )
+    private fun selectDashboardFragment() {
+        toolbar.updateLayoutParams<AppBarLayout.LayoutParams> { scrollFlags = 0 }
+        fab.hide()
     }
 
-    private fun selectMapFragmentTab(currentFragment: MapFragment) = fab.showWithOptions(
-        icon = GoogleMaterial.Icon.gmd_my_location,
-        tooltipTextRes = R.string.tooltip_fab_move_to_current_location,
-        onClickListener = {
-            appBar.expand()
-            currentFragment.moveToPosition(devicePosition)
-        },
-        show = hasLocationPermission && MapPrefs.myLocationButtonEnabled
-    )
+    private fun selectEventsFragmentTab(currentFragment: EventsFragment) {
+        toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
+            scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS or
+                    AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+        }
+        with(fab) {
+            currentFragment.bindFab(fab = this)
+            showWithOptions(
+                icon = GoogleMaterial.Icon.gmd_arrow_upward,
+                tooltipTextRes = R.string.tooltip_fab_scroll_to_top,
+                onClickListener = {
+                    appBar.expand()
+                    currentFragment.scrollToTop()
+                }
+            )
+        }
+    }
+
+    private fun selectMapFragmentTab(currentFragment: MapFragment) {
+        toolbar.updateLayoutParams<AppBarLayout.LayoutParams> { scrollFlags = 0 }
+        fab.showWithOptions(
+            icon = GoogleMaterial.Icon.gmd_my_location,
+            tooltipTextRes = R.string.tooltip_fab_move_to_current_location,
+            onClickListener = {
+                appBar.expand()
+                currentFragment.moveToPosition(devicePosition)
+            },
+            show = hasLocationPermission && MapPrefs.myLocationButtonEnabled
+        )
+    }
 
     private fun trackLocation() {
         val locationLiveData = LocationLiveData(this)
