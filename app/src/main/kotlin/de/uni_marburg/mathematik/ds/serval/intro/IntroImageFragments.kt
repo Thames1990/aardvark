@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.view.View
-import android.view.animation.RotateAnimation
 import ca.allanwang.kau.utils.tint
 import ca.allanwang.kau.utils.withAlpha
 import de.uni_marburg.mathematik.ds.serval.R
@@ -71,49 +70,30 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
     descRes = R.string.intro_easy_navigation_desc
 ) {
 
-    private val animationDuration = 1500L
-
-    private var currentRotation: Float = when (AppearancePrefs.MainActivityLayout.layout) {
-        MainActivityLayouts.TOP_BAR -> 0.0f
-        MainActivityLayouts.BOTTOM_BAR -> -180.0f
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(image) {
-            rotation = currentRotation
+            rotation = when (AppearancePrefs.MainActivityLayout.layout) {
+                MainActivityLayouts.TOP_BAR -> 0f
+                MainActivityLayouts.BOTTOM_BAR -> 180f
+            }
+
+            var animationIsRunning = false
 
             setOnClickListener {
-                // TODO Figure out why rotation from 180.0 to 0.0 is wrong
-                val rotateAnimation = RotateAnimation(
-                    currentRotation,
-                    currentRotation - 180.0f,
-                    RotateAnimation.RELATIVE_TO_SELF,
-                    0.5f,
-                    RotateAnimation.RELATIVE_TO_SELF,
-                    0.5f
-                ).apply {
-                    duration = animationDuration
-                    fillAfter = true
-                }
-
-                currentRotation -= 180.0f
-
-                // Flip
-                image.flip()
-                // Rotate
-                image.startAnimation(rotateAnimation)
-
-                // Set main activity layout type
-                AppearancePrefs.MainActivityLayout.index =
-                        if (currentRotation.rem(360.0f) == 0.0f)
-                            MainActivityLayouts.TOP_BAR.ordinal
-                        else
-                            MainActivityLayouts.BOTTOM_BAR.ordinal
-
-                // Update text to indicate current main activity layout type
-                title.setTextWithOptions(AppearancePrefs.MainActivityLayout.titleRes)
+                if (!animationIsRunning) animate()
+                    .rotationBy(180f)
+                    .setDuration(1000L)
+                    .withStartAction { animationIsRunning = true }
+                    .withEndAction {
+                        animationIsRunning = false
+                        flip()
+                        AppearancePrefs.MainActivityLayout.index =
+                                if (rotation % 360.0f == 0.0f) MainActivityLayouts.TOP_BAR.ordinal
+                                else MainActivityLayouts.BOTTOM_BAR.ordinal
+                        title.setTextWithOptions(AppearancePrefs.MainActivityLayout.titleRes)
+                    }
             }
         }
     }
