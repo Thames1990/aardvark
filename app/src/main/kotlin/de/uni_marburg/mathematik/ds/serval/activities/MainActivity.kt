@@ -34,7 +34,6 @@ import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.SwipeToggleViewPager
-import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayouts
 import de.uni_marburg.mathematik.ds.serval.enums.TabItems
 import de.uni_marburg.mathematik.ds.serval.fragments.BaseFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
@@ -278,24 +277,29 @@ class MainActivity : BaseActivity() {
 
     }
 
-    private inner class LocationLiveData(context: Context) : LiveData<Location>() {
+    private inner class LocationLiveData(val context: Context) : LiveData<Location>() {
 
-        val fusedLocationClient = FusedLocationProviderClient(context)
+        private val fusedLocationProviderClient: FusedLocationProviderClient
+            get() = LocationServices.getFusedLocationProviderClient(context)
 
-        val locationRequest = LocationRequest().apply {
-            interval = (LocationPrefs.interval * 1000).toLong() // s -> ms
-            fastestInterval = (LocationPrefs.fastestInterval * 1000).toLong() // s -> ms
-            priority = LocationPrefs.LocationRequestPriority.priority
-        }
+        private val settingsClient: SettingsClient
+            get() = LocationServices.getSettingsClient(context)
 
-        val builder: LocationSettingsRequest.Builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest)
+        private val locationRequest: LocationRequest
+            get() = LocationRequest().apply {
+                interval = (LocationPrefs.interval * 1000).toLong() // s -> ms
+                fastestInterval = (LocationPrefs.fastestInterval * 1000).toLong() // s -> ms
+                priority = LocationPrefs.LocationRequestPriority.priority
+            }
 
-        val client: SettingsClient = LocationServices.getSettingsClient(context)
+        private val task: Task<LocationSettingsResponse> =
+            settingsClient.checkLocationSettings(
+                LocationSettingsRequest.Builder()
+                    .addLocationRequest(locationRequest)
+                    .build()
+            )
 
-        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
-
-        val locationCallback = object : LocationCallback() {
+        private val locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
                 value = locationResult.lastLocation
@@ -305,10 +309,9 @@ class MainActivity : BaseActivity() {
         @SuppressLint("MissingPermission")
         override fun onActive() {
             super.onActive()
-
             with(task) {
                 addOnSuccessListener {
-                    fusedLocationClient.requestLocationUpdates(
+                    fusedLocationProviderClient.requestLocationUpdates(
                         locationRequest,
                         locationCallback,
                         null
@@ -333,7 +336,7 @@ class MainActivity : BaseActivity() {
 
         override fun onInactive() {
             super.onInactive()
-            fusedLocationClient.removeLocationUpdates(locationCallback)
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         }
 
     }
