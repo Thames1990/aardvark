@@ -69,9 +69,7 @@ class Aardvark : Application() {
 
     private fun setupLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(applicationContext)) return
-        refWatcher =
-                if (isDebugBuild) LeakCanary.install(this)
-                else RefWatcher.DISABLED
+        refWatcher = if (isDebugBuild) LeakCanary.install(this) else RefWatcher.DISABLED
     }
 
     private fun setupAuthentication() {
@@ -82,8 +80,7 @@ class Aardvark : Application() {
     inner class AuthenticationListener : LifecycleObserver {
 
         @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        fun requireFingerprintAuthentication() =
-            startActivity(intentFor<FingerprintActivity>().newTask())
+        fun startAuthentication() = startActivity(intentFor<FingerprintActivity>().newTask())
 
     }
 
