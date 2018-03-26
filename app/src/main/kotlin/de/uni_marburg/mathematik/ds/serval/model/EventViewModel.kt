@@ -13,9 +13,7 @@ import org.jetbrains.anko.uiThread
 
 class EventViewModel(application: Application) : AndroidViewModel(application) {
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    @PublishedApi
-    internal val dao: EventDao = EventDatabase.get(application).eventDao()
+    private val dao: EventDao = EventDatabase.get(application).eventDao()
 
     val pagedList: LiveData<PagedList<Event>> = LivePagedListBuilder(
         dao.getAllPaged(),
@@ -29,9 +27,9 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     operator fun get(id: String) = dao.getById(id)
 
-    inline fun getFromRepository(
+    fun getFromRepository(
         deleteEvents: Boolean = false,
-        crossinline doOnFinish: () -> Unit = {}
+        doOnFinish: () -> Unit = {}
     ) = doAsync {
         val events: List<Event> = EventRepository.fetch()
         if (deleteEvents) dao.removeAll()
@@ -39,10 +37,10 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         uiThread { doOnFinish() }
     }
 
-    inline fun sortBy(
+    fun sortBy(
         comparator: EventComparator,
         order: EventComparator.Order = ASCENDING,
-        crossinline doOnFinish: () -> Unit = {}
+        doOnFinish: () -> Unit = {}
     ) = doAsync {
         val events: List<Event> = dao.getAll()
         val sortedEvents: List<Event> = comparator.sort(events, order)
