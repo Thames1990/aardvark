@@ -13,7 +13,7 @@ import org.jetbrains.anko.uiThread
 
 class EventViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val dao: EventDao = EventDatabase.get(application).eventDao()
+    private val dao: EventDao = EventDatabase.get(application).dao()
 
     val pagedList: LiveData<PagedList<Event>> = LivePagedListBuilder(
         dao.getAllPaged(),

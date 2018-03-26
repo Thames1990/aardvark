@@ -11,34 +11,31 @@ import java.util.concurrent.Executors
 @TypeConverters(DataConverter::class)
 abstract class EventDatabase : RoomDatabase() {
 
-    abstract fun eventDao(): EventDao
+    abstract fun dao(): EventDao
 
     companion object {
-        private var instance: EventDatabase? = null
+        private var database: EventDatabase? = null
 
         @Synchronized
-        fun get(context: Context): EventDatabase {
-            if (instance == null) {
-                instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    EventDatabase::class.java,
-                    "events.db"
-                ).addCallback(object : RoomDatabase.Callback() {
-                    private val ioExecutor = Executors.newSingleThreadExecutor()
-                    private fun ioThread(f: () -> Unit) = ioExecutor.execute(f)
+        fun get(context: Context): EventDatabase = database ?: build(context).also { database = it }
 
-                    override fun onCreate(db: SupportSQLiteDatabase) = ioThread {
-                        if (context.isNetworkAvailable) {
-                            val events: List<Event> = EventRepository.fetch()
-                            val eventDatabase: EventDatabase = get(context)
-                            val dao: EventDao = eventDatabase.eventDao()
-                            dao.insertOrUpdate(events)
-                        }
-                    }
-                }).build()
+        private fun build(context: Context) = Room.databaseBuilder(
+            context.applicationContext,
+            EventDatabase::class.java,
+            "events.db"
+        ).addCallback(object : RoomDatabase.Callback() {
+            private val ioExecutor = Executors.newSingleThreadExecutor()
+            private fun ioThread(f: () -> Unit) = ioExecutor.execute(f)
+
+            override fun onCreate(db: SupportSQLiteDatabase) = ioThread {
+                if (context.isNetworkAvailable) {
+                    val events: List<Event> = EventRepository.fetch()
+                    val eventDatabase: EventDatabase = get(context)
+                    val dao: EventDao = eventDatabase.dao()
+                    dao.insertOrUpdate(events)
+                }
             }
-            return instance!!
-        }
+        }).build()
     }
 
 }

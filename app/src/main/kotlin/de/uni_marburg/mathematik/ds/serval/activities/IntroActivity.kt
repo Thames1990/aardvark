@@ -56,8 +56,6 @@ class IntroActivity : BaseActivity() {
         setupViewpager()
         setupBottomBar()
         theme()
-
-        eventViewModel.getFromRepository()
     }
 
     override fun backConsumer(): Boolean {
