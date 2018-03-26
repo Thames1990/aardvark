@@ -62,7 +62,8 @@ data class Event(@PrimaryKey val id: String, val data: Data) : ClusterItem {
     inline val passedSeconds: Long
         get() = currentTimeInSeconds - time
 
-    override fun getSnippet(): String? = AppearancePrefs.DateTimeFormat.format.formatTime(time)
+    override fun getSnippet(): String? =
+        AppearancePrefs.DateTimeFormat.format.formatTime(time * 1000)
 
     override fun getLongitude(): Double = data.geohashLocation.longitude
 
