@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonAdapter
 import java.util.concurrent.Executors
 
 @Database(entities = [Event::class], version = 2, exportSchema = false)
-@TypeConverters(EventConverters::class)
+@TypeConverters(DataConverter::class)
 abstract class EventDatabase : RoomDatabase() {
 
     abstract fun eventDao(): EventDao
@@ -43,14 +43,14 @@ abstract class EventDatabase : RoomDatabase() {
 
 }
 
-private class EventConverters {
+private class DataConverter {
 
-    private val dataAdapter: JsonAdapter<Data> = EventRepository.moshi.adapter(Data::class.java)
-
-    @TypeConverter
-    fun toData(json: String): Data? = dataAdapter.fromJson(json)
+    private val adapter: JsonAdapter<Data> = EventRepository.moshi.adapter(Data::class.java)
 
     @TypeConverter
-    fun fromData(data: Data): String = dataAdapter.toJson(data)
+    fun toData(json: String): Data? = adapter.fromJson(json)
+
+    @TypeConverter
+    fun fromData(data: Data): String = adapter.toJson(data)
 
 }
