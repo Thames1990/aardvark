@@ -11,6 +11,7 @@ import android.location.Location
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.AppBarLayout
+import android.support.design.widget.AppBarLayout.LayoutParams.*
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -20,7 +21,6 @@ import android.util.AttributeSet
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
@@ -35,7 +35,6 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.SwipeToggleViewPager
 import de.uni_marburg.mathematik.ds.serval.enums.TabItems
-import de.uni_marburg.mathematik.ds.serval.fragments.BaseFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
@@ -158,7 +157,7 @@ class MainActivity : BaseActivity() {
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: Fragment = pagerAdapter.getItem(currentTab)
+                    val currentFragment: Fragment? = pagerAdapter.getItem(currentTab)
 
                     viewPager.item = currentTab
 
@@ -173,7 +172,7 @@ class MainActivity : BaseActivity() {
 
                 override fun onTabReselected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: Fragment = pagerAdapter.getItem(currentTab)
+                    val currentFragment: Fragment? = pagerAdapter.getItem(currentTab)
 
                     when (currentFragment) {
                         is DashboardFragment -> Unit
@@ -201,9 +200,7 @@ class MainActivity : BaseActivity() {
 
     private fun selectEventsFragmentTab(currentFragment: EventsFragment) {
         toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
-            scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
-                    AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS or
-                    AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+            scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS or SCROLL_FLAG_SNAP
         }
         with(fab) {
             currentFragment.bindFab(fab = this)
@@ -259,19 +256,9 @@ class MainActivity : BaseActivity() {
 
     private inner class SectionsPagerAdapter : FragmentPagerAdapter(supportFragmentManager) {
 
-        private val fragments = mutableListOf(
-            DashboardFragment(),
-            EventsFragment(),
-            MapFragment()
-        )
+        val fragments = listOf(DashboardFragment(), EventsFragment(), MapFragment())
 
-        override fun instantiateItem(container: ViewGroup, position: Int): Any {
-            val fragment: BaseFragment = super.instantiateItem(container, position) as BaseFragment
-            fragments[position] = fragment
-            return fragment
-        }
-
-        override fun getItem(position: Int): Fragment = fragments[position]
+        override fun getItem(position: Int): Fragment? = fragments[position]
 
         override fun getCount(): Int = fragments.size
 

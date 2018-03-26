@@ -16,13 +16,13 @@ class DashboardFragment : BaseFragment() {
     override val layout: Int
         get() = R.layout.fragment_dashboard
 
-    private val title: TextView by bindViewResettable(R.id.title)
+    private val header: TextView by bindViewResettable(R.id.header)
     private val image: ImageView by bindViewResettable(R.id.image)
     private val description: TextView by bindViewResettable(R.id.description)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        title.setTextColor(AppearancePrefs.Theme.textColor)
+        header.setTextColor(AppearancePrefs.Theme.textColor)
         image.setIcon(
             icon = GoogleMaterial.Icon.gmd_sentiment_very_satisfied,
             color = AppearancePrefs.Theme.textColor,
