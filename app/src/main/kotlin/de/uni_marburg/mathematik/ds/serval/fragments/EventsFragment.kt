@@ -61,8 +61,8 @@ class EventsFragment : BaseFragment() {
         menu = menu,
         iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_sort),
         block = {
-            menu?.findItem(R.id.action_sort_distance)?.isVisible =
-                    requireContext().hasLocationPermission
+            val sortDistanceMenuItem: MenuItem? = menu?.findItem(R.id.action_sort_distance)
+            sortDistanceMenuItem?.isVisible = requireContext().hasLocationPermission
         }
     )
 
