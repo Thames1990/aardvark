@@ -19,21 +19,18 @@ abstract class EventDatabase : RoomDatabase() {
         private var database: EventDatabase? = null
 
         @Synchronized
-        fun get(context: Context): EventDatabase = database ?: context.build().also {
-            database = it
-        }
-
-        private fun Context.build() = roomDb<EventDatabase>(
-            name = "events.db",
-            onFirstCreate = {
-                if (isNetworkAvailable) {
-                    val events: List<Event> = EventRepository.fetch()
-                    val eventDatabase: EventDatabase = get(this)
-                    val dao: EventDao = eventDatabase.dao()
-                    dao.insertOrUpdate(events)
+        fun get(context: Context): EventDatabase =
+            database ?: context.applicationContext.roomDb<EventDatabase>(
+                name = "events.db",
+                onFirstCreate = {
+                    if (context.isNetworkAvailable) {
+                        val events: List<Event> = EventRepository.fetch()
+                        val eventDatabase: EventDatabase = get(context)
+                        val dao: EventDao = eventDatabase.dao()
+                        dao.insertOrUpdate(events)
+                    }
                 }
-            }
-        )
+            ).also { database = it }
     }
 
 }
