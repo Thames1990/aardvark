@@ -1,6 +1,9 @@
 package de.uni_marburg.mathematik.ds.serval.utils
 
 import android.annotation.SuppressLint
+import android.arch.persistence.db.SupportSQLiteDatabase
+import android.arch.persistence.room.Room
+import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -17,6 +20,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import org.jetbrains.anko.doAsync
 
 inline val Context.hasAllPermissions: Boolean
     get() =
@@ -38,6 +42,21 @@ inline fun Context.materialDialogThemed(action: MaterialDialog.Builder.() -> Uni
     if (isFinishing) return builder.build()
     return builder.show()
 }
+
+inline fun <reified T : RoomDatabase> Context.roomDbBuilder(
+    name: String
+) = Room.databaseBuilder(this, T::class.java, name)
+
+inline fun <reified T : RoomDatabase> Context.roomDb(
+    name: String,
+    crossinline onFirstCreate: () -> Unit = {}
+) = roomDbBuilder<T>(name)
+    .addCallback(object : RoomDatabase.Callback() {
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            doAsync { onFirstCreate() }
+        }
+    })
+    .build()
 
 /**
  * Send a support email.

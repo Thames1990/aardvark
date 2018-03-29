@@ -60,8 +60,8 @@ class MainActivity : BaseActivity() {
         setContentView(AppearancePrefs.MainActivityLayout.layoutRes)
         setSupportActionBar(toolbar)
         setColors {
-            toolbar(toolbar)
             themeWindow = false
+            toolbar(toolbar)
             header(appBar)
             background(viewPager)
         }
