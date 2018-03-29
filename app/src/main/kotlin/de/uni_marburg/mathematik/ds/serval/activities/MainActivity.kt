@@ -201,31 +201,31 @@ class MainActivity : BaseActivity() {
         fab.hide()
     }
 
-    private fun selectEventsFragmentTab(currentFragment: EventsFragment) {
+    private fun selectEventsFragmentTab(eventsFragment: EventsFragment) {
         toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
             scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS or SCROLL_FLAG_SNAP
         }
         with(fab) {
-            currentFragment.bindFab(fab = this)
+            eventsFragment.bindFab(fab = this)
             showWithOptions(
                 icon = GoogleMaterial.Icon.gmd_arrow_upward,
                 tooltipTextRes = R.string.tooltip_fab_scroll_to_top,
                 onClickListener = {
                     appBar.expand()
-                    currentFragment.scrollToTop()
+                    eventsFragment.scrollToTop()
                 }
             )
         }
     }
 
-    private fun selectMapFragmentTab(currentFragment: MapFragment) {
+    private fun selectMapFragmentTab(mapFragment: MapFragment) {
         toolbar.updateLayoutParams<AppBarLayout.LayoutParams> { scrollFlags = 0 }
         fab.showWithOptions(
             icon = GoogleMaterial.Icon.gmd_my_location,
             tooltipTextRes = R.string.tooltip_fab_move_to_current_location,
             onClickListener = {
                 appBar.expand()
-                currentFragment.moveToPosition(devicePosition)
+                mapFragment.moveToPosition(devicePosition)
             },
             show = hasLocationPermission && MapPrefs.myLocationButtonEnabled
         )
