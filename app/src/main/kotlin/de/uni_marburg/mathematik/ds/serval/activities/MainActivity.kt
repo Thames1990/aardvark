@@ -157,12 +157,9 @@ class MainActivity : BaseActivity() {
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
+                    val currentFragment: Fragment? = pagerAdapter[currentTab]
 
                     viewPager.item = currentTab
-
-                    val currentFragment: Fragment? = supportFragmentManager.findFragmentByTag(
-                        "android:switcher:${R.id.view_pager}:${viewPager.item}"
-                    )
 
                     when (currentFragment) {
                         is DashboardFragment -> selectDashboardFragment()
@@ -175,7 +172,7 @@ class MainActivity : BaseActivity() {
 
                 override fun onTabReselected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: Fragment? = pagerAdapter.getItem(currentTab)
+                    val currentFragment: Fragment? = pagerAdapter[currentTab]
 
                     when (currentFragment) {
                         is DashboardFragment -> Unit
@@ -264,6 +261,8 @@ class MainActivity : BaseActivity() {
         override fun getItem(position: Int): Fragment? = fragments[position]
 
         override fun getCount(): Int = fragments.size
+
+        operator fun get(position: Int): Fragment? = getItem(position)
 
     }
 
