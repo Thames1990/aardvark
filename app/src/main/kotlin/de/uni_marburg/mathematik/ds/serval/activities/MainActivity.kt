@@ -15,12 +15,15 @@ import android.support.design.widget.AppBarLayout.LayoutParams.*
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
+import android.util.SparseArray
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
@@ -35,6 +38,7 @@ import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.SwipeToggleViewPager
 import de.uni_marburg.mathematik.ds.serval.enums.TabItems
+import de.uni_marburg.mathematik.ds.serval.fragments.BaseFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
@@ -50,7 +54,7 @@ class MainActivity : BaseActivity() {
     private val toolbar: Toolbar by bindView(R.id.toolbar)
     private val viewPager: SwipeToggleViewPager by bindView(R.id.view_pager)
 
-    private val pagerAdapter = SectionsPagerAdapter()
+    private lateinit var barAdapter: BarAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,10 +141,15 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun setupViewPager() = with(viewPager) {
-        adapter = pagerAdapter
-        offscreenPageLimit = pagerAdapter.count - 1
-        addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+    private fun setupViewPager() {
+        barAdapter = BarAdapter().apply {
+            addFragments(DashboardFragment(), EventsFragment(), MapFragment())
+        }
+        with(viewPager) {
+            adapter = barAdapter
+            offscreenPageLimit = barAdapter.count - 1
+            addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        }
     }
 
     private fun setupTabLayout() {
@@ -157,7 +166,7 @@ class MainActivity : BaseActivity() {
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: Fragment? = pagerAdapter[currentTab]
+                    val currentFragment: Fragment? = barAdapter[currentTab]
 
                     viewPager.item = currentTab
 
@@ -172,7 +181,7 @@ class MainActivity : BaseActivity() {
 
                 override fun onTabReselected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: Fragment? = pagerAdapter[currentTab]
+                    val currentFragment: Fragment? = barAdapter[currentTab]
 
                     when (currentFragment) {
                         is DashboardFragment -> Unit
@@ -254,15 +263,38 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private inner class SectionsPagerAdapter : FragmentPagerAdapter(supportFragmentManager) {
+    private abstract class SmartFragmentStatePagerAdapter(
+        fm: FragmentManager
+    ) : FragmentStatePagerAdapter(fm) {
 
-        val fragments = listOf(DashboardFragment(), EventsFragment(), MapFragment())
+        val registeredFragments = SparseArray<BaseFragment>()
 
-        override fun getItem(position: Int): Fragment? = fragments[position]
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
+            val fragment: BaseFragment = super.instantiateItem(container, position) as BaseFragment
+            registeredFragments.put(position, fragment)
+            return fragment
+        }
 
-        override fun getCount(): Int = fragments.size
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+            registeredFragments.remove(position)
+            super.destroyItem(container, position, `object`)
+        }
 
-        operator fun get(position: Int): Fragment? = getItem(position)
+    }
+
+    private inner class BarAdapter : SmartFragmentStatePagerAdapter(supportFragmentManager) {
+
+        override fun getItem(position: Int): Fragment = registeredFragments[position]
+
+        override fun getCount(): Int = registeredFragments.size()
+
+        operator fun get(position: Int) = getItem(position)
+
+        fun addFragments(
+            vararg fragments: BaseFragment
+        ) = fragments.forEachIndexed { index, fragment ->
+            registeredFragments.put(index, fragment)
+        }
 
     }
 
