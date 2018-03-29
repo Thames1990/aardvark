@@ -131,11 +131,12 @@ class MapFragment : BaseFragment() {
                     val iconText: String =
                         if (MapPrefs.showExactClusterSize) eventCount.toString()
                         else when (eventCount) {
-                            in 0..10 -> eventCount.toString()
-                            in 10..50 -> "10+"
-                            in 50..100 -> "50+"
-                            in 100..250 -> "100+"
-                            in 500..1000 -> "500+"
+                            in 0 until 10 -> eventCount.toString()
+                            in 10 until 50 -> "10+"
+                            in 50 until 100 -> "50+"
+                            in 100 until 250 -> "100+"
+                            in 250 until 500 -> "250+"
+                            in 500 until 1000 -> "500+"
                             else -> "1000+"
                         }
 
