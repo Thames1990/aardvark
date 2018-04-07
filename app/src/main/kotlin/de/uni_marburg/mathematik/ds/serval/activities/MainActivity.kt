@@ -205,6 +205,7 @@ class MainActivity : BaseActivity() {
     private fun selectDashboardFragment() {
         toolbar.updateLayoutParams<AppBarLayout.LayoutParams> { scrollFlags = 0 }
         fab.hide()
+        title = string(R.string.tab_item_dashboard)
     }
 
     private fun selectEventsFragmentTab(eventsFragment: EventsFragment) {
@@ -222,6 +223,7 @@ class MainActivity : BaseActivity() {
                 }
             )
         }
+        title = string(R.string.tab_item_events)
     }
 
     private fun selectMapFragmentTab(mapFragment: MapFragment) {
@@ -235,6 +237,7 @@ class MainActivity : BaseActivity() {
             },
             show = hasLocationPermission && MapPrefs.myLocationButtonEnabled
         )
+        title = string(R.string.tab_item_map)
     }
 
     private fun trackLocation() {
