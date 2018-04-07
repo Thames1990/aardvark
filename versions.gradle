@@ -6,7 +6,7 @@ versions.kerval = "0.1.4"
 versions.kotlin = "1.2.31"
 versions.leak_canary = "1.5.4"
 versions.lifecycle = "1.1.1"
-versions.room = "1.1.0-beta1"
+versions.room = "1.1.0-beta2"
 versions.support_library = "27.1.1"
 ext.versions = versions
 
