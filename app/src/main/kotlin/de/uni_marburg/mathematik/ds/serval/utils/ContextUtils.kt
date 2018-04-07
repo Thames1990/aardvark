@@ -22,11 +22,6 @@ import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import org.jetbrains.anko.doAsync
 
-inline val Context.hasAllPermissions: Boolean
-    get() =
-        if (isDebugBuild) hasLocationPermission && hasWriteExternalStoragePermission
-        else hasLocationPermission
-
 inline val Context.hasLocationPermission: Boolean
     get() = hasPermission(PERMISSION_ACCESS_FINE_LOCATION)
 

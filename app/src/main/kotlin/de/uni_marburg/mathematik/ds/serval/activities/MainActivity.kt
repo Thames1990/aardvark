@@ -235,7 +235,7 @@ class MainActivity : BaseActivity() {
                 appBar.expand()
                 mapFragment.moveToPosition(devicePosition)
             },
-            show = hasLocationPermission && MapPrefs.myLocationButtonEnabled
+            show = MapPrefs.myLocationButtonEnabled
         )
         title = string(R.string.tab_item_map)
     }

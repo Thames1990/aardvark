@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.kotlin.LazyResettableRegistry
-import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
 import ca.allanwang.kau.permissions.PERMISSION_WRITE_EXTERNAL_STORAGE
 import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
@@ -18,7 +17,9 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.utils.hasWriteExternalStoragePermission
+import de.uni_marburg.mathematik.ds.serval.utils.isDebugBuild
+import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import org.jetbrains.anko.childrenSequence
 import org.jetbrains.anko.displayMetrics
 import kotlin.math.absoluteValue
@@ -137,61 +138,24 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
 
     private fun setupDescription() = with(requireContext()) {
         description.text = string(
-            when {
-                hasAllPermissions -> R.string.intro_tap_to_exit
-                isDebugBuild -> when {
-                    hasLocationPermission -> R.string.intro_tap_to_grant_write_external_storage_permission
-                    hasWriteExternalStoragePermission -> R.string.intro_tap_to_grant_access_fine_location_permission
-                    else -> R.string.intro_tap_to_grant_all_permissions
-                }
-                else ->
-                    if (hasLocationPermission) R.string.intro_tap_to_exit
-                    else R.string.intro_tap_to_grant_access_fine_location_permission
-            }
+            if (isDebugBuild && !hasWriteExternalStoragePermission) {
+                R.string.intro_tap_to_grant_write_external_storage_permission
+            } else R.string.intro_tap_to_exit
         )
     }
 
-    private fun setupPermissionRequests() = container.setOnSingleTapListener { _, event ->
-        val activity: IntroActivity = requireActivity() as IntroActivity
+    private fun setupPermissionRequests() = with(container) {
+        setOnSingleTapListener { _, event ->
+            val introActivity: IntroActivity = requireActivity() as IntroActivity
 
-        // TODO Properly check all permissions and let location be optional
-        with(requireContext()) {
-            when {
-                hasAllPermissions -> activity.finish(x = event.x, y = event.y)
-                isDebugBuild -> when {
-                    hasLocationPermission -> {
-                        activity.kauRequestPermissions(
-                            permissions = *arrayOf(PERMISSION_WRITE_EXTERNAL_STORAGE),
-                            callback = { _, _ ->
-                                description.setTextWithOptions(R.string.intro_tap_to_exit)
-                            }
-                        )
-                    }
-                    hasWriteExternalStoragePermission -> {
-                        activity.kauRequestPermissions(
-                            permissions = *arrayOf(PERMISSION_ACCESS_FINE_LOCATION),
-                            callback = { _, _ ->
-                                description.setTextWithOptions(R.string.intro_tap_to_exit)
-                            }
-                        )
-                    }
-                    else -> activity.kauRequestPermissions(
-                        permissions = *arrayOf(
-                            PERMISSION_ACCESS_FINE_LOCATION,
-                            PERMISSION_WRITE_EXTERNAL_STORAGE
-                        ),
-                        callback = { _, _ ->
-                            description.setTextWithOptions(R.string.intro_tap_to_exit)
-                        }
-                    )
-                }
-                else -> activity.kauRequestPermissions(
-                    permissions = *arrayOf(PERMISSION_ACCESS_FINE_LOCATION),
-                    callback = { _, _ ->
-                        description.setTextWithOptions(R.string.intro_tap_to_exit)
+            if (isDebugBuild && !context.hasWriteExternalStoragePermission) {
+                context.kauRequestPermissions(
+                    permissions = *arrayOf(PERMISSION_WRITE_EXTERNAL_STORAGE),
+                    callback = { granted, _ ->
+                        if (granted) description.setTextWithOptions(R.string.intro_tap_to_exit)
                     }
                 )
-            }
+            } else introActivity.finish(x = event.x, y = event.y)
         }
     }
 
