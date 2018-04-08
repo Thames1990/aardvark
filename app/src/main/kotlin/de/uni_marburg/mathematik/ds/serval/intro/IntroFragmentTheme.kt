@@ -15,7 +15,7 @@ class IntroFragmentTheme : BaseIntroFragment(R.layout.intro_theme) {
     private val dark: View by bindViewResettable(R.id.intro_theme_dark)
     private val amoled: View by bindViewResettable(R.id.intro_theme_amoled)
 
-    private val themeList
+    private val themeList: List<View>
         get() = listOf(light, dark, amoled)
 
     override fun viewArray(): Array<Array<out View>> =
