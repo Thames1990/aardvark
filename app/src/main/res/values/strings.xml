@@ -111,8 +111,8 @@
 
     <string name="network_disconnected">No network connectivity</string>
 
-    <string name="placeholder_title">DAMN</string>
     <string name="placeholder_desc">The developer was too lazy to include a layout</string>
+    <string name="placeholder_title">DAMN</string>
 
     <string name="precipitation_unit_inches">Inches</string>
     <string name="precipitation_unit_inches_unit">in</string>

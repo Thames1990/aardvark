@@ -69,15 +69,15 @@ class MapFragment : BaseFragment() {
         inflater = inflater,
         menuRes = R.menu.menu_map,
         menu = menu,
-        iicons = *arrayOf(R.id.action_change_map_type to GoogleMaterial.Icon.gmd_layers)
+        iicons = *arrayOf(R.id.action_map_type to GoogleMaterial.Icon.gmd_layers)
     )
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         item ?: return false
         googleMap.mapType = when (item.itemId) {
-            R.id.action_change_map_type_normal -> GoogleMap.MAP_TYPE_NORMAL
-            R.id.action_change_map_type_satellite -> GoogleMap.MAP_TYPE_SATELLITE
-            R.id.action_change_map_type_terrain -> GoogleMap.MAP_TYPE_TERRAIN
+            R.id.action_map_type_normal -> GoogleMap.MAP_TYPE_NORMAL
+            R.id.action_map_type_satellite -> GoogleMap.MAP_TYPE_SATELLITE
+            R.id.action_map_type_terrain -> GoogleMap.MAP_TYPE_TERRAIN
             else -> return super.onOptionsItemSelected(item)
         }
         return true
