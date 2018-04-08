@@ -367,15 +367,16 @@ class MainActivity : BaseActivity() {
 
         init {
             View.inflate(context, R.layout.view_badged_icon, this)
+
             val badgeColor = AppearancePrefs.MainActivityLayout.backgroundColor
                 .withAlpha(255)
                 .colorToForeground(0.2f)
+
             val badgeBackground = GradientDrawable(
                 GradientDrawable.Orientation.BOTTOM_TOP,
                 intArrayOf(badgeColor, badgeColor)
-            ).apply {
-                cornerRadius = 13.dpToPx.toFloat()
-            }
+            ).apply { cornerRadius = 13.dpToPx.toFloat() }
+
             with(badgeTextView) {
                 background = badgeBackground
                 setTextColor(AppearancePrefs.MainActivityLayout.iconColor)
