@@ -68,8 +68,8 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     // App Toolkit
-    implementation files("libs/kerval-${versions.kerval}.jar")
     implementation(deps.crashlytics) { transitive = true }
     implementation deps.google_maps_clustering
     implementation(deps.moshi) { exclude group: 'com.squareup.okio', module: 'okio' }
