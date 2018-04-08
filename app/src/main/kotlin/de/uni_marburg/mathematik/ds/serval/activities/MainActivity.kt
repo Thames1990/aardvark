@@ -15,8 +15,7 @@ import android.support.design.widget.AppBarLayout.LayoutParams.*
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.util.SparseArray
@@ -142,9 +141,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupViewPager() {
-        barAdapter = BarAdapter().apply {
-            addFragments(DashboardFragment(), EventsFragment(), MapFragment())
-        }
+        barAdapter = BarAdapter(DashboardFragment(), EventsFragment(), MapFragment())
         with(viewPager) {
             adapter = barAdapter
             offscreenPageLimit = barAdapter.count - 1
@@ -266,11 +263,15 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private abstract class SmartFragmentStatePagerAdapter(
-        fm: FragmentManager
-    ) : FragmentStatePagerAdapter(fm) {
+    private inner class BarAdapter(
+        vararg fragments: BaseFragment
+    ) : FragmentPagerAdapter(supportFragmentManager) {
 
         val registeredFragments = SparseArray<BaseFragment>()
+
+        init {
+            fragments.forEachIndexed { key, fragment -> registeredFragments.put(key, fragment) }
+        }
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val fragment: BaseFragment = super.instantiateItem(container, position) as BaseFragment
@@ -283,21 +284,11 @@ class MainActivity : BaseActivity() {
             super.destroyItem(container, position, `object`)
         }
 
-    }
-
-    private inner class BarAdapter : SmartFragmentStatePagerAdapter(supportFragmentManager) {
-
         override fun getItem(position: Int): Fragment = registeredFragments[position]
 
         override fun getCount(): Int = registeredFragments.size()
 
         operator fun get(position: Int) = getItem(position)
-
-        fun addFragments(
-            vararg fragments: BaseFragment
-        ) = fragments.forEachIndexed { index, fragment ->
-            registeredFragments.put(index, fragment)
-        }
 
     }
 
