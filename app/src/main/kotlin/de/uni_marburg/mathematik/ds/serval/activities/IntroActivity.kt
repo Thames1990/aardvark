@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.View
@@ -150,7 +149,7 @@ class IntroActivity : BaseActivity() {
     }
 
     private fun setupViewpager() = with(viewpager) {
-        adapter = IntroPageAdapter(supportFragmentManager, fragments)
+        adapter = IntroPageAdapter(fragments)
 
         setPageTransformer(true) { page, position ->
             var pageAlpha = 1f
@@ -210,26 +209,21 @@ class IntroActivity : BaseActivity() {
                 color = AppearancePrefs.Theme.iconColor
             )
             setOnClickListener {
-                when {
-                    barHasNext -> viewpager.item = viewpager.currentItem + 1
-                    else -> finish(
-                        x = next.x + next.pivotX,
-                        y = next.y + next.pivotY
-                    )
-                }
+                if (barHasNext) viewpager.item = viewpager.currentItem + 1
+                else finish(x = next.x + next.pivotX, y = next.y + next.pivotY)
             }
         }
         skip.setOnClickListener { finish() }
     }
 
-    private class IntroPageAdapter(
-        fm: FragmentManager,
+    private inner class IntroPageAdapter(
         val fragments: List<BaseIntroFragment>
-    ) : FragmentPagerAdapter(fm) {
+    ) : FragmentPagerAdapter(supportFragmentManager) {
 
         override fun getItem(position: Int): Fragment = fragments[position]
 
         override fun getCount(): Int = fragments.size
+
     }
 
 }
