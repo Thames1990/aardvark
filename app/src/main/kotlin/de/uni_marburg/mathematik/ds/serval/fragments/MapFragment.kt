@@ -200,7 +200,7 @@ class MapFragment : BaseFragment() {
     companion object {
         const val CLUSTER_ICON_BACKGROUND_CONTOUR_WIDTH = 1
         const val CLUSTER_ICON_PADDING = 8
-        const val CLUSTER_ICON_SIZE = 42
+        const val CLUSTER_ICON_SIZE = 50
     }
 
 }
