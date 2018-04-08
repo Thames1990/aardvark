@@ -51,6 +51,10 @@ class MainActivity : BaseActivity() {
     private val toolbar: Toolbar by bindView(R.id.toolbar)
     private val viewPager: SwipeToggleViewPager by bindView(R.id.view_pager)
 
+    private val dashboardFragment = DashboardFragment()
+    private val eventsFragment = EventsFragment()
+    private val mapFragment = MapFragment()
+
     private lateinit var barAdapter: BarAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +84,7 @@ class MainActivity : BaseActivity() {
                 if (resultCode and REQUEST_RESTART > 0) restart()
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
-                if (resultCode and RELOAD_EVENTS > 0) eventViewModel.getFromRepository(deleteEvents = true)
+                if (resultCode and RELOAD_EVENTS > 0) eventsFragment.reloadEvents(deleteEvents = true)
             }
             REQUEST_CHECK_SETTINGS -> {
                 when (resultCode) {
@@ -139,7 +143,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupViewPager() {
-        barAdapter = BarAdapter(DashboardFragment(), EventsFragment(), MapFragment())
+        barAdapter = BarAdapter(dashboardFragment, eventsFragment, mapFragment)
         with(viewPager) {
             adapter = barAdapter
             offscreenPageLimit = barAdapter.count - 1
