@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
-import ca.allanwang.kau.permissions.kauRequestPermissions
-import ca.allanwang.kau.utils.restart
 import ca.allanwang.kau.utils.startActivity
 import ca.allanwang.kau.utils.withSceneTransitionAnimation
 import com.google.android.gms.maps.CameraUpdate
@@ -87,16 +84,9 @@ class MapFragment : BaseFragment() {
     }
 
     fun moveToPosition(position: LatLng, animate: Boolean = animationsAreEnabled) {
-        if (requireContext().hasLocationPermission) {
-            val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM)
-            if (animate) googleMap.animateCamera(cameraUpdate)
-            else googleMap.moveCamera(cameraUpdate)
-        } else {
-            requireActivity().kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
-                if (granted) requireActivity().restart()
-                else requireActivity().snackbarThemed(R.string.preference_location_requires_location_permission)
-            }
-        }
+        val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM)
+        if (animate) googleMap.animateCamera(cameraUpdate)
+        else googleMap.moveCamera(cameraUpdate)
     }
 
     fun zoomToAllMarkers(animate: Boolean = animationsAreEnabled) {

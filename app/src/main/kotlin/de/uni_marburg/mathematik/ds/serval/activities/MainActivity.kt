@@ -23,6 +23,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
+import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -232,7 +234,12 @@ class MainActivity : BaseActivity() {
             tooltipTextRes = R.string.tooltip_fab_move_to_current_location,
             onClickListener = {
                 appBar.expand()
-                mapFragment.moveToPosition(devicePosition)
+                if (!hasLocationPermission) {
+                    kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
+                        if (granted) restart()
+                        else fab.snackbarThemed(R.string.preference_location_requires_location_permission)
+                    }
+                } else mapFragment.moveToPosition(devicePosition)
             },
             show = MapPrefs.myLocationButtonEnabled
         )

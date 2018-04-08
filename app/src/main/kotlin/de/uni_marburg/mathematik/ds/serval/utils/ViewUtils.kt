@@ -82,7 +82,7 @@ fun TextView.setTextWithOptions(
     duration: Long = 200,
     onFinish: (() -> Unit)? = null,
     animate: Boolean = animationsAreEnabled
-) = if (animate) setTextWithFade(textRes, duration, onFinish) else setTextIfValid(textRes)
+) = if (animate) setTextWithFade(textRes, duration, onFinish) else text = context.string(textRes)
 
 /**
  * Show themed snackbar with [a text resource][textRes] and a given [builder].
