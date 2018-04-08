@@ -181,7 +181,8 @@ class MapFragment : BaseFragment() {
 
     @SuppressLint("MissingPermission")
     private fun setupGoogleMap() = with(googleMap) {
-        isMyLocationEnabled = requireContext().hasLocationPermission
+        isMyLocationEnabled = requireContext().hasLocationPermission &&
+                MapPrefs.myLocationButtonEnabled
 
         withStyle(requireContext())
 
