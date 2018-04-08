@@ -18,11 +18,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
-import android.util.SparseArray
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.utils.*
@@ -163,7 +161,7 @@ class MainActivity : BaseActivity() {
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: Fragment? = barAdapter[currentTab]
+                    val currentFragment: Fragment? = barAdapter.getItem(currentTab)
 
                     viewPager.item = currentTab
 
@@ -178,7 +176,7 @@ class MainActivity : BaseActivity() {
 
                 override fun onTabReselected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: Fragment? = barAdapter[currentTab]
+                    val currentFragment: Fragment? = barAdapter.getItem(currentTab)
 
                     when (currentFragment) {
                         is DashboardFragment -> Unit
@@ -264,31 +262,12 @@ class MainActivity : BaseActivity() {
     }
 
     private inner class BarAdapter(
-        vararg fragments: BaseFragment
+        vararg val fragments: BaseFragment
     ) : FragmentPagerAdapter(supportFragmentManager) {
 
-        val registeredFragments = SparseArray<BaseFragment>()
+        override fun getItem(position: Int): Fragment = fragments[position]
 
-        init {
-            fragments.forEachIndexed { key, fragment -> registeredFragments.put(key, fragment) }
-        }
-
-        override fun instantiateItem(container: ViewGroup, position: Int): Any {
-            val fragment: BaseFragment = super.instantiateItem(container, position) as BaseFragment
-            registeredFragments.put(position, fragment)
-            return fragment
-        }
-
-        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-            registeredFragments.remove(position)
-            super.destroyItem(container, position, `object`)
-        }
-
-        override fun getItem(position: Int): Fragment = registeredFragments[position]
-
-        override fun getCount(): Int = registeredFragments.size()
-
-        operator fun get(position: Int) = getItem(position)
+        override fun getCount(): Int = fragments.size
 
     }
 
