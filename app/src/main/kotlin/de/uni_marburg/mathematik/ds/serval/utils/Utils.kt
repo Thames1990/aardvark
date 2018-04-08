@@ -26,10 +26,15 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.iconics.IconicsDrawable
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
+import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs.animationsEnabled
 import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
+import net.sharewire.googlemapsclustering.Cluster
+import net.sharewire.googlemapsclustering.ClusterManager
+import net.sharewire.googlemapsclustering.IconGenerator
 import org.jetbrains.anko.bundleOf
 import java.time.Instant
 import java.util.*
@@ -58,6 +63,20 @@ inline val currentTimeInSeconds: Long
 
 inline val experimentalSettingsAreEnabled: Boolean
     get() = ExperimentalPrefs.enabled
+
+inline val Cluster<Event>.sizeText: String
+    get() {
+        val eventCount: Int = items.size
+        return if (MapPrefs.showExactClusterSize) eventCount.toString() else when (eventCount) {
+            in 0 until 10 -> eventCount.toString()
+            in 10 until 50 -> "10+"
+            in 50 until 100 -> "50+"
+            in 100 until 250 -> "100+"
+            in 250 until 500 -> "250+"
+            in 500 until 1000 -> "500+"
+            else -> "1000+"
+        }
+    }
 
 inline val List<Address>.mostProbableAddressLine: String
     get() = first()
@@ -126,6 +145,29 @@ fun styledMarker(context: Context): BitmapDescriptor = BitmapDescriptorFactory.f
 )
 
 fun AppBarLayout.expand(animate: Boolean = animationsEnabled) = setExpanded(true, animate)
+
+fun ClusterManager<Event>.setIcons(
+    context: Context,
+    backgroundContourWidthDp: Int = 1,
+    sizeDp: Int = 50,
+    paddingDp: Int = 8
+) = setIconGenerator(object : IconGenerator<Event> {
+    override fun getClusterIcon(cluster: Cluster<Event>): BitmapDescriptor =
+        BitmapDescriptorFactory.fromBitmap(
+            IconicsDrawable(context)
+                .iconText(cluster.sizeText)
+                .color(AppearancePrefs.Theme.textColor)
+                .backgroundColor(AppearancePrefs.Theme.backgroundColor)
+                .backgroundContourColor(AppearancePrefs.Theme.textColor)
+                .backgroundContourWidthDp(backgroundContourWidthDp)
+                .sizeDp(sizeDp)
+                .roundedCornersDp(sizeDp / 2)
+                .paddingDp(paddingDp)
+                .toBitmap()
+        )
+
+    override fun getClusterItemIcon(event: Event): BitmapDescriptor = styledMarker(context)
+})
 
 fun ConstraintSet.withHorizontalChain(
     leftId: Int,

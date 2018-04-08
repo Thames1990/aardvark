@@ -11,23 +11,18 @@ import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
-import com.mikepenz.iconics.IconicsDrawable
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
 import de.uni_marburg.mathematik.ds.serval.model.Event
-import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_PADDING
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_ZOOM
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import net.sharewire.googlemapsclustering.Cluster
 import net.sharewire.googlemapsclustering.ClusterManager
-import net.sharewire.googlemapsclustering.IconGenerator
 
 class MapFragment : BaseFragment() {
 
@@ -100,8 +95,7 @@ class MapFragment : BaseFragment() {
 
     private fun setupClusterManager() {
         val context = requireContext()
-
-        fun ClusterManager<Event>.setCallbacks() {
+        clusterManager = ClusterManager<Event>(context, googleMap).apply {
             setCallbacks(object : ClusterManager.Callbacks<Event> {
                 override fun onClusterClick(cluster: Cluster<Event>): Boolean {
                     val builder = LatLngBounds.builder()
@@ -120,50 +114,8 @@ class MapFragment : BaseFragment() {
                     )
                     return true
                 }
-
             })
-        }
-
-        fun ClusterManager<Event>.setIcons() {
-            setIconGenerator(object : IconGenerator<Event> {
-                override fun getClusterIcon(cluster: Cluster<Event>): BitmapDescriptor {
-                    val eventCount: Int = cluster.items.size
-                    val iconText: String =
-                        if (MapPrefs.showExactClusterSize) eventCount.toString()
-                        else when (eventCount) {
-                            in 0 until 10 -> eventCount.toString()
-                            in 10 until 50 -> "10+"
-                            in 50 until 100 -> "50+"
-                            in 100 until 250 -> "100+"
-                            in 250 until 500 -> "250+"
-                            in 500 until 1000 -> "500+"
-                            else -> "1000+"
-                        }
-
-                    return BitmapDescriptorFactory.fromBitmap(
-                        IconicsDrawable(context)
-                            .iconText(iconText)
-                            .color(AppearancePrefs.Theme.textColor)
-                            .backgroundColor(AppearancePrefs.Theme.backgroundColor)
-                            .backgroundContourColor(AppearancePrefs.Theme.textColor)
-                            .backgroundContourWidthDp(CLUSTER_ICON_BACKGROUND_CONTOUR_WIDTH)
-                            .sizeDp(CLUSTER_ICON_SIZE)
-                            .roundedCornersDp(CLUSTER_ICON_SIZE / 2)
-                            .paddingDp(CLUSTER_ICON_PADDING)
-                            .toBitmap()
-                    )
-                }
-
-                override fun getClusterItemIcon(
-                    event: Event
-                ): BitmapDescriptor = styledMarker(context)
-
-            })
-        }
-
-        clusterManager = ClusterManager<Event>(context, googleMap).apply {
-            setCallbacks()
-            setIcons()
+            setIcons(context)
         }
 
         googleMap.setOnCameraIdleListener(clusterManager)
@@ -195,12 +147,6 @@ class MapFragment : BaseFragment() {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, MAP_PADDING)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
-    }
-
-    companion object {
-        const val CLUSTER_ICON_BACKGROUND_CONTOUR_WIDTH = 1
-        const val CLUSTER_ICON_PADDING = 8
-        const val CLUSTER_ICON_SIZE = 50
     }
 
 }
