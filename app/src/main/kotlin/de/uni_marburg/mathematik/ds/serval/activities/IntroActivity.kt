@@ -22,7 +22,9 @@ import de.uni_marburg.mathematik.ds.serval.enums.Themes
 import de.uni_marburg.mathematik.ds.serval.intro.*
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
+import de.uni_marburg.mathematik.ds.serval.utils.item
+import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
 import org.jetbrains.anko.displayMetrics
 import org.jetbrains.anko.find
 
@@ -63,8 +65,7 @@ class IntroActivity : BaseActivity() {
         else if (!startedFromSettings) {
             Prefs.lastLaunch = -1L
             finishAffinity()
-        }
-        else finish(x = 0F, y = displayMetrics.heightPixels.toFloat())
+        } else finish(x = 0F, y = displayMetrics.heightPixels.toFloat())
         return true
     }
 
@@ -211,11 +212,10 @@ class IntroActivity : BaseActivity() {
             setOnClickListener {
                 when {
                     barHasNext -> viewpager.item = viewpager.currentItem + 1
-                    hasLocationPermission -> finish(
+                    else -> finish(
                         x = next.x + next.pivotX,
                         y = next.y + next.pivotY
                     )
-                    else -> snackbarThemed(R.string.preference_location_requires_location_permission)
                 }
             }
         }
