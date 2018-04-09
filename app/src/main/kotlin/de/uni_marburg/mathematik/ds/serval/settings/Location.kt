@@ -11,12 +11,12 @@ import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
 import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.restartApplication
 import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.toast
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.LocationRequestPriorities
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 object LocationPrefs : KPref() {
     object LocationRequestPriority {
@@ -59,9 +59,7 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnLocationPermission() {
         enabler = ::hasLocationPermission
-        onDisabledClick = {
-            snackbarThemed(R.string.preference_location_requires_location_permission)
-        }
+        onDisabledClick = { toast(R.string.preference_location_requires_location_permission) }
     }
 
     fun showLocationRequestPriorityChooserDialog(onClick: KClick<Int>) {
@@ -96,9 +94,7 @@ fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefSeekbar.KPrefSeekbarContract.dependsOnLocationPermission() {
         enabler = ::hasLocationPermission
-        onDisabledClick = {
-            snackbarThemed(R.string.preference_location_requires_location_permission)
-        }
+        onDisabledClick = { toast(R.string.preference_location_requires_location_permission) }
     }
 
     seekbar(

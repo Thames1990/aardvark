@@ -8,13 +8,13 @@ import ca.allanwang.kau.kpref.activity.items.KPrefItemBase
 import ca.allanwang.kau.kpref.activity.items.KPrefText
 import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.toast
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.MapStyles
 import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
 import de.uni_marburg.mathematik.ds.serval.utils.logAnalytics
 import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 
 object MapPrefs : KPref() {
 
@@ -101,7 +101,7 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefText.KPrefTextContract<Int>.dependsOnCustom() {
         enabler = AppearancePrefs.Theme::isCustomTheme
-        onDisabledClick = { snackbarThemed(R.string.preference_requires_custom_theme) }
+        onDisabledClick = { toast(R.string.preference_requires_custom_theme) }
     }
 
     header(title = R.string.preference_map_ui_header)
@@ -118,9 +118,7 @@ fun SettingsActivity.mapItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefItemBase.BaseContract<Boolean>.dependsOnLocationPermission() {
         enabler = ::hasLocationPermission
-        onDisabledClick = {
-            snackbarThemed(R.string.preference_location_requires_location_permission)
-        }
+        onDisabledClick = { toast(R.string.preference_location_requires_location_permission) }
     }
 
     checkbox(

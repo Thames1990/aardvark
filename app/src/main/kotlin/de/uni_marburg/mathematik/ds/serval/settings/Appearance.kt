@@ -9,6 +9,7 @@ import ca.allanwang.kau.kpref.activity.items.KPrefColorPicker
 import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.ui.views.RippleCanvas
 import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.toast
 import ca.allanwang.kau.utils.withMinAlpha
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
@@ -16,7 +17,10 @@ import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.enums.DateTimeFormats
 import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayouts
 import de.uni_marburg.mathematik.ds.serval.enums.Themes
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.utils.logAnalytics
+import de.uni_marburg.mathematik.ds.serval.utils.materialDialogThemed
+import de.uni_marburg.mathematik.ds.serval.utils.setTheme
+import de.uni_marburg.mathematik.ds.serval.utils.themeNavigationBar
 
 object AppearancePrefs : KPref() {
 
@@ -139,7 +143,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
 
     fun KPrefColorPicker.KPrefColorContract.dependsOnCustom() {
         enabler = AppearancePrefs.Theme::isCustomTheme
-        onDisabledClick = { snackbarThemed(R.string.preference_requires_custom_theme) }
+        onDisabledClick = { toast(R.string.preference_requires_custom_theme) }
         allowCustom = true
     }
 

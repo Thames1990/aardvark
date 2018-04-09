@@ -8,11 +8,11 @@ import ca.allanwang.kau.kpref.activity.items.KPrefItemBase
 import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.shareText
 import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.toast
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.SettingsActivity
 import de.uni_marburg.mathematik.ds.serval.utils.isDebugBuild
 import de.uni_marburg.mathematik.ds.serval.utils.setSecureFlag
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 import java.io.DataOutputStream
 import java.lang.Runtime.getRuntime
 import java.math.BigInteger
@@ -73,9 +73,7 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
         builder = {
             descRes = R.string.preference_experimental_share_adb_command_desc
             enabler = ExperimentalPrefs::wifiADBEnabled
-            onDisabledClick = {
-                snackbarThemed(string(R.string.preference_experimental_requires_wifi_adb))
-            }
+            onDisabledClick = { toast(string(R.string.preference_experimental_requires_wifi_adb)) }
             onClick = { shareWifiAdbCommand() }
         }
     )
@@ -96,9 +94,7 @@ fun SettingsActivity.experimentalItemBuilder(): KPrefAdapterBuilder.() -> Unit =
 
     fun KPrefItemBase.BaseContract<Boolean>.dependsOnSecurePrivacy() {
         enabler = ExperimentalPrefs::secureApp
-        onDisabledClick = {
-            snackbarThemed(R.string.preference_experimental_requires_secure_privacy)
-        }
+        onDisabledClick = { toast(R.string.preference_experimental_requires_secure_privacy) }
     }
 
     checkbox(

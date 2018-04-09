@@ -70,22 +70,6 @@ fun Activity.setTheme() = setTheme(
 )
 
 /**
- * Show themed snackbar with [a text resource][textRes] and a given [builder].
- */
-inline fun Activity.snackbarThemed(
-    @StringRes textRes: Int,
-    crossinline builder: Snackbar.() -> Unit = {}
-) = snackbarThemed(text = string(textRes), builder = builder)
-
-/**
- * Show themed snackbar with the given [text] and [builder].
- */
-inline fun Activity.snackbarThemed(
-    text: String,
-    crossinline builder: Snackbar.() -> Unit = {}
-) = snackbar(text, duration = Snackbar.LENGTH_LONG, builder = snackbarThemed(builder))
-
-/**
  * Color the navigation bar with the specified [color][AppearancePrefs.Theme.headerColor],
  * if the user activated [the setting][AppearancePrefs.tintNavBar]; [black][Color.BLACK] otherwise.
  */
