@@ -149,7 +149,7 @@ fun AppBarLayout.expand(animate: Boolean = animationsEnabled) = setExpanded(true
 fun ClusterManager<Event>.setIcons(
     context: Context,
     backgroundContourWidthDp: Int = 1,
-    sizeDp: Int = 50,
+    sizeDp: Int = 56,
     paddingDp: Int = 8
 ) = setIconGenerator(object : IconGenerator<Event> {
     override fun getClusterIcon(cluster: Cluster<Event>): BitmapDescriptor =
