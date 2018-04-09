@@ -1,11 +1,19 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.FloatingActionButton
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
+import ca.allanwang.kau.permissions.kauRequestPermissions
+import ca.allanwang.kau.utils.restart
 import ca.allanwang.kau.utils.startActivity
+import ca.allanwang.kau.utils.string
 import ca.allanwang.kau.utils.withSceneTransitionAnimation
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -16,6 +24,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.DetailActivity
+import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs
 import de.uni_marburg.mathematik.ds.serval.settings.MapPrefs.MAP_PADDING
@@ -78,13 +87,44 @@ class MapFragment : BaseFragment() {
         return true
     }
 
-    fun moveToPosition(position: LatLng, animate: Boolean = animationsAreEnabled) {
+    override fun onSelected(
+        appBarLayout: AppBarLayout,
+        toolbar: Toolbar,
+        fab: FloatingActionButton
+    ) {
+        appBarLayout.expand()
+        with(toolbar) {
+            updateLayoutParams<AppBarLayout.LayoutParams> { scrollFlags = 0 }
+            title = context.string(R.string.tab_item_map)
+        }
+        fab.showWithOptions(
+            icon = GoogleMaterial.Icon.gmd_my_location,
+            tooltipTextRes = R.string.tooltip_fab_move_to_current_location,
+            onClickListener = {
+                val context: Context = appBarLayout.context
+                with(context) {
+                    if (!hasLocationPermission) {
+                        kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
+                            if (granted) activity?.restart()
+                            else fab.snackbarThemed(R.string.preference_location_requires_location_permission)
+                        }
+                    } else moveToPosition(MainActivity.devicePosition)
+                }
+                appBarLayout.expand()
+            },
+            show = MapPrefs.myLocationButtonEnabled
+        )
+    }
+
+    override fun onReselected() = zoomToAllMarkers()
+
+    private fun moveToPosition(position: LatLng, animate: Boolean = animationsAreEnabled) {
         val cameraUpdate: CameraUpdate = CameraUpdateFactory.newLatLngZoom(position, MAP_ZOOM)
         if (animate) googleMap.animateCamera(cameraUpdate)
         else googleMap.moveCamera(cameraUpdate)
     }
 
-    fun zoomToAllMarkers(animate: Boolean = animationsAreEnabled) {
+    private fun zoomToAllMarkers(animate: Boolean = animationsAreEnabled) {
         if (events.isNotEmpty()) {
             val builder = LatLngBounds.builder()
             events.forEach { event -> builder.include(event.position) }

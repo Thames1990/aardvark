@@ -5,10 +5,12 @@ import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
+import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -80,7 +82,36 @@ class EventsFragment : BaseFragment() {
         return true
     }
 
-    fun reloadEvents(deleteEvents: Boolean = false): Unit = with(swipeRefreshLayout) {
+    override fun onSelected(
+        appBarLayout: AppBarLayout,
+        toolbar: Toolbar,
+        fab: FloatingActionButton
+    ) {
+        appBarLayout.expand()
+        with(toolbar) {
+            updateLayoutParams<AppBarLayout.LayoutParams> {
+                scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS or
+                        AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+                title = context.string(R.string.tab_item_events)
+            }
+        }
+        with(fab) {
+            hideOnDownwardsScroll(recyclerView)
+            showWithOptions(
+                icon = GoogleMaterial.Icon.gmd_arrow_upward,
+                tooltipTextRes = R.string.tooltip_fab_scroll_to_top,
+                onClickListener = {
+                    appBarLayout.expand()
+                    recyclerView.scrollToPosition(0)
+                }
+            )
+        }
+    }
+
+    override fun onReselected() = reloadEvents()
+
+    private fun reloadEvents(deleteEvents: Boolean = false): Unit = with(swipeRefreshLayout) {
         if (context.isNetworkAvailable) {
             isRefreshing = true
             eventViewModel.getFromRepository(
@@ -93,10 +124,6 @@ class EventsFragment : BaseFragment() {
         }
         return
     }
-
-    fun bindFab(fab: FloatingActionButton) = fab.hideOnDownwardsScroll(recyclerView)
-
-    fun scrollToTop() = recyclerView.scrollToPosition(0)
 
     private fun sortEventsBy(eventComparator: EventComparator, order: Order = ASCENDING) {
         swipeRefreshLayout.isRefreshing = true

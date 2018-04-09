@@ -1,7 +1,10 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,4 +39,13 @@ abstract class BaseFragment : Fragment() {
         super.onDestroyView()
         Kotterknife.reset(this)
     }
+
+    abstract fun onSelected(
+        appBarLayout: AppBarLayout,
+        toolbar: Toolbar,
+        fab: FloatingActionButton
+    )
+
+    abstract fun onReselected()
+
 }

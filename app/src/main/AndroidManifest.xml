@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.uni_marburg.mathematik.ds.serval">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -43,6 +44,7 @@
             android:theme="@style/Base.Theme.AppCompat.Dialog" />
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AardvarkTheme" />
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.DetailActivity"

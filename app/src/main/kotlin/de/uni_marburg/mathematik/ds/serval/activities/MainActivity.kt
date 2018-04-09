@@ -11,10 +11,8 @@ import android.location.Location
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.AppBarLayout
-import android.support.design.widget.AppBarLayout.LayoutParams.*
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -24,8 +22,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
-import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -43,7 +39,10 @@ import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.Event
-import de.uni_marburg.mathematik.ds.serval.settings.*
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.LocationPrefs
+import de.uni_marburg.mathematik.ds.serval.settings.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.toast
 
@@ -91,7 +90,7 @@ class MainActivity : BaseActivity() {
                 if (resultCode and REQUEST_RESTART > 0) restart()
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
-                if (resultCode and RELOAD_EVENTS > 0) eventsFragment.reloadEvents(deleteEvents = true)
+                if (resultCode and RELOAD_EVENTS > 0) eventViewModel.getFromRepository(deleteEvents = true)
             }
             REQUEST_CHECK_SETTINGS -> {
                 when (resultCode) {
@@ -169,28 +168,15 @@ class MainActivity : BaseActivity() {
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: Fragment? = barAdapter.getItem(currentTab)
-
+                    val currentFragment: BaseFragment? = barAdapter.getItem(currentTab)
+                    currentFragment?.onSelected(appBar, toolbar, fab)
                     viewPager.item = currentTab
-
-                    when (currentFragment) {
-                        is DashboardFragment -> selectDashboardFragment()
-                        is EventsFragment -> selectEventsFragmentTab(currentFragment)
-                        is MapFragment -> selectMapFragmentTab(currentFragment)
-                    }
-
-                    appBar.expand()
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: Fragment? = barAdapter.getItem(currentTab)
-
-                    when (currentFragment) {
-                        is DashboardFragment -> Unit
-                        is EventsFragment -> currentFragment.reloadEvents()
-                        is MapFragment -> currentFragment.zoomToAllMarkers()
-                    }
+                    val currentFragment: BaseFragment? = barAdapter.getItem(currentTab)
+                    currentFragment?.onReselected()
                 }
             })
         }
@@ -203,49 +189,6 @@ class MainActivity : BaseActivity() {
         }
 
         observe(liveData = eventViewModel.pagedList, onChanged = ::submitEvents)
-    }
-
-    private fun selectDashboardFragment() {
-        toolbar.updateLayoutParams<AppBarLayout.LayoutParams> { scrollFlags = 0 }
-        fab.hide()
-        title = string(R.string.tab_item_dashboard)
-    }
-
-    private fun selectEventsFragmentTab(eventsFragment: EventsFragment) {
-        toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
-            scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS or SCROLL_FLAG_SNAP
-        }
-        with(fab) {
-            eventsFragment.bindFab(fab = this)
-            showWithOptions(
-                icon = GoogleMaterial.Icon.gmd_arrow_upward,
-                tooltipTextRes = R.string.tooltip_fab_scroll_to_top,
-                onClickListener = {
-                    appBar.expand()
-                    eventsFragment.scrollToTop()
-                }
-            )
-        }
-        title = string(R.string.tab_item_events)
-    }
-
-    private fun selectMapFragmentTab(mapFragment: MapFragment) {
-        toolbar.updateLayoutParams<AppBarLayout.LayoutParams> { scrollFlags = 0 }
-        fab.showWithOptions(
-            icon = GoogleMaterial.Icon.gmd_my_location,
-            tooltipTextRes = R.string.tooltip_fab_move_to_current_location,
-            onClickListener = {
-                appBar.expand()
-                if (!hasLocationPermission) {
-                    kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
-                        if (granted) restart()
-                        else fab.snackbarThemed(R.string.preference_location_requires_location_permission)
-                    }
-                } else mapFragment.moveToPosition(devicePosition)
-            },
-            show = MapPrefs.myLocationButtonEnabled
-        )
-        title = string(R.string.tab_item_map)
     }
 
     private fun trackLocation() {
@@ -278,7 +221,7 @@ class MainActivity : BaseActivity() {
         vararg val fragments: BaseFragment
     ) : FragmentPagerAdapter(supportFragmentManager) {
 
-        override fun getItem(position: Int): Fragment = fragments[position]
+        override fun getItem(position: Int): BaseFragment = fragments[position]
 
         override fun getCount(): Int = fragments.size
 
