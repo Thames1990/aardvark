@@ -119,8 +119,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean = createOptionsMenu(
-        menuRes = R.menu.menu_main,
         menu = menu,
+        menuRes = R.menu.menu_main,
         iicons = *arrayOf(R.id.action_settings to GoogleMaterial.Icon.gmd_settings)
     )
 

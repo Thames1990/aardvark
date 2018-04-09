@@ -108,8 +108,8 @@ class SettingsActivity : KPrefActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean = createOptionsMenu(
-        menuRes = R.menu.menu_settings,
         menu = menu,
+        menuRes = R.menu.menu_settings,
         iicons = *arrayOf(
             R.id.action_email to GoogleMaterial.Icon.gmd_email,
             R.id.action_changelog to GoogleMaterial.Icon.gmd_info

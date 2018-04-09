@@ -29,8 +29,8 @@ import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
  * @param iicons
  */
 fun Activity.createOptionsMenu(
-    @MenuRes menuRes: Int,
     menu: Menu?,
+    @MenuRes menuRes: Int,
     @ColorInt color: Int = AppearancePrefs.Theme.iconColor,
     vararg iicons: Pair<Int, IIcon>
 ): Boolean {
