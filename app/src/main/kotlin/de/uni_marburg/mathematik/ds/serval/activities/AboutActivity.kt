@@ -52,8 +52,8 @@ class AboutActivity : AboutActivityBase(
             // Activate experimental settings, if the user clicked the Aardvark item multiple times
             // in a short duration
             withOnRepeatedClickListener(
-                count = 7,
-                duration = 500L,
+                count = REPEATED_CLICK_LISTENER_COUNT,
+                duration = REPEATED_CLICK_LISTENER_DURATION,
                 event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
                     if (item == aardvark) {
                         if (!ExperimentalPrefs.enabled) {
@@ -136,6 +136,11 @@ class AboutActivity : AboutActivityBase(
                 }
             }
         }
+    }
+
+    companion object {
+        const val REPEATED_CLICK_LISTENER_COUNT: Int = 7
+        const val REPEATED_CLICK_LISTENER_DURATION: Long = 500L
     }
 
 }
