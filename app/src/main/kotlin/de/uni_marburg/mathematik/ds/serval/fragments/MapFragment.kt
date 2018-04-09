@@ -61,9 +61,9 @@ class MapFragment : BaseFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) = createOptionsMenu(
+        menu = menu,
         inflater = inflater,
         menuRes = R.menu.menu_map,
-        menu = menu,
         iicons = *arrayOf(R.id.action_map_type to GoogleMaterial.Icon.gmd_layers)
     )
 

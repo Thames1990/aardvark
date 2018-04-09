@@ -56,9 +56,9 @@ class EventsFragment : BaseFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) = createOptionsMenu(
+        menu = menu,
         inflater = inflater,
         menuRes = R.menu.menu_events,
-        menu = menu,
         iicons = *arrayOf(R.id.action_sort_events to GoogleMaterial.Icon.gmd_sort),
         block = {
             val sortDistanceMenuItem: MenuItem? = menu?.findItem(R.id.action_sort_distance)

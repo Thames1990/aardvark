@@ -13,9 +13,9 @@ import com.mikepenz.iconics.typeface.IIcon
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 
 inline fun Fragment.createOptionsMenu(
+    menu: Menu?,
     inflater: MenuInflater?,
     @MenuRes menuRes: Int,
-    menu: Menu?,
     @ColorRes color: Int = AppearancePrefs.Theme.iconColor,
     vararg iicons: Pair<Int, IIcon>,
     block: () -> Unit = {}
