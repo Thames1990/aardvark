@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.12" />
+    <item text="Add custom cluster and cluster item icons" />
+    <item text="Add floating action button tooltip on devices running Android Oreo and above" />
+    <item text="Add option to toggle exact cluster event count" />
+    <item text="Add event settings. You are now able to chose your desired measurement units." />
+    <item text="Add notifications about event reload on event count change and finished load" />
+    <item text="Events will be loaded in the intro, therefore you are able to view events once you finished the intro." />
+    <item text="Change toolbar title based on the current view" />
+    <item text="Update icons" />
+    <item text="Improve (optional) location tracking" />
+    <item text="Zoom in on clicking my location button" />
+    <item text="Detail view is now full screen" />
+    <item text="Style map in details view according to user settings" />
+    <item text="Style details view according to user settings" />
+    <item text="Remove map camera bounds targets. You are now able to freely explore the whole map." />
+    <item text="Location permission is now optional. You can enjoy Aardvark without exposing you location. To enable extended functionality, such as viewing your current location and seeing the distance to events, please grant the location permission either via location settings or by pressing the floating action button in the map view. Don't worry about your privacy, your location is never shared or saved somewhere." />
+    <item text="Update dependencies" />
+    <item text="Disable automatic zoom to all markers when rotating your screen in map view" />
+    <item text="Replace most snackbars with toast. Android 8.1 emphasizes the intent of toasts over snackbars without custom actions." />
+    <item text="Fix floating action button visibility in certain tab switching scenarios" />
+    <item text="Fix replaying the intro" />
+    <item text="Fix intro bar position selection" />
+    <item text="Fix viewpager cutoff in main view" />
+    <item text="Fix UNIX time conversion. Dates and time should be correctly displayed until 03:14:07 UTC on 19 January 2038." />
+    <item text="Minor bugfixes and performance improvements" />
+
     <version title="0.8.11" />
     <item text="Add map settings" />
     <item text="Fix event detail initialization" />

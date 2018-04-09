@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.8.12
+* Add custom cluster and cluster item icons
+* Add floating action button tooltip on devices running Android Oreo and above
+* Add option to toggle exact cluster event count
+* Add event settings. You are now able to chose your desired measurement units.
+* Add notifications about event reload on event count change and finished load
+* Events will be loaded in the intro, therefore you are able to view events once you finished the intro.
+* Change toolbar title based on the current view
+* Update icons
+* Improve (optional) location tracking
+* Zoom in on clicking my location button
+* Detail view is now full screen
+* Style map in details view according to user settings
+* Style details view according to user settings
+* Remove map camera bounds targets. You are now able to freely explore the whole map.
+* Location permission is now optional. You can enjoy Aardvark without exposing you location. To enable extended functionality, such as viewing your current location and seeing the distance to events, please grant the location permission either via location settings or by pressing the floating action button in the map view. Don't worry about your privacy, your location is never shared or saved somewhere.
+* Update dependencies
+* Disable automatic zoom to all markers when rotating your screen in map view
+* Replace most snackbars with toast. Android 8.1 emphasizes the intent of toasts over snackbars without custom actions.
+* Fix floating action button visibility in certain tab switching scenarios
+* Fix replaying the intro
+* Fix intro bar position selection
+* Fix viewpager cutoff in main view
+* Fix UNIX time conversion. Dates and time should be correctly displayed until 03:14:07 UTC on 19 January 2038.
+* Minor bugfixes and performance improvements
+
 ## 0.8.11
 * Add map settings
 * Fix event detail initialization
