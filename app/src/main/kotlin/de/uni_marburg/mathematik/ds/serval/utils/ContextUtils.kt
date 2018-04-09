@@ -77,7 +77,7 @@ inline fun Context.sendSupportEmail(
 )
 
 /**
- * Show the showChangelog.
+ * Show the changelog.
  */
 fun Context.showChangelog() = showChangelog(
     xmlRes = R.xml.changelog,
@@ -91,12 +91,19 @@ fun Context.showChangelog() = showChangelog(
  */
 @Suppress("DEPRECATION")
 @SuppressLint("NewApi")
-fun Context.vibrate(milliseconds: Long = 500, amplitude: Int = VibrationEffect.DEFAULT_AMPLITUDE) {
+fun Context.vibrate(
+    milliseconds: Long = 500,
+    amplitude: Int = VibrationEffect.DEFAULT_AMPLITUDE
+): Boolean {
     val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     if (vibrator.hasVibrator()) {
         if (buildIsOreoAndUp) {
             val vibrationEffect = VibrationEffect.createOneShot(milliseconds, amplitude)
             vibrator.vibrate(vibrationEffect)
-        } else vibrator.vibrate(milliseconds)
+        } else {
+            vibrator.vibrate(milliseconds)
+        }
+        return true
     }
+    return false
 }
