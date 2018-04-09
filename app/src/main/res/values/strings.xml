@@ -154,11 +154,12 @@
     <string name="preference_event_temperature_unit">Temperature Unit</string>
     <string name="preference_event_wind_unit">Wind Unit</string>
     <string name="preference_experimental">Experimental</string>
+    <string name="preference_experimental_already_enabled">Experimental section is already enabled.</string>
     <string name="preference_experimental_desc">Enable early access to potentially unstable features</string>
     <string name="preference_experimental_disclaimer">Disclaimer</string>
     <string name="preference_experimental_disclaimer_desc">Experimental features may be unstable and may never make it to production. Use at your own risk, send feedback, and feel free to disable them if they don\'t work well.</string>
     <string name="preference_experimental_enable_wifi_adb">Enable WiFi ADB</string>
-    <string name="preference_experimental_enabled">Experimental settings activated</string>
+    <string name="preference_experimental_enabled">Experimental section is enabled! Go back to settings.</string>
     <string name="preference_experimental_miscellaneous_header">Miscellaneous</string>
     <string name="preference_experimental_paging">Viewpager Swipe</string>
     <string name="preference_experimental_paging_desc">Allow swiping between the pages in the main view to switch tabs. Disabling this will prevent page swiping altogether.</string>

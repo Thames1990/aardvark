@@ -6,15 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import ca.allanwang.kau.about.kauLaunchAbout
 import ca.allanwang.kau.kpref.activity.CoreAttributeContract
 import ca.allanwang.kau.kpref.activity.KPrefActivity
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.ui.views.RippleCanvas
-import ca.allanwang.kau.utils.finishSlideOut
-import ca.allanwang.kau.utils.startActivityForResult
-import ca.allanwang.kau.utils.string
-import ca.allanwang.kau.utils.withCustomAnimation
+import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.enums.PreferenceSubItems
@@ -62,7 +58,14 @@ class SettingsActivity : KPrefActivity() {
         plainText(R.string.aardvark_about) {
             descRes = R.string.aardvark_about_desc
             iicon = GoogleMaterial.Icon.gmd_info
-            onClick = { kauLaunchAbout<AboutActivity>() }
+            onClick = {
+                startActivityForResult<AboutActivity>(
+                    requestCode = ACTIVITY_ABOUT,
+                    bundleBuilder = {
+                        if (animationsAreEnabled) withSceneTransitionAnimation(context)
+                    }
+                )
+            }
         }
 
         plainText(R.string.preference_replay_intro) {
@@ -73,7 +76,7 @@ class SettingsActivity : KPrefActivity() {
                     bundleBuilder = {
                         if (animationsAreEnabled) {
                             withCustomAnimation(
-                                context = this@SettingsActivity,
+                                context = context,
                                 enterResId = R.anim.kau_slide_in_bottom,
                                 exitResId = R.anim.kau_fade_out
                             )
@@ -86,7 +89,10 @@ class SettingsActivity : KPrefActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ACTIVITY_INTRO) shouldRestartMain()
+        when (requestCode) {
+            ACTIVITY_INTRO -> shouldRestartMain()
+            ACTIVITY_ABOUT -> if (resultCode == Activity.RESULT_OK) restart()
+        }
     }
 
     override fun kPrefCoreAttributes(): CoreAttributeContract.() -> Unit = {
@@ -149,6 +155,7 @@ class SettingsActivity : KPrefActivity() {
 
     companion object {
         const val ACTIVITY_INTRO = 1 shl 1
+        const val ACTIVITY_ABOUT = 1 shl 2
     }
 
 }

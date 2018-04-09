@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
+import android.app.Activity
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.v7.widget.RecyclerView
@@ -23,9 +24,6 @@ import de.uni_marburg.mathematik.ds.serval.enums.AboutLinks
 import de.uni_marburg.mathematik.ds.serval.enums.LibraryDefinitions
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
 import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
-import de.uni_marburg.mathematik.ds.serval.utils.experimentalSettingsAreEnabled
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
-import de.uni_marburg.mathematik.ds.serval.utils.withAction
 import de.uni_marburg.mathematik.ds.serval.utils.withHorizontalChain
 
 /**
@@ -57,20 +55,14 @@ class AboutActivity : AboutActivityBase(
                 count = 7,
                 duration = 500L,
                 event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
-                    if (!experimentalSettingsAreEnabled && item == aardvark) {
-                        ExperimentalPrefs.enabled = true
-                        snackbarThemed(
-                            textRes = R.string.preference_experimental_enabled,
-                            builder = {
-                                // Add action to reload settings to trigger experimental settings
-                                withAction(
-                                    titleRes = R.string.preference_reload,
-                                    onClick = { startActivity<SettingsActivity>() }
-                                )
-                            }
-                        )
+                    if (item == aardvark) {
+                        if (!ExperimentalPrefs.enabled) {
+                            ExperimentalPrefs.enabled = true
+                            toast(R.string.preference_experimental_enabled)
+                            setResult(Activity.RESULT_OK)
+                        } else toast(R.string.preference_experimental_already_enabled)
                     }
-                    true
+                    false
                 }
             )
         }
