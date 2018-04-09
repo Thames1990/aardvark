@@ -87,7 +87,7 @@ class MainActivity : BaseActivity() {
                 if (resultCode and REQUEST_RESTART > 0) restart()
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
-                if (resultCode and RELOAD_EVENTS > 0) {
+                if (resultCode and REQUEST_RELOAD_EVENTS > 0) {
                     eventViewModel.getFromRepository(
                         deleteEvents = true,
                         doOnFinish = {
@@ -353,7 +353,7 @@ class MainActivity : BaseActivity() {
         const val REQUEST_APPLICATION_RESTART = 1 shl 3
         const val REQUEST_NAV = 1 shl 4
         const val REQUEST_CHECK_SETTINGS = 1 shl 5
-        const val RELOAD_EVENTS = 1 shl 6
+        const val REQUEST_RELOAD_EVENTS = 1 shl 6
 
         var deviceLocation = Location(BuildConfig.APPLICATION_ID)
         val devicePosition: LatLng

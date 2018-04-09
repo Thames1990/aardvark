@@ -66,7 +66,7 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
         }
     )
 
-    fun shouldReloadEvents() = setAardvarkResult(MainActivity.RELOAD_EVENTS)
+    fun shouldReloadEvents() = setAardvarkResult(MainActivity.REQUEST_RELOAD_EVENTS)
 
     seekbar(
         title = R.string.preference_serval_event_count,
