@@ -50,6 +50,7 @@
     <string name="distance_in_meter" translatable="false">%1$.0f m</string>
 
     <string name="event_details">Details</string>
+    <string name="event_fetch_count">Loaded %1$d events</string>
     <string name="event_id">ID</string>
     <string name="event_time">Time</string>
 
@@ -221,6 +222,7 @@
     <string name="preference_serval_desc">Serval login information</string>
     <string name="preference_serval_event_count">Event count</string>
     <string name="preference_serval_event_count_desc">Define how many events should be loaded</string>
+    <string name="preference_serval_event_reload_toast_message">Events will be reloaded</string>
     <string name="preference_serval_password">Password</string>
     <string name="preference_serval_password_desc">Serval API password</string>
     <string name="preference_serval_username">Username</string>

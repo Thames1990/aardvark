@@ -5,6 +5,7 @@ import ca.allanwang.kau.kpref.activity.KClick
 import ca.allanwang.kau.kpref.activity.KPrefAdapterBuilder
 import ca.allanwang.kau.kpref.kpref
 import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.toast
 import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.MainActivity
@@ -70,7 +71,10 @@ fun SettingsActivity.servalItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     seekbar(
         title = R.string.preference_serval_event_count,
         getter = ServalPrefs::eventCount,
-        setter = { ServalPrefs.eventCount = it },
+        setter = {
+            ServalPrefs.eventCount = it
+            toast(string(R.string.preference_serval_event_reload_toast_message))
+        },
         builder = {
             descRes = R.string.preference_serval_event_count_desc
             min = 1

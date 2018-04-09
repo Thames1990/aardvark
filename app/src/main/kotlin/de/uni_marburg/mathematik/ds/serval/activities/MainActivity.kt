@@ -39,10 +39,7 @@ import de.uni_marburg.mathematik.ds.serval.fragments.DashboardFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.EventsFragment
 import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.Event
-import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
-import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
-import de.uni_marburg.mathematik.ds.serval.settings.LocationPrefs
-import de.uni_marburg.mathematik.ds.serval.settings.Prefs
+import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
 import org.jetbrains.anko.toast
 
@@ -90,7 +87,19 @@ class MainActivity : BaseActivity() {
                 if (resultCode and REQUEST_RESTART > 0) restart()
                 if (resultCode and REQUEST_APPLICATION_RESTART > 0) restartApplication()
                 if (resultCode and REQUEST_NAV > 0) themeNavigationBar()
-                if (resultCode and RELOAD_EVENTS > 0) eventViewModel.getFromRepository(deleteEvents = true)
+                if (resultCode and RELOAD_EVENTS > 0) {
+                    eventViewModel.getFromRepository(
+                        deleteEvents = true,
+                        doOnFinish = {
+                            viewPager.snackbarThemed(
+                                String.format(
+                                    string(R.string.event_fetch_count),
+                                    ServalPrefs.eventCount
+                                )
+                            )
+                        }
+                    )
+                }
             }
             REQUEST_CHECK_SETTINGS -> {
                 when (resultCode) {
