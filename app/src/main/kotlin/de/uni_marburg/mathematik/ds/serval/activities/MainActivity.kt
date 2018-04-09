@@ -23,6 +23,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
 import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
@@ -44,6 +45,7 @@ import de.uni_marburg.mathematik.ds.serval.fragments.MapFragment
 import de.uni_marburg.mathematik.ds.serval.model.Event
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.*
+import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
 
@@ -56,6 +58,9 @@ class MainActivity : BaseActivity() {
     private val dashboardFragment = DashboardFragment()
     private val eventsFragment = EventsFragment()
     private val mapFragment = MapFragment()
+
+    private var doubleBackToExitPressedOnce = false
+    private var exitToast: Toast? = null
 
     private lateinit var barAdapter: BarAdapter
 
@@ -101,16 +106,13 @@ class MainActivity : BaseActivity() {
 
     override fun backConsumer(): Boolean {
         if (BehaviourPrefs.confirmExit) {
-            materialDialogThemed {
-                title(R.string.kau_exit)
-                content(R.string.kau_exit_confirmation)
-                positiveText(R.string.kau_yes)
-                negativeText(R.string.kau_no)
-                onPositive { _, _ -> finish() }
-                checkBoxPromptRes(R.string.kau_do_not_show_again, false, { _, isChecked ->
-                    BehaviourPrefs.confirmExit = !isChecked
-                })
+            if (doubleBackToExitPressedOnce) {
+                exitToast?.cancel()
+                return false
             }
+            doubleBackToExitPressedOnce = true
+            exitToast = toast(R.string.toast_exit_confirmation)
+            postDelayed(delay = 2000, action = { doubleBackToExitPressedOnce = false })
             return true
         }
         return false
