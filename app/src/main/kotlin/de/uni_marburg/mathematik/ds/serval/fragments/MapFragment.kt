@@ -11,7 +11,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
 import ca.allanwang.kau.permissions.kauRequestPermissions
-import ca.allanwang.kau.utils.*
+import ca.allanwang.kau.utils.restart
+import ca.allanwang.kau.utils.startActivity
+import ca.allanwang.kau.utils.string
+import ca.allanwang.kau.utils.withSceneTransitionAnimation
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -181,7 +184,7 @@ class MapFragment : BaseFragment() {
 
         doOnDebugBuild {
             setOnMyLocationClickListener {
-                context?.toast("lat: ${it.latitude}\nlon: ${it.longitude}")
+                view?.snackbarThemed("lat: ${it.latitude}, lon: ${it.longitude}")
             }
         }
     }
