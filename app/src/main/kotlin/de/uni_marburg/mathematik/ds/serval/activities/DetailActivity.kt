@@ -10,6 +10,7 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import ca.allanwang.kau.adapters.FastItemThemedAdapter
 import ca.allanwang.kau.adapters.ThemableIItem
 import ca.allanwang.kau.adapters.ThemableIItemDelegate
 import ca.allanwang.kau.iitems.CardIItem
@@ -22,7 +23,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import com.mikepenz.fastadapter.IItem
-import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.model.Event
@@ -38,8 +38,7 @@ import org.jetbrains.anko.uiThread
  */
 class DetailActivity : ElasticRecyclerActivity() {
 
-    private val adapter: FastItemAdapter<IItem<*, *>> = FastItemAdapter()
-
+    private lateinit var adapter: FastItemThemedAdapter<IItem<*, *>>
     private lateinit var event: Event
     private lateinit var eventViewModel: EventViewModel
     private lateinit var geocoder: Geocoder
@@ -61,6 +60,11 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     private fun setup() {
         geocoder = Geocoder(this)
+        adapter = FastItemThemedAdapter(
+            textColor = AppearancePrefs.Theme.textColor,
+            backgroundColor = AppearancePrefs.Theme.backgroundColor,
+            accentColor = AppearancePrefs.Theme.accentColor
+        )
         recycler.adapter = adapter
 
         coordinator.setMarginTop(0)
@@ -124,7 +128,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
         with(adapter) {
             add(measurementsHeader)
-            add(*measurementCardItems.toTypedArray())
+            measurementCardItems.forEach { add(it) }
         }
     }
 
