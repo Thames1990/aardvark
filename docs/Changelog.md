@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.13
+* Fix possibility of granting permission to read phone state or external storage. This bug was introduced by Google and has been resolved.
+* Minor text fixes
+
 ## 0.8.12
 * Add custom cluster and cluster item icons
 * Add floating action button tooltip on devices running Android Oreo and above
