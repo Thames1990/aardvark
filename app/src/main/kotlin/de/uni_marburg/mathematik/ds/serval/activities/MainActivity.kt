@@ -92,8 +92,8 @@ class MainActivity : BaseActivity() {
                         deleteEvents = true,
                         doOnFinish = {
                             viewPager.snackbarThemed(
-                                String.format(
-                                    string(R.string.event_fetch_count),
+                                plural(
+                                    R.plurals.event_fetch_count,
                                     ServalPrefs.eventCount
                                 )
                             )

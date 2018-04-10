@@ -50,7 +50,10 @@
     <string name="distance_in_meter" translatable="false">%1$.0f m</string>
 
     <string name="event_details">Details</string>
-    <string name="event_fetch_count">Loaded %1$d events</string>
+    <plurals name="event_fetch_count">
+        <item quantity="one">Loaded %1$d event</item>
+        <item quantity="other">Loaded %1$d events</item>
+    </plurals>
     <string name="event_id">ID</string>
     <string name="event_time">Time</string>
 
