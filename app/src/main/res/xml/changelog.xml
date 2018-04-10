@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <version title="0.8.12" />
+    <version title="0.8.13" />
     <item text="Fix possibility of granting permission to read phone state or external storage. This bug was introduced by Google and has been resolved." />
     <item text="Minor text fixes" />
 
