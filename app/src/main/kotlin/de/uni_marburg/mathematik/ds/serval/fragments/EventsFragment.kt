@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
 import android.support.design.widget.AppBarLayout
+import android.support.design.widget.AppBarLayout.LayoutParams.*
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.util.DiffUtil
@@ -90,11 +91,9 @@ class EventsFragment : BaseFragment() {
         appBarLayout.expand()
         with(toolbar) {
             updateLayoutParams<AppBarLayout.LayoutParams> {
-                scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or
-                        AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS or
-                        AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
-                title = context.string(R.string.tab_item_events)
+                scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS or SCROLL_FLAG_SNAP
             }
+            title = context.string(R.string.tab_item_events)
         }
         with(fab) {
             hideOnDownwardsScroll(recyclerView)

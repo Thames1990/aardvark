@@ -44,28 +44,8 @@ class AboutActivity : AboutActivityBase(
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark: LibraryIItem = LibraryDefinitions.AARDVARK.getLibraryIItem(context = this)
-
-        with(adapter) {
-            add(aardvark)
-            add(AboutLinkIItem())
-
-            // Activate experimental settings, if the user clicked the Aardvark item multiple times
-            // in a short duration
-            withOnRepeatedClickListener(
-                count = REPEATED_CLICK_LISTENER_COUNT,
-                duration = REPEATED_CLICK_LISTENER_DURATION,
-                event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
-                    if (item == aardvark) {
-                        if (!ExperimentalPrefs.enabled) {
-                            ExperimentalPrefs.enabled = true
-                            toast(R.string.preference_experimental_enabled)
-                            setResult(Activity.RESULT_OK)
-                        } else toast(R.string.preference_experimental_already_enabled)
-                    }
-                    false
-                }
-            )
-        }
+        adapter.add(listOf<IItem<*, *>>(aardvark, AboutLinkIItem()))
+        addExperimentalSettingsToggleListener(adapter, aardvark)
     }
 
     override fun getLibraries(libs: Libs): List<Library> {
@@ -76,6 +56,27 @@ class AboutActivity : AboutActivityBase(
             libraries union LibraryDefinitions.getAllLibraries(context = this)
         return extendedLibraries.sortedBy { it.libraryName }
     }
+
+    private fun addExperimentalSettingsToggleListener(
+        adapter: FastItemThemedAdapter<IItem<*, *>>,
+        aardvark: LibraryIItem
+    ) = adapter.withOnRepeatedClickListener(
+        count = REPEATED_CLICK_LISTENER_COUNT,
+        duration = REPEATED_CLICK_LISTENER_DURATION,
+        event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
+            if (item == aardvark) {
+                if (!ExperimentalPrefs.enabled) {
+                    ExperimentalPrefs.enabled = true
+                    toast(R.string.preference_experimental_enabled)
+                    setResult(Activity.RESULT_OK)
+                } else {
+                    toast(R.string.preference_experimental_already_enabled)
+                }
+                return@OnClickListener true
+            }
+            return@OnClickListener false
+        }
+    )
 
     private class AboutLinkIItem :
         AbstractItem<AboutLinkIItem, AboutLinkIItem.ViewHolder>(),
