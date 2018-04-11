@@ -158,7 +158,7 @@
     <string name="preference_event_temperature_unit">Temperature Unit</string>
     <string name="preference_event_wind_unit">Wind Unit</string>
     <string name="preference_experimental">Experimental</string>
-    <string name="preference_experimental_already_enabled">Experimental section is already enabled.</string>
+    <string name="preference_experimental_already_enabled">Experimental section is already enabled</string>
     <string name="preference_experimental_desc">Enable early access to potentially unstable features</string>
     <string name="preference_experimental_disclaimer">Disclaimer</string>
     <string name="preference_experimental_disclaimer_desc">Experimental features may be unstable and may never make it to production. Use at your own risk, send feedback, and feel free to disable them if they don\'t work well.</string>

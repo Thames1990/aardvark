@@ -43,7 +43,7 @@ class AboutActivity : AboutActivityBase(
 ) {
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
-        val aardvark: LibraryIItem = LibraryDefinitions.AARDVARK.getLibraryIItem(context = this)
+        val aardvark: LibraryIItem = LibraryDefinitions.AARDVARK.getLibraryIItem(this)
         adapter.add(listOf<IItem<*, *>>(aardvark, AboutLinkIItem()))
         addExperimentalSettingsToggleListener(adapter, aardvark)
     }
@@ -53,7 +53,7 @@ class AboutActivity : AboutActivityBase(
         val libraries: List<Library> = super.getLibraries(libs)
         // Manually add libraries
         val extendedLibraries: Set<Library> =
-            libraries union LibraryDefinitions.getAllLibraries(context = this)
+            libraries union LibraryDefinitions.getAllLibraries(this)
         return extendedLibraries.sortedBy { it.libraryName }
     }
 
