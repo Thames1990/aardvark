@@ -85,17 +85,17 @@ enum class Themes(
     companion object {
         operator fun invoke(index: Int) = values()[index]
 
-        const val ALABASTER = 0xfffafafa.toInt()
-        const val BAHAMA_BLUE = 0xff01579b.toInt()
-        const val CHAMBRAY = 0xff2e4b86.toInt()
-        const val FRUIT_SALAD = 0xff4CAF50.toInt()
-        const val LOCHMARA = 0xff0288d1.toInt()
-        const val LYNCH = 0xff607D8B.toInt()
-        const val MINE_SHAFT = 0xff303030.toInt()
-        const val PASTEL_GREEN = 0xff80E27E.toInt()
-        const val PERSIAN_GREEN = 0xff009688.toInt()
-        const val POMEGRENADE = 0xffF4511E.toInt()
-        const val PORCELAIN = 0xffeceff1.toInt()
+        const val ALABASTER = 0xFFFAFAFA.toInt()
+        const val BAHAMA_BLUE = 0xFF01579B.toInt()
+        const val CHAMBRAY = 0xFF2E4B86.toInt()
+        const val FRUIT_SALAD = 0xFF4CAF50.toInt()
+        const val LOCHMARA = 0xFF0288D1.toInt()
+        const val LYNCH = 0xFF607D8B.toInt()
+        const val MINE_SHAFT = 0xFF303030.toInt()
+        const val PASTEL_GREEN = 0xFF80E27E.toInt()
+        const val PERSIAN_GREEN = 0xFF009688.toInt()
+        const val POMEGRENADE = 0xFFF4511E.toInt()
+        const val PORCELAIN = 0xFFECEFF1.toInt()
 
         const val AARDVARK_GREEN = FRUIT_SALAD
     }
