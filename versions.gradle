@@ -64,7 +64,7 @@ support_library.support_annotations = "com.android.support:support-annotations:$
 deps.support_library = support_library
 
 deps.android_git_version = "gradle.plugin.com.gladed.gradle.androidgitversion:gradle-android-git-version:0.4.3"
-deps.android_gradle_plugin = "com.android.tools.build:gradle:3.1.0"
+deps.android_gradle_plugin = "com.android.tools.build:gradle:3.1.1"
 deps.crashlytics = "com.crashlytics.sdk.android:crashlytics:2.9.1@aar"
 deps.dexcount_gradle_plugin = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.2"
 deps.fabric_gradle_plugin = "io.fabric.tools:gradle:1.25.1"
