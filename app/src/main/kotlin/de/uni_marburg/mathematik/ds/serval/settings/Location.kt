@@ -35,10 +35,15 @@ object LocationPrefs : KPref() {
         key = "LOCATION_REQUEST_INTERVAL",
         fallback = LocationRequestPriorities.MIN_INTERVAL
     )
+    val intervalInMilliseconds: Long
+        get() = (interval * 1000).toLong()
+
     var fastestInterval: Int by kpref(
         key = "LOCATION_REQUEST_FASTEST_INTERVAL",
         fallback = LocationRequestPriorities.MIN_FASTEST_INTERVAL
     )
+    val fastestIntervalInMilliseconds: Long
+        get() = (fastestInterval * 1000).toLong()
 }
 
 fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {

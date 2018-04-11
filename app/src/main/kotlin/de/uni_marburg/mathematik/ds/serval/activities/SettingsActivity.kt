@@ -124,7 +124,7 @@ class SettingsActivity : KPrefActivity() {
                 items(SupportTopics.values().map { string(it.titleRes) })
                 itemsCallback { _, _, which, _ -> SupportTopics.values()[which].sendEmail(context) }
             }
-            R.id.action_changelog -> showChangelog()
+            R.id.action_changelog -> showChangelog(show = true)
             else -> return super.onOptionsItemSelected(item)
         }
         return true

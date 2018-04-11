@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import de.uni_marburg.mathematik.ds.serval.Aardvark
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.BehaviourPrefs
 import org.jetbrains.anko.doAsync
 
 inline val Context.hasLocationPermission: Boolean
@@ -79,11 +80,15 @@ inline fun Context.sendSupportEmail(
 /**
  * Show the changelog.
  */
-fun Context.showChangelog() = showChangelog(
-    xmlRes = R.xml.changelog,
-    textColor = AppearancePrefs.Theme.textColor,
-    customize = { theme() }
-)
+fun Context.showChangelog(show: Boolean = BehaviourPrefs.showChangelog) {
+    if (show) {
+        showChangelog(
+            xmlRes = R.xml.changelog,
+            textColor = AppearancePrefs.Theme.textColor,
+            customize = { theme() }
+        )
+    }
+}
 
 /**
  * Vibrates once for the specified period of [milliseconds] at the specified [amplitude],

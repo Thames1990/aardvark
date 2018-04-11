@@ -51,14 +51,10 @@ class MainActivity : BaseActivity() {
     private val toolbar: Toolbar by bindView(R.id.toolbar)
     private val viewPager: SwipeToggleViewPager by bindView(R.id.view_pager)
 
-    private val dashboardFragment = DashboardFragment()
-    private val eventsFragment = EventsFragment()
-    private val mapFragment = MapFragment()
+    private val barAdapter = BarAdapter()
 
     private var doubleBackToExitPressedOnce = false
     private var exitToast: Toast? = null
-
-    private lateinit var barAdapter: BarAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,13 +97,8 @@ class MainActivity : BaseActivity() {
                     )
                 }
             }
-            REQUEST_CHECK_SETTINGS -> {
-                when (resultCode) {
-                    Activity.RESULT_OK -> Unit
-                    Activity.RESULT_CANCELED -> {
-                        // The user was asked to change settings, but chose not to
-                    }
-                }
+            REQUEST_CHECK_SETTINGS -> if (resultCode == Activity.RESULT_CANCELED) {
+                // The user was asked to change settings, but chose not to
             }
         }
     }
@@ -154,13 +145,10 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    private fun setupViewPager() {
-        barAdapter = BarAdapter(dashboardFragment, eventsFragment, mapFragment)
-        with(viewPager) {
-            adapter = barAdapter
-            offscreenPageLimit = barAdapter.count - 1
-            addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
-        }
+    private fun setupViewPager() = with(viewPager) {
+        adapter = barAdapter
+        offscreenPageLimit = barAdapter.count - 1
+        addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
     }
 
     private fun setupTabLayout() {
@@ -177,22 +165,23 @@ class MainActivity : BaseActivity() {
             addOnTabSelectedListener(object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: BaseFragment? = barAdapter.getItem(currentTab)
-                    currentFragment?.onSelected(appBar, toolbar, fab)
+                    val currentFragment: BaseFragment = barAdapter.getItem(currentTab)
+                    currentFragment.onSelected(appBar, toolbar, fab)
                     viewPager.item = currentTab
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab) {
                     val currentTab: Int = tab.position
-                    val currentFragment: BaseFragment? = barAdapter.getItem(currentTab)
-                    currentFragment?.onReselected()
+                    val currentFragment: BaseFragment = barAdapter.getItem(currentTab)
+                    currentFragment.onReselected()
                 }
             })
         }
 
         fun submitEvents(pagedList: PagedList<Event>?) {
-            val eventCount: Int = pagedList?.size ?: 0
-            val tab: TabLayout.Tab? = tabs.getTabAt(1)
+            pagedList ?: return
+            val eventCount: Int = pagedList.size
+            val tab: TabLayout.Tab? = tabs.getTabAt(1) // EventsFragment
             val badgedIcon = tab?.customView as BadgedIcon
             badgedIcon.badgeText = eventCount.toString()
         }
@@ -201,19 +190,18 @@ class MainActivity : BaseActivity() {
     }
 
     private fun trackLocation() {
-        val locationLiveData = LocationLiveData(this)
-
         fun submitLocation(location: Location?) {
-            if (location != null) deviceLocation = location
+            location ?: return
+            deviceLocation = location
         }
 
-        observe(liveData = locationLiveData, onChanged = ::submitLocation)
+        observe(liveData = LocationLiveData(), onChanged = ::submitLocation)
     }
 
     private fun checkForNewVersion() {
         if (BuildConfig.VERSION_CODE > Prefs.versionCode) {
             Prefs.versionCode = BuildConfig.VERSION_CODE
-            if (BehaviourPrefs.showChangelog) showChangelog()
+            showChangelog()
             logAnalytics(
                 name = "Version",
                 events = *arrayOf(
@@ -226,9 +214,13 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private inner class BarAdapter(
-        vararg val fragments: BaseFragment
-    ) : FragmentPagerAdapter(supportFragmentManager) {
+    private inner class BarAdapter : FragmentPagerAdapter(supportFragmentManager) {
+
+        private val fragments: List<BaseFragment> = listOf(
+            DashboardFragment(),
+            EventsFragment(),
+            MapFragment()
+        )
 
         override fun getItem(position: Int): BaseFragment = fragments[position]
 
@@ -236,27 +228,28 @@ class MainActivity : BaseActivity() {
 
     }
 
-    private inner class LocationLiveData(val context: Context) : LiveData<Location>() {
+    private inner class LocationLiveData : LiveData<Location>() {
 
         private val fusedLocationProviderClient: FusedLocationProviderClient
-            get() = LocationServices.getFusedLocationProviderClient(context)
+            get() = LocationServices.getFusedLocationProviderClient(baseContext)
 
         private val settingsClient: SettingsClient
-            get() = LocationServices.getSettingsClient(context)
+            get() = LocationServices.getSettingsClient(baseContext)
 
         private val locationRequest: LocationRequest
             get() = LocationRequest.create().apply {
-                interval = (LocationPrefs.interval * 1000).toLong() // s -> ms
-                fastestInterval = (LocationPrefs.fastestInterval * 1000).toLong() // s -> ms
+                interval = LocationPrefs.intervalInMilliseconds
+                fastestInterval = LocationPrefs.fastestIntervalInMilliseconds
                 priority = LocationPrefs.LocationRequestPriority.priority
             }
 
-        private val task: Task<LocationSettingsResponse> =
-            settingsClient.checkLocationSettings(
-                LocationSettingsRequest.Builder()
-                    .addLocationRequest(locationRequest)
-                    .build()
-            )
+        private val locationSettingsRequest: LocationSettingsRequest
+            get() = LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest)
+                .build()
+
+        private val task: Task<LocationSettingsResponse>
+            get() = settingsClient.checkLocationSettings(locationSettingsRequest)
 
         private val locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
