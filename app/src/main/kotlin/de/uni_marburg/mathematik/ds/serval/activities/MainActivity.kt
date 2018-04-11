@@ -132,7 +132,7 @@ class MainActivity : BaseActivity() {
                     bundleBuilder = {
                         if (animationsAreEnabled) {
                             withCustomAnimation(
-                                context = this@MainActivity,
+                                context = baseContext,
                                 enterResId = R.anim.kau_slide_in_right,
                                 exitResId = R.anim.kau_fade_out
                             )
