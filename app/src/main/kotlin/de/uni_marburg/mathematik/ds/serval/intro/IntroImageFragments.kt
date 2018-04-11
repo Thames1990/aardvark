@@ -72,7 +72,6 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var animationIsRunning = false
         with(image) {
             rotation = when (AppearancePrefs.MainActivityLayout.layout) {
                 MainActivityLayouts.TOP_BAR -> 0f
@@ -80,12 +79,12 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
             }
 
             setOnClickListener {
-                if (!animationIsRunning) animate()
+                animate()
                     .rotationBy(180f)
                     .setDuration(1000L)
-                    .withStartAction { animationIsRunning = true }
+                    .withStartAction { isEnabled = false }
                     .withEndAction {
-                        animationIsRunning = false
+                        isEnabled = true
                         flip()
                         AppearancePrefs.MainActivityLayout.index =
                                 if (rotation % 360.0f == 0.0f) MainActivityLayouts.TOP_BAR.ordinal
