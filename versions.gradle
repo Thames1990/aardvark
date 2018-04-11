@@ -1,6 +1,7 @@
 ext.deps = [:]
 def versions = [:]
 versions.google_play_services = "12.0.1"
+versions.hyperion = "0.9.21"
 versions.kau = "3.7.0"
 versions.kerval = "0.1.5"
 versions.kotlin = "1.2.31"
@@ -21,6 +22,17 @@ google_play_services.location = "com.google.android.gms:play-services-location:$
 google_play_services.maps = "com.google.android.gms:play-services-maps:$versions.google_play_services"
 google_play_services.plugin = "com.google.gms:google-services:3.2.0"
 deps.google_play_services = google_play_services
+
+def hyperion = [:]
+hyperion.core = "com.willowtreeapps.hyperion:hyperion-core:$versions.hyperion"
+hyperion.attr = "com.willowtreeapps.hyperion:hyperion-attr:$versions.hyperion"
+hyperion.measurement = "com.willowtreeapps.hyperion:hyperion-measurement:$versions.hyperion"
+hyperion.disk = "com.willowtreeapps.hyperion:hyperion-disk:$versions.hyperion"
+hyperion.recorder = "com.willowtreeapps.hyperion:hyperion-recorder:$versions.hyperion"
+hyperion.phoenix = "com.willowtreeapps.hyperion:hyperion-phoenix:$versions.hyperion"
+hyperion.crash = "com.willowtreeapps.hyperion:hyperion-crash:$versions.hyperion"
+hyperion.shared_preferences = "com.willowtreeapps.hyperion:hyperion-shared-preferences:$versions.hyperion"
+deps.hyperion = hyperion
 
 def ioconics = [:]
 ioconics.weather_icons_typeface = "com.mikepenz:weather-icons-typeface:2.0.10.4@aar"
