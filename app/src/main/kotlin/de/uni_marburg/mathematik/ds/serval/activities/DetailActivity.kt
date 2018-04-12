@@ -128,7 +128,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
         with(adapter) {
             add(measurementsHeader)
-            measurementCardItems.forEach { add(it) }
+            add(measurementCardItems)
         }
     }
 

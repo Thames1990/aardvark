@@ -121,7 +121,7 @@ class SettingsActivity : KPrefActivity() {
         when (item.itemId) {
             R.id.action_email -> materialDialogThemed {
                 title(R.string.support_email_subject)
-                items(SupportTopics.values().map { string(it.titleRes) })
+                items(SupportTopics.values().map { supportTopic -> string(supportTopic.titleRes) })
                 itemsCallback { _, _, which, _ -> SupportTopics.values()[which].sendEmail(context) }
             }
             R.id.action_changelog -> showChangelog(show = true)

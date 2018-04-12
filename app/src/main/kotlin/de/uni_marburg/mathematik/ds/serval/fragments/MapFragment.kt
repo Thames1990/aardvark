@@ -183,8 +183,8 @@ class MapFragment : BaseFragment() {
         isTrafficEnabled = MapPrefs.Layers.trafficEnabled
 
         doOnDebugBuild {
-            setOnMyLocationClickListener {
-                view?.snackbarThemed("lat: ${it.latitude}, lon: ${it.longitude}")
+            setOnMyLocationClickListener { location ->
+                view?.snackbarThemed("lat: ${location.latitude}, lon: ${location.longitude}")
             }
         }
     }

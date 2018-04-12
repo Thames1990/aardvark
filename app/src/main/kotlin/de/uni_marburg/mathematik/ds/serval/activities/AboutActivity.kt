@@ -44,17 +44,18 @@ class AboutActivity : AboutActivityBase(
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
         val aardvark: LibraryIItem = LibraryDefinitions.AARDVARK.getLibraryIItem(this)
-        adapter.add(listOf<IItem<*, *>>(aardvark, AboutLinkIItem()))
+        val about = AboutLinkIItem()
+        val aboutItems: List<IItem<*, *>> = listOf(aardvark, about)
+
+        adapter.add(aboutItems)
         addExperimentalSettingsToggleListener(adapter, aardvark)
     }
 
     override fun getLibraries(libs: Libs): List<Library> {
-        // Auto detect libraries
-        val libraries: List<Library> = super.getLibraries(libs)
-        // Manually add libraries
-        val extendedLibraries: Set<Library> =
-            libraries union LibraryDefinitions.getAllLibraries(this)
-        return extendedLibraries.sortedBy { it.libraryName }
+        val detectedLibraries: List<Library> = super.getLibraries(libs)
+        val manualLibraries: List<Library> = LibraryDefinitions.getAllLibraries(this)
+        val libraries: Set<Library> = detectedLibraries union manualLibraries
+        return libraries.sortedBy(Library::getLibraryName)
     }
 
     private fun addExperimentalSettingsToggleListener(
@@ -128,7 +129,7 @@ class AboutActivity : AboutActivityBase(
                             leftSide = ConstraintSet.LEFT,
                             rightId = ConstraintSet.PARENT_ID,
                             rightSide = ConstraintSet.RIGHT,
-                            chainIds = items.map { it.id }.toIntArray(),
+                            chainIds = items.map(ImageView::getId).toIntArray(),
                             weights = null,
                             style = ConstraintSet.CHAIN_SPREAD_INSIDE
                         )

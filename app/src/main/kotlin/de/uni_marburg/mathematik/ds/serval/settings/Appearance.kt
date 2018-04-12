@@ -258,7 +258,7 @@ fun SettingsActivity.appearanceItemBuilder(): KPrefAdapterBuilder.() -> Unit = {
     fun showDateTimeFormatChooserDialog(onClick: KClick<Int>) {
         materialDialogThemed {
             title(R.string.preference_appearance_date_time_format)
-            items(DateTimeFormats.values().map { it.previewText })
+            items(DateTimeFormats.values().map(DateTimeFormats::previewText))
             with(onClick) {
                 itemsCallbackSingleChoice(item.pref) { _, _, which, _ ->
                     if (item.pref != which) {

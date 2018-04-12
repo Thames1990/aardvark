@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
 import android.arch.paging.PagedListAdapter
-import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
@@ -179,17 +178,18 @@ class EventsFragment : BaseFragment() {
                 setupMeasurementsView()
                 setupLocationView()
 
-                itemView.setOnClickListener {
-                    val context: Context = it.context
-                    context.startActivity<DetailActivity>(
-                        bundleBuilder = {
-                            if (animationsAreEnabled) withSceneTransitionAnimation(context)
-                        },
-                        intentBuilder = {
-                            putExtra(DetailActivity.EVENT_ID, event.id)
-                            putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
-                        }
-                    )
+                with(itemView) {
+                    setOnClickListener {
+                        context.startActivity<DetailActivity>(
+                            bundleBuilder = {
+                                if (animationsAreEnabled) withSceneTransitionAnimation(context)
+                            },
+                            intentBuilder = {
+                                putExtra(DetailActivity.EVENT_ID, event.id)
+                                putExtra(DetailActivity.SHOULD_SHOW_MAP, true)
+                            }
+                        )
+                    }
                 }
             }
 
