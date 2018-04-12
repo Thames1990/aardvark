@@ -98,7 +98,7 @@ class IntroActivity : BaseActivity() {
             color = Themes.AARDVARK_GREEN,
             startX = x,
             startY = y,
-            duration = 600,
+            duration = FINISH_ANIMATION_DURATION,
             callback = { postDelayed(delay = 1000, action = ::finish) }
         )
 
@@ -112,7 +112,7 @@ class IntroActivity : BaseActivity() {
         ).forEach { view ->
             view?.animate()
                 ?.alpha(0f)
-                ?.setDuration(600)
+                ?.setDuration(FINISH_ANIMATION_DURATION)
                 ?.start()
         }
 
@@ -128,7 +128,7 @@ class IntroActivity : BaseActivity() {
                             )
                         )
                     }
-                    duration = 600
+                    duration = FINISH_ANIMATION_DURATION
                     start()
                 }
             }
@@ -144,7 +144,7 @@ class IntroActivity : BaseActivity() {
                     statusBarColor = color
                     navigationBarColor = color
                 }
-                duration = 600
+                duration = FINISH_ANIMATION_DURATION
                 start()
             }
         }
@@ -226,6 +226,10 @@ class IntroActivity : BaseActivity() {
 
         override fun getCount(): Int = fragments.size
 
+    }
+
+    companion object {
+        const val FINISH_ANIMATION_DURATION: Long = 600L
     }
 
 }

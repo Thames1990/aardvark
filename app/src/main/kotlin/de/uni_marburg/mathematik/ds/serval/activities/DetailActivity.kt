@@ -124,7 +124,7 @@ class DetailActivity : ElasticRecyclerActivity() {
 
         val id = R.plurals.measurement
         val quantity = event.measurements.count()
-        val measurementsHeader = SmallHeaderIItem(text = plural(id, quantity))
+        val measurementsHeader = SmallHeaderIItem(plural(id, quantity))
 
         with(adapter) {
             add(measurementsHeader)
