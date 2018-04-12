@@ -58,6 +58,11 @@ class AboutActivity : AboutActivityBase(
         return libraries.sortedBy(Library::getLibraryName)
     }
 
+    /**
+     * Add listener to toggle experimental settings when [an item][aardvark] is clicked
+     * [multiple times][REPEATED_CLICK_LISTENER_COUNT] in a
+     * [short timespan][REPEATED_CLICK_LISTENER_DURATION].
+     */
     private fun addExperimentalSettingsToggleListener(
         adapter: FastItemThemedAdapter<IItem<*, *>>,
         aardvark: LibraryIItem

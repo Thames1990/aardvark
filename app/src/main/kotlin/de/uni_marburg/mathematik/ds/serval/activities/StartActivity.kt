@@ -7,7 +7,7 @@ import de.uni_marburg.mathematik.ds.serval.settings.Prefs
 
 /**
  * Delegation activity, that determines, if the intro should be shown, or if the main view should
- * be openend.
+ * be opened.
  */
 class StartActivity : KauBaseActivity() {
 

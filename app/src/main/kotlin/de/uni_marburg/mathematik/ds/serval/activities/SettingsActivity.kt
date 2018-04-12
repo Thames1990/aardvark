@@ -91,7 +91,10 @@ class SettingsActivity : KPrefActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             ACTIVITY_INTRO -> shouldRestartMain()
-            ACTIVITY_ABOUT -> if (resultCode == Activity.RESULT_OK) restart()
+            ACTIVITY_ABOUT -> if (resultCode == Activity.RESULT_OK) {
+                // Experimental settings were activated
+                restart()
+            }
         }
     }
 
