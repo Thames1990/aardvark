@@ -111,7 +111,7 @@ enum class DateTimeFormats(@StringRes val titleRes: Int, val dateStyle: Int, val
         timeStyle = DateFormat.SHORT
     );
 
-    private val format: DateFormat
+    private val dateTimeFormat: DateFormat
         get() = SimpleDateFormat.getDateTimeInstance(dateStyle, timeStyle)
 
     private val dateFormat: DateFormat
@@ -127,7 +127,7 @@ enum class DateTimeFormats(@StringRes val titleRes: Int, val dateStyle: Int, val
         val dateString = dateFormat.format(time)
         val timeString = timeFormat.format(time)
         "$dateString\n$timeString"
-    } else format.format(time)
+    } else dateTimeFormat.format(time)
 
     companion object {
         operator fun invoke(index: Int) = values()[index]
