@@ -20,7 +20,7 @@ deps.firebase = firebase
 def google_play_services = [:]
 google_play_services.location = "com.google.android.gms:play-services-location:$versions.google_play_services"
 google_play_services.maps = "com.google.android.gms:play-services-maps:$versions.google_play_services"
-google_play_services.plugin = "com.google.gms:google-services:3.2.0"
+google_play_services.plugin = "com.google.gms:google-services:3.2.1"
 deps.google_play_services = google_play_services
 
 def hyperion = [:]
