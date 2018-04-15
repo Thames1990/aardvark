@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.uni_marburg.mathematik.ds.serval">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -7,8 +8,12 @@
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <uses-feature android:name="android.hardware.lastLocation.gps" />
-    <uses-feature android:name="android.hardware.wifi" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
 
     <application
         android:name=".Aardvark"
@@ -39,7 +44,7 @@
             android:theme="@style/Base.Theme.AppCompat.Dialog" />
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.MainActivity"
-            android:configChanges="orientation|screenSize|locale"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AardvarkTheme" />
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.DetailActivity"

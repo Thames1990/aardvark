@@ -4,31 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_zoom_to_all_markers"
-        android:title="@string/action_zoom_to_all_markers"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_change_map_type"
+        android:id="@+id/action_map_type"
         android:title="@string/action_map_type"
         app:showAsAction="ifRoom">
+
         <menu>
+
             <item
-                android:id="@+id/action_change_map_type_hybrid"
-                android:title="@string/action_map_type_hybrid" />
-            <item
-                android:id="@+id/action_change_map_type_none"
-                android:title="@string/action_map_type_none" />
-            <item
-                android:id="@+id/action_change_map_type_normal"
+                android:id="@+id/action_map_type_normal"
                 android:title="@string/action_map_type_normal" />
             <item
-                android:id="@+id/action_change_map_type_satellite"
+                android:id="@+id/action_map_type_satellite"
                 android:title="@string/action_map_type_satellite" />
             <item
-                android:id="@+id/action_change_map_type_terrain"
+                android:id="@+id/action_map_type_terrain"
                 android:title="@string/action_map_type_terrain" />
+
         </menu>
+
     </item>
 
 </menu>

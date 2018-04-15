@@ -1,5 +1,69 @@
 # Changelog
 
+## 0.8.13
+* Fix possibility of granting permission to read phone state or external storage. This bug was introduced by Google and has been resolved.
+* Minor text fixes
+
+## 0.8.12
+* Add custom cluster and cluster item icons
+* Add floating action button tooltip on devices running Android Oreo and above
+* Add option to toggle exact cluster event count
+* Add event settings. You are now able to chose your desired measurement units.
+* Add notifications about event reload on event count change and finished load
+* Events will be loaded in the intro, therefore you are able to view events once you finished the intro.
+* Change toolbar title based on the current view
+* Update icons
+* Improve (optional) location tracking
+* Zoom in on clicking my location button
+* Detail view is now full screen
+* Style map in details view according to user settings
+* Style details view according to user settings
+* Remove map camera bounds targets. You are now able to freely explore the whole map.
+* Location permission is now optional. You can enjoy Aardvark without exposing you location. To enable extended functionality, such as viewing your current location and seeing the distance to events, please grant the location permission either via location settings or by pressing the floating action button in the map view. Don't worry about your privacy, your location is never shared or saved somewhere.
+* Update dependencies
+* Disable automatic zoom to all markers when rotating your screen in map view
+* Replace most snackbars with toast. Android 8.1 emphasizes the intent of toasts over snackbars without custom actions.
+* Fix floating action button visibility in certain tab switching scenarios
+* Fix replaying the intro
+* Fix intro bar position selection
+* Fix viewpager cutoff in main view
+* Fix UNIX time conversion. Dates and time should be correctly displayed until 03:14:07 UTC on 19 January 2038.
+* Minor bugfixes and performance improvements
+
+## 0.8.11
+* Add map settings
+* Fix event detail initialization
+* Fix issues with cutoff view pager when using the bottom layout
+* Fix security issues for WiFI-ADB (experimental)
+
+## 0.8.10
+* Minor bug fixes
+
+## 0.8.9
+* Improve tab reselection. Each tabs has its own action. The event tab reloads events and the map tab moves the camera to include all event markers.
+* Minor fixes and performance improvements
+
+## 0.8.8
+* Add reload animation on tab reselect
+* Add tooltip to floating action buttons
+* Add setting to change date/time format
+* Add custom my location button to map
+* Improve animations
+* Improve map icons
+* Remove obsolete map types
+* Fix action bar popup theme
+* Fix out of sync events for map. This fixes the empty map on first start.
+
+## 0.8.7
+* Add visual loading indicator when sorting events
+* Improve performance
+* Improve location tracking
+* Improve animations
+* Improve settings arrangement and design
+* Improve location permission management
+* Improve fingerprint authentication UI (experimental)
+* Fix measurement units
+
 ## 0.8.6
 * Add fab to move to top of events list
 * Add activity recognition

@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.View
@@ -18,16 +17,14 @@ import ca.allanwang.kau.ui.widgets.InkPageIndicator
 import ca.allanwang.kau.utils.*
 import com.mikepenz.google_material_typeface_library.GoogleMaterial
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.Theme
-import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment
-import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentEnd
-import de.uni_marburg.mathematik.ds.serval.intro.BaseIntroFragment.IntroFragmentWelcome
-import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTabTouch
-import de.uni_marburg.mathematik.ds.serval.intro.IntroFragmentTheme
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.enums.Themes
+import de.uni_marburg.mathematik.ds.serval.intro.*
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.Prefs
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
-import de.uni_marburg.mathematik.ds.serval.utils.hasLocationPermission
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import de.uni_marburg.mathematik.ds.serval.utils.item
+import de.uni_marburg.mathematik.ds.serval.utils.setIconWithOptions
+import org.jetbrains.anko.displayMetrics
 import org.jetbrains.anko.find
 
 class IntroActivity : BaseActivity() {
@@ -39,8 +36,9 @@ class IntroActivity : BaseActivity() {
     private val skip: Button by bindView(R.id.intro_skip)
     private val viewpager: ViewPager by bindView(R.id.intro_viewpager)
 
-    private var barHasNext = true
-
+    private val startedFromSettings: Boolean by lazy {
+        callingActivity?.className == SettingsActivity::class.java.name
+    }
     private val fragments = listOf(
         IntroFragmentWelcome(),
         IntroFragmentTheme(),
@@ -48,49 +46,113 @@ class IntroActivity : BaseActivity() {
         IntroFragmentEnd()
     )
 
+    private var barHasNext = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
-        with(viewpager) {
-            init()
-            adapter = IntroPageAdapter(supportFragmentManager, fragments)
-        }
-        indicator.setViewPager(viewpager)
-        with(next) {
-            setIcon(icon = GoogleMaterial.Icon.gmd_navigate_next, color = Prefs.iconColor)
-            setOnClickListener {
-                when {
-                    barHasNext -> viewpager.setCurrentItem(viewpager.currentItem + 1, Prefs.animate)
-                    hasLocationPermission -> finish(
-                        x = next.x + next.pivotX,
-                        y = next.y + next.pivotY
-                    )
-                    else -> snackbarThemed(R.string.preference_requires_location_permission)
-                }
-            }
-        }
-        skip.setOnClickListener { finish() }
-        ripple.set(color = Prefs.backgroundColor)
+        ripple.set(color = AppearancePrefs.Theme.backgroundColor)
 
+        setupViewpager()
+        setupBottomBar()
         theme()
+
+        eventViewModel.getFromRepository()
     }
 
     override fun backConsumer(): Boolean {
-        with(viewpager) {
-            if (currentItem > 0) setCurrentItem(currentItem - 1, Prefs.animate)
-            else finishAffinity()
-        }
+        if (viewpager.item > 0) viewpager.item = viewpager.item - 1
+        else if (!startedFromSettings) {
+            Prefs.lastLaunch = -1L
+            finishAffinity()
+        } else finish(x = 0F, y = displayMetrics.heightPixels.toFloat())
         return true
     }
 
     override fun finish() {
-        Prefs.lastLaunch = currentTimeInMillis
-        startActivity<MainActivity>()
+        if (!startedFromSettings) {
+            Prefs.lastLaunch = currentTimeInMillis
+            startActivity<MainActivity>()
+        }
         super.finish()
     }
 
-    private fun ViewPager.init() {
+    fun theme() {
+        statusBarColor = AppearancePrefs.Theme.headerColor
+        navigationBarColor = AppearancePrefs.Theme.headerColor
+        skip.setTextColor(AppearancePrefs.Theme.textColor)
+        next.imageTintList = ColorStateList.valueOf(AppearancePrefs.Theme.textColor)
+        with(indicator) {
+            setColour(AppearancePrefs.Theme.textColor)
+            invalidate()
+        }
+        fragments.forEach(BaseIntroFragment::themeFragment)
+    }
+
+    fun finish(x: Float, y: Float) {
+        val flagNotTouchable: Int = WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        window.setFlags(flagNotTouchable, flagNotTouchable)
+
+        ripple.ripple(
+            color = Themes.AARDVARK_GREEN,
+            startX = x,
+            startY = y,
+            duration = FINISH_ANIMATION_DURATION,
+            callback = { postDelayed(delay = 1000, action = ::finish) }
+        )
+
+        @Suppress("RemoveExplicitTypeArguments")
+        arrayOf(
+            skip,
+            indicator,
+            next,
+            fragments.last().view?.find<View>(R.id.intro_title),
+            fragments.last().view?.find<View>(R.id.intro_desc)
+        ).forEach { view ->
+            view?.animate()
+                ?.alpha(0f)
+                ?.setDuration(FINISH_ANIMATION_DURATION)
+                ?.start()
+        }
+
+        if (AppearancePrefs.Theme.textColor != Color.WHITE) {
+            val image = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
+            if (image != null) {
+                ValueAnimator.ofFloat(0f, 1f).apply {
+                    addUpdateListener { animator ->
+                        image.setTint(
+                            AppearancePrefs.Theme.textColor.blendWith(
+                                color = Color.WHITE,
+                                ratio = animator.animatedValue as Float
+                            )
+                        )
+                    }
+                    duration = FINISH_ANIMATION_DURATION
+                    start()
+                }
+            }
+        }
+
+        if (AppearancePrefs.Theme.headerColor != Themes.AARDVARK_GREEN) {
+            ValueAnimator.ofFloat(0f, 1f).apply {
+                addUpdateListener { animator ->
+                    val color = AppearancePrefs.Theme.headerColor.blendWith(
+                        color = Themes.AARDVARK_GREEN,
+                        ratio = animator.animatedValue as Float
+                    )
+                    statusBarColor = color
+                    navigationBarColor = color
+                }
+                duration = FINISH_ANIMATION_DURATION
+                start()
+            }
+        }
+    }
+
+    private fun setupViewpager() = with(viewpager) {
+        adapter = IntroPageAdapter(fragments)
+
         setPageTransformer(true) { page, position ->
             var pageAlpha = 1f
             var pageTranslationX = 0f
@@ -129,99 +191,45 @@ class IntroActivity : BaseActivity() {
                 val hasNext = position != fragments.size - 1
                 if (barHasNext == hasNext) return
                 barHasNext = hasNext
-                next.fadeScaleTransition {
-                    setIcon(
-                        icon =
-                        if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
-                        else GoogleMaterial.Icon.gmd_done,
-                        color = Prefs.iconColor
-                    )
-                }
+                next.setIconWithOptions(
+                    icon =
+                    if (barHasNext) GoogleMaterial.Icon.gmd_navigate_next
+                    else GoogleMaterial.Icon.gmd_done,
+                    color = AppearancePrefs.Theme.iconColor
+                )
                 skip.animate().scaleXY(if (barHasNext) 1f else 0f)
             }
 
         })
     }
 
-    fun theme() {
-        statusBarColor = Prefs.headerColor
-        navigationBarColor = Prefs.headerColor
-        skip.setTextColor(Prefs.textColor)
-        next.imageTintList = ColorStateList.valueOf(Prefs.textColor)
-        with(indicator) {
-            setColour(Prefs.textColor)
-            invalidate()
-        }
-        fragments.forEach { fragment -> fragment.themeFragment() }
-    }
-
-    fun finish(x: Float, y: Float) {
-        val flagNotTouchable: Int = WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-        window.setFlags(flagNotTouchable, flagNotTouchable)
-
-        ripple.ripple(
-            color = Theme.AARDVARK_GREEN,
-            startX = x,
-            startY = y,
-            duration = 600,
-            callback = { postDelayed(delay = 1000) { finish() } }
-        )
-
-        @Suppress("RemoveExplicitTypeArguments")
-        arrayOf(
-            skip,
-            indicator,
-            next,
-            fragments.last().view?.find<View>(R.id.intro_title),
-            fragments.last().view?.find<View>(R.id.intro_desc)
-        ).forEach { view ->
-            view?.animate()
-                ?.alpha(0f)
-                ?.setDuration(600)
-                ?.start()
-        }
-
-        if (Prefs.textColor != Color.WHITE) {
-            val image = fragments.last().view?.find<ImageView>(R.id.intro_image)?.drawable
-            if (image != null) {
-                ValueAnimator.ofFloat(0f, 1f).apply {
-                    addUpdateListener { animator ->
-                        image.setTint(
-                            Prefs.textColor.blendWith(
-                                color = Color.WHITE,
-                                ratio = animator.animatedValue as Float
-                            )
-                        )
-                    }
-                    duration = 600
-                    start()
-                }
+    private fun setupBottomBar() {
+        indicator.setViewPager(viewpager)
+        with(next) {
+            setIcon(
+                icon = GoogleMaterial.Icon.gmd_navigate_next,
+                color = AppearancePrefs.Theme.iconColor
+            )
+            setOnClickListener {
+                if (barHasNext) viewpager.item = viewpager.currentItem + 1
+                else finish(x = next.x + next.pivotX, y = next.y + next.pivotY)
             }
         }
-
-        if (Prefs.headerColor != Theme.AARDVARK_GREEN) {
-            ValueAnimator.ofFloat(0f, 1f).apply {
-                addUpdateListener { animator ->
-                    val color = Prefs.headerColor.blendWith(
-                        color = Theme.AARDVARK_GREEN,
-                        ratio = animator.animatedValue as Float
-                    )
-                    statusBarColor = color
-                    navigationBarColor = color
-                }
-                duration = 600
-                start()
-            }
-        }
+        skip.setOnClickListener { finish() }
     }
 
-    class IntroPageAdapter(
-        fm: FragmentManager,
-        private val fragments: List<BaseIntroFragment>
-    ) : FragmentPagerAdapter(fm) {
+    private inner class IntroPageAdapter(
+        val fragments: List<BaseIntroFragment>
+    ) : FragmentPagerAdapter(supportFragmentManager) {
 
         override fun getItem(position: Int): Fragment = fragments[position]
 
         override fun getCount(): Int = fragments.size
+
     }
+
+    companion object {
+        const val FINISH_ANIMATION_DURATION: Long = 600L
+    }
+
 }

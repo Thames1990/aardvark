@@ -1,51 +1,43 @@
-sudo: false
-
 language: android
-jdk: oraclejdk8
-
+jdk:
+- oraclejdk8
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -rf $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-  - $HOME/.gradle/caches/
-  - $HOME/.gradle/wrapper/
-  - $HOME/.android/build-cache
-  - $HOME/.m2s
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.android/build-cache"
+  - "$HOME/.m2s"
 env:
   global:
   - ANDROID_API=27
   - ANDROID_BUILD_TOOLS=27.0.3
-
 android:
   components:
   - tools
-  - tools # Running this twice get's the latest build tools
   - platform-tools
-  - android-${ANDROID_API}
+  - tools
   - build-tools-${ANDROID_BUILD_TOOLS}
+  - android-${ANDROID_API}
   - extra-android-support
   - extra-android-m2repository
   - extra-google-m2repository
   - extra-google-google_play_services
   licenses:
   - ".+"
-
 before_install:
-  - yes | sdkmanager "platforms;android-${ANDROID_API}"
-  - openssl aes-256-cbc -K $encrypted_7b7d53b231fa_key -iv $encrypted_7b7d53b231fa_iv -in secrets.tar.enc -out secrets.tar -d
-  - tar xvf secrets.tar
-
+- openssl aes-256-cbc -K $encrypted_7b7d53b231fa_key -iv $encrypted_7b7d53b231fa_iv
+  -in secrets.tar.enc -out secrets.tar -d
+- yes | sdkmanager "platforms;android-${ANDROID_API}"
+- tar xvf secrets.tar
 script:
-  - chmod +x gradlew
-  - ./gradlew --quiet androidGitVersion
-  - ./gradlew clean build connectedCheck -PdisablePreDex --stacktrace
-
+- chmod +x gradlew
+- "./gradlew --quiet androidGitVersion"
+- "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"
 before_deploy:
-  - cd app/build/outputs/apk/
-
+- cd app/build/outputs/apk/
 deploy:
   provider: releases
   file: aardvark-$(echo ${TRAVIS_TAG//[!0-9.-]/})-release.apk
@@ -54,4 +46,4 @@ deploy:
     repo: Thames1990/aardvark
     tags: true
   api_key:
-    - secure: J0UoSeWSB7ALIpmaF9N7z9SsosjKGrT+fEQOSBR48HRHGwoSTQE1dfKqqt8SnQDJxyT+fkksxMCQAs8spbBNk961oQe6ddpMG0GxrsYjDXIxEPHWY8dgQRviBEeLric90eVwhSGSUUSx1Vk0Ey48bRe+eH2OghvWV/Ic+Kyc96aeZIGjEO22g5tLVLH+zAZxM7v0lvCGZ0SFhxvqdgnhEc4+4vwn9zjxcSuLpXHVhyrVkcOOhuJWi9ezwftMdpBeWpPckbW26Usyc7TTAl6Xltq4Q9VfOGMe+nkNgD0rQcbemYAc4+cedEUhzKgu9dBbYwuWdX/ypcIfIvwjkPQnxmKNrgywqjVKo4bduQ65u9Q4Y9/eIz4aESK0G/Y4+4R/nxWE8HB01qEfTRWKDB5KFTV4HwWggIiOdcbhwEp/Q+IrG3FhsJH7HcAud6Q0186yuYsIZVdX6X/SlkYl4tepOF1YrfomitpUAHuW8QtuIxI7scveUJZuNn+ls8m/7X6tVo/KHdm5VUHD00YrCItLIl6+UOi1bvn27Ow+XvwXOUhbAFrfF+2uSlVUNWsy+uFbBzSuZGI+tWwUMfxUp4y7rxGiqr54PBRbB/NkOXBEL8XaEgsUAspaCvfMShimRTqAElIhcQ1lldkTq9yP5YDrycHZbsueql11+h0H36blXTA=
+  - secure: J0UoSeWSB7ALIpmaF9N7z9SsosjKGrT+fEQOSBR48HRHGwoSTQE1dfKqqt8SnQDJxyT+fkksxMCQAs8spbBNk961oQe6ddpMG0GxrsYjDXIxEPHWY8dgQRviBEeLric90eVwhSGSUUSx1Vk0Ey48bRe+eH2OghvWV/Ic+Kyc96aeZIGjEO22g5tLVLH+zAZxM7v0lvCGZ0SFhxvqdgnhEc4+4vwn9zjxcSuLpXHVhyrVkcOOhuJWi9ezwftMdpBeWpPckbW26Usyc7TTAl6Xltq4Q9VfOGMe+nkNgD0rQcbemYAc4+cedEUhzKgu9dBbYwuWdX/ypcIfIvwjkPQnxmKNrgywqjVKo4bduQ65u9Q4Y9/eIz4aESK0G/Y4+4R/nxWE8HB01qEfTRWKDB5KFTV4HwWggIiOdcbhwEp/Q+IrG3FhsJH7HcAud6Q0186yuYsIZVdX6X/SlkYl4tepOF1YrfomitpUAHuW8QtuIxI7scveUJZuNn+ls8m/7X6tVo/KHdm5VUHD00YrCItLIl6+UOi1bvn27Ow+XvwXOUhbAFrfF+2uSlVUNWsy+uFbBzSuZGI+tWwUMfxUp4y7rxGiqr54PBRbB/NkOXBEL8XaEgsUAspaCvfMShimRTqAElIhcQ1lldkTq9yP5YDrycHZbsueql11+h0H36blXTA=

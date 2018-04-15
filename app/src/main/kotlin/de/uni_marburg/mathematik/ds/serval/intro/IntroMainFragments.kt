@@ -10,13 +10,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.kotlin.LazyResettableRegistry
-import ca.allanwang.kau.permissions.PERMISSION_ACCESS_FINE_LOCATION
+import ca.allanwang.kau.permissions.PERMISSION_WRITE_EXTERNAL_STORAGE
 import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
+import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
-import de.uni_marburg.mathematik.ds.serval.utils.*
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.utils.hasWriteExternalStoragePermission
+import de.uni_marburg.mathematik.ds.serval.utils.isDebugBuild
+import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import org.jetbrains.anko.childrenSequence
+import org.jetbrains.anko.displayMetrics
 import kotlin.math.absoluteValue
 
 abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
@@ -72,13 +77,12 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
     )
 
     protected open fun themeFragmentImpl() = view?.childrenSequence()?.forEach { view ->
-        (view as? TextView)?.setTextColor(Prefs.textColor)
+        (view as? TextView)?.setTextColor(AppearancePrefs.Theme.textColor)
     }
 
     protected abstract fun viewArray(): Array<Array<out View>>
 
     fun <T : Any> lazyResettableRegistered(initializer: () -> T) = lazyRegistry.lazy(initializer)
-
 
     fun themeFragment() {
         if (view != null) themeFragmentImpl()
@@ -88,8 +92,9 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
         if (view != null) onPageScrolledImpl(positionOffset)
     }
 
-    protected open fun onPageScrolledImpl(positionOffset: Float) =
-        translate(positionOffset, viewArray)
+    protected open fun onPageScrolledImpl(
+        positionOffset: Float
+    ) = translate(positionOffset, viewArray)
 
     fun onPageSelected() {
         if (view != null) onPageSelectedImpl()
@@ -97,50 +102,61 @@ abstract class BaseIntroFragment(private val layoutRes: Int) : Fragment() {
 
     protected open fun onPageSelectedImpl() = Unit
 
-    class IntroFragmentWelcome : BaseIntroFragment(R.layout.intro_welcome) {
+}
 
-        override fun viewArray(): Array<Array<out View>> = defaultViewArray()
+class IntroFragmentWelcome : BaseIntroFragment(R.layout.intro_welcome) {
 
-        override fun themeFragmentImpl() {
-            super.themeFragmentImpl()
-            image.imageTintList = ColorStateList.valueOf(Prefs.textColor)
-        }
+    override fun viewArray(): Array<Array<out View>> = defaultViewArray()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        image.setIcon(
+            icon = CommunityMaterial.Icon.cmd_gesture_swipe_right,
+            sizeDp = requireActivity().displayMetrics.densityDpi,
+            color = AppearancePrefs.Theme.textColor
+        )
+    }
+}
+
+class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
+
+    override fun viewArray(): Array<Array<out View>> = defaultViewArray()
+
+    private val container: ConstraintLayout by bindViewResettable(R.id.intro_end_container)
+    private val description: TextView by bindViewResettable(R.id.intro_desc)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupDescription()
+        setupPermissionRequests()
     }
 
-    class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
+    override fun themeFragmentImpl() {
+        super.themeFragmentImpl()
+        image.imageTintList = ColorStateList.valueOf(AppearancePrefs.Theme.textColor)
+    }
 
-        val container: ConstraintLayout by bindViewResettable(R.id.intro_end_container)
-        val description: TextView by bindView(R.id.intro_desc)
+    private fun setupDescription() = with(requireContext()) {
+        description.text = string(
+            if (isDebugBuild && !hasWriteExternalStoragePermission) {
+                R.string.intro_tap_to_grant_write_external_storage_permission
+            } else R.string.intro_tap_to_exit
+        )
+    }
 
-        override fun viewArray(): Array<Array<out View>> = defaultViewArray()
+    private fun setupPermissionRequests() = with(container) {
+        setOnSingleTapListener { _, event ->
+            val introActivity: IntroActivity = requireActivity() as IntroActivity
 
-        override fun themeFragmentImpl() {
-            super.themeFragmentImpl()
-            image.imageTintList = ColorStateList.valueOf(Prefs.textColor)
-        }
-
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-
-            with(currentContext) {
-                description.text =
-                        if (hasLocationPermission) string(R.string.intro_tap_to_exit)
-                        else string(R.string.grant_location_permission)
-            }
-
-            container.setOnSingleTapListener { _, motionEvent ->
-                with(currentActivity) {
-                    if (hasLocationPermission) {
-                        val introActivity = this as IntroActivity
-                        introActivity.finish(x = motionEvent.x, y = motionEvent.y)
-                    } else {
-                        kauRequestPermissions(PERMISSION_ACCESS_FINE_LOCATION) { granted, _ ->
-                            if (!granted) snackbarThemed(string(R.string.preference_requires_location_permission))
-                            else description.setTextWithFade(R.string.intro_tap_to_exit)
-                        }
+            if (isDebugBuild && !context.hasWriteExternalStoragePermission) {
+                context.kauRequestPermissions(
+                    permissions = *arrayOf(PERMISSION_WRITE_EXTERNAL_STORAGE),
+                    callback = { granted, _ ->
+                        if (granted) description.setTextWithOptions(R.string.intro_tap_to_exit)
                     }
-                }
-            }
+                )
+            } else introActivity.finish(x = event.x, y = event.y)
         }
     }
+
 }

@@ -1,5 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <version title="0.8.13" />
+    <item text="Fix possibility of granting permission to read phone state or external storage. This bug was introduced by Google and has been resolved." />
+    <item text="Minor text fixes" />
+
+    <version title="0.8.12" />
+    <item text="Add custom cluster and cluster item icons" />
+    <item text="Add floating action button tooltip on devices running Android Oreo and above" />
+    <item text="Add option to toggle exact cluster event count" />
+    <item text="Add event settings. You are now able to chose your desired measurement units." />
+    <item text="Add notifications about event reload on event count change and finished load" />
+    <item text="Events will be loaded in the intro, therefore you are able to view events once you finished the intro." />
+    <item text="Change toolbar title based on the current view" />
+    <item text="Update icons" />
+    <item text="Improve (optional) location tracking" />
+    <item text="Zoom in on clicking my location button" />
+    <item text="Detail view is now full screen" />
+    <item text="Style map in details view according to user settings" />
+    <item text="Style details view according to user settings" />
+    <item text="Remove map camera bounds targets. You are now able to freely explore the whole map." />
+    <item text="Location permission is now optional. You can enjoy Aardvark without exposing you location. To enable extended functionality, such as viewing your current location and seeing the distance to events, please grant the location permission either via location settings or by pressing the floating action button in the map view. Don't worry about your privacy, your location is never shared or saved somewhere." />
+    <item text="Update dependencies" />
+    <item text="Disable automatic zoom to all markers when rotating your screen in map view" />
+    <item text="Replace most snackbars with toast. Android 8.1 emphasizes the intent of toasts over snackbars without custom actions." />
+    <item text="Fix floating action button visibility in certain tab switching scenarios" />
+    <item text="Fix replaying the intro" />
+    <item text="Fix intro bar position selection" />
+    <item text="Fix viewpager cutoff in main view" />
+    <item text="Fix UNIX time conversion. Dates and time should be correctly displayed until 03:14:07 UTC on 19 January 2038." />
+    <item text="Minor bugfixes and performance improvements" />
+
+    <version title="0.8.11" />
+    <item text="Add map settings" />
+    <item text="Fix event detail initialization" />
+    <item text="Fix issues with cutoff view pager when using the bottom layout" />
+    <item text="Fix security issues for WiFI-ADB (experimental)" />
+
+    <version title="0.8.10" />
+    <item text="Minor bug fixes" />
+
+    <version title="0.8.9" />
+    <item text="Improve tab reselection. Each tabs has its own action. The event tab reloads events and the map tab moves the camera to include all event markers." />
+    <item text="Minor fixes and performance improvements" />
+
+    <version title="0.8.8" />
+    <item text="Add reload animation on tab reselect" />
+    <item text="Add tooltip to floating action buttons" />
+    <item text="Add setting to change date/time format" />
+    <item text="Add custom my location button to map" />
+    <item text="Improve animations" />
+    <item text="Improve map icons" />
+    <item text="Remove obsolete map types" />
+    <item text="Fix action bar popup theme" />
+    <item text="Fix out of sync events for map. This fixes the empty map on first start." />
+
+    <version title="0.8.7" />
+    <item text="Add visual loading indicator when sorting events" />
+    <item text="Improve performance" />
+    <item text="Improve location tracking" />
+    <item text="Improve animations" />
+    <item text="Improve settings arrangement and design" />
+    <item text="Improve location permission management" />
+    <item text="Improve fingerprint authentication UI (experimental)" />
+    <item text="Fix measurement units" />
+
     <version title="0.8.6" />
     <item text="Add fab to move to top of events list" />
     <item text="Add activity recognition" />

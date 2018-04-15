@@ -16,6 +16,7 @@ android {
 
     def properties = file("../gradle.properties")
     def hasProperties = properties.exists()
+    if (!hasProperties) throw new InvalidUserDataException("Gradle property file is not configured")
 
     defaultConfig {
         applicationId 'de.uni_marburg.mathematik.ds.serval'
@@ -27,37 +28,31 @@ android {
         setProperty('archivesBaseName', "aardvark-$versionName")
         multiDexEnabled true
 
-        if (hasProperties) {
-            manifestPlaceholders = [KEY_FABRIC: KEY_FABRIC, KEY_GOOGLE_MAPS: KEY_GOOGLE_MAPS]
-        } else {
-            throw new InvalidUserDataException("Define Fabric and Google Maps keys")
-        }
+        buildConfigField "String", "KERVAL_VERSION", "\"$versions.kerval\""
+        buildConfigField "String", "SERVAL_USER", SERVAL_USER
+        buildConfigField "String", "SERVAL_PASSWORD", SERVAL_PASSWORD
+        buildConfigField "String", "SERVAL_BASE_URL", SERVAL_BASE_URL
+        buildConfigField "Integer", "SERVAL_PORT", SERVAL_PORT
+
+        manifestPlaceholders = [KEY_FABRIC: KEY_FABRIC, KEY_GOOGLE_MAPS: KEY_GOOGLE_MAPS]
     }
 
     signingConfigs {
-        if (hasProperties) {
-            release {
-                storeFile = file(STORE_FILE)
-                storePassword = STORE_PASSWORD
-                keyAlias = KEY_ALIAS
-                keyPassword = KEY_PASSWORD
-            }
-        } else {
-            throw new InvalidUserDataException("Define release signing secrets")
+        release {
+            storeFile = file(STORE_FILE)
+            storePassword = STORE_PASSWORD
+            keyAlias = KEY_ALIAS
+            keyPassword = KEY_PASSWORD
         }
     }
 
     buildTypes {
-        buildTypes.each {
-            it.buildConfigField "String", "KERVAL_VERSION", "\"$versions.kerval\""
-        }
-
         debug {
             ext.enableCrashlytics = false
         }
         release {
             minifyEnabled false
-            if (hasProperties) signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
     }
 
@@ -67,19 +62,16 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     // App Toolkit
-    implementation files("libs/kerval-${versions.kerval}.jar")
     implementation(deps.crashlytics) { transitive = true }
     implementation deps.google_maps_clustering
     implementation(deps.moshi) { exclude group: 'com.squareup.okio', module: 'okio' }
     implementation deps.reprint
-    implementation(deps.smartlocation) { transitive = false }
     // Architecture Components
     implementation deps.lifecycle.extensions
     implementation deps.room.runtime
@@ -92,6 +84,15 @@ dependencies {
     // Google Play Services
     implementation deps.google_play_services.location
     implementation deps.google_play_services.maps
+    // Hyperion
+    debugImplementation deps.hyperion.core
+    debugImplementation deps.hyperion.attr
+    debugImplementation deps.hyperion.measurement
+    debugImplementation deps.hyperion.disk
+    debugImplementation deps.hyperion.recorder
+    debugImplementation deps.hyperion.phoenix
+    debugImplementation deps.hyperion.crash
+    debugImplementation deps.hyperion.shared_preferences
     // Ioconics
     implementation deps.ioconics.community_material_typeface
     implementation deps.ioconics.weather_icons_typeface
@@ -101,8 +102,16 @@ dependencies {
     // Kotlin
     implementation deps.kotlin.stdlib
     // LeakCanary
-    debugImplementation deps.leak_canary
-    releaseImplementation deps.leak_canary_release
+    debugImplementation deps.leak_canary.core
+    releaseImplementation deps.leak_canary.release
+    // Support Library
+    implementation deps.support_library.appcompat
+    implementation deps.support_library.cardview
+    implementation deps.support_library.constraintLayout
+    implementation deps.support_library.design
+    implementation deps.support_library.recyclerview
+    implementation deps.support_library.support
+    implementation deps.support_library.support_annotations
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -7,8 +7,6 @@
     <string name="aardvark_name" translatable="false">Aardvark</string>
 
     <string name="action_map_type">Map type</string>
-    <string name="action_map_type_hybrid">Hybrid</string>
-    <string name="action_map_type_none">None</string>
     <string name="action_map_type_normal">Normal</string>
     <string name="action_map_type_satellite">Satellite</string>
     <string name="action_map_type_terrain">Terrain</string>
@@ -18,25 +16,23 @@
     <string name="action_sort_events_distance">Distance</string>
     <string name="action_sort_events_measurements">Measurements</string>
     <string name="action_sort_events_time">Time</string>
-    <string name="action_zoom_to_all_markers">Zoom to all markers</string>
 
-    <string name="activity_desc">You are %1$s</string>
-    <string name="activity_in_vehicle">in a vehicle</string>
-    <string name="activity_on_bicycle">on a bicycle</string>
-    <string name="activity_on_foot">on foot</string>
-    <string name="activity_running">running</string>
-    <string name="activity_still">standing still</string>
-    <string name="activity_tilting">tilting</string>
-    <string name="activity_unknown">… WTF are you doing?</string>
-    <string name="activity_walking">walking</string>
-
-    <string name="color_accent">Accent color</string>
-    <string name="color_background">Background color</string>
-    <string name="color_header">Header color</string>
-    <string name="color_icon">Icon color</string>
-    <string name="color_text">Text color</string>
-
-    <string name="details">Details</string>
+    <string name="date_full_time_full">Full date\nFull time</string>
+    <string name="date_full_time_long">Full date\nLong time</string>
+    <string name="date_full_time_medium">Full date\nMedium time</string>
+    <string name="date_full_time_short">Full date\nShort time</string>
+    <string name="date_long_time_full">Long date\nFull time</string>
+    <string name="date_long_time_long">Long date\nLong time</string>
+    <string name="date_long_time_medium">Long date\nMedium time</string>
+    <string name="date_long_time_short">Long date\nShort time</string>
+    <string name="date_medium_time_full">Medium date\nFull time</string>
+    <string name="date_medium_time_long">Medium date\nLong time</string>
+    <string name="date_medium_time_medium">Medium date\nMedium time</string>
+    <string name="date_medium_time_short">Medium date\nShort time</string>
+    <string name="date_short_time_full">Short date\nFull time</string>
+    <string name="date_short_time_long">Short date\nLong time</string>
+    <string name="date_short_time_medium">Short date\nMedium time</string>
+    <string name="date_short_time_short">Short date\nShort time</string>
 
     <string name="developer_email_aardvark" translatable="false">ThomasMohr1990@gmail.com</string>
     <string name="developer_name_aardvark" translatable="false">Thomas Mohr</string>
@@ -53,16 +49,13 @@
     <string name="distance_in_kilometer" translatable="false">%1$.2f km</string>
     <string name="distance_in_meter" translatable="false">%1$.0f m</string>
 
-    <string name="email_subject">Subject</string>
-
-    <string name="event_missing">Event is missing</string>
-    <string name="event_missing_desc">This event couldn\'t be loaded from the database. If this happens more than once, please contact the developer with a bug report.</string>
-
-    <string name="faq_title">Frequently asked questions</string>
-
-    <string name="feature_request">Feature Request</string>
-
-    <string name="feedback">Feedback</string>
+    <string name="event_details">Details</string>
+    <plurals name="event_fetch_count">
+        <item quantity="one">Loaded %1$d event</item>
+        <item quantity="other">Loaded %1$d events</item>
+    </plurals>
+    <string name="event_id">ID</string>
+    <string name="event_time">Time</string>
 
     <string name="fingerprint_required">Access your secured environment</string>
     <string name="fingerprint_required_desc">Place your finger on the reader</string>
@@ -73,51 +66,43 @@
     <string name="grant_location_permission">Tap anywhere to grant location permission</string>
     <string name="grant_location_permission_settings">Grant location permission to use and customize location features</string>
 
-    <string name="intent_uri_show_in_google_maps" translatable="false">geo:%1$s,%2$s?q=%1$s,%2$s(%3$s)</string>
-
     <string name="intro_easy_navigation">Easy Navigation</string>
-    <string name="intro_easy_navigation_desc">Click tabs to navigate, click them again to reload events.</string>
+    <string name="intro_easy_navigation_desc">Click tabs to navigate, click them again to trigger custom actions.</string>
     <string name="intro_end">Let\'s begin</string>
     <string name="intro_select_theme">Select a theme</string>
     <string name="intro_skip">Skip</string>
-    <string name="intro_slide_to_continue">Slide to continue</string>
+    <string name="intro_slide_to_continue">Swipe right to continue</string>
     <string name="intro_tap_to_exit">Tap anywhere to exit the intro</string>
+    <string name="intro_tap_to_grant_access_fine_location_permission">Tap to grant location permission</string>
+    <string name="intro_tap_to_grant_all_permissions">Tap to grant required permissions</string>
+    <string name="intro_tap_to_grant_write_external_storage_permission">Tap to grant storage permission</string>
     <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
 
     <string name="kerval_desc">Kotlin client for serval-dna REST-interface</string>
     <string name="kerval_name" translatable="false">Kerval</string>
-    <string name="kerval_password">Password</string>
-    <string name="kerval_password_must_not_be_empty">You need to enter a password</string>
-    <string name="kerval_username">Username</string>
-    <string name="kerval_username_must_not_be_empty">You need to enter a username</string>
 
+    <string name="license_mit">MIT License</string>
     <string name="license_website_aardvark" translatable="false">https://github.com/Thames1990/aardvark/blob/master/LICENSE</string>
     <string name="license_website_kerval" translatable="false">https://github.com/CryptoCopter/kerval/blob/master/LICENSE</string>
 
     <string name="location">Location</string>
     <string name="location_address">Address</string>
     <string name="location_desc">Control your location settings</string>
-    <string name="location_request_fastest_interval">Passive location request interval</string>
-    <string name="location_request_fastest_interval_desc">Define the interval in minutes between passive location updates. This determines how often other apps can inform Aardvark of your current location.</string>
-    <string name="location_request_interval">Active location request interval</string>
-    <string name="location_request_interval_desc">Define the interval in minutes between active location updates. This determines how often Aardvark can request your current location.</string>
-    <string name="location_request_priority">Location request priority</string>
-    <string name="location_request_priority_accurate">Accurate</string>
-    <string name="location_request_priority_accurate_desc">Use this setting to request the most precise location possible. With this setting, the location services are more likely to use GPS to determine the location.</string>
-    <string name="location_request_priority_block_accuracy">Block accuracy</string>
-    <string name="location_request_priority_block_accuracy_desc">Use this setting to request location precision to within a city block, which is an accuracy of approximately 100 meters. This is considered a coarse level of accuracy, and is likely to consume less power. With this setting, the location services are likely to use WiFi and cell tower positioning. Note, however, that the choice of location provider depends on many other factors, such as which sources are available.</string>
-    <string name="location_request_priority_city_accuracy">City accuracy</string>
-    <string name="location_request_priority_city_accuracy_desc">Use this setting to request city-level precision, which is an accuracy of approximately 10 kilometers. This is considered a coarse level of accuracy, and is likely to consume less power.</string>
-    <string name="location_request_priority_passive">Passive</string>
-    <string name="location_request_priority_passive_desc">Use this setting if you need negligible impact on power consumption, but want to receive location updates when available. With this setting, your app does not trigger any location updates, but receives locations triggered by other apps.</string>
+    <string name="location_request_priority_balanced_power_accuracy">Block level accuracy</string>
+    <string name="location_request_priority_balanced_power_accuracy_desc">Block level accuracy is considered to be about 100 meter accuracy. Using a coarse accuracy such as this often consumes less power.</string>
+    <string name="location_request_priority_high_accuracy">High accuracy</string>
+    <string name="location_request_priority_high_accuracy_desc">Return the finest location available</string>
+    <string name="location_request_priority_low_power">City level accuracy</string>
+    <string name="location_request_priority_low_power_desc">City level accuracy is considered to be about 10km accuracy. Using a coarse accuracy such as this often consumes less power.</string>
+    <string name="location_request_priority_no_power">None</string>
+    <string name="location_request_priority_no_power_desc">No locations will be returned unless a different client has requested location updates in which case this request will act as a passive listener to those locations.</string>
 
-    <string name="maps_style">Maps style</string>
-    <string name="maps_style_aubergine">Aubergine</string>
-    <string name="maps_style_dark">Dark</string>
-    <string name="maps_style_night">Night</string>
-    <string name="maps_style_retro">Retro</string>
-    <string name="maps_style_silver">Silver</string>
-    <string name="maps_style_standard">Standard</string>
+    <string name="map_style_aubergine">Aubergine</string>
+    <string name="map_style_dark">Dark</string>
+    <string name="map_style_night">Night</string>
+    <string name="map_style_retro">Retro</string>
+    <string name="map_style_silver">Silver</string>
+    <string name="map_style_standard">Standard</string>
 
     <plurals name="measurement">
         <item quantity="one">%1$d measurement</item>
@@ -126,90 +111,176 @@
     <string name="measurement_precipitation">Precipitation</string>
     <string name="measurement_radiation">Radiation</string>
     <string name="measurement_temperature">Temperature</string>
-    <string name="measurement_value_precipitation" translatable="false">%1$d mm</string>
-    <string name="measurement_value_radiation" translatable="false">%1$d μSv/h</string>
-    <string name="measurement_value_temperature" translatable="false">%1$d °C</string>
-    <string name="measurement_value_wind" translatable="false">%1$d km/h</string>
     <string name="measurement_wind">Wind</string>
-
-    <string name="mit_license">MIT License</string>
 
     <string name="network_disconnected">No network connectivity</string>
 
-    <string name="placeholder_desc">The developer was too lazy to include a layout!</string>
+    <string name="placeholder_desc">The developer was too lazy to include a layout</string>
     <string name="placeholder_title">DAMN</string>
 
-    <string name="preference_analytics">Use analytics</string>
-    <string name="preference_analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
-    <string name="preference_animations">Animations</string>
-    <string name="preference_animations_desc">Use ripples and animate transitions</string>
+    <string name="precipitation_unit_inches">Inches</string>
+    <string name="precipitation_unit_inches_unit">in</string>
+    <string name="precipitation_unit_millimeter">Millimeter</string>
+    <string name="precipitation_unit_millimeter_unit">mm</string>
+
     <string name="preference_appearance">Appearance</string>
+    <string name="preference_appearance_color_accent">Accent color</string>
+    <string name="preference_appearance_color_background">Background color</string>
+    <string name="preference_appearance_color_header">Header color</string>
+    <string name="preference_appearance_color_icon">Icon color</string>
+    <string name="preference_appearance_color_text">Text color</string>
+    <string name="preference_appearance_date_time_format">Date/Time format</string>
     <string name="preference_appearance_desc">Theme, Items to display, etc</string>
+    <string name="preference_appearance_global_header">Global Customization</string>
+    <string name="preference_appearance_main_activity_layout">Main Activity Layout</string>
+    <string name="preference_appearance_theme">Theme</string>
+    <string name="preference_appearance_theme_header">Theme Customization</string>
+    <string name="preference_appearance_tint_navbar">Tint navigation bar</string>
+    <string name="preference_appearance_tint_navbar_desc">Navigation bar will be the same color as the header</string>
     <string name="preference_bar_bottom">Bottom bar</string>
     <string name="preference_bar_top">Top bar</string>
     <string name="preference_behaviour">Behaviour</string>
+    <string name="preference_behaviour_analytics">Analytics</string>
+    <string name="preference_behaviour_analytics_desc">Enable anonymous analytics to help improve the app. No personal information is ever exposed.</string>
+    <string name="preference_behaviour_animations">Fancy Animations</string>
+    <string name="preference_behaviour_animations_desc">Use ripples and animate transitions</string>
+    <string name="preference_behaviour_changelog_desc">Show changelog after updates</string>
+    <string name="preference_behaviour_confirm_exit">Confirm exit</string>
     <string name="preference_behaviour_desc">Define how the app interacts in certain settings</string>
-    <string name="preference_changelog_desc">Show changelogs after updates</string>
-    <string name="preference_confirm_exit">Confirm exit</string>
-    <string name="preference_debug">Debug</string>
-    <string name="preference_debug_desc">Useful features for developers</string>
-    <string name="preference_debug_disclaimer_info">Please only use these settings if you are absolutely sure, what you are doing!</string>
-    <string name="preference_debug_enabled">Debug settings activated</string>
-    <string name="preference_enable_wifi_adb">Enable WiFi ADB</string>
-    <string name="preference_enable_wifi_adb_hint">You need to enable WifiADB</string>
-    <string name="preference_event_count">Event count</string>
-    <string name="preference_event_count_desc">Define how many events should be loaded</string>
+    <string name="preference_behaviour_reset_analytics">Reset analytics</string>
+    <string name="preference_behaviour_reset_analytics_confirmation">Your analytics collection was removed</string>
+    <string name="preference_behaviour_reset_analytics_desc">Do you want to delete all collected analytics data?</string>
+    <string name="preference_confirm_exit_desc">Show confirmation dialog before exiting the app</string>
+    <string name="preference_event">Event</string>
+    <string name="preference_event_desc">Define how certain properties of events are displayed</string>
+    <string name="preference_event_precipitation_unit">Precipitation Unit</string>
+    <string name="preference_event_radiation_unit">Radiation Unit</string>
+    <string name="preference_event_temperature_unit">Temperature Unit</string>
+    <string name="preference_event_wind_unit">Wind Unit</string>
     <string name="preference_experimental">Experimental</string>
-    <string name="preference_global_customization">Global Customization</string>
-    <string name="preference_main_activity_layout">Main Activity Layout</string>
-    <string name="preference_paging">Paging</string>
-    <string name="preference_paging_desc">Enable scrolling between pages</string>
-    <string name="preference_password_desc">Serval API password</string>
-    <string name="preference_progress_bar">Download progress</string>
-    <string name="preference_progress_bar_desc">Show event download progress in toolbar</string>
+    <string name="preference_experimental_already_enabled">Experimental section is already enabled</string>
+    <string name="preference_experimental_desc">Enable early access to potentially unstable features</string>
+    <string name="preference_experimental_disclaimer">Disclaimer</string>
+    <string name="preference_experimental_disclaimer_desc">Experimental features may be unstable and may never make it to production. Use at your own risk, send feedback, and feel free to disable them if they don\'t work well.</string>
+    <string name="preference_experimental_enable_wifi_adb">Enable WiFi ADB</string>
+    <string name="preference_experimental_enabled">Experimental section is enabled! Go back to settings.</string>
+    <string name="preference_experimental_miscellaneous_header">Miscellaneous</string>
+    <string name="preference_experimental_paging">Viewpager Swipe</string>
+    <string name="preference_experimental_paging_desc">Allow swiping between the pages in the main view to switch tabs. Disabling this will prevent page swiping altogether.</string>
+    <string name="preference_experimental_requires_secure_privacy">Requires secure privacy</string>
+    <string name="preference_experimental_requires_wifi_adb">You need to enable WifiADB</string>
+    <string name="preference_experimental_secure_app">Fingerprint authentication</string>
+    <string name="preference_experimental_secure_app_desc">Prohibit screenshots, interception of screen status and require fingerprint authentication</string>
+    <string name="preference_experimental_security_header">Security</string>
+    <string name="preference_experimental_share_adb_command_desc">Use this command on your computer</string>
+    <string name="preference_experimental_share_wifi_adb_command">Share ADB command</string>
+    <string name="preference_experimental_vibration">Vibrations</string>
+    <string name="preference_experimental_vibration_desc">Vibrate on failed fingerprint unlock</string>
+    <string name="preference_experimental_wifi_adb">WiFi ADB</string>
+    <string name="preference_experimental_wifi_adb_activate" translatable="false">setprop service.adb.tcp.port 5555</string>
+    <string name="preference_experimental_wifi_adb_deactivate" translatable="false">setprop service.adb.tcp.port -1</string>
+    <string name="preference_experimental_wifi_adb_start" translatable="false">start adbd</string>
+    <string name="preference_experimental_wifi_adb_stop" translatable="false">stop adbd</string>
+    <string name="preference_location_request_fastest_interval">Fastest interval</string>
+    <string name="preference_location_request_fastest_interval_desc">Set the fastest rate in seconds at which location updates are handled.</string>
+    <string name="preference_location_request_interval">Location request interval</string>
+    <string name="preference_location_request_interval_desc">Set the rate in milliseconds at which your app prefers to receive location updates.</string>
+    <string name="preference_location_request_priority">Location request priority</string>
+    <string name="preference_location_requires_location_permission">Requires location permission</string>
+    <string name="preference_map">Map</string>
+    <string name="preference_map_desc">Customize Google Map</string>
+    <string name="preference_map_is_buildings_enabled">Buildings</string>
+    <string name="preference_map_is_buildings_enabled_desc">Determines whether the 3D buildings layer is enabled</string>
+    <string name="preference_map_is_compass_enabled">Compass</string>
+    <string name="preference_map_is_compass_enabled_desc">Show compass</string>
+    <string name="preference_map_is_indoor_enabled">Indoor</string>
+    <string name="preference_map_is_indoor_enabled_desc">Determines whether indoor maps are enabled</string>
+    <string name="preference_map_is_indoor_level_picker_enabled">Indoor level picker</string>
+    <string name="preference_map_is_indoor_level_picker_enabled_desc">Show indoor level picker</string>
+    <string name="preference_map_is_my_location_button_enabled">My location button</string>
+    <string name="preference_map_is_my_location_button_enabled_desc">Show my location button</string>
+    <string name="preference_map_is_rotate_gestures_enabled">Rotate gestures</string>
+    <string name="preference_map_is_rotate_gestures_enabled_desc">Enable rotate gestures</string>
+    <string name="preference_map_is_scroll_gestures_enabled">Scroll gestures</string>
+    <string name="preference_map_is_scroll_gestures_enabled_desc">Enable scroll gestures</string>
+    <string name="preference_map_is_tilt_gestures_enabled">Tilt gestures</string>
+    <string name="preference_map_is_tilt_gestures_enabled_desc">Enable tilt gestures</string>
+    <string name="preference_map_is_traffic_enabled">Traffic</string>
+    <string name="preference_map_is_traffic_enabled_desc">Determines whether the map is drawing traffic data</string>
+    <string name="preference_map_is_zoom_gestures_enabled">Zoom gestures</string>
+    <string name="preference_map_is_zoom_gestures_enabled_desc">Enable zoom gestures</string>
+    <string name="preference_map_layers_header">Map layers</string>
+    <string name="preference_map_show_exact_cluster_size">Exact cluster size</string>
+    <string name="preference_map_show_exact_cluster_size_desc">Show exact size of events in cluster. Otherwise ranges (e.g. 50+) are shown.</string>
+    <string name="preference_map_style">Map style</string>
+    <string name="preference_map_ui_header">UI</string>
+    <string name="preference_map_ux_header">UX</string>
+    <string name="preference_reload">Reload settings</string>
     <string name="preference_replay_intro">Replay Introduction</string>
     <string name="preference_report_bug">Report bug</string>
     <string name="preference_requires_custom_theme">Requires custom theme</string>
-    <string name="preference_requires_location_permission">Requires location permission</string>
-    <string name="preference_reset_analytics">Reset analytics</string>
-    <string name="preference_reset_analytics_confirmation">Your analytics collection was removed</string>
-    <string name="preference_reset_analytics_desc">Do you want to delete all collected analytics data?</string>
-    <string name="preference_secure_app">Secure privacy</string>
-    <string name="preference_secure_app_desc">Prohibit screenshots, interception of screen status and require fingerprint authentication</string>
     <string name="preference_send_feedback">Send feedback</string>
     <string name="preference_send_feedback_desc">Got any queries? We are happy to help!</string>
     <string name="preference_serval" translatable="false">Serval</string>
     <string name="preference_serval_desc">Serval login information</string>
-    <string name="preference_set_main_activity_layout">Set Main Activity Layout</string>
-    <string name="preference_share_adb_command_desc">Use this command on your computer</string>
-    <string name="preference_share_wifi_adb_command">Share ADB command</string>
-    <string name="preference_theme">Theme</string>
-    <string name="preference_tint_nav">Tint nav bar</string>
-    <string name="preference_tint_nav_desc">Navigation bar will be the same color as the header</string>
-    <string name="preference_username_desc">Serval API username</string>
-    <string name="preference_vibration">Use vibrations</string>
-    <string name="preference_vibration_desc">Vibrate on failed fingerprint unlock</string>
+    <string name="preference_serval_event_count">Event count</string>
+    <string name="preference_serval_event_count_desc">Define how many events should be loaded</string>
+    <string name="preference_serval_event_reload_toast_message">Events will be reloaded</string>
+    <string name="preference_serval_password">Password</string>
+    <string name="preference_serval_password_desc">Serval API password</string>
+    <string name="preference_serval_username">Username</string>
+    <string name="preference_serval_username_desc">Serval API username</string>
+
+    <string name="radiation_unit_banana_equivalent_dose">Banana equivalent dose</string>
+    <string name="radiation_unit_banana_equivalent_dose_unit">BED</string>
+    <string name="radiation_unit_microsievert">Microsievert</string>
+    <string name="radiation_unit_microsievert_unit">µSv</string>
+    <string name="radiation_unit_millirem">Millirem</string>
+    <string name="radiation_unit_millirem_unit">mrem</string>
+    <string name="radiation_unit_millisievert">Millisievert</string>
+    <string name="radiation_unit_millisievert_unit">mSv</string>
+    <string name="radiation_unit_rem">Rem</string>
+    <string name="radiation_unit_rem_unit">rem</string>
+    <string name="radiation_unit_sievert">Sievert</string>
+    <string name="radiation_unit_sievert_unit">Sv</string>
 
     <string name="repository_link_aardvark" translatable="false">https://github.com/Thames1990/aardvark</string>
     <string name="repository_link_kerval" translatable="false">https://github.com/CryptoCopter/kerval</string>
 
-    <string name="settings_reload">Reload settings</string>
+    <string name="serval_password_must_not_be_empty">You need to enter a password</string>
+    <string name="serval_username_must_not_be_empty">You need to enter a username</string>
 
     <string name="snackbar_action_enable">Enable</string>
     <string name="snackbar_action_install">Install</string>
+
+    <string name="support_email_feature_request">Feature Request</string>
+    <string name="support_email_feedback">Feedback</string>
+    <string name="support_email_subject">Subject</string>
+    <string name="support_email_theme_issue">Theme Issue</string>
 
     <string name="tab_item_dashboard">Dashboard</string>
     <string name="tab_item_events">Events</string>
     <string name="tab_item_map">Map</string>
 
-    <string name="theme">Theme</string>
-    <string name="theme_customization">Theme Customization</string>
-    <string name="theme_issue">Theme Issue</string>
+    <string name="temperature_unit_celsius">Celsius</string>
+    <string name="temperature_unit_celsius_unit">°C</string>
+    <string name="temperature_unit_fahrenheit">Fahrenheit</string>
+    <string name="temperature_unit_fahrenheit_unit">°F</string>
+    <string name="temperature_unit_kelvin">Kelvin</string>
+    <string name="temperature_unit_kelvin_unit">K</string>
 
-    <string name="time">Time</string>
+    <string name="toast_exit_confirmation">Press BACK again to exit</string>
 
-    <string name="tools_distance" translatable="false">392 m</string>
-    <string name="tools_measurement_type" translatable="false">Radiation</string>
-    <string name="tools_measurement_value" translatable="false">2 μSv/h</string>
-    <string name="tools_time" translatable="false">24 min</string>
+    <string name="tooltip_fab_move_to_current_location">Move to current location</string>
+    <string name="tooltip_fab_scroll_to_top">Scroll to top</string>
+    <string name="tooltip_fab_show_in_google_maps">Show in Google Maps</string>
+
+    <string name="wind_unit_kilometres">Kilometres</string>
+    <string name="wind_unit_kilometres_unit">km/h</string>
+    <string name="wind_unit_metres">Metres</string>
+    <string name="wind_unit_metres_unit">m/s</string>
+    <string name="wind_unit_miles">Miles</string>
+    <string name="wind_unit_miles_unit">mph</string>
+    <string name="wind_unit_nautical_knots">Nautical Knots</string>
+    <string name="wind_unit_nautical_knots_unit">kts</string>
 </resources>

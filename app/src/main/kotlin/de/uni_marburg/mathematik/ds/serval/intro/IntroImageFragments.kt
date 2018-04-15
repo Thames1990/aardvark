@@ -1,22 +1,18 @@
 package de.uni_marburg.mathematik.ds.serval.intro
 
-import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.view.View
-import android.view.animation.AnimationSet
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.RotateAnimation
-import ca.allanwang.kau.utils.setTextWithFade
 import ca.allanwang.kau.utils.tint
-import ca.allanwang.kau.utils.toBitmap
 import ca.allanwang.kau.utils.withAlpha
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayout
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
+import de.uni_marburg.mathematik.ds.serval.enums.MainActivityLayouts
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.utils.flip
+import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import kotlin.math.absoluteValue
 
 abstract class BaseImageIntroFragment(
@@ -46,14 +42,11 @@ abstract class BaseImageIntroFragment(
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
-        title.setTextColor(Prefs.textColor)
-        desc.setTextColor(Prefs.textColor)
-        phone.tint(Prefs.textColor)
-        screen.tint(Prefs.backgroundColor)
+        title.setTextColor(AppearancePrefs.Theme.textColor)
+        desc.setTextColor(AppearancePrefs.Theme.textColor)
+        phone.tint(AppearancePrefs.Theme.textColor)
+        screen.tint(AppearancePrefs.Theme.backgroundColor)
     }
-
-    fun themeImageComponent(color: Int, vararg ids: Int) =
-        ids.forEach { id -> imageDrawable.findDrawableByLayerId(id).tint(color) }
 
     override fun onPageScrolledImpl(positionOffset: Float) {
         super.onPageScrolledImpl(positionOffset)
@@ -64,6 +57,11 @@ abstract class BaseImageIntroFragment(
             .filter { drawable -> drawable != phone }
             .forEach { drawable -> drawable.alpha = alpha }
     }
+
+    fun themeImageComponent(color: Int, vararg ids: Int) = ids.forEach { id ->
+        imageDrawable.findDrawableByLayerId(id).tint(color)
+    }
+
 }
 
 class IntroFragmentTabTouch : BaseImageIntroFragment(
@@ -72,56 +70,27 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
     descRes = R.string.intro_easy_navigation_desc
 ) {
 
-    private val animationDuration = 1500L
-
-    private var currentRotation: Float = when (Prefs.mainActivityLayout) {
-        MainActivityLayout.TOP_BAR -> 0.0f
-        MainActivityLayout.BOTTOM_BAR -> 180.0f
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         with(image) {
-            rotation = currentRotation
+            rotation = when (AppearancePrefs.MainActivityLayout.layout) {
+                MainActivityLayouts.TOP_BAR -> 0f
+                MainActivityLayouts.BOTTOM_BAR -> 180f
+            }
 
             setOnClickListener {
-                // TODO Figure out why rotation from 180.0 to 0.0 is wrong
-                val rotateAnimation = RotateAnimation(
-                    currentRotation,
-                    currentRotation - 180.0f,
-                    RotateAnimation.RELATIVE_TO_SELF,
-                    0.5f,
-                    RotateAnimation.RELATIVE_TO_SELF,
-                    0.5f
-                ).apply {
-                    duration = animationDuration
-                    fillAfter = true
-                }
-
-                val rotateAnimationSet = AnimationSet(true).apply {
-                    interpolator = DecelerateInterpolator()
-                    fillAfter = true
-                    isFillEnabled = true
-                    addAnimation(rotateAnimation)
-                }
-
-                currentRotation -= 180.0f
-
-                // Flip
-                image.setImageBitmap(image.drawable.toBitmap().mirrored())
-                // Rotate
-                image.startAnimation(rotateAnimationSet)
-
-                // Set main activity layout type
-                Prefs.mainActivityLayoutType =
-                        if (currentRotation.rem(360.0f) == 0.0f)
-                            MainActivityLayout.TOP_BAR.ordinal
-                        else
-                            MainActivityLayout.BOTTOM_BAR.ordinal
-
-                // Update text to indicate current main activity layout type
-                title.setTextWithFade(Prefs.mainActivityLayout.titleRes)
+                animate()
+                    .rotationBy(180f)
+                    .setDuration(1000L)
+                    .withStartAction { isEnabled = false }
+                    .withEndAction {
+                        isEnabled = true
+                        flip()
+                        AppearancePrefs.MainActivityLayout.index =
+                                if (rotation % 360.0f == 0.0f) MainActivityLayouts.TOP_BAR.ordinal
+                                else MainActivityLayouts.BOTTOM_BAR.ordinal
+                        title.setTextWithOptions(AppearancePrefs.MainActivityLayout.titleRes)
+                    }
             }
         }
     }
@@ -129,7 +98,7 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         themeImageComponent(
-            color = Prefs.iconColor,
+            color = AppearancePrefs.Theme.iconColor,
             ids = *intArrayOf(
                 R.id.intro_phone_icon_1,
                 R.id.intro_phone_icon_2,
@@ -138,30 +107,13 @@ class IntroFragmentTabTouch : BaseImageIntroFragment(
             )
         )
         themeImageComponent(
-            color = Prefs.headerColor,
+            color = AppearancePrefs.Theme.headerColor,
             ids = *intArrayOf(R.id.intro_phone_tab)
         )
         themeImageComponent(
-            color = Prefs.textColor.withAlpha(80),
+            color = AppearancePrefs.Theme.textColor.withAlpha(80),
             ids = *intArrayOf(R.id.intro_phone_icon_ripple)
         )
     }
 
-    /**
-     * Mirror bitmap.
-     */
-    private fun Bitmap.mirrored(): Bitmap {
-        val matrix = Matrix().apply { preScale(-1.0f, 1.0f) }
-        val reflection = Bitmap.createBitmap(this, 0, 0, width, height, matrix, false)
-        val canvas = Canvas(reflection).apply {
-            drawBitmap(reflection, 0.0f, 0.0f, null)
-        }
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
-        }
-
-        canvas.drawRect(0.0f, 0.0f, width.toFloat(), height.toFloat(), paint)
-
-        return reflection
-    }
 }

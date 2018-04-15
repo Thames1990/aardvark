@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <full-backup-content>
+
     <include
         domain="sharedpref"
         path="de.uni_marburg.mathematik.ds.serval.xml" />
+
+    <include
+        domain="sharedpref"
+        path="AppearancePrefs.xml" />
+
+    <include
+        domain="sharedpref"
+        path="BehaviourPrefs.xml" />
+
+    <include
+        domain="sharedpref"
+        path="EventPrefs.xml" />
+
+    <include
+        domain="sharedpref"
+        path="ExperimentalPrefs.xml" />
+
+    <include
+        domain="sharedpref"
+        path="LocationPrefs.xml" />
+
+    <include
+        domain="sharedpref"
+        path="MapPrefs.xml" />
+
+    <include
+        domain="sharedpref"
+        path="ServalPrefs.xml" />
+
     <include
         domain="database"
-        path="de.uni_marburg.mathematik.ds.serval" />
+        path="events.db" />
+
 </full-backup-content>

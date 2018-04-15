@@ -1,5 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.activities
 
+import android.app.Activity
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.v7.widget.RecyclerView
@@ -15,16 +16,15 @@ import ca.allanwang.kau.adapters.withOnRepeatedClickListener
 import ca.allanwang.kau.utils.*
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
-import com.mikepenz.aboutlibraries.entity.License
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.listeners.OnClickListener
-import de.uni_marburg.mathematik.ds.serval.BuildConfig
 import de.uni_marburg.mathematik.ds.serval.R
-import de.uni_marburg.mathematik.ds.serval.enums.AboutLinkItem
-import de.uni_marburg.mathematik.ds.serval.enums.OpenSourceLibrary
-import de.uni_marburg.mathematik.ds.serval.utils.Prefs
-import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
+import de.uni_marburg.mathematik.ds.serval.enums.AboutLinks
+import de.uni_marburg.mathematik.ds.serval.enums.LibraryDefinitions
+import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
+import de.uni_marburg.mathematik.ds.serval.settings.ExperimentalPrefs
+import de.uni_marburg.mathematik.ds.serval.utils.withHorizontalChain
 
 /**
  * Shows details about the application, used open-source libraries and frequently asked questions.
@@ -32,61 +32,60 @@ import de.uni_marburg.mathematik.ds.serval.utils.snackbarThemed
 class AboutActivity : AboutActivityBase(
     rClass = R.string::class.java,
     configBuilder = {
-        accentColor = Prefs.accentColor
-        backgroundColor = Prefs.backgroundColor.withMinAlpha(200)
+        accentColor = AppearancePrefs.Theme.accentColor
+        backgroundColor = AppearancePrefs.Theme.backgroundColor.withMinAlpha(200)
         cutoutDrawableRes = R.drawable.aardvark
-        cutoutForeground = Prefs.accentColor
-        faqPageTitleRes = R.string.faq_title
+        cutoutForeground = AppearancePrefs.Theme.accentColor
         faqParseNewLine = false
         faqXmlRes = R.xml.faq
-        textColor = Prefs.textColor
+        textColor = AppearancePrefs.Theme.textColor
     }
 ) {
 
     override fun postInflateMainPage(adapter: FastItemThemedAdapter<IItem<*, *>>) {
-        val aardvark = Library().apply {
-            author = string(R.string.developer_name_aardvark)
-            libraryDescription = string(R.string.aardvark_desc)
-            libraryName = string(R.string.aardvark_name)
-            libraryVersion = BuildConfig.VERSION_NAME
-            license = License().apply {
-                licenseName = string(R.string.mit_license)
-                licenseWebsite = string(R.string.license_website_aardvark)
-            }
-            repositoryLink = string(R.string.repository_link_aardvark)
-        }
+        val aardvark: LibraryIItem = LibraryDefinitions.AARDVARK.getLibraryIItem(this)
+        val about = AboutLinkIItem()
+        val aboutItems: List<IItem<*, *>> = listOf(aardvark, about)
 
-        adapter.apply {
-            add(LibraryIItem(aardvark))
-            add(AboutLinks())
-            withOnRepeatedClickListener(
-                count = 7,
-                duration = 500L,
-                event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
-                    if (item is LibraryIItem && !Prefs.debugSettings) {
-                        Prefs.debugSettings = true
-                        snackbarThemed(R.string.preference_debug_enabled) {
-                            setAction(
-                                R.string.settings_reload,
-                                { startActivity<SettingsActivity>() }
-                            )
-                        }
-                        return@OnClickListener true
-                    }
-                    return@OnClickListener false
-                }
-            )
-        }
+        adapter.add(aboutItems)
+        addExperimentalSettingsToggleListener(adapter, aardvark)
     }
 
     override fun getLibraries(libs: Libs): List<Library> {
-        val libraries: MutableList<Library> = super.getLibraries(libs).toMutableList()
-        OpenSourceLibrary.values().map { library -> libraries.add(library.getLibrary(this)) }
-        return libraries.sortedBy { library -> library.libraryName }
+        val detectedLibraries: List<Library> = super.getLibraries(libs)
+        val manualLibraries: List<Library> = LibraryDefinitions.getAllLibraries(this)
+        val libraries: Set<Library> = detectedLibraries union manualLibraries
+        return libraries.sortedBy(Library::getLibraryName)
     }
 
-    class AboutLinks :
-        AbstractItem<AboutLinks, AboutLinks.ViewHolder>(),
+    /**
+     * Add listener to toggle experimental settings when [an item][aardvark] is clicked
+     * [multiple times][REPEATED_CLICK_LISTENER_COUNT] in a
+     * [short timespan][REPEATED_CLICK_LISTENER_DURATION].
+     */
+    private fun addExperimentalSettingsToggleListener(
+        adapter: FastItemThemedAdapter<IItem<*, *>>,
+        aardvark: LibraryIItem
+    ) = adapter.withOnRepeatedClickListener(
+        count = REPEATED_CLICK_LISTENER_COUNT,
+        duration = REPEATED_CLICK_LISTENER_DURATION,
+        event = OnClickListener<IItem<*, *>> { _, _, item, _ ->
+            if (item == aardvark) {
+                if (!ExperimentalPrefs.enabled) {
+                    ExperimentalPrefs.enabled = true
+                    toast(R.string.preference_experimental_enabled)
+                    setResult(Activity.RESULT_OK)
+                } else {
+                    toast(R.string.preference_experimental_already_enabled)
+                }
+                return@OnClickListener true
+            }
+            return@OnClickListener false
+        }
+    )
+
+    private class AboutLinkIItem :
+        AbstractItem<AboutLinkIItem, AboutLinkIItem.ViewHolder>(),
         ThemableIItem by ThemableIItemDelegate() {
 
         override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
@@ -97,13 +96,13 @@ class AboutActivity : AboutActivityBase(
 
         override fun bindView(holder: ViewHolder, payloads: MutableList<Any>) {
             super.bindView(holder, payloads)
-            holder.apply {
+            with(holder) {
                 bindIconColor(*items.toTypedArray())
                 bindBackgroundColor(container)
             }
         }
 
-        class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+        private class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
             val container: ConstraintLayout by bindView(R.id.about_icons_container)
             val items: List<ImageView>
@@ -112,7 +111,7 @@ class AboutActivity : AboutActivityBase(
                 val context = itemView.context
                 val size = context.dimenPixelSize(R.dimen.kau_avatar_bounds)
 
-                items = AboutLinkItem.values().mapIndexed { index, aboutLinkItem ->
+                items = AboutLinks.values().mapIndexed { index, aboutLink ->
                     ImageView(context).apply {
                         id = index
                         layoutParams = ViewGroup.LayoutParams(size, size)
@@ -120,8 +119,8 @@ class AboutActivity : AboutActivityBase(
                         background = context.resolveDrawable(
                             android.R.attr.selectableItemBackgroundBorderless
                         )
-                        setIcon(icon = aboutLinkItem.iicon, color = Prefs.iconColor)
-                        setOnClickListener { context.startLink(aboutLinkItem.linkRes) }
+                        setIcon(icon = aboutLink.iicon, color = AppearancePrefs.Theme.iconColor)
+                        setOnClickListener { context.startLink(aboutLink.linkRes) }
                         container.addView(this)
                     }
                 }
@@ -130,14 +129,14 @@ class AboutActivity : AboutActivityBase(
                 if (items.size >= 2) {
                     ConstraintSet().apply {
                         clone(container)
-                        createHorizontalChain(
-                            ConstraintSet.PARENT_ID,
-                            ConstraintSet.LEFT,
-                            ConstraintSet.PARENT_ID,
-                            ConstraintSet.RIGHT,
-                            items.map { it.id }.toIntArray(),
-                            null,
-                            ConstraintSet.CHAIN_SPREAD_INSIDE
+                        withHorizontalChain(
+                            leftId = ConstraintSet.PARENT_ID,
+                            leftSide = ConstraintSet.LEFT,
+                            rightId = ConstraintSet.PARENT_ID,
+                            rightSide = ConstraintSet.RIGHT,
+                            chainIds = items.map(ImageView::getId).toIntArray(),
+                            weights = null,
+                            style = ConstraintSet.CHAIN_SPREAD_INSIDE
                         )
                         applyTo(container)
                     }
@@ -145,4 +144,10 @@ class AboutActivity : AboutActivityBase(
             }
         }
     }
+
+    companion object {
+        const val REPEATED_CLICK_LISTENER_COUNT: Int = 7
+        const val REPEATED_CLICK_LISTENER_DURATION: Long = 500L
+    }
+
 }

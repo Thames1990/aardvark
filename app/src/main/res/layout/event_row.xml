@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,12 +25,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/tools_time" />
+            tools:text="@sample/times" />
 
         <LinearLayout
             android:id="@+id/measurement_types"
             android:layout_width="wrap_content"
-            android:layout_height="19dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
@@ -44,7 +45,7 @@
         <ImageView
             android:id="@+id/location_icon"
             android:layout_width="wrap_content"
-            android:layout_height="19dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
@@ -70,7 +71,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/tools_distance" />
+            tools:text="@sample/distances" />
 
     </android.support.constraint.ConstraintLayout>
 

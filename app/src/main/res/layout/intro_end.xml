@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/intro_end_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,22 +10,26 @@
     <TextView
         android:id="@id/intro_title"
         style="@style/IntroTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:text="@string/intro_end"
         app:layout_constraintBottom_toTopOf="@id/intro_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@id/intro_image"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginStart="64dp"
         android:scaleType="fitCenter"
         android:src="@drawable/aardvark"
         app:layout_constraintBottom_toTopOf="@id/intro_desc"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/intro_title" />
@@ -32,11 +37,14 @@
     <TextView
         android:id="@id/intro_desc"
         style="@style/IntroSubTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/intro_image" />
+        app:layout_constraintTop_toBottomOf="@id/intro_image"
+        tools:text="@sample/titles" />
 
 </android.support.constraint.ConstraintLayout>

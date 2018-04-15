@@ -9,38 +9,47 @@
     <TextView
         android:id="@id/intro_title"
         style="@style/IntroTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:lines="1"
-        android:padding="@dimen/kau_padding_large"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toTopOf="@id/intro_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread" />
+        app:layout_constraintVertical_chainStyle="spread"
+        tools:text="@sample/titles" />
 
     <ImageView
         android:id="@id/intro_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="@dimen/kau_padding_large"
-        android:scaleType="fitCenter"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toTopOf="@id/intro_desc"
+        app:layout_constraintDimensionRatio="9:16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/intro_title"
-        tools:layout_editor_absoluteX="112dp" />
+        tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@id/intro_desc"
         style="@style/IntroSubTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:lines="3"
-        android:padding="@dimen/kau_padding_large"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/intro_image" />
+        app:layout_constraintTop_toBottomOf="@id/intro_image"
+        tools:text="@sample/titles" />
 
 </android.support.constraint.ConstraintLayout>
