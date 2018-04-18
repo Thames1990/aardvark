@@ -13,7 +13,12 @@ class StartActivity : KauBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Prefs.lastLaunch == -1L) startActivity<IntroActivity>()
+        if (Prefs.lastLaunch == NOT_LAUNCHED_BEFORE) startActivity<IntroActivity>()
         else startActivity<MainActivity>()
     }
+
+    companion object {
+        const val NOT_LAUNCHED_BEFORE: Long = -1L
+    }
+
 }
