@@ -125,7 +125,9 @@ class ActivityThemeUtils {
                 Themes.LIGHT -> R.style.AppTheme_PopupOverlay
                 Themes.DARK -> R.style.AppTheme_PopupOverlay_Dark
                 Themes.AMOLED -> R.style.AppTheme_PopupOverlay_Dark
-                Themes.CUSTOM -> R.style.AppTheme_PopupOverlay // TODO Set theme accordingly
+                Themes.CUSTOM ->
+                    if (AppearancePrefs.Theme.headerColor.isColorDark) R.style.AppTheme_PopupOverlay_Dark
+                    else R.style.AppTheme_PopupOverlay
             }
         }
         texts.forEach { it.setTextColor(AppearancePrefs.Theme.textColor) }
