@@ -1,7 +1,6 @@
 package de.uni_marburg.mathematik.ds.serval.model
 
 import android.arch.lifecycle.LiveData
-import android.arch.paging.DataSource
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
@@ -14,16 +13,10 @@ abstract class EventDao {
     abstract fun getById(id: String): Event
 
     @Query("SELECT * FROM events")
-    abstract fun getAll(): List<Event>
-
-    @Query("SELECT * FROM events")
-    abstract fun getAllPaged(): DataSource.Factory<Int, Event>
-
-    @Query("SELECT * FROM events")
-    abstract fun getAllLive(): LiveData<List<Event>>
+    abstract fun getAll(): LiveData<List<Event>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertOrUpdate(events: List<Event>)
+    abstract fun insertOrUpdate(events: List<Event>?)
 
     @Query("DELETE FROM events")
     abstract fun removeAll()

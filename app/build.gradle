@@ -75,7 +75,6 @@ dependencies {
     // Architecture Components
     implementation deps.lifecycle.extensions
     implementation deps.room.runtime
-    implementation deps.paging
     kapt deps.lifecycle.compiler
     kapt deps.room.compiler
     // Firebase
@@ -84,15 +83,6 @@ dependencies {
     // Google Play Services
     implementation deps.google_play_services.location
     implementation deps.google_play_services.maps
-    // Hyperion
-    debugImplementation deps.hyperion.core
-    debugImplementation deps.hyperion.attr
-    debugImplementation deps.hyperion.measurement
-    debugImplementation deps.hyperion.disk
-    debugImplementation deps.hyperion.recorder
-    debugImplementation deps.hyperion.phoenix
-    debugImplementation deps.hyperion.crash
-    debugImplementation deps.hyperion.shared_preferences
     // Ioconics
     implementation deps.ioconics.community_material_typeface
     implementation deps.ioconics.weather_icons_typeface
@@ -115,3 +105,6 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+repositories {
+    mavenCentral()
+}

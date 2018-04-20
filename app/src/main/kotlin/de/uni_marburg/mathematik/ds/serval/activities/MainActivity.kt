@@ -3,7 +3,6 @@ package de.uni_marburg.mathematik.ds.serval.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.arch.lifecycle.LiveData
-import android.arch.paging.PagedList
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
@@ -178,15 +177,15 @@ class MainActivity : BaseActivity() {
             })
         }
 
-        fun submitEvents(pagedList: PagedList<Event>?) {
-            pagedList ?: return
-            val eventCount: Int = pagedList.size
+        fun submitEvents(events: List<Event>?) {
+            events ?: return
+            val eventCount: Int = events.size
             val tab: TabLayout.Tab? = tabs.getTabAt(1) // EventsFragment
             val badgedIcon = tab?.customView as BadgedIcon
             badgedIcon.badgeText = eventCount.toString()
         }
 
-        observe(liveData = eventViewModel.pagedList, onChanged = ::submitEvents)
+        observe(liveData = eventViewModel.events, onChanged = ::submitEvents)
     }
 
     private fun trackLocation() {

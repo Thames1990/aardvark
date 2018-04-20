@@ -1,6 +1,5 @@
 package de.uni_marburg.mathematik.ds.serval.fragments
 
-import android.arch.paging.PagedListAdapter
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
@@ -8,13 +7,11 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.AppBarLayout.LayoutParams.*
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -49,7 +46,7 @@ class EventsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        observe(liveData = eventViewModel.pagedList, onChanged = eventAdapter::submitList)
+        observe(liveData = eventViewModel.events, onChanged = eventAdapter::submitList)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -147,21 +144,19 @@ class EventsFragment : BaseFragment() {
         }
     }
 
-    private class EventAdapter : PagedListAdapter<Event, EventAdapter.ViewHolder>(diffCallback) {
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val event: Event? = currentList?.get(position)
-            event?.let { holder.bindTo(it) }
-        }
+    private class EventAdapter : ListAdapter<Event, EventAdapter.ViewHolder>(diffCallback) {
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ): ViewHolder = ViewHolder(parent)
+        ): ViewHolder = ViewHolder(parent.inflate(R.layout.event_row))
 
-        private class ViewHolder(
-            parent: ViewGroup
-        ) : RecyclerView.ViewHolder(parent.inflate(R.layout.event_row)) {
+        override fun onBindViewHolder(
+            holder: ViewHolder,
+            position: Int
+        ) = holder.bindTo(getItem(position))
+
+        private class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
             private val timeView: TextView by bindView(R.id.time)
             private val measurementsView: LinearLayout by bindView(R.id.measurement_types)
@@ -239,8 +234,8 @@ class EventsFragment : BaseFragment() {
 
         companion object {
             private val diffCallback = object : DiffUtil.ItemCallback<Event>() {
-                override fun areContentsTheSame(old: Event, new: Event): Boolean = old == new
                 override fun areItemsTheSame(old: Event, new: Event): Boolean = old.id == new.id
+                override fun areContentsTheSame(old: Event, new: Event): Boolean = old == new
             }
         }
 
