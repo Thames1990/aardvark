@@ -44,6 +44,9 @@ object LocationPrefs : KPref() {
     )
     val fastestIntervalInMilliseconds: Long
         get() = (fastestInterval * 1000).toLong()
+
+    var latitude: Float by kpref(key = "LATITUDE", fallback = 0.0)
+    var longitude: Float by kpref(key = "LONGITUDE", fallback = 0.0)
 }
 
 fun SettingsActivity.locationItemBuilder(): KPrefAdapterBuilder.() -> Unit = {

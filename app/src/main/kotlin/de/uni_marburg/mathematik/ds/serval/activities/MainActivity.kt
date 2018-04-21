@@ -192,6 +192,8 @@ class MainActivity : BaseActivity() {
         fun submitLocation(location: Location?) {
             location ?: return
             deviceLocation = location
+            LocationPrefs.latitude = location.latitude.toFloat()
+            LocationPrefs.longitude = location.longitude.toFloat()
         }
 
         observe(liveData = LocationLiveData(), onChanged = ::submitLocation)
@@ -347,7 +349,10 @@ class MainActivity : BaseActivity() {
         const val REQUEST_CHECK_SETTINGS = 1 shl 5
         const val REQUEST_RELOAD_EVENTS = 1 shl 6
 
-        var deviceLocation = Location(BuildConfig.APPLICATION_ID)
+        var deviceLocation = Location(BuildConfig.APPLICATION_ID).apply {
+            latitude = LocationPrefs.latitude.toDouble()
+            longitude = LocationPrefs.longitude.toDouble()
+        }
         val devicePosition: LatLng
             get() = LatLng(deviceLocation.latitude, deviceLocation.longitude)
     }
