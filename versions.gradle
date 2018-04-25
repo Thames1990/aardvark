@@ -4,7 +4,6 @@ versions.google_play_services = "15.0.0"
 versions.kau = "3.7.0"
 versions.kerval = "0.1.5"
 versions.kotlin = "1.2.40"
-versions.leak_canary = "1.5.4"
 versions.lifecycle = "1.1.1"
 versions.room = "1.0.0"
 versions.support_library = "27.1.1"
@@ -37,11 +36,6 @@ def kotlin = [:]
 kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 deps.kotlin = kotlin
-
-def leak_canary = [:]
-leak_canary.core = "com.squareup.leakcanary:leakcanary-android:$versions.leak_canary"
-leak_canary.release = "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leak_canary"
-deps.leak_canary = leak_canary
 
 def lifecycle = [:]
 lifecycle.extensions = "android.arch.lifecycle:extensions:$versions.lifecycle"

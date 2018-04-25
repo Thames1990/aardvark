@@ -91,9 +91,6 @@ dependencies {
     implementation deps.kau.kpref_activity
     // Kotlin
     implementation deps.kotlin.stdlib
-    // LeakCanary
-    debugImplementation deps.leak_canary.core
-    releaseImplementation deps.leak_canary.release
     // Support Library
     implementation deps.support_library.appcompat
     implementation deps.support_library.cardview

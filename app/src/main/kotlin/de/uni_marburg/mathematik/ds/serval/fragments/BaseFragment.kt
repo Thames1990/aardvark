@@ -30,11 +30,6 @@ abstract class BaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(layout, container, false)
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Aardvark.refWatcher.watch(this)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         Kotterknife.reset(this)

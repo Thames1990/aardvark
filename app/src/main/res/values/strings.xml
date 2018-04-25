@@ -73,9 +73,6 @@
     <string name="intro_skip">Skip</string>
     <string name="intro_slide_to_continue">Swipe right to continue</string>
     <string name="intro_tap_to_exit">Tap anywhere to exit the intro</string>
-    <string name="intro_tap_to_grant_access_fine_location_permission">Tap to grant location permission</string>
-    <string name="intro_tap_to_grant_all_permissions">Tap to grant required permissions</string>
-    <string name="intro_tap_to_grant_write_external_storage_permission">Tap to grant storage permission</string>
     <string name="intro_welcome_to_aardvark">Welcome to Aardvark</string>
 
     <string name="kerval_desc">Kotlin client for serval-dna REST-interface</string>

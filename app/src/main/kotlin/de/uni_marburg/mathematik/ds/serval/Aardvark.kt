@@ -11,14 +11,11 @@ import com.github.ajalt.reprint.core.Reprint
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
-import com.squareup.leakcanary.LeakCanary
-import com.squareup.leakcanary.RefWatcher
 import de.uni_marburg.mathematik.ds.serval.activities.FingerprintActivity
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.analyticsAreEnabled
 import de.uni_marburg.mathematik.ds.serval.utils.appIsSecured
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
-import de.uni_marburg.mathematik.ds.serval.utils.isDebugBuild
 import io.fabric.sdk.android.Fabric
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
@@ -28,7 +25,6 @@ class Aardvark : Application() {
     companion object {
         lateinit var aardvarkId: String
         lateinit var firebaseAnalytics: FirebaseAnalytics
-        lateinit var refWatcher: RefWatcher
     }
 
     override fun onCreate() {
@@ -39,7 +35,6 @@ class Aardvark : Application() {
 
         setupPreferences()
         setupAnalytics()
-        setupLeakCanary()
         if (appIsSecured) setupAuthentication()
 
         if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
@@ -65,11 +60,6 @@ class Aardvark : Application() {
             Fabric.with(applicationContext, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(aardvarkId)
         }
-    }
-
-    private fun setupLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(applicationContext)) return
-        refWatcher = if (isDebugBuild) LeakCanary.install(this) else RefWatcher.DISABLED
     }
 
     private fun setupAuthentication() {

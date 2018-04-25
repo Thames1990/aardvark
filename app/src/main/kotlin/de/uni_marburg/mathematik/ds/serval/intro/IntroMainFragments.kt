@@ -10,16 +10,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import ca.allanwang.kau.kotlin.LazyResettableRegistry
-import ca.allanwang.kau.permissions.PERMISSION_WRITE_EXTERNAL_STORAGE
-import ca.allanwang.kau.permissions.kauRequestPermissions
 import ca.allanwang.kau.utils.*
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
 import de.uni_marburg.mathematik.ds.serval.R
 import de.uni_marburg.mathematik.ds.serval.activities.IntroActivity
 import de.uni_marburg.mathematik.ds.serval.settings.AppearancePrefs
-import de.uni_marburg.mathematik.ds.serval.utils.hasWriteExternalStoragePermission
-import de.uni_marburg.mathematik.ds.serval.utils.isDebugBuild
-import de.uni_marburg.mathematik.ds.serval.utils.setTextWithOptions
 import org.jetbrains.anko.childrenSequence
 import org.jetbrains.anko.displayMetrics
 import kotlin.math.absoluteValue
@@ -127,36 +122,16 @@ class IntroFragmentEnd : BaseIntroFragment(R.layout.intro_end) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupDescription()
-        setupPermissionRequests()
+        description.text = view.context.string(R.string.intro_tap_to_exit)
+        container.setOnSingleTapListener { _, event ->
+            val introActivity: IntroActivity = requireActivity() as IntroActivity
+            introActivity.finish(x = event.x, y = event.y)
+        }
     }
 
     override fun themeFragmentImpl() {
         super.themeFragmentImpl()
         image.imageTintList = ColorStateList.valueOf(AppearancePrefs.Theme.textColor)
-    }
-
-    private fun setupDescription() = with(requireContext()) {
-        description.text = string(
-            if (isDebugBuild && !hasWriteExternalStoragePermission) {
-                R.string.intro_tap_to_grant_write_external_storage_permission
-            } else R.string.intro_tap_to_exit
-        )
-    }
-
-    private fun setupPermissionRequests() = with(container) {
-        setOnSingleTapListener { _, event ->
-            val introActivity: IntroActivity = requireActivity() as IntroActivity
-
-            if (isDebugBuild && !context.hasWriteExternalStoragePermission) {
-                context.kauRequestPermissions(
-                    permissions = *arrayOf(PERMISSION_WRITE_EXTERNAL_STORAGE),
-                    callback = { granted, _ ->
-                        if (granted) description.setTextWithOptions(R.string.intro_tap_to_exit)
-                    }
-                )
-            } else introActivity.finish(x = event.x, y = event.y)
-        }
     }
 
 }

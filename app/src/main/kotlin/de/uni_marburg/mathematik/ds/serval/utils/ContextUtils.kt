@@ -26,9 +26,6 @@ import org.jetbrains.anko.doAsync
 inline val Context.hasLocationPermission: Boolean
     get() = hasPermission(PERMISSION_ACCESS_FINE_LOCATION)
 
-inline val Context.hasWriteExternalStoragePermission: Boolean
-    get() = hasPermission(PERMISSION_WRITE_EXTERNAL_STORAGE)
-
 /**
  * Show a themed dialog.
  */
