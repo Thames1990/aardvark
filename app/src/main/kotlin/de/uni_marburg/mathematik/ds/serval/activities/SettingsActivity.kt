@@ -25,10 +25,7 @@ class SettingsActivity : KPrefActivity() {
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setSecureFlag()
         setTheme()
-
         animate = animationsAreEnabled
         themeExterior(animate = false)
     }

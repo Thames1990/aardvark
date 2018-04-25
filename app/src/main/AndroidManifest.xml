@@ -5,8 +5,6 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
         android:name="android.hardware.location"
@@ -38,10 +36,6 @@
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.IntroActivity"
             android:theme="@style/AardvarkTheme.Intro" />
-        <activity
-            android:name="de.uni_marburg.mathematik.ds.serval.activities.FingerprintActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Base.Theme.AppCompat.Dialog" />
         <activity
             android:name="de.uni_marburg.mathematik.ds.serval.activities.MainActivity"
             android:configChanges="orientation|screenSize"

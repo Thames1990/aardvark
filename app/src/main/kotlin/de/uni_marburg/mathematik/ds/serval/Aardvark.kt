@@ -1,24 +1,15 @@
 package de.uni_marburg.mathematik.ds.serval
 
 import android.app.Application
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
-import android.arch.lifecycle.ProcessLifecycleOwner
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
-import com.github.ajalt.reprint.core.Reprint
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.iid.FirebaseInstanceId
-import de.uni_marburg.mathematik.ds.serval.activities.FingerprintActivity
 import de.uni_marburg.mathematik.ds.serval.settings.*
 import de.uni_marburg.mathematik.ds.serval.utils.analyticsAreEnabled
-import de.uni_marburg.mathematik.ds.serval.utils.appIsSecured
 import de.uni_marburg.mathematik.ds.serval.utils.currentTimeInMillis
 import io.fabric.sdk.android.Fabric
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.newTask
 
 class Aardvark : Application() {
 
@@ -35,7 +26,6 @@ class Aardvark : Application() {
 
         setupPreferences()
         setupAnalytics()
-        if (appIsSecured) setupAuthentication()
 
         if (Prefs.installDate == -1L) Prefs.installDate = currentTimeInMillis
     }
@@ -60,18 +50,6 @@ class Aardvark : Application() {
             Fabric.with(applicationContext, Crashlytics(), Answers())
             Crashlytics.setUserIdentifier(aardvarkId)
         }
-    }
-
-    private fun setupAuthentication() {
-        Reprint.initialize(applicationContext)
-        ProcessLifecycleOwner.get().lifecycle.addObserver(AuthenticationListener())
-    }
-
-    inner class AuthenticationListener : LifecycleObserver {
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        fun startAuthentication() = startActivity(intentFor<FingerprintActivity>().newTask())
-
     }
 
 }

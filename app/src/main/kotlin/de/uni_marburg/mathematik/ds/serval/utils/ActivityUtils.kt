@@ -50,15 +50,6 @@ inline fun Activity.setColors(builder: ActivityThemeUtils.() -> Unit) {
 }
 
 /**
- * Sets the treatment of the content of the window as [secure/non-secure][secure], (not) preventing
- * it from appearing in screenshots or from being viewed on non-secure displays.
- */
-fun Activity.setSecureFlag(secure: Boolean = appIsSecured) {
-    val secureFlag: Int = WindowManager.LayoutParams.FLAG_SECURE
-    if (secure) window.setFlags(secureFlag, secureFlag) else window.clearFlags(secureFlag)
-}
-
-/**
  * Set a light or dark theme based on the darkness of
  * [the user specified background color][AppearancePrefs.Theme.backgroundColor].
  */

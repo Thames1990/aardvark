@@ -46,9 +46,6 @@ inline val analyticsAreEnabled: Boolean
 inline val animationsAreEnabled: Boolean
     get() = BehaviourPrefs.animationsEnabled
 
-inline val appIsSecured: Boolean
-    get() = ExperimentalPrefs.secureApp
-
 inline val currentTimeInMillis: Long
     @SuppressLint("NewApi")
     get() =

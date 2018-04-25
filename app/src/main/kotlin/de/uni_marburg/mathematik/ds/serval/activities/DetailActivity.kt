@@ -45,16 +45,12 @@ class DetailActivity : ElasticRecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?, configs: Configs): Boolean {
         eventViewModel = getViewModel()
-
-        setSecureFlag()
         setColors {
             header(appBar)
             toolbar(toolbar)
             themeWindow = false
         }
-
         setup()
-
         return true
     }
 
